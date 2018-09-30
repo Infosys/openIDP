@@ -22,12 +22,15 @@
 
 # About the repository
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d3d1f4d519445e88b6c16f1c3ddc5c2)](https://www.codacy.com/app/idp-oss/openIDP?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Infosys/openIDP&amp;utm_campaign=Badge_Grade)
+
+[![Build Status](https://travis-ci.com/Infosys/openIDP.svg?branch=master)](https://travis-ci.com/Infosys/openIDP)
 
 This repository is intended to hold the code base along with the required dependencies for the Infosys DevOps Platform OSS version.
 
 ## Getting Started
 
-Below instructions will help the users to get to know the structure of this repository. See [WIKI](https://github.com/krishnakanthbn/IDP_OSS/wiki) for notes on how to deploy the platform on a live system.
+Below instructions will help the users to get to know the structure of this repository. See [WIKI](https://github.com/Infosys/openIDP/wiki) for notes on how to deploy the platform on a live system.
 
 ## Details on project modules
 
@@ -125,6 +128,6 @@ Below instructions will help the users to get to know the structure of this repo
 </table>
 
 
-Please read [WIKI](https://github.com/krishnakanthbn/IDP_OSS/wiki) for detailed documentation.
+Please read [WIKI](https://github.com/Infosys/openIDP/wiki) for detailed documentation.
 
 
