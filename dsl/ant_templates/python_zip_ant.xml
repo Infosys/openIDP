@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" basedir="."  >
+
+<target name="zipFile" >
+		
+			<copy todir="DirToBeZipped" flatten="false">
+				<fileset dir="." includes="**/*"/>
+			</copy>
+		<zip destfile="Uploaded_PyScripts/python_scripts.zip" basedir="DirToBeZipped"/>
+		<delete dir="DirToBeZipped" />
+	</target>
+
+</project>

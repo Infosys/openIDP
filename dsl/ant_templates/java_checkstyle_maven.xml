@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="report.checkstyle.dir" value="$CheckStyleReports" />
+	<property name="checkstyle.report.dir" value="$CheckStyleReportConvert" />
+	
+	<target name="checkstyle-report">		
+		<xslt style="${checkstyle.report.dir}" out="${report.checkstyle.dir}/checkstyle-result.html" in="${report.checkstyle.dir}/checkstyle-result.xml"/>
+	</target>
+</project>

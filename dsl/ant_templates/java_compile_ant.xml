@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.homesrc" value="$LMHOMESRC" />
+
+	<path id="classpath">
+		<fileset dir="$LIB" includes="**" />
+		<fileset dir="$JUNITLIB" includes="**" />
+	</path>
+
+	<target name="init">
+		<delete dir="$BIN"></delete>
+		<mkdir dir="$BIN"></mkdir>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${LM.homesrc}" debug="yes" destdir="$BIN" classpathref="classpath">
+		</javac>
+	</target>
+
+</project>

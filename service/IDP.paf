@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Application name="IDP" version="9.0.3.0">
+	<Projects>
+		<Project ltd_name="java" path=".\IDP.ppf"/>
+	</Projects>
+	<FindingModifications exclusion="false" version="8.0.0">
+	</FindingModifications>
+	<Findings exclusion="false" version="8.0.0">
+	</Findings>
+</Application>

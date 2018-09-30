@@ -1,0 +1,38 @@
+table thead tr th{
+  border-color:#2885ae
+}
+
+table thead {
+  background-color:rgba(28, 93, 121, 0.13)
+}
+
+table tbody tr td{
+  border-color:#2885ae
+}
+
+table tbody{
+  overflow:scroll;
+}
+
+#example{
+  border-collapse: collapse;
+}
+
+.owl-inputtext{
+  padding:.35em
+}
+
+.owl-corner-all{
+  border-radius:4px
+}
+
+
+.wrapper{
+	border-radius:4px;
+	border-color:#2885ae
+}
+/*.owl-inputtext .owl-state-focus, .owl-inputtext:focus{
+
+  box-shadow: rgba(102,175,233,.6)
+
+}*/

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="$PNAME" basedir="."  >
+	
+	<condition property="isWindows">
+	    <os family="windows" />
+	</condition>
+
+	<condition property="isLinux">
+	    <os family="unix" />
+	</condition>
+
+	
+	<!--Invoking Spring Deploy-->
+	<target name="springBoot">
+	    <exec dir="$Bat_Path" executable="$EXECUTABLE" spawn="true" >
+			<env key="BUILD_ID" value="dontKillMe" />
+			<arg line="$COMMAND"/>
+	    </exec>
+    </target>
+	<!--Invoking Spring Deploy-->
+	
+</project>

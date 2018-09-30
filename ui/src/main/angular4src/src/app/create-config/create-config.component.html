@@ -1,0 +1,21 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<app-idpheader></app-idpheader>
+<div>
+<div *ngIf="!updateConfigShow() || (updateConfigShow() && IdpdataService.freezeNavBars)">
+  <app-idp-nav-bar ></app-idp-nav-bar>
+</div>
+  
+ <div *ngIf="updateConfigShow() && !IdpdataService.freezeNavBars" class="col-md-2" style="margin-top: 150px;">
+  </div>
+<div class="col-md-8">
+    
+  <router-outlet></router-outlet>
+</div>
+</div>
+

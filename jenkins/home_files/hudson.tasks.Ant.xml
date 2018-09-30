@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.tasks.Ant_-DescriptorImpl plugin="ant@1.5">
+  <installations>
+    <hudson.tasks.Ant_-AntInstallation>
+      <name>ANT</name>
+      <home>$ANT_HOME</home>
+      <properties/>
+    </hudson.tasks.Ant_-AntInstallation>
+  </installations>
+</hudson.tasks.Ant_-DescriptorImpl>

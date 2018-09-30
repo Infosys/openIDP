@@ -1,0 +1,147 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<div id="basicInfoView">
+  <form id="defaultForm" name="basicInfoForm" #basicInfoForm="ngForm" (ngSubmit)="go()" ngNativeValidate>
+    <fieldset [disabled]="Idpdata.PagePersmission.basic">
+      <div class="panel panel-default panel-body-container">
+        <div class="panel-heading">
+          <b>{{'Basic Info'|translate}}</b>
+        </div>
+        <div class="panel-body">
+          <!-- Application Name -->
+          <div class="row form-group">
+            <div id="appName">
+              <label class="col-md-3 text-right control-label ">{{'Application Name'|translate}}
+                <span class="star">*</span>
+              </label>
+            </div>
+            <div class="col-md-9 field-tip">
+              <select style="width:50%" [(ngModel)]="basicInfo.applicationName" class="form-control" #appSelect (change)="selectedApp1()"
+                name="appSelect" [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'"
+                required id="biandd">
+                <option value="">--Select--</option>
+                <option *ngFor="let name of appNames" [ngValue]="name">{{name}}</option>
+              </select>
+              <span class="tip-content">{{'Name of the application under which the job has to be created'|translate}}</span>
+            </div>
+          </div>
+          <!-- Pipeline Name -->
+          <div>
+            <div class="row  form-group   has-feedback">
+              <div>
+                <label class="col-md-3 text-right control-label" for="pipelineName">{{'Pipeline Name'|translate}}
+                  <span class="star">*</span>
+                </label>
+              </div>
+              <div class="col-md-9 field-tip">
+                <input id="bipntf" (change)="checkJobName(basicInfo.pipelineName)" #title="ngModel" name="title" class="form-control txtbox"
+                  [disabled]="formStatusObject.operation == 'edit'" [(ngModel)]="basicInfo.pipelineName" type="text" placeholder="JobName"
+                  minlength="5" maxlength="35" pattern="[_a-zA-Z0-9]+" required>
+                <span class="tip-content">{{'Unique name for the job to be created'|translate}}</span>
+                <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger ">
+                  <div [hidden]="!title.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!title.errors.minlength">
+                    This Field Name must be at least 5 characters long.
+                  </div>
+                  <div [hidden]="!title.errors.maxlength">
+                    This Field Name cannot be more than 35 characters long.
+                  </div>
+                  <div [hidden]="!title.errors.pattern">
+                    This Field Name can only consist of alphabets, number and underscore
+                  </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="mess!==undefined && mess!==null && mess!==''">
+                  {{mess}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Build Server OS(Windows/Linux) -->
+          <div class="row form-group">
+            <div>
+              <label class="col-md-3 text-right control-label">
+                {{'Build Server OS'|translate}}
+                <span class="star">*</span>
+              </label>
+            </div>
+            <div class="col-md-9 text-left">
+              <select style="width:50%" class="form-control" [(ngModel)]="basicInfo.buildServerOS" name="buildServerOS" id="bibsdd" [disabled]="formStatusObject.operation == 'edit' "
+                required>
+                <option value="">--Select--</option>
+                <option *ngFor="let os of osList" [ngValue]="os.value">{{os.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Optional Mail Recipients -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <b>{{'Additional Mail Recipients'|translate}}</b>
+        </div>
+        <div class="panel-body panel-body-container">
+          <div class="panel-body form-group">
+            <div class="row">
+              <div>
+                <label class="col-md-3 text-right control-label">
+                  {{'All Application Users'|translate}}
+                </label>
+              </div>
+              <div class="col-md-9 text-left field-tip textFieldContainer">
+                <input type="checkbox" name="appteam" id="biaucb01" [checked]="basicInfo.additionalMailRecipients.applicationTeam === 'on'"
+                  (change)="basicInfo.additionalMailRecipients.applicationTeam=$event.target.checked ? 'on':'off'" class="Mail_Recipients_style">
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <label class=" col-md-3 text-right control-label">{{'Email Ids'|translate}}</label>
+              </div>
+              <div class="col-md-9 text-left field-tip textFieldContainer">
+                <input class="form-control txtbox" id="biemtf01" name="emailid" #emailid="ngModel" [(ngModel)]="basicInfo.additionalMailRecipients.emailIds"
+                  type="text" placeholder="William_Jones,Jerry_Gonzalez" minlength="5" maxlength="150" pattern="[_a-zA-Z0-9-.@]+(,[_a-zA-Z0-9-.@]+)*"
+                />
+                <span class="tip-content">{{'Emails will be sent after the job creation'|translate}}</span>
+                <div *ngIf="emailid.errors && (emailid.dirty || emailid.touched)" class="alert alert-danger ">
+                  <div [hidden]="!emailid.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!emailid.errors.minlength">
+                    This Field Name must be at least 5 characters long.
+                  </div>
+                  <div [hidden]="!emailid.errors.maxlength">
+                    This Field Name cannot be more than 150 characters long.
+                  </div>
+                  <div [hidden]="!emailid.errors.pattern">
+                    This Field Name can only consist of alphabetical,comma,number, dot and underscore
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div>
+      <span class="star">*{{'Denotes Mandatory Fields'|translate}}</span>
+      <br />
+      <br />
+      <div class="col-md-12 btn-container">
+        <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="birsbu01">{{'Reset'|translate}}</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success btn-sm" [disabled]="!(isCPASelectedOnceAllUser(basicInfoForm.form.valid))" style="float:right;"
+          id="biccbu01">{{'Continue'|translate}}</button>
+      </div>
+    </div>
+    <div *ngIf="setFormStatus(basicInfoForm.form.valid)">
+    </div>
+  </form>
+  <br>
+  <br>
+  <br>
+</div>

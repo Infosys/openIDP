@@ -1,0 +1,12 @@
+.colorTest {
+    background-color: blue;
+}
+.app_header{
+  background-color: red ;
+  color: black ;
+  border-bottom-style:solid;
+  border-bottom-color:white;
+}
+.text_color{
+  color: green ;
+}

@@ -1,0 +1,202 @@
+{
+  "basicInfo": {
+    "applicationName": "MavenApp",
+    "pipelineName": "JavaMaven_201709264_0907",
+    "buildServerOS": "windows",
+    "masterSequence": "pipeline",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "edit",
+    "customTriggerInterval": {
+      "interval": [
+        {
+          "time": "11",
+          "type": "Day",
+          "minute": "10",
+          "details": {
+            "applicationName": "MavenApp",
+            "pipelineName": "JavaMaven_201709264_0907",
+            "jobBuildId": "",
+            "releaseNumber": "3.269",
+            "buildartifactNumber": "",
+            "gitTag": "",
+            "jiraProjectKey": "",
+            "charmRequests": [],
+            "userStoryString": "",
+            "userName": "userName",
+            "slaveName": "jpetslave",
+            "testSlaveName": "",
+            "envSelected": "",
+            "build": {
+              "branchSelected": "",
+              "module": []
+            },
+            "testSelected": "off",
+            "artifactorySelected": "off",
+            "emailed": "userName@domain.com,kruti.vyas@domain.com,hardik.rathod01@domain.com",
+            "testStep": [],
+            "technology": "J2EE/Maven",
+            "repoDeployStatus": "",
+            "nonRepoDeployStatus": "",
+            "branchOrTag": "",
+            "subApplicationName": "",
+            "testPlanId": "",
+            "testSuitId": "",
+            "mtmStepName": "",
+            "tfsWorkItem": "",
+            "ibmRQMTestSuiteId": "",
+            "jobParam": []
+          }
+        }
+      ]
+    }
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "J2EE/Maven",
+    "scm": [
+      {
+        "type": "git",
+        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
+        "userName": "idpadmin",
+        "password": "idpadmin@123",
+        "repositoryBrowser": "gitLab",
+        "browserUrl": "http://infygit.domain.com/",
+        "projectName": "",
+        "branch": "master",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "1.0",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "maven",
+    "artifactToStage": {
+      "artifact": "**/*.*",
+      "artifactRepo": {
+        "repoURL": "dummyNexus.domain.com:8081",
+        "repoName": "tg_hosted",
+        "repoUsername": "admin",
+        "repoPassword": "dummy"
+      },
+      "artifactRepoName": "jfrog"
+    },
+
+    "modules": [
+      {
+        "moduleName": "JPetStore",
+        "relativePath": "pom.xml",
+        "codeAnalysis": [
+          "sonar",
+          "pmd",
+          "checkStyle",
+          "findBugs",
+          "icqa"
+        ],
+        "unitTesting": "on",
+        "codeCoverage": "on",
+        "args": "-Dmaven.test.skip\u003dtrue",
+        "compile": "on",
+        "clean": "on",
+        "install": "on",
+        "MVNOPTS": "",
+        "ossMailRecipients": "abc@domain.com",
+        "ossDistributionType": "Internal",
+        "ossAnalysisType": "analysis",
+        "interval": "",
+        "sonarUrl": "http://infysonarqube:8080/",
+        "sonarUserName": "",
+        "sonarPassword": ""
+      }
+    ],
+    "postBuildScript": {
+      "dependentPipelineList": []
+    },
+    "subModule": [],
+    "sonarUrl": "http://infysonarqube:8080/",
+    "sonarUserName": "",
+    "sonarPassword": ""
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "off",
+        "scriptType": "",
+        "deploySteps": []
+      },
+      {
+        "envName": "Test",
+        "envFlag": "off",
+        "scriptType": ""
+      },
+      {
+        "envName": "UAT",
+        "envFlag": "off",
+        "scriptType": ""
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "off",
+        "testSteps": []
+      },
+      {
+        "envName": "Test",
+        "envFlag": "off"
+      },
+      {
+        "envName": "UAT",
+        "envFlag": "off"
+      }
+    ]
+  }
+}

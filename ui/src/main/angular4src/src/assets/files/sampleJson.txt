@@ -1,0 +1,304 @@
+     Cloud Deployment JSON Structure 
+
+{
+  "application": "flowtest",    //application name
+  "id": "6c8204d0-0672-4a44-b1ee-016d6e543194", //id
+  "index": 3,                                                            //ignore
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "name": "test3",     //pipeline_nam
+  "stages": [],   //Stages are defined down. 
+"triggers": [],
+  "parameterConfig": [],
+  "notifications": [],
+  "description": "descriptiom"
+   
+
+Stages Information
+1->Deploy Image
+"stages": [
+    {
+      "clusters": [
+        {
+          "account": "my-k8s-account",
+          "application": "flowtest",
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envFrom": [],
+              "envVars": [],
+              "imageDescription": {
+                "imageId": "index.docker.io/vishnuag1/spring-server:1.0.8",
+                "registry": "index.docker.io",
+                "repository": "vishnuag1/spring-server",
+                "tag": "1.0.8"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "name": "vishnuag1-spring-server",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "hostIp": "",
+                  "hostPort": 8074,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "enabled": false
+          },
+          "dnsPolicy": "ClusterFirst",
+          "events": [],
+          "initContainers": [],
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "flowtest-ft-ft1"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {
+            "service.spinnaker.io/enabled": "false"
+          },
+          "rollback": {
+            "onFailure": true
+          },
+          "scaleDown": false,
+          "securityGroups": [],
+          "stack": "baseline",
+          "strategy": "redblack",
+          "targetSize": 1,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "comments": "j",
+      "name": "Deploy",
+      "notifications": [
+        {
+          "address": "vishnu.agarwal@domain.com",
+          "level": "stage",
+          "type": "email",
+          "when": [
+            "stage.starting",
+            "stage.complete"
+          ]
+        }
+      ],
+      "refId": "3",
+      "requisiteStageRefIds": [],
+      "sendNotifications": true,
+      "type": "deploy"
+    },
+
+2->Add PreConditions
+
+{
+      "name": "Check Preconditions",
+      "preconditions": [
+        {
+          "cloudProvider": "kubernetes",
+          "context": {
+            "cluster": "flowtest-baseline",
+            "comparison": "<",
+            "credentials": "my-k8s-account",
+            "expected": 3,
+            "moniker": {
+              "app": "flowtest",
+              "cluster": "flowtest-baseline",
+              "stack": "baseline"
+            },
+            "regions": [
+              "default"
+            ]
+          },
+          "failPipeline": true,
+          "type": "clusterSize"
+        }
+      ],
+      "refId": "4",
+      "requisiteStageRefIds": [
+        "3"
+      ],
+      "type": "checkPreconditions"
+    }
+
+3->Destroy Server Group
+
+{
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Destroy Server Group",
+      "namespaces": [
+        "default"
+      ],
+      "refId": "5",
+      "requisiteStageRefIds": [
+        "4"
+      ],
+      "target": "current_asg_dynamic",
+      "type": "destroyServerGroup"
+    },
+    {
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Disable Cluster",
+      "namespaces": [
+        "default"
+      ],
+      "preferLargerOverNewer": "false",
+      "refId": "6",
+      "remainingEnabledServerGroups": 1,
+      "requisiteStageRefIds": [
+        "5"
+      ],
+      "type": "disableCluster"
+    }
+
+4->Disable Server Group
+
+{
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Disable Server Group",
+      "namespaces": [
+        "default"
+      ],
+      "refId": "7",
+      "requisiteStageRefIds": [
+        "6"
+      ],
+      "target": "current_asg_dynamic",
+      "type": "disableServerGroup"
+    }
+
+5->Enable Server Group
+
+{
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Enable Server Group",
+      "namespaces": [
+        "default"
+      ],
+      "refId": "8",
+      "requisiteStageRefIds": [
+        "7"
+      ],
+      "target": "current_asg_dynamic",
+      "type": "enableServerGroup"
+    }
+
+6-> Resize Server Group
+
+{
+      "action": "scale_up",
+      "capacity": {},
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "failPipeline": true,
+      "judgmentInputs": [],
+      "name": "Resize Server Group",
+      "namespaces": [
+        "default"
+      ],
+      "notifications": [],
+      "refId": "9",
+      "requisiteStageRefIds": [
+        "8"
+      ],
+      "resizeType": "incr",
+      "scaleNum": 34,
+      "target": "current_asg_dynamic",
+      "type": "resizeServerGroup"
+    }
+
+7->Scale Down Cluster
+
+{
+      "allowScaleDownActive": false,
+      "application": "flowtest",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "flowtest-baseline",
+      "credentials": "my-k8s-account",
+      "name": "Scale Down Cluster",
+      "namespaces": [
+        "default"
+      ],
+      "preferLargerOverNewer": "false",
+      "refId": "10",
+      "remainingFullSizeServerGroups": 1,
+      "requisiteStageRefIds": [
+        "9"
+      ],
+      "type": "scaleDownCluster"
+    }
+
+8-> Script
+{
+      "account": "",
+      "cluster": "",
+      "cmc": "",
+      "command": "",
+      "failPipeline": true,
+      "image": "",
+      "name": "Script",
+      "propertyFile": "",
+      "refId": "11",
+      "region": "",
+      "repoBranch": "",
+      "repoUrl": "",
+      "requisiteStageRefIds": [
+        "10"
+      ],
+      "scriptPath": "",
+      "type": "script",
+      "user": "[anonymous]",
+      "waitForCompletion": true
+    },
+9-> WebHook
+    {
+      "method": "POST",
+      "name": "Webhook",
+      "refId": "12",
+      "requisiteStageRefIds": [
+        "11"
+      ],
+      "statusUrlResolution": "getMethod",
+      "type": "webhook",
+      "url": ""
+    }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="$PNAME" basedir="."  >
+
+	
+	<target name="RFTCompile" >
+			
+		<java  jar="$RFTCustomtool" fork="true">
+			
+			<arg value="$DirPath"/>
+			   
+		</java>
+		
+	</target>
+
+	
+</project>
+
+	

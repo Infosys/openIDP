@@ -1,0 +1,46 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<div id="loginPageBg" [ngStyle]="{'background-image': getUrl()}">
+<div class="row">
+		<div class="col-md-16">
+			<div id="page_top" style="width: auto;">
+				<table>
+			     <tr>
+              <td>              
+              </td>
+              <td style="font-size: 20px; font-family: 'Open Sans Regular', sans-serif; font-weight: 100; ">
+                  <span  class="app_name_login"></span>
+              </td>
+							<td>
+							</td>
+          </tr>
+      </table>
+
+			</div>
+      <div >
+       <div style="text-align: center; color: #8c1919; face: 'Calibri'"  *ngIf="ErrorMsg!==''" >{{ErrorMsg}}</div>
+    <div class="row" >
+      <div  class="col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-0 col-xs-12 col-xs-offset-0">
+        <form id="loginForm"   #loginForm="ngForm"  (ngSubmit)="authenticateUser(loginForm)" class="form-inline" >
+         <input type="text" class="form-control"  id="username"  [(ngModel)]="username" placeholder="{{ 'username' | translate }}"  name="username"  required />&nbsp; &nbsp;
+         <input type="password" class="form-control" id="password" [(ngModel)]="password" placeholder="{{ 'password' | translate }}" name="password"  required	 style="margin-top: 25px;" />
+          <div class="form-group">
+            &nbsp;&nbsp;<input type="submit" class="btn btn-primary"   name="logIn" style="margin-top: 25px; margin-right: 10px;"  value="{{ 'Login' | translate }}" />
+          </div>
+        </form>
+      </div>
+    </div>
+      </div>
+      <div class="footer">
+      				<font color="grey" style="float: left; padding-left: 30px;">Copyright
+      					@2018 Infosys Limited </font> <font color="grey"
+      					style="float: right; padding-right: 30px">IDP v1.0.0</font>
+      </div>
+    </div>
+	</div>
+</div>

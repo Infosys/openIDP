@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.homesrc" value="$LMHOMESRC" />
+	<property name="PMD.home" value="$PMDHOME"/>
+	<property name="report.pmd.dir" value="$PMDReportPath"/>
+
+	<path id="PMD.classpath">		
+		<pathelement location="${PMD.home}/lib"/>
+		<fileset dir="${PMD.home}/lib/">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask"
+		classpathref="PMD.classpath" />
+
+	<target name="ICQA-pmd">
+		<pmd rulesetfiles="rulesets/java/infymetrics.xml">
+			<formatter type="net.sourceforge.pmd.renderers.TGHTMLRenderer"
+				toFile="${report.pmd.dir}/PMD_Report.html" />
+			<fileset dir="${LM.homesrc}">
+				<include name="**/*.java"/>
+			</fileset>
+		</pmd>
+	</target>
+</project>

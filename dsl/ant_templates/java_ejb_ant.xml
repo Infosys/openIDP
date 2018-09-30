@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<target name="ejbjar" >
+		<delete dir="$EJBDIR">
+		</delete>
+		<mkdir dir="$EJBDIR">
+		</mkdir>
+		<ejbjar srcdir="$BIN" descriptordir="$EJBJARXML" destdir="$EJBDIR"
+			dependency="full">
+			<include  name="**ejb-**.xml"/>
+		</ejbjar>
+	</target>
+
+</project>

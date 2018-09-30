@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.homesrc" value="$LMHOMESRC" />
+	
+	<property name="checkstyle.home.dir" location="$CheckStyleHome" />
+	<property name="report.checkstyle.dir" location="$CheckStyleReports" />
+	<property name="checkstyle.report.dir" location="$CheckStyleReportConvert"/>
+	
+	<target name="checkstyle" description="Generate a report of code convention violations.">
+		<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+			classpath="${checkstyle.home.dir}/checkstyle-6.17-all.jar" />
+
+
+		<available file="${checkstyle.home.dir}/checkstyle-6.17-all.jar"
+			property="checkstyle.available" />
+		<fail unless="checkstyle.available"
+			message="Error: CHECKSTYLE_HOME not set or checkstyle-6.17-all.jar not found." />
+		<mkdir dir="${report.checkstyle.dir}" />
+
+
+		<checkstyle config="${checkstyle.home.dir}/config/sun_checks.xml"
+			failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="${report.checkstyle.dir}/checkstyle-result.xml" />
+			<fileset dir="${LM.homesrc}" includes="**/*.java" />
+		</checkstyle>
+	</target>
+	
+	<target name="checkstyle-report" depends="checkstyle">
+		<xslt style="${checkstyle.report.dir}" out="${report.checkstyle.dir}/checkstyle_report.html" in="${report.checkstyle.dir}/checkstyle-result.xml"/>
+	</target>
+</project>

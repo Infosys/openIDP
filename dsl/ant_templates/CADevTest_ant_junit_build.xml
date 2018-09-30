@@ -1,0 +1,183 @@
+<!--
+
+It uses the 'junitlisa' Ant task to run LISA tests, which converts the LISA test output to look like JUnit output. LISA can 
+run 'native' junit tests from within LISA tests; the reverse is also true - junit can run LISA tests.
+
+-->
+<!-- Environment vairables:
+	user={env.CA_USER}
+    password={env.CA_PASS}
+	${env.IDP_WS}
+	${env.LISA_HOME}
+	Ant properties to be passed in argument:
+	${PROJECT_HOME}
+	${TESTSUITE_PATH}
+	${TESTCASE_PATH}
+    ${TESTSTAGINGDOCS_PATH}
+	Slave has to be launched in the machine where CA DevTest is installed and the Registry and other services are running
+	Trigger commands:
+	1. Test suites
+	ant -DDEVTEST_HOME="C:/CA_SOF~1/DevTest" -Dbasedir="C:/CA_Software/DevTest/Projects/Project_Integration" -DTESTSUITE_PATH="Tests/Suites/AllTestSuites1.ste"
+	2. Test Cases:
+	ant oneTest -DDEVTEST_HOME="C:/CA_SOF~1/DevTest" -Dbasedir="C:/CA_Software/DevTest/Projects/Project_Integration" -DTESTCASE_PATH="Tests/TestDemo1.tst" -DTESTSTAGINGDOCS_PATH="Tests/StagingDocs/Run1User1Cycle.stg"
+	
+ -->
+<!-- <project name="LISA Example Ant/JUnit" default="lisaTests" basedir="C:\CA_Software\DevTest\Projects\Project_Integration"> -->
+<project name="LISA Example Ant/JUnit" default="lisaTests" >
+	<!-- basedir="${PROJECT_HOME} passed as basedir properties in command " -->
+	<property environment="env"/>
+    <!-- <property name="LISA_HOME" value="C:\CA_SOF~1\DevTest" /> -->
+    <!-- <property name="testReportDir" value="C:/TestOCIWS/workspace/TestApp_AllocateSlv1_8Mar18/CADevTest/junit"/> -->
+    <property name="LISA_HOME" value="${env.LISA_HOME}" />
+    <property name="testReportDir" value="${env.IDP_WS}/CADevTest/junit"/>
+
+    <!-- pull in our custom ant tasks -->
+    <taskdef resource="AntTasks.properties">
+        <classpath>
+            <fileset dir="${LISA_HOME}/lib/core"     includes="*.jar"/>
+            <fileset dir="${LISA_HOME}/lib/endorsed" includes="*.jar"/>
+            <fileset dir="${LISA_HOME}/lib/shared"   includes="*.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="lisaTests" description="Executes a LISA Test Suite as JUnit tests." >
+        <!-- make sure old reports are deleted and that we have a place to report... -->
+    	
+        <delete dir="${testReportDir}"/>
+        <mkdir dir="${testReportDir}"/>
+
+    	<!-- run the lisa suite in junit mode -->
+    	
+        <junitlisa toDir="${testReportDir}"
+     	           user="${env.CA_USER}"
+     	           password="${env.CA_PASS}"
+				   haltonfailure="no" failureproperty="test.failed" 
+				   haltOnError="no" errorProperty="test.error">
+            <!-- <lisatest suite="${basedir}/Tests/Suites/AllTestSuites1.ste"/> -->
+            <lisatest suite="${basedir}/${TESTSUITE_PATH}"/>
+        </junitlisa>
+    	
+    	<!-- generate junit style html report -->
+    	
+        <junitlisareport toDir="${testReportDir}"/>
+        <echo  message="The JUnit report is available at ${testReportDir}/index.html"/>
+		<fail message="LISA test(s) failed." if="test.failed"/>
+    	<fail message="LISA test(s) ended with error." if="test.error"/>
+    </target>
+
+    <target name="oneTest" description="Executes a LISA Test as a JUnit test." >
+        <!-- make sure old reports are deleted and that we have a place to report... -->
+    	
+        <delete dir="${testReportDir}"/>
+        <mkdir dir="${testReportDir}"/>
+
+    	<!-- run the lisa suite in junit mode -->
+    	
+        <junitlisa toDir="${testReportDir}" 
+        		   test="${basedir}/${TESTCASE_PATH}" 
+        		   stagingDoc="${basedir}/${TESTSTAGINGDOCS_PATH}"
+				   user="${env.CA_USER}"
+     	           password="${env.CA_PASS}"
+				   haltonfailure="no" failureproperty="test.failed" 
+				   haltOnError="no" errorProperty="test.error">
+				   <!-- ${TESTSUITE_PATH}
+				   test="${basedir}/Tests/TestDemo1.tst" 
+        		   stagingDoc="${basedir}/Tests/StagingDocs/Run1User1Cycle.stg" 
+				   user="admin"
+     	   		   password="admin"-->
+				   <!-- errorProperty="test.failed" errorProperty="test.failed"> -->            
+        </junitlisa>
+    	<!-- generate junit style html report -->
+
+        <junitlisareport toDir="${testReportDir}"/>
+        <echo  message="The JUnit report is available at ${testReportDir}/index.html"/>
+    	<fail message="LISA test(s) failed." if="test.failed"/>
+    	<fail message="LISA test(s) ended with error." if="test.error"/>
+    </target>
+	
+	<!-- <target name="verifyNoError" if="test.error">
+		<fail message="LISA test or tests errors."/>
+	</target>
+
+	<target name="verifyNoFailure" if="test.failed">
+		<fail message="LISA test or tests failed."/>
+	</target> -->
+	
+</project>
+
+
+<!--
+    Custom LISA ant task documentation
+    
+    junitlisa is a 'drop in' replacement for junit, but designed to execute LISA tests instead of junit tests. Most
+    continuous build systems recognise the xml output files and will integrate the build dashboard with the test
+    results. You can also produce HTML reports with the junitlisareport task (or the regular junitreport task if
+    you want).
+
+    junitlisa is an ant task that directly subclasses the regular junit task, so any of the attributes
+    and nested elements that junit has, junitlisa also has. See http://ant.apache.org/manual/OptionalTasks/junit.html
+
+    There are several differences though:
+        - you cannot set the 'fork' attribute to 'false' (we *always* fork)
+        - you can't add nested <test> elements; use a <lisatest test="testcase.tst"/> nested element or a
+          test="testcase.tst" attribute instead
+        - you can't add nested <batchtest> elements; use a <lisatest suite="suiteFile.tst"/> nester element or a
+          suite="suiteFile.ste" attribute instead
+        - we add an implied classpath consisting of LISA_HOME/bin/*.jar, LISA_HOME/lib/*.jar,*.zip
+          and LISA_HOME/lib/endorsed/*.jar
+        - we add an implied java.endorsed.dirs system property pointing to LISA_HOME/lib/endorsed
+        - if no formatter is specified then we add a default formatter of type "xml"
+        - we default the 'showoutput' attribute to 'true'
+        - we default the 'printsummary' attribute to 'true'
+        - we default the 'maxmemory' attribute to '1024m'
+
+    junitlisa supports the following attributes in addition to the attributes inherited from junit
+        - suite="suitename.ste" - a LISA suite. This is the most common use case
+        - test="filename.tst"  - a single LISA test to run
+        - stagingDoc="filename.stg"  - the staging doc to use (will default to {{LISA_HOME}}/defaults/Run1User1Cycle.stg )
+        - config="configname" which is either a named internal configuration set or a filename (.config or .properties file)
+        - outfile="filename" specify the filename that junitlisa uses to write reporting data. NOTE if "filename" doesn't comply with standard
+          naming scheme for <junitlisareport> you will need to specify a fully configured <junitreport> task instead
+        - registry="registryName" e.g "tcp://testbox:2010/Registry" - a pointer to the registry you want to use if
+          you want to stage the tests remotely.  If you don't specify this or the registry name is 'local', the tests
+          will be staged locally
+        - preview="true" - output the name and description of each test case but do not execute them
+
+    lisatest nested element supports the following attributes
+        - suite="suitename.ste" - a LISA suite. This is the most common use case
+        - test="filename.tst"  - a single LISA test to run
+        - stagingDoc="filename.stg"  - the staging doc to use (will default to {{LISA_HOME}}/defaults/Run1User1Cycle.stg )
+
+          All the attribute values can use {{curlybraces}} and LISA will resolve them in the usual fashion.
+
+          You must specify at least one test or suite, either in a nested lisatest element or the 'test' or 'suite'
+          attribute.  Multiple tests and/or suites can be specified by adding more nested lisatest elements.  The tests
+          and suites will be executed in the order in which they appear in the XML.
+
+          'config' and 'testRegistry' attributes are optional.
+
+          You will almost always want to specify the inherited 'toDir' attribute, although it will default to
+          the current working directory.
+
+          When you run a single test with the 'test' attribute, it is staged with a single vuser, run once and has 100%
+          think time.  If you need to change this, wrap the test in a suite and specify an alternative staging doc.
+
+
+    junitlisareport is a subclass of the regular junitreport element except that we specify sensible defaults.
+    It is exactly equivalent to the following:
+
+        <junitreport todir="${testReportDir}">
+            <fileset dir="<todir specified in the junitreport tag>">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames"
+                    todir="<todir specified in the junitreport tag>">/>
+        </junitreport>
+
+    You can specify your own fileset and report if you want though... and because it's a direct subclass of
+    junitreport, we also support all the attributes and nested elements that junitreport does.
+
+    You will almost always want to specify the 'toDir' attribute of the junitlisareport element however it
+    will default to the current working directory.
+
+-->

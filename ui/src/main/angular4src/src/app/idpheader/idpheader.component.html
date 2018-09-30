@@ -1,0 +1,113 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<nav class="navbar-default navbar-fixed-top  ">
+  <div class="container-fluid">
+    <div class="row">
+      <section>
+        <div id="blue_header" class="app_header">
+          <div style="padding-top: 12px;">
+            <div class="col-md-2 col-md-offset-1 col-sm-4" id="logo">
+              <div src="" class="logo" style="float: left;"></div>
+            </div>
+            <div class="col-md-4 col-md-offset-1 col-sm-3 col-xs-5" style="padding-top: 10px; text-align: center">
+              <div id="productName" style="font-size: 20px; font-family: 'Open Sans Regular', sans-serif; font-weight: 100; ">
+                <span class="app_name"></span>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-3 text-right">
+              <div style="font-family: 'Open Sans Regular', sans-serif; font-size: 14px; ">
+                {{'Welcome'|translate}}
+              </div>
+              <div id="idpUserName" title="{{role}}" class="text_color" style="font-size: 18px; font-family: 'Open Sans Light', sans-serif;">              
+                {{IdpdataService.idpUserName}}
+              </div>
+              <div id="idpOrganizationName" title="{{role}}" class="text_color" style="font-size: 18px; font-family: 'Open Sans Light', sans-serif;">
+                {{IdpdataService.organization}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-3">
+              <span>
+                <img src="assets/images/user_icon.png" class="img-circle" alt="Cinque Terre" width="34" height="34" />
+              </span>
+              <span *ngIf="azureFlag==true || keycloakFlag===true">
+                <a [routerLink]="['/logout']" (click)="logout()" style="text-transform: uppercase; color: white; ">
+                  <span class="glyphicon glyphicon-log-out"></span>&nbsp;{{'Log out'|translate}}</a>
+              </span>
+              <span *ngIf="azureFlag==false && keycloakFlag===false">
+                <a href="" (click)="logout()" style="text-transform: uppercase; color: white; ">
+                  <span class="glyphicon glyphicon-log-out"></span>&nbsp;{{'Log out'|translate}}</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <div *ngIf="freezeHeaders()"></div>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" [ngClass]="( hidePreviousConfig || hideCreateConfig ) ? 'navactive':''"
+            href="#" id="menu_pipeline">Pipelines
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="!hidePreviousConfig">
+              <a [routerLink]="['/previousConfig']" [ngClass]="hidePreviousConfig ? 'disabled'  : ''" id="menu_view" [style.font-size]="getfont()">View</a>
+            </li>
+            <li *ngIf="IdpdataService.createPipelineflag && !hideCreateConfig">
+              <a [routerLink]="['/createConfig/basicInfo']" id="menu_createPip" [ngClass]="hideCreateConfig  ? 'disabled'  : ''" [style.font-size]="getfont()"
+                [style.cursor]="getCursor()">Create</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" [ngClass]="( hideRelease || IdpdataService.hideApp) ?  'navactive':''"
+            id="menu_manage">Manage
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="IdpdataService.createAppflag && !IdpdataService.hideApp">
+              <a [routerLink]="['/createConfig/createapp']" id="menu_createApp" [style.font-size]="getfont()" [style.font-size]="getfont()"
+                [style.cursor]="getCursor()" [ngClass]="IdpdataService.hideApp ? 'disabled'  : ''">Application</a>
+            </li>
+            <li *ngIf="IdpdataService.showRelease && !hideRelease">
+              <a [routerLink]="['/releaseConfig/release']" id="menu_release" [style.font-size]="getfont()" [style.font-size]="getfont()"
+                [style.cursor]="getCursor()" [ngClass]="hideRelease ? 'disabled'  : ''">Releases</a>
+            </li>
+            <li *ngIf=IdpdataService.createOrganisationflag>
+              <a [routerLink]="['/previousConfig/createorg']" id="menu_createOrg" [style.font-size]="getfont()" [style.font-size]="getfont()"
+                [style.cursor]="getCursor()">Organization</a>
+            </li>
+            <li>
+              <a (click)="changePasswordKC()" id="menu_changepass" [style.font-size]="getfont()" [style.font-size]="getfont()" [style.cursor]="getCursor()">Change password</a>
+            </li>
+          </ul>
+        </li>
+        <li [hidden]="IdpdataService.hideDashboard">
+          <a href="{{IdpdataService.IDPDashboardURL}}">Dashboard</a>
+        </li>
+        <li>
+          <a [routerLink]="['/notificationPage']">Notification</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div>
+  <ngx-loading [show]="this.IdpdataService.loading" [config]="{ backdropBorderRadius: '10px',fullScreenBackdrop:true }"></ngx-loading>
+</div>

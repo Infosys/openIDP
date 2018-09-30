@@ -1,0 +1,226 @@
+<div class="container">
+  <h2 class="text-center">Subscription Portal</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div>
+          <div class="col-md-2" style="margin-left:20px;">
+            <div >
+              <img src="assets/images/CINew.png" alt="Smiley face" height="100" width="130">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" style="margin-left:-25px;margin-top:-30px;">
+          <div>
+            <div>
+              <img src="assets/images/ALMNew.png" alt="Smiley face" height="90" width="105">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" style="margin-left:-35px;margin-top:10px;">
+          <div>
+            <img src="assets/images/IDPNew.png" alt="Smiley face" height="130" width="140">
+          </div>
+        </div>
+        <div class="col-md-4" style="margin-left:px;margin-top:-30px;">
+          <div>
+            <img src="assets/images/CDNew.png" alt="Smiley face" height="120" width="110">
+          </div>
+        </div>
+
+       
+      </div>
+      <div class="row">
+        <div class="col-md-4" style="margin-left:-25px;margin-top:-75px;">
+
+          <div>
+            <div>
+              <img src="assets/images/InsightsNew.png" alt="Smiley face" height="120" width="105">
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-4" style="margin-left:-35px;margin-top:10px;">
+            <div >
+              <img src="assets/images/CONew.png" alt="Smiley face" height="100" width="120">
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-4" style="margin-left:-20px;margin-top:-45px;">
+            <div >
+              <img src="assets/images/CTNew.png" alt="Smiley face" height="100" width="120">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+   
+
+    <!-- <div class="row">
+       <svg id="color-fill" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="300" xmlns:xlink="http://www.w3.org/1999/xlink">  
+        <polygon class="hex" points="200,150 225,280 75,280 0,150 75,20 225,20"></polygon>      
+      </svg> 
+      <img src="assets/images/CI.png" alt="Smiley face" height="120" width="120">
+    </div> -->
+    
+    <div class="col-md-8">
+      <div class="row ">
+        <h3>Active Services: {{activeServices.length}}</h3>
+        <hr>
+      </div>
+      <div class="row">
+        <div *ngIf="activeServices.length==0">
+          <h4>No active services found</h4>
+        </div>
+        <div *ngIf="activeServices.length!=0">
+          <div *ngFor="let sub of activeServices; let i = index" class="col-md-4" style="padding-top:20px;">
+            <div class="panel panel-default">
+              <div class="panel-heading blue">
+                <h3 class="panel-title">
+                  <span>{{services[sub]}}</span>
+                    <span style="float: right;"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title={{activeServicesInfo[i]}} (click)="getLicenseDetails(i)" ></i>
+                    </span>
+                </h3>
+                           
+              </div>
+              <div class="panel-body setHeight">
+                <div *ngIf="tools && sub && tools[sub]">
+                  <ul *ngFor="let key1 of GetKeys(tools[sub])">
+                    <li>{{key1}}</li>
+                    <ul>
+                      <li *ngFor="let o of tools[sub][key1]">{{o}}</li>
+                    </ul>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 20px">
+    <h3>Subscriptions:</h3>
+    <hr>
+    <!--Table-->
+    <h4 *ngIf="userHaveLicences()==false">Currently you don't have any subscriptions</h4>
+    <table *ngIf="userHaveLicences()==true" class="table table-hover table-bordered">
+
+      <!--Table head-->
+      <thead class="blue ">
+        <tr class="white-text">
+          <td>#</td>
+
+          <td>License Type</td>
+          <td>Valid Until</td>
+          <td>Status</td>
+        </tr>
+      </thead>
+      <!--Table head-->
+
+      <!--Table body-->
+      <tbody>
+        <tr *ngFor="let sub of allSubscriptions; let i = index" (click)="getLicenseDetails(i)" [attr.data-index]="i">
+          <th scope="row">{{i+1}}</th>
+
+          <td>Premium</td>
+          <td>{{sub.expirydate}}</td>
+          <td class="h5">
+            <span [ngClass]="{'badge badge-pill':true, 'orange':getstatus(sub.expirydate)=='About to Expire','green':getstatus(sub.expirydate)=='Active','red':getstatus(sub.expirydate)=='Expired'}">
+              <i [ngClass]="{'fa':true, 'fa-warning':getstatus(sub.expirydate)=='About to Expire','fa-thumbs-up':getstatus(sub.expirydate)=='Active','fa-times-circle':getstatus(sub.expirydate)=='Expired'} "
+                aria-hidden="true"></i> {{licenseStatus}}</span>
+          </td>
+        </tr>
+
+      </tbody>
+      <!--Table body-->
+
+    </table>
+    <!--{{token}}-->
+
+
+    <!-- Modal -->
+    <div id="applyLicense" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header blue">
+            <h4 class="modal-title white-text">
+              <i class="fa fa-pencil"></i>Apply License</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+
+
+              <div class="form">
+                <i class="fa fa-key prefix" aria-hidden="true"></i>
+                <label for="licenseKey">License Key</label>
+                <input type="text" [(ngModel)]="licenseKey" name="licenseKey" id="licenseKey" required="required" class="form-control">
+
+              </div>
+
+
+
+              <div class="text-center">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button *ngIf="isLoading" disabled class="btn blue white-text">
+              <i class="fa fa-spinner fa-spin"></i> Adding License</button>
+
+            <button *ngIf="!isLoading" (click)="applyForLicense()" class="btn blue white-text">Apply</button>
+            <button type="button" id="cancelLicenseModal" class="btn red white-text" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="text-center">
+      <button id="applyButton" class="btn blue white-text" data-toggle="modal" data-target="#applyLicense">Apply License</button>
+      <button id="detailsButton" class="btn blue white-text" class="hide" data-toggle="modal" data-target="#licenseDetails">License Details</button>
+    </div>
+    <!--Table-->
+  </div>
+</div>
+<div id="licenseDetails" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header blue">
+        <h4 class="modal-title white-text">
+          <i class="fa fa-pencil"></i> License Details</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li *ngFor="let service of currentServiceList">
+            {{services[service]}}
+          </li>
+        </ul>
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn red white-text" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>

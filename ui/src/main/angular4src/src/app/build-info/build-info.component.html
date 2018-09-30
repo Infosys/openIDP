@@ -1,0 +1,166 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<!-- Modal/Alert Message  -->
+<div>
+    <!--for remove SCM  alert-->
+    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#TechSelect">Alert Modal</button>
+    <!-- Modal -->
+    <div id="TechSelect" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="redirectTo()">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please Choose {{msg}}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectTo()">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalforconfirmBuildAlert [hidden]="true" type="button" data-toggle="modal" data-target="#modalforconfirmBuildAlert">Del Modal</button>
+    <div id="modalforconfirmBuildAlert" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to submit?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="submitData()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalformandatoryFieldsBuildAlert [hidden]="true" type="button" data-toggle="modal" data-target="#modalformandatoryFieldsBuildAlert">Del Modal</button>
+    <div id="modalformandatoryFieldsBuildAlert" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Please fill all the mandatory fields on
+                    <span *ngFor="let name of listToFillFields;let i=index">
+                        {{name}}
+                        <span *ngIf="i!=listToFillFields.length-1">, </span>
+                    </span> Page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form (ngSubmit)="go()" name="buildInfoForm" #buildInfoForm="ngForm" class="form-horizontal" ngNativeValidate>
+    <fieldset [disabled]="IdpdataService.PagePersmission.build">
+        <!-- Ant -->
+        <div [ngSwitch]="buildInfo.buildtool ==='ant'">
+            <div *ngSwitchCase="true">
+                <app-ant-ctrl formName="forAnt"></app-ant-ctrl>
+            </div>
+        </div>
+        <!-- Dot net -->
+        <div [ngSwitch]="buildInfo.buildtool ==='msBuild'">
+            <div *ngSwitchCase="true">
+                <app-msbuild-cntrl formName="forMsBuild"></app-msbuild-cntrl>
+            </div>
+        </div>
+        <!-- Maven -->
+        <div [ngSwitch]="buildInfo.buildtool ==='maven'">
+            <div *ngSwitchCase="true">
+                <app-maven-cntrl formName="forMaven"></app-maven-cntrl>
+            </div>
+        </div>
+        <!-- Node JS -->
+        <div [ngSwitch]="buildInfo.buildtool ==='nodeJs'">
+            <div *ngSwitchCase="true">
+                <app-nodejs-cntrl formName="forNodeJs"></app-nodejs-cntrl>
+            </div>
+        </div>
+        <!-- Go -->
+        <div [ngSwitch]="buildInfo.buildtool ==='go'">
+            <div *ngSwitchCase="true">
+                <app-go-cntrl formName="forGo"></app-go-cntrl>
+            </div>
+        </div>
+        <!-- Angular -->
+        <div [ngSwitch]="buildInfo.buildtool ==='angular'">
+            <div *ngSwitchCase="true">
+                <app-angular-cntrl formName="forAngular"></app-angular-cntrl>
+            </div>
+        </div>
+        <!-- Python -->
+        <div [ngSwitch]="buildInfo.buildtool ==='python'">
+            <div *ngSwitchCase="true">
+                <app-python-cntrl formName="forPython"></app-python-cntrl>
+            </div>
+        </div>
+        <!-- General -->
+        <div [ngSwitch]="buildInfo.buildtool ==='general'">
+            <div *ngSwitchCase="true">
+                <app-general-cntrl formName="forGeneral"></app-general-cntrl>
+            </div>
+        </div>
+        <app-build-info-sub formName="forBuilInFoSub" [hidden]="buildInfo.buildtool ==='SapNonCharm' || buildInfo.buildtool ==='SAPPI'"></app-build-info-sub>
+        <br />
+        <br />
+        <div class="col-md-12 btn-container">
+
+            <div>
+                <div class="alert alert-success" *ngIf="checkMsgSuccess()">
+                    <strong>{{'Your request for create pipeline has been submitted'|translate}}.</strong>
+                </div>
+
+                <div class="alert alert-danger" *ngIf="checkMsgError()">
+                    <strong>{{'Error! Please check the input provided'|translate}}</strong>
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="btn_txt">{{'Reset'|translate}}</button>&nbsp;&nbsp;
+
+            <button *ngIf="buildSubscriptionNotSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="!buildInfoForm.form.valid"
+                style="float:right;" id="btn_txt">{{'Continue'|translate}}</button>
+            <button *ngIf="buildSubscriptionSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="IdpdataService.freezeNavBars===true || !buildInfoForm.form.valid"
+                style="float:right;" id="btn_submit_txt">
+
+                <span *ngIf="checkLoaderOff()"> {{'Submit'|translate}} &nbsp;</span>
+                <span *ngIf="checkLoaderOn()">{{'Submitting'|translate}} &nbsp;
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </button>
+        </div>
+
+        <div *ngIf="setFormStatus(buildInfoForm.form.valid)">
+        </div>
+    </fieldset>
+</form>
+<br>
+<br>
+<br>

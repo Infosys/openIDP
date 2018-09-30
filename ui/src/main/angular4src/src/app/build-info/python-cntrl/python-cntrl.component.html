@@ -1,0 +1,346 @@
+<form [parentFormConnect]="formName">
+  <div class="animate-switch-container">
+    <div class="animate-switch">
+      <div class="panel panel-default">
+        <div class="panel-heading panelHeadingBackground" >
+           <b>Python {{'Project Details'|translate}}</b>
+        </div>
+        <div class="panel-body" >
+          <div class="row form-group chkright">
+            <div class="col-md-3 text-right">
+              <label class="control-label">{{'Root Directory'|translate}} </label> <span class="star">*</span>
+            </div>
+            <div class="col-md-9 field-tip text-left">
+              <input id="bdbordf" class="form-control txtbox" name="rootDirectoryField" #rootDirectoryField="ngModel"
+              [(ngModel)]="buildInfo.modules[0].relativePath" type="text" placeholder="rootDirectory"
+             minlength="1" maxlength="150" required>
+
+              <div *ngIf="rootDirectoryField.errors && (rootDirectoryField.dirty || rootDirectoryField.touched)" class="alert alert-danger ">
+                <div [hidden]="!rootDirectoryField.errors.required">
+                  This Field Name is required!
+                </div>
+                <div [hidden]="!rootDirectoryField.errors.minlength">
+                  This Field Name must be at least 1 characters long.
+                </div>
+                <div [hidden]="!rootDirectoryField.errors.maxlength">
+                  This Field Name cannot be more than 150 characters long.
+                </div>
+                <!-- <div [hidden]="!rootDirectoryField.errors.pattern">
+                  This Field Name can only consist of alphabets, number, dot and underscore
+                </div> -->
+              </div>
+               <span class="tip-content">{{'Root Directory Relative to check Out Path'|translate}}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row animate-switch-container" >
+    <div class="col-md-12">
+      <div class="animate-switch">
+        <div class="panel panel-default">
+          <div class="panel-heading" >
+             <span><b>{{'Build Operations'|translate}}</b></span>
+          </div>
+
+
+          <div *ngIf="( tempObject.modules[0].codeAnalysis!='on' && buildInfo.modules[0].unitTesting!='on' )" ><div *ngIf="continuecontrolFalse()" ></div></div>
+          <div *ngIf="!(tempObject.modules[0].codeAnalysis!='on' && buildInfo.modules[0].unitTesting!='on' )" ><div *ngIf="continuecontrolTrue()" ></div></div>
+
+        <!-- Start CodeAnalysis-->
+          <div>
+            <div class="row form-group chkright" style="padding-left:20px">
+              <div class="col-md-12">
+                <label class="checkbox-inline">
+                  <input id="bdcacacb" type="checkbox" [required]="buildInfo.modules[0].unitTesting==='off'" name="codeAnalysis"
+                   [checked]="tempObject.modules[0].codeAnalysis==='on'" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':'off'"
+                   (change)="codeAnalysisCheckbox()"
+                   >{{'Code Analysis'|translate}}
+                </label>
+              </div>
+            </div>
+
+            <div *ngIf="tempObject.modules[0].codeAnalysis=='on'">
+              <div *ngIf="codeAnalysisSonar()"></div>
+            </div>
+
+            <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].codeAnalysis">
+              <div class="container-fluid animate-switch"
+                *ngSwitchCase="'on'">
+                <div class="col-md-12"  style= "height: 40px;text-transform:capitalize;" >
+                  <label class="checkbox-inline " >
+                          <input id="bdcac" type="checkbox" class="checkBoxdimension" [checked]="buildInfo.modules[0].codeAnalysis[0]!=='off'" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:'off'"
+                          name="code1"
+                          [disabled]="tempObject.modules[0].codeAnalysis !=='off' || tempObject.modules[0].codeAnalysis !==undefined"
+
+                          style="width: 15px; height: 15px"
+                          >{{tempCodeAnalysis[0]}}
+
+                        </label>
+
+
+
+                  <div style="color:red;margin-top:5px" *ngIf="tempObject.modules[0].codeAnalysis==='on'
+                    && ( buildInfo.modules[0].codeAnalysis[0]===null || buildInfo.modules[0].codeAnalysis[0]==='off' )
+                    " ><div *ngIf="paFalse()" ></div>
+                  </div>
+
+                  <div style="color:red;margin-top:5px" *ngIf="!(tempObject.modules[0].codeAnalysis==='on'  && ( buildInfo.modules[0].codeAnalysis[0]===null || buildInfo.modules[0].codeAnalysis[0]==='off' )
+                    )" ><div *ngIf="paTrue()"></div>
+                  </div>
+                </div>
+              </div>
+              <div *ngSwitchCase="'off'">
+                <div *ngIf="codeAnalysisEmptyPaTrue()"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+              <!-- Start UnitTesting-->
+          <div>
+            <div class="row form-group chkright" style="padding-left:20px">
+              <div class="col-md-12">
+                <label class="checkbox-inline">
+                  <input id="bdututcb" type="checkbox"   [checked]="buildInfo.modules[0].unitTesting==='on'"
+                  (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? unitTestOn():unitTestOff()"
+                  name="untTest"
+                     >{{'Unit Testing'|translate}}
+                  </label>
+              </div>
+            </div>
+          </div>
+          <!-- <div *ngIf=" (buildInfo.modules[0].unitTestDir !==undefined) && !(buildInfo.modules[0].unitTestDir === null) && !(buildInfo.modules[0].unitTestDir === '')" >
+              <div *ngIf="unitTestingOn()"></div>
+            </div> -->
+
+
+      <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting==='on'">
+                    <div class="animate-switch"
+                      *ngSwitchCase="true">
+                      <div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                          <label class="control-label">{{'Unit Test Directory  '|translate}}
+                               <span class="star">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdututdftb" name="unitTestDirectoryField" #unitTestDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir"
+                              class="form-control txtbox textFieldWidth"
+                              type="text" placeholder="Test_cases"
+                              minlength="1" maxlength="150" required>
+                              <div *ngIf="unitTestDirectoryField.errors && (unitTestDirectoryField.dirty || unitTestDirectoryField.touched)" class="alert alert-danger ">
+                                <div [hidden]="!unitTestDirectoryField.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!unitTestDirectoryField.errors.minlength">
+                                  This Field Name must be at least 1 characters long.
+                                </div>
+                                <div [hidden]="!unitTestDirectoryField.errors.maxlength">
+                                  This Field Name cannot be more than 150 characters long.
+                                </div>
+                                <!-- <div [hidden]="!unitTestDirectoryField.errors.pattern">
+                                  This Field Name can only consist of alphabets, number, dot and underscore
+                                </div> -->
+                              </div>
+                          <span class="tip-content">{{'Unit Test Directory Name for Unit Test Execution '|translate}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                            <label class="control-label"> &nbsp;&nbsp;
+                            {{'Unit Test Report Directory '|translate}}
+                             <span class="star">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdututrdftb" name="unitTestReportDirectoryField" #unitTestReportDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].report"
+                              class="form-control txtbox textFieldWidth"
+                            type="text" placeholder="test-reports"
+                              minlength="1" maxlength="150" required>
+                              <div *ngIf="unitTestReportDirectoryField.errors && (unitTestReportDirectoryField.dirty || unitTestReportDirectoryField.touched)" class="alert alert-danger ">
+                                <div [hidden]="!unitTestReportDirectoryField.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!unitTestReportDirectoryField.errors.minlength">
+                                  This Field Name must be at least 1 characters long.
+                                </div>
+                                <div [hidden]="!unitTestReportDirectoryField.errors.maxlength">
+                                  This Field Name cannot be more than 150 characters long.
+                                </div>
+                                <!-- <div [hidden]="!unitTestReportDirectoryField.errors.pattern">
+                                  This Field Name can only consist of alphabets, number, dot and underscore
+                                </div> -->
+                              </div>
+                              <span
+                              class="tip-content">{{'Directory Name for Unit Test Report '|translate}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngSwitchCase="false">
+                      <div *ngIf="unitTestingOff()"></div>
+                    </div>
+                  </div>
+
+
+
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <!--Start Target Environmental Details -->
+
+  <!--  <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">-->
+  <div class="row animate-switch-container" >
+    <div class="col-md-12">
+      <div class="animate-switch" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">
+        <div class="panel panel-default" *ngSwitchCase="true">
+          <div class="panel-heading" >
+             <span><b>{{'Target Environment Details'|translate}}</b></span>
+          </div>
+
+
+                      <div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                          <label class="control-label">{{'Target Host Name '|translate}}
+                               <span class="star">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdthnftb" name="targetHostNameField" #targetHostNameField="ngModel" [(ngModel)]="buildInfo.modules[0].hostName"
+                              class="form-control txtbox textFieldWidth"
+                              type="text" placeholder="137.185.234.237"
+                              minlength="1" maxlength="150" required>
+                              <div *ngIf="targetHostNameField.errors && (targetHostNameField.dirty || targetHostNameField.touched)" class="alert alert-danger ">
+                                <div [hidden]="!targetHostNameField.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!targetHostNameField.errors.minlength">
+                                  This Field Name must be at least 3 characters long.
+                                </div>
+                                <div [hidden]="!targetHostNameField.errors.maxlength">
+                                  This Field Name cannot be more than 200 characters long.
+                                </div>
+                                <!-- <div [hidden]="!targetHostNameField.errors.pattern">
+                                  This Field Name can only consist of alphabets, number, dot and underscore
+                                </div> -->
+                              </div>
+                          <span class="tip-content">{{'Target Server Name'|translate}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                            <label class="control-label"> &nbsp;&nbsp;
+                            {{' User Name '|translate}}
+                             <span class="star">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdunftb" name="userNameField" #userNameField="ngModel" [(ngModel)]="buildInfo.modules[0].userName"
+                              class="form-control txtbox textFieldWidth"
+                            type="text" placeholder="admin"
+                              minlength="1" maxlength="150" required>
+                              <div *ngIf="userNameField.errors && (userNameField.dirty || userNameField.touched)" class="alert alert-danger ">
+                                <div [hidden]="!userNameField.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!userNameField.errors.minlength">
+                                  This Field Name must be at least 3 characters long.
+                                </div>
+                                <div [hidden]="!userNameField.errors.maxlength">
+                                  This Field Name cannot be more than 200 characters long.
+                                </div>
+                                <div [hidden]="!userNameField.errors.pattern">
+                                  This Field Name can only consist of alphabets, number, dot and underscore
+                                </div>
+                              </div>
+                               <span
+                              class="tip-content">{{'Target Server UserName '|translate}}</span>
+                          </div>
+                        </div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                          <label class="control-label">{{' Private Key Path '|translate}}
+                               <span class="star">*</span>
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdpkpftb" name="privateKeyPathField" #privateKeyPathField="ngModel" [(ngModel)]="buildInfo.modules[0].privateKey"
+                              class="form-control txtbox textFieldWidth"
+                              type="text" placeholder="D:\PNG\am-rtdc-emr-ec2-key-linux.ppk "
+                              minlength="1" maxlength="150" required>
+                              <div *ngIf="privateKeyPathField.errors && (privateKeyPathField.dirty || privateKeyPathField.touched)" class="alert alert-danger ">
+                                <div [hidden]="!privateKeyPathField.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!privateKeyPathField.errors.minlength">
+                                  This Field Name must be at least 3 characters long.
+                                </div>
+                                <div [hidden]="!privateKeyPathField.errors.maxlength">
+                                  This Field Name cannot be more than 200 characters long.
+                                </div>
+                                <div [hidden]="!privateKeyPathField.errors.pattern">
+                                  This Field Name can only consist of alphabets, number, dot and underscore
+                                </div>
+                              </div>
+                          <span class="tip-content">{{'Private Key File for Target server connection'|translate}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row form-group chkright">
+                          <div class="col-md-3 text-right">
+                          <label class="control-label">{{'  Remote Directory '|translate}}
+
+                            </label>
+                          </div>
+                          <div class="col-md-9 field-tip text-left">
+                            <input id="bdrdftb" name="remoteDirectoryField" #remoteDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].remoteDir"
+                              class="form-control txtbox textFieldWidth"
+                              type="text" placeholder="remoteDirectory"
+                              minlength="1" maxlength="150" >
+                              <div *ngIf="remoteDirectoryField.errors && (remoteDirectoryField.dirty || remoteDirectoryField.touched)" class="alert alert-danger ">
+
+                                <div [hidden]="!remoteDirectoryField.errors.minlength">
+                                  This Field Name must be at least 1 characters long.
+                                </div>
+                                <div [hidden]="!remoteDirectoryField.errors.maxlength">
+                                  This Field Name cannot be more than 150 characters long.
+                                </div>
+
+                              </div>
+                          <span class="tip-content">{{'Target remote directory where unit test case execution need to perform'|translate}}
+                            </span>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+
+
+
+
+
+  </div>
+        <div *ngSwitchCase="false">
+          <div *ngIf="targetEnvironmentUnitTestingOff()"></div>
+        </div>
+  </div>
+  </div>
+  </div>
+
+
+
+  <!-- End Target Environmental Details  -->
+
+</form>

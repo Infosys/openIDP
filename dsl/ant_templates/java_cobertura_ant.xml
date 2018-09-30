@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.homesrc" value="$LMHOMESRC" />
+	<property name="cobertura.dir" value="$COBDIR" />
+	<property name="instrumented.dir" value="$INSTRDIR" />
+	<property name="cobcoverage.xml.dir" value="$COBCOVXML" />
+	<property name="cobcoverage.summaryxml.dir" value="$COBCOVSUMXML" />
+	<property name="cobcoverage.html.dir" value="$COBCOVHTMLDIR" />
+	<property name="JUnit.home" value="$JUnitHomeLocation"/>
+
+	<path id="cobertura.classpath">
+		<fileset dir="${cobertura.dir}">
+
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${JUnit.home}">
+			<include name="**/*.jar" />
+		</fileset>
+
+		<fileset dir="${basedir}" includes="**/*.jar" />
+
+	</path>
+
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+	<target name="init-coverage">
+		<delete file="cobertura.ser" />
+		<delete dir="${instrumented.dir}" />
+		<delete dir="$JUNIT_REPORT" />
+		<mkdir dir="${instrumented.dir}" />
+		<mkdir dir="$JUNIT_REPORT" />
+		<mkdir dir="${cobcoverage.xml.dir}" />
+		<mkdir dir="${cobcoverage.summaryxml.dir}" />
+		<mkdir dir="${cobcoverage.html.dir}" />
+	</target>
+	<target name="instrument" depends="init-coverage">
+		<!-- Remove the coverage data file and any old instrumentation. -->
+		<!-- Instrument the application classes, writing the instrumented classes 
+			into ${build.instrumented.dir}. -->
+		<cobertura-instrument todir="${instrumented.dir}">
+			<!-- The following line causes instrument to ignore any source line containing 
+				a reference to log4j, for the purposes of coverage reporting. -->
+			<ignore regex="org.apache.log4j.*" />
+
+			<fileset dir="$BIN">
+
+				<!-- Instrument all the application classes, but don't instrument the 
+					test classes. -->
+				<include name="**/*.class" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+
+		</cobertura-instrument>
+	</target>
+
+	<target name="test" depends="init-coverage">
+		<junit fork="no" dir="${basedir}" failureProperty="test.failed">
+			<!-- Note the classpath order: instrumented classes are before the original 
+				(uninstrumented) classes. This is important. -->
+			<classpath location="${instrumented.dir}" />
+			<classpath location="$BIN" />
+
+			<!-- The instrumented classes reference classes used by the Cobertura 
+				runtime, so Cobertura and its dependencies must be on your classpath. -->
+			<classpath refid="cobertura.classpath" />
+
+			<formatter type="xml" />
+			<test name="${testcase}" todir="$JUNIT_REPORT" if="testcase" />
+			<batchtest todir="$JUNIT_REPORT" unless="testcase">
+				<fileset dir="${LM.homesrc}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="$JUNIT_REPORT">
+			<fileset dir="$JUNIT_REPORT">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="$JUNIT_REPORT" />
+		</junitreport>
+	</target>
+
+	<target name="coverage-check">
+		<cobertura-check branchrate="34" totallinerate="100" />
+	</target>
+
+	<target name="coverage-report">
+		<!-- Generate an XML file containing the coverage data using the "srcdir" 
+			attribute. -->
+		<cobertura-report srcdir="${LM.homesrc}" destdir="${cobcoverage.xml.dir}" format="xml" />
+	</target>
+
+	<target name="summary-coverage-report">
+		<!--Generate an summary XML file containing the coverage data using the 
+			"srcdir" attribute. -->
+		<cobertura-report srcdir="${LM.homesrc}" destdir="${cobcoverage.summaryxml.dir}" format="summaryXml" />
+	</target>
+
+	<target name="alternate-coverage-report">
+		<!--Generate a series of HTML files containing the coverage data in a user-readable 
+			form using nested source filesets. -->
+		<cobertura-report destdir="${cobcoverage.html.dir}">
+			<fileset dir="${LM.homesrc}">
+				<include name="**/*.java" />
+			</fileset>
+		</cobertura-report>
+	</target>
+
+	<target name="clean" description="Remove all files created by the build/test process.">
+
+		<delete dir="${instrumented.dir}" />
+
+		<delete file="cobertura.log" />
+		<delete file="cobertura.ser" />
+	</target>
+
+	<target name="cobcoverage" depends="instrument,test,coverage-report,summary-coverage-report,alternate-coverage-report" description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports." />
+	<!--Ending Target For COBERTURA -->
+</project>

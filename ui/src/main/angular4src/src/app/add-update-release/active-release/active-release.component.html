@@ -1,0 +1,120 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<form name="basicInfoForm" #basicInfoForm="ngForm" ngNativeValidate (ngSubmit)="update()">
+  <div *ngIf="!Idpdata.releaseUpdateSuccess">
+    <div class="col-md-offset-1" style="margin-top:20px;">
+      <div class="row form-group">
+        <div class="col-md-offset-1 col-md-3 text-right ">
+          <label class="control-label ">{{'Pipeline List'|translate}}
+            <span class="star">*</span>
+          </label>
+        </div>
+        <!-- Active RElease -->
+        <div class="col-md-8 field-tip">
+          <select id="reacrslpl" style="width:50%" [(ngModel)]="Idpdata.activeReleasePipelineName" class="form-control" (change)="showReleases()"
+            [ngModelOptions]="{standalone: true}" required>
+            <option value="">--Select--</option>
+            <option *ngFor="let name of Idpdata.pipelineNames" [ngValue]="name">{{name}}</option>
+          </select>
+          <span class="tip-content">{{'Select pipeline name to view/update active releases'|translate}}</span>
+        </div>
+        <!-- Active Releases End -->
+      </div>
+    </div>
+
+    <!-- List of pipeline with Release Details-->
+    <div class="" *ngIf="Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length!==0">
+      <table id="example" style="border-color:#2885ae; height:100px; overflow:scroll; font-size:80%" class="table table-bordered table-hover"
+        cellspacing="0" width="100%">
+        <thead class="thead-dark">
+          <tr style="border-color:#2885ae">
+            <th>Release Info.</th>
+            <th>Expected Dates</th>
+            <th>Actual Dates</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rel of release; let i = index" style="border-color:#2885ae;">
+            <td style="width:120px; height:100px;padding:4px">
+              <table style="width:120px;padding:0px">
+                <tr>
+                  <td>
+                    Parent Release Name:
+                    <input id="reacrtfprn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.vstsReleaseName"
+                      style="width:100%" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Release Number:
+                    <input id="reacrtfrn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.releaseNumber"
+                      style="width:100%" readonly />
+                  </td>
+                </tr>
+              </table>
+            </td>
+
+            <td style="width:140px; height:100px">
+              <table>
+                <tr>
+                  Start Date:
+                  <input id="reacrtfsd" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedStartDate"
+                    readonly/>
+
+                </tr>
+                <tr>
+                  End Date:
+                  <input id="reacrtfed" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedEndDate"
+                    readonly />
+
+                </tr>
+              </table>
+            </td>
+            <td style="width:80px; height:100px">
+              <table>
+                <tr>
+                  Start Date:
+                  <owl-date-time id="reacrclsd" [(ngModel)]="rel.actualStartDate" [ngModelOptions]="{standalone: true}" [type]="'calendar'"
+                    [dataType]="'string'" [max]="max" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true (onClear)="clearStart(i)"
+                    [placeHolder]="'yyyy-mm-dd'"></owl-date-time>
+
+                </tr>
+                <tr>
+                  End Date:
+                  <owl-date-time id="reacrcled" [(ngModel)]="rel.actualEndDate" [ngModelOptions]="{standalone: true}" [type]="'calendar'" [min]="rel.actualStartDate"
+                    [dataType]="'string'" [inputStyleClass]="form-control" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true
+                    [placeHolder]="'yyyy-mm-dd'" (onClear)="clearEnd(i)" [disabled]="rel.actualStartDate==='' || rel.actualStartDate===undefined"></owl-date-time>
+
+
+                </tr>
+              </table>
+            </td>
+            <td style="width:100px; height:100px">
+              <div style="margin-top:30px" class="field-tip">
+
+                <span *ngIf="rel.historyRemarks!==''" class="tip-content">{{rel.historyRemarks}}</span>
+                <textarea id="reacrtarm" class="form-control" name="releaseRemarks" [(ngModel)]="rel.remarks">{{rel.remarks}}</textarea>
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+      <div class="row" style="margin-left:0px">
+        <button type="submit" class="btn btn-info btn-sm text-center" [disabled]="Idpdata.loading" id="btn_txt">{{'Update Release(s)'|translate}}</button>
+      </div>
+    </div>
+    <!-- List of pipelines with release Deails End -->
+    <div class="alert alert-danger" *ngIf="(Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length===0)">
+      No Releases for this pipeline.
+    </div>
+  </div>
+  <div class="alert alert-success" *ngIf="Idpdata.releaseUpdateSuccess">Release details updated successfully.</div>
+</form>

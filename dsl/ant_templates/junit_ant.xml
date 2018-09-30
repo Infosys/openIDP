@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.homesrc" value="$LMHOMESRC"/>
+	<property name="JUnit.home" value="$JUnitHomeLocation" />
+
+	<target name="junitone">
+		<delete dir="$JUNIT_REPORT">
+		</delete>
+		<mkdir dir="$JUNIT_REPORT">
+		</mkdir>
+		<path id="test.classpath">
+			<pathelement location="$BIN" />
+			<fileset dir="${JUnit.home}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<junit printsummary="yes">
+			<formatter type="xml" />
+			<classpath refid="test.classpath" />
+			<test name="$TESTONE" todir="$JUNIT_REPORT"/>
+		</junit>
+	</target>
+	
+	<target name="junitall">
+		<delete dir="$JUNIT_REPORT">
+		</delete>
+		<mkdir dir="$JUNIT_REPORT">
+		</mkdir>
+		<path id="test.classpath">
+			<pathelement location="$BIN" />
+			<fileset dir="${JUnit.home}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<junit printsummary="yes">
+			<batchtest todir="$JUNIT_REPORT">
+				<formatter type="xml" />
+				<fileset dir="${LM.homesrc}" includes="$TESTALL/*" />
+			</batchtest>
+			<classpath refid="test.classpath" />
+		</junit>
+	</target>
+	
+
+</project>	

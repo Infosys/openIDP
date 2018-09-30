@@ -1,0 +1,1084 @@
+<!-- Modal/Alert Message  -->
+<div>
+    <!--for remove SCM  alert-->
+    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModal">Alert Modal</button>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="redirectToBasicInfo()">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectToBasicInfo()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- For Environ Provisioning Start-->
+    <button #modalforDelProv [hidden]="true" type="button" data-toggle="modal" data-target="#DelEnvProv">Del Modal</button>
+    <div id="DelEnvProv" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure want to remove the Environment Provisioning Configuration ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeEnvProvConfirm()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- For Environment Provisioning End -->
+    <!--for remove ENV OWNER  alert-->
+    <button #modalforDel [hidden]="true" type="button" data-toggle="modal" data-target="#DelEnv">Del Modal</button>
+    <div id="DelEnv" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure want to remove the Environment Owner ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeEnvOwnerConfirm()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Modal/Alert Message  -->
+
+<!-- Modal/Alert Message  -->
+<div>
+    <!--for remove SLAVE  alert-->
+    <button #modalforslave [hidden]="true" type="button" data-toggle="modal" data-target="#DelSlave">Del Modal</button>
+    <div id="DelSlave" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure want to remove the Slave ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeSlaveConfirm()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--for app added successfully  alert-->
+    <button #modalforSuccessAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModalSuccess">Alert Modal</button>
+    <div id="myModalSuccess" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="reload()">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p *ngIf="addEditmsg">Application {{addEditmsg}} Successfully</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="reload()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal/Alert Message  -->
+
+<!--for SlaveStageSelection added successfully  alert-->
+<div>
+    <button #modalforSlaveStageSelection [hidden]="true" type="button" data-toggle="modal" data-target="#myModalSlaveStage">Alert Modal</button>
+    <div id="myModalSlaveStage" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Select atleast one 'Slave usage' stage (Build/Deploy/Test) for all Application slaves
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal/Alert Message  -->
+
+<!-- form name="codeForm"  id="codeForm" class="form-horizontal" novalidate="novalidate" ng-submit="basicInfo.onSubmit()" -->
+<div style="margin-top:150px">
+    <form (ngSubmit)="go()" name="createAppForm" #createAppForm class="form-horizontal" ngNativeValidate>
+        <div class="panel panel-default">
+            <div class="text-center panel-heading" style="height: 40px">
+                <h4 style="margin-top: 2px;">{{'Grant Access'|translate}}</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <button id="cabucna" type="button" class="btn btn-info " (click)="createNewApp()">&nbsp; {{'Create New Application'|translate}} &nbsp;</button>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button id="cabueea" type="button" class="btn btn-info " (click)="getAppInfo()">&nbsp; {{'Edit Existing Application'|translate}} &nbsp;</button>
+                    </div>
+                </div>
+                <div style="height:30px"></div>
+                <fieldset>
+                    <div *ngIf="FlagEdit">
+                        <div class="row form-group">
+                            <div>
+                                <label class="col-md-3 text-right control-label ">{{'All Applications'|translate}}
+                                    <span class="star">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9 field-tip">
+                                <select id="caddaa" style="width:50%" [(ngModel)]="grantAccess.applicationName" [ngModelOptions]="{standalone: true}" class="form-control"
+                                    (change)="getApplicationDetailedInfo(grantAccess.applicationName)">
+                                    <option value="">--Select--</option>
+                                    <option *ngFor="let app of appNames" value="{{app}}">{{app}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="flagNew || flagp">
+                        <div class="well">
+                            <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Application Name'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input id="catfan" #appName="ngModel" name="appName" [(ngModel)]="grantAccess.applicationName" [ngModelOptions]="{standalone: true}"
+                                        pattern="[-a-zA-Z0-9_.]+" (blur)="getAllApplications()" [disabled]="flagp" class="form-control txtbox textFieldWidth"
+                                        type="text" placeholder="Application Name" required />
+                                    <span class="tip-content">{{'Application Name'|translate}}</span>
+                                    <div *ngIf="appName.errors && (appName.dirty || appName.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!appName.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!appName.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <span id="appname" style="text-align: right; color: #8c1919; face: 'Calibri'"></span>
+                                </div>
+                            </div>
+                            <!-- Start Appl Type-->
+                            <div class="row form-group">
+                                <span class="col-md-3 text-right">
+                                    <label class="control-label"> {{'Application Type'|translate}}
+                                        <span style="color: red">*</span>
+                                    </label>
+                                </span>
+
+                                <div class="col-md-9 text-left">
+                                    <select id="caappType" [ngModelOptions]="{standalone: true}" [(ngModel)]="grantAccess.applicationType" (change)="setAppType($event.target.value)"
+                                        class="form-control" style="width: 50%" [disabled]="FlagEdit" required>
+                                        <option value="">--Select--</option>
+                                        <option value="General">General</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <!-- End App Type-->
+
+                            <!-- Developer Name Start -->
+                            <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Developers'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input id="catfde" #title="ngModel" name="title" [(ngModel)]="grantAccess.developers" [ngModelOptions]="{standalone: true}"
+                                        class="form-control txtbox textFieldWidth" type="text" placeholder="userName,idpuser1"
+                                        required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
+                                    <span class="tip-content">{{'Please mention Ids for Developers List'|translate}}({{'Comma Separated'|translate}})
+                                    </span>
+                                    <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!title.errors.required">
+                                            This Field Name is required!
+                                        </div>
+
+                                        <div [hidden]="!title.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot, underscrore and @.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Developer Names End -->
+
+                            <!-- Pipeline admin, Release Manager Names Start -->
+                            <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Pipeline Admin'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input id="catfpa" [(ngModel)]="grantAccess.pipelineAdmins" #title1="ngModel" name="title1" class="form-control txtbox textFieldWidth"
+                                        type="text" placeholder="idpadmin,idpuser1" required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
+                                    <span class="tip-content">{{'Please mention Pipeline Admins List'|translate}}({{'Comma Separated'|translate}})</span>
+                                    <div *ngIf="title1.errors && (title1.dirty || title1.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!title1.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!title1.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot, underscrore and @.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group" *ngIf="grantAccess.applicationType==='General'">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Release Manager'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input id="catfrm" [(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control txtbox textFieldWidth"
+                                        type="text" placeholder="idpadmin,idpuser1" required #title2="ngModel" name="title2"
+                                        pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
+                                    <span class="tip-content">{{'Please mention Release Managers List'|translate}}({{'Comma Separated'|translate}})</span>
+                                    <div *ngIf="title2.errors && (title2.dirty || title2.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!title2.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!title2.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot, underscrore and @.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pipeline admin, Release manager Names End -->
+
+                            <!-- Artifact Repository Manager -->
+                            <div *ngIf="grantAccess.applicationType==='General'">
+                                <div class="row form-group">
+                                    <span class="col-md-3 text-right">
+                                        <label class="control-label"> {{'Artifact Repository Manager'|translate}}
+                                            <span style="color: red">*</span>
+                                        </label>
+                                    </span>
+
+                                    <div class="col-md-9 text-left">
+                                        <select id="caddarm" [ngModelOptions]="{standalone: true}" [(ngModel)]="grantAccess.artifactToStage.artifactRepoName" class="form-control"
+                                            style="width: 50%" [disabled]="FlagEdit" required>
+                                            <option value="">--Select--</option>
+                                            <option value="nexus">Nexus</option>
+                                            <option value="jfrog">JFrog Artifactory </option>
+                                            <option value="na">NA</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Nexus Details Start -->
+                                <div *ngIf="grantAccess.artifactToStage.artifactRepoName==='nexus'">
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Nexus Server'|translate}}
+                                                <span style="color: red">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfns" class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
+                                                pattern="[a-zA-Z0-9\_\-\.\:\/\@]+$" style="padding-right: 200px" placeholder="dummyNexus:8081"
+                                                type="text" minlength="5" maxlength="500" required>
+                                            <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusURL.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.maxlength">
+                                                    This Field Name cannot be more than 500 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'URL of hosted Nexus repository'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Nexus Repository'|translate}}
+                                                <span style="color: red">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfnr" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
+                                                style="padding-right: 200px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel"
+                                                type="text" minlength="1" maxlength="150" value="" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                required>
+                                            <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusRepoName.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot ,hiphen and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Repository Name in which the user wants to stage the artifacts.'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Username'|translate}}
+                                                <span style="color: red">*</span>
+
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+
+                                            <input id="catfun" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
+                                                style="padding-right: 200px" placeholder="admin" name="nexusUserName" #nexusUserName="ngModel"
+                                                type="text" minlength="5" maxlength="150" value="username" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                required>
+                                            <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusUserName.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Username for hosted Nexus repository'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Password'|translate}}
+                                                <span style="color: red">*</span>
+
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+
+                                            <input id="capwpa" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
+                                                [ngModelOptions]="{standalone: true}" style="padding-right: 200px" placeholder="RepoPassword"
+                                                type="password" name="nexusPassword" #nexusPassword="ngModel" minlength="5" maxlength="150"
+                                                required>
+                                            <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusPassword.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Password for the hosted Nexus repository'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Nexus Details End -->
+
+                                <!-- JFrog Details Start -->
+                                <div *ngIf="grantAccess.artifactToStage.artifactRepoName==='jfrog'">
+
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Artifactory Server'|translate}}
+                                                <span style="color: red">*</span>
+
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+
+                                            <input id="catfns" class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
+                                                pattern="[a-zA-Z0-9\_\-\.\:\/\@]+$" style="padding-right: 200px" placeholder="dummyNexus:8081"
+                                                type="text" minlength="5" maxlength="500" required>
+                                            <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusURL.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.maxlength">
+                                                    This Field Name cannot be more than 500 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusURL.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'URL of hosted Artifactory repository'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Artifact Repository'|translate}}
+                                                <span style="color: red">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfnr" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
+                                                style="padding-right: 200px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel"
+                                                type="text" minlength="1" maxlength="150" value="" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                required>
+                                            <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
+
+                                                <div [hidden]="!nexusRepoName.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusRepoName.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot ,hiphen and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Repository Name in which the user wants to stage the artifacts.'|translate}}</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Username'|translate}}
+                                                <span style="color: red">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfun" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
+                                                style="padding-right: 200px" placeholder="admin" name="nexusUserName" #nexusUserName="ngModel"
+                                                type="text" minlength="5" maxlength="150" value="username" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                required>
+                                            <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusUserName.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusUserName.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Username for hosted Artifactory repository which is case sensitive'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                &nbsp;&nbsp; {{'Password'|translate}}
+                                                <span style="color: red">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="capwpa" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
+                                                [ngModelOptions]="{standalone: true}" style="padding-right: 200px" placeholder="RepoPassword"
+                                                type="password" name="nexusPassword" #nexusPassword="ngModel" minlength="5" maxlength="150"
+                                                required>
+                                            <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!nexusPassword.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.maxlength">
+                                                    This Field Name cannot be more than 150 characters long.
+                                                </div>
+                                                <div [hidden]="!nexusPassword.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">{{'Password for the hosted Artifactory repository'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- JFrog End -->
+                            </div>
+                            <!-- Artifact Details End -->
+                        </div>
+                        <!--Environment Provisioning Start 
+                        <div class="panel-group " role="tablist" *ngIf="grantAccess.applicationType==='General'">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab">
+                                    <div class="panel-title" (click)="toggleEnvProvPanel()">
+                                        <a data-target="{{'#'+'envProvConfig'}}" style="cursor:pointer;font-size:14px !important;">
+                                            <span class="glyphicon glyphicon-triangle-right" *ngIf="envProvPanelExpand===undefined || !envProvPanelExpand">
+                                            </span>
+                                            <span class="glyphicon glyphicon-triangle-bottom" *ngIf="envProvPanelExpand">
+                                            </span>
+                                            Environment Provisioning
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="{{'envProvConfig'}}" class="panel-body panel-collapse " role="tabpanel" [ngClass]="(envProvPanelExpand=== undefined || !envProvPanelExpand )?'collapse':'collapse in'">
+                                    
+                                    <div *ngIf="grantAccess.applicationType==='General'">
+                                        <div class="container-fluid form-group">
+                                            <div class="col-md-offset-3 col-md-6 text-right">
+                                                <button id="cabuaec" type="button" class="btn btn-info" style="margin-bottom:15px" (click)="addEnvProv()">&nbsp; {{'Add Env Prov Config'|translate}} &nbsp;</button>
+                                            </div>
+                                        </div>
+                                        <div *ngFor="let environmentProv of grantAccess.environmentProvDetails;let envIndex=index" [attr.data-index]="envIndex" style="padding-bottom: 10px">
+                                            <div class="container-fluid form-group">
+                                                <div class="col-md-3 text-left">
+                                                    <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                        &nbsp;&nbsp; {{'Env Config Name'|translate}}
+                                                        <span style="color: red">*</span>
+
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input id="catfenvprov{{envIndex}}" class="form-control " (blur)="checkEnvProvName(envIndex)" [ngModelOptions]="{standalone: true}"
+                                                        #environmentProvName="ngModel" name="environmentProvName{{envIndex}}"
+                                                        [(ngModel)]="environmentProv.environmentProvName" type="text" pattern="[_a-zA-Z0-9-+]+"
+                                                        [disabled]="envIndex<indexToDisable" placeholder="{{'Ansible_Config'|translate}}"
+                                                        required>
+                                                    <div *ngIf="environmentProvName.errors && (environmentProvName.dirty || environmentProvName.touched)" class="alert alert-danger ">
+                                                        <div [hidden]="!environmentProvName.errors.required">
+                                                            This Field Name is required!
+                                                        </div>
+
+                                                        <div [hidden]="!environmentProvName.errors.pattern">
+                                                            This Field Name can only consist of alphabetical, number and underscore
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-danger" *ngIf="tempObjectApp.environmentProvDetails[envIndex].messageEnvName !== '' && tempObjectApp.environmentProvDetails[envIndex].messageEnvName !== undefined "
+                                                        id="messageEnvName{{envIndex}}">{{tempObjectApp.environmentProvDetails[envIndex].messageEnvName}}</div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span style="float:right" [hidden]="envIndex<indexToDisable">
+                                                        <a (click)="removeEnvProv(envIndex)" style="cursor:pointer;font-size:14px !important;color:black">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="row form-group">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                            &nbsp;&nbsp; {{'Environment Configuration Tool'|translate}}
+                                                            <span style="color: red">*</span>
+
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-9 text-left">
+                                                        <select id="cfgtool{{envIndex}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="environmentProv.toolName" class="form-control"
+                                                            style="width: 50%" required>
+                                                            <option value="">--Select--</option>
+                                                            <option value="ansible">Ansible</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                                
+                                                <div *ngIf="environmentProv.toolName==='ansible'">
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'Ansible server IP/Host name'|translate}}
+                                                                <span style="color: red">*</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+                                                            <input id="cfgServ{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.serverName" style="padding-right: 200px"
+                                                                placeholder="10.82.33.203" name="serverName{{envIndex}}" #serverName="ngModel"
+                                                                type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                                required />
+                                                            <div *ngIf="serverName.errors && (serverName.dirty || serverName.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!serverName.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!serverName.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!serverName.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!serverName.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Machine name where Ansible is installed'|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'User Name'|translate}}
+                                                                <span style="color: red">*</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+                                                            <input id="cfguname{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.ansUserName" style="padding-right: 200px"
+                                                                placeholder="root" name="ansUserName{{envIndex}}" #ansUserName="ngModel"
+                                                                type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                                required />
+                                                            <div *ngIf="ansUserName.errors && (ansUserName.dirty || ansUserName.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!ansUserName.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!ansUserName.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!ansUserName.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!ansUserName.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Machine User Name where Ansible is installed'|translate}}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'Password'|translate}}
+                                                                <span style="color: red">*</span>
+
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+                                                            <input id="cfgpwd{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.ansPassword" style="padding-right: 200px"
+                                                                placeholder="password" name="ansPassword{{envIndex}}" #ansPassword="ngModel"
+                                                                type="password" minlength="2" maxlength="150" required />
+                                                            <div *ngIf="ansPassword.errors && (ansPassword.dirty || ansPassword.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!ansPassword.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!ansPassword.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!ansPassword.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!ansPassword.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Machine password where Ansible is installed'|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'Playbook Path'|translate}}
+                                                                <span style="color: red">*</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+
+                                                            <input id="playPath{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.playPath" style="padding-right: 200px"
+                                                                placeholder="root/user/" name="playPath{{envIndex}}" #playPath="ngModel"
+                                                                type="text" minlength="2" maxlength="150" required />
+                                                            <div *ngIf="playPath.errors && (playPath.dirty || playPath.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!playPath.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!playPath.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!playPath.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!playPath.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Path of the playbook'|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'Play Name'|translate}}
+                                                                <span style="color: red">*</span>
+
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+
+                                                            <input id="playName{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.playName" style="padding-right: 200px"
+                                                                placeholder="site.yml" name="playName{{envIndex}}" #playName="ngModel"
+                                                                type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                                required />
+                                                            <div *ngIf="playName.errors && (playName.dirty || playName.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!playName.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!playName.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!playName.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!playName.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Playbook Name which will execute'|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-3 text-right">
+                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                                &nbsp;&nbsp; {{'Inventory File name'|translate}}
+                                                                <span style="color: red">*</span>
+
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9 field-tip text-left">
+
+                                                            <input id="invFile{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.invName" style="padding-right: 200px"
+                                                                placeholder="root" name="invName{{envIndex}}" #invName="ngModel"
+                                                                type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
+                                                                required />
+                                                            <div *ngIf="invName.errors && (invName.dirty || invName.touched)" class="alert alert-danger ">
+                                                                <div [hidden]="!invName.errors.required">
+                                                                    This Field Name is required!
+                                                                </div>
+                                                                <div [hidden]="!invName.errors.minlength">
+                                                                    This Field Name must be at least 2 characters long.
+                                                                </div>
+                                                                <div [hidden]="!invName.errors.maxlength">
+                                                                    This Field Name cannot be more than 150 characters long.
+                                                                </div>
+                                                                <div [hidden]="!invName.errors.pattern">
+                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                </div>
+                                                            </div>
+                                                            <span class="tip-content">{{'Inventry file name which contains the names of Hosts'|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        Environment Provisioning End-->
+
+
+                        <!-- environment Section Start -->
+                        <div class="well" *ngIf="grantAccess.applicationType==='General'">
+                            <div class="row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="control-label">{{'Environment Owners'|translate}}:
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-offset-3 col-md-6 text-right">
+                                    <button id="cabuae" type="button" class="btn btn-info" (click)="addEnvOwner()">&nbsp; {{'Add Env'|translate}} &nbsp;</button>
+                                </div>
+                            </div>
+
+                            <div class="container-fluid">
+                                <div class="col-md-4 text-center">
+                                    <label>Environment Name</label>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label>Deploy & Test Owners</label>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label>QA Owners</label>
+                                </div>
+                            </div>
+
+                            <div class="container-fluid form-group" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
+                                [attr.data-index]="envIndex" style="padding-bottom: 10px">
+
+                                <div class="col-md-4">
+                                    <input id="catfenv" class="form-control " (blur)="checkEnvName(envIndex)" [ngModelOptions]="{standalone: true}" #env="ngModel"
+                                        name="env" [(ngModel)]="environmentOwner.environmentName" type="text" pattern="[_a-zA-Z0-9-+]+"
+                                        [disabled]="envIndex<indexToDisable" placeholder="{{'dev'|translate}}" required>
+                                    <div *ngIf="env.errors && (env.dirty || env.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!env.errors.required">
+                                            This Field Name is required!
+                                        </div>
+
+                                        <div [hidden]="!env.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number and underscore
+                                        </div>
+                                    </div>
+                                    <div class="text-danger" *ngIf="tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== '' && tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== undefined "
+                                        id="messageEnvName">{{tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName}}</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="catfeo" class="form-control " type="text" [(ngModel)]="environmentOwner.environmentOwners" #title3="ngModel" name="title3"
+                                        [ngModelOptions]="{standalone: true}" type="text" placeholder="idpadmin,idpuser1" required
+                                        pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
+                                    <div *ngIf="title3.errors && (title3.dirty || title3.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!title3.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!title3.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="catfqa" class="form-control " type="text" [(ngModel)]="environmentOwner.qa" #title4="ngModel" name="title4" [ngModelOptions]="{standalone: true}"
+                                        type="text" placeholder="idpadmin,idpuser1" pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
+                                    <div *ngIf="title4.errors && (title4.dirty || title4.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!title4.errors.required">
+                                            This Field Name is required!
+                                        </div>
+
+                                        <div [hidden]="!title4.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <span style="float:right" [hidden]="(grantAccess.environmentOwnerDetails.length==1) ||envIndex<indexToDisable">
+                                        <a (click)="removeEnvOwner(envIndex)" style="cursor:pointer;font-size:14px !important;color:black">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- enviroment Section end -->
+
+
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Slave Details'|translate}}:</label>
+                                </div>
+                                <div class="col-md-9 text-right">
+                                    <a>
+                                        <button id="cabusd" type="button" class="btn btn-info" (click)="addSlave()">&nbsp; {{'Add Slave'|translate}}&nbsp;</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="panel panel-default" *ngFor="let slave of grantAccess.slavesDetails;let slvIndex=index" [attr.data-index]="slvIndex">
+                                <div class="panel-heading">
+                                    Slave_{{slvIndex+1}}
+                                    <span style="float:right" [hidden]="(grantAccess.slavesDetails.length===1) || (slvIndex < indexToDisForSlave)">
+                                        <a (click)="removeSlave(slvIndex)" style="cursor:pointer;font-size:14px !important;color:black">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="panel-body" style="padding-bottom: 10px">
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label">{{'Slave Name'|translate}}
+                                                <span class="star">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfsn" [(ngModel)]="slave.slaveName" [disabled]="slvIndex<indexToDisForSlave" [ngModelOptions]="{standalone: true}"
+                                                class="form-control txtbox textFieldWidth" type="text" (blur)="checkSlaveName(slvIndex)"
+                                                placeholder="{{'Slave Name'|translate}}" required>
+                                            <span class="tip-content">{{'Slave Name'|translate}}</span>
+                                            <div class="text-danger" *ngIf="tempObjectApp.slavesDetails[slvIndex].messageSlvName !== '' && tempObjectApp.slavesDetails[slvIndex].messageSlvName !== undefined ">{{tempObjectApp.slavesDetails[slvIndex].messageSlvName}}</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label">{{'Build Server OS'|translate}}
+                                                <span class="star">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <select id="caddbs" id="os" class="dropDown form-control" [disabled]="slvIndex<indexToDisForSlave" [(ngModel)]="slave.buildServerOS"
+                                                [ngModelOptions]="{standalone: true}" required style="width:50%">
+                                                <option value="">--Select--</option>
+                                                <option *ngFor="let oslist of oslist" value="{{oslist.value}}">{{oslist.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slave usage matrix start -->
+
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label">{{'Slave usage'|translate}}
+                                                <span class="star">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+
+                                            <div class="col-md-4 field-tip text-left">
+                                                <label class="checkbox-inline">
+                                                    <input id="cacbbs" type="checkbox" [checked]="slave.build ==='on'" (change)="slave.build = $event.target.checked ? 'on' : 'off'; checkSlaveStage()"> {{'Build stage'|translate}}</label>
+                                            </div>
+                                            <div *ngIf="IdpdataService.deploySubscription===true" class="col-md-4 field-tip text-left">
+                                                <label class="checkbox-inline">
+                                                    <input id="cacbds" type="checkbox" [checked]="slave.deploy ==='on'" (change)="slave.deploy = $event.target.checked ? 'on' : 'off'; checkSlaveStage()"> {{'Deploy stage'|translate}}</label>
+                                            </div>
+                                            <div *ngIf="IdpdataService.testSubscription===true" class="col-md-4 field-tip text-left">
+                                                <label class="checkbox-inline">
+                                                    <input id="cacbts" type="checkbox" [checked]="slave.test ==='on'" (change)="slave.test = $event.target.checked ? 'on' : 'off'; checkSlaveStage()"> {{'Test stage'|translate}}</label>
+
+                                            </div>
+                                            <div class="text-danger" *ngIf="tempObjectApp.slavesDetails[slvIndex].messageSlvStageSelect !== undefined && tempObjectApp.slavesDetails[slvIndex].messageSlvStageSelect !== '' ">{{tempObjectApp.slavesDetails[slvIndex].messageSlvStageSelect}}</div>
+                                        </div>
+                                    </div>
+                                    <!-- Slave usage matrix stop -->
+
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <label class="checkbox-inline">
+                                                <input id="cacbcns" type="checkbox" [disabled]="slvIndex<indexToDisForSlave" [checked]="slave.createNewSlave ==='on'" (change)="slave.createNewSlave = $event.target.checked ? 'on' : clearWorkspacePath(slvIndex)"> {{'Create New Slave'|translate}}</label>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Creation of new Slave Start, giving workspace -->
+                                    <div *ngIf="slave.createNewSlave==='on'">
+                                        <div>
+                                            <div class="row form-group">
+                                                <div class="col-md-3 text-right">
+                                                    <label class="control-label">{{'Workspace Path'|translate}}
+                                                        <span class="star">*</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-9 field-tip text-left">
+                                                    <input id="catfwp" [(ngModel)]="slave.workspacePath" [ngModelOptions]="{standalone: true}" [disabled]="slvIndex<indexToDisForSlave"
+                                                        class="form-control txtbox textFieldWidth" type="text" placeholder="{{'Workspace Path'|translate}}"
+                                                        required>
+                                                    <span class="tip-content">{{'Workspace Path'|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Creation of new Slave Start, giving workspace -->
+
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label">{{'Labels'|translate}}
+                                                <span class="star">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfla" #slaveLabels="ngModel" name="slaveLabels" [(ngModel)]="slave.labels" [ngModelOptions]="{standalone: true}"
+                                                pattern="[a-zA-Z0-9_.-]+([, ][a-zA-Z0-9_.-]+)*" [disabled]="slvIndex<indexToDisForSlave"
+                                                class="form-control txtbox textFieldWidth" type="text" placeholder="AntJob JavaAnt"
+                                                required />
+                                            <span class="tip-content">{{'Labels comma or space separated'|translate}}</span>
+                                            <div *ngIf="slaveLabels.errors && (slaveLabels.dirty || slaveLabels.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!slaveLabels.errors.required">
+                                                    This Labels Field Name is required!
+                                                </div>
+                                                <div [hidden]="!slaveLabels.errors.pattern">
+                                                    Label Name(s) should be comma or space separated.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label">{{'SSH Key Path'|translate}}</label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfskp" [(ngModel)]="slave.sshKeyPath" [ngModelOptions]="{standalone: true}" [disabled]="slvIndex<indexToDisForSlave"
+                                                class="form-control txtbox textFieldWidth" type="text" placeholder="D:/source/SSHKeyPath">
+                                            <span class="tip-content">{{'SSH Key Path'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit creation of Application -->
+                        <div class="row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-7">
+                                <button id="cabusu" type="submit" class="btn btn-success btn-md" style="text-transform: uppercase;" [disabled]="isgrantDisabled">
+                                    &nbsp;
+                                    <span [hidden]="grantloading">{{valueSubmit|translate}} &nbsp;</span>
+                                    <span [hidden]="!grantloading">{{valueSubmitting|translate}} &nbsp;
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+                                <br>
+                            </div>
+                            <div>
+                                <span id="dbresponse" class="text-danger text-center" style="margin-left:300px;face: 'Calibri'"></span>
+                            </div>
+                        </div>
+                        <!-- Submit creation of Application End -->
+                        <div class="alert alert-danger text-center " *ngIf="message!=null && message!='' && message!=undefined">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div>
+        </div>
+    </form>
+</div>

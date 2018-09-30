@@ -1,0 +1,12 @@
+FROM openjdk:8u151-jdk
+
+LABEL maintainer="idpadmin@domain.com"\
+      owner="Infosys Ltd."
+
+EXPOSE 8889/tcp
+
+ADD target/idprest.jar /idprest/idprest.jar
+ADD idprest.sh /idprest/idprest.sh
+RUN chmod +x /idprest/idprest.sh
+
+ENTRYPOINT /idprest/idprest.sh

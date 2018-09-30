@@ -1,0 +1,166 @@
+<!-- Modal/Alert Message  -->
+<div>
+  <!--for remove SCM  alert-->
+  <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModal">Alert Modal</button>
+
+  <!--for app added successfully  alert-->
+  <button #modalforSuccessAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModalSuccess">Alert Modal</button>
+  <div id="myModalSuccess" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="reload()">&times;</button>
+          <h4 class="modal-title">Alert Message</h4>
+        </div>
+        <div class="modal-body">
+          <p *ngIf="addEditmsg">Organization {{addEditmsg}} Successfully</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="reload()">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Modal/Alert Message  -->
+
+<!-- form name="codeForm"  id="codeForm" class="form-horizontal" novalidate="novalidate" ng-submit="basicInfo.onSubmit()" -->
+<div class="row" style="margin-top:20px">
+  <div class="col-md-8 col-md-offset-2">
+    <form (ngSubmit)="go()" name="createOrgForm" #createOrgForm class="form-horizontal" ngNativeValidate>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="text-center panel-heading" style="height: 40px">
+            <h4 style="margin-top: 2px;">{{'Grant Access'|translate}}</h4>
+
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6 text-center">
+                <button id="cabucna" type="button" class="btn btn-info " (click)="createNewOrg()">&nbsp; {{'Create New Organization'|translate}} &nbsp;</button>
+              </div>
+
+              <div class="col-md-6 text-center">
+                <button id="cabueea" type="button" class="btn btn-info " (click)="getOrgInfo()">&nbsp; {{'Edit Existing Organization'|translate}} &nbsp;</button>
+              </div>
+            </div>
+            <div style="height:30px"></div>
+            <fieldset>
+              <div *ngIf="flagEdit">
+                <div class="row form-group">
+                  <div>
+                    <label class="col-md-3 text-right control-label ">{{'All Organizations'|translate}}
+                      <span class="star">*</span>
+                    </label>
+                  </div>
+                  <div class="col-md-9 field-tip">
+                    <select id="orgList" style="width:50%" [(ngModel)]="grantAccess.orgName" [ngModelOptions]="{standalone: true}" class="form-control"
+                      (change)="getOrganizationDetailedInfo(grantAccess.orgName)">
+                      <option value="">--Select--</option>
+                      <option *ngFor="let org of orgNames" value="{{org}}">{{org}}</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="flagNew || flagp">
+                <div class="well">
+                  <div class="row form-group">
+                    <div class="col-md-3 text-right">
+                      <label class="control-label">{{'Organization Name'|translate}}
+                        <span class="star">*</span>
+                      </label>
+                    </div>
+                    <div class="col-md-9 field-tip text-left">
+                        <input id="orgName" #orgName="ngModel" name="orgName" [(ngModel)]="grantAccess.orgName" [ngModelOptions]="{standalone: true}"
+                          pattern="[-a-zA-Z0-9_.]+" (blur)="getAllOrganizations()" [disabled]="flagp" class="form-control txtbox textFieldWidth"
+                          type="text" placeholder="Organization Name" required />                        
+                        <span class="tip-content">{{'Organization Name'|translate}}</span>                                          
+                        <div *ngIf="orgName.errors && (orgName.dirty || orgName.touched)" class="alert alert-danger ">
+                          <div [hidden]="!orgName.errors.required">
+                            This Field Name is required!
+                          </div>
+                          <div [hidden]="!orgName.errors.pattern">
+                            This Field Name can only consist of alphabetical, number, dot and underscore
+                          </div>                      
+                      </div>                      
+                    </div>
+                    <div class="col-md-3"></div>
+                      <div class="col-md-9 field-tip text-left">
+                          <span id="orgname" style="text-align: right; color: #8c1919; face: 'Calibri'"></span>
+                    </div>
+                  </div>                 
+                  <div class="row form-group">
+                    <div class="col-md-3 text-right">
+                      <label class="control-label">{{'Organization Admin'|translate}}
+                        <span class="star">*</span>
+                      </label>
+                    </div>
+                    <div class="col-md-9 field-tip text-left">                      
+                        <input id="catfde" #title="ngModel" name="title" [(ngModel)]="grantAccess.orgAdmin" [ngModelOptions]="{standalone: true}"
+                          class="form-control txtbox textFieldWidth" type="text" placeholder="admin" required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">                                            
+                        <span class="tip-content">{{'Please mention Organization Admin ID'|translate}}</span>                      
+                        <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger ">
+                          <div [hidden]="!title.errors.required">
+                            This Field Name is required!
+                          </div>
+
+                          <div [hidden]="!title.errors.pattern">
+                            This Field Name can only consist of alphabetical, number, dot, underscrore and @.
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-md-3 text-right">
+                      <label class="control-label">{{'Organization Domain'|translate}}
+                        <span class="star">*</span>
+                      </label>
+                    </div>
+                    <div class="col-md-9 field-tip text-left">                      
+                        <input id="catfpa" [(ngModel)]="grantAccess.domain" #title1="ngModel" name="title1" class="form-control txtbox textFieldWidth"
+                          type="text" placeholder="infosys.com" required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">                                            
+                        <span class="tip-content">{{'Please mention organization domain'|translate}}</span>                      
+                      <div *ngIf="title1.errors && (title1.dirty || title1.touched)" class="alert alert-danger ">
+                        <div [hidden]="!title1.errors.required">
+                          This Field Name is required!
+                        </div>
+                        <div [hidden]="!title1.errors.pattern">
+                          This Field Name can only consist of alphabetical, number, dot, underscrore and @.
+                        </div>
+                      </div>
+                    </div>                  
+                  </div>
+                  <div class="row">
+                      <div class="col-md-5"></div>
+
+                      <div class="col-md-7">
+
+                          <button id="cabusu"type="submit" class="btn btn-success btn-md" style="text-transform: uppercase;" [disabled]="isgrantDisabled">
+                              &nbsp; <span [hidden]="grantloading">{{valueSubmit|translate}} &nbsp;</span>
+                                      <span  [hidden]="!grantloading">{{valueSubmitting|translate}} &nbsp; <i class="fa fa-spinner fa-spin"></i></span>
+                          </button>
+                          <br>
+                      </div>
+                      <div>
+                          <span id="dbresponse" class="text-danger text-center" style="margin-left:300px;face: 'Calibri'"></span>
+                      </div>
+
+                  </div>
+                  <div class="alert alert-danger text-center " *ngIf="message!=null && message!='' && message!=undefined">
+                  </div>
+
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- End fieldset -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	
+	<property name="findbugs.home.dir" value="$FindBugsHome" />
+	<property name="report.findbugs.dir" location="$FindBugsReports" />
+	
+	<target name="findbugs"
+		description="Run code analysis over code to check for problems.">
+
+		<available file="${findbugs.home.dir}/lib/findbugs.jar"
+			property="findbugs.available" />
+		<fail unless="findbugs.available"
+			message="Error: FINDBUGS_HOME not set or findbugs.jar not found." />
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"
+			classpath="${findbugs.home.dir}/lib/findbugs-ant.jar" />
+
+		<mkdir dir="${report.findbugs.dir}" />
+
+		<findbugs home="${findbugs.home.dir}" workHard="true"
+			output="xml:withMessages" outputFile="${report.findbugs.dir}/findbugsXml.xml">
+			<class location="$BIN" />
+		</findbugs>
+
+		<xslt in="${report.findbugs.dir}/findbugsXml.xml" style="${findbugs.home.dir}/src/xsl/fancy.xsl"
+			out="${report.findbugs.dir}/findbugs-default.html" />
+	</target>
+
+
+
+	<target name="report.findbugs" description="Generate a report on error analysis.">
+
+	</target>
+</project>

@@ -1,0 +1,285 @@
+{
+  "basicInfo": {
+    "applicationName": "MavenApp",
+    "pipelineName": "JavaMaven_201709264_0907",
+    "buildServerOS": "windows",
+    "masterSequence": "pipeline",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": "hardik.rathod01@domain.com"
+    },
+    "userName": "userName",
+    "pipelineStatus": "edit",
+    "customTriggerInterval": {
+      "interval": [
+        {
+          "time": "11",
+          "type": "Day",
+          "minute": "10",
+          "details": {
+            "applicationName": "MavenApp",
+            "pipelineName": "JavaMaven_201709264_0907",
+            "jobBuildId": "",
+            "releaseNumber": "3.269",
+            "buildartifactNumber": "",
+            "gitTag": "",
+            "jiraProjectKey": "",
+            "charmRequests": [],
+            "userStoryString": "",
+            "userName": "userName",
+            "slaveName": "jpetslave",
+            "testSlaveName": "",
+            "envSelected": "",
+            "build": {
+              "branchSelected": "",
+              "module": []
+            },
+            "testSelected": "off",
+            "artifactorySelected": "off",
+            "emailed": "userName@domain.com,kruti.vyas@domain.com,hardik.rathod01@domain.com",
+            "testStep": [],
+            "technology": "J2EE/Maven",
+            "repoDeployStatus": "",
+            "nonRepoDeployStatus": "",
+            "branchOrTag": "",
+            "subApplicationName": "",
+            "testPlanId": "",
+            "testSuitId": "",
+            "mtmStepName": "",
+            "tfsWorkItem": "",
+            "ibmRQMTestSuiteId": "",
+            "jobParam": []
+          }
+        }
+      ]
+    }
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "J2EE/Maven",
+    "scm": [
+      {
+        "type": "git",
+        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
+        "userName": "saraswathi.t",
+        "password": "happy@2018",
+        "repositoryBrowser": "gitLab",
+        "browserUrl": "http://infygit.domain.com/",
+        "projectName": "",
+        "branch": "master",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "1.0",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [
+      {
+        "jobType": "string",
+        "jobParamName": "trial",
+        "jobParamValue": "trial"
+      }
+    ],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "maven",
+    "artifactToStage": {
+      "artifact": "**/*.*",
+      "artifactRepo": {
+        "repoURL": "dummyNexus.domain.com:8081",
+        "repoName": "tg_hosted",
+        "repoUsername": "admin",
+        "repoPassword": "dummy"
+      },
+      "artifactRepoName": "nexus"
+    },
+
+    "modules": [
+      {
+        "moduleName": "JPetStore",
+        "relativePath": "$trial",
+        "codeAnalysis": [],
+        "unitTesting": "off",
+        "codeCoverage": "off",
+        "args": "",
+        "compile": "on",
+        "clean": "on",
+        "install": "on",
+        "MVNOPTS": "",
+        "interval": "",
+        "sonarUrl": "http://infysonarqube:8080/",
+        "sonarUserName": "",
+        "sonarPassword": ""
+      }
+    ],
+    "postBuildScript": {
+      "dependentPipelineList": []
+    },
+    "subModule": []
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "on",
+        "scriptType": "",
+        "deploySteps": [
+          {
+            "stepName": "step1",
+            "deployOS": "",
+            "runScript": {
+              "scriptType": "",
+              "scriptFilePath": "",
+              "targets": ""
+            },
+            "deployToContainer": {
+              "containerName": "tomcat",
+              "serverManagerURL": "http://dummyHost122:7979",
+              "resourceToBeDeployed": "manualTomcat",
+              "warPath": "**/*.war",
+              "contextPath": "/TCMTest",
+              "userName": "tomcatadmin",
+              "password": "tomcatadmin",
+              "targetCellName": "",
+              "targetNodeName": "",
+              "targetServerName": "",
+              "hostName": "",
+              "port": "",
+              "updateDB": "",
+              "rollbackStrategy": "",
+              "narOS": "",
+              "deployedFolder": "",
+              "fileName": "",
+              "dbDeployPipelineList": [],
+              "pairName": "",
+              "srcEnvName": ""
+            },
+            "deployDatabase": {
+              "restorusername": "",
+              "restorpassword": "",
+              "dbusername": "",
+              "dbpassword": "",
+              "script": ""
+            },
+            "abortScript": {
+              "scriptType": ""
+            },
+            "deploymentOption": "",
+            "deployOperation": "",
+            "proxy": {
+              "username": "",
+              "password": "",
+              "host": "",
+              "port": "",
+              "enabled": ""
+            }
+          }
+        ]
+      },
+      {
+        "envName": "Test",
+        "envFlag": "off",
+        "scriptType": ""
+      },
+      {
+        "envName": "UAT",
+        "envFlag": "off",
+        "scriptType": ""
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "on",
+        "testSteps": [
+          {
+            "stepName": "step1",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "mtm",
+              "projectName": "DevOps_Team",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "target/report",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": "12"
+            }
+          }
+        ]
+      },
+      {
+        "envName": "Test",
+        "envFlag": "off"
+      },
+      {
+        "envName": "UAT",
+        "envFlag": "off"
+      }
+    ]
+  }
+}

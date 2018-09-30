@@ -1,0 +1,153 @@
+AbbreviationAsWordInName	Check for abbreviations(consecutive capital letters) length in identifier name, also enforce camel case naming.
+AbstractClassName	Ensure that the names of abstract classes conforming to some regular expression.
+AnnotationLocation	Check location of annotation on language elements. Generally annotations are located immediately after documentation block, before target element and in separate line from target element.
+AnnotationUseStyle	Ensure style matches with the usage of annotations.
+AnonInnerLength	Check for long anonymous inner classes. If an anonymous inner class becomes very long it is hard to understand and to see the flow of the method where the class is defined. Therefore long anonymous inner classes should usually be refactored into a named inner class.
+ArrayTrailingComma	Check if array initialization contains optional trailing comma. Putting this comma in makes it easier to change the order of the elements or add new elements on the end.
+ArrayTypeStyle	Check the style of array type definitions - Java style: public static void main(String[] args) or C style: public static void main(String args[]).
+AtclauseOrder	Check the order of at-clauses (ex - @author, @version, @param)
+AvoidEscapedUnicodeCharacters	Restrict using Unicode escapes.
+AvoidInlineConditionals	Avoid using inline conditionals as sometimes it's hard for developers to read them.
+AvoidNestedBlocks	Avoid using nested blocks. Nested blocks are often leftovers from the debugging process, they confuse the reader.
+AvoidStarImport	Avoid using import statements that use the * notation. Importing all classes from a package or static members from a class leads to tight coupling between packages or classes and might lead to problems when a new version of a library introduces name clashes.
+AvoidStaticImport	Avoid using static imports. Importing static members can lead to naming conflicts between class' members. It may lead to poor code readability since it may no longer be clear what class a member resides in (without looking at the import statement).
+BooleanExpressionComplexity	Restrict nested boolean operators (&&, ||, &, | and ^) to a specified depth (default = 3). Too many conditions leads to code that is difficult to read and hence debug and maintain.
+CatchParameterName	Check that 'catch' parameter names conform to a format specified by the format property.
+ClassDataAbstractionCoupling	Limit the number of instantiations of other classes within the given class. Any data type with other data types as members or local variable that is an instantiation (object) of another class has data abstraction coupling (DAC) and higher the DAC, the more complex the structure of the class.
+ClassFanOutComplexity	Limit the number of other classes a given class relies on.
+ClassTypeParameterName	Ensure that class type parameter names conform to a format specified by the format property.
+CommentsIndentation	Check indentation between comments and surrounding code. Comments are indented at the same level as the surrounding code.
+ConstantName	Check that 'constant' (static, final) names conform to a format specified by the format property.
+CovariantEquals	Check that if a class defines a covariant method 'equals()', then it defines method 'equals(java.lang.Object)'.
+CustomImportOrder	Check that the groups of import declarations appear in the order specified by the user.
+CyclomaticComplexity	Check cyclomatic complexity against a specified limit.
+DeclarationOrder	Check that the parts of a class or interface declaration appear in the order suggested by the�Code Conventions for the Java Programming Language. In Class or Instance Variables : public, protected, package level, private etc.
+DefaultComesLast	Check that the�'default'�is after all the�cases in a�switch�statement.
+DescendantToken	Check for restricted tokens beneath other tokens.
+DesignForExtension	Check that classes are designed for inheritance (subclass creation).
+EmptyBlock	Check for empty blocks.
+EmptyCatchBlock	Check for empty 'catch' blocks with few options to skip violation.
+EmptyForInitializerPad	Check the padding of an empty 'for' loop initializer; that is whether a space is required at an empty 'for' initializer or such spaces are forbidden.
+EmptyForIteratorPad	Check the padding of an empty 'for' loop iterator; that is whether a space is required at an empty 'for' iterator  or such spaces are forbidden.
+EmptyLineSeparator	Check for blank line separators after header, package, all import declarations, fields, constructors, methods, nested classes, static initializers and instance initializers.
+EmptyStatement	Check for empty statements (standalone ';').
+EqualsAvoidNull	Check that any combination of String literals is on the left side of an equals() comparison. Calling the equals() method on String literals will avoid a potential NullPointerException.
+EqualsHashCode	Check that classes that override equals() also override hashCode(). The contract of equals() and hashCode() requires that equal objects have the same hashCode. Therefore, whenever you override equals() you must override hashCode() to ensure that your class can be used in hash-based collections.
+ExecutableStatementCount	Restrict the number of executable statements to a specified limit (default = 30).
+ExplicitInitialization	Check if any class or object member explicitly initialized to default for its type value (null�for object references, zero for numeric types and�char�and�false�for�boolean).
+FallThrough	Check for fall through in switch statements and 'case' without break, return, throw or continue statement.
+FileLength	Check for long source files. Rationale: If a source file becomes very long it is hard to understand. Therefore long classes should usually be refactored into several individual classes that focus on a specific task.
+FileTabCharacter	Check that there are no tab characters ('\t') in the source code.
+FinalClass	Check that class which has only private constructors is declared as final.
+FinalLocalVariable	Ensure that local variables that never get their values changed, are declared 'final'.
+FinalParameters	Check that method/constructor/catch/foreach parameters are final. Changing the value of parameters during the execution of the method's algorithm can be confusing and should be avoided. A great way to let the Java compiler prevent this coding style is to declare parameters final.
+GenericWhitespace	Check that the whitespace around the Generic tokens '<' and '>' are correct to the�typical�convention. Left angle bracket : should be preceded with whitespace only in generic methods definitions, should not be preceded with whitespace when it's precede method name or following type name, should not be followed with whitespace in all cases. Right angle bracket: should not be preceded with whitespace in all cases, should be followed with whitespace in almost all cases, except diamond operators and when preceding method name.
+Header	Check the header of the source against a fixed header file.
+HiddenField	Check that a local variable or a parameter does not shadow a field that is defined in the same class.
+HideUtilityClassConstructor	Make sure that utility classes (classes that contain only static methods) do not have a public constructor. Instantiating utility classes does not make sense. Hence the constructors should either be private or (if you want to allow subclassing) protected.
+IllegalCatch	Check that certain exception types (java.lang.Exception, java.lang.Error or java.lang.RuntimeException) do not appear in a catch statement. This unfortunately leads to code that inadvertently catches NullPointerException, OutOfMemoryError, etc.
+IllegalImport	Check for imports from a set of illegal packages. By default, the check rejects all sun.* packages since programs that contain direct calls to the sun.* packages are 'not guaranteed to work on all Java-compatible platforms'
+IllegalInstantiation	Check for illegal instantiations where a factory method is preferred rather than calling the constructor.
+IllegalThrows	Restrict Throwing of java.lang.Error or java.lang.RuntimeException.
+IllegalToken	Check for illegal tokens. By default labels are prohibited.
+IllegalTokenText	Check for illegal token text (ex- empty).
+IllegalType	Check that particular class are never used as types in variable declarations, return values or parameters. It helps to reduce coupling on concrete classes.
+ImportControl	Check that controls what packages can be imported in each package. Useful for ensuring that application layering rules are not violated, especially on large projects.
+ImportOrder	Ensure that groups of imports come in a specific order (e.g., java. comes first, javax. comes second, then everything else). Seperation between groups, sort imports within groups etc
+Indentation	Check correct indentation of Java Code.
+InnerAssignment	Check for assignments in subexpressions, such as in�String s = Integer.toString(i = 2); With the exception of for iterators and assignment in while idiom, all assignments should occur in their own top-level statement to increase readability. With inner assignments like the one given above, it is difficult to see all places where a variable is set.
+InnerTypeLast	Check nested (internal) classes/interfaces are declared at the bottom of the class after all method and field declarations.
+InterfaceIsType	Check that Interfaces are only used to define types. It is inappropriate to define an interface that does not contain any methods but only constants. 
+InterfaceTypeParameterName	Check that interface type parameter names conform to a format specified by the format property.
+JavadocMethod	Check the Javadoc of a method or constructor.
+JavadocPackage	Check that all packages have a package documentation.
+JavadocParagraph	Check Javadoc paragraphs i.e. There is one blank line between each of two paragraphs and one blank line before the at-clauses block if it is present, Each paragraph but the first has <p> immediately before the first word, with no space after.
+JavadocStyle	Validate Javadoc for Custom Checkstyle Check like punctuation at end of first statement, javadoc with empty description, incomplete HTML tags, java-doc comment is well formed etc
+JavadocTagContinuationIndentation	Check the indentation of the continuation lines in at-clauses.
+JavadocType	Check Javadoc comments for class and interface definitions.
+JavadocVariable	Check that a variable has Javadoc comment.
+JavaNCSS	Limit total number of Non Commenting Source Statements (NCSS) in Java source files and methods.  Too large methods and classes are hard to read and costly to maintain. A large NCSS number often means that a method or class has too many responsibilities and/or functionalities which should be decomposed into smaller units.
+LeftCurly	Check the placement of left curly braces on types, methods and other blocks.
+LineLength	Check for long lines.  Long lines are hard to read in printouts or if developers have limited screen space for the source code.
+LocalFinalVariableName	Check that local 'final' variable names conform to a format specified by the format property.
+LocalVariableName	Check that local, non-'final' variable names conform to a format specified by the format property.
+MagicNumber	Check for magic numbers where a magic number is a numeric literal that is not defined as a constant. By default, -1, 0, 1, and 2 are not considered to be magic numbers.
+MemberName	Check that instance variable names conform to a format specified by the format property.
+MethodCount	Limit the number of methods declared in each type. This includes the number of each scope (private, package, protected and public) as well as an overall total.
+MethodLength	Check for long methods. If a method becomes very long it is hard to understand. Therefore long methods should usually be refactored into several individual methods that focus on a specific task.
+MethodName	Check that method names conform to a format specified by the format property.
+MethodParamPad	Check the padding between the identifier of a method definition, constructor definition, method call, or constructor invocation; and the left parenthesis of the parameter list. That is, if the identifier and left parenthesis are on the same line, check whether a space is required immediately after the identifier or such a space is forbidden.
+MethodTypeParameterName	Check that class type parameter names conform to a format specified by the format property.
+MissingCtor	Check that classes (except abstract one) define a ctor and don't rely on the default one.
+MissingDeprecated	Check that both the java.lang.Deprecated annotation is present and the @deprecated Javadoc tag is present when either is present.
+MissingOverride	Check that the java.lang.Override annotation is present when the {@inheritDoc} javadoc tag is present.
+MissingSwitchDefault	Check that switch statement has 'default' clause. It's usually a good idea to introduce a default case in every switch statement. Even if the developer is sure that all currently possible cases are covered, this should be expressed in the default branch, e.g. by using an assertion. This way the code is protected against later changes, e.g. introduction of new types in an enumeration type.
+ModifiedControlVariable	Check that 'for' loop control variables are not modified inside the 'for' block. If the control variable is modified inside the loop body, the program flow becomes more difficult to follow.
+ModifierOrder	Check that the order of modifiers conforms to the suggestions in the�Java Language specification.
+MultipleStringLiterals	Check for multiple occurrences of the same string literal within a single file. Code duplication makes maintenance more difficult, so it can be better to replace the multiple occurrences with a constant.
+MultipleVariableDeclarations	Check that each variable declaration is in its own statement and on its own line.  The Java code conventions recommends that declarations should be one per line/statement.
+MutableException	Ensure that exceptions (defined as any class name conforming to some regular expression) are immutable, that is, that they have only final fields. Exception instances should represent an error condition. Having non final fields not only allows the state to be modified by accident and therefore mask the original condition but also allows developers to accidentally forget to set the initial state. In both cases, code catching the exception could draw incorrect conclusions based on the state.
+NeedBraces	Check for braces around code blocks.
+NestedForDepth	Restrict nested�'for'�blocks to a specified depth (default = 1).
+NestedIfDepth	Restrict nested if-else blocks to a specified depth (default = 1).
+NestedTryDepth	Restrict nested try-catch-finally blocks to a specified depth (default = 1).
+NewlineAtEndOfFile	Check that there is a newline at the end of each file. Any source files and text files in general should end with a line separator to let other easily add new content at the end of file and diff command does not show previous lines as changed. 
+NoClone	Check that the clone method is not overridden from the Object class. The clone method relies on strange, hard to follow rules that are difficult to get right and do not work in all situations. In some cases, either a copy constructor or a static factory method can be used instead of the clone method to return copies of an object.
+NoFinalizer	Check that no method having zero parameters is defined using the name�'finalize'.
+NoLineWrap	Check that statements are not line-wrapped.
+NonEmptyAtclauseDescription	Check that the at-clause tag is followed by description .
+NoWhitespaceAfter	Check that there is no whitespace after a token.
+NoWhitespaceBefore	Check that there is no whitespace before a token.
+NPathComplexity	Check the npath complexity against a specified limit (default = 200). The NPATH metric computes the number of possible execution paths through a function. It takes into account the nesting of conditional statements and multi-part boolean expressions (e.g., A && B, C || D, etc.). Functions that exceeded the limit 200 were candidates for further decomposition - or at least a closer look. 
+OneStatementPerLine	Check that there is only one statement per line. It's very difficult to read multiple statements on one line.
+OneTopLevelClass	Check that each top-level class, interfaces or enum resides in a source file of its own.
+OperatorWrap	Check the policy on how to wrap lines on operators.
+OuterTypeFilename	Check that the outer type name and the file name match. For example, the class Foo must be in a file named Foo.java.
+OuterTypeNumber	Check for the number of defined types at the 'outer' level. It is considered good practice to only define one outer type per file.
+OverloadMethodsDeclarationOrder	Check that overload methods are grouped together.
+PackageAnnotation	Check that all package annotations are in the package-info.java file.
+PackageDeclaration	Ensure there is a package declaration and (optionally) in the proper directory. Classes that live in the null package cannot be imported.
+PackageName	Check that package names conform to a format specified by the format property.
+ParameterAssignment	Avoid using assignment of parameters. Parameter assignment is often considered poor programming practice.
+ParameterName	Check that 'method' and 'catch' parameter names conform to a format specified by the format property.
+ParameterNumber	Check the number of parameters that a method or constructor has.
+ParenPad	Check the padding of parentheses; that is whether a space is required after a left parenthesis and before a right parenthesis  or such spaces are forbidden, with the exception that it does not check for padding of the right parenthesis at an empty 'for' iterator and empty 'for' initializer. Use Check EmptyForIteratorPad to validate empty for iterators and EmptyForInitializerPad to validate empty for initializers.
+RedundantImport	Check for  redundant imports statements. Considered redundant if - duplicate of another import, class non-statically imported from the same package as the current package, class non-statically imported is from the java.lang package, e.g. importing java.lang.String.
+RedundantModifier	Check for redundant modifiers in interface and annotation definitions, final modifier on methods of final classes, inner interface�declarations that are declared as�static, non public class constructors and enum constructors, nested enum definitions that are declared as�static. The Java Language Specification strongly discourages the usage of public and abstract for method declarations in interface definitions as a matter of style.
+Regexp	Check that a specified pattern exists (or not) in the file.
+RegexpHeader	Check the header of the source against a header file that contains  a regular expression for each line of the source header.
+RegexpMultiline	Check that matches regular expression across multiple lines in any file type.
+RegexpOnFilename	Check that matches regular expression based on file and/or folder path.
+RegexpSingleline	Check that matches regular expression in a single line in any file type.
+RegexpSinglelineJava	Check that matches regular expression in a single line just for java files.
+RequireThis	Check that references to instance variables and methods of the present object are explicitly of the form 'this.varName' or 'this.methodName(args)' and that those references don't rely on the default behavior when 'this.' is absent.
+ReturnCount	Restrict return statements  in methods, constructors and lambda expressions to a specified count (default = 2). Too many return points can mean that code is attempting to do too much or may be difficult to understand.
+RightCurly	Check the placement of right curly braces for if-else, try-catch-finally blocks, while-loops, for-loops, method definitions, class definitions, constructor definitions, instance and static initialization blocks.
+SeparatorWrap	Check line wrapping with separators.
+SimplifyBooleanExpression	Check for overly complicated boolean expressions. Complex boolean logic makes code hard to understand and maintain.
+SimplifyBooleanReturn	Check for overly complicated boolean return statements.
+SingleLineJavadoc	Check that a JavaDoc block which can fit on a single line and doesn't contain at-clauses. Javadoc comment that contains at least one at-clause should be formatted in a few lines.
+SingleSpaceSeparator	Check that non-whitespace characters are separated by no more than one whitespace.
+StaticVariableName	Check that static, non-final variable names conform to a format specified by the format property.
+StringLiteralEquality	Check that string literals are not used with�==�or�!=.
+SummaryJavadoc	Check that Javadoc summary sentence does not contain phrases that are not recommended to use.
+SuperClone	Check that an overriding clone() method invokes super.clone(). Does not check native methods, as they have no possible java defined implementation.
+SuperFinalize	Check that an overriding finalize() method invokes super.finalize(). Does not check native methods, as they have no possible java defined implementation.
+SuppressWarnings	Check what warnings SuppressWarnings is not allowed to suppress.
+SuppressWarningsHolder	Check for code that should not be reported by Checkstyle.
+ThrowsCount	Restrict throws statements to a specified count (default = 4). Methods with Override or java.lang.Override annotation are skipped from validation as current class cannot change signature of these methods.  Declaring a method to throw too many differently rooted exceptions makes exception handling onerous and leads to poor programming practices such as writing code like catch(Exception ex).
+TodoComment	Check for TODO comments for a certain format property.
+TrailingComment	Check that comments be the only thing on a line. For the case of // comments that means that the only thing that should precede it is whitespace.
+Translation	Ensure the correct translation of code by checking property files for consistency regarding their keys. Two property files describing one and the same context are consistent if they contain the same keys.
+TypecastParenPad	Check the padding of parentheses for typecasts i.e. space after a left parenthesis or before a right parenthesis.
+TypeName	Check that identifiers for classes, interfaces, enums, and annotations conform to a format specified by the format property.
+UncommentedMain	Detect uncommented main methods. A main() method is often used for debugging purposes. When debugging is finished, developers often forget to remove the method, which changes the API and increases the size of the resulting class or JAR file. With the exception of the real program entry points, all main() methods should be removed or commented out of the sources.
+UniqueProperties	Detect duplicated keys in properties files. Multiple property keys usually appear after merge or rebase of several branches. While there are no errors in runtime, there can be a confusion due to having different values for the duplicated properties.
+UnnecessaryParentheses	Check if unnecessary parentheses are used in a statement or expression.
+UnusedImports	Check for unused import statements.
+UpperEll	Check that long constants are defined with an upper ell. That is 'L' and not 'l'.
+VariableDeclarationUsageDistance	Check the distance between declaration of variable and its first usage.
+VisibilityModifier	Check visibility of class members. Only static final, immutable or annotated by specified annotation members may be public; other class members must be private.
+WhitespaceAfter	Check that a token is followed by whitespace, with the exception that it does not check for whitespace after the semicolon of an empty for iterator.
+WhitespaceAround	Check that a token is surrounded by whitespace.
+WriteTag	Check Javadoc tag - missing  and tagSeverity

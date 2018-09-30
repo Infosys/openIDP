@@ -1,0 +1,113 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<form name="basicInfoForm" #basicInfoForm="ngForm" ngNativeValidate (ngSubmit)="update()">
+  <div class="col-md-offset-1" style="margin-top:20px">
+    <div class="row form-group">
+      <div class="col-md-offset-1 col-md-3 text-right ">
+        <label class="control-label ">{{'Pipeline List'|translate}}
+          <span class="star">*</span>
+        </label>
+      </div>
+      <div class="col-md-8 field-tip">
+        <select style="width:50%" [(ngModel)]="idpdata.releasePipelineName" class="form-control" [ngModelOptions]="{standalone: true}"
+          (click)="showReleases()" required>
+          <option value="">--Select--</option>
+          <option *ngFor="let name of idpdata.pipelineNames" [ngValue]="name">{{name}}</option>
+        </select>
+        <span class="tip-content">{{'Select pipeline name to view closed releases'|translate}}</span>
+      </div>
+    </div>
+  </div>
+  <!--Release History start -->
+  <div class="" *ngIf="idpdata.releasePipelineName!=='' && release.length!==0">
+    <table readonly id="example" style="border-color:#2885ae" class="table table-bordered table-hover table-responsive" cellspacing="0"
+      width="100%">
+      <thead class="thead-dark">
+        <tr style="border-color:#2885ae">
+          <th>Release Info.</th>
+          <th>Expected Dates</th>
+          <th>Actual Dates</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let release1 of release" style="border-color:#2885ae;">
+          <td style="width:160px">
+            <table>
+              <tr>
+                <td>
+                  Parent Release Name:
+                  <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.vstsReleaseName"
+                    style="width:70%" readonly />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Release Number:
+                  <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.releaseNumber"
+                    style="width:70%" readonly />
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <td style="width:160px">
+            <table>
+              <tr>
+                Start Date:
+                <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.expectedStartDate"
+                  readonly/>
+
+              </tr>
+              <tr>
+                End Date:
+                <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.expectedEndDate"
+                  readonly />
+
+              </tr>
+            </table>
+          </td>
+          <td style="width:160px">
+            <table>
+              <tr>
+                Start Date:
+                <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.actualStartDate"
+                  readonly/>
+
+              </tr>
+              <tr>
+                End Date:
+                <input type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="release1.actualEndDate"
+                  readonly />
+
+              </tr>
+            </table>
+          </td>
+
+          <td style="width:25%">
+            <div style="margin-top:30px">
+              <textarea class="form-control" readonly>{{release1.historyRemarks}}</textarea>
+            </div>
+
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+
+
+  </div>
+  <!-- Release history End -->
+
+  <!-- Alert for no release -->
+  <div class="alert alert-danger" *ngIf="idpdata.releasePipelineName!=='' && release.length===0">
+    No Releases present.
+  </div>
+
+</form>

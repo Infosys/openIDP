@@ -1,0 +1,351 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.3
+
+-- Started on 2018-07-27 14:02:34
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Name: IDP_PAAS; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE "IDP_PAAS" WITH TEMPLATE = template0;
+
+
+ALTER DATABASE "IDP_PAAS" OWNER TO postgres;
+
+\connect "IDP_PAAS"
+
+
+--
+-- TOC entry 1 (class 3079 OID 12393)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2192 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 189 (class 1259 OID 444484)
+-- Name: tlicense_key_management_license_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tlicense_key_management_license_id_seq
+    START WITH 33
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tlicense_key_management_license_id_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 192 (class 1259 OID 444529)
+-- Name: tlicense_key_management; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tlicense_key_management (
+    license_key bytea NOT NULL,
+    date timestamp without time zone DEFAULT now() NOT NULL,
+    license_id integer DEFAULT nextval('tlicense_key_management_license_id_seq'::regclass) NOT NULL,
+    expiry_date date,
+    license_type character varying,
+    org_name character varying
+);
+
+
+ALTER TABLE tlicense_key_management OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 444482)
+-- Name: torganization_info_org_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE torganization_info_org_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE torganization_info_org_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 444498)
+-- Name: torganization_info; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE torganization_info (
+    org_id integer DEFAULT nextval('torganization_info_org_id_seq'::regclass) NOT NULL,
+    org_name character varying NOT NULL,
+    org_admin character varying,
+    domain character varying
+);
+
+
+ALTER TABLE torganization_info OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 444480)
+-- Name: tservice_master_service_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tservice_master_service_id_seq
+    START WITH 5
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tservice_master_service_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 444509)
+-- Name: tservice_master; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tservice_master (
+    service_id integer DEFAULT nextval('tservice_master_service_id_seq'::regclass) NOT NULL,
+    service_name character varying
+);
+
+
+ALTER TABLE tservice_master OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 444546)
+-- Name: tservices; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE tservices (
+    license_id bigint NOT NULL,
+    service_name character varying NOT NULL,
+    expiry_date date,
+    org_name character varying
+);
+
+
+ALTER TABLE tservices OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 444478)
+-- Name: ttool_catagories_tool_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE ttool_catagories_tool_category_id_seq
+    START WITH 10
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE ttool_catagories_tool_category_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 194 (class 1259 OID 444564)
+-- Name: ttool_catagories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE ttool_catagories (
+    tool_category_id integer DEFAULT nextval('ttool_catagories_tool_category_id_seq'::regclass) NOT NULL,
+    category character varying,
+    service_id bigint
+);
+
+
+ALTER TABLE ttool_catagories OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 444476)
+-- Name: ttools_tool_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE ttools_tool_id_seq
+    START WITH 22
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE ttools_tool_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 444571)
+-- Name: ttools; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE ttools (
+    tool_id integer DEFAULT nextval('ttools_tool_id_seq'::regclass) NOT NULL,
+    tools_category bigint,
+    tool_name character varying
+);
+
+
+ALTER TABLE ttools OWNER TO postgres;
+
+
+--
+-- TOC entry 2050 (class 2606 OID 444538)
+-- Name: tlicense_key_management tlicense_key_management_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tlicense_key_management
+    ADD CONSTRAINT "tlicense_key_management_PK" PRIMARY KEY (license_id);
+
+
+--
+-- TOC entry 2052 (class 2606 OID 444540)
+-- Name: tlicense_key_management tlicense_key_management_UK; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tlicense_key_management
+    ADD CONSTRAINT "tlicense_key_management_UK" UNIQUE (license_key);
+
+
+--
+-- TOC entry 2046 (class 2606 OID 444506)
+-- Name: torganization_info torganization_info_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY torganization_info
+    ADD CONSTRAINT "torganization_info_PK" PRIMARY KEY (org_id);
+
+
+--
+-- TOC entry 2048 (class 2606 OID 444508)
+-- Name: torganization_info torganization_info_UK; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY torganization_info
+    ADD CONSTRAINT "torganization_info_UK" UNIQUE (org_name);
+
+
+--
+-- TOC entry 2054 (class 2606 OID 444553)
+-- Name: tservices tservices_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tservices
+    ADD CONSTRAINT "tservices_PK" PRIMARY KEY (license_id, service_name);
+
+
+--
+-- TOC entry 2055 (class 2606 OID 444541)
+-- Name: tlicense_key_management tlicense_key_management_org_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tlicense_key_management
+    ADD CONSTRAINT "tlicense_key_management_org_FK" FOREIGN KEY (org_name) REFERENCES torganization_info(org_name);
+
+
+--
+-- TOC entry 2056 (class 2606 OID 444554)
+-- Name: tservices tservices; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tservices
+    ADD CONSTRAINT tservices FOREIGN KEY (org_name) REFERENCES torganization_info(org_name);
+
+
+--
+-- TOC entry 2057 (class 2606 OID 444559)
+-- Name: tservices tservices_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tservices
+    ADD CONSTRAINT "tservices_FK" FOREIGN KEY (license_id) REFERENCES tlicense_key_management(license_id);
+
+
+
+--
+-- TOC entry 2150 (class 0 OID 88003)
+-- Dependencies: 183
+-- Data for Name: tservice_master; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO tservice_master VALUES (1, 'CI');
+INSERT INTO tservice_master VALUES (2, 'CD');
+INSERT INTO tservice_master VALUES (3, 'CT');
+INSERT INTO tservice_master VALUES (4, 'ML');
+INSERT INTO tservice_master VALUES (5, 'ALM');
+	
+INSERT INTO ttool_catagories VALUES (1, 'SCM', 1);
+INSERT INTO ttool_catagories VALUES (2, 'CODE_ANALYSIS', 1);
+INSERT INTO ttool_catagories VALUES (3, 'UNIT_TESTING', 1);
+INSERT INTO ttool_catagories VALUES (4, 'CODE_COVERAGE', 1);
+INSERT INTO ttool_catagories VALUES (5, 'APPLICATION_SERVER', 2);
+INSERT INTO ttool_catagories VALUES (6, 'FUNCTIONAL_TEST', 3);
+INSERT INTO ttool_catagories VALUES (7, 'PERFORMANCE_TEST', 3);
+INSERT INTO ttool_catagories VALUES (8, 'SERVICE_TEST', 3);
+INSERT INTO ttool_catagories VALUES (9, 'SECURITY_TEST', 3);
+INSERT INTO ttool_catagories VALUES (10, 'BUILD', 1);
+
+	
+INSERT INTO ttools VALUES (1, 1, 'SVN');
+INSERT INTO ttools VALUES (2, 1, 'GIT');
+INSERT INTO ttools VALUES (3, 1, 'TFS');
+INSERT INTO ttools VALUES (4, 2, 'PMD');
+INSERT INTO ttools VALUES (5, 2, 'FINDBUGS');
+INSERT INTO ttools VALUES (6, 2, 'CHECKSTYLE');
+INSERT INTO ttools VALUES (7, 2, 'SONAR');
+INSERT INTO ttools VALUES (8, 3, 'JUNIT');
+INSERT INTO ttools VALUES (9, 3, 'MSTEST');
+INSERT INTO ttools VALUES (10, 4, 'COBERTURA');
+INSERT INTO ttools VALUES (11, 4, 'EMMA');
+INSERT INTO ttools VALUES (12, 5, 'TOMCAT');
+INSERT INTO ttools VALUES (13, 5, 'IIS');
+INSERT INTO ttools VALUES (14, 5, 'WEBSPHERE');
+INSERT INTO ttools VALUES (15, 6, 'SELENIUM');
+INSERT INTO ttools VALUES (16, 6, 'SAHI');
+INSERT INTO ttools VALUES (17, 6, 'MTM');
+INSERT INTO ttools VALUES (18, 7, 'JMETER');
+INSERT INTO ttools VALUES (19, 9, 'APPSCAN');
+INSERT INTO ttools VALUES (20, 10, 'ANT');
+INSERT INTO ttools VALUES (21, 10, 'MAVEN');
+INSERT INTO ttools VALUES (22, 10, 'MSBUILD');
+
+INSERT INTO torganization_info(org_id, org_name, org_admin, domain) VALUES(1,'INFOSYS','idpadmin','infosys.com');
+
+INSERT INTO tlicense_key_management(license_key, date, license_id, expiry_date, license_type, org_name) VALUES('rO0ABXNyADtvcmcuaW5meS5zdWJzY3JpcHRpb24uZW50aXRpZXMubGljZW5jZWtleW1hbmFnZW1lbnQuTGljZW5zZVid21EZZuRGAgAGTAAHZW1haWxpZHQAEkxqYXZhL2xhbmcvU3RyaW5nO0wACmV4cGlyeWRhdGV0AA9MamF2YS9zcWwvRGF0ZTtMAAtsaWNlbnNlVHlwZXEAfgABTAAMb3JnYW5pemF0aW9ucQB+AAFMAAtzZXJ2aWNlTGlzdHQAEExqYXZhL3V0aWwvTGlzdDtMAAlzaWduYXR1cmVxAH4AAXhwdAAWY2lwbGF0Zm9ybUBpbmZvc3lzLmNvbXNyAA1qYXZhLnNxbC5EYXRlFPpGaD81ZpcCAAB4cgAOamF2YS51dGlsLkRhdGVoaoEBS1l0GQMAAHhwdwgAAAFkfFZ8AHh0AAdQUkVNSVVNdAAHaW5mb3N5c3NyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAADdwQAAAADfnIAP29yZy5pbmZ5LnN1YnNjcmlwdGlvbi5lbnRpdGllcy5saWNlbmNla2V5bWFuYWdlbWVudC5TZXJ2aWNlVHlwZQAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQAAkNJfnEAfgANdAACQ0R+cQB+AA10AAJDVHh0AVhMYXVHOFBQK2drcW0rdm1RL1NIWGIxWm01TCtCUjRCZEdCYTNvVEdnUy81WTJuN0hlTXAvR0VvcWp4VnRlODhmQXJzTzkxVXhvUmxUMGJJWlJIN0JHMUQwaVI3bzk4SW5tSzVLdURqS0JMZ0hTMDhGZDdUSUZsTWlSZ1ZET2NGWTFzWmNxWnc4SlY2NmtQa2d4RUFVUldzKzJoL0dZUUxmREREcThJbWhoS2p1T0Zva3B5Mk16ZnpqVlZzOGlRZFpMQ0VkOUVPK2N4dUozOXIwRHhqTVRGeGJZWmFWUEo2ZUpVN3FKMmlqMkpLall1NklkdFRkdUtac24rSVhNVlVSQXl6YVZkaDIvQjlvL3dMdTZpZVhqR2pOai9tQTMwUXA1cEVxdmtkQkNSODBCOExSUkQvcWxGYStBQjlrRTgwWGsxbFJOdWV0aWhrS2Z6Skp5RWFtdlE9PQ==','2018-05-09 23:08:10.674974',1,'2020-07-09','PREMIUM','INFOSYS');
+	
+	
+INSERT INTO tservices(license_id, service_name, expiry_date, org_name) VALUES(1,'CI','2020-07-09','INFOSYS');
+INSERT INTO tservices(license_id, service_name, expiry_date, org_name) VALUES(1,'CD','2020-07-09','INFOSYS');
+INSERT INTO tservices(license_id, service_name, expiry_date, org_name) VALUES(1,'CT','2020-07-09','INFOSYS');
+
+
+-- Completed on 2018-07-27 14:02:35
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,136 @@
+<form id="createLicenseForm" name="createLicenseForm" #createLicenseForm="ngForm" (ngSubmit)="submit()" ngNativeValidate >
+  <div class="panel panel-default " style="margin-left:250px; width:70%">
+    <div class="panel-heading">
+      <div class="text-left">
+        <b>{{'Create License'|translate}}</b>
+      </div>
+    </div>
+  
+    <div class="panel-body">      
+        <div class = "row form-group">
+          <div class="form-group">
+              <div class="col-md-4 text-right">
+                <label>{{'License Type'|translate}} : </label>
+              </div>
+              <div class="col-md-4">
+                <select id="licenseType" [ngModelOptions]="{standalone: true}" [(ngModel)]="data.licenseType"
+                  class="form-control" required>
+                  <option value="">--Select--</option>
+                  <option value="PREMIUM">PREMIUM</option>
+                </select>
+              </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="form-group">
+            <div class="col-md-4 text-right">
+              <label>{{'Expiry Date'|translate}} : </label>
+            </div>
+            <div class="col-md-4">
+              <owl-date-time id="rearclesd" [(ngModel)]="data.expirydate" [ngModelOptions]="{standalone: true}" [type]="'calendar'"
+                [dataType]="'string'"
+                [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true (onClear)="clearExpiryDate()" [placeHolder]="'yyyy-mm-dd'"></owl-date-time>
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="form-group">
+            <div class="col-md-4 text-right">
+              <label>{{'Email ID'|translate}} : </label>
+            </div>
+            <div class="col-md-4">
+              <input id="emailId" class="form-control" type="text" [(ngModel)]="data.emailid" name="emailId" placeholder="xyz@domain.com" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="form-group">
+            <div class="col-md-4 text-right">
+              <label>{{'Services'|translate}} : </label>
+            </div>
+            <div class="col-md-4">
+              <angular2-multiselect id="availServiceList" [ngModelOptions]="{standalone: true}" [data]="availableServiceList" [(ngModel)]="selectedServices"
+             (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                (onDeSelectAll)="onDeSelectAll($event)" maxHeight='50px' style="height: 20px;" required>
+              </angular2-multiselect>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-offset-5" >
+          <button type="submit" [disabled]="IdpdataService.loading" class="btn btn-info btn-sm text-center" id="btn_txt">{{'Create'|translate}}</button>
+        </div>
+      
+      <div class="row" style="padding-top: 20px">
+        <hr>
+        <!--Table-->
+        <h4 *ngIf="userHaveLicences()==false">Currently you don't have any subscriptions</h4>
+        <table *ngIf="userHaveLicences()==true" class="table table-hover table-bordered">
+    
+          <!--Table head-->
+          <thead class="blue ">
+            <tr class="white-text">
+              <td>#</td>
+    
+              <td>License Type</td>
+              <td>Valid Until</td>
+              <td>Status</td>
+            </tr>
+          </thead>
+          <!--Table head-->
+    
+          <!--Table body-->
+          <tbody>
+            <tr *ngFor="let sub of allSubscriptions; let i = index" (click)="getLicenseDetails(i)" [attr.data-index]="i">
+              <th scope="row">{{i+1}}</th>
+    
+              <td>Premium</td>
+              <td>{{sub.expirydate}}</td>
+              <td class="h5">
+                <span [ngClass]="{'badge badge-pill':true, 'orange':getstatus(sub.expirydate)=='About to Expire','green':getstatus(sub.expirydate)=='Active','red':getstatus(sub.expirydate)=='Expired'}">
+                  <i [ngClass]="{'fa':true, 'fa-warning':getstatus(sub.expirydate)=='About to Expire','fa-thumbs-up':getstatus(sub.expirydate)=='Active','fa-times-circle':getstatus(sub.expirydate)=='Expired'} "
+                    aria-hidden="true"></i> {{licenseStatus}}</span>
+              </td>
+            </tr>
+    
+          </tbody>
+          <!--Table body-->
+    
+        </table>
+        <!--{{token}}-->
+    
+        <!--Table-->
+      </div>
+
+      <!-- Modal -->
+      <!-- <div id="licenseDetails" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+      
+          
+          <div class="modal-content">
+            <div class="modal-header blue">
+              <h4 class="modal-title white-text">
+                <i class="fa fa-pencil"></i> License Details</h4>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li *ngFor="let service of currentServiceList">
+                  {{services[service]}}
+                </li>
+              </ul>
+      
+            </div>
+            <div class="modal-footer">
+      
+              <button type="button" class="btn red white-text" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+      </div> -->
+
+    </div>
+  </div>
+  </form>

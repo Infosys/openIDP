@@ -1,0 +1,198 @@
+{
+    "osList": [{
+            "name": "Windows",
+            "value": "windows"
+        },
+        {
+            "name": "Linux",
+            "value": "linux"
+        },
+        {
+            "name": "Mac",
+            "value": "mac"
+        }
+    ],
+    "engineList": [{
+        "name": "Jenkins Workflow",
+        "value": "jenkins"
+
+    }, {
+        "name": "IBM urbanCode",
+        "value": "urbanCode"
+    }],
+    "buildIntervallist": [{
+            "name": "Minutes (30-59)",
+            "value": "Minutes"
+        },
+        {
+            "name": "Hours (0-23)",
+            "value": "Hours"
+        },
+        {
+            "name": "Day of the month (1-31)",
+            "value": "DayOfMonth"
+        },
+        {
+            "name": "Month (1-12)",
+            "value": "Month"
+        },
+        {
+            "name": "Day of week (0-7 , 0 and 7 being Sunday)",
+            "value": "DayOfWeek"
+        }
+    ],
+    "msBuildVersion": [{
+            "name": "Default",
+            "value": "(Default)"
+        },
+        {
+            "name": "15.0",
+            "value": "MSBUILD_15"
+        },
+        {
+            "name": "14.0",
+            "value": "MSBUILD_14"
+        },
+        {
+            "name": "12.0",
+            "value": "MSBUILD_12"
+        },
+        {
+            "name": "4.0",
+            "value": "MSBUILD_4"
+        }
+    ],
+    "categoryList": [{
+            "name": "Standard",
+            "value": "Standard"
+        },
+        {
+            "name": "Package",
+            "value": "Package"
+        },
+        {
+            "name": "Mobile",
+            "value": "Mobile"
+        }
+    ],
+    "SCMList": [{
+            "name": "GIT",
+            "value": "git"
+        },
+        {
+            "name": "SVN",
+            "value": "svn"
+        },
+        {
+            "name": "MS TFS",
+            "value": "tfs"
+        },
+        {
+            "name": "CVS",
+            "value": "cvs"
+        },
+        {
+            "name": "IBM RTC",
+            "value": "ibmrtc"
+        },
+
+        {
+            "name": "Rational ClearCase",
+            "value": "clearcase"
+        },
+        {
+            "name": "RTC (Deprecated)",
+            "value": "rtc"
+        }
+    ],
+    "repoList": [{
+            "name": "GitBlit",
+            "value": "gitBlit"
+        },
+        {
+            "name": "GitHub",
+            "value": "gitHub"
+        },
+        {
+            "name": "GitLab",
+            "value": "gitLab"
+        },
+        {
+            "name": "BitBucket",
+            "value": "bitBucket"
+        }
+    ],
+    "buildConfList": [{
+            "name": "Build Definition",
+            "value": "buildDefinition"
+        },
+        {
+            "name": "Repository Workspace",
+            "value": "repositoryWorkspace"
+        },
+        {
+            "name": "Stream",
+            "value": "stream"
+        }
+    ],
+    "codeScriptList": [{
+            "name": "ANT Script",
+            "value": "ant"
+        },
+        {
+            "name": "Shell Script",
+            "value": "shellScript"
+        },
+        {
+            "name": "Batch Script",
+            "value": "batchScript"
+        }
+    ],
+    "runScriptList": [{
+            "name": "ANT Script",
+            "value": "ant"
+        },
+        {
+            "name": "Shell Script",
+            "value": "shellScript"
+        },
+        {
+            "name": "Batch Script",
+            "value": "batchScript"
+        },
+        {
+            "name": "Powershell Script",
+            "value": "powerShell"
+        },
+        {
+            "name": "SSH Execution",
+            "value": "sshExecution"
+        }
+    ],
+    "containerList": [{
+            "name": "Tomcat",
+            "value": "tomcat"
+        },
+        {
+            "name": "JBoss",
+            "value": "jBoss"
+        },
+        {
+            "name": "WebSphere",
+            "value": "webSphere"
+        },
+        {
+            "name": "WildFly",
+            "value": "wildFly"
+        },
+        {
+            "name": "WebLogic",
+            "value": "weblogic"
+        }
+    ],
+    "serviceList": [{
+        "name": "IFast",
+        "value": "iFast"
+    }],
+    "runScriptTestPageList": []
+}

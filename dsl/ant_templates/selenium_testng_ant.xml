@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	<property name="LM.home" value="$LMHOME" />
+	<property name="LM.homesrc" value="$LMSRC" />
+	<property name="LM.homelib" value="$LMLIB" />
+
+	<path id="class.path">
+		<pathelement location="${LM.home}/bin" />
+		<pathelement location="$SeleniumJarPath" />
+		<pathelement location="$TestngJarPath" />
+	</path>
+	
+	<taskdef resource="testngtasks" classpath="$TestngJarPath" />
+
+	<target name="build-testngproject">
+
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<delete dir="${LM.home}/bin" />
+		<mkdir dir="${LM.home}/bin" />
+
+		<javac classpathref="class.path" destdir="${LM.home}/bin" encoding="UTF-8" optimize="off" debug="on" failonerror="true" srcdir="${LM.homesrc}">
+
+			<classpath>
+
+				<fileset dir="${LM.homelib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$SelJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$TestngJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${LM.home}/bin">
+					<include name="**/*.*" />
+				</fileset>
+			</classpath>
+
+		</javac>
+
+	</target>
+
+	<target name="testNGTest" depends="build-testngproject">
+
+		<echo message="Running Tests..." />
+		<delete dir="${LM.home}/TestNG_Report"></delete>
+		<mkdir dir="${LM.home}/TestNG_Report"></mkdir>
+		
+		<testng classpathref="class.path" outputdir="${LM.home}/TestNG_Report" haltOnfailure="false">
+			<sysproperty key="appUrl" value="$AppUrl" />
+			<classpath>
+				<fileset dir="${LM.homelib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$SelJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$TestngJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${LM.home}/bin">
+					<include name="**/*.*" />
+				</fileset>
+			</classpath>
+			<xmlfileset dir="${LM.homesrc}" includes="$TestCase" />
+		</testng>
+	</target>
+
+</project>

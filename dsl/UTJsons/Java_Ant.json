@@ -1,0 +1,372 @@
+{
+  "basicInfo": {
+    "applicationName": "DemoAppT_IDP",
+    "pipelineName": "Java_ant_CICD",
+    "masterSequence": "pipeline",
+    "buildServerOS": "windows",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "edit"
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "J2EE/Ant",
+    "scm": [
+      {
+        "type": "git",
+        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
+        "userName": "userName",
+        "password": "password",
+        "repositoryBrowser": "gitLab",
+        "browserUrl": "http://infygit.domain.com/",
+        "projectName": "",
+        "branch": "master",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "default",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "ant",
+    "artifactToStage": {
+      "artifactRepo": {},
+      "artifactRepoName": "na"
+    },
+    "modules": [
+      {
+        "moduleName": "JpetStore",
+        "relativePath": "src",
+        "codeAnalysis": [
+          "off",
+          "pmd",
+          "checkStyle",
+          "findBugs"
+        ],
+        "unitTesting": "on",
+        "codeCoverage": "on",
+        "customBuildXml": "",
+        "args": "",
+        "compile": "on",
+        "jarPackaging": "java",
+        "ejbDescriptor": "",
+        "javaMainClass": "com.pack1.Mainclass",
+        "warPackaging": "JPetStoreRepo/JPetStore/WebContent/WEB-INF/web.xml",
+        "ossDistributionType": "",
+        "unitTestDir": "JPetStoreRepo/JPetStore/src/com/junit"
+      }
+    ],
+    "postBuildScript": {},
+    "javaModules": "JpetStore.jar",
+    "ejbModules": "",
+    "webModules": "JpetStore.war"
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "on",
+        "scriptType": "",
+        "deploySteps": [
+          {
+            "stepName": "step1",
+            "deployOS": "",
+            "runScript": {
+              "scriptType": "",
+              "scriptFilePath": "",
+              "targets": ""
+            },
+            "deployToContainer": {
+              "containerName": "webSphere",
+              "serverManagerURL": "",
+              "resourceToBeDeployed": "JpetStore.war",
+              "warPath": "",
+              "contextPath": "",
+              "userName": "userName",
+              "password": "password",
+              "ipOrDNS": "1.2.3.4",
+              "targetCellName": "server411214dcell",
+              "targetNodeName": "server411214d01node",
+              "targetServerName": "srver1",
+              "hostName": "",
+              "port": "8080",
+              "updateDB": "",
+              "rollbackStrategy": "",
+              "narOS": "",
+              "deployedFolder": "",
+              "fileName": "",
+              "dbDeployPipelineList": [],
+              "pairName": "",
+              "srcEnvName": ""
+            },
+            "deployDatabase": {
+              "restorusername": "",
+              "restorpassword": "",
+              "dbusername": "",
+              "dbpassword": "",
+              "script": ""
+            },
+            "abortScript": {
+              "scriptType": ""
+            },
+            "deploymentOption": "",
+            "deployOperation": "",
+            "proxy": {
+              "username": "",
+              "password": "",
+              "host": "",
+              "port": "",
+              "enabled": ""
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "on",
+        "testSteps": [
+          {
+            "stepName": "test1",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "service",
+              "testTypeName": "soapUI",
+              "projectName": "ICart",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "TestSuite1",
+              "projectLocation": "store1-testsuite.xml",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step2",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "performance",
+              "testTypeName": "jMeter",
+              "projectName": "",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "JPetStore_Maven/JMeter_Scripts/JPetStore_LoadTest.jmx",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "LoadTest.properties",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step3",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "service",
+              "testTypeName": "parasoftsoa",
+              "projectName": "JPetstore_SOA",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "JPetstore/Parasoft",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "ParasoftSOATest",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step4",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "sahi",
+              "projectName": "",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "http://idptestServerHost:8080/idpapp",
+              "domain": "",
+              "serviceName": "",
+              "path": "scripts/login.sah",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "chrome",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step5",
+            "runScript": {
+              "scriptType": "ant",
+              "pathOfFile": "build.xml",
+              "targets": "print",
+              "host": "",
+              "userName": "",
+              "password": "",
+              "script": "",
+              "pathToFiles": "",
+              "destinationDir": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "",
+              "testTypeName": "",
+              "frameWork": "",
+              "browserName": "",
+              "version": ""
+            }
+          },
+          {
+            "stepName": "step6",
+            "runScript": {
+              "scriptType": "powerShell",
+              "pathOfFile": "deploy.ps1",
+              "targets": "",
+              "host": "",
+              "userName": "",
+              "password": "",
+              "script": "",
+              "pathToFiles": "",
+              "destinationDir": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "",
+              "testTypeName": "",
+              "frameWork": "",
+              "browserName": "",
+              "version": ""
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+"/idp-oauth/*":{
+		"target":"https://idptestServerHost:8080/idpapp",
+		"secure":false,
+		"logLevel":"debug"
+	},
+	"/properties":{
+		"target":"http://server411214d:8888/idprest/server411214d",
+	    "secure":false,
+		"logLevel":"debug"
+	}
+
+
+}

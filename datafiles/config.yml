@@ -1,0 +1,99 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    PROTOCOL: "{{ lookup('env','PROTOCOL') }}"
+    HOSTNAME: "{{ lookup('env','HOSTNAME') }}"
+    JENKINS_PORT: "{{ lookup('env','JENKINS_PORT') }}"
+    DASHBOARD_PORT: "{{ lookup('env','DASHBOARD_PORT') }}"
+    KEYCLOAK_PORT: "{{ lookup('env','KEYCLOAK_PORT') }}"
+    IDPAPP_PORT: "{{ lookup('env','IDPAPP_PORT') }}"
+    JENKINS_USERNAME: "{{ lookup('env','JENKINS_USERNAME') }}"
+    JENKINS_PASSWORD: "{{ lookup('env','JENKINS_PASSWORD') }}"
+  tasks:
+    - name : Variable Checking...
+      fail:
+        msg: "Please correctly define variables :  PROTOCOL"
+      when: lookup('env','PROTOCOL') == ""
+    - name: Setting Jenkins Location Details (Admin Email ID).......
+      xml:
+        path: "/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
+        xpath: /jenkins.model.JenkinsLocationConfiguration/adminAddress
+        value: idpadmin01@domain.com
+    - name: Setting Jenkins Location Details (Jenkins  Url).......
+      xml:
+        path: "/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
+        xpath: /jenkins.model.JenkinsLocationConfiguration/jenkinsUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+    - name: Setting X-Frame Details .......
+      xml:
+        path: "/jenkinsdata/org.jenkins.ci.plugins.xframe_filter.XFrameFilterPageDecorator.xml"
+        xpath: /org.jenkins.ci.plugins.xframe__filter.XFrameFilterPageDecorator/options
+        value: "ALLOW-FROM {{ PROTOCOL }}://{{ HOSTNAME }}:{{ IDPAPP_PORT }}/idpapp"
+    - name: Setting KeyCloak Token Url.........
+      xml:
+        path: "/jenkinsdata/config.xml"
+        xpath: /hudson/securityRealm/tokenServerUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/token"
+    - name: Setting KeyCloak Auth Url.........
+      xml:
+        path: "/jenkinsdata/config.xml"
+        xpath: /hudson/securityRealm/authorizationServerUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/auth"
+    - name: Setting KeyCloak UserInfo Url.........
+      xml:
+        path: "/jenkinsdata/config.xml"
+        xpath: /hudson/securityRealm/userInfoServerUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/userinfo"
+    - name: Setting KeyCloak End Session Url.........
+      xml:
+        path: "/jenkinsdata/config.xml"
+        xpath: /hudson/securityRealm/endSessionUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/logout"
+    - name: Setting KeyCloak Logout Url.........
+      xml:
+        path: "/jenkinsdata/config.xml"
+        xpath: /hudson/securityRealm/postLogoutRedirectUrl
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+    - name: DSL set Dashboard Service Url
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)IDP_DASHBOARD_SERVICEURL(.*)$'
+        line: "IDP_DASHBOARD_SERVICEURL={{ PROTOCOL }}://{{ HOSTNAME }}:{{ DASHBOARD_PORT }}/idpdashboard/"
+        backrefs: yes
+    - name: DSL set Jenkins Url
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)JENKINS_URL(.*)$'
+        line: "JENKINS_URL={{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+        backrefs: yes
+    - name: DSL set Jenkins host
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)JENKINS_HOSTNAME(.*)$'
+        line: "JENKINS_HOSTNAME={{ HOSTNAME }}"
+        backrefs: yes
+    - name: DSL set Jenkins Port
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)JENKINS_PORT(.*)$'
+        line: "JENKINS_PORT={{ JENKINS_PORT }}"
+        backrefs: yes
+    - name: DSL set Jenkins username
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)JENKINS_USERNAME(.*)$'
+        line: "JENKINS_USERNAME={{ JENKINS_USERNAME }}"
+        backrefs: yes
+    - name: DSL set Jenkins password
+      lineinfile:
+        dest: "/dsldata/src/main/groovy/Config.properties"
+        regexp: '^(.*)JENKINS_PASSWORD(.*)$'
+        line: "JENKINS_PASSWORD={{ JENKINS_PASSWORD }}"
+        backrefs: yes
+    - name: Grafana set Datasource Hostname 
+      lineinfile:
+        dest: "/grafanadata/provisioning/datasources/idp.yml"
+        regexp: '^(.*)url(.*)$'
+        line: "  url: {{ PROTOCOL }}://{{ HOSTNAME }}:8184/idpdashboard/"
+        backrefs: yes

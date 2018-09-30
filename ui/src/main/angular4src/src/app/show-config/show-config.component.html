@@ -1,0 +1,89 @@
+<div >
+ 
+  <!-- Delete Modal -->
+  <button #modalforDelete [hidden]="true" type="button" data-toggle="modal" data-target="#deleteMod">Alert Modal</button>
+	<!-- Modal -->
+	<div id="deleteMod" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Alert</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete pipeline <span *ngIf="reqData">{{reqData.pipelineName}}</span> ?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" (click)="delete()">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+  <button #modalforDeleteAlert [hidden]="true" type="button" data-toggle="modal" data-target="#deleteModMsg">Alert Modal</button>
+	<!-- Modal -->
+	<div id="deleteModMsg" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Alert</h4>
+				</div>
+				<div class="modal-body">
+					<p>The Pipeline <span *ngIf="reqData">{{reqData.pipelineName}}</span>  has been deleted.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<div *ngIf="accessCheck()">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+        <h4>Pipeline List</h4>
+    </div>
+    <div class="col-md-offset-4 col-md-4">
+      <input id="filterallcolumns" *ngIf="config.filtering" placeholder="Filter all columns"
+             [ngTableFiltering]="config.filtering"
+             class="form-control"
+             (tableChanged)="onChangeTable(config)"/>
+    </div>
+  </div>
+  <br>
+  <ng-table class="showConfig" [config]="config"
+            (tableChanged)="onChangeTable(config)"
+            (cellClicked)="onCellClick($event)"
+            [rows]="rows" [columns]="columns">
+  </ng-table>
+  <pagination *ngIf="config.paging"
+              class="pagination-sm"
+              [(ngModel)]="page"
+              [totalItems]="length"
+              [itemsPerPage]="itemsPerPage"
+              [maxSize]="maxSize"
+              [boundaryLinks]="true"
+              [rotate]="false"
+              (pageChanged)="onChangeTable(config, $event)"
+              (numPages)="numPages = $event">
+  </pagination>
+  <pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+</div>
+</div>
+<div class="alert alert-danger" style="margin-top:20px; margin-left:10px; text-align:center"*ngIf="noAccessCheck()">
+		Sorry! You can't access IDP.
+</div>
+

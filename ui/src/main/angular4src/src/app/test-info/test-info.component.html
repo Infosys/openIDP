@@ -1,0 +1,1737 @@
+<!--
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.”
+*
+-->
+<!-- Modal/Alert Message  -->
+<div>
+    <button #modalforAlertTest [hidden]="true" type="button" data-toggle="modal" data-target="#TechSelectTest">Alert Modal</button>
+    <!-- Modal -->
+    <div id="TechSelectTest" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="redirectTo1()">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please Choose {{msg}}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectTo1()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button #modalforAlertDataMiss [hidden]="true" type="button" data-toggle="modal" data-target="#MissDataDeploy">Alert Modal</button>
+    <!-- Modal -->
+    <div id="MissDataDeploy" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please add a Test step and select atleast one Test Option!!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModal">Alert Modal</button>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="redirectTo1()">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectTo1()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button #modalforDel [hidden]="true" type="button" data-toggle="modal" data-target="#DelScm">Del Modal</button>
+    <div id="DelScm" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to remove the Test Step ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="teokbu" (click)="deleteItemCofirm()">OK</button>
+                    <button type="button" class="btn btn-default" id="teclbu" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button #modalformandatoryFieldsAlert [hidden]="true" type="button" data-toggle="modal" data-target="#mandaoryField">Del Modal</button>
+    <div id="mandaoryField" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Please fill all the mandatory fields on
+                    <span *ngFor="let name of listToFillFields;let i=index">
+                        {{name}}
+                        <span *ngIf="i!=listToFillFields.length-1">, </span>
+                    </span> Page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert for mandatory SCM field -->
+    <button #modalforMandatorySCMSection [hidden]="true" type="button" data-toggle="modal" data-target="#mandatorySCM">Del Modal</button>
+    <div id="mandatorySCM" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    For RPT analysis, SCM section details are mandatory.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button #modalforconfirmAlert [hidden]="true" type="button" data-toggle="modal" data-target="#confirmmsg">Del Modal</button>
+    <div id="confirmmsg" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to submit?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="submitData()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal for Removing antproperties -->
+    <button #modalforDelAntProperties [hidden]="true" type="button" data-toggle="modal" data-target="#DelAntProp">Del Modal</button>
+    <div id="DelAntProp" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure want to remove the antPropertis ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteAntPropConfirm()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal/Alert Message  -->
+
+<form (ngSubmit)="go()" name="testInfoForm" #testInfoForm="ngForm" class="form-horizontal" ngNativeValidate>
+    <fieldset [disabled]="IdpdataService.PagePersmission.test">
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-left">
+                        <b>{{'Test Operations Info'|translate}}</b>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div *ngIf="testInfo.testEnv.length === 0">
+                        {{'No Environment for chosen Application Name'|translate}}
+                    </div>
+                    <div *ngIf="testInfo.testEnv.length !== 0">
+                        <fieldset *ngFor="let testOpt of testInfo.testEnv; let i =index" [disabled]="IdpdataService.freezeNavBars===true" [attr.data-index]="i">
+
+                            <div class="row form-group ">
+                                <div class="col-md-6">
+                                    <label class="checkbox-inline">
+                                        <input id="tetsenvcb{{i}}" type="checkbox" [checked]="testOpt.envFlag === 'on'" name="testEnvname+{{i}}" (change)="testOpt.envFlag=$event.target.checked ? 'on':clearStep(i)"> {{testOpt.envName}}
+                                    </label>
+                                </div>
+                                <div *ngIf="testOpt.envFlag === 'on'">
+                                    <div class="col-md-6 text-right">
+                                        <button id="tetsatsbtn{{i}}{{j}}" type="button" class="btn btn-info" (click)=addTestStep(i)>
+                                            &nbsp; {{'Add Test Step'|translate}} &nbsp;
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="testInfo.testEnv[i].testSteps !== undefined">
+                                <div>
+                                    <fieldset *ngFor="let env of testInfo.testEnv[i].testSteps;let j=index" [attr.data-index]="j">
+
+                                        <div class="panel-group" role="tablist" aria-multiselectable="true">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab">
+                                                    <span class="panel-title" style="font-size:14px">
+                                                        <a data-toggle="collapse" data-target="{{'#'+'TestStep_'+(i)+(j)}}" aria-expanded="true" aria-controls="collapseOne">
+                                                            {{testOpt .envName}}_TestStep{{(j+1)}} </a>
+                                                        <span style="float:right">
+                                                            <a id="tertsln{{i}}{{j}}" (click)="removeTestStep((i),j)" style="cursor:pointer;font-size:16px !important;color:black;">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                            </a>
+                                                        </span>
+                                                    </span>
+
+                                                </div>
+                                                <div id="{{'TestStep_'+(i)+(j)}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="panel-body">
+                                                        <div class="row form-group">
+                                                            <div>
+                                                                <label class=" col-md-3 text-right control-label"> {{'Step Name'|translate}}
+                                                                    <span style="color: red">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-md-9 field-tip text-left">
+                                                                <input class="form-control txtbox" name="stepName{{i}}{{j}}" #stepName="ngModel" [(ngModel)]="env.stepName" type="text" id="tetssntb{{i}}{{j}}"
+                                                                    placeholder="Enter Step Name" (blur)="checkStepName(i,j)"
+                                                                    minlength="3" maxlength="200" required>
+                                                                <span class="tip-content" style="z-index: 1;"> {{'Please provide the test Step name'|translate}} </span>
+                                                                <div class="alert alert-danger" *ngIf="tempObjecttest.testEnv[i].testSteps[j].msgStep">
+                                                                    {{tempObjecttest.testEnv[i].testSteps[j].msgStep}}
+                                                                </div>
+                                                                <div *ngIf="stepName.errors && (stepName.dirty || stepName.touched)" class="alert alert-danger ">
+                                                                    <div [hidden]="!stepName.errors.required">
+                                                                        This Field Name is required!
+                                                                    </div>
+                                                                    <div [hidden]="!stepName.errors.minlength">
+                                                                        This Field Name must be at least 3 characters long.
+                                                                    </div>
+                                                                    <div [hidden]="!stepName.errors.maxlength">
+                                                                        This Field Name cannot be more than 200 characters long.
+                                                                    </div>
+                                                                    <div [hidden]="!stepName.errors.pattern">
+                                                                        This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Start Run Script -->
+                                                        <div class="animate-switch-container" *ngIf="testScriptList.length!== 0 && buildInfo.buildtool !==''  && buildInfo.buildtool !== undefined && buildInfo.buildtool !=='TIBCO' && buildInfo.buildtool !=='IBMBPM' && buildInfo.buildtool !=='iib' && buildInfo.buildtool !=='mWeb'&& buildInfo.buildtool!=='SapNonCharm'">
+                                                            <div class="animate-switch">
+                                                                <div class="container-fluid form-group">
+                                                                    <input id="terscb{{i}}{{j}}" type="checkbox" name="runScriptCheckBox{{i}}{{j}}" (change)="tempObjecttest.testEnv[i].testSteps[j].runScriptFlag = $event.target.checked ? 'on' : clearRunScript(i,j)"
+                                                                        [disabled]="tempObjecttest.testEnv[i].testSteps[j].testToolFlag ==='on'"
+                                                                        [checked]="tempObjecttest.testEnv[i].testSteps[j].runScriptFlag === 'on'"
+                                                                    /> &nbsp; {{'Run Scripts'|translate}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="tempObjecttest.testEnv[i].testSteps[j].runScriptFlag === 'on'">
+                                                            <div class="animate-switch">
+                                                                <div class="row form-group">
+                                                                    <span>
+                                                                        <label class=" col-md-3 text-right control-label">
+                                                                            {{'Script type'|translate}}
+                                                                            <span style="color: red">*</span>
+                                                                        </label>
+                                                                    </span>
+                                                                    <span class="col-md-9 text-left">
+                                                                        <select id="tersstdd{{i}}{{j}}" class="form-control" [(ngModel)]="env.runScript.scriptType" name="'scriptType'+{{i}}{{j}}"
+                                                                            style="width:50%" (change)="changeRunScript(i,j)"
+                                                                            required>
+                                                                            <option value="">--Select--</option>
+                                                                            <option *ngFor="let testScriptList of testScriptList" value="{{testScriptList.value}}">{{testScriptList.name}}</option>
+                                                                        </select>
+                                                                    </span>
+                                                                </div>
+
+                                                                <div *ngIf="env.runScript.scriptType !== '' && env.runScript.scriptType !== undefined">
+                                                                    <div class="row form-group">
+                                                                        <div *ngIf="(env.runScript.scriptType === 'ant')||(env.runScript.scriptType === 'shellScript')
+																		||(env.runScript.scriptType === 'batchScript')||(env.runScript.scriptType === 'powerShell')">
+                                                                            <div>
+                                                                                <label class=" col-md-3 text-right control-label">
+                                                                                    {{'Path of Script File'|translate}}
+                                                                                    <span style="color: red">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="terspoffta{{i}}{{j}}" class="form-control txtbox " [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFile{{i}}{{j}}"
+                                                                                #pathOfScriptFileAnt="ngModel" *ngIf="env.runScript.scriptType === 'ant'"
+                                                                                pattern="[/_a-zA-Z.0-9-. ]+.xml" type="text"
+                                                                                placeholder="build.xml" minlength='1' maxlength="150"
+                                                                                required />
+
+                                                                            <textarea id="terspofsfscta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilesc{{i}}{{j}}"
+                                                                                *ngIf="env.runScript.scriptType === 'shellScript'"
+                                                                                type="textarea" placeholder="sc.sh" minlength="1"
+                                                                                maxlength="500" required>
+																	</textarea>
+                                                                            <textarea id="terspofsfbatta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilebat{{i}}{{j}}"
+                                                                                *ngIf="env.runScript.scriptType === 'batchScript'"
+                                                                                type="textarea" placeholder="deploy.bat" minlength="1"
+                                                                                maxlength="500" required>
+																	</textarea>
+                                                                            <textarea id="terspofsfpwta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilepw{{i}}{{j}}"
+                                                                                *ngIf="env.runScript.scriptType === 'powerShell'"
+                                                                                type="textarea" placeholder="deploy.psm1" minlength="1"
+                                                                                maxlength="500" required>
+																	</textarea>
+                                                                            <span class="tip-content" style="z-index:1">{{'Path of the script file relative to the checkout
+                                                                                path or Script, which needs to be executed
+                                                                                before build'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="animate-switch-container">
+                                                                        <div *ngIf="env.runScript.scriptType === 'ant'">
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">
+                                                                                        {{'Targets'|translate}}
+                                                                                        <span style="color: red">*</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+
+                                                                                    <input id="tersattb{{i}}{{j}}" class="form-control txtbox " [(ngModel)]="env.runScript.targets" name="targetant{{i}}{{j}}"
+                                                                                        type="text" placeholder="target1 target2"
+                                                                                        pattern="[_a-zA-Z0-9-. ]+" minlength='1'
+                                                                                        maxlength="150" required>
+                                                                                    <span class="tip-content">{{'ANT Targets separated by spaces'|translate}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Ant properties for Runscript Start-->
+
+                                                                        <div class="row form-group" *ngIf="env.runScript.scriptType === 'ant'">
+                                                                            <div class="col-md-9 col-md-offset-3 field-tip">
+                                                                                <input id="titsrsanp1cb" type="checkbox" [checked]="env.runScript.antProperty1==='on'" class="checkbox-inline" (change)="env.runScript.antProperty1=$event.target.checked ? openAntPropertiesField(i,j):clearAntPropertisField(i,j)"> {{'Properties'|translate}} &nbsp; &nbsp;
+                                                                                <input id="titsrsajo1cb" type="checkbox" [checked]="env.runScript.antJavaOption1=='on'" class="checkbox-inline" (change)="env.runScript.antJavaOption1=$event.target.checked ?'on':'off'"> {{'Java Options'|translate}}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="animate-switch-container">
+                                                                            <div class="col-md-12 animate-switch">
+                                                                                <div class="panel panel-default" *ngIf="env.runScript.scriptType === 'ant' && env.runScript.antProperty1==='on' ">
+
+                                                                                    <div class="panel-heading" style="height:50px">
+
+                                                                                        <b> {{'Properties'|translate}}</b>
+
+
+                                                                                        <button type="button" class="btn btn-info" id="btn_txt" (click)="addAntProperties(i,j)" style="float:right; height: 30px">{{'Add Properties '|translate}}</button>
+                                                                                    </div>
+                                                                                    <div *ngFor="let property of env.runScript.antPropertiesArr; let k =index" [attr.data-index]="k">
+                                                                                        <div class="panel-body ">
+
+                                                                                            <div>
+                                                                                                <div class="col-md-2 text-right">
+                                                                                                    <label class="text-center control-label">
+                                                                                                        {{'Key'|translate}}
+                                                                                                        <span style="color:red">*</span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="col-md-3 text-left">
+                                                                                                    <input id="titsak{{i}}{{j}}{{k}}" class="form-control txtbox" name="antKey+{{i}}{{j}}{{k}}" #antKey="ngModel" [(ngModel)]="property.antKey"
+                                                                                                        type="text" placeholder="{{'var'|translate}}"
+                                                                                                        pattern="[_a-zA-Z0-9-. ]+"
+                                                                                                        minlength="1" maxlength="150"
+                                                                                                        required>
+
+                                                                                                    <div *ngIf=" antKey!==undefined  && antKey.errors && (antKey.dirty || antKey.touched)" class="alert alert-danger ">
+                                                                                                        <label [hidden]="!antKey.errors.required">
+                                                                                                            This Field Name is required!
+                                                                                                        </label>
+                                                                                                        <label [hidden]="!antKey.errors.minlength">
+                                                                                                            This Field Name must be at least 1 characters long.
+                                                                                                        </label>
+                                                                                                        <label [hidden]="!antKey.errors.maxlength">
+                                                                                                            This Field Name cannot be more than 150 characters long.
+                                                                                                        </label>
+
+                                                                                                        <label [hidden]="!antKey.errors.pattern">
+                                                                                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div>
+                                                                                                <div class="col-md-2 text-right">
+                                                                                                    <label class=" control-label">
+                                                                                                        {{'Value'|translate}}
+                                                                                                        <span style="color:red">*</span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="col-md-3 text-left">
+                                                                                                    <input id="tirav{{i}}{{j}}{{k}}" class="form-control txtbox" name="antValue+{{i}}{{j}}{{k}}" #antKey="ngModel" [(ngModel)]="property.antValue"
+                                                                                                        type="text" placeholder="{{'value'|translate}}"
+                                                                                                        pattern="[_a-zA-Z0-9-. ]+"
+                                                                                                        minlength="1" maxlength="150"
+                                                                                                        required>
+
+                                                                                                    <div *ngIf="antValue!==undefined  && antValue.errors && (antValue.dirty || antValue.touched)" class="alert alert-danger ">
+                                                                                                        <label [hidden]="!antValue.errors.required">
+                                                                                                            This Field Name is required!
+                                                                                                        </label>
+                                                                                                        <label [hidden]="!antValue.errors.minlength">
+                                                                                                            This Field Name must be at least 1 characters long.
+                                                                                                        </label>
+                                                                                                        <label [hidden]="!antValue.errors.maxlength">
+                                                                                                            This Field Name cannot be more than 150 characters long.
+                                                                                                        </label>
+
+                                                                                                        <label [hidden]="!antValue.errors.pattern">
+                                                                                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="col-md-1 field-tip text-center ">
+                                                                                                <span style="float:right" *ngIf="env.runScript.antPropertiesArr.length !== 1">
+                                                                                                    <a id="tirsdllk{{i}}{{j}}{{k}}" (click)="deleteAntProp(k,i,j)" style="cursor:pointer;font-size:16px !important;color:black;">
+                                                                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                                                                    </a>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group" *ngIf="env.runScript.antJavaOption1=='on' && env.runScript.scriptType === 'ant'">
+
+                                                                                    <label class="col-md-3  control-label">
+                                                                                        {{'Java Options'|translate}}
+                                                                                        <span style="color:red">*</span>
+                                                                                    </label>
+
+                                                                                    <div class="col-md-3 ">
+                                                                                        <input id="tirsajo1{{envIndex}}{{stepIndex}}" class="form-control txtbox" name="antJavaOption1+{{envIndex}}{{stepIndex}}"
+                                                                                            #antJavaOption1="ngModel" [(ngModel)]="env.runScript.javaOptions"
+                                                                                            type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
+                                                                                            pattern="[_a-zA-Z0-9-. ]+" minlength="1"
+                                                                                            maxlength="150" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Ant properties for Runscript End-->
+                                                                    <!-- Added for SSH Execution by Apurva start-->
+                                                                    <div class="animate-switch-container">
+                                                                        <div *ngIf="env.runScript.scriptType === 'sshExecution'">
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">{{'Host'|translate}}
+                                                                                        <span class="star">*</span>
+                                                                                    </label>
+
+
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tisshtb{{i}}{{j}}" name="'sshFile'+{{i}}{{j}}" #sshFile="ngModel" class="form-control txtbox " [(ngModel)]="env.runScript.host"
+                                                                                        type="text" placeholder="10.234.13.12"
+                                                                                        minlength="5" maxlength="150" value=""
+                                                                                        required>
+                                                                                    <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
+                                                                                    <div *ngIf="sshFile.errors && (sshFile.dirty || sshFile.touched)" class="alert alert-danger ">
+                                                                                        <div [hidden]="!sshFile.errors.required">
+                                                                                            This Field is required!
+                                                                                        </div>
+                                                                                        <div [hidden]="!sshFile.errors.minlength">
+                                                                                            This Field must be at least 5 characters long.
+                                                                                        </div>
+                                                                                        <div [hidden]="!sshFile.errors.maxlength">
+                                                                                            This Field cannot be more than 150 characters long.
+                                                                                        </div>
+                                                                                        <div [hidden]="!sshFile.errors.pattern">
+                                                                                            This Field can only consist of numbers, dots
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">{{'Username'|translate}}
+                                                                                        <span class="star">*</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tisshuntb{{i}}{{j}}" name="'username'+{{i}}{{j}}" #username="ngModel" class="form-control txtbox " [(ngModel)]="env.runScript.userName"
+                                                                                        type="text" placeholder="{{'username'|translate}}"
+                                                                                        minlength="1" maxlength="150" required>
+                                                                                    <span class="tip-content">{{'Please provide valid username for
+                                                                                        logging into host'|translate}}</span>
+                                                                                    <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger ">
+                                                                                        <div [hidden]="!username.errors.required">
+                                                                                            This Field is required!
+                                                                                        </div>
+                                                                                        <div [hidden]="!username.errors.minlength">
+                                                                                            This Field must be at least 1 characters long.
+                                                                                        </div>
+                                                                                        <div [hidden]="!username.errors.maxlength">
+                                                                                            This Field cannot be more than 150 characters long.
+                                                                                        </div>
+                                                                                        <div [hidden]="!username.errors.pattern">
+                                                                                            This Field can only consist of alphabets, number, dot and underscore
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">{{'Password'|translate}}
+
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tisshpwd{{i}}{{j}}" name="'password'+{{i}}{{j}}" #password="ngModel" class="form-control txtbox " [(ngModel)]="env.runScript.password"
+                                                                                        encrypt type="password" placeholder="{{'password'|translate}}"
+                                                                                        minlength="6">
+                                                                                    <span class="tip-content">{{'Please provide valid password for
+                                                                                        logging into host'|translate}}</span>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">SSH {{'Key'|translate}}
+
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tisshkey{{i}}{{j}}" name="'sshkey'+{{i}}{{j}}" #sshkey="ngModel" class="form-control txtbox " [(ngModel)]="env.runScript.sshKey"
+                                                                                        type="text" placeholder="sshKey">
+                                                                                    <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">SSH {{'Path To Key'|translate}}
+
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tisshptk{{i}}{{j}}" name="'sshkeypath'+{{i}}{{j}}" #sshkeypath="ngModel" class="form-control txtbox " [(ngModel)]="env.runScript.sshPathToKey"
+                                                                                        type="text" placeholder="sshkeypath">
+                                                                                    <span class="tip-content">{{'Please provide'|translate}} SSH {{'path
+                                                                                        to key'|translate}}.</span>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">{{'Script'|translate}}
+                                                                                        <span class="star">*</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <textarea id="tisshscta{{i}}{{j}}" name="'scriptPa35h'+{{i}}{{j}}" #scriptPath="ngModel" class="form-control " [(ngModel)]="env.runScript.script"
+                                                                                        type="text" placeholder="opt/IBM/Deploy/install.sh"
+                                                                                        minlength="5" maxlength="500" value=""
+                                                                                        required></textarea>
+                                                                                    <span class="tip-content">{{'Please provide path of script to be
+                                                                                        executed'|translate}}
+                                                                                    </span>
+                                                                                    <div *ngIf="scriptPath.errors && (scriptPath.dirty || scriptPath.touched)" class="alert alert-danger ">
+                                                                                        <div [hidden]="!scriptPath.errors.required">
+                                                                                            This Field is required!
+                                                                                        </div>
+                                                                                        <div [hidden]="!scriptPath.errors.minlength">
+                                                                                            This Field must be at least 5 characters long.
+                                                                                        </div>
+                                                                                        <div [hidden]="!scriptPath.errors.maxlength">
+                                                                                            This Field cannot be more than 150 characters long.
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="col-md-12 animate-switch" style="margin-left:40px">
+                                                                                <div class="row form-group chkright">
+
+                                                                                    <input id="titetscb{{i}}{{j}}" type="checkbox" [checked]="tempObjecttest.testEnv[i].testSteps[j].transferFilesFlag==='on'"
+                                                                                        name="'transferover'+{{i}}{{j}}" (change)="tempObjecttest.testEnv[i].testSteps[j].transferFilesFlag=$event.target.checked?'on':cleartransferFilesFlag(i,j)"> &nbsp;
+
+                                                                                    <label>{{'Transfer Files Over'|translate}} SSH
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="animate-switch-container" [ngSwitch]="tempObjecttest.testEnv[i].testSteps[j].transferFilesFlag==='on'">
+
+                                                                                    <div class="panel-body animate-switch" *ngSwitchCase="true">
+                                                                                        <div>
+                                                                                            <div class="row form-group">
+                                                                                                <div>
+                                                                                                    <label class=" col-md-3 text-right control-label">
+                                                                                                        {{'Path of file to transfer'|translate}}
+                                                                                                        <span class="star">*</span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                                    <input id="titspoftttb{{i}}{{j}}" class="form-control txtbox " [(ngModel)]="env.runScript.pathToFiles" name="'transferfile'+{{i}}{{j}}"
+                                                                                                        type="text" placeholder="**/*.tar.gz"
+                                                                                                        name="TxtSSHDeploySourceFile"
+                                                                                                        minlength="5" maxlength="150"
+                                                                                                        value="" required>
+                                                                                                    <span class="tip-content">{{'Please provide path
+                                                                                                        of file to be transfered'|translate}}</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row form-group">
+                                                                                                <div>
+                                                                                                    <label class=" col-md-3 text-right control-label">{{'Destination directory'|translate}}
+                                                                                                        <span class="star">*</span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                                    <input class="form-control txtbox " [(ngModel)]="env.runScript.destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
+                                                                                                        id="titsddtb{{i}}{{j}}"
+                                                                                                        name="'destnDire'+{{i}}{{j}}"
+                                                                                                        minlength="5" maxlength="150"
+                                                                                                        value="" required>
+                                                                                                    <span class="tip-content">{{'Please provide path
+                                                                                                        of destination directory,
+                                                                                                        where the file will
+                                                                                                        be placed'|translate}}</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row form-group">
+                                                                                                <label class=" col-md-3 text-right checkbox-inline">
+
+                                                                                                    <input id="titsffcb{{i}}{{j}}" type="checkbox" [checked]="tempObjecttest.testEnv[i].testSteps[j].runScript.flattenFilePath==='on'"
+                                                                                                        name="'flatten'+{{i}}{{j}}"
+                                                                                                        (change)="env.runScript.flattenFilePath = $event.target.checked ? 'on':'off'"> {{'Flatten file structure'|translate}}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Added for SSH Execution by Apurva end-->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- End Run Script -->
+                                                        </div>
+                                                        <!-- End Run Script -->
+
+                                                        <!-- Start Test Tool Option -->
+                                                        <div class="animate-switch-container" *ngIf="buildInfo.buildtool !=undefined && buildInfo.buildtool !='' && buildInfo.buildtool !='mssql'  && buildInfo.buildtool !='python' && buildInfo.buildtool !='dbDeploy' && buildInfo.buildtool!='reactjs'">
+                                                            <div class="animate-switch" ng-switch-when="true">
+                                                                <div class="container-fluid form-group">
+                                                                    <label class="checkbox-inline">
+                                                                        <input id="tettcb{{i}}{{j}}" type="checkbox" (change)="tempObjecttest.testEnv[i].testSteps[j].testToolFlag=$event.target.checked ? 'on':clearTest(i,j)"
+                                                                            [disabled]="tempObjecttest.testEnv[i].testSteps[j].runScriptFlag==='on'"
+                                                                            name="'testToolOptCheck'+{{i}}{{j}}" [checked]="tempObjecttest.testEnv[i].testSteps[j].testToolFlag=== 'on'"
+                                                                        /> &nbsp; {{'Test Tool'|translate}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="tempObjecttest.testEnv[i].testSteps[j].testToolFlag === 'on'">
+
+                                                            <div class="row form-group">
+                                                                <label class=" col-md-3 text-right control-label" for="email">
+                                                                    {{'Test Category'|translate}}
+                                                                    <span class="star">*</span>
+                                                                </label>
+                                                                <div>
+                                                                    <div class="col-md-9 text-left">
+                                                                        <select id="tetttcdd{{i}}{{j}}" name="testCat{{i}}{{j}}" [(ngModel)]="env.test.testCategory" class="form-control" (change)="checkCategory(i ,j,env.test.testCategory);clearTool(i,j)"
+                                                                            style="width:50%" required>
+                                                                            <option value="">--Select--</option>
+                                                                            <option *ngFor="let category of testCategory" value="{{category.value}}">{{category.name}}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div *ngIf="env.test.testCategory">
+                                                                <div class="row form-group">
+                                                                    <label class=" col-md-3 text-right control-label">
+                                                                        {{'Tools'|translate}}
+                                                                        <span class="star">*</span>
+                                                                    </label>
+                                                                    <div class="col-md-9 text-left">
+                                                                        <select id="tettttdd{{i}}{{j}}" class="form-control" name="testToolss{{i}}{{j}}" (change)="clearAllValues(i,j)" [(ngModel)]="env.test.testTypeName"
+                                                                            style="width:50%" required>
+                                                                            <option value="">--Select--</option>
+                                                                            <option *ngFor="let testTypeName of tempObjecttest.testEnv[i].testSteps[j].testTypeName" [ngValue]="testTypeName.value">{{testTypeName.name}}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Start Selenium -->
+                                                                <div *ngIf="env.test.testTypeName ==='selenium'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class="col-md-3 text-right control-label">
+                                                                                {{'Application URL'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettfurltf{{i}}{{j}}" [(ngModel)]="env.test.folderUrl" type="url" name="folderUrl{{i}}{{j}}" #folderUrl="ngModel"
+                                                                                class="form-control txtbox" placeholder="http://appurl"
+                                                                                maxlength="150">
+                                                                            <span class="tip-content">URL {{' of the application'|translate}}</span>
+                                                                            <div *ngIf="folderUrl.errors && (folderUrl.dirty || folderUrl.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!folderUrl.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!folderUrl.errors.minlength">
+                                                                                    This Field Name must be at least 3 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!folderUrl.errors.maxlength">
+                                                                                    This Field Name cannot be more than 200 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!folderUrl.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Project Path'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="projnameeee{{i}}{{j}}" type="text" class="form-control txtbox"
+                                                                                placeholder="JPetStore_Selenium" maxlength="150"
+                                                                                required />
+                                                                            <span class="tip-content">{{'Project path which contains Selenium Test
+                                                                                Suite'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Framework'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 text-left field-tip">
+                                                                            <select id="tettfwdd{{i}}{{j}}" class="form-control" name="frameworkldd{{i}}{{j}}" [(ngModel)]="env.test.frameWork" style="width:50%"
+                                                                                required>
+                                                                                <option value="">--Select--</option>
+                                                                                <option *ngFor="let testframeworkList of testframeworkList" value="{{testframeworkList.value}}">{{testframeworkList.name}}
+                                                                            </select>
+                                                                            <span class="tip-content">{{'Framework for selenium project'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">{{'Source Path'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrdtb{{i}}{{j}}" class="form-control txtbox" name="rootDirectorysrc{{i}}{{j}}" [(ngModel)]="env.test.rootDir"
+                                                                                type="text" placeholder="src" required maxlength="150">
+                                                                            <span class="tip-content">{{'Relative path to root directory'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Suite File'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="tesetSuit{{i}}{{j}}" required class="form-control txtbox"
+                                                                                placeholder="testSuite" maxlength="150" />
+                                                                            <span class="tip-content">{{'Name of Selenium Test Suite file which has
+                                                                                to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="container-fluid form-group">
+                                                                        <div class="col-md-12">
+                                                                            <input id="tettiexcb{{i}}{{j}}" type="checkbox" (change)="tempObjecttest.testEnv[i].testSteps[j].externalLibraryFlag =$event.target.checked ? 'on' : clearLibraryFlag(i,j)"
+                                                                                name="includeEx{{i}}{{j}}" [checked]="tempObjecttest.testEnv[i].testSteps[j].externalLibraryFlag === 'on'"> &nbsp;Include External Libraries
+                                                                        </div>
+                                                                    </div>
+                                                                    <div *ngIf="tempObjecttest.testEnv[i].testSteps[j].externalLibraryFlag ==='on'">
+                                                                        <div class="row form-group ">
+                                                                            <div>
+                                                                                <label class=" col-md-3 text-right control-label">
+                                                                                    {{'Path of directory containing external libraries'|translate}}
+                                                                                    <span style="color: red">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-9 field-tip text-left">
+                                                                                <input id="tettpodtf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text" name="pathOfDire{{i}}{{j}}" required
+                                                                                    class="form-control txtbox" placeholder="lib"
+                                                                                    maxlength="150" required/>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- END Selenium -->
+                                                                </div>
+                                                                <!-- Start MTM -->
+
+                                                                <div *ngIf="env.test.testTypeName==='mtm'">
+                                                                    <div class="row form-group">
+                                                                        <div class="col-md-3 text-right ">
+                                                                            <label class="control-label">
+                                                                                Project Name
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input type="text" id="titspn{{i}}{{j}}" name="projName{{i}}{{j}}" placeholder="OnlineTestApp" [(ngModel)]="env.test.projectName"
+                                                                                class="form-control txtbox" required #prjName="ngModel">
+                                                                            <span class="tip-content" style="z-index:1">{{'Please provide '|translate }} VSTS {{'project
+                                                                                Name'|translate}}
+                                                                            </span>
+                                                                            <div *ngIf="prjName.errors && (prjName.dirty || prjName.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!prjName.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row form-group">
+                                                                        <div class="col-md-3 text-right ">
+                                                                            <label class="control-label">
+                                                                                Build Definition ID
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input type="text" pattern="[0-9]+" id="titsvstsbdidtf{{i}}{{j}}" name="buildDefId{{i}}{{j}}" placeholder="12" [(ngModel)]="env.test.buildDefId"
+                                                                                class="form-control txtbox" required #buildDefId="ngModel">
+                                                                            <span class="tip-content" style="z-index:1">{{'Please provide Plan Id'|translate }}</span>
+                                                                            <div *ngIf="buildDefId.errors && (buildDefId.dirty || buildDefId.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!buildDefId.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!buildDefId.errors.pattern">
+                                                                                    This Field Name can only consist of numbers
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row form-group">
+                                                                        <div class="col-md-3 text-right ">
+                                                                            <label class="control-label">
+                                                                                Report Path
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input type="text" id="titsvstsrptf{{i}}{{j}}" name="reportPath{{i}}{{j}}" placeholder="target/failsafe-report" [(ngModel)]="env.test.path"
+                                                                                class="form-control txtbox" required #reportPath="ngModel">
+                                                                            <span class="tip-content" style="z-index:1">{{'Please provide Report Path'|translate }}</span>
+                                                                            <div *ngIf="reportPath.errors && (reportPath.dirty || reportPath.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!reportPath.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- END MTM -->
+
+
+                                                                <!-- Start HP UFT -->
+                                                                <div *ngIf="env.test.testTypeName ==='hpUft'">
+                                                                    <div class="row form-group">
+                                                                        <label class=" col-md-3 text-right control-label">
+                                                                            {{'Tests'|translate}}
+                                                                            <span style="color:red">*</span>
+                                                                        </label>
+
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <textarea id="tetttsnta{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="textarea" name="hptUFT{{i}}{{j}}" class="form-control textFieldWidth ng-pristine ng-invalid ng-touched"
+                                                                                placeholder="ProjectName/HP_UFT_TestName" maxlength="150"
+                                                                                required></textarea>
+                                                                            <span class="tip-content" style="z-index:1">{{'Path of Tests/folders containing HP UFT tests
+                                                                                in the Project . Each test/folder path should
+                                                                                be in a new line'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Timeout'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" name="Timeouthp{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="60" minlength="1">
+                                                                            <span class="tip-content">{{'Value in seconds, no time out if empty'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- END HP UFT -->
+
+                                                                <!-- Start HP ALM -->
+                                                                <div *ngIf="env.test.testTypeName === 'hpAlm'">
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                ALM {{'Server'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettsntf{{i}}{{j}}" [(ngModel)]="env.test.serverName" type="text" name="almserver{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="http://almserver:9090/qcbin" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Enter the HP ALM Sever URL'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'User name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text" name="almuname{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="HPALM_UserName" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Enter the User Name for Authentication to
+                                                                                HP ALM Server'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'password'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettpwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt type="password" name="almpass{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="HPALM_Password" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Enter the Password for Authentication to HP
+                                                                                ALM Server'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Domain'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettalmdtf{{i}}{{j}}" [(ngModel)]="env.test.domain" type="text" name="almdomain{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="HPALM_Domain" maxlength="150" required>
+                                                                            <span class="tip-content">{{'Enter the Domain Name for Authorization to
+                                                                                HP ALM Project Domain'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Project'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettpalmtf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="projalm{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="HPALM_Project" maxlength="150" required>
+                                                                            <span class="tip-content">{{'Enter the Project Name for Authorization to
+                                                                                HP ALM Project'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Sets'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttsalmtf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="testSuitAlm{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="Root\testfolder1\testset_a" maxlength="150"
+                                                                                required />
+                                                                            <span class="tip-content">{{'Test set folders or specific test sets to
+                                                                                be included, using the ALM path . Each test/folder
+                                                                                path should be in a new line'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group ">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Timeout'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" name="timeouTALM{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="60" minlength="1">
+                                                                            <span class="tip-content">{{'Value in seconds, no time out if empty'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- END HP ALM -->
+
+                                                                <!-- Start RFT-->
+                                                                <div *ngIf="env.test.testTypeName === 'rft'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Project Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="rftProj{{i}}{{j}}" class="form-control txtbox"
+                                                                                required placeholder="RFTProject" maxlength="150">
+                                                                            <span class="tip-content">{{'Name of project which contains RFT Test Suite'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Script Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrftstf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" required name="rftScript{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="SearchTest" maxlength="150">
+                                                                            <span class="tip-content">{{'Name of RFT Test Script which has to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class=" form-group">
+                                                                        <div class="col-md-offset-1">&nbsp;
+                                                                            <input id="tettrftdpcb{{i}}{{j}}" type="checkbox" name="rftdataPool{{i}}{{j}}" (change)="env.test.dataPool = $event.target.checked ? 'on' : cleardataPool(i,j)"
+                                                                                [checked]="env.test.dataPool === 'on'"> &nbsp;Datapool
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div *ngIf="env.test.dataPool==='on'">
+                                                                        <div class="row">
+                                                                            <div class="form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">
+                                                                                        {{'Number of iterations'|translate}}
+                                                                                        <span style="color:red">*</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tettnofinum{{i}}{{j}}" type="number" class="form-control txtbox" name="numOfIteRFT{{i}}{{j}}" [(ngModel)]="env.test.iteration"
+                                                                                        placeholder="10" [disabled]="env.test.fullIteration==='on'"
+                                                                                        required>                                                                                   
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-9 col-md-offset-3 text-left">
+                                                                                <input id="tettrftficb{{i}}{{j}}" type="checkbox" name="rftFullItere{{i}}{{j}}" (change)="env.test.fullIteration =$event.target.checked ? 'on' : 'off'"
+                                                                                    [checked]="env.test.fullIteration === 'on'">&nbsp;{{'Full iteration'|translate}}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End RFT-->
+
+                                                                <!-- Start SAHI-->
+                                                                <div *ngIf="env.test.testTypeName === 'sahi'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Suite Path'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettsptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text" name="sahiPath{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="scripts\Login.sah" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Path of SAHI test suite relative to the checkout
+                                                                                folder'|translate}}
+                                                                            </span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test'|translate}} URL
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 text-left">
+                                                                            <input id="tettsurltf{{i}}{{j}}" [(ngModel)]="env.test.serverUrl" type="text" required name="sahiTest{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="http://dummyHost-98:8080/Platform/"
+                                                                                maxlength="150">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Browser Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 text-left">
+                                                                            <select id="tettbndd{{i}}{{j}}" class="form-control" [(ngModel)]="env.test.browserName" name="sahiBrowser{{i}}{{j}}" style="width:50%"
+                                                                                required>
+                                                                                <option value="">--Select--</option>
+                                                                                <option *ngFor="let testbrowserList of testbrowserList" value="{{testbrowserList.value}}">{{testbrowserList.name}}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End SAHI-->
+
+                                                                <!-- Start Accelera Test-->
+                                                                <div *ngIf="env.test.testTypeName === 'accelera'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                AcceleraTest{{' Project Path'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettaptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text" name="accePath{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="TestSuite_Name" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Path of folder which contains test artifacts
+                                                                                relative to the checkout folder'|translate}}</span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                ANT {{'Script'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettastf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="accescript{{i}}{{j}}" required class="form-control txtbox"
+                                                                                placeholder="build.xml" maxlength="150">
+                                                                            <span class="tip-content">{{'Name of the batch file that triggers the AcceleraTest
+                                                                                script'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <!-- End Accelera Test-->
+
+                                                                <!-- Start Robot Framework-->
+                                                                <div *ngIf="env.test.testTypeName === 'robot'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Scripts Path'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrttf{{i}}{{j}}" [(ngModel)]="env.test.rootDir" type="text" name="robtest{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="TestSuite_Name" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content" style="z-index:1">{{'Path of folder which contains test artifacts
+                                                                                relative to the checkout folder'|translate}}</span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Input Argument File Name'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrtctf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="robTestCase{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="suits.robot" maxlength="150">
+                                                                            <span class="tip-content">{{'Name of the argument file present inside specified
+                                                                                path of test scripts'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <!-- End Robot Framework-->
+
+                                                                <!-- Start Protractor -->
+                                                                <div *ngIf="env.test.testTypeName ==='protractor'">
+                                                                    <div class="row form-group">
+                                                                        <label class=" col-md-3 text-right control-label">
+                                                                            {{'Config File Path'|translate}}
+                                                                            <span style="color:red">*</span>
+                                                                        </label>
+
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettptcontf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" type="text" name="proTpcong{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="example/config.js" maxlength="150"
+                                                                                required />
+                                                                            <span class="tip-content" style="z-index:1">{{'Path of config.js file relative to checkout
+                                                                                folder'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- END Protractor -->
+
+
+                                                                <!-- Start Performance Testing-->
+                                                                <!-- Start JMeter-->
+                                                                <div *ngIf="env.test.testTypeName === 'jMeter'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Plan'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettjptf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" type="text" name="jmeterPlan{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.jmx"
+                                                                                class="form-control txtbox" maxlength="150" required>
+                                                                            <span class="tip-content">{{'Path of JMeter Test Plan which has to executed'|translate}}</span>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Property File'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettjftf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text" name="jmeterFile{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.properties"
+                                                                                class="form-control txtbox" maxlength="300">
+                                                                            <span class="tip-content">{{'Path of Property file for JMeter tests.'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End JMeter-->
+
+                                                                <!-- Start RPT-->
+                                                                <div *ngIf="env.test.testTypeName === 'rpt'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                RPT {{'Project Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrptntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="rptName{{i}}{{j}}" #rptProjName1="ngModel"
+                                                                                placeholder="JPetStore_LoadTest" class="form-control txtbox"
+                                                                                pattern="[/_a-zA-Z.0-9-. ]+" minlength="1" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Name of project which contains RPT Test Suite'|translate}}</span>
+                                                                            <div *ngIf="rptProjName1.errors && (rptProjName1.dirty || rptProjName1.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!rptProjName1.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!rptProjName1.errors.minlength">
+                                                                                    This Field Name must be at least 1 character long.
+                                                                                </div>
+                                                                                <div [hidden]="!rptProjName1.errors.maxlength">
+                                                                                    This Field Name cannot be more than 150 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!rptProjName1.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore.
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Schedule Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrpttstf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="rpttestSuit{{i}}{{j}}" placeholder="JPetLoadSchedule"
+                                                                                #rptSchedule="ngModel" class="form-control txtbox"
+                                                                                pattern="[/_a-zA-Z.0-9-. ]+" minlength="1" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'RPT Schedule or test file name'|translate}}</span>
+                                                                            <div *ngIf="rptSchedule.errors && (rptSchedule.dirty || rptSchedule.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!rptSchedule.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!rptSchedule.errors.minlength">
+                                                                                    This Field Name must be at least 1 character long.
+                                                                                </div>
+                                                                                <div [hidden]="!rptSchedule.errors.maxlength">
+                                                                                    This Field Name cannot be more than 150 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!rptSchedule.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot underscore and slash
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <!-- End RPT-->
+                                                                <!-- Start MSLoadTest-->
+                                                                <div *ngIf="env.test.testTypeName === 'msLoadTest'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">MS {{'BUILD VERSION'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 text-left">
+                                                                            <select id="tettmsbvdd{{i}}{{j}}" class="form-control" name="msBuildVersion{{i}}{{j}}" [(ngModel)]="env.test.version" style="width:50%"
+                                                                                required>
+                                                                                <option value="">--Select--</option>
+                                                                                <option *ngFor="let msBuildVersion of msBuildVersion" value="{{msBuildVersion.value}}">{{msBuildVersion.name}}</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Project relative path with ext.'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettmsbptf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="MsBuildProj{{i}}{{j}}" placeholder="ReservationSystem/Reservation-CodedUI/Reservation-CodedUI.csproj"
+                                                                                class="form-control txtbox " maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content" style="z-index:1">Relative Path for the project which contains
+                                                                                MS Load Test Suite with (.sln/.csproj/.vbproj)</span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'MsBuild Arguments'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettmsbargtf{{i}}{{j}}" [(ngModel)]="env.test.arg" type="text" name="MsBUildArg{{i}}{{j}}" required class="form-control txtbox"
+                                                                                placeholder="Debug,DeployOnBuild,configuration"
+                                                                                maxlength="150">
+                                                                            <span class="tip-content">Provide MsBuild Arguments</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Name'|translate}}
+                                                                                <span style="color:red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettmsbtntf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="msBuildTestnme{{i}}{{j}}" required class="form-control txtbox"
+                                                                                placeholder="LoadTest1" maxlength="150">
+                                                                            <span class="tip-content" style="z-index:1">Name of MS Load Test having .loadtest ext</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Test Category'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettmsbctf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="msBuildcategory{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="Category1" maxlength="150">
+                                                                            <span class="tip-content" style="z-index:1">Name of MS Load Test Suite which has to be executed</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End MSLoadTest-->
+
+                                                                <!-- End Performance Testing-->
+
+                                                                <!-- Start Security Testing-->
+                                                                <!-- Start AppScan-->
+                                                                <div *ngIf="env.test.testTypeName === 'appscan'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'AppScan Folder URL'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettasfurl{{i}}{{j}}" [(ngModel)]="env.test.folderUrl" type="url" name="appscaneURl{{i}}{{j}}" placeholder="https://mysappscan01.domain.com/ase/FolderExplorer.aspx?fid=1240"
+                                                                                class="form-control txtbox" maxlength="150" required
+                                                                            />
+                                                                            <span class="tip-content">{{'AppScan Enterprise'|translate}} URL</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Username'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettasuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text" name="appscaneunamel{{i}}{{j}}" placeholder="{{'username'|translate}}"
+                                                                                class="form-control txtbox" maxlength="150" required
+                                                                            />
+                                                                            <span class="tip-content">{{'AppScan Enterprise'|translate}} {{'username'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Password'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettaspwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt name="appscanepass{{i}}{{j}}" type="password"
+                                                                                placeholder="Password" class="form-control txtbox"
+                                                                                maxlength="150" required />
+                                                                            <span class="tip-content">{{'AppScan Enterprise'|translate}} {{'password'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Job Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettasjntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="appscaneJobNAme{{i}}{{j}}" type="text" placeholder="AltoroMutual_Test"
+                                                                                class="form-control txtbox" required maxlength="150"
+                                                                            />
+                                                                            <span class="tip-content">{{'Job Name in AppScan Enterprise which has to
+                                                                                be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End AppScan-->
+                                                                <!-- End Security Testing-->
+
+                                                                <!-- Start Service Testing-->
+                                                                <!-- Start SoapUI-->
+
+                                                                <div *ngIf="env.test.testTypeName === 'soapUI'">
+                                                                    <div>
+                                                                        <div class="row form-group">
+                                                                            <div>
+                                                                                <label class=" col-md-3 text-right control-label">
+                                                                                    {{'Project Name'|translate}}
+                                                                                    <span style="color: red">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-9 field-tip text-left">
+                                                                                <input id="tettsoappntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="sopaProjec{{i}}{{j}}" type="text" class="form-control txtbox"
+                                                                                    placeholder="ICart" maxlength="150" required>
+                                                                                <span class="tip-content">{{'Name of project which contains SoapUI
+                                                                                    Test Suite'|translate}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row form-group">
+                                                                            <div>
+                                                                                <label class=" col-md-3 text-right control-label">
+                                                                                    Testsuite Name
+                                                                                    <span style="color: red">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-9 field-tip text-left">
+                                                                                <input id="tettsoaptsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" name="sopatest{{i}}{{j}}" type="text" class="form-control txtbox"
+                                                                                    placeholder="ICart TestSuite1" maxlength="150"
+                                                                                    required>
+                                                                                <span class="tip-content">{{'Name of SoapUI Test Suite which has to
+                                                                                    be executed'|translate}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row form-group">
+                                                                            <div>
+                                                                                <label class=" col-md-3 text-right control-label">
+                                                                                    {{'Project location'|translate}}
+                                                                                    <span style="color: red">*</span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-md-9 field-tip text-left">
+                                                                                <input id="tettsoappltf{{i}}{{j}}" [(ngModel)]="env.test.projectLocation" name="sopalocation{{i}}{{j}}" type="text" class="form-control txtbox "
+                                                                                    placeholder="store1-soapui-project.xml" maxlength="150"
+                                                                                    required>
+                                                                                <span class="tip-content">{{'Path of SoapUI Test Suite which has to
+                                                                                    be executed'|translate}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End SoapUI-->
+
+                                                                <!-- Start RIT-->
+                                                                <div *ngIf="env.test.testTypeName ==='rit'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                RIT {{'Project Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettritpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="ritProj{{i}}{{j}}" class="form-control txtbox"
+                                                                                type="text" placeholder="JPetStore_RIT_V1" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Name of project which contains RIT Test Service'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Testsuite Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettrittsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" name="rittestSuit{{i}}{{j}}" type="text" class="form-control txtbox"
+                                                                                placeholder="RITTestName" maxlength="150" required>
+                                                                            <span class="tip-content">{{'Name of RIT Test Suite which has to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Service Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettritsntf{{i}}{{j}}" [(ngModel)]="env.test.serviceName" type="text" name="ritservice{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="RITServiceName" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Name of RIT Service which has to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End RIT-->
+
+                                                                <!-- Start IFast -->
+                                                                <div *ngIf="env.test.testTypeName ==='iFast'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                IFast {{'Project Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tettifpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="ifastProj{{i}}{{j}}" class="form-control txtbox"
+                                                                                type="text" placeholder="predix" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Name of project which contains IFast Test
+                                                                                Service'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col-md-offset-3 col-md-9">
+                                                                            <label class="checkbox-inline">
+                                                                                <input id="tettifpcb{{i}}{{j}}" type="checkbox" name="'ifastProjCheck'+{{i}}{{j}}" (change)="tempObjecttest.testEnv[i].testSteps[j].sharedProject = $event.target.checked ? 'on' : clearSharedProject(i,j)"
+                                                                                    [checked]="tempObjecttest.testEnv[i].testSteps[j].sharedProject === 'on'"
+                                                                                    style="width: 15px; ">{{'Shared Project'|translate}}
+
+
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div *ngIf="tempObjecttest.testEnv[i].testSteps[j].sharedProject==='on'">
+                                                                        <div>
+                                                                            <div class="row form-group">
+                                                                                <div>
+                                                                                    <label class=" col-md-3 text-right control-label">
+                                                                                        {{'Owner Id'|translate}}
+                                                                                        <span style="color: red">*</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="col-md-9 field-tip text-left">
+                                                                                    <input id="tettifuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" name="ifastusername{{i}}{{j}}" class="form-control txtbox"
+                                                                                        type="text" placeholder="user1" required>
+                                                                                    <span class="tip-content">{{'SSO Id of owner of the Project '|translate}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- End IFast -->
+                                                                <!-- Start Parasoft SOATest-->
+                                                                <div *ngIf="env.test.testTypeName ==='parasoftsoa'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Project Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="parasoftSOAProj{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="parasoftSOAProj{{i}}{{j}}" class="form-control txtbox"
+                                                                                type="text" placeholder="JPetStore_SOATEST" maxlength="150"
+                                                                                required>
+                                                                            <span class="tip-content">{{'Name of project which contains Parasoft SOATest
+                                                                                Test'|translate}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Project Path'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="parasoftSOAProjectPath{{i}}{{j}}" [(ngModel)]="env.test.projectLocation" name="parasoftSOAProjectPath{{i}}{{j}}"
+                                                                                type="text" class="form-control txtbox" placeholder="Project Path"
+                                                                                maxlength="150" required>
+                                                                            <span class="tip-content">{{'Name of Parasoft SOATest Project Location
+                                                                                which has to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Testsuite Path'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="parasoftSOATestPath{{i}}{{j}}" [(ngModel)]="env.test.scriptPath" name="parasoftSOATestPath{{i}}{{j}}" type="text"
+                                                                                class="form-control txtbox" placeholder="ParasoftSOATest Path"
+                                                                                maxlength="150" required>
+                                                                            <span class="tip-content">{{'Name of Parasoft SOATest Test Suite which
+                                                                                has to be executed'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Configuration'|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="parasoftSOATestConfig{{i}}{{j}}" [(ngModel)]="env.test.testConfig" name="parasoftSOATestConfig{{i}}{{j}}" type="text"
+                                                                                class="form-control txtbox" placeholder="ParasoftSOATest Configuration"
+                                                                                maxlength="150">
+                                                                            <span class="tip-content">{{'Name of Parasoft SOATest Test Configuration'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End Parasoft SOATest-->
+
+                                                                <!-- END testCategory -->
+                                                            </div>
+                                                            <!-- END testToolFlag -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        <div class="col-md-12 btn-container">
+            <div>
+                <div class="alert alert-success" *ngIf="message=='success'">
+                    <strong>{{'Your request for create pipeline has been submitted'|translate}}.</strong>
+                </div>
+
+                <div class="alert alert-danger" *ngIf="message=='error'">
+                    <strong>{{'Error! Please check the input provided'|translate}}</strong>
+                </div>
+            </div>
+            <button class="btn btn-danger btn-sm" (click)="resetData()" id="terebu" type="button" [disabled]="IdpdataService.freezeNavBars===true">{{'Reset'|translate}}</button>
+            <button id="tesbbtn" type="submit" class="btn btn-success btn-sm" style="float:right;" [disabled]="IdpdataService.freezeNavBars===true || !testInfoForm.form.valid">
+                <span *ngIf="loader=='off'"> {{'Submit'|translate}} &nbsp;</span>
+                <span *ngIf="loader=='on'">{{'Submitting'|translate}} &nbsp;
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="setFormStatus(testInfoForm.form.valid)">
+    </div>
+
+</form>
+<br>
+<br>
+<br>

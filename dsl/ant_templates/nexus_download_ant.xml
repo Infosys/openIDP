@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="test" basedir=".">
+
+	<target name="unzipFile">
+		<delete dir="toBeDeployed" />
+		<mkdir dir="toBeDeployed" />
+		<unzip src="toBeUnZipped/$ARTIFACTID.zip" dest="toBeDeployed/"
+			overwrite="true" />
+		<delete dir="toBeUnZipped" />
+	</target>
+	<target name="createDir" >
+	    <delete dir="toBeDeployed" />
+	    <mkdir dir="toBeDeployed"/>
+	</target>
+</project>

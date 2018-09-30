@@ -1,0 +1,220 @@
+{
+  "basicInfo": {
+    "applicationName": "15Dec",
+    "pipelineName": "IDP_node",
+    "buildServerOS": "windows",
+    "masterSequence": "pipeline",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "create"
+
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "nodeJs",
+    "scm": [
+      {
+        "type": "rtc",
+        "url": "https://mysgecrqmapps01.domain.com:9443/ccm/",
+        "userName": "idpadmin",
+        "password": "idpadmin@123",
+        "repositoryBrowser": "",
+        "browserUrl": "",
+        "projectName": "",
+        "branch": "stream",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "workspace",
+        "projArea": "",
+        "port": "",
+        "version": "",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "scriptType": "preBuild",
+        "tool": "batchScript",
+        "scriptFilePath": "echo \"this is bat file\""
+      },
+      {
+        "scriptType": "postBuild",
+        "tool": "ant",
+        "scriptFilePath": "build.xml",
+        "targets": "compile",
+        "antPropertiesArr": []
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "nodeJs",
+    "artifactToStage": {
+      "artifactRepo": {},
+      "artifactRepoName": "na"
+    },
+
+    "modules": [
+      {
+        "codeFormatting": "off",
+        "customScript": "",
+        "moduleName": "Nodejssample",
+        "relativePath": "src",
+        "codeAnalysis": [
+          "sonar",
+          "checkStyle"
+        ],
+        "unitTesting": "on",
+        "unitTestProjectName": "com/junit",
+        "codeCoverage": "on",
+        "jsonPath": "web_app",
+        "installGrunt": "on",
+        "excludeFolders": "test",
+        "npmProxy": "http://indblrb06intpxy01.domain.com:80",
+        "npmProxyUserName": "idpadmin",
+        "npmProxyPassword": "idpadmin@123"
+      }
+    ],
+    "postBuildScript": {
+      "sshKey": "",
+      "sshPathToKey": "",
+      "tool": "",
+      "scriptFilePath": "",
+      "targets": "",
+      "archiveLogs": "",
+      "host": "",
+      "userName": "",
+      "password": "",
+      "script": "",
+      "pathToFiles": "",
+      "destinationDir": "",
+      "flattenFilePath": ""
+    },
+    "sonarUrl": "http://infysonarqube:8080/"
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "off",
+        "scriptType": "",
+        "deploySteps": []
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "on",
+        "testSteps": [
+          {
+            "stepName": "test1",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "hpUft",
+              "projectName": "",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "project/sampleProject",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step2",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "security",
+              "testTypeName": "appscan",
+              "projectName": "Altoro_mutualtest",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "https://myservice.com",
+              "userName": "idpadmin",
+              "password": "idpadmin@123",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

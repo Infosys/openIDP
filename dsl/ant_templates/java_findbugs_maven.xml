@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+	
+	<property name="findbugs.home.dir" value="$FindBugsHome" />
+	<property name="report.findbugs.dir" location="$FindBugsReports" />
+	
+	<target name="findbugs-report"
+		description="Run code analysis over code to check for problems.">
+		
+		<xslt in="${report.findbugs.dir}/findbugsXml.xml" style="${findbugs.home.dir}/src/xsl/fancy.xsl"
+			out="${report.findbugs.dir}/findbugs-default.html" />
+	</target>
+
+</project>

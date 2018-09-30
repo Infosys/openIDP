@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+	
+	<property name="LM.home" value="$LMHOME"/>
+	<target name="war" >
+	  	<delete dir="$WARDIR"></delete>
+	  	<mkdir dir="$WARDIR"></mkdir>
+	  				
+	  <war destfile="$WARPath" 
+	  		webxml="${LM.home}/$WebXmlPath">
+	    <fileset dir="${LM.home}/$WARFILESET">
+	      <include name="**/*.*"/>
+	    </fileset>
+	  	<lib dir="${LM.home}/$LibPath">
+	  	</lib> 
+	  	<classes dir="$BIN"/>
+	  </war>
+	</target>	
+</project>

@@ -1,0 +1,418 @@
+@Library('IDP_Pipeline_Library')
+import idp.utils.*
+import idp.stages.*
+import groovy.json.*
+//import addUser.database.FetchJiraKey
+
+
+//Initialization of library classes
+IDPJobInfo idpJobInfo = new IDPJobInfo(this)
+//Initialization of SCM Library Class
+SCMStage scmStage = new SCMStage(this)
+
+
+if(JSON_Input == "NA" && JiraStoryID == "NA"){
+	JSON_Input = idpJobInfo.GetLastPara("JSON_Input")
+}
+
+def jsonParse(def json) {
+	new groovy.json.JsonSlurperClassic().parseText(json)
+}
+
+def jsonData = jsonParse(JSON_Input)
+
+def mainCustomWS
+def jobBuildId = 'NA'
+def branchOrtag='NA'
+def transReq =''
+ 
+def unitTesting
+def codeAnalysis
+unitTesting ='0'
+codeAnalysis ='0'
+def buildLabel=''
+def scmStatus='NA'
+def buildStatus1='NA'
+def deployStatus='NA'
+def testStatus='NA'
+// required for mail from Jenkins
+def buildSlave = 'NA'
+def testSlave = 'NA'
+def castLabel = 'NA'
+def castSlave  = 'NA'
+def SAPDeployStatus = 'NA'
+
+
+
+
+if(jsonData["build"] && !(jsonData["artifactName"]))
+{
+    jsonData.put("artifactName","");
+    jsonData["artifactName"]=jsonData["applicationName"]+"_"+jsonData["pipelineName"]+"_"+jsonData["releaseNumber"]+"-";
+    if(jsonData["branchOrTagValue"] && !(jsonData["branchOrTagValue"].equalsIgnoreCase(""))){
+    jsonData["artifactName"]=jsonData["artifactName"].concat(jsonData["branchOrTagValue"]);
+    }
+    else{
+     jsonData["artifactName"]=jsonData["artifactName"].concat("default"); 
+    }
+    jsonData["artifactName"]=jsonData["artifactName"].concat("-");
+    jsonData["artifactName"]=jsonData["artifactName"].concat(BUILD_NUMBER);
+}
+
+def basePath = jsonData["applicationName"] + '_' + jsonData["pipelineName"]
+
+if(jsonData["envSelected"]){
+	if(jsonData["branchOrTagValue"]){
+		buildLabel=jsonData["branchOrTagValue"]+'_'+jsonData["releaseNumber"]+'_'+jsonData["envSelected"]+'_'+BUILD_NUMBER
+	}
+	else{
+		buildLabel=jsonData["releaseNumber"]+'_'+jsonData["envSelected"]+'_'+BUILD_NUMBER
+	}
+}
+else{
+	if(jsonData["branchOrTagValue"]){
+		buildLabel=jsonData["branchOrTagValue"]+'_'+jsonData["releaseNumber"]+'_'+BUILD_NUMBER
+	}
+	else{
+		buildLabel=jsonData["releaseNumber"]+'_'+BUILD_NUMBER
+	}
+}
+
+currentBuild.displayName=buildLabel
+
+if(jsonData["jobBuildId"] && ( !jsonData["jobBuildId"].equalsIgnoreCase("")) ){
+			jobBuildId = jsonData["jobBuildId"]
+}
+					
+
+
+// time in seconds
+def sleepTime = 60
+// no. of iterations to find active slave
+def iterationCount = 60
+def mainNodeObject = [:]
+def labelName = jsonData["slaveName"]
+
+
+
+
+// new closure for sleep stage when we dont have slave's or executors to build child jobs
+Closure waitForSlave = {
+	//echo 'waiting for free slave/node for '+sleepTime+' minutes'
+	echo 'waiting for active and free slave/node for '+sleepTime+' second(s)'
+	sleep sleepTime
+	//sleep time: sleepTime, unit: 'MINUTES'
+	
+}
+// new closure for Build through Deploy stages
+// added git tagging stage after Build Stage and before Deploy Stage
+Closure buildStage = { customWS,nodeObject ->
+	//Basic Info Start
+	stage('Basic Info') {
+		echo 'Status: Initiation of pipeline: Accepted'
+		echo 'Pipeline Name: '+ JOB_BASE_NAME
+	}
+	//Basic Info End
+		  
+	//SCM Stage Start
+	stage('SCM checkout') {
+		
+		if(jsonData["build"]){		
+			echo "build json is recognized"
+			
+			scmStage.regularBuild(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath)
+		}
+		
+	}
+	//SCM Stage End
+		  
+	//Build Stage Start
+	stage('Building of Job') {
+		if(jsonData["build"]) {
+			
+			try{
+				echo "inside build job execution"
+				
+				BuildStage buildStage = new BuildStage(this)
+				buildStage.regularBuild(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath, transReq)
+				buildStatus1="SUCCESS"
+			}
+			catch(Exception e){
+				println "unstable"
+				if(e.toString().contains("FAILURE")){
+					buildStatus1="FAILURE"
+					throw e
+				}
+			}
+		}
+	}
+	//Build Stage End
+
+	
+	if(currentBuild.result != 'FAILURE' && jsonData["gitTag"] && jsonData["gitTag"].equalsIgnoreCase("on")) {
+	
+	//Git Tagging Stage Start
+	try{
+		stage('Git Tagging') {
+		
+			build job: basePath +"_GitTag",
+				parameters:[[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS ],
+					[$class: 'LabelParameterValue', name: 'SLAVE_NODE', label: nodeObject.slaveName],
+					[$class: 'StringParameterValue', name: 'PIPELINE_BUILD_ID', value: BUILD_NUMBER],
+					[$class: 'StringParameterValue', name: 'JOB_BUILD_ID', value: jobBuildId],
+					[$class: 'StringParameterValue', name: 'BUILD_LABEL', value: buildLabel]]
+		}
+	}
+	catch(all){
+		currentBuild.result = 'FAILURE'
+	}
+	
+	//Git Tagging Stage End
+	}
+	
+}
+
+
+//Closure for Deploy stage
+Closure deployStage = { customWS,nodeObject ->
+	//Deployment Stage Start
+	stage('Deployment') {
+		echo "stage deployment"
+		
+		DeployStage deployStage = new DeployStage(this)
+		try{
+			
+			deployStage.execute(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath, transReq)
+			
+
+		}
+		catch(Exception e){
+			echo e.toString()+""
+			if(e.toString().contains("FAILURE")){
+
+				throw e
+			}
+		}
+	}
+	//Deployment Stage End
+}
+
+// new closure for Test stages
+Closure testStage = { customWS,nodeObject ->
+	//Testing Stage Starts
+	stage('Testing') {
+		try{
+			TestStage testStage = new TestStage(this)
+			testStage.execute(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath)
+		}
+		catch(Exception e){				
+			echo e.toString()+""
+			currentBuild.result = 'FAILURE'
+		}
+	}
+	//Testing Stage Ends
+}
+
+
+
+try{
+	IDPSlaveConfiguration idpSlaveConfiguration = new IDPSlaveConfiguration(this)
+	StageExecutionSequence stageExecutionSequence = new StageExecutionSequence(this)
+	
+	labelName = jsonData["slaveName"]
+	def testLabel = jsonData["testSlaveName"]
+	//castLabel = jsonData["castSlaveName"]
+	rebaseLabel = jsonData["reconcileSlaveName"]
+	def stageFlag  = ['off','off','off']
+	
+	if(jsonData["rebase"]){
+		if(rebaseLabel!=null && rebaseLabel!=''){
+			rebaseStageExecution(jsonData,waitForSlave,mainNodeObject,rebaseLabel,basePath,mainCustomWS,iterationCount,idpSlaveConfiguration,rebaseStage)
+		}
+	}
+	else
+	{
+	if(jsonData["build"] && stageFlag[0] == 'off'){
+		stageFlag[0] = 'on'
+					int i = 0;
+			// mutex locking and slave assignment Build
+			for(;i<iterationCount;++i){
+				mainNodeObject=idpSlaveConfiguration.executeAssignment(labelName,basePath,mainNodeObject)
+				if( mainNodeObject.slaveActive ==null ){
+					waitForSlave()
+					println 'Retrying to find an active slave with label: '+labelName
+					continue;
+				}
+				if( mainNodeObject.slaveActive !=null && mainNodeObject.slaveActive && 
+				mainNodeObject.slaveName!=null && mainNodeObject.slaveWorkspace!=null && mainNodeObject.token!=null) {
+					lock(resource: mainNodeObject.token, inversePrecedence: false){
+						println 'Slave selected for execution: '+mainNodeObject
+						//checkLockAvailability(mainNodeObject.token)
+						mainCustomWS = (String)mainNodeObject.slaveWorkspace
+						parallel build:{
+							buildStage(mainCustomWS,mainNodeObject)
+							if(jsonData["deploy"] && stageFlag[1] == 'off'){
+								stageFlag[1] = 'on'
+								deployStage(mainCustomWS,mainNodeObject)
+							}
+							if( labelName==testLabel ){
+								if(jsonData["testSelected"] && jsonData["testSelected"].equalsIgnoreCase("on") && stageFlag[2] == 'off') {
+									stageFlag[2] = 'on'
+									testStage(mainCustomWS,mainNodeObject)
+								}
+							}
+						}
+						/*cast:{
+							if (jsonData["build"] && jsonData["build"]["cast"]){
+								castStage(mainCustomWS,mainNodeObject)
+							}
+						}*/
+						
+					}
+					//castSlave=mainNodeObject.slaveName
+					break;
+				}
+				buildSlave=mainNodeObject.slaveName
+				deploySlave=mainNodeObject.slaveName
+				testSlave=mainNodeObject.slaveName
+			}
+			if(i == iterationCount){
+				def errorStr = 'Total number of retries ('+iterationCount+') expired to find an active slave with label: '+labelName 
+				//println errorStr
+				error(errorStr)
+			}
+		
+	}
+	
+	deployStageExecution(jsonData,stageFlag,waitForSlave,mainNodeObject,labelName,basePath,mainCustomWS,testLabel,iterationCount,deployStage,testStage,idpSlaveConfiguration)
+	
+	if(jsonData["testSelected"] && jsonData["testSelected"].equalsIgnoreCase("on") && stageFlag[2] == 'off'){
+		labelName=testLabel
+		stageFlag[2] = 'on'
+		int i = 0;
+			// mutex locking and slave assignment Build
+			for(;i<iterationCount;++i){
+				mainNodeObject=idpSlaveConfiguration.executeAssignment(labelName,basePath,mainNodeObject)
+				if( mainNodeObject.slaveActive ==null ){
+					waitForSlave()
+					println 'Retrying to find an active slave with label: '+labelName
+					continue;
+				}
+				if( mainNodeObject.slaveActive !=null && mainNodeObject.slaveActive && 
+				mainNodeObject.slaveName!=null && mainNodeObject.slaveWorkspace!=null && mainNodeObject.token!=null) {
+					lock(resource: mainNodeObject.token, inversePrecedence: false){
+						println 'Slave selected for execution: '+mainNodeObject
+						//checkLockAvailability(mainNodeObject.token)
+						mainCustomWS = (String)mainNodeObject.slaveWorkspace
+						testStage(mainCustomWS,mainNodeObject)
+						
+					}
+					testSlave=mainNodeObject.slaveName
+					
+					break;
+				}
+			}
+			if(i == iterationCount){
+				def errorStr = 'Total number of retries ('+iterationCount+') expired to find an active slave with label: '+labelName 
+				//println errorStr
+				error(errorStr)
+			}
+	}
+	}
+	//notifyUsers('SUCCESS',jsonData)
+}
+catch(all){
+	//notifyUsers('FAILURE',jsonData)
+	currentBuild.result = 'FAILURE'
+	println all
+	//jobStatus = 'FAILURE'
+}
+
+	
+
+	
+EmailSender emailSender = new EmailSender(this)
+if(currentBuild.result=='SUCCESS' || currentBuild.result=='' || currentBuild.result==null)
+{
+    emailSender.notify('SUCCESS',jsonData, buildStatus1,deployStatus,testStatus,buildSlave,testSlave,transReq,currentBuild.number,SAPDeployStatus)
+}				
+else {
+	emailSender.notify(currentBuild.result, jsonData,buildStatus1,deployStatus,testStatus,buildSlave,testSlave,transReq,currentBuild.number,SAPDeployStatus)
+}
+
+def deployStageExecution(jsonData,stageFlag,waitForSlave,mainNodeObject,labelName,basePath,mainCustomWS,testLabel,iterationCount,deployStage,testStage,idpSlaveConfiguration){
+	echo "inside deploy stage"
+	
+	if(jsonData["deploy"] && stageFlag[1] == 'off'){
+	echo "deploy condition satisfied"
+	
+		stageFlag[1] = 'on'
+		int i = 0;
+			// mutex locking and slave assignment Build
+			for(;i<iterationCount;++i){
+				mainNodeObject=idpSlaveConfiguration.executeAssignment(labelName,basePath,mainNodeObject)
+				if( mainNodeObject.slaveActive ==null ){
+					waitForSlave()
+					println 'Retrying to find an active slave with label: '+labelName
+					continue;
+				}
+				if( mainNodeObject.slaveActive !=null && mainNodeObject.slaveActive && 
+				mainNodeObject.slaveName!=null && mainNodeObject.slaveWorkspace!=null && mainNodeObject.token!=null) {
+					lock(resource: mainNodeObject.token, inversePrecedence: false){
+						println 'Slave selected for execution: '+mainNodeObject
+						//checkLockAvailability(mainNodeObject.token)
+						mainCustomWS = (String)mainNodeObject.slaveWorkspace
+						deployStage(mainCustomWS,mainNodeObject)
+					
+						if( labelName==testLabel ){
+							if(jsonData["testSelected"] && jsonData["testSelected"].equalsIgnoreCase("on") && stageFlag[2] == 'off') {
+								stageFlag[2] = 'on'
+								testStage(mainCustomWS,mainNodeObject)
+							}
+						}		
+						//calling story job
+						
+					}
+					deploySlave=mainNodeObject.slaveName
+					testSlave=mainNodeObject.slaveName
+					break;
+				}
+			}
+			if(i == iterationCount){
+				def errorStr = 'Total number of retries ('+iterationCount+') expired to find an active slave with label: '+labelName 
+				//println errorStr
+				error(errorStr)
+			}
+	}
+}
+
+def rebaseStageExecution(jsonData,waitForSlave,mainNodeObject,labelName,basePath,mainCustomWS,iterationCount,idpSlaveConfiguration,rebaseStage){
+	echo "inside rebase stage"
+	int i = 0;
+		// mutex locking and slave assignment Build
+		for(;i<iterationCount;++i){
+			mainNodeObject=idpSlaveConfiguration.executeAssignment(labelName,basePath,mainNodeObject)
+			if( mainNodeObject.slaveActive ==null ){
+				waitForSlave()
+				println 'Retrying to find an active slave with label: '+labelName
+				continue;
+			}
+			if( mainNodeObject.slaveActive !=null && mainNodeObject.slaveActive && 
+			mainNodeObject.slaveName!=null && mainNodeObject.slaveWorkspace!=null && mainNodeObject.token!=null) {
+				lock(resource: mainNodeObject.token, inversePrecedence: false){
+					println 'Slave selected for execution: '+mainNodeObject
+					//checkLockAvailability(mainNodeObject.token)
+					mainCustomWS = (String)mainNodeObject.slaveWorkspace
+					rebaseStage(mainCustomWS,mainNodeObject)
+				
+				}
+				rebaseSlave=mainNodeObject.slaveName
+				break;
+			}
+		}
+		if(i == iterationCount){
+			def errorStr = 'Total number of retries ('+iterationCount+') expired to find an active slave with label: '+labelName 
+			//println errorStr
+			error(errorStr)
+		}
+}

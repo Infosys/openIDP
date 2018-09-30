@@ -1,0 +1,121 @@
+{
+  "basicInfo": {
+    "applicationName": "DemoAppT",
+    "pipelineName": "TC1_Node",
+    "masterSequence": "pipeline",
+    "buildServerOS": "windows",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "edit"
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "nodeJs",
+    "scm": [
+      {
+        "type": "tfs",
+        "url": "http://tfs2013-farm01.domain.com:8080/tfs/QTOOLS",
+        "userName": "dummy",
+        "password": "password",
+        "repositoryBrowser": "",
+        "browserUrl": "",
+        "projectName": "",
+        "branch": "",
+        "projPath": "$/QTOOLSTRACKER/NodeSample",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "nodeJs",
+    "artifactToStage": {
+      "artifactRepo": {},
+      "artifactRepoName": "na"
+    },
+
+    "modules": [
+      {
+        "codeFormatting": "off",
+        "customScript": "",
+        "moduleName": "Nodejssample",
+        "relativePath": "Nodejssample/NOdeJSAllOPs/source",
+        "codeAnalysis": [
+          "sonar",
+          "off"
+        ],
+        "unitTesting": "off",
+        "unitTestProjectName": "",
+        "codeCoverage": "off",
+        "jsonPath": "Nodejssample/NOdeJSAllOPs",
+        "installGrunt": "on",
+        "excludeFolders": ""
+      }
+    ],
+    "postBuildScript": {
+      "dependentPipelineList": []
+    },
+    "sonarUrl": "http://infysonarqube:8080/"
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "off",
+        "scriptType": ""
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "off"
+      }
+    ]
+  }
+}

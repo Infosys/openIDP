@@ -1,0 +1,802 @@
+<form [parentFormConnect]="formName">
+  <!-- Start Maven -->
+
+  <div>
+    <div class="animate-switch-container">
+      <div class="animate-switch">
+        <div class="panel panel-default">
+          <div class="panel-heading panelHeadingBackground">
+            <b>Maven {{'Project Details'|translate}}</b>
+          </div>
+          <div class="panel-body">
+            <div class="row form-group chkright">
+              <div class="col-md-3 text-right">
+                <label class="control-label">{{'Project Name'|translate}} </label>
+                <span class="star">*</span>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input name="projectName" #projectName="ngModel" class="form-control txtbox" [(ngModel)]="buildInfo.modules[0].moduleName"
+                  type="text" id="bdbomvnpntf" placeholder="com.sample.bookstore" pattern="[_a-zA-Z_.0-9.\\ -$\/:-]+" minlength="3"
+                  maxlength="150" required>
+                <div *ngIf="projectName.errors && (projectName.dirty || projectName.touched)" class="alert alert-danger ">
+                  <div [hidden]="!projectName.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!projectName.errors.minlength">
+                    This Field Name must be at least 5 characters long.
+                  </div>
+                  <div [hidden]="!projectName.errors.maxlength">
+                    This Field Name cannot be more than 150 characters long.
+                  </div>
+                  <div [hidden]="!projectName.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                  </div>
+                </div>
+                <span class="tip-content">{{'Fully qualified project name(groupid:artifactid)'|translate}}</span>
+
+              </div>
+            </div>
+            <div class="row form-group chkright">
+              <div class="col-md-3 text-right">
+                <label class="control-label">{{'Root POM Path'|translate}}
+                </label>
+                <span class="star">*</span>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input name="RootPOMPath" #RootPOMPath="ngModel" class="form-control txtbox textFieldWidth" [(ngModel)]="buildInfo.modules[0].relativePath"
+                  type="text" id="bdbomvnrpptf" placeholder="bookstore/pom.xml" pattern="[_a-zA-Z_.0-9.\\ -{}$\/:-]+" minlength="5"
+                  maxlength="150" required>
+                <div *ngIf="RootPOMPath.errors && (RootPOMPath.dirty || RootPOMPath.touched)" class="alert alert-danger ">
+                  <div [hidden]="!RootPOMPath.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!RootPOMPath.errors.minlength">
+                    This Field Name must be at least 5 characters long.
+                  </div>
+                  <div [hidden]="!RootPOMPath.errors.maxlength">
+                    This Field Name cannot be more than 150 characters long.
+                  </div>
+                  <div [hidden]="!RootPOMPath.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                  </div>
+                </div>
+                <span class="tip-content">{{'Relative Path to Root POM'|translate}}</span>
+              </div>
+            </div>
+
+            <div class="row form-group field-tip" style="padding-left: 175px;">
+              <div class="col-md-12">
+                <label class="checkbox-inline">
+                  <input type="checkbox" [checked]="buildInfo.modules[0].multiModule=='on'" name="multiMo12" id="bdbomvnmmch01" (change)="buildInfo.modules[0].multiModule=$event.target.checked ?'on':'off'"> Multi-Module
+                </label>
+                <span class="tip-content">{{'Select if the project is multi-module'|translate}}</span>
+              </div>
+            </div>
+            <!-- <div *ngIf="buildInfo.modules[0].multiModule=='on' && (buildInfo.modules[0].args=='' || buildInfo.modules[0].args==null || buildInfo.modules[0].args==undefined)">
+                    <div ng-init="buildInfo.modules[0].args='site"></div>
+                  </div> -->
+            <div class="row form-group chkright">
+              <div class="col-md-3 text-right">
+                <label class="control-label" style="margin-left: 10px;">
+                  {{'Global Goals'|translate}}
+                </label>
+              </div>
+              <div class="col-md-8  " style="margin-left:10px ">
+                <label class="checkbox-inline">
+                  <input type="checkbox" [checked]="buildInfo.modules[0].clean=='on'" name="cleanGoal" id="bdbomvnclch01" (change)="buildInfo.modules[0].clean=$event.target.checked ?'on':'off'"> {{'Clean'|translate}}
+                </label>
+
+                <label class="checkbox-inline">
+                  <input type="checkbox" [checked]="buildInfo.modules[0].install=='on'" name="intallGoal" id="bdbomvninch01" (change)="buildInfo.modules[0].install=$event.target.checked ?'on':'off'"> {{'Install'|translate}}
+                </label>
+
+              </div>
+
+              <!-- <div class="col-md-3 field-tip checkbox">
+
+
+                    </div> -->
+
+            </div>
+
+            <div class="row form-group chkright">
+              <div class="col-md-3 text-right">
+                <label class="control-label">{{'Custom Goals'|translate}}
+                </label>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input class="form-control txtbox " name="CustomGoals" #CustomGoals="ngModel" [(ngModel)]="buildInfo.modules[0].args" type="textbox"
+                  id="bdbomvncgtf" placeholder="{{'deploy test'|translate}}" minlength="3" maxlength="150">
+                <div *ngIf="CustomGoals.errors && (CustomGoals.dirty || CustomGoals.touched)" class="alert alert-danger ">
+                  <div [hidden]="!CustomGoals.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!CustomGoals.errors.minlength">
+                    This Field Name must be at least 3 characters long.
+                  </div>
+                  <div [hidden]="!CustomGoals.errors.maxlength">
+                    This Field Name cannot be more than 200 characters long.
+                  </div>
+                </div>
+                <span class="tip-content">{{'Custom Goals to execute'|translate}}</span>
+              </div>
+            </div>
+            <div class="row form-group chkright">
+              <div class="col-md-3 text-right">
+                <label class="control-label">MAVEN OPTS
+                </label>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input name="mavenOpts" #mavenOpts="ngModel" class="form-control txtbox textFieldWidth col-md-9 field-tip textFieldContainer text-left"
+                  [(ngModel)]="buildInfo.modules[0].MVNOPTS" type="textbox" id="bdbomvnmotf" placeholder="-Xmx512m -XX:MaxPermSize=256m"
+                  value="" minlength="3" maxlength="200">
+                <div *ngIf="mavenOpts.errors && (mavenOpts.dirty || mavenOpts.touched)" class="alert alert-danger ">
+                  <div [hidden]="!mavenOpts.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!mavenOpts.errors.minlength">
+                    This Field Name must be at least 3 characters long.
+                  </div>
+                  <div [hidden]="!mavenOpts.errors.maxlength">
+                    This Field Name cannot be more than 200 characters long.
+                  </div>
+                  <div [hidden]="!mavenOpts.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                  </div>
+                </div>
+                <span class="tip-content">{{'Specify JVM options needed when launching Maven as an external process'|translate}}</span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row animate-switch-container">
+      <div class="col-md-12">
+        <div class="animate-switch">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <span>
+                <b>{{'Build Operations'|translate}}</b>
+              </span>
+            </div>
+
+            <!--    <div *ngIf="(buildInfo.modules[0].compile!=='on' &&
+                  tempObject.modules[0].codeAnalysis!=='on' &&
+                  tempObject.modules[0].securityAnalysis!=='on' &&
+                  buildInfo.modules[0].unitTesting!=='on'
+                  && buildInfo.modules[0].codeCoverage!=='on')" >
+                    <div *ngIf="setContinuecontrolFalse()"></div>
+                </div>
+                  <div  *ngIf="!(buildInfo.modules[0].compile!=='on' &&
+                  tempObject.modules[0].codeAnalysis!=='on' &&
+                  tempObject.modules[0].securityAnalysis!=='on' &&
+                  buildInfo.modules[0].unitTesting!=='on'
+                  && buildInfo.modules[0].codeCoverage!=='on')">
+                      <div *ngIf="setContinuecontrolTrue()"></div>
+                </div>-->
+
+            <!--Start  Compile -->
+            <div class="row form-group chkright" style="padding-left: 20px;">
+              <div class="col-md-12">
+                <label class="checkbox-inline">
+                  <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" name="compile" id="bdbomvncmch01" (change)="buildInfo.modules[0].compile=$event.target.checked ?'on':'off'">Compile
+                </label>
+              </div>
+            </div>
+
+            <!--End  Compile -->
+            <!-- Start CodeAnalysis-->
+            <div *ngIf="checkCodeAnalysisOn()"></div>
+            <div>
+
+              <div class="row form-group chkright" style="padding-left:20px">
+                <div class="col-md-12">
+                  <label class="checkbox-inline">
+                    <input name="codAnalysys" type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'" id="bdbomvncach01" (change)="codeAnalysisCheckbox($event.target.checked)">{{'Code Analysis'|translate}}
+                  </label>
+                </div>
+              </div>
+              <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].codeAnalysis">
+
+                <div class="container-fluid animate-switch" *ngSwitchCase="'on'">
+
+                  <div class="col-md-12 form-group" style="margin-left:20px;text-transform:capitalize;">
+                    <label class="checkbox-inline ">
+                      <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[0]!=='off'" name="code1" id="bdbomvntcach01" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ?tempCodeAnalysis[0]:'off'">{{tempCodeAnalysis[0]}}
+
+                    </label>
+                    <label class="checkbox-inline ">
+                      <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]!=='off'" name="code2" id="bdbomvntca1ch01" (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ?tempCodeAnalysis[1]:'off'">{{tempCodeAnalysis[1]}}
+
+                    </label>
+                    <label class="checkbox-inline ">
+                      <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[2]!=='off'" name="code3" id="bdbomvntca3ch01" (change)="buildInfo.modules[0].codeAnalysis[2]=$event.target.checked ?tempCodeAnalysis[2]:'off'">{{tempCodeAnalysis[2]}}
+
+                    </label>
+                    <label class="checkbox-inline ">
+                      <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[3]!=='off'" name="code4" id="bdbomvntca4ch01" (change)="buildInfo.modules[0].codeAnalysis[3]=$event.target.checked ?tempCodeAnalysis[3]:'off'"
+                        [disabled]="buildInfo.modules[0].compile!=='on'">{{tempCodeAnalysis[3]}}
+                    </label>
+                    <!--label class="checkbox-inline">
+                            <input type="checkbox" name="code5" id="biicq" [checked]="buildInfo.modules[0].codeAnalysis[4]!=='off'" (change)="buildInfo.modules[0].codeAnalysis[4]=$event.target.checked?tempCodeAnalysis[4]:'off'">{{tempCodeAnalysis[4]}}
+                          </label-->
+                    <!--<label class="checkbox-inline ">
+                            <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[4]!=='off'"  name="code5"  id="bdbomvntca5ch01"
+                            (change)="buildInfo.modules[0].codeAnalysis[4]=$event.target.checked ?tempCodeAnalysis[4]:'off'">{{tempCodeAnalysis[4]}}
+                          </label>-->
+                    <div *ngIf="buildInfo.modules[0].compile!=='on'">
+                      <div *ngIf="setcodeAnalysis()"></div>
+                    </div>
+                    <!-- sonar Authentication code -->
+
+                    <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label for="sonarUrl">Sonar URL</label>
+                        </div>
+                        <div class="col-md-10">
+                          <input class="form-control txtbox textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="Sonar Url" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
+                            id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl">
+                        </div>
+                      </div>
+                      <div *ngIf="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='') &&((!(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') )|| (!(buildInfo.modules[0].sonarUserName==null || buildInfo.modules[0].sonarUserName=='')))"
+                        class="alert alert-danger ">
+                        Sonar Url is necessary with username and password
+                      </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label for="sonarUsername">Username</label>
+
+                        </div>
+                        <div class="col-md-10">
+                          <input class="form-control txtbox textFieldWidth" name="SonarUsername" [disabled]="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='')"
+                            #sonarUsername="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName">
+                        </div>
+                      </div>
+                      <div *ngIf="(buildInfo.modules[0].sonarUserName==null || buildInfo.modules[0].sonarUserName=='') &&(!(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') )"
+                        class="alert alert-danger ">
+                        Username Required with Password
+                      </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label for="sonarPassword">Password</label>
+
+                        </div>
+                        <div class="col-md-10">
+                          <input class="form-control txtbox textFieldWidth" name="SonarPassword" type="password" [disabled]="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='') || (buildInfo.modules[0].sonarUserName==null || buildInfo.modules[0].sonarUserName=='')"
+                            #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                            encrypt>
+                        </div>
+                      </div>
+                      <div *ngIf="(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') && (!(buildInfo.modules[0].sonarUserName==null || buildInfo.modules[0].sonarUserName==''))"
+                        class="alert alert-danger ">
+                        Password Required
+                      </div>
+                    </div>
+                    <!-- /sonar Authentication code -->
+
+                    <div style="color:red;margin-top:5px" *ngIf="tempObject.modules[0].codeAnalysis==='on'
+                            && ( buildInfo.modules[0].codeAnalysis[0]===null || buildInfo.modules[0].codeAnalysis[0]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[1]===null || buildInfo.modules[0].codeAnalysis[1]==='off' )
+                            && ( buildInfo.modules[0].codeAnalysis[2]===null || buildInfo.modules[0].codeAnalysis[2]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[3]===null || buildInfo.modules[0].codeAnalysis[3]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[4]===null || buildInfo.modules[0].codeAnalysis[4]==='off' )">
+                      <div *ngIf="setpaFalse()"></div>
+                    </div>
+
+                    <div style="color:red;margin-top:5px" *ngIf="!(tempObject.modules[0].codeAnalysis==='on'
+                            && ( buildInfo.modules[0].codeAnalysis[0]===null || buildInfo.modules[0].codeAnalysis[0]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[1]===null || buildInfo.modules[0].codeAnalysis[1]==='off' )
+                            && ( buildInfo.modules[0].codeAnalysis[2]===null || buildInfo.modules[0].codeAnalysis[2]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[3]===null || buildInfo.modules[0].codeAnalysis[3]==='off' )
+                            && (buildInfo.modules[0].codeAnalysis[4]===null || buildInfo.modules[0].codeAnalysis[4]==='off' ))">
+                      <div *ngIf="setpaTrue()"></div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngSwitchCase="'off'">
+                  <div *ngIf="setcodeAnalysisPaTrue()">
+                  </div>
+                </div>
+                <div *ngSwitchDefault>
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Start SecurityAnalysis-->
+            <!-- <div>
+
+                  <div *ngIf="buildInfo.modules[0].userName!=='' && buildInfo.modules[0].userName!==null &&
+                  buildInfo.modules[0].userName!==undefined">
+                    <div ng-init="tempObject.modules[0].securityAnalysis='on'"></div>
+                    <div ng-init="tempObject.modules[0].Checkmarx='Checkmarx'"></div>
+
+                  </div>
+                  <div class="row form-group chkright" style="padding-left: 20px">
+                    <div class="col-md-12">
+                      <label class="checkbox-inline"> <input
+                        type="checkbox" ng-true-value="'on'" ng-false-value="'off'"
+                        [(ngModel)]="tempObject.modules[0].securityAnalysis" style="width: 15px; height: 15px">{{'Security
+                        Analysis'|translate}}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div ng-switch
+                    on="tempObject.modules[0].securityAnalysis=='on'">
+                    <div *ngSwitchCase="true">
+                      <div class="col-md-4 col-md-offset-3 text-left">
+                        <select class=" form-control"
+                          [(ngModel)]="tempObject.modules[0].Checkmarx">
+                          <option value="">---select---</option>
+                          <option ng-repeat="sec in tempsecurityAnalysislist"
+                            ng-value="sec">{{sec |translate}}</option>
+                        </select>
+
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+
+                  <div class="animate-switch-container" ng-switch
+                    on="tempObject.modules[0].Checkmarx=='Checkmarx'">
+                    <div class="panel-body form-group animate-switch"
+                      *ngSwitchCase="true">
+                          <br>
+                    <br>
+                      <div class="row form-group">
+                      <div class="col-md-3 text-right">
+
+                                    <label class="control-label" >
+                                        {{'CheckMarx Server URL'|translate}}
+                                      </label>
+                            </div>
+                            <div class="col-md-9 field-tip text-left">
+                                  <input class="form-control txtbox" id = "sIIBNexusMgrUrl"
+                          [(ngModel)]="module.serverUrl" type="text"  placeholder="Enter Checkmarx Server URL"
+                          minlength="8" maxlength="150"  >
+                        <span class="tip-content">
+                          {{'Enter the CheckMarx Server URL  like'|translate}} "http://serverURL"</span>
+                            </div>
+                    </div>
+                  <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                  <label class="control-label"> {{'Username' |translate}} </label> <span
+                                    class="star">*</span>
+                                </div>
+                                <div class="col-md-9 text-left field-tip">
+                                  <input class="form-control txtbox boxWidth"
+                                    [(ngModel)]="buildInfo.modules[0].userName" type="text"
+                                    placeholder="Username" minlength="1"
+                                    maxlength="150" required>
+                                </div>
+                              </div>
+
+                      <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                  <label class="control-label"> {{'Password' | translate}}</label> <span
+                                    class="star">*</span>
+                                </div>
+                                <div class="col-md-9 text-left field-tip">
+                                  <input class="form-control txtbox boxWidth"
+                                    [(ngModel)]="buildInfo.modules[0].password" type="password"
+                                    placeholder="Password" minlength="1"
+                                    maxlength="150" required>
+                                </div>
+                              </div>
+
+                        <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                  <label class="control-label"> {{'Team' |translate}} </label> <span
+                                    class="star">*</span>
+                                </div>
+                                <div class="col-md-9 text-left field-tip">
+                                  <input class="form-control txtbox boxWidth"
+                                    [(ngModel)]="buildInfo.modules[0].team" type="text"
+                                    placeholder="Enter Team Name" minlength="1"
+                                    maxlength="150" required>
+                                </div>
+                              </div>
+                  <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                  <label class="control-label"> {{'Preset' |translate}} </label> <span
+                                    class="star">*</span>
+                                </div>
+                                <div class="col-md-9 text-left field-tip">
+                                  <input class="form-control txtbox boxWidth"
+                                    [(ngModel)]="buildInfo.modules[0].preset" type="text"
+                                    placeholder="Enter Preset" minlength="1"
+                                    maxlength="150" required>
+                                </div>
+                              </div>
+                              <div class=" row form-group">
+                            <div class="col-md-3 text-right">
+                              <label class="control-label">{{'Exclude Directories'|translate}}</label>
+                            </div>
+
+                            <div class="col-md-9 field-tip text-left">
+                              <input class="form-control txtbox textFieldWidth"
+                                [(ngModel)]="buildInfo.modules[0].exclude" type="text"
+                                placeholder="{{'dir'|translate}}1,{{'dir'|translate}}2"
+                                 minlength='1'
+                                maxlength=150 > <span
+                                class="tip-content">{{'Directories relative to
+                                Exclude folder'|translate}}</span>
+                            </div>
+                          </div>
+
+
+
+                  </div>
+                  <div *ngSwitchCase="false">
+                          <div ng-init="buildInfo.modules[0].exclude =''"></div>
+                          <div ng-init="buildInfo.modules[0].userName==''"></div>
+                          <div ng-init="buildInfo.modules[0].team==''"></div>
+                          <div ng-init="buildInfo.modules[0].preset==''"></div>
+                          <div ng-init="buildInfo.modules[0].password==''"></div>
+                          <div ng-init="tempObject.modules[0].Checkmarx==''"></div>
+                          <div ng-init="tempObject.modules[0].schdulePeriodicFullScan='off'"></div>
+                          <div ng-init="buildInfo.modules[0].incrementalScan='off'"></div>
+                          <div ng-init="buildInfo.modules[0].interval =''"></div>
+                        </div>
+                  </div>
+                  <div *ngIf="tempObject.modules[0].securityAnalysis=='off'" ng-init="buildInfo.modules[0].userName=''"></div>
+                  <div *ngIf="tempObject.modules[0].securityAnalysis=='off'" ng-init="buildInfo.modules[0].preset=''"></div>
+                  <div *ngIf="tempObject.modules[0].securityAnalysis=='off'" ng-init="buildInfo.modules[0].team=''"></div>
+                  <div *ngIf="tempObject.modules[0].securityAnalysis=='off'" ng-init="buildInfo.modules[0].password=''"></div>
+                  <div *ngIf="tempObject.modules[0].securityAnalysis=='off'" ng-init="buildInfo.modules[0].serverUrl=''"></div>
+
+                  <div  ng-switch
+                    on="tempObject.modules[0].Checkmarx=='Checkmarx'">
+                    <div
+                      *ngSwitchCase="true">
+                      code for the exclude folder
+
+                      Code end for the Exclude folder
+
+                      Code for Incremental scan
+                      <div *ngIf="module.interval!=='' && module.interval!==null
+                      && module.interval!==undefined">
+                        <div ng-init="tempObject.modules[$index].incrementalScan='on'"></div>
+                        <div ng-init="tempObject.modules[$index].schdulePeriodicFullScan='on'"></div>
+
+                      </div>
+                      <div class="row form-group chkright"
+                        style="padding-left: 20px">
+                        <div class="col-md-12">
+                          <label class="checkbox-inline">&nbsp;&nbsp; <input
+                            type="checkbox" ng-true-value="'on'"
+                            ng-false-value="'off'"
+                            [(ngModel)]="buildInfo.modules[0].incrementalScan">{{'Incremental Scan'|translate}}
+                          </label>
+                        </div>
+                      </div>
+
+                      code for the schedule periodic Full scan
+                      <div ng-switch
+                        on="buildInfo.modules[0].incrementalScan=='on'">
+                        <div *ngSwitchCase="true">
+                          <div class="row form-group chkright"
+                            style="padding-left: 20px">
+                            <div class="col-md-12">
+                              <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" ng-true-value="'on'"
+                                ng-false-value="'off'"
+                                [(ngModel)]="tempObject.modules[0].schdulePeriodicFullScan">{{'Schedule
+                                Periodic Full Scan'|translate}}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngSwitchCase="false">
+                          <div ng-init="tempObject.modules[0].schdulePeriodicFullScan='off'"></div>
+                          <div ng-init="buildInfo.modules[0].interval =''"></div>
+                        </div>
+                      </div>
+                      code end for the schedule periodic Full scan
+                      <div ng-switch
+                        on="tempObject.modules[0].schdulePeriodicFullScan=='on'">
+                        <div *ngSwitchCase="true" style="padding-left:30px">
+                          <div class="row form-group">
+                            <div class="col-md-3 text-right">
+                              <label class="control-label">{{'Interval for Full
+                                Scans'|translate}}<span class="star">*</span>
+                              </label>
+                            </div>
+                            <div class="col-md-9 field-tip text-left">
+                              <input class="form-control txtbox textFieldWidth"
+                                [(ngModel)]="buildInfo.modules[0].interval" type="number" min="0" max="99"
+                                placeholder="Enter the value between 0 and 99"
+                                minlength='1' maxlength=100 required> <span
+                                class="tip-content" >{{'Internal Full Scan Value
+                                related to Periodic Full Scan'|translate}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngSwitchCase="false">
+                          <div ng-init="buildInfo.modules[0].interval =''"></div>
+                        </div>
+
+                      </div>
+
+
+                      Code end for incremental scan
+
+
+
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+                  <div class="animate-switch-container" ng-switch
+                    on="tempObject.modules[0].Checkmarx">
+                    <div class="panel-body form-group animate-switch"
+                      *ngSwitchCase="App Scan">
+                      <br> <br>
+                      <div class=" row form-group">
+                        <div class="col-md-3 text-right">
+                          <label class="control-label">PAF {{'File
+                            Path'|translate}}</label> <span class="star">*</span>
+                        </div>
+                        <div class="col-md-9 field-tip text-left">
+                          <input class="form-control txtbox textFieldWidth"
+                            [(ngModel)]="buildInfo.modules[0].pafFilePath" type="text"
+                            placeholder="ModuleName.paf" minlength="1"
+                            maxlength="150"
+                            required>
+                          <span class="tip-content">{{'AppScan PAF file path
+                            relative to checkout folder'|translate}}</span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div *ngSwitchCase="off">
+                      <div ng-init="buildInfo.modules[0].pafFilePath =''"></div>
+                    </div>
+                  </div>
+
+
+
+              </div>
+
+              <div *ngIf="tempObject.modules[0].securityAnalysis=='off'">
+                <div ng-init="tempObject.modules[0].Checkmarx=''"></div>
+
+
+              </div>
+
+                      <div *ngIf="tempObject.modules[0].securityAnalysis=='off' ||
+                      buildInfo.modules[0].incrementalScan=='off'">
+                        <div ng-init="tempObject.modules[0].schdulePeriodicFullScan='off'"></div>
+                      </div>
+                      <div *ngIf="tempObject.modules[0].securityAnalysis=='off' ">
+                        <div ng-init="buildInfo.modules[0].incrementalScan='off'"></div>
+                      </div>
+
+
+               -->
+
+            <!-- End SecurityAnalysis-->
+            <!-- End SecurityAnalysis-->
+
+            <!-- Start UnitTesting-->
+            <div>
+              <div class="row form-group chkright" style="padding-left:20px">
+                <div class="col-md-12">
+                  <label class="checkbox-inline">
+                    <input type="checkbox" [checked]="buildInfo.modules[0].unitTesting=='on'" name="utOn" id="bdbomvnutch01" (change)="buildInfo.modules[0].unitTesting=$event.target.checked ?'on':'off'">{{'Unit Testing'|translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- End UnitTesting-->
+            <div *ngIf="buildInfo.modules[0].unitTesting ==='off'">
+              <div *ngIf="SetcodeCoverage()"></div>
+            </div>
+            <!-- Start CodeCoverage -->
+            <div>
+              <div class="row form-group chkright" style="padding-left:20px">
+                <div class="col-md-12">
+                  <label class="checkbox-inline">
+                    <input #setUncheckedCodeCoverage name="codeCov" type="checkbox" [checked]="buildInfo.modules[0].codeCoverage=='on'" id="bdbomvnccch01"
+                      (change)="buildInfo.modules[0].codeCoverage=$event.target.checked ?'on':'off'" [disabled]="buildInfo.modules[0].unitTesting ==='off' || buildInfo.modules[0].unitTesting ===undefined"> {{'Code Coverage'|translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- End CodeCoverage -->
+
+            <!-- Start OSS Compliance  
+                  <div>
+                    <div class="row form-group chkright" style="padding-left:20px">
+                      <div class="col-md-12">
+                        <label class="checkbox-inline">
+                          <input type="checkbox" [checked]="tempObject.modules[0].ossCheck=='on'"
+                          name="ossCheck" id="bdbomvnocsch01"
+                          (change)="tempObject.modules[0].ossCheck=$event.target.checked ?'on':'off'" >{{'Oss Compliance Check'|translate}}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                    
+                    <div *ngIf="tempObject.modules[0].ossCheck==='on'">
+                        <div class="row form-group chkright">
+                            <div class="col-md-3 text-right">
+                              <label class="control-label">{{'Send Report To '|translate}} </label>
+                              <span class="star">*</span>
+                            </div>
+                            <div class="col-md-9 field-tip text-left">
+                              <input
+                                name="ossMailRecipients"
+                                #ossMailRecipients="ngModel"
+                                class="form-control txtbox"
+                                [(ngModel)]="buildInfo.modules[0].ossMailRecipients"
+                                type="text"
+                                id="bdbomvnsrt"
+                                placeholder="abc@domain.com"
+                                minlength="3"
+                                maxlength="150"
+                                required>
+                                <div *ngIf="ossMailRecipients.errors && (ossMailRecipients.dirty || ossMailRecipients.touched)" class="alert alert-danger ">
+                                  <div [hidden]="!ossMailRecipients.errors.required">
+                                    This Field Name is required!
+                                  </div>
+                                  <div [hidden]="!ossMailRecipients.errors.minlength">
+                                    This Field Name must be at least 5 characters long.
+                                  </div>
+                                  <div [hidden]="!ossMailRecipients.errors.maxlength">
+                                    This Field Name cannot be more than 150 characters long.
+                                  </div>
+                                  <div [hidden]="!ossMailRecipients.errors.pattern">
+                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                  </div>
+                                </div>
+                              <span class="tip-content">{{'Email id of the person whom you want to send report eg:abc@domain.com '|translate}}</span>
+        
+                            </div>
+                          </div>
+                          <div class="row form-group">
+                               <div>
+                                <label class="col-md-3 text-right control-label">
+                                     {{'Distribution Type'|translate}}<span class="star">*</span>
+                                    </label>
+                                  </div>
+                              <div class="col-md-9 text-left">
+                                <select style="width:50%"  class="form-control" [(ngModel)]="buildInfo.modules[0].ossDistributionType"
+                                name="ossDistributionType" id="bibsdd" required>
+                                      <option value="">--Select--</option>
+                                      <option *ngFor="let os of distributionList" [ngValue]="os.value">{{os.value}}</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row form-group">
+                                <div>
+                                    <label class="col-md-3 text-right control-label">{{'Analysis Type'|translate}}
+                                    <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-4 text-left">
+                                        <input id="bdbomvnanlysis" type="radio" [(ngModel)]="buildInfo.modules[0].ossAnalysisType" value="analysis" name="ossAnalysisType" />&nbsp; {{'Analysis'|translate}}
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <input id="bdbomvnreanlysis" type="radio" [(ngModel)]="buildInfo.modules[0].ossAnalysisType" value="reanalysis" name="ossAnalysisType" />&nbsp; {{'Re-Analysis'|translate}}
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                  	
+                 End OSS Compliance  -->
+          </div>
+
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+              <input type="checkbox" id="bdbomvnsmdcb" [checked]="tempObject.subModuleAction==='on'" (change)="tempObject.subModuleAction=$event.target.checked ? openSubModule() :clearSubModule()">
+              <b>{{' Sub Module Details'|translate}}</b>
+
+
+
+
+            </div>
+            <div *ngIf="tempObject.subModuleAction==='on'">
+              <div class="panel-body">
+                <div class="row form-group">
+                  <div class="panel-heading" style="height:60px">
+                    <b>{{'Sub Modules Details'|translate}}</b>
+
+                    <span>
+                      <button type="button" class="btn btn-info" id="bdmvnasbu" (click)="addSubModule()" style="float:right">{{'Add Module'|translate}}</button>
+                    </span>
+                  </div>
+                  <div class="panel-body">
+                    <div class="panel-group" role="tablist" aria-multiselectable="true">
+                      <div class="panel panel-default" *ngFor="let subModule of buildInfo.subModule; let i =index" [attr.data-index]="i">
+                        <div class="panel-heading" role="tab">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" href="{{i+1}}" data-target="{{'#'+(i+1)}}" href="{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
+                              Module_{{(i+1)}}
+                            </a>
+
+                            <span style="float:right" *ngIf="buildInfo.subModule.length !== 1">
+                              <a (click)="deleteSubModule(i)" style="cursor:pointer;font-size:16px !important;color:black;">
+                                <span class="glyphicon glyphicon-remove"></span>
+                              </a>
+                            </span>
+                          </h4>
+                        </div>
+                        <div id="{{'#'+(i+1)}}" class="panel-collapse collapse in" role="tabpanel">
+                          <div class="panel-body">
+
+                            <div class="row paddingall form-group">
+
+                              <div class="row form-group">
+                                <div class="col-md-3 text-right">
+                                  <label class="control-label">
+                                    {{'Module Name'|translate}}
+                                    <span class="star">*</span>
+                                  </label>
+                                </div>
+                                <div class="col-md-9 field-tip  text-left">
+                                  <input class="form-control txtbox textFieldWidth" id="bdmvnmntf" name="'moduleName'+{{i}}" #moduleName="ngModel" pattern="^[_a-zA-Z0-9.-]+"
+                                    type="text" [(ngModel)]="subModule.moduleName" minlength="3" required>
+                                  <div *ngIf="moduleName.errors && (moduleName.dirty || moduleName.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!moduleName.errors.required">
+                                      This Field Name is required!
+                                    </div>
+                                    <div [hidden]="!moduleName.errors.minlength">
+                                      This Field Name must be at least 3 characters long.
+                                    </div>
+                                    <div [hidden]="!moduleName.errors.pattern">
+                                      This Field Name can only consist of alphabetical, number, dot and underscore
+                                    </div>
+                                  </div>
+
+                                  <span class="tip-content">{{'Name of module'|translate}}</span>
+                                  <div class="text-danger" *ngIf="nameErrorMessage">{{nameErrorMessage}}</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-group chkright" style="padding-left: 20px;">
+                              <div class="col-md-12">
+                                <label class="checkbox-inline">
+                                  <input type="checkbox" id="bdmvnsbdcb" [checked]="subModule.defaultModule==='on'" (change)="subModule.defaultModule=$event.target.checked ? 'on' :'off'"
+                                    name="'compileForModule'+{{i}}" style="width: 15px; height: 15px" />Default Module
+                                </label>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Maven -->
+
+</form>

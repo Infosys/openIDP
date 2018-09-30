@@ -1,0 +1,146 @@
+<div id="approveView" class="container" style="margin-bottom: 50px;">	
+	<div class="row col-md-offset-2 col-md-8">
+			
+		<form name="buildTriggerParamForm" ngNativeValidate class="form-horizontal" (ngSubmit)="submitAppr()">
+		
+				<div class="container-fluid text-center form-group" >
+						<h3>A build is waiting for the Approval. Kindly take necessary actions.</h3>					
+					</div>
+		<br>
+		
+		<div class="row form-group">
+			<div class="col-md-5 text-right">
+				<label class="control-label">
+					Application Name
+				</label>
+			</div>
+			<div class="col-md-7">
+				<input type="text" name="appName" readonly [(ngModel)]="IDPApproveData.applicationName"
+				class="form-control txtbox" style="width:50%">
+			</div>
+		</div>
+
+		<div class="row form-group text-right">
+			<div class="col-md-5">
+				<label class="control-label">
+					Pipeline Name
+				</label>
+			</div>
+			<div class="col-md-7">
+				<input type="text" name="pipeName" readonly [(ngModel)]="IDPApproveData.pipelineName"
+				class="form-control txtbox" style="width:50%">
+			</div>
+		</div>
+
+		<div *ngIf="buildBuild && buildDeploy" class="row form-group">
+			<div class="col-md-5 text-right">
+				<label class="control-label">
+					Job Type<span class="star">*</span>
+				</label>
+			</div>
+			<div class="col-md-7 field-tip">
+				<!--<input id="pipelineName" class="form-control txtbox"  ng-model="basicInfo.applicationName" type="text" placeholder="IDP_ApplicationName" ng-minlength="3" ng-maxlength="20"  required >-->
+				<select style="width:50%" class="form-control" #jobType="ngModel" name="jobType"
+				 [(ngModel)]="IDPApproveData.jobType" (change)="setBuildNum()">
+					<option value="">--Select--</option>
+					<option value="build">Build</option>
+					<option value="deploy">Deploy</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row form-group" *ngIf="IDPApproveData.jobType">
+			<div class="col-md-5 text-right">
+				<label class="control-label">
+					Build No<span class="star">*</span>
+				</label>
+			</div>
+			<div class="col-md-7 field-tip">
+				<!--<input id="pipelineName" class="form-control txtbox"  ng-model="basicInfo.applicationName" type="text" placeholder="IDP_ApplicationName" ng-minlength="3" ng-maxlength="20"  required >-->
+				<select style="width:50%" class="form-control" #buildSelect="ngModel" name="buildSelect" [(ngModel)]="IDPApproveData.obj" (change)="setDetails(IDPApproveData.obj)" >
+					<option value="">--Select--</option>
+					<option *ngFor="let temp of builds;let i=index"  [ngValue]="temp">{{temp.ApprBuildNO}}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row form-group" *ngIf="IDPApproveData.obj!==undefined && IDPApproveData.obj!==''">
+			<table style="border: 1px solid black; border-collapse: collapse;width:100%">
+				<tr style="border: 1px solid black; border-collapse: collapse;">
+					<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width:200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Build No</th>
+					<td style="min-width:100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{IDPApproveData.buildNo}}</td>
+
+				</tr>
+				<tr style="border: 1px solid black; border-collapse: collapse; ">
+					<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width:200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">User Name</th>
+					<td style="min-width:100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{IDPApproveData.userName}}</td>
+
+				</tr>
+				<tr style="border: 1px solid black; border-collapse: collapse; ">
+					<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width:200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Job Type</th>
+					<td style="min-width:100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{IDPApproveData.jobType}}</td>
+
+				</tr>
+				<tr style="border: 1px solid black; border-collapse: collapse; " *ngIf="IDPApproveData.jobType==='deploy'">
+					<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width:200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Environment</th>
+					<td style="min-width:100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{IDPApproveData.workEnv}}</td>
+
+				</tr>
+			</table>
+		</div>	
+		<br>		
+
+		<div class="row form-group">
+			<div class="col-md-5 text-right">
+				<label > {{'Approval Status'|translate}}
+					<span class="star">*</span>
+				</label>
+			</div>
+			<div class="col-md-3">
+				<input type="radio" name="approve" [(ngModel)]="IDPApproveData.approve" value="approved" required>&nbsp;Approved
+			</div>
+			<div class="col-md-4">
+				<input type="radio" name="approve" [(ngModel)]="IDPApproveData.approve" value="rejected" required>&nbsp;Rejected
+			</div>
+		</div>
+
+
+		<div class="row form-group">
+			<div class="col-md-5 text-right">
+				<label> {{'Comments'|translate}}
+					<span class="star">*</span>
+				</label>
+			</div>
+			<div class="col-md-7">
+				<textarea class="form-control" style="height:45px;width:400px" [(ngModel)]="IDPApproveData.apprvComments" name="apprvComments"
+					required></textarea>
+			</div>
+
+		</div>
+		<div class="row text-center alert-success" *ngIf="msg==='success'"  style="padding:10px">			 
+			<span *ngIf="IDPApproveData.approve==='approved'">Build approved successfully.</span>
+			<span *ngIf="IDPApproveData.approve==='rejected'">Build rejected successfully.</span>
+		</div>
+		<div class="row text-center alert-danger" *ngIf="msg==='error'"  style="padding:10px">
+			<span *ngIf="IDPApproveData.approve==='approved'">There was an error in build approval . Please contact IDP Admin.</span>
+			<span *ngIf="IDPApproveData.approve==='rejected'">There was an error in build rejection. Please contact IDP Admin.</span>
+			
+		</div>
+
+		<div class="col-md-offset-3 col-md-4 ">
+			<div class="col-md-12 btn-container" style="padding-top: 15px">
+				<button type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt">
+					<span> {{'Submit'|translate}} &nbsp;</span>
+					
+				</button>
+			</div>
+		</div>
+
+				
+			
+		
+		
+	</form>
+	</div>	
+	
+</div>

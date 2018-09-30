@@ -1,0 +1,161 @@
+{
+  "basicInfo": {
+    "applicationName": "15Dec",
+    "pipelineName": "Python_Test",
+    "buildServerOS": "linux",
+    "masterSequence": "pipeline",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "create"
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "python",
+    "scm": [
+      {
+        "type": "svn",
+        "url": "http://svn.co.in",
+        "userName": "idpadmin",
+        "password": "idpadmin@123",
+        "repositoryBrowser": "",
+        "browserUrl": "",
+        "projectName": "",
+        "branch": "",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "python",
+    "artifactToStage": {
+      "artifactRepo": {},
+      "artifactRepoName": "na"
+    },
+
+    "modules": [
+      {
+        "hostName": "10.74.91.103",
+        "userName": "idpadmin",
+        "moduleName": "",
+        "relativePath": "rootDirectory",
+        "codeAnalysis": [
+          "sonar"
+        ],
+        "unitTesting": "on",
+        "unitTestDir": "Test_Cases",
+        "report": "test-reports",
+        "privateKey": "D:/privatekey.ppk",
+        "remoteDir": "remoteDirectory"
+      }
+    ],
+    "postBuildScript": {
+      "dependentPipelineList": []
+    },
+    "sonarUrl": "http://infysonarqube:8080/"
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "on",
+        "scriptType": "",
+        "deploySteps": [
+          {
+            "stepName": "step1",
+            "deployOS": "",
+            "runScript": {
+              "scriptType": "",
+              "scriptFilePath": "",
+              "targets": ""
+            },
+            "deployToContainer": {
+              "containerName": "",
+              "userName": "",
+              "password": "",
+              "updateDB": "",
+              "rollbackStrategy": "",
+              "fileName": "",
+              "pairName": "",
+              "srcEnvName": ""
+            },
+            "deployDatabase": {
+              "restorusername": "",
+              "restorpassword": "",
+              "dbusername": "",
+              "dbpassword": "",
+              "script": ""
+            },
+            "s3location": "testairflow/test_idp_folder",
+            "abortScript": {
+              "scriptType": ""
+            },
+            "deploymentOption": "",
+            "deployOperation": "",
+            "proxy": {
+              "username": "",
+              "password": "",
+              "host": "",
+              "port": "",
+              "enabled": ""
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "Dev",
+        "envFlag": "off",
+        "testSteps": []
+      }
+    ]
+  }
+}

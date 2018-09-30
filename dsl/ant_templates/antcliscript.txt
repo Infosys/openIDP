@@ -1,0 +1,5 @@
+login_file $Serv "C:\ProgramData\IBM\AppScanSource\config\ounceautod.token" -acceptssl
+wait
+oa "..\$pafName"
+scan
+report "Findings" "html" "..\$projName.html" -includeSrcBefore:5 -includeSrcAfter:5

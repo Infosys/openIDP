@@ -1,0 +1,446 @@
+{
+  "basicInfo": {
+    "applicationName": "OASIS",
+    "pipelineName": "NC_OSS_CICD",
+    "masterSequence": "pipeline",
+    "buildServerOS": "windows",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0",
+      "buildAtSpecificInterval": "off",
+      "event": [
+        {
+          "type": "--Select--",
+          "hour": "00",
+          "minute": "00"
+        }
+      ]
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": "hardik.rathod01,userName"
+    },
+    "pipelineStatus": "edit"
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "J2EE/Maven",
+    "scm": [
+      {
+        "type": "git",
+        "url": "http://infygit.domain.com/dummy/TCM_Maven.git",
+        "userName": "userName",
+        "password": "password",
+        "repositoryBrowser": "gitLab",
+        "browserUrl": "http://infygit.domain.com",
+        "projectName": "",
+        "branch": "master",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "latest",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "on",
+        "testRepo": "on"
+      },
+      {
+        "type": "svn",
+        "url": "http://svn.co.in",
+        "userName": "dummy",
+        "password": "password",
+        "repositoryBrowser": "",
+        "browserUrl": "",
+        "projectName": "",
+        "branch": "",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "off",
+        "deployRepo": "on",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [
+      {
+        "jobType": "string",
+        "jobParamName": "envName",
+        "jobParamValue": "DevInt",
+        "jobParamSatic": true
+      }
+    ],
+    "buildScript": [
+      {
+        "scriptType": "preBuild",
+        "tool": "shellScript",
+        "scriptFilePath": "/sc.sh"
+      },
+      {
+        "scriptType": "postBuild",
+        "tool": "ant",
+        "scriptFilePath": "JPetStore_Rep/JPetStore/build.xml",
+        "targets": "print",
+        "javaOptions": "-Xm515mb",
+        "antPropertiesArr": [
+          {
+            "antKey": "prop1",
+            "antValue": "value1"
+          }
+        ]
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "maven",
+    "artifactToStage": {
+      "artifact": "",
+      "artifactRepo": {},
+      "artifactRepoName": "na"
+    },
+    "modules": [
+      {
+        "moduleName": "TCMTest",
+        "relativePath": "TCM_Maven/TCMTest/pom.xml",
+        "codeAnalysis": [
+          "sonar",
+          "pmd",
+          "checkStyle",
+          "findBugs",
+          "off"
+        ],
+        "unitTesting": "on",
+        "codeCoverage": "on",
+        "args": "-Dsonar.host.url\u003dhttp://infysonarqube:8080",
+        "compile": "on",
+        "clean": "on",
+        "install": "on",
+        "MVNOPTS": "",
+        "interval": ""
+      }
+    ],
+    "postBuildScript": {
+      "tool": "batch",
+      "scriptFilePath": "sc.bat",
+      "targets": ""
+    },
+    "subModule": [
+      {
+        "moduleName": "module1",
+        "defaultModule": "on"
+      }
+    ],
+    "sonarUrl": "\"\""
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "pre-QA",
+        "envFlag": "on",
+        "scriptType": "",
+        "deploySteps": [
+          {
+            "stepName": "tomcat",
+            "deployOS": "",
+            "runScript": {
+              "scriptType": ""
+            },
+            "deployToContainer": {
+              "containerName": "tomcat",
+              "serverManagerURL": "http://dummyHost122:7979",
+              "resourceToBeDeployed": "manualTomcat",
+              "warPath": "**/*.war",
+              "contextPath": "/TCMTest",
+              "userName": "tomcatadmin",
+              "password": "tomcatadmin",
+              "targetCellName": "",
+              "targetNodeName": "",
+              "targetServerName": "",
+              "hostName": "",
+              "port": "",
+              "updateDB": "",
+              "rollbackStrategy": "",
+              "narOS": "",
+              "deployedFolder": "",
+              "dbDeployPipelineList": []
+            },
+            "deployDatabase": {
+              "restorusername": "",
+              "restorpassword": "",
+              "dbusername": "",
+              "dbpassword": "",
+              "script": ""
+            },
+            "deploymentOption": ""
+          },
+          {
+            "stepName": "Websphere",
+            "deployOS": "",
+            "runScript": {
+              "scriptType": "",
+              "scriptFilePath": "",
+              "targets": ""
+            },
+            "deployToContainer": {
+              "containerName": "webSphere",
+              "serverManagerURL": "",
+              "resourceToBeDeployed": "manualWAS",
+              "warPath": "/target/snapashot.ear",
+              "contextPath": "",
+              "userName": "tomcatadmin",
+              "password": "tomcatadmin",
+              "ipOrDNS": "VQTOOLS122.domain.com",
+              "targetCellName": "VQTOOLS122Node01Cell",
+              "targetNodeName": "VQTOOLS122Node01",
+              "targetServerName": "server1",
+              "hostName": "",
+              "port": "8880",
+              "updateDB": "",
+              "rollbackStrategy": "",
+              "narOS": "",
+              "deployedFolder": "",
+              "fileName": "",
+              "pairName": "",
+              "srcEnvName": ""
+            },
+            "deployDatabase": {
+              "restorusername": "",
+              "restorpassword": "",
+              "dbusername": "",
+              "dbpassword": "",
+              "script": ""
+            },
+            "abortScript": {
+              "scriptType": ""
+            },
+            "deploymentOption": "",
+            "deployOperation": "",
+            "proxy": {
+              "username": "",
+              "password": "",
+              "host": "",
+              "port": "",
+              "enabled": ""
+            }
+          }
+        ]
+      },
+      {
+        "envName": "QA",
+        "envFlag": "off",
+        "scriptType": ""
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "pre-QA",
+        "envFlag": "on",
+        "testSteps": [
+          {
+            "stepName": "Selenium",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "selenium",
+              "projectName": "TCM_Maven/TCM_Selenium",
+              "frameWork": "jUnit",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "TestSuite",
+              "projectLocation": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "browserName": "",
+              "rootDir": "src",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step2",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "protractor",
+              "projectName": "",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "example/config.js",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step3",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "rft",
+              "projectName": "RFTProject",
+              "frameWork": "",
+              "testCase": "SearchTest",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "",
+              "domain": "",
+              "serviceName": "",
+              "path": "",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "dataPool": "on",
+              "iteration": 2,
+              "fullIteration": "on",
+              "browserName": "",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step4",
+            "runScript": {
+              "scriptType": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "functional",
+              "testTypeName": "sahi",
+              "projectName": "",
+              "frameWork": "",
+              "testCase": "",
+              "testPlan": "",
+              "folderUrl": "",
+              "userName": "",
+              "password": "",
+              "testSuiteName": "",
+              "projectLocation": "",
+              "serverUrl": "http://idptestServerHost:8080/idpapp",
+              "domain": "",
+              "serviceName": "",
+              "path": "scripts/login.sah",
+              "authenticationCode": "",
+              "timeout": 60,
+              "serverName": "",
+              "iteration": 2,
+              "browserName": "chrome",
+              "rootDir": "",
+              "version": "",
+              "externalFilePath": "",
+              "parameters": "",
+              "scriptPath": "",
+              "targets": "",
+              "arg": "",
+              "buildDefId": ""
+            }
+          },
+          {
+            "stepName": "step5",
+            "runScript": {
+              "scriptType": "powerShell",
+              "pathOfFile": "deploy.ps1",
+              "targets": "",
+              "host": "",
+              "userName": "",
+              "password": "",
+              "script": "",
+              "pathToFiles": "",
+              "destinationDir": "",
+              "reportType": ""
+            },
+            "test": {
+              "testCategory": "",
+              "testTypeName": "",
+              "frameWork": "",
+              "browserName": "",
+              "version": ""
+            }
+          }
+        ]
+      },
+      {
+        "envName": "QA",
+        "envFlag": "off"
+      }
+    ]
+  }
+}

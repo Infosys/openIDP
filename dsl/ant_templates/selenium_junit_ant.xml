@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="$PNAME" basedir=".">
+
+<!-- IDP dummy Selenium JUnit
+
+	<property name="LM.home" value="$LMHOME" />
+	<property name="LM.homesrc" value="$LMHOMESRC" />
+
+	<path id="SeleniumJunit.classpath">
+		<pathelement location="${LM.home}/bin" />
+		<pathelement location="$SeleniumJarPath" />
+		<pathelement location="$JunitJarPath" />
+	</path>
+
+	<target name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<mkdir dir="${LM.home}/bin" />
+		<javac classpathref="SeleniumJunit.classpath" destdir="${LM.home}/bin"
+			encoding="UTF-8" optimize="off" debug="on" failonerror="true"
+			srcdir="${LM.home}/src" />
+	</target>
+
+	<target name="JunitTest" depends="build-project">
+		<delete dir="${LM.home}/SeleniumJunit_Report"></delete>
+		<mkdir dir="${LM.home}/SeleniumJunit_Report"></mkdir>
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<test name="$TestCase" todir="${LM.home}/SeleniumJunit_Report" />
+			<classpath refid="SeleniumJunit.classpath" />
+		</junit>
+	</target>
+ -->
+
+	<property name="LM.home" value="$LMHOME" />
+	<property name="LM.homesrc" value="$LMSRC" />
+	<property name="LM.homelib" value="$LMLIB" />
+
+	<path id="SeleniumJunit.classpath">
+		<pathelement location="${LM.home}/bin" />
+		<pathelement location="$SeleniumJarPath" />
+		<pathelement location="$JunitJarPath" />
+	</path>
+
+	<target name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<delete dir="${LM.home}/bin" />
+		<mkdir dir="${LM.home}/bin" />
+		<javac classpathref="SeleniumJunit.classpath" destdir="${LM.home}/bin"
+			encoding="UTF-8" optimize="off" debug="on" failonerror="true"
+			srcdir="${LM.homesrc}">
+			<classpath>
+				<fileset dir="${LM.homelib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$SelJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$JunitJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${LM.home}/bin">
+					<include name="**/*.*" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="JunitTest" depends="build-project">
+		<delete dir="${LM.home}/SeleniumJunit_Report"></delete>
+		<mkdir dir="${LM.home}/SeleniumJunit_Report"></mkdir>
+
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<sysproperty key="appUrl" value="$AppUrl" />
+			<classpath>
+				<fileset dir="${LM.homelib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$SelJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="$JunitJPath">
+					<include name="**/*.jar" />
+				</fileset>
+				<!--<fileset dir="${LM.home}/bin">
+					<include name="**/*.*" />
+				</fileset>-->
+				<pathelement location="${LM.home}/bin/" />
+			</classpath>
+			<batchtest todir="${LM.home}/SeleniumJunit_Report">
+				<fileset dir="${LM.home}/bin">
+					<include name="**/*$TestCase*.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+	</target>
+
+	<target name="JunitTestReport" depends="JunitTest">
+		<delete dir="${LM.home}/SeleniumJunit_Report_Html" failonerror="false" />
+		<mkdir dir="${LM.home}/SeleniumJunit_Report_Html" />
+		<junitreport todir="${LM.home}/SeleniumJunit_Report_Html">
+			<fileset dir="${LM.home}/SeleniumJunit_Report">
+				<include name="**/*.xml" />
+			</fileset>
+			<report format="noframes" todir="${LM.home}/SeleniumJunit_Report_Html" />
+		</junitreport>
+
+	</target>
+  
+</project>

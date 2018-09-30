@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.testresultsanalyzer.TestResultsAnalyzerExtension_-DescriptorImpl plugin="test-results-analyzer@0.3.4">
+  <noOfBuilds>10</noOfBuilds>
+  <showAllBuilds>false</showAllBuilds>
+  <showBuildTime>false</showBuildTime>
+  <showLineGraph>true</showLineGraph>
+  <showBarGraph>true</showBarGraph>
+  <showPieGraph>true</showPieGraph>
+  <runTimeLowThreshold>0.5</runTimeLowThreshold>
+  <runTimeHighThreshold>1.0</runTimeHighThreshold>
+  <passFailString>passfail</passFailString>
+  <runtimeString>runtime</runtimeString>
+  <useCustomStatusNames>false</useCustomStatusNames>
+  <passedRepresentation>PASSED</passedRepresentation>
+  <failedRepresentation>FAILED</failedRepresentation>
+  <skippedRepresentation>SKIPPED</skippedRepresentation>
+  <naRepresentation>N/A</naRepresentation>
+  <useCustomStatusColors>false</useCustomStatusColors>
+  <passedColor>#92D050</passedColor>
+  <failedColor>#F37A7A</failedColor>
+  <skippedColor>#FDED72</skippedColor>
+  <naColor>#E8F5FF</naColor>
+  <chartDataType>passfail</chartDataType>
+</org.jenkinsci.plugins.testresultsanalyzer.TestResultsAnalyzerExtension_-DescriptorImpl>
