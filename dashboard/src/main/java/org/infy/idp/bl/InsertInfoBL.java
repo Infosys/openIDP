@@ -29,16 +29,17 @@ import org.infy.idp.dataapi.PipelineDL;
 import org.infy.idp.dataapi.SCMInfoDL;
 import org.infy.idp.dataapi.TestAnalysisDL;
 import org.infy.idp.entities.BuildDetail;
+import org.infy.idp.entities.BuildInfoDetails;
 import org.infy.idp.entities.CodeAnalysis;
 import org.infy.idp.entities.CoverageDetails;
 import org.infy.idp.entities.EntityWrapper;
 import org.infy.idp.entities.FileNet;
-import org.infy.idp.entities.JsonClass;
-import org.infy.idp.entities.FileNetExportPropertyType;
 import org.infy.idp.entities.FileNetExportClassDefinitionType;
-import org.infy.idp.entities.FileNetExportOtherType;
 import org.infy.idp.entities.FileNetExportDocumentType;
 import org.infy.idp.entities.FileNetExportFolderType;
+import org.infy.idp.entities.FileNetExportOtherType;
+import org.infy.idp.entities.FileNetExportPropertyType;
+import org.infy.idp.entities.JsonClass;
 import org.infy.idp.entities.TestCaseResult;
 import org.infy.idp.jsonschema.SCMInfo;
 import org.infy.idp.utils.ConfigurationManager;
@@ -455,11 +456,23 @@ public class InsertInfoBL {
 			temp = Integer.parseInt(buildDetail.getScore());
 		}
 		try {
-			buildinfoDL.insertbuilddetails(appid, Double.parseDouble(buildDetail.getBuildTime()),
-					buildDetail.getBuiltStatus(), Integer.parseInt(lastBuildId), Integer.parseInt(lastCompleteBuildId),
-					Integer.parseInt(lastSuccessfulBuildID), Integer.parseInt(lastUnstableBuildId),
-					Integer.parseInt(lastUnsuccessfulBuildId), Integer.parseInt(lastFailedBuildId), pID, temp,
-					stageName);
+			
+			BuildInfoDetails buildInfoDetails=new BuildInfoDetails();
+			buildInfoDetails.setAppid(appid);
+			buildInfoDetails.setBuildtime(Double.parseDouble(buildDetail.getBuildTime()));
+			buildInfoDetails.setBuildstatus(buildDetail.getBuiltStatus());
+			buildInfoDetails.setBuildid(Integer.parseInt(lastBuildId));
+			buildInfoDetails.setLastcompletebuildid(Integer.parseInt(lastCompleteBuildId));
+			buildInfoDetails.setLastsuccessfulbuildid(Integer.parseInt(lastSuccessfulBuildID));
+			buildInfoDetails.setLastunstablebuildid(Integer.parseInt(lastUnstableBuildId));
+			buildInfoDetails.setLastunsuccessfulbuildid(Integer.parseInt(lastUnsuccessfulBuildId));
+			buildInfoDetails.setLastfailedbuildid(Integer.parseInt(lastFailedBuildId));
+			buildInfoDetails.setPipelinebuildno(pID);
+			buildInfoDetails.setScore(Double.valueOf(temp));
+			buildInfoDetails.setStagename(stageName);
+			
+			
+			buildinfoDL.insertbuilddetails(buildInfoDetails);
 		} catch (Exception e) {
 			logger.error("Exception in insertbuilddetails", e);
 

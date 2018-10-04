@@ -1,4 +1,4 @@
-package org.infosys.idp.web.uiConfig;
+package org.infosys.idp.web.uiconfig;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -33,13 +33,11 @@ public class CustomPreZuulFilter extends ZuulFilter {
             final HttpServletRequest req = ctx.getRequest();
 
             final String refreshToken = extractRefreshToken(req);
-            if(req.getParameter("grant_type").equals("refresh_token")){
-            if (refreshToken != null) {
+            if(req.getParameter("grant_type").equals("refresh_token") && refreshToken != null){
                 final Map<String, String[]> param = new HashMap<String, String[]>();
                 param.put("refresh_token", new String[] { refreshToken });
                 param.put("grant_type", new String[] { "refresh_token" });
                 ctx.setRequest(new CustomHttpServletRequest(req, param));
-            }
            }
         } catch (final UnsupportedEncodingException e) {
             logger.error("Error occured in pre filter", e);

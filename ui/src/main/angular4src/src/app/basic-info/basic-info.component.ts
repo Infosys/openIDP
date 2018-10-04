@@ -211,7 +211,7 @@ export class BasicInfoComponent implements OnInit {
         try {
          // console.log('appName ' + appName);
           const pipetemp = JSON.parse(this.idpencryption.decryptAES(response.json().resource).toLowerCase());
-          if (typeof pipetemp !== 'string') {
+          if (typeof pipetemp !== "string") {
             this.pipeLineNames = JSON.parse(this.idpencryption.decryptAES(response.json().resource));
             if (this.basicInfo.pipelineName !== undefined && this.basicInfo.pipelineName !== null && this.basicInfo.pipelineName !== "") {
                 this.checkJobName(this.basicInfo.pipelineName);

@@ -126,7 +126,7 @@ public class GitHubBranchTagFetcher {
 			} else {
 				String sRepo_Slug = githubUrl.substring(githubUrl.lastIndexOf('/') + 1).replace(".git", "");
 				String[] urlFixes = githubUrl.split("/");
-				logger.info(urlFixes.toString());
+			
 				String finalUrl = urlFixes[0] + "//" + urlFixes[2] + "/api/v3/repos/" + urlFixes[3] + "/" + sRepo_Slug
 						+ "/branches";
 				branch = new ArrayList<String>();

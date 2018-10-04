@@ -250,26 +250,10 @@ public class TriggerParameters {
 	@Expose
 	private Boolean restoreTRFlag;
 
-	public Boolean getRestoreTRFlag() {
-		return restoreTRFlag;
-	}
-
-	public void setRestoreTRFlag(Boolean restoreTRFlag) {
-		this.restoreTRFlag = restoreTRFlag;
-	}
-
 	@SerializedName("restoreTRParams")
 	@Expose
 	private String restoreTRParams;
-
-	public String getRestoreTRParams() {
-		return restoreTRParams;
-	}
-
-	public void setRestoreTRParams(String restoreTRParams) {
-		this.restoreTRParams = restoreTRParams;
-	}
-
+	
 	@SerializedName("jobType")
 	@Expose
 	private String jobType;
@@ -292,6 +276,26 @@ public class TriggerParameters {
 	@SerializedName("artifactName")
 	@Expose
 	private String artifactName;
+	
+	@SerializedName("jobParam")
+	@Expose
+	private List<JobParamTrigger> jobParam;
+	
+	public Boolean getRestoreTRFlag() {
+		return restoreTRFlag;
+	}
+
+	public void setRestoreTRFlag(Boolean restoreTRFlag) {
+		this.restoreTRFlag = restoreTRFlag;
+	}
+
+	public String getRestoreTRParams() {
+		return restoreTRParams;
+	}
+
+	public void setRestoreTRParams(String restoreTRParams) {
+		this.restoreTRParams = restoreTRParams;
+	}
 
 	public String getArtifactName() {
 		return artifactName;
@@ -444,16 +448,8 @@ public class TriggerParameters {
 		this.triggerId = triggerId;
 	}
 
-	@SerializedName("jobParam")
-	@Expose
-	private List<JobParamTrigger> jobParam;
 
-	/*
-	 * Remove VSTS ALM public String getTfsWorkItem() { return tfsWorkItem; }
-	 * 
-	 * public void setTfsWorkItem(String tfsWorkItem) { this.tfsWorkItem =
-	 * tfsWorkItem; }
-	 */
+
 	public String getMtmStepName() {
 		return mtmStepName;
 	}

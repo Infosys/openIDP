@@ -10,13 +10,13 @@
 <hr/>
 </div>
 <div align="center">
-<img src="/docs/paas1.PNG" alt="IDP"/>
+<img src="/docs/paas2.PNG" alt="IDP"/>
 <br/>
 <img src="/docs/idp2.gif" alt="IDP" />
 <br/>
 <h6>For more information, check out below links</h6>
-<h6><a href="https://www.youtube.com/watch?v=8V0OKlB-d2I" target="_blank">https://www.youtube.com/watch?v=8V0OKlB-d2I</a></h6>
-<h6><a href="https://www.youtube.com/watch?time_continue=1&v=t8cuE3Jog2U" target="_blank">https://www.youtube.com/watch?time_continue=1&v=t8cuE3Jog2U</a></h6>
+<h6><a href="https://www.youtube.com/watch?time_continue=1&v=t8cuE3Jog2U" target="_blank">IDP for Agile and DevOps at Scale for Digital transformation</a></h6>
+<h6><a href="https://www.youtube.com/watch?v=8V0OKlB-d2I" target="_blank">IDP for accelerated DevOps journey</a></h6>
 </div>
 <hr/>
 
@@ -105,7 +105,7 @@ Below instructions will help the users to get to know the structure of this repo
   <td align="center"><sup><b>Scheduler</b></sup></td>
   <td><sup>This Java based component is for timed execution of pipelines.</sup></td>
   <td>  <ol>
-    <li><sup><b>Framework :</b> Spring Boot, Spring MVC, OAUth2.0</sup></li>
+    <li><sup><b>Framework :</b> Spring Boot</sup></li>
     <li><sup><b>Dependency Management:</b> Maven</sup></li>
     </ol></td>
 </tr>

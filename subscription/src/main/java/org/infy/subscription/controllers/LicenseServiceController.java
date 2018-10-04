@@ -36,7 +36,7 @@ import com.google.gson.Gson;
 @RequestMapping("/licenseService")
 public class LicenseServiceController {
 	@Autowired
-	LicenseServiceBL licenseServiceBL;
+	private LicenseServiceBL licenseServiceBL;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LicenseServiceController.class);
 		

@@ -13,12 +13,12 @@ import java.util.Arrays;
 import org.infy.idp.config.utils.ConfigurationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -52,12 +52,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	@Autowired
 	private ConfigurationManager configManager;
 
-	@Value("classpath:schema.sql")
-	private Resource schemaScript;
-
-	@Value("classpath:data.sql")
-	private Resource dataScript;
-
+	
 	/**
 	 * Method configure
 	 * 

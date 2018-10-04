@@ -53,6 +53,18 @@ public class Code {
 	@Expose
 	private String username = null;
 
+	@SerializedName("password")
+	@Expose
+	private String password = null;
+
+	@SerializedName("connType")
+	@Expose
+	private String connType = null;
+
+	@SerializedName("serverName")
+	@Expose
+	private String serverName = null;
+	
 	public String getPort() {
 		return port;
 	}
@@ -92,18 +104,7 @@ public class Code {
 	public void setServerName(String serverName) {
 		this.serverName = serverName;
 	}
-
-	@SerializedName("password")
-	@Expose
-	private String password = null;
-
-	@SerializedName("connType")
-	@Expose
-	private String connType = null;
-
-	@SerializedName("serverName")
-	@Expose
-	private String serverName = null;
+	
 
 	public String getSubApplication() {
 		return subApplication;

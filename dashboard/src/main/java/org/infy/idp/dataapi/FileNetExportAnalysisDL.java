@@ -14,11 +14,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 import org.infy.idp.entities.FileNet;
 import org.infy.idp.entities.FileNetExport;
+import org.infy.idp.entities.FileNetExportClassDefinitionType;
+import org.infy.idp.entities.FileNetExportOtherType;
 import org.infy.idp.entities.FileNetExportPropertyType;
-import org.infy.idp.entities.*;
 import org.infy.idp.utils.ConfigurationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
  * class FileNetExportAnalysisDL has methods related to filenet export in IDP
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class FileNetExportAnalysisDL {
 
 	@Autowired

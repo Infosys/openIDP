@@ -30,14 +30,6 @@ public class BasicInfo {
 	@Expose
 	private String masterSequence;
 
-	public String getMasterSequence() {
-		return masterSequence;
-	}
-
-	public void setMasterSequence(String masterSequence) {
-		this.masterSequence = masterSequence;
-	}
-
 	@SerializedName("buildServerOS")
 	@Expose
 	private String buildServerOS;
@@ -58,20 +50,9 @@ public class BasicInfo {
 	@Expose
 	private String groupName;
 
-	// ICTP
 	@SerializedName("platform")
 	@Expose
 	private String platform;
-
-	public String getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
-
-	// END
 
 	@SerializedName("userName")
 	@Expose
@@ -84,6 +65,22 @@ public class BasicInfo {
 	@Expose
 	private TriggerInterval customTriggerInterval = null;
 
+	public String getMasterSequence() {
+		return masterSequence;
+	}
+
+	public void setMasterSequence(String masterSequence) {
+		this.masterSequence = masterSequence;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+
 	public TriggerInterval getCustomTriggerInterval() {
 		return customTriggerInterval;
 	}
@@ -93,7 +90,6 @@ public class BasicInfo {
 	}
 
 	public String getPipelineStatus() {
-
 		return pipelineStatus;
 	}
 
@@ -102,22 +98,18 @@ public class BasicInfo {
 	}
 
 	public String getGroupName() {
-
 		return groupName;
 	}
 
 	public void setGroupName(String groupName) {
-
 		this.groupName = groupName;
 	}
 
 	public String getUserName() {
-
 		return userName;
 	}
 
 	public void setUserName(String userName) {
-
 		this.userName = userName;
 	}
 
@@ -130,12 +122,10 @@ public class BasicInfo {
 	}
 
 	public String getApplicationName() {
-
 		return applicationName;
 	}
 
 	public void setApplicationName(String applicationName) {
-
 		this.applicationName = applicationName;
 	}
 

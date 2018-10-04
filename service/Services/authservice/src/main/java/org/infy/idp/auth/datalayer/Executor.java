@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
  * @author Infosys
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class Executor {
 	private static final Logger logger = LoggerFactory.getLogger(Executor.class);
 	@Autowired
@@ -99,10 +100,11 @@ public class Executor {
 			connection.setAutoCommit(false);
 			List<String> newUsers = checkExistingUsers(userList);
 			for (String user : newUsers) {
-				if (configmanager.getAuthProvider().toLowerCase().equals("keycloak")) {
-					if (!kcmgmt.addUser(user, "firstlogon@idp", true, orgName)) {
-						continue;
-					}
+				if (configmanager.getAuthProvider().equalsIgnoreCase("keycloak")
+						&& (!kcmgmt.addUser(user, "firstlogon@idp", true, orgName))) {
+
+					continue;
+
 				}
 				preparedStatement.setString(1, user.toLowerCase());
 				preparedStatement.setString(2, orgName);

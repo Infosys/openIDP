@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class UpdateJobDetails {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;

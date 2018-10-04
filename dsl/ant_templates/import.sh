@@ -58,31 +58,35 @@ startupMySQL(){
 PROP_DIR="/home/admin/si/install/properties"
 
 # os specific stuff
-sysname=`uname -s`
+sysname=$(uname -s)
 
 case "$sysname" in
-  SunOS) ECHO='/usr/ucb/echo'
-     BSDFLAGS='-n'
-     NONBSDFLAGS='';;
-  Linux) ECHO='/bin/echo'
-     BSDFLAGS='-n'
-     NONBSDFLAGS='';;
-  HP-UX|AIX) BSDFLAGS=''
-         NONBSDFLAGS='\c'
-         ECHO='/usr/bin/echo';;
+  SunOS) 
+	export ECHO='/usr/ucb/echo'
+	export BSDFLAGS='-n'
+	export NONBSDFLAGS='';;
+  Linux)
+	export ECHO='/bin/echo'
+	export BSDFLAGS='-n'
+	export NONBSDFLAGS='';;
+  HP-UX|AIX)
+	export BSDFLAGS=''
+	export NONBSDFLAGS='\c'
+	export ECHO='/usr/bin/echo';;
   OS400)
-     PS="/usr/bin/ps"
-     BSDFLAGS=""
-     NONBSDFLAGS="\c"
-     ECHO="print";;
+	export PS="/usr/bin/ps"
+	export BSDFLAGS=""
+	export NONBSDFLAGS="\c"
+	export ECHO="print";;
   OS/390)
-     PS="/bin/ps"
-     BSDFLAGS=""
-     NONBSDFLAGS="\c"
-     ECHO="print";;
-  CYGWIN_NT-*) PS="/usr/bin/ps"
-         ECHO='/usr/bin/echo'
-         NONBSDFLAGS='' ;;
+	export PS="/bin/ps"
+	export BSDFLAGS=""
+	export NONBSDFLAGS="\c"
+	export ECHO="print";;
+  CYGWIN_NT-*) 
+	export PS="/usr/bin/ps"
+	export ECHO='/usr/bin/echo'
+	export NONBSDFLAGS='' ;;
   *)
     echo "cannot determine OStype, to choose echo command. please fix switch"
     exit 1;;
@@ -90,7 +94,7 @@ esac
 
 CLASSPATH=${CLASSPATH}:${PROP_DIR}
 NOTJNI=""
-if [ "$sysname" = "HP-UX" ] && [ "${JDK64BIT}" = "true" ] && [ "`uname -m`" != "ia64" ]
+if [ "$sysname" = "HP-UX" ] && [ "${JDK64BIT}" = "true" ] && [ "$(uname -m)" != "ia64" ]
 then
 	NOTJNI="-notJNI"
 fi

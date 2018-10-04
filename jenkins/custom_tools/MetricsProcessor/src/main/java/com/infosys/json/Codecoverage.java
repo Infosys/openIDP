@@ -11,21 +11,26 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Codecoverage {
+	@SerializedName("cobertura")
+	@Expose
+	private Cobertura cobertura;
+
 	
 
-	@SerializedName("cobertura")
-	@Expose 
-	private Cobertura cobertura;
-	public void setCobertura(Cobertura cobertura) {
-		this.cobertura = cobertura;
-	}
-	public Cobertura getCobertura() {
-		return cobertura;
-	}
 	@SerializedName("jacoco")
 	@Expose
 	private Jacoco jacoco;
 
+	@SerializedName("istanbul")
+	@Expose
+	private Istanbul istanbul;
+	public void setCobertura(Cobertura cobertura) {
+		this.cobertura = cobertura;
+	}
+
+	public Cobertura getCobertura() {
+		return cobertura;
+	}
 	public Jacoco getJacoco() {
 		return jacoco;
 	}
@@ -33,12 +38,13 @@ public class Codecoverage {
 	public void setJacoco(Jacoco jacoco) {
 		this.jacoco = jacoco;
 	}
-	@SerializedName("istanbul")
-	@Expose
-	private Istanbul istanbul;
+
+
+
 	public Istanbul getIstanbul() {
 		return istanbul;
 	}
+
 	public void setIstanbul(Istanbul istanbul) {
 		this.istanbul = istanbul;
 	}

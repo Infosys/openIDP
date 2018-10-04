@@ -21,7 +21,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 public class XMLParser<T> {
-	
 	static {
 		System.setProperty("javax.xml.accessExternalDTD", "");
 	}
@@ -37,7 +36,7 @@ public class XMLParser<T> {
 
 	@SuppressWarnings("unchecked")
 	public T parse(File file) throws IOException {
-		FileReader f1=null;
+		FileReader f1 = null;
 		try {
 			f1 = new FileReader(file.getPath());
 			InputSource is = new InputSource(f1);
@@ -45,12 +44,11 @@ public class XMLParser<T> {
 			return (T) createUnmarshaller().unmarshal(source);
 		} catch (Exception e) {
 			throw new ParserException("Cannot parse " + file.getName(), e);
-		}finally {
-			if(f1 != null){
+		} finally {
+			if (f1 != null) {
 				f1.close();
 			}
 		}
-
 	}
 
 	private Unmarshaller createUnmarshaller() throws JAXBException {
@@ -76,5 +74,4 @@ public class XMLParser<T> {
 			throw new ParserException("Cannot create Parser instance", e);
 		}
 	}
-
 }

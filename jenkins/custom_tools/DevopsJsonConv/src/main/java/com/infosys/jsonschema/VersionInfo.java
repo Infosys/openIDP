@@ -19,32 +19,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class VersionInfo {
 	@JsonProperty("lastModified")
 	private String lastModified;
-
 	@JsonProperty("commitMessage")
 	private String commitMessage;
-
 	@JsonProperty("id")
 	private String id;
-
 	@JsonProperty("latestFileVersion")
 	private String latestFileVersion;
-	
 	@JsonProperty("lastModifiedBy")
 	private String lastModifiedBy;
-	
-	public String getScmurl() {
-		return scmurl;
-	}
-
-	public void setScmurl(String scmurl) {
-		this.scmurl = scmurl;
-	}
 
 	@JsonProperty("commitId")
 	private String commitId;
 	@JsonProperty("scmurl")
 	private String scmurl;
-	
 
 	public VersionInfo(String lastModified, String commitMessage, String id) {
 		super();
@@ -61,6 +48,14 @@ public class VersionInfo {
 		this.latestFileVersion = "0";
 		this.lastModifiedBy = "none";
 		this.commitId = "none";
+	}
+
+	public String getScmurl() {
+		return scmurl;
+	}
+
+	public void setScmurl(String scmurl) {
+		this.scmurl = scmurl;
 	}
 
 	@JsonProperty("lastModified")
@@ -102,7 +97,7 @@ public class VersionInfo {
 	public void setLatestFileVersion(String id) {
 		this.latestFileVersion = id;
 	}
-	
+
 	@JsonProperty("lastModifiedBy")
 	public String getLastModifiedBy() {
 		return lastModifiedBy;

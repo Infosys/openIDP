@@ -90,6 +90,10 @@ public class JobsBLTest {
 	private KafkaTemplate<String, String> kafkaTemplate;
 	@InjectMocks
 	private JobsBL jobsBL;
+	@InjectMocks
+	private JobsManagementBL jobsmgmtBL;
+	@InjectMocks
+	private JobsAdditionalInfo jobsaddInfo;
 
 	@Spy
 	private FetchJobDetails fetchJobDetails;
@@ -144,12 +148,12 @@ public class JobsBLTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testInsertApplicationDetails() throws Throwable {
-		jobsBL.insertApplicationDetails(app, "idpadmin", "INFOSYS");
+		jobsmgmtBL.insertApplicationDetails(app, "idpadmin", "INFOSYS");
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testUpdateApp() throws Throwable {
-		jobsBL.updateApp(app, "idpadmin", "INFOSYS");
+		jobsmgmtBL.updateApp(app, "idpadmin", "INFOSYS");
 
 	}
 
@@ -165,19 +169,19 @@ public class JobsBLTest {
 	public void testGetReleaseNumber() {
 		List<String> pipelineList = new ArrayList<>();
 		pipelineList.add("JFrogTest1");
-		Set<String> set = jobsBL.getReleaseNumber("DemoAppT", "JFrogTest1", pipelineList);
+		Set<String> set = jobsmgmtBL.getReleaseNumber("DemoAppT", "JFrogTest1", pipelineList);
 		assertNotNull(set);
 
 	}
 
 	@Test
 	public void testGetJobJSON() throws Throwable {
-		jobsBL.getJobJSON("JFrogTest1", "job");
+		jobsmgmtBL.getJobJSON("JFrogTest1", "job");
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testDownloadArtifacts() throws Throwable {
-		jobsBL.downloadArtifacts(null);
+		jobsaddInfo.downloadArtifacts(null);
 	}
 
 	@Test
@@ -216,7 +220,7 @@ public class JobsBLTest {
 	@Test(expected = NullPointerException.class)
 	public void testGetBuildJobs() throws Throwable {
 
-		jobsBL.getBuildJobs(null);
+		jobsmgmtBL.getBuildJobs(null);
 	}
 
 	@Test
@@ -231,7 +235,7 @@ public class JobsBLTest {
 
 		Application app = null;
 		try {
-			app = jobsBL.getApplicationDetails("DemoAppT", "idpadmin");
+			app = jobsmgmtBL.getApplicationDetails("DemoAppT", "idpadmin");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,7 +248,7 @@ public class JobsBLTest {
 
 		AppNames app = null;
 		try {
-			app = jobsBL.getFilteredApplications("JFrog", "idpadmin", "IDP");
+			app = jobsmgmtBL.getFilteredApplications("JFrog", "idpadmin", "IDP");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -269,14 +273,14 @@ public class JobsBLTest {
 
 	@Test
 	public void testGetApplicationID() {
-		String id = jobsBL.getApplicationID("DemoAppT");
+		String id = jobsaddInfo.getApplicationID("DemoAppT");
 		assertNotNull(id);
 
 	}
 
 	@Test
 	public void testdbDeployPipelineNamesForApplication() {
-		Names names = jobsBL.dbDeployPipelineNamesForApplication("DemoAppT", "idpadmin");
+		Names names = jobsaddInfo.dbDeployPipelineNamesForApplication("DemoAppT", "idpadmin");
 		assertNotNull(names);
 
 	}
@@ -285,7 +289,7 @@ public class JobsBLTest {
 	public void testGetStageViewUrl() {
 		String url = null;
 		try {
-			url = jobsBL.getStageViewUrl("DemoAppT", "TC1_Maven");
+			url = jobsaddInfo.getStageViewUrl("DemoAppT", "TC1_Maven");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -296,21 +300,21 @@ public class JobsBLTest {
 
 	@Test
 	public void testGetApplicationNameForReleaseManager() {
-		Names names = jobsBL.getApplicationNameForReleaseManager("idpadmin", "IDP");
+		Names names = jobsaddInfo.getApplicationNameForReleaseManager("idpadmin", "IDP");
 		assertNotNull(names);
 
 	}
 
 	@Test
 	public void testGetSubApplications() {
-		SubApplication app = jobsBL.getSubApplications("DemoAppT");
+		SubApplication app = jobsaddInfo.getSubApplications("DemoAppT");
 		assertNull(app);
 
 	}
 
 	@Test
 	public void testGetDependencyPipelines() {
-		Pipelines app = jobsBL.getDependencyPipelines("DemoAppT", "idpadmin");
+		Pipelines app = jobsaddInfo.getDependencyPipelines("DemoAppT", "idpadmin");
 		assertNotNull(app);
 	}
 
@@ -330,7 +334,7 @@ public class JobsBLTest {
 	public void testFecthTriggerSteps() {
 		Steps steps = null;
 		try {
-			steps = jobsBL.fecthTriggerSteps("DemoAppT", "idpadmin", "QA");
+			steps = jobsaddInfo.fecthTriggerSteps("DemoAppT", "idpadmin", "QA");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -347,7 +351,7 @@ public class JobsBLTest {
 	@Test(expected = NullPointerException.class)
 	public void testGetPipelineDetails() throws Throwable {
 
-		jobsBL.getPipelineDetails(null);
+		jobsmgmtBL.getPipelineDetails(null);
 	}
 
 	@Test
@@ -358,7 +362,7 @@ public class JobsBLTest {
 	@Test
 	public void testCreateSlaves() throws Throwable {
 
-		jobsBL.createSlaves(app);
+		jobsmgmtBL.createSlaves(app);
 	}
 
 	@Test
@@ -369,7 +373,7 @@ public class JobsBLTest {
 	@Test(expected = NullPointerException.class)
 	public void testDeletePipeline() throws Throwable {
 
-		jobsBL.deletePipeline(null);
+		jobsaddInfo.deletePipeline(null);
 
 	}
 
@@ -382,73 +386,73 @@ public class JobsBLTest {
 	@Test
 	public void testCheckAvailableJobsToTrigger() throws Throwable {
 
-		jobsBL.checkAvailableJobsToTrigger("idpadmin", "IDP");
+		jobsmgmtBL.checkAvailableJobsToTrigger("idpadmin", "IDP");
 	}
 
 	@Test
 	public void testGetApplications() throws Throwable {
-		jobsBL.getApplications("idpadmin", "IDP");
+		jobsmgmtBL.getApplications("idpadmin", "IDP");
 	}
 
 	@Test
 	public void testGetRolesForApp() throws Throwable {
-		jobsBL.getRolesForApp("idpadmin", "DemoAppT");
+		jobsaddInfo.getRolesForApp("idpadmin", "DemoAppT");
 	}
 
 	@Test
 	public void testGetPermissionForApplications() throws Throwable {
-		jobsBL.getPermissionForApplications("DemoAppT", "idpadmin");
+		jobsaddInfo.getPermissionForApplications("DemoAppT", "idpadmin");
 	}
 
 	@Test
 	public void testGetRoles() throws Throwable {
-		jobsBL.getRoles("idpadmin");
+		jobsmgmtBL.getRoles("idpadmin");
 	}
 
 	@Test
 	public void testGetPremission() throws Throwable {
-		jobsBL.getPermission("ciplatfrom");
+		jobsmgmtBL.getPermission("ciplatfrom");
 	}
 
 	@Test
 	public void testGetBaseRoles() throws Throwable {
-		jobsBL.getBaseRoles("idpadmin");
+		jobsmgmtBL.getBaseRoles("idpadmin");
 	}
 
 	@Test
 	public void testBeanToString() throws Throwable {
-		jobsBL.beanToString(null);
+		jobsmgmtBL.beanToString(null);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testUpdateInfo() throws Throwable {
-		jobsBL.updateInfo(app, "idpadmin", "INFOSYS");
+		jobsmgmtBL.updateInfo(app, "idpadmin", "INFOSYS");
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testDeleteRole() throws Throwable {
-		jobsBL.deleteRole(app);
+		jobsmgmtBL.deleteRole(app);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testFetchTriggerOtions() throws Throwable {
-		jobsBL.fecthTriggerOptions(null);
+		jobsmgmtBL.fecthTriggerOptions(null);
 	}
 
 	@Test
 	public void testGetBasePermission() throws Throwable {
-		jobsBL.getBasePermission("userId");
+		jobsmgmtBL.getBasePermission("userId");
 	}
 
 	@Test
 	public void testGetRolesApp() throws Throwable {
-		jobsBL.getRolesApp("idpadmin", "DemoAppT");
+		jobsmgmtBL.getRolesApp("idpadmin", "DemoAppT");
 
 	}
 
 	@Test
 	public void testGetReleaseNo() throws Throwable {
-		jobsBL.getReleaseNo("pipelinename", "DemoAppT");
+		jobsmgmtBL.getReleaseNo("pipelinename", "DemoAppT");
 	}
 
 	@Test
@@ -491,7 +495,7 @@ public class JobsBLTest {
 	@Test
 	public void testcheckAvailableJobsToTrigger_Success() throws Throwable {
 
-		jobsBL.checkAvailableJobsToTrigger("idpadmin", "IDP");
+		jobsmgmtBL.checkAvailableJobsToTrigger("idpadmin", "IDP");
 	}
 
 	@Test
@@ -510,7 +514,7 @@ public class JobsBLTest {
 		app.setEnvironmentOwnerDetails(environmentOwnerDetails);
 		ArrayList slavesDetails = new ArrayList();
 		app.setSlavesDetails(slavesDetails);
-		String result = jobsBL.createApplication(app, "idpadmin", "Infosys");
+		String result = jobsmgmtBL.createApplication(app, "idpadmin", "Infosys");
 		assertNotNull(result);
 	}
 

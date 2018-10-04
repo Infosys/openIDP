@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class SubscriptionDL {
 
 	@Autowired

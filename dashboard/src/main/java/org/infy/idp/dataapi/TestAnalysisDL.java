@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class TestAnalysisDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;

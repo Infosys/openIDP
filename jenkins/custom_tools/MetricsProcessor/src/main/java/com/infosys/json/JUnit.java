@@ -11,25 +11,18 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class JUnit {
-
 	@SerializedName("totalTest")
 	@Expose
 	private Integer totalTest;
-
 	@SerializedName("pass")
 	@Expose
 	private Integer pass;
-
 	@SerializedName("fail")
 	@Expose
 	private Integer fail;
-	
-
 	@SerializedName("error")
 	@Expose
 	private Integer error;
-	
-
 	@SerializedName("skip")
 	@Expose
 	private Integer skip;
@@ -72,5 +65,5 @@ public class JUnit {
 
 	public void setSkip(Integer skip) {
 		this.skip = skip;
-	}	
+	}
 }

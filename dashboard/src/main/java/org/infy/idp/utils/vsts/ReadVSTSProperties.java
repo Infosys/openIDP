@@ -9,9 +9,9 @@ package org.infy.idp.utils.vsts;
 
 import java.io.FileInputStream;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.naming.Context;
 
 
 
@@ -24,7 +24,6 @@ import javax.naming.Context;
 public class ReadVSTSProperties {
 	protected Logger logger=LoggerFactory.getLogger(ReadVSTSProperties.class);
 	private String exceptionStr = "Exception thrown: ";
-    Properties propertiesObj = null;
     private String serverURL;
     private String apiVersion;
     private String authorizationToken;
@@ -50,15 +49,15 @@ public class ReadVSTSProperties {
      *             if Exception occur while reading file
      */
     public Properties getPropertiesFile() {
-    	
+    	Properties propertiesObj = null;
     	FileInputStream fis = null;
         try {
         	logger.info("Method call initiated ");
         	
-            this.propertiesObj = new Properties();
+        	propertiesObj = new Properties();
             
             System.out.println(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties"));
-            this.propertiesObj.load(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties"));
+            propertiesObj.load(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties"));
 
             logger.info("Method executed successfully ");
 

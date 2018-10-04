@@ -15,7 +15,9 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.entities.models.ResourceResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +41,10 @@ public class UserServiceTest {
 
 	@MockBean
 	private JobsBL jobsBL;
-
+	@MockBean
+	private JobsManagementBL jobsmgmtBL;
+	@MockBean
+	private JobsAdditionalInfo jobsaddInfo;
 	@MockBean
 	private OAuth2Authentication authBean;
 
@@ -59,10 +64,10 @@ public class UserServiceTest {
 		List<String> userBaseRoles = new ArrayList<String>();
 		List<String> pipelinepermission = new ArrayList<String>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getRolesForApp(applicationName, authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsaddInfo.getRolesForApp(applicationName, authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(userRoles);
-		Mockito.when(jobsBL.getBaseRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userBaseRoles);
-		Mockito.when(jobsBL.getPipelinePermissionforApplication(applicationName,
+		Mockito.when(jobsmgmtBL.getBaseRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userBaseRoles);
+		Mockito.when(jobsaddInfo.getPipelinePermissionforApplication(applicationName,
 				authBean.getPrincipal().toString().toLowerCase())).thenReturn(pipelinepermission);
 
 		ResourceResponse<String> response = userService.getUserRolePermissonForApp(applicationName, authBean);
@@ -86,8 +91,8 @@ public class UserServiceTest {
 		List<String> userRoles = new ArrayList<String>();
 		List<String> userBaseRoles = new ArrayList<String>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userRoles);
-		Mockito.when(jobsBL.getBaseRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userBaseRoles);
+		Mockito.when(jobsmgmtBL.getRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userRoles);
+		Mockito.when(jobsmgmtBL.getBaseRoles(authBean.getPrincipal().toString().toLowerCase())).thenReturn(userBaseRoles);
 
 		ResourceResponse<String> response = userService.getUserRolePermisson("1", authBean);
 		assertNotNull(response);

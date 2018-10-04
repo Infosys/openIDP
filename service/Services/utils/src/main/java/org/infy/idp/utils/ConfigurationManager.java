@@ -13,8 +13,6 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-
-
 /**
  * ConfigurationManager entity for Kafka configuration
  * 
@@ -79,9 +77,6 @@ public class ConfigurationManager {
 	private String proxyport;
 
 	private Map<String, String> validation;
-
-	public ConfigurationManager() {
-	}
 
 	public String getEmailserver() {
 		return emailserver;

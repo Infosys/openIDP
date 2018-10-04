@@ -78,7 +78,7 @@ public class JenkinsJobInfoTest  {
 	@Test
 	public void testJenkinsJobInfoValues() throws Throwable {
 		JenkinsJobInfo testedObject = new JenkinsJobInfo();
-		testedObject.set_class("class11");
+		testedObject.setClazz("class11");
 		testedObject.setBuilding("building11");
 		testedObject.setFullDisplayName("fullDisplayName11");
 		Integer number = new Integer(5);
@@ -89,7 +89,7 @@ public class JenkinsJobInfoTest  {
 		assertEquals("result11", testedObject.getResult());
 		assertEquals(number, testedObject.getNumber());
 		assertEquals(timestamp, testedObject.getTimestamp());
-		assertEquals("class11", testedObject.get_class());
+		assertEquals("class11", testedObject.getClazz());
 		assertEquals("building11", testedObject.getBuilding());
 		assertEquals("fullDisplayName11", testedObject.getFullDisplayName());
 	}
@@ -106,7 +106,7 @@ public class JenkinsJobInfoTest  {
 	@Test
 	public void testJenkinsJobInfoValues2() throws Throwable {
 		JenkinsJobInfo testedObject = new JenkinsJobInfo();
-		testedObject.set_class("class0");
+		testedObject.setClazz("class0");
 		testedObject.setBuilding("building0");
 		testedObject.setFullDisplayName("fullDisplayName0");
 		testedObject.setNumber((Integer) null);
@@ -116,7 +116,7 @@ public class JenkinsJobInfoTest  {
 		assertEquals("result0", testedObject.getResult()); 
 		assertNull(testedObject.getNumber()); 
 		assertNull(testedObject.getTimestamp()); 
-		assertEquals("class0", testedObject.get_class()); 
+		assertEquals("class0", testedObject.getClazz()); 
 		assertEquals("building0", testedObject.getBuilding()); 
 		assertEquals("fullDisplayName0", testedObject.getFullDisplayName()); 
 		// No exception thrown
@@ -138,7 +138,7 @@ public class JenkinsJobInfoTest  {
 		assertNull(testedObject.getResult());
 		assertNull(testedObject.getNumber());
 		assertNull(testedObject.getTimestamp());
-		assertNull(testedObject.get_class());
+		assertNull(testedObject.getClazz());
 		assertNull(testedObject.getBuilding());
 		assertNull(testedObject.getFullDisplayName());
 	}

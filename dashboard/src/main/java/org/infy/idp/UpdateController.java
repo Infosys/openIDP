@@ -8,10 +8,9 @@
 package org.infy.idp;
 
 import org.infy.idp.bl.InsertInfoBL;
-
 import org.infy.idp.entities.JsonClass;
 import org.infy.idp.entities.RebaseData;
-import org.infy.idp.utils.ConfigurationManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,7 @@ import com.google.gson.Gson;
 public class UpdateController {
 	/** The logger. */
 	protected Logger logger;
-	@Autowired
-	private ConfigurationManager configmanager;
+	
 	
 	@Autowired
     private InsertInfoBL insertbl;

@@ -12,30 +12,22 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-	    "packageName",
-	    "cyclomaticComplexity",
-	    "maintainabilityIndex",
-	    "changePronenessIndex",
-	    "defectPronenessIndex"
-})
+@JsonPropertyOrder({ "packageName", "cyclomaticComplexity", "maintainabilityIndex", "changePronenessIndex",
+		"defectPronenessIndex" })
 public class CSVInfo {
 	@JsonProperty("packageName")
-    private String name;
-	
+	private String name;
 	@JsonProperty("cyclomaticComplexity")
-    private String cc;
-	
+	private String cc;
 	@JsonProperty("maintainabilityIndex")
-    private String mi;
-	
+	private String mi;
 	@JsonProperty("changePronenessIndex")
-    private String cp;
-
+	private String cp;
 	@JsonProperty("defectPronenessIndex")
-    private String dp;
+	private String dp;
 
 	public CSVInfo() {
 		super();
@@ -49,12 +41,12 @@ public class CSVInfo {
 		this.cp = cp;
 		this.dp = dp;
 	}
-	
+
 	@JsonProperty("packageName")
 	public String getName() {
 		return name;
 	}
-	
+
 	@JsonProperty("packageName")
 	public void setName(String name) {
 		this.name = name;
@@ -69,7 +61,7 @@ public class CSVInfo {
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
-	
+
 	@JsonProperty("maintainabilityIndex")
 	public String getMi() {
 		return mi;
@@ -99,5 +91,4 @@ public class CSVInfo {
 	public void setDp(String dp) {
 		this.dp = dp;
 	}
-	
 }

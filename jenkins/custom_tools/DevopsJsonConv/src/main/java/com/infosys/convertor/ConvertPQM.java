@@ -30,22 +30,13 @@ public class ConvertPQM {
 	private ConvertPQM() {
 	}
 
-	/**
-	 * returns list of codemetrics object after parsing PQM report 
-	 * @param inputPath
-	 * @param pathToCsvDir
-	 * @param jsonClass
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<CodeMetric> convert(String inputPath, String pathToCsvDir, JsonClass jsonClass, String prefixForId) {
-		
+	public static List<CodeMetric> convert(String inputPath, String pathToCsvDir, JsonClass jsonClass,
+			String prefixForId) {
 		jsonClass.setCodeMetric(new ArrayList<CodeMetric>());
-		List<CodeMetric> cov = new ArrayList<>();	
+		List<CodeMetric> cov = new ArrayList<>();
 		HashMap<String, String> nsClassMapForDotNet = mapNsClass(pathToCsvDir.replaceAll("\\\\", "/"));
 		try {
-			List<CSVInfo> csv = new CSVParser().parse(inputPath);			
-
+			List<CSVInfo> csv = new CSVParser().parse(inputPath);
 			if (!jsonClass.getCodeMetric().isEmpty()) {
 				cov = jsonClass.getCodeMetric();
 				for (CSVInfo c : csv)
@@ -60,7 +51,8 @@ public class ConvertPQM {
 					c1.setChangePronenessIndex(roundOff(c.getCp()) + "(0)");
 					if (c.getName().contains("."))
 						c1.setID(prefixForId + c.getName().replace(".", "_"));
-					else if(nsClassMapForDotNet.containsKey(c.getName()) && !nsClassMapForDotNet.get(c.getName()).equals(""))
+					else if (nsClassMapForDotNet.containsKey(c.getName())
+							&& !nsClassMapForDotNet.get(c.getName()).equals(""))
 						c1.setID(prefixForId + nsClassMapForDotNet.get(c.getName()));
 					else
 						c1.setID(prefixForId + c.getName());
@@ -68,45 +60,38 @@ public class ConvertPQM {
 						cov.add(c1);
 				}
 			}
-
 			if (cov != null && cov.isEmpty())
 				cov = null;
 			jsonClass.setCodeMetric(cov);
-
 			logger.info("Report Converted Successfully..!!");
 			return cov;
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e + e.getStackTrace());
 		}
-
 		return cov;
 	}
-	
+
 	private static CodeMetric getCodeMetricObject() {
 		return new CodeMetric();
 	}
 
-	/**
-	 * returns a map containing nsclass for dotnet
-	 * @param pathToCsvDir
-	 * @return
-	 */
 	private static HashMap<String, String> mapNsClass(String pathToCsvDir) {
 		HashMap<String, String> nsClassMapForDotNet = new HashMap<>();
-		if (new File(pathToCsvDir.split("/IDP_DevopsJSON_Integration/Jenkins_Reports")[0] + "/NamespaceClassMap.csv").isFile())
-			nsClassMapForDotNet = readCsvFileInWs(pathToCsvDir.split("/IDP_DevopsJSON_Integration/Jenkins_Reports")[0] + "/NamespaceClassMap.csv");
-		else if (new File(pathToCsvDir.split("\\\\IDP_DevopsJSON_Integration\\\\Jenkins_Reports")[0] + "/NamespaceClassMap.csv").isFile())
-			nsClassMapForDotNet = readCsvFileInWs(pathToCsvDir.split("\\\\IDP_DevopsJSON_Integration\\\\Jenkins_Reports")[0] + "/NamespaceClassMap.csv");
-		else 
+		if (new File(pathToCsvDir.split("/IDP_DevopsJSON_Integration/Jenkins_Reports")[0] + "/NamespaceClassMap.csv")
+				.isFile())
+			nsClassMapForDotNet = readCsvFileInWs(
+					pathToCsvDir.split("/IDP_DevopsJSON_Integration/Jenkins_Reports")[0] + "/NamespaceClassMap.csv");
+		else if (new File(
+				pathToCsvDir.split("\\\\IDP_DevopsJSON_Integration\\\\Jenkins_Reports")[0] + "/NamespaceClassMap.csv")
+						.isFile())
+			nsClassMapForDotNet = readCsvFileInWs(
+					pathToCsvDir.split("\\\\IDP_DevopsJSON_Integration\\\\Jenkins_Reports")[0]
+							+ "/NamespaceClassMap.csv");
+		else
 			logger.info("NamespacecClassMap.csv in not required/available !!");
 		return nsClassMapForDotNet;
 	}
-	
-	/**
-	 * returns a map containing nsclass for dotnet
-	 * @param pathToCsvDir
-	 * @return
-	 */
+
 	private static HashMap<String, String> readCsvFileInWs(String filePath) {
 		HashMap<String, String> nsClassMapForDotNet = new HashMap<>();
 		BufferedReader br = null;
@@ -115,11 +100,10 @@ public class ConvertPQM {
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 			while ((line = br.readLine()) != null) {
-				String[] kv = line.split(cvsSplitBy);				
-				if(kv.length > 2)
+				String[] kv = line.split(cvsSplitBy);
+				if (kv.length > 2)
 					nsClassMapForDotNet.put(kv[2], kv[1]);
 			}
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -136,21 +120,19 @@ public class ConvertPQM {
 		return nsClassMapForDotNet;
 	}
 
-	
-	
 	private static String roundOff(String val) {
-		int decPtIndex = val.indexOf('.');
-
+		String returnVal=val;
+		int decPtIndex = returnVal.indexOf('.');
 		// Appending "0" at the end if value is not upto 2 precision point
 		if (decPtIndex == -1)
-			val += ".00";
-		else if (val.substring(decPtIndex + 1).length() < 2)
-			val += "0";
-
-		return val.substring(0, val.indexOf('.') + 3);
+			returnVal += ".00";
+		else if (returnVal.substring(decPtIndex + 1).length() < 2)
+			returnVal += "0";
+		return returnVal.substring(0, returnVal.indexOf('.') + 3);
 	}
 
-	private static void iterageCodeMatrics(List<CodeMetric> cov, CSVInfo c, String prefixForId, HashMap<String, String> nsClassMapForDotNet) {
+	private static void iterageCodeMatrics(List<CodeMetric> cov, CSVInfo c, String prefixForId,
+			HashMap<String, String> nsClassMapForDotNet) {
 		for (CodeMetric c1 : cov) {
 			if (c1.getID().equals(c.getName().replace(".", "_"))) {
 				c1.setcyclomaticComplexity(roundOff(c.getCc()) + "(11)");
@@ -159,10 +141,11 @@ public class ConvertPQM {
 				c1.setChangePronenessIndex(roundOff(c.getCp()) + "(0)");
 				if (c.getName().contains("."))
 					c1.setID(prefixForId + c.getName().replace(".", "_"));
-				else if(nsClassMapForDotNet.containsKey(c.getName()) && !nsClassMapForDotNet.get(c.getName()).equals(""))
+				else if (nsClassMapForDotNet.containsKey(c.getName())
+						&& !nsClassMapForDotNet.get(c.getName()).equals(""))
 					c1.setID(prefixForId + nsClassMapForDotNet.get(c.getName()));
 				else
-					c1.setID(prefixForId + c.getName());			
+					c1.setID(prefixForId + c.getName());
 			}
 		}
 	}

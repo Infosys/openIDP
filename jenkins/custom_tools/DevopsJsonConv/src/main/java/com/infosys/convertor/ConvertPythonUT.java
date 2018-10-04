@@ -21,61 +21,49 @@ import com.infosys.json.PythonUT;
 import com.infosys.json.TestCaseResult;
 
 public class ConvertPythonUT {
-	private ConvertPythonUT(){}
-	
-	/**
-	 * return list of testcaseresult type object after parsing pythonut report
-	 * @param inputPath
-	 * @param tr
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<TestCaseResult> convert(String inputPath, List<TestCaseResult> tr, String prefixForId) {
+	private ConvertPythonUT() {
+	}
+
+	public static List<TestCaseResult> convert(String inputPath, JsonClass json, String prefixForId) {
+		List<TestCaseResult> tr=json.getTestCaseResult();
+		
 		if (tr == null)
 			tr = new ArrayList<>();
-		
 		try {
 			EditDocType.edit(inputPath);
-			ArrayList<String> messages= EditDocType.getMessagesforPunit();
+			ArrayList<String> messages = EditDocType.getMessagesforPunit();
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(com.infosys.utilities.pythonut.Testsuite.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			com.infosys.utilities.pythonut.Testsuite c = (com.infosys.utilities.pythonut.Testsuite) jaxbUnmarshaller.unmarshal(file);
+			com.infosys.utilities.pythonut.Testsuite c = (com.infosys.utilities.pythonut.Testsuite) jaxbUnmarshaller
+					.unmarshal(file);
 			if (c.getTestcase().isEmpty()) {
 				System.out.println("Report Converted Successfully..!!");
 				return tr;
 			}
-			
 			List<com.infosys.utilities.pythonut.Testsuite.Testcase> tcList = c.getTestcase();
-			int i=0;
+			int i = 0;
 			for (com.infosys.utilities.pythonut.Testsuite.Testcase tc : tcList) {
 				TestCaseResult tcObj = getTestCaseResultObject();
-				
 				tcObj.setId(prefixForId + (tc.getClassname() + "_" + tc.getName()).replace(".", "_"));
 				tcObj.settestSuiteName(c.getName());
 				tcObj.setDuration(String.valueOf(tc.getTime()));
 				tcObj.setStartTime(getStartTime());
 				tcObj.setCategory("Unit Test");
-				if(tc.getFailure()==null&& tc.getError()==null)
-				{
+				if (tc.getFailure() == null && tc.getError() == null) {
 					tcObj.setStatus("SUCCESS");
 					tcObj.setMessage("Test Case Passed");
-				}
-				else if(tc.getFailure()!=null)
-				{
+				} else if (tc.getFailure() != null) {
 					tcObj.setStatus("FAILURE");
-					tcObj.setMessage(messages.get(i).replaceAll("\n", " ").replaceAll("\t"," "));
+					tcObj.setMessage(messages.get(i).replaceAll("\n", " ").replaceAll("\t", " "));
 					i++;
-				}else if(tc.getError()!=null)
-				{
+				} else if (tc.getError() != null) {
 					tcObj.setStatus("ERROR");
 					tcObj.setMessage("error occured while executing test case");
 					i++;
 				}
 				tr.add(tcObj);
 			}
-			
-			
 			System.out.println("Report Converted Successfully..!!");
 			return tr;
 		} catch (Exception e) {
@@ -92,39 +80,31 @@ public class ConvertPythonUT {
 		return new TestCaseResult();
 	}
 
-
-
-
 	public static PythonUT getPUnitSummary(JsonClass jsonClass) {
-
 		List<TestCaseResult> tcResultArr = jsonClass.getTestCaseResult();
 		PythonUT putObj = null;
-		
-		if(tcResultArr == null)
+		if (tcResultArr == null)
 			return null;
-		
 		putObj = new PythonUT();
 		int pass = 0;
 		int fail = 0;
 		int skip = 0;
 		int error = 0;
-
-		for (TestCaseResult tcObj : tcResultArr) 
-		{
-			if(tcObj.getStatus().equals("passed")) pass++;
-			if(tcObj.getStatus().equals("failure")) fail++;
-			if(tcObj.getStatus().equals("skipped")) skip++;
-			if(tcObj.getStatus().equals("error")) error++;
+		for (TestCaseResult tcObj : tcResultArr) {
+			if (tcObj.getStatus().equals("passed"))
+				pass++;
+			if (tcObj.getStatus().equals("failure"))
+				fail++;
+			if (tcObj.getStatus().equals("skipped"))
+				skip++;
+			if (tcObj.getStatus().equals("error"))
+				error++;
 		}
-		
 		putObj.setPassed(pass);
 		putObj.setFailed(fail);
 		putObj.setError(error);
 		putObj.setSkipped(skip);
-		putObj.setTotal(pass+fail+skip+error);
-				
+		putObj.setTotal(pass + fail + skip + error);
 		return putObj;
 	}
-
-	
 }

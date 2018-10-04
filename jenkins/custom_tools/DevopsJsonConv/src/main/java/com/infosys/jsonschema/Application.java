@@ -17,52 +17,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "id" })
 public class Application {
-
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("id")
 	private String id;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
 	public Application() {
 		// Empty Constructor
 	}
 
-	/**
-	 * 
-	 * @param applicationID
-	 */
 	public Application(String id) {
 		this.id = id;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The applicationID
-	 */
 	@JsonProperty("id")
 	public String getID() {
 		return id;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param applicationID
-	 *            The applicationID
-	 */
 	@JsonProperty("id")
 	public void setID(String ID) {
 		this.id = ID;
 	}
-
 }

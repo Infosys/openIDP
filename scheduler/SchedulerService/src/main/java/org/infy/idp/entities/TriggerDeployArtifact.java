@@ -10,8 +10,6 @@ package org.infy.idp.entities;
 
 import java.util.List;
 
-import org.infy.idp.entities.DeployArtifact;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

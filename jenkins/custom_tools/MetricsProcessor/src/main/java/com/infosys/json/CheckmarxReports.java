@@ -8,7 +8,6 @@
 package com.infosys.json;
 
 public class CheckmarxReports {
-
 	private String URL;
 
 	public String getURL() {

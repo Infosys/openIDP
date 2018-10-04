@@ -25,61 +25,39 @@ public class ConvertPmd {
 	public static int blocker;
 	public static int critical;
 	public static int info;
-
-	final static Logger logger = Logger.getLogger(ConvertPmd.class);
+	private final static Logger logger = Logger.getLogger(ConvertPmd.class);
 
 	private ConvertPmd() {
 	}
 
-	/**
-	 * returns list of codeanalysis after parsing pmd reports
-	 * @param inputPath
-	 * @param ruleToValue
-	 * @param ca
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue, List<CodeAnalysis> ca, String prefixForId) {
+	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue,
+			String prefixForId) {
+		List<CodeAnalysis> ca = new ArrayList<>();
 		try {
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(com.infosys.utilities.pmd.Pmd.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			com.infosys.utilities.pmd.Pmd c = (com.infosys.utilities.pmd.Pmd) jaxbUnmarshaller.unmarshal(file);
-
 			if (c.getFile() == null) {
 				logger.info("Report Converted Successfully.!!");
 				return ca;
 			}
-
 			List<com.infosys.utilities.pmd.Pmd.File> files = c.getFile();
 			for (com.infosys.utilities.pmd.Pmd.File f : files) {
 				if (f.getViolation() == null)
 					continue;
 				iterateViolations(f, ruleToValue, ca, prefixForId);
 			}
-
 			logger.info("Report Converted Successfully..!!");
 			return ca;
-
-		} catch (
-
-				Exception e) {
+		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}
 		logger.info("Report Converted Successfully..!!");
 		return ca;
-
 	}
 
-	/**
-	 * method to iterate over all violations and update CodeAnalysis list
-	 * @param f
-	 * @param ruleToValue
-	 * @param ca
-	 * @param prefixForId
-	 */
 	private static void iterateViolations(com.infosys.utilities.pmd.Pmd.File f, Map<String, String> ruleToValue,
 			List<CodeAnalysis> ca, String prefixForId) {
 		List<com.infosys.utilities.pmd.Pmd.File.Violation> violations = f.getViolation();
@@ -111,7 +89,6 @@ public class ConvertPmd {
 			v1.setRecommendation((ruleToValue.get(v.getRule())) == null ? "No description available at this time"
 					: ruleToValue.get(v.getRule()));
 			v1.setcategory("pmd");
-
 			updateCA(v1, ca);
 		}
 	}
@@ -136,17 +113,17 @@ public class ConvertPmd {
 	}
 
 	public static List<Integer> getPmdSeverity() {
-		List<Integer> severityCount =new ArrayList<Integer>();
+		List<Integer> severityCount = new ArrayList<Integer>();
 		severityCount.add(critical);
 		severityCount.add(blocker);
 		severityCount.add(major);
 		severityCount.add(minor);
 		severityCount.add(info);
-		critical=0;
-		blocker=0;
-		major =0;
-		minor =0;
-		info=0;
+		critical = 0;
+		blocker = 0;
+		major = 0;
+		minor = 0;
+		info = 0;
 		return severityCount;
 	}
 }

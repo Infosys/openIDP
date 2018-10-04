@@ -6,5 +6,5 @@ LABEL maintainer="idpadmin@domain.com"\
 EXPOSE 8085/tcp
 EXPOSE 50000/tcp
 
-ADD jenkins.war /usr/local/tomcat/webapps/jenkins.war
-ADD server.xml /usr/local/tomcat/conf/server.xml
+COPY jenkins.war /usr/local/tomcat/webapps/jenkins.war
+COPY server.xml /usr/local/tomcat/conf/server.xml

@@ -1,4 +1,4 @@
-package org.infosys.idp.web.uiConfig;
+package org.infosys.idp.web.uiconfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +54,7 @@ public class CustomPostZuulFilter extends ZuulFilter {
                 ctx.getResponse().addCookie(cookie);
                 logger.info("refresh token = " + refreshToken);
 
-            } else if (requestURI.contains("idp-oauth/oauth/token") && requestMethod.equals("DELETE")) {
+            } else if (requestURI.contains("idp-oauth/oauth/token") && "DELETE".equals(requestMethod)) {
                 Cookie cookie = new Cookie("refreshToken", "");
                 cookie.setMaxAge(0);
                 cookie.setPath(ctx.getRequest().getContextPath() + "idp-oauth/oauth/token");

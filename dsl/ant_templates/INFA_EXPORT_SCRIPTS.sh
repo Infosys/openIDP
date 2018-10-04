@@ -13,7 +13,7 @@ export MAPP="$2"
 now=$(date +%Y%m%d)
 
 INFA_CONN_SOURCE_REPO() {
-  echo "`date` :connecting to informatica source repository..."
+  echo "$(date) :connecting to informatica source repository..."
   
   if [ $? -eq 0 ]
   then
@@ -37,14 +37,14 @@ CNTL="$(echo "$CNTL" | tr -d '\t\r\n')"
 pmrep Connect -r $SRC_REPO -n $UR -x $PASSWD -h $Hostnm -o $Pt
 
   else
-     echo "`date` :Status: DOWN . Not able to Connect."
+     echo "$(date) :Status: DOWN . Not able to Connect."
      exit
      fi
  
 }
 
 INFA_EXP_SRC_SHRD_REPO_FLD() {
-  echo "`date` :exporting informatica source Shared folder objects..."
+  echo "$(date) :exporting informatica source Shared folder objects..."
   
   if [ $? -eq 0 ]
   then
@@ -53,14 +53,14 @@ INFA_EXP_SRC_SHRD_REPO_FLD() {
 pmrep objectexport -f $TGT_SHRD -u $EXP_OBJECT_SHRD
 	   
   else
-     echo "`date` :Not able to export shared folder objects."
+     echo "$(date) :Not able to export shared folder objects."
      exit
      fi
  
 }
 
 INFA_EXP_SRC_REPO_OBJ() {
-  echo "`date` :exporting informatica source folder objects..."
+  echo "$(date) :exporting informatica source folder objects..."
   
   if [ $? -eq 0 ]
   then
@@ -88,14 +88,14 @@ fi
 done < input_file.txt
 
   else
-     echo "`date` :Not able to export folder objects."
+     echo "$(date) :Not able to export folder objects."
      exit
      fi
  
 }
 
 INFA_EXP_SRC_REPO_FLD() {
-  echo "`date` :exporting informatica source folder objects..."
+  echo "$(date) :exporting informatica source folder objects..."
   
   if [ $? -eq 0 ]
   then
@@ -103,7 +103,7 @@ INFA_EXP_SRC_REPO_FLD() {
 ##Export Informatica Folder from source repository
 pmrep objectexport -f $SRC_FLD -u $EXP_OBJECT_XML
   else
-     echo "`date` :Not able to export folder objects."
+     echo "$(date) :Not able to export folder objects."
      exit
      fi
  
@@ -111,7 +111,7 @@ pmrep objectexport -f $SRC_FLD -u $EXP_OBJECT_XML
 
 
 INFA_EXP_PRIVILIGE() {
-  echo "`date` :Assigning privilige for exported informatica objects..."
+  echo "$(date) :Assigning privilige for exported informatica objects..."
   
 chmod 777 *.xml
  
@@ -137,9 +137,9 @@ then
 fi
         INFA_EXP_PRIVILIGE
 	
-	echo "`date` :Export completed successfully!!!"
+	echo "$(date) :Export completed successfully!!!"
    
-	echo "`date` :----------------------------------------------------- "
+	echo "$(date) :----------------------------------------------------- "
    
 }
 

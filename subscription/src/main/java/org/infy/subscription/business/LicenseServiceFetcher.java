@@ -73,7 +73,7 @@ public class LicenseServiceFetcher {
 		return service;
 	}
 
-	List<Service> createServicesListfromObjectLists(List<Object[]> objects, String orgName) {
+	public List<Service> createServicesListfromObjectLists(List<Object[]> objects, String orgName) {
 		List<Service> services = new ArrayList<>();
 		for (int i = 0; i < objects.size(); i++) {
 			services.add(createServiceObject((Date) objects.get(i)[1], (String) objects.get(i)[0], 0, orgName));

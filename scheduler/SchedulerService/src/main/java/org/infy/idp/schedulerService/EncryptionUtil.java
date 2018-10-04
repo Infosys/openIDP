@@ -7,7 +7,7 @@
 ***********************************************************************************************/
 
 
-package org.infy.idp.schedulerService;
+package org.infy.idp.schedulerservice;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -16,17 +16,15 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * The Class EncryptionUtil.

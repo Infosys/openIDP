@@ -13,25 +13,16 @@ import java.util.List;
 import org.infy.idp.entities.BaseResponse;
 import org.infy.idp.entities.DeployArtifact;
 import org.infy.idp.entities.IDPInput;
-import org.infy.idp.entities.IDPServer;
 import org.infy.idp.entities.JobInfo;
 import org.infy.idp.entities.ResourceResponse;
-import org.infy.idp.entities.TriggerDeployArtifact;
-import org.infy.idp.schedulerService.GetJobParameter;
-import org.infy.idp.schedulerService.NexusDetails;
-import org.json.JSONObject;
+import org.infy.idp.schedulerservice.GetJobParameter;
+import org.infy.idp.schedulerservice.NexusDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -61,16 +52,9 @@ public class ApplicationServices  extends BaseResponse
 	@RequestMapping(value = "/updateScheduleDataBase", method = RequestMethod.POST)
 	public ResourceResponse<String> updateDatabase(@RequestBody IDPInput jsonInput) {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		System.out.println("inside");
-		Gson gson=new Gson();
-		
-		//IDPServer jsonInput= gson.fromJson(jsonString,IDPServer.class);
-		//System.out.println(jsonInput.getJsonObj());
-		
+
 		try {
-			System.out.println("inside");
-			//System.out.println("coming to json11"+jsonInput);
-			System.out.println("inside"+jsonInput.getJsonObj());
+			
 			getJobParameter.getJobParameter(jsonInput.getJsonObj(),jsonInput.getBuildId());
 				resourceResponse.setStatus("SUCCESS");
 		} catch (Exception ex) {
@@ -83,7 +67,7 @@ public class ApplicationServices  extends BaseResponse
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ResourceResponse<String> test() {
-		System.out.println("inside");
+		logger.info("inside");
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		
 				resourceResponse.setStatus("SUCCESS");
@@ -117,9 +101,8 @@ public class ApplicationServices  extends BaseResponse
 						index=index_new;
 					}
 				}}
-			//	TriggerDeployArtifact triggerDeployArtifact =new TriggerDeployArtifact();
+
 				resourceResponse.setStatus("SUCCESS");
-			//	triggerDeployArtifact.setArtifactList(deployartifact);
 				resourceResponse.setResource(gson.toJson(latestArtifact , DeployArtifact.class));
 			
 			

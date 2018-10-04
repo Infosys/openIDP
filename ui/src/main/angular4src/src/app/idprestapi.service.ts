@@ -1401,10 +1401,10 @@ export class IdprestapiService {
   }
 
   base64EncodeDecode(uname, pass) {
-    const string = uname + ":" + pass;
+    const string_new = uname + ":" + pass;
 
     // Encode the String
-    const encodedString = btoa(string);
+    const encodedString = btoa(string_new);
     console.log(encodedString);
 
     // Decode the String

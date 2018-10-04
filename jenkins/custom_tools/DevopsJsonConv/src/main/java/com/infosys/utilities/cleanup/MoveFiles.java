@@ -17,7 +17,7 @@ import java.io.OutputStream;
 import org.apache.log4j.Logger;
 
 public class MoveFiles {
-	final static Logger logger = Logger.getLogger(MoveFiles.class);
+	private final static Logger logger = Logger.getLogger(MoveFiles.class);
 
 	private MoveFiles() {
 	}
@@ -27,14 +27,11 @@ public class MoveFiles {
 		try (InputStream inStream = new FileInputStream(new File(srcPath));
 				OutputStream outStream = new FileOutputStream(new File(destPath))) {
 			byte[] buffer = new byte[1024];
-
 			int length;
 			// copy the file content in bytes
 			while ((length = inStream.read(buffer)) > 0)
 				outStream.write(buffer, 0, length);
-
 			return (new File(srcPath)).delete();
-
 		} catch (IOException e) {
 			logger.error(e);
 		}

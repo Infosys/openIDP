@@ -9,6 +9,8 @@ import * as CryptoJS from "crypto-js";
 import { IdpdataService } from "./idpdata.service";
 import { Injectable } from "@angular/core";
 
+/* tslint:disable:no-eval */
+
 @Injectable()
 export class IDPEncryption {
 
@@ -105,7 +107,6 @@ export class IDPEncryption {
                 const str = passwordDatalist["deployInfo.deployEnv.deploySteps"][k];
                 if (this.checkForKey(data["deployInfo"]["deployEnv"][i]["deploySteps"][j], str)) {
                     eval("data.deployInfo.deployEnv" + "[" + i + "]" + ".deploySteps[" + j + "]." +  str + " = " + "'" + this.encryptAES(eval("data.deployInfo.deployEnv[" + i + "].deploySteps[" + j + "]." +  str)) + "'" );
-                //  data["deployInfo"]["deployEnv"][i]["deploySteps"][j][str]=this.encryptAES(data["deployInfo"]["deployEnv"][i]["deploySteps"][j][str]);
                 }
                 }
             }
@@ -120,7 +121,6 @@ export class IDPEncryption {
                 const str = passwordDatalist["testInfo.testEnv.testSteps"][k];
                 if (this.checkForKey(data["testInfo"]["testEnv"][i]["testSteps"][j], str)) {
                     eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str + " = " + "'" + this.encryptAES(eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str)) + "'" );
-                    //data["testInfo"]["testEnv"][i]["testSteps"][j][str]=this.encryptAES(data["testInfo"]["testEnv"][i]["testSteps"][j][str]);
                 }
                 }
             }
@@ -132,8 +132,6 @@ return data;
   }
 doubleDecryptPassword(data): any {
   const passwordDatalist = this.idpdataservice.passwordEncryptionList;
-  //let data=dataJson.pipelineJson;
-
     if (data["code"].hasOwnProperty("scm")) {
     for (const i in data["code"]["scm"]) {
         for (const j in passwordDatalist["code.scm"]) {
@@ -148,10 +146,6 @@ doubleDecryptPassword(data): any {
     for (const i in passwordDatalist["buildInfo"]) {
         const str = passwordDatalist["buildInfo"][i];
         if (this.checkForKey(data["buildInfo"], str)) {
-        //    data["buildInfo"].str=this.decryptAES(data["buildInfo"].str);
-        //  let jsonStr=eval("data.buildInfo.str");
-            //jsonStr=this.decryptAES(jsonStr);
-
             eval("data.buildInfo." + str + " = " + "'" + this.decryptAES(eval("data.buildInfo." + str)).replace(/ /g, "") + "'" );
                 }
     }
@@ -161,7 +155,6 @@ doubleDecryptPassword(data): any {
             const str = passwordDatalist["buildInfo.modules"][j];
             if (this.checkForKey(data["buildInfo"]["modules"][i], str)) {
             eval("data.buildInfo.modules[" + i + "]." + str + " = " + "'" + this.decryptAES(eval("data.buildInfo.modules[" + i + "]." + str)).replace(/ /g, "") + "'" );
-            //  data["buildInfo"]["modules"][i][str]=this.decryptAES(data["buildInfo"]["modules"][i][str]);
             }
         }
         }
@@ -176,10 +169,7 @@ doubleDecryptPassword(data): any {
 
                 const str = passwordDatalist["deployInfo.deployEnv.deploySteps"][k];
                 if (this.checkForKey(data["deployInfo"]["deployEnv"][i]["deploySteps"][j], str)) {
-
-                //  console.log(data["deployInfo"][i]["deployEnv"][j]);
                 eval("data.deployInfo.deployEnv" + "[" + i + "]" + ".deploySteps[" + j + "]." +  str + " = " + "'" + this.decryptAES(eval("data.deployInfo.deployEnv[" + i + "].deploySteps[" + j + "]." +  str)).replace(/ /g, "") + "'" );
-                //  data["deployInfo"]["deployEnv"][i]["deploySteps"][j][str]=this.decryptAES(data["deployInfo"]["deployEnv"][i]["deploySteps"][j][str]);
                 }
             }
             }

@@ -11,12 +11,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CodeQuality {
-	
-
 	@SerializedName("sonar")
 	@Expose
 	private Sonar sonar;
-	
 	@SerializedName("pmd")
 	@Expose
 	private Pmd pmd;
@@ -28,6 +25,7 @@ public class CodeQuality {
 	public void setSonar(Sonar sonar) {
 		this.sonar = sonar;
 	}
+
 	public Pmd getPmd() {
 		return pmd;
 	}

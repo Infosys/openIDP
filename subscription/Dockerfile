@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8090/tcp
 
-ADD target/idpsubscription.jar /idpsubscription/idpsubscription.jar
-ADD idpsubscription.sh /idpsubscription/idpsubscription.sh
+COPY target/idpsubscription.jar /idpsubscription/idpsubscription.jar
+COPY idpsubscription.sh /idpsubscription/idpsubscription.sh
 RUN chmod +x /idpsubscription/idpsubscription.sh
 
 ENTRYPOINT /idpsubscription/idpsubscription.sh

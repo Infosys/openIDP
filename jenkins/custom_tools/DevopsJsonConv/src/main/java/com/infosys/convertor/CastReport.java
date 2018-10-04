@@ -15,45 +15,29 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-/**
- * The class CastReport contains methods to parse cast reports
- * 
- * @author madhura.as
- *
- */
 public class CastReport {
 	protected Logger logger = LoggerFactory.getLogger(CastReport.class);
 
 	public String readCastReport(String sapWarName) {
-
 		String path = "http://dummyHost-70:8080/" + sapWarName + "/rest/AAD/results?select=evolutionSummary";
 		String username = "guest";
 		String password = "my_password";
 		String output = null;
-
 		try {
-
 			Client client = Client.create();
-
 			String authString = username + ":" + password;
-
 			String authStringEnc = new String(new Base64().encode(authString.getBytes()));
-
 			WebResource webResource = client.resource(path);
-
 			ClientResponse resp = webResource.accept("application/json")
 					.header("Authorization", "Basic " + authStringEnc).get(ClientResponse.class);
-
 			logger.info("response code is: " + resp.getStatus());
 			if (resp.getStatus() != 200) {
 				logger.info("Unable to connect to the server");
 			}
 			output = resp.getEntity(String.class);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return output;
 	}
-
 }

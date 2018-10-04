@@ -22,7 +22,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.infy.entities.triggerinputs.TriggerJobName;
-import org.infy.idp.dataapi.services.JobDetailsDL;
+import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
+import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
 import org.infy.idp.utils.ConfigurationManager;
@@ -63,12 +64,14 @@ public class EmailSender {
 	@Autowired
 	private ConfigurationManager configmanager;
 	@Autowired
-	private JobDetailsDL getJobDetails;
+	private JobInfoDL getJobDetails;
+	@Autowired
+	private JobAdditionalDetailsDL jobaddDetailsDL;
+
 	@Autowired
 	private FetchJobDetails fetchJobDetails;
 	@Autowired
-	private JobsBL jobsBL;
-
+	private JobsAdditionalInfo jobsaddInfo;
 	EmailSender() {
 
 	}
@@ -85,7 +88,7 @@ public class EmailSender {
 	public boolean jobCreationSuccessMail(TriggerJobName triggerJobName, String user) {
 		boolean status = true;
 		String sub = "Pipeline";
-		List<String> permissions = jobsBL.getAllPermissionforApp(triggerJobName.getApplicationName(), user);
+		List<String> permissions = jobsaddInfo.getAllPermissionforApp(triggerJobName.getApplicationName(), user);
 		if (!permissions.contains("CREATE_PIPELINE")) {
 			status = false;
 			return status;
@@ -152,7 +155,7 @@ public class EmailSender {
 	 */
 	public boolean appCreationSuccessMail(TriggerJobName triggerJobName, String user) {
 		boolean status = true;
-		List<String> permissions = jobsBL.getAllPermission(user);
+		List<String> permissions = jobsaddInfo.getAllPermission(user);
 		if (!permissions.contains("CREATE_APPLICATION")) {
 			status = false;
 			return status;
@@ -401,7 +404,7 @@ public class EmailSender {
 			boolean team = true;
 
 			ApplicationInfo app = getJobDetails.getApplication(triggerJobName.getApplicationName());
-			IDPJob idp = getJobDetails.getPipelineInfo(triggerJobName.getApplicationName(),
+			IDPJob idp = jobaddDetailsDL.getPipelineInfo(triggerJobName.getApplicationName(),
 					triggerJobName.getPipelineName());
 			if (idp.getBasicInfo().getAdditionalMailRecipients() != null
 					&& idp.getBasicInfo().getAdditionalMailRecipients().getApplicationTeam() != null

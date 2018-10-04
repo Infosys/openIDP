@@ -33,11 +33,15 @@ import com.google.gson.Gson;
  * @author Infosys
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class JobDetailsInsertionService {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
 	@Autowired
 	private JobDetailsDL getJobDetails;
+
+	@Autowired
+	private JobInfoDL jobInfoDL;
 
 	private static final Logger logger = LoggerFactory.getLogger(JobDetailsInsertionService.class);
 
@@ -65,7 +69,7 @@ public class JobDetailsInsertionService {
 
 		String queryStatement = "INSERT INTO tdevops_info VALUES (?, ?, ?);";
 		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
+				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
 			preparedStatement.setObject(1, appName);
 			preparedStatement.setString(2, pipelineName);
 			preparedStatement.setString(3, buildnumber);
@@ -105,9 +109,9 @@ public class JobDetailsInsertionService {
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 			preparedStatement.setString(1, pipelineName);
-			preparedStatement.setLong(2, getJobDetails.getApplicationId(applicationName));
+			preparedStatement.setLong(2, jobInfoDL.getApplicationId(applicationName));
 			preparedStatement.setString(3, pipelineName);
-			preparedStatement.setLong(4, getJobDetails.getApplicationId(applicationName));
+			preparedStatement.setLong(4, jobInfoDL.getApplicationId(applicationName));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -151,7 +155,7 @@ public class JobDetailsInsertionService {
 		Long applicationId = -1l;
 		String applicationName = "";
 		applicationName = idp.getBasicInfo().getApplicationName();
-		applicationId = getJobDetails.getApplicationId(applicationName);
+		applicationId = jobInfoDL.getApplicationId(applicationName);
 		String idpJob = gson.toJson(idp);
 		String ecryptedJson = EncryptionUtil.encrypt(idpJob);
 
@@ -278,7 +282,7 @@ public class JobDetailsInsertionService {
 			queryStatement.append(") VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
 			try (Connection connection = postGreSqlDbContext.getConnection();
 					PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-				preparedStatement.setLong(1, getJobDetails.getApplicationId(appName));
+				preparedStatement.setLong(1, jobInfoDL.getApplicationId(appName));
 				preparedStatement.setString(2, slave.getSlaveName());
 				preparedStatement.setString(3, slave.getBuildServerOS());
 				preparedStatement.setString(4, slave.getSlaveUsage());
@@ -322,7 +326,7 @@ public class JobDetailsInsertionService {
 			preparedStatement.setString(4, slave.getDeploy());
 			preparedStatement.setString(5, slave.getTest());
 			preparedStatement.setString(6, slave.getLabels());
-			preparedStatement.setLong(7, getJobDetails.getApplicationId(appName));
+			preparedStatement.setLong(7, jobInfoDL.getApplicationId(appName));
 			preparedStatement.setString(8, slave.getSlaveName());
 			preparedStatement.executeUpdate();
 
@@ -355,7 +359,7 @@ public class JobDetailsInsertionService {
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString(),
 						new String[] { "trigger_id" })) {
-			preparedStatement.setLong(1, getJobDetails.getPipelineId(triggerParameters.getPipelineName(),
+			preparedStatement.setLong(1, jobInfoDL.getPipelineId(triggerParameters.getPipelineName(),
 					triggerParameters.getApplicationName()));
 			preparedStatement.setString(2, gson.toJson(triggerParameters));
 			preparedStatement.setString(3, triggerParameters.getReleaseNumber());
@@ -463,7 +467,7 @@ public class JobDetailsInsertionService {
 			preparedStatement.setString(1, userId);
 			preparedStatement.setString(2, emailId);
 			preparedStatement.setBoolean(3, status);
-			preparedStatement.setLong(4, getJobDetails.getRoleId(roleName));
+			preparedStatement.setLong(4, jobInfoDL.getRoleId(roleName));
 			preparedStatement.setLong(5, orgId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException | NullPointerException e) {
@@ -491,8 +495,8 @@ public class JobDetailsInsertionService {
 				.append(INSERT_CLAUSE + " " + tableName + " (application_id, role_id, user_id) VALUES (?, ?, ?);");
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			preparedStatement.setLong(1, getJobDetails.getApplicationId(appName));
-			preparedStatement.setLong(2, getJobDetails.getRoleId(role));
+			preparedStatement.setLong(1, jobInfoDL.getApplicationId(appName));
+			preparedStatement.setLong(2, jobInfoDL.getRoleId(role));
 			preparedStatement.setString(3, userId);
 			preparedStatement.executeUpdate();
 
@@ -520,8 +524,8 @@ public class JobDetailsInsertionService {
 		StringBuilder queryStatement = new StringBuilder();
 		try {
 
-			Long applicationId = getJobDetails.getApplicationId(appName);
-			Long roleId = getJobDetails.getRoleId(role);
+			Long applicationId = jobInfoDL.getApplicationId(appName);
+			Long roleId = jobInfoDL.getRoleId(role);
 
 			for (String userId : userIdList) {
 				queryStatement.append(INSERT_CLAUSE + " " + tableName + " (application_id, role_id, user_id) VALUES (\'"
@@ -623,8 +627,8 @@ public class JobDetailsInsertionService {
 		queryStatement.append("SET param_value=? ,param_type=?,static=? ");
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			preparedStatement.setLong(1, getJobDetails.getApplicationId(appName));
-			preparedStatement.setLong(2, getJobDetails.getPipelineId(pipelineName, appName));
+			preparedStatement.setLong(1, jobInfoDL.getApplicationId(appName));
+			preparedStatement.setLong(2, jobInfoDL.getPipelineId(pipelineName, appName));
 			preparedStatement.setString(3, jobParam.getJobParamName());
 			preparedStatement.setString(4, jobParam.getJobParamValue());
 			preparedStatement.setString(5, jobParam.getJobType());

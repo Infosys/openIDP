@@ -17,7 +17,8 @@ import java.util.Set;
 
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.EnvironmentDetails;
-import org.infy.idp.dataapi.services.JobDetailsDL;
+import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
+import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.ReleaseDetails;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
 import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
@@ -44,7 +45,9 @@ public class ReleaseBL {
 	@Autowired
 	private ReleaseDetails releaseDetails;
 	@Autowired
-	private JobDetailsDL getJobDetails;
+	private JobAdditionalDetailsDL jobAddInfoDL;
+	@Autowired
+	private JobInfoDL jobInfoDL;
 	@Autowired
 	private EmailSender emailSender;
 	@Autowired
@@ -170,7 +173,7 @@ public class ReleaseBL {
 			}
 
 			List<String> envList = getEnvironmentList(appName);
-			ApplicationInfo app = getJobDetails.getApplication(appName);
+			ApplicationInfo app = jobInfoDL.getApplication(appName);
 			List<String> accessEnvList = fetchJobDetails.getUserEnvironment(app, username);
 			List<ReleasePipeline> releasePipelineList = new ArrayList<>();
 			releasePipelineList.add(releasePipeline);
@@ -291,7 +294,7 @@ public class ReleaseBL {
 	public void updateReleaseInfo(ReleaseManager releaseManager, String userName) throws Exception {
 
 		try {
-			releaseManager.setApplicationId(getJobDetails.getApplicationId(releaseManager.getApplicationName()));
+			releaseManager.setApplicationId(jobInfoDL.getApplicationId(releaseManager.getApplicationName()));
 			// geting pipeline ids
 			setPipelineId(releaseManager);
 
@@ -377,7 +380,7 @@ public class ReleaseBL {
 	 */
 	public void insertRelease(ReleaseManager releasemanager) throws SQLException {
 		// getting application id
-		releasemanager.setApplicationId(getJobDetails.getApplicationId(releasemanager.getApplicationName()));
+		releasemanager.setApplicationId(jobInfoDL.getApplicationId(releasemanager.getApplicationName()));
 		// geting pipeline ids
 		setPipelineId(releasemanager);
 		// insert release info
@@ -407,7 +410,7 @@ public class ReleaseBL {
 	 * @throws SQLException
 	 */
 	public long getPipelineId(String pipelineName, String applicationName) throws SQLException {
-		return getJobDetails.getPipelineId(pipelineName, applicationName);
+		return jobInfoDL.getPipelineId(pipelineName, applicationName);
 	}
 
 	/**
@@ -418,7 +421,7 @@ public class ReleaseBL {
 	 */
 	public List<String> getEnvironmentList(String appName) {
 
-		Application app = getJobDetails.getApplicationDetail(appName);
+		Application app = jobAddInfoDL.getApplicationDetail(appName);
 
 		List<String> envList = new ArrayList<String>();
 

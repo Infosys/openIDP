@@ -11,15 +11,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class IFast {
-
 	@SerializedName("totalTest")
 	@Expose
 	private Integer totalTest;
-	
 	@SerializedName("pass")
 	@Expose
 	private Integer pass;
-	
 	@SerializedName("fail")
 	@Expose
 	private Integer fail;

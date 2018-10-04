@@ -159,6 +159,15 @@ public class Test {
 	@Expose
 	private String iosMonkeyTalkScript;
 
+	@SerializedName("buildDefId")
+	@Expose
+	private String buildDefId;
+
+	@SerializedName("testConfig")
+	@Expose
+	private String testConfig;
+	
+	
 	public String getIosProjectName() {
 		return iosProjectName;
 	}
@@ -183,13 +192,7 @@ public class Test {
 		this.iosMonkeyTalkScript = iosMonkeyTalkScript;
 	}
 
-	@SerializedName("buildDefId")
-	@Expose
-	private String buildDefId;
-
-	@SerializedName("testConfig")
-	@Expose
-	private String testConfig;
+	
 
 	public String getBuildDefId() {
 		return buildDefId;

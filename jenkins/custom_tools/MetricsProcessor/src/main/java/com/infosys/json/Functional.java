@@ -11,26 +11,18 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Functional {
-	
 	@SerializedName("accleratest")
 	@Expose
 	private Accleratest accleratest;
-	
 	@SerializedName("itops")
 	@Expose
 	private Itops itops;
-	
-	
-
 	@SerializedName("selenium")
 	@Expose
 	private Selenium selenium;
-	
-	
 	@SerializedName("qualitia")
 	@Expose
 	private Qualitia qualitia;
-	
 
 	public Qualitia getQualitia() {
 		return qualitia;
@@ -55,6 +47,7 @@ public class Functional {
 	public void setItops(Itops itops) {
 		this.itops = itops;
 	}
+
 	public Selenium getSelenium() {
 		return selenium;
 	}
@@ -62,6 +55,4 @@ public class Functional {
 	public void setSelenium(Selenium selenium) {
 		this.selenium = selenium;
 	}
-	
-	
 }

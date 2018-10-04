@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8184/tcp
 
-ADD target/idpdashboard.jar /idpdashboard/idpdashboard.jar
-ADD idpdashboard.sh /idpdashboard/idpdashboard.sh
+COPY target/idpdashboard.jar /idpdashboard/idpdashboard.jar
+COPY idpdashboard.sh /idpdashboard/idpdashboard.sh
 RUN chmod +x /idpdashboard/idpdashboard.sh
 
 ENTRYPOINT /idpdashboard/idpdashboard.sh

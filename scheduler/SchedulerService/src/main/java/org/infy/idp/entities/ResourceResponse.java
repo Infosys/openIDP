@@ -9,8 +9,6 @@
 
 package org.infy.idp.entities;
 
-import org.infy.idp.entities.BaseResponse;
-
 /**
  * The Class ResourceResponse.
  *
@@ -22,12 +20,7 @@ public class ResourceResponse<T> extends BaseResponse {
 	/** The resource. */
 	private T resource;
 
-	/**
-	 * Instantiates a new resource response.
-	 */
-	public ResourceResponse() {
-		super();
-	}
+	
 
 	/**
 	 * Gets the resource.

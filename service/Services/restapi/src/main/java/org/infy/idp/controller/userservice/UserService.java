@@ -11,7 +11,9 @@ package org.infy.idp.controller.userservice;
 import java.util.List;
 
 import org.infy.idp.TokenUtils;
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.controller.BaseResource;
 import org.infy.idp.entities.jobs.UserRolesPermissions;
 import org.infy.idp.entities.jobs.common.Notification;
@@ -49,6 +51,10 @@ public class UserService extends BaseResource {
 	 * 
 	 */
 	@Autowired
+	private JobsManagementBL jobsmgmtBL;
+	@Autowired
+	private JobsAdditionalInfo jobsaddInfo;
+	@Autowired
 	private JobsBL jobsBL;
 
 	/** The logger. */
@@ -71,9 +77,9 @@ public class UserService extends BaseResource {
 			logger.info("Retrieving user role permission");
 			Gson gson = new Gson();
 
-			List<String> userRoles = jobsBL.getRoles(auth.getPrincipal().toString().toLowerCase());
-			userRoles.addAll(jobsBL.getBaseRoles(auth.getPrincipal().toString().toLowerCase()));
-			List<String> userPermissions = jobsBL.getAllPermission(auth.getPrincipal().toString().toLowerCase());
+			List<String> userRoles = jobsmgmtBL.getRoles(auth.getPrincipal().toString().toLowerCase());
+			userRoles.addAll(jobsmgmtBL.getBaseRoles(auth.getPrincipal().toString().toLowerCase()));
+			List<String> userPermissions = jobsaddInfo.getAllPermission(auth.getPrincipal().toString().toLowerCase());
 
 			UserRolesPermissions user = new UserRolesPermissions();
 			user.setUserId(auth.getPrincipal().toString().toLowerCase());
@@ -142,12 +148,12 @@ public class UserService extends BaseResource {
 		try {
 			logger.info("Retrieving user role permission");
 			Gson gson = new Gson();
-			List<String> userRoles = jobsBL.getRolesForApp(applicationName,
+			List<String> userRoles = jobsaddInfo.getRolesForApp(applicationName,
 					auth.getPrincipal().toString().toLowerCase());
-			userRoles.addAll(jobsBL.getBaseRoles(auth.getPrincipal().toString().toLowerCase()));
-			List<String> userPermissions = jobsBL.getPermissionForApplications(applicationName,
+			userRoles.addAll(jobsmgmtBL.getBaseRoles(auth.getPrincipal().toString().toLowerCase()));
+			List<String> userPermissions = jobsaddInfo.getPermissionForApplications(applicationName,
 					auth.getPrincipal().toString().toLowerCase());
-			List<String> pipelinepermission = jobsBL.getPipelinePermissionforApplication(applicationName,
+			List<String> pipelinepermission = jobsaddInfo.getPipelinePermissionforApplication(applicationName,
 					auth.getPrincipal().toString().toLowerCase());
 			userPermissions.addAll(pipelinepermission);
 

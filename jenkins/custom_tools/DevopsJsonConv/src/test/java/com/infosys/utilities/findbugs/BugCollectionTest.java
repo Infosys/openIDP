@@ -1,10 +1,4 @@
-/***********************************************************************************************
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.
-*
-***********************************************************************************************/
+
 package com.infosys.utilities.findbugs;
 
 import static org.junit.Assert.*;
@@ -104,13 +98,13 @@ public class BugCollectionTest {
 		BugInstance bugInstance=new BugInstance();
 		bugInstance.setAbbrev("value");
 		bugInstance.setCategory("value");
-		bugInstance.setClass_(null);
+		bugInstance.setClazz(null);
 		bugInstance.setCweid((short)1);
 		bugInstance.setField(null);
 		bugInstance.setInstanceHash("value");
 		bugInstance.setInstanceOccurrenceMax(new Byte((byte) 1));
 		bugInstance.setInstanceOccurrenceNum(new Byte((byte) 1));
-		bugInstance.setInt_(null);
+		bugInstance.setInts(null);
 		bugInstance.setLocalVariable("value");
 		bugInstance.setLongMessage("value");
 		bugInstance.setMethod(null);
@@ -131,9 +125,9 @@ public class BugCollectionTest {
 		assertEquals("value",bugInstance.getShortMessage());
 		assertEquals("value",bugInstance.getType());
 		assertEquals("value",bugInstance.getInstanceHash());
-		assertEquals(0,bugInstance.getClass_().size());
+		assertEquals(0,bugInstance.getClazz().size());
 		assertEquals(0,bugInstance.getField().size());
-		assertEquals(0,bugInstance.getInt_().size());
+		assertEquals(0,bugInstance.getInts().size());
 		assertEquals(0,bugInstance.getMethod().size());
 		assertEquals(0,bugInstance.getProject().size());
 		assertEquals(0,bugInstance.getSourceLine().size());
@@ -259,13 +253,13 @@ public class BugCollectionTest {
 		BugInstance bugInstance=new BugInstance();
 		bugInstance.setAbbrev("value");
 		bugInstance.setCategory("value");
-		bugInstance.setClass_(null);
+		bugInstance.setClazz(null);
 		bugInstance.setCweid((short)1);
 		bugInstance.setField(null);
 		bugInstance.setInstanceHash("value");
 		bugInstance.setInstanceOccurrenceMax(new Byte((byte) 1));
 		bugInstance.setInstanceOccurrenceNum(new Byte((byte) 1));
-		bugInstance.setInt_(null);
+		bugInstance.setInts(null);
 		bugInstance.setLocalVariable("value");
 		bugInstance.setLongMessage("value");
 		bugInstance.setMethod(null);
@@ -286,9 +280,9 @@ public class BugCollectionTest {
 		assertNotEquals("value22",bugInstance.getShortMessage());
 		assertNotEquals("value2",bugInstance.getType());
 		assertNotEquals("value2",bugInstance.getInstanceHash());
-		assertNotEquals(2,bugInstance.getClass_().size());
+		assertNotEquals(2,bugInstance.getClazz().size());
 		assertNotEquals(2,bugInstance.getField().size());
-		assertNotEquals(2,bugInstance.getInt_().size());
+		assertNotEquals(2,bugInstance.getInts().size());
 		assertNotEquals(2,bugInstance.getMethod().size());
 		assertNotEquals(2,bugInstance.getProject().size());
 		assertNotEquals(2,bugInstance.getSourceLine().size());

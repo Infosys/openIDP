@@ -15,7 +15,7 @@ now=$(date +%Y%m%d)
 
 
 INFA_CONN_TGT_REPO() {
-  echo "`date` :connecting to informatica Target repository..."
+  echo "$(date) :connecting to informatica Target repository..."
 
   if [ $? -eq 0 ]
   then
@@ -38,14 +38,14 @@ CNTL="$(echo "$CNTL" | tr -d '\t\r\n')"
 pmrep Connect -r $TGT_REPO -n $UR -x $PASSWD -h $Hostnm -o $Pt
 
   else
-     echo "`date` :Status: DOWN . Not able to Connect."
+     echo "$(date) :Status: DOWN . Not able to Connect."
      exit
      fi
 
 }
 
 INFA_IMP_TGT_REPO_OBJ() {
-  echo "`date` :Impporting informatica Target Shared folder objects..."
+  echo "$(date) :Impporting informatica Target Shared folder objects..."
 
   if [ $? -eq 0 ]
   then
@@ -67,14 +67,14 @@ fi
 done < input_file.txt
 
   else
-     echo "`date` :Not able to Import shared folder objects."
+     echo "$(date) :Not able to Import shared folder objects."
      exit
      fi
 
 }
 
 INFA_IMP_TGT_SHRD_REPO_FLD() {
-  echo "`date` :Impporting informatica Target Shared folder objects..."
+  echo "$(date) :Impporting informatica Target Shared folder objects..."
 
   if [ $? -eq 0 ]
   then
@@ -83,14 +83,14 @@ INFA_IMP_TGT_SHRD_REPO_FLD() {
 pmrep ObjectImport -i $IMP_OBJECT_XML -c $CNTL_SHRD
 
   else
-     echo "`date` :Not able to Import shared folder objects."
+     echo "$(date) :Not able to Import shared folder objects."
      exit
      fi
 
 }
 
 INFA_IMP_TGT_REPO_FLD() {
-  echo "`date` :Importing informatica Target folder objects..."
+  echo "$(date) :Importing informatica Target folder objects..."
 
   if [ $? -eq 0 ]
   then
@@ -99,7 +99,7 @@ INFA_IMP_TGT_REPO_FLD() {
 pmrep ObjectImport -i $IMP_OBJECT_XML -c $CNTL
 
   else
-     echo "`date` :Not able to export folder objects."
+     echo "$(date) :Not able to export folder objects."
      exit
      fi
 
@@ -126,9 +126,9 @@ Main() {
 		INFA_IMP_TGT_REPO_OBJ
 		
 		fi
-        echo "`date` :Import completed successfully!!!"
+        echo "$(date) :Import completed successfully!!!"
 
-        echo "`date` :----------------------------------------------------- "
+        echo "$(date) :----------------------------------------------------- "
 
 }
 

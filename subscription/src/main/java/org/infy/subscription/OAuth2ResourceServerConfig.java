@@ -92,7 +92,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 		try {
 			publicKey = IOUtils.toString(resource.getInputStream());
 		} catch (final IOException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 		converter.setVerifierKey(publicKey);
 		return converter;

@@ -36,11 +36,11 @@ public class JenkinsJobInfo {
 	@Expose
 	private Long timestamp;
 
-	public String get_class() {
+	public String getClazz() {
 		return _class;
 	}
 
-	public void set_class(String _class) {
+	public void setClazz(String _class) {
 		this._class = _class;
 	}
 

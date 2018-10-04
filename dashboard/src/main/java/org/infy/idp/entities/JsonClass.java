@@ -36,16 +36,6 @@ public class JsonClass {
 	@JsonProperty("sonarDetails")
 	private SonarDetails sonarDetails;
 	
-	public SonarDetails getSonarDetails() {
-		return sonarDetails;
-	}
-	
-	
-
-	public void setSonarDetails(SonarDetails sonarDetails) {
-		this.sonarDetails = sonarDetails;
-	}
-
 	@JsonProperty("securityTest")
 	private SecurityTest securityTest;
 	
@@ -61,10 +51,6 @@ public class JsonClass {
 	@JsonProperty("propertyTemplates")
 	private List<FileNetExportPropertyType> propetyTemplates;
 	
-	
-	
-	
-	
 	@JsonProperty("folders")
 	private List<FileNetExportFolderType> folders;
 	
@@ -74,11 +60,56 @@ public class JsonClass {
 	@JsonProperty("choiceLists")
 	private List<FileNetExportChoiceListType> choiceLists;
 	
+	@JsonProperty("application")
+	private String application;
+	@JsonProperty("fileNet")
+	private FileNet fileNet;
+	@JsonProperty("buildId")
+	private String buildId;
+
+	@JsonProperty("buildDetails")
+	private List<BuildDetail> buildDetails;
+	
+	@JsonProperty("buildOwners")
+	private List<BuildOwner> buildOwners = null;
+
+	@JsonProperty("ruleSet")
+	private List<RuleSet> ruleSet;
+
+	@JsonProperty("codeMetric")
+	private List<CodeMetric> codeMetric = null;
+
+	@JsonProperty("testCaseResult")
+	private List<TestCaseResult> testCaseResult = null;
+
+	@JsonProperty("codeAnalysis")
+	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
+
+	@JsonProperty("coverageDetails")
+	private List<CoverageDetails> coverageDetails=new ArrayList<>();
+	@JsonProperty("versionInfo")
+	private List<VersionInfo> versionInfo = null;
+
+	@JsonProperty("scmInfo")
+	private List<SCMInfo> scmInfo = null;
+	
+	@JsonProperty("classDefinitions")
+	private List<FileNetExportClassDefinitionType> classDefinitions;
+	
+	@JsonProperty("others")
+	private List<FileNetExportOtherType> others;
+	
+	public SonarDetails getSonarDetails() {
+		return sonarDetails;
+	}
 	
 	
-	
-	
-	
+
+	public void setSonarDetails(SonarDetails sonarDetails) {
+		this.sonarDetails = sonarDetails;
+	}
+
+		
 	@JsonProperty("propertyTemplates")
 	public List<FileNetExportPropertyType> getPropetyTemplates() {
 		return propetyTemplates;
@@ -89,11 +120,7 @@ public class JsonClass {
 		this.propetyTemplates = propetyTemplates;
 	}
 
-	@JsonProperty("classDefinitions")
-	private List<FileNetExportClassDefinitionType> classDefinitions;
 	
-	@JsonProperty("others")
-	private List<FileNetExportOtherType> others;
 	
 	@JsonProperty("folders")
 	public List<FileNetExportFolderType> getfolders() {
@@ -205,38 +232,6 @@ public class JsonClass {
 		this.functionalTest = functionalTest;
 	}
 
-	@JsonProperty("application")
-	private String application;
-	@JsonProperty("fileNet")
-	private FileNet fileNet;
-	@JsonProperty("buildId")
-	private String buildId;
-
-	@JsonProperty("buildDetails")
-	private List<BuildDetail> buildDetails;
-	
-	@JsonProperty("buildOwners")
-	private List<BuildOwner> buildOwners = null;
-
-	@JsonProperty("ruleSet")
-	private List<RuleSet> ruleSet;
-
-	@JsonProperty("codeMetric")
-	private List<CodeMetric> codeMetric = null;
-
-	@JsonProperty("testCaseResult")
-	private List<TestCaseResult> testCaseResult = null;
-
-	@JsonProperty("codeAnalysis")
-	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
-
-	@JsonProperty("coverageDetails")
-	private List<CoverageDetails> coverageDetails=new ArrayList<>();
-	@JsonProperty("versionInfo")
-	private List<VersionInfo> versionInfo = null;
-
-	@JsonProperty("scmInfo")
-	private List<SCMInfo> scmInfo = null;
 	
 	
 
@@ -248,25 +243,7 @@ public class JsonClass {
 		this.buildId = "0";
 	}
 
-	public JsonClass(String application, List<CodeMetric> codeMetric, List<TestCaseResult> testCaseResult,
-			List<CodeAnalysis> codeAnalysis, List<RuleSet> ruleSet, List<VersionInfo> versionInfo,
-				List<FileNetExportPropertyType> propertyTemplatesList,List<FileNetExportClassDefinitionType> classDefinitions,List<FileNetExportFolderType> folders,List<FileNetExportChoiceListType> choiceLists,
-				List<FileNetExportOtherType> others) {
-		super();
-		this.application = application;
-		this.codeMetric = codeMetric;
-		this.testCaseResult = testCaseResult;
-		this.codeAnalysis = codeAnalysis;
-		this.ruleSet = ruleSet;
-		this.versionInfo = versionInfo;
-		this.propetyTemplates = propertyTemplatesList;
-		this.classDefinitions=classDefinitions;
-		this.folders=folders;
-		this.choiceLists = choiceLists;
-		this.others=others;
-	
-		
-	}
+
 	public List<CoverageDetails> getCoverageDetailsList() {
 		return coverageDetails;
 	}

@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8080/tcp
 
-ADD target/idpapp.jar /idpapp/idpapp.jar
-ADD idpapp.sh /idpapp/idpapp.sh
+COPY target/idpapp.jar /idpapp/idpapp.jar
+COPY idpapp.sh /idpapp/idpapp.sh
 RUN chmod +x /idpapp/idpapp.sh
 
 ENTRYPOINT /idpapp/idpapp.sh

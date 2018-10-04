@@ -1,4 +1,4 @@
-:host /deep/ .data-table-row {
+:host .data-table-row {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;

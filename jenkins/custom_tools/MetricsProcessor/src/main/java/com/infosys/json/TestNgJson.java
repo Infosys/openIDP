@@ -11,7 +11,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TestNgJson {
-
 	@SerializedName("totalTest")
 	@Expose
 	private Integer totalTest;
@@ -45,5 +44,4 @@ public class TestNgJson {
 	public void setFail(Integer fail) {
 		this.fail = fail;
 	}
-
 }

@@ -1,20 +1,13 @@
 a {
-  font-weight: normal !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 12px !important;
+  font-weight: normal ;
+  font-family: 'Open Sans', sans-serif ;
+  font-size: 12px ;
 }
 
-/* a:hover {
-  color: #ffffff !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -moz-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -o-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -ms-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: linear-gradient(#1fa0e4, #1992d1) !important;
-} */
+
 
 a:active {
-  background-color: yellow !important;
+  background-color: yellow ;
 }
 
 #sidebar {
@@ -26,55 +19,24 @@ a:active {
 }
 
 #MainMenu {
-  border: none !important;
-  border-radius: 0 !important;
+  border: none ;
+  border-radius: 0 ;
 }
 
 .list-group-item {
-  padding-top: 13px !important;
-  padding-bottom: 13px !important;
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border: none !important;
-  border-radius: 0 !important;
+  padding-top: 13px ;
+  padding-bottom: 13px ;
+  background-color: #000000 ;
+  color: #ffffff ;
+  border: none ;
+  border-radius: 0 ;
 }
-
-/* a.list-group-item:focus {
-  text-decoration: none !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -moz-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -o-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -ms-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: linear-gradient(#1fa0e4, #1992d1) !important;
-}
-
-.marked {
-  text-decoration: none !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1992d1)!important;
-  background: -moz-linear-gradient(#1fa0e4, #1992d1)!important;
-  background: -o-linear-gradient(#1fa0e4, #1992d1)!important;
-  background: -ms-linear-gradient(#1fa0e4, #1992d1)!important;
-  background: linear-gradient(#1fa0e4, #1992d1)!important;
-} */
 
 #glyph_style {
   padding-right: 11px;
   color: #2a2a2a;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-}
-/* 
-li a.active {
-  background-color: #0198E1;
-  color: white;
-  text-decoration: none;
-}
-
-li a:hover {
-  background-color: #0198E1;
-  color: white;
-  text-decoration: none;
-} */
-
+}	
 
 /* style glyph */
 

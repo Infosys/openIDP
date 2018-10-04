@@ -7,16 +7,18 @@
 ***********************************************************************************************/
 package org.infy.idp.dataapi;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
-import java.sql.*;
 
-import org.infy.idp.dataapi.PostGreSqlDbContext;
+import org.infy.idp.entities.BuildInfoDetails;
 import org.infy.idp.utils.ConfigurationManager;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,7 +68,22 @@ public class BuildInfoDLTest {
 	@Test
 	public void insertbuilddetailsTest() throws Throwable {
 		try {
-			int returnValue=buildInfoDL.insertbuilddetails(1,1.0,"buildstatus",1,1,1,1,1,1,1,1.0,"stagename");
+			BuildInfoDetails buildInfoDetails=new BuildInfoDetails();
+			buildInfoDetails.setAppid(1);
+			buildInfoDetails.setBuildtime(1.0);
+			buildInfoDetails.setBuildstatus("value");
+			buildInfoDetails.setBuildid(1);
+			buildInfoDetails.setLastcompletebuildid(1);
+			buildInfoDetails.setLastsuccessfulbuildid(1);
+			buildInfoDetails.setLastunstablebuildid(1);
+			buildInfoDetails.setLastunsuccessfulbuildid(1);
+			buildInfoDetails.setLastfailedbuildid(1);
+			buildInfoDetails.setPipelinebuildno(1);
+			buildInfoDetails.setScore(1.0);
+			buildInfoDetails.setStagename("value");
+			
+			
+			int returnValue=buildInfoDL.insertbuilddetails(buildInfoDetails);
 			assertEquals(1, returnValue);
 		}
 		catch(Exception e)

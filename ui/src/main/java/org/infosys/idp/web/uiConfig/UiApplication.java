@@ -1,4 +1,4 @@
-package org.infosys.idp.web.uiConfig;
+package org.infosys.idp.web.uiconfig;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

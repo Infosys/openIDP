@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 
+import com.infosys.json.JsonClass;
 import com.infosys.json.TestCaseResult;
 import com.infosys.utilities.nunit.Failure;
 import com.infosys.utilities.nunit.TestCase;
@@ -26,88 +27,63 @@ import com.infosys.utilities.nunit.TestRun;
 import com.infosys.utilities.nunit.TestSuite;
 
 public class ConvertNUnit {
-
 	private static final Logger logger = Logger.getLogger(ConvertNUnit.class);
 
 	private ConvertNUnit() {
-
 	}
 
-	/**
-	 * returns list of testcaseresult after parsing nunit report
-	 * @param inputPath
-	 * @param tr
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<TestCaseResult> convert(String inputPath, List<TestCaseResult> tr, String prefixForId) {
-
+	public static List<TestCaseResult> convert(String inputPath, JsonClass json, String prefixForId) {
+		List<TestCaseResult> tr=json.getTestCaseResult();
 		if (tr == null)
 			tr = new ArrayList<>();
-
 		try {
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(TestRun.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			
-			TestRun testRun = (TestRun) jaxbUnmarshaller
-					.unmarshal(file);
-			
+			TestRun testRun = (TestRun) jaxbUnmarshaller.unmarshal(file);
 			if (testRun.getTestSuite() == null) {
 				logger.info("Report Converted Successfully..!!");
 				return tr;
 			}
-
 			TestSuite testSuiteDllLevel = testRun.getTestSuite();
-
-			if (( testSuiteDllLevel).getTestSuite() == null) {
+			if ((testSuiteDllLevel).getTestSuite() == null) {
 				logger.info("Report Converted Successfully..!!");
 				return tr;
 			}
-
 			recurseOnTestSuite(testSuiteDllLevel, tr, prefixForId);
 			logger.info("Report Converted Successfully..!!");
-
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}
-		
 		return tr;
 	}
 
 	private static void recurseOnTestSuite(TestSuite testSuite, List<TestCaseResult> tr, String prefixForId) {
 		List<TestSuite> testSuiteList = testSuite.getTestSuite();
-
 		if (testSuite.getTestSuite() != null) {
 			for (TestSuite testSuiteNew : testSuiteList)
 				recurseOnTestSuite(testSuiteNew, tr, prefixForId);
 		}
-
 		processTestSuite(testSuite, tr, prefixForId);
 	}
 
 	private static void processTestSuite(TestSuite testSuite, List<TestCaseResult> testCaseResultList,
 			String prefixForId) {
 		List<TestCase> testCaseList = testSuite.getTestCase();
-
 		if (testSuite.getTestCase() == null)
 			return;
-
 		for (TestCase testCase : testCaseList) {
 			TestCaseResult testCaseResult = getTestCaseResultObject();
 			if (testCase.getClassname().indexOf('.') != -1)
 				testCaseResult
 						.setId(prefixForId + (testCase.getClassname() + "_" + testCase.getName()).replace(".", "_"));
 			else
-				testCaseResult
-						.setId(prefixForId + (testCase.getClassname() + "_" + testCase.getName()));
+				testCaseResult.setId(prefixForId + (testCase.getClassname() + "_" + testCase.getName()));
 			testCaseResult.settestSuiteName(testSuite.getName());
 			testCaseResult.setCategory("Unit Test");
 			testCaseResult.setDuration(String.format("%.4f", testCase.getDuration()));
 			testCaseResult.setStartTime(processDate(testCase.getStartTime()));
-
 			setTCStatus(testCaseResult, testCase);
 			setTCMsg(testCaseResult, testCase);
 			updateTR(testCaseResult, testCaseResultList);
@@ -125,14 +101,13 @@ public class ConvertNUnit {
 			t = inputDateFormat.parse(startTime);
 		} catch (ParseException e) {
 			logger.error(e);
-		}		
+		}
 		return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(t);
 	}
 
 	private static void setTCMsg(TestCaseResult tcObj, TestCase testCase) {
-		if (tcObj.getStatus().equals("failure") || tcObj.getStatus().equals("error")) 
+		if (tcObj.getStatus().equals("failure") || tcObj.getStatus().equals("error"))
 			tcObj.setMessage(((Failure) testCase.getContent()).getMessage());
-			
 		else if (tcObj.getStatus().equals("skipped"))
 			tcObj.setMessage("Test case Skipped");
 	}

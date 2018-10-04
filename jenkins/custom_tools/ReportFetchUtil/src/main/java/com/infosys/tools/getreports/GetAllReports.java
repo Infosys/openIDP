@@ -18,21 +18,16 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
-/**
- * the class getallreports has methods for scanning all reports and accumulating it in one directory in workspace
- * @author shivam.bhagat
- *
- */
 public class GetAllReports {
+	private static final Logger logger = Logger.getLogger(GetAllReports.class);
+	private GetAllReports() {
+	}
 
-	private GetAllReports(){}
-
-	static final Logger logger = Logger.getLogger(GetAllReports.class);
+	
 
 	public static void main(String[] args) throws IOException {
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
-		
 		logger.info("Report fetch util Frozen");
 		String server = args[0];
 		String username = args[1];
@@ -41,38 +36,28 @@ public class GetAllReports {
 		String rootPath = args[3].replaceAll("\\\\", "/") + "/";
 		String destPath = makeDir(rootPath);
 		String jobName = args[4];
-
 		int jobIndex = jobName.indexOf('/');
-		String appName = (jobIndex==-1)?jobName:jobName.substring(0,jobIndex);
+		String appName = (jobIndex == -1) ? jobName : jobName.substring(0, jobIndex);
 		List<String> list = new ArrayList<>();
 		int count = 0;
-
 		for (int j = 6; j < args.length; j++) {
 			String[] utilityPath = args[j].split(":");
 			String ext = utilityPath[1].substring(utilityPath[1].lastIndexOf('.') + 1);
-			if (!ext.equals("*")) {
+			if (!"*".equals(ext)) {
 				list.add(ext);
 			} else {
 				count = 1;
 			}
 		}
-
 		ArrayList<String> extensions = new ArrayList<>(new HashSet<>(list));
 		File subDir = new File(rootPath);
-
 		if (!(subDir.isDirectory())) {
 			return;
 		}
-
-		String buildId = CreateChangeLog.createChangeLog(server, username, password, jobName, destPath, time,
-				appName);
-		
-		CodeCoverage.createcodeCoverage(server,username, password, jobName, destPath, time,
-				appName);
-		JobDetails.createJobDetails(server, username, password, jobName, destPath, time,
-				appName);
-		CreateBuildLog.createBuildLog(server, username, password, jobName, destPath, time,buildId, appName);
-
+		String buildId = CreateChangeLog.createChangeLog(server, username, password, jobName, destPath, time, appName);
+		CodeCoverage.createcodeCoverage(server, username, password, jobName, destPath, time, appName);
+		JobDetails.createJobDetails(server, username, password, jobName, destPath, time, appName);
+		CreateBuildLog.createBuildLog(server, username, password, jobName, destPath, time, buildId, appName);
 		String[] extensions1 = null;
 		if (count == 0) {
 			extensions1 = extensions.toArray(new String[0]);
@@ -83,11 +68,6 @@ public class GetAllReports {
 		DeleteUtilityChangeLog.del(destPath);
 	}
 
-	/**
-	 * creates directory to save report files
-	 * @param rootpath
-	 * @return
-	 */
 	public static String makeDir(String rootpath) {
 		String path = rootpath + "IDP_DevopsJSON_Integration/Jenkins_Reports";
 		if (new File(path).mkdirs()) {
@@ -98,35 +78,20 @@ public class GetAllReports {
 		return path;
 	}
 
-	/**
-	 * copies files from srcpath to destpath
-	 * @param srcPath
-	 * @param destPath
-	 * @param name
-	 * @param time
-	 * @param id
-	 * @param appName
-	 * @return
-	 */
 	public static Boolean copyReports(String srcPath, String destPath, String name, String time, String id,
 			String appName) {
 		Boolean status = false;
 		File srcFile = new File(srcPath);
 		File destFolder = new File(destPath);
-
 		// make sure source exists
 		if (!srcFile.exists()) {
-
 			logger.error("File does not exist.");
 			return status;
-
 		} else {
-
 			try {
 				status = CopyFolderUtility.copyFolder(srcFile, destFolder, name, id, appName);
-
 			} catch (IOException e) {
-				logger.error(e.getMessage(),e);
+				logger.error(e.getMessage(), e);
 				return status;
 			}
 		}
@@ -135,7 +100,6 @@ public class GetAllReports {
 
 	public static void copy(String srcPath, String destPath, String name, String time, String id, String utility,
 			String appName) {
-
 		Boolean status = copyReports(srcPath, destPath, name, time, id, appName);
 		if (status) {
 			logger.info(utility + " report successfully copied..!!");
@@ -144,78 +108,44 @@ public class GetAllReports {
 		}
 	}
 
-	/**
-	 * scans name structure of each file and if it matches the requirement calls further method for copying it in workspace
-	 * @param args
-	 * @param destPath
-	 * @param name
-	 * @param time
-	 * @param buildId
-	 * @param subDir
-	 * @param extensions
-	 * @param appName
-	 * @throws IOException
-	 */
 	public static void perform(String[] args, String destPath, String name, String time, String buildId, File subDir,
 			String[] extensions, String appName) throws IOException {
-
 		List<File> files = (List<File>) FileUtils.listFiles(subDir, extensions, true);
-
 		for (File i : files) {
-
 			for (int j = 6; j < args.length; j++) {
-				
 				String[] utilityPath = args[j].split(":");
 				String utility = utilityPath[0];
 				String fileName = utilityPath[1];
 				String srcPath = i.getCanonicalPath();
-				if(utility.equals("put")&& ((i.getName()).toLowerCase().contains("pythontest") && i.getName().toLowerCase().endsWith(".xml"))) {
+				if ("put".equals(utility) && ((i.getName()).toLowerCase().contains("pythontest")
+						&& i.getName().toLowerCase().endsWith(".xml"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-				else if(utility.equals("test") && ((i.getName()).toUpperCase().startsWith("TEST-") || i.getName().equalsIgnoreCase("testresult.xml"))) {
+				} else if ("test".equals(utility) && ((i.getName()).toUpperCase().startsWith("TEST-")
+						|| i.getName().equalsIgnoreCase("testresult.xml"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-
-				else if(utility.equals("tng") && (i.getName()).toLowerCase().contains("test-output") && i.getName().equalsIgnoreCase("testng-results.xml")) {
+				} else if ("tng".equals(utility) && (i.getName()).toLowerCase().contains("test-output")
+						&& i.getName().equalsIgnoreCase("testng-results.xml")) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-				
-				else if(utility.equals("if") && (i.getName()).endsWith("Fastest.json") ) {
+				} else if ("if".equals(utility) && (i.getName()).endsWith("Fastest.json")) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-				else if(utility.equals("jcc") && (i.getName().toLowerCase().contains("jacoco")))
-				{
+				} else if ("jcc".equals(utility) && (i.getName().toLowerCase().contains("jacoco"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-				else if(utility.equals("alt") && (i.getName().toLowerCase().contains("lintreport")))
-				{
+				} else if ("alt".equals(utility) && (i.getName().toLowerCase().contains("lintreport"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-					
-				}
-				else if (!fileName.startsWith(".")) {
-
+				} else if (!fileName.startsWith(".")) {
 					String fileN = fileName.substring(0, fileName.lastIndexOf('.'));
 					String fileE = fileName.substring(fileName.lastIndexOf('.') + 1);
-
 					if (fileName.equalsIgnoreCase(i.getName().toLowerCase())) {
 						copy(srcPath, destPath, name, time, buildId, utility, appName);
-					} else if (fileN.equals("*")) {
-						if (fileE.equals(i.getName().split("\\.")[1]) || fileE.equals("*")) {
+					} else if ("*".equals(fileN)) {
+						if ((i.getName().split("\\.")[1]).equals(fileN) || "*".equals(fileE)) {
 							copy(srcPath, destPath, name, time, buildId, utility, appName);
 						} else {
 							logger.error("Specify correct path for copying " + utility + " report");
 						}
 					}
 				}
-
 			}
-
 		}
-
 	}
 }

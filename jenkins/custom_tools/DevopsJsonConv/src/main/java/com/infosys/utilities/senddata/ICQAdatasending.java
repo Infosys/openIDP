@@ -8,5 +8,4 @@
 package com.infosys.utilities.senddata;
 
 public class ICQAdatasending {
-
 }

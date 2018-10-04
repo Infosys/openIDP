@@ -1,4 +1,4 @@
-package org.infosys.idp.web.uiConfig;
+package org.infosys.idp.web.uiconfig;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -36,6 +36,7 @@ import com.google.gson.Gson;
  *
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class EnvironmentDetails {
 
 	@Autowired

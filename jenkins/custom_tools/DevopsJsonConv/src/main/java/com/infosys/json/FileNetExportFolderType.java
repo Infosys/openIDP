@@ -1,3 +1,10 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
@@ -7,20 +14,16 @@ public class FileNetExportFolderType {
 	@SerializedName("objectStore")
 	@Expose
 	private String objectStore;
-
 	@SerializedName("name")
 	@Expose
 	private String name;
-
 	@SerializedName("id")
 	@Expose
 	private String id;
-	
 	@SerializedName("objectType")
 	@Expose
-	private String objectType="Folder";
+	private String objectType = "Folder";
 
-	
 	public String getObjectType() {
 		return objectType;
 	}
@@ -52,5 +55,4 @@ public class FileNetExportFolderType {
 	public void setId(String id) {
 		this.id = id;
 	}
-
 }

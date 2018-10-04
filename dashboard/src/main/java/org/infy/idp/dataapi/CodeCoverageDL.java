@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class CodeCoverageDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;

@@ -1,9 +1,15 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GenericInfo {
-
 	@JsonProperty("checkstyleURL")
 	private String checkstyleURL;
 	@JsonProperty("pmdURL")
@@ -19,8 +25,8 @@ public class GenericInfo {
 		this.pmdURL = "";
 		this.findbugsURL = "";
 		this.junitURL = "";
-	}	
-	
+	}
+
 	@JsonProperty("checkstyleURL")
 	public String getCheckstyleURL() {
 		return checkstyleURL;

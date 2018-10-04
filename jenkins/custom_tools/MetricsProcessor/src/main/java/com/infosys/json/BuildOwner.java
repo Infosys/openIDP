@@ -12,7 +12,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BuildOwner {
-
 	@JsonProperty("id")
 	private List<String> id;
 
@@ -24,10 +23,6 @@ public class BuildOwner {
 	@JsonProperty("id")
 	public void setId(List<String> id) {
 		this.id = id;
-	}
-
-	public BuildOwner() {
-		super();
 	}
 
 }

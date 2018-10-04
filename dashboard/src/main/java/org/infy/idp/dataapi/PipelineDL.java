@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class PipelineDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;

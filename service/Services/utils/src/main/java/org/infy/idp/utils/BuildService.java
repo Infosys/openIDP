@@ -111,7 +111,7 @@ public class BuildService {
 		try {
 			JobWithDetails job = jenkins.getJob(jobName);
 			if (job == null) {
-				throw new NullPointerException();
+				return null;
 			}
 			Build build = job.getBuildByNumber(buildNumber);
 			BuildWithDetails buildWithDetails = build.details();
@@ -155,7 +155,7 @@ public class BuildService {
 		} catch (URISyntaxException e) {
 
 			logger.error(e.getMessage(), e);
-			throw new NullPointerException("Unable to get the jenkins server '" + jobName + "'");
+			throw new IllegalArgumentException("Unable to get the jenkins server '" + jobName + "'");
 		}
 		JobWithDetails job;
 		try {

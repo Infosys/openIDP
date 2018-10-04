@@ -21,39 +21,25 @@ import com.infosys.json.CodeAnalysis;
 import com.infosys.utilities.checkstyle.Checkstyle;
 import com.infosys.utilities.checkstyle.Checkstyle.File.Error;
 
-/**
- * 
- * class ConvertCheckstyle has methods for parsing checkstyle reports
- *
- */
 public class ConvertCheckstyle {
 	private static int major;
 	private static int minor;
 	private static int blocker;
 	private static int critical;
 	private static int info;
-
 	private static final Logger logger = Logger.getLogger(ConvertCheckstyle.class);
 
 	private ConvertCheckstyle() {
 	}
 
-	/**
-	 * returns list of codeanalysis after parsing reports
-	 * 
-	 * @param inputPath
-	 * @param ruleToValue
-	 * @param ca
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue, List<CodeAnalysis> ca,
+	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue,
 			String prefixForId) {
+		List<CodeAnalysis> ca = new ArrayList<>();
 		try {
+			
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Checkstyle.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			Checkstyle c = (Checkstyle) jaxbUnmarshaller.unmarshal(file);
 			List<CodeAnalysis> localca;
@@ -61,14 +47,11 @@ public class ConvertCheckstyle {
 				localca = iterateList(ruleToValue, c, ca, prefixForId);
 				return localca;
 			}
-
 			logger.info("Report Converted Successfully..!!");
-
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}
 		return ca;
-
 	}
 
 	private static List<CodeAnalysis> iterateList(Map<String, String> ruleToValue, Checkstyle c, List<CodeAnalysis> ca,
@@ -82,7 +65,6 @@ public class ConvertCheckstyle {
 			for (Checkstyle.File.Error e : error) {
 				CodeAnalysis e1 = getCodeAnalysisObject();
 				setLineFunc(e1, e);
-
 				if (e.getSource() != null) {
 					int num = e.getSource().lastIndexOf('.');
 					String rule = e.getSource().substring(num + 1);
@@ -92,9 +74,7 @@ public class ConvertCheckstyle {
 				}
 				e1.setMessage(e.getMessage());
 				e1.setcategory("checkstyle");
-
 				setSeverityFunc(e1, e);
-
 				String id = f.getName();
 				String[] fname = id.split("\\.java");
 				String name = null;
@@ -104,13 +84,10 @@ public class ConvertCheckstyle {
 					name = fname[0].split("src.")[1].replace("\\", ".");
 				else
 					name = fname[0].replace("\\", ".");
-
 				e1.setId(prefixForId + name.replace(".", "_"));
-
 				localca = updateCA(ca, e1);
 			}
 		}
-
 		return localca;
 	}
 
@@ -122,19 +99,15 @@ public class ConvertCheckstyle {
 		if (e.getSeverity() != null && e.getSeverity().equalsIgnoreCase("error")) {
 			major++;
 			e1.setSeverity("high");
-
 		} else if (e.getSeverity() != null && e.getSeverity().equalsIgnoreCase("warning")) {
 			minor++;
 			e1.setSeverity("medium");
-
 		} else if (e.getSeverity() != null) {
 			info++;
 			e1.setSeverity("low");
-
 		} else {
 			e1.setSeverity("low");
 		}
-
 	}
 
 	private static void setLineFunc(CodeAnalysis e1, Error e) {
@@ -154,12 +127,9 @@ public class ConvertCheckstyle {
 			}
 		}
 		if (flag == 0) {
-
 			ca.add(e1);
 		}
-
 		return ca;
-
 	}
 
 	public static List<Integer> getcheckStyleSeverity() {

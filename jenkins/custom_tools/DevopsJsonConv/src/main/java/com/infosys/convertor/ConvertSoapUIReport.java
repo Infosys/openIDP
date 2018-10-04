@@ -18,74 +18,44 @@ import com.infosys.json.SoapUIReport;
 import com.infosys.json.TestCaseResult;
 import com.infosys.utilities.soapuireport.Testsuite;
 
-
 public class ConvertSoapUIReport {
-
-	/**
-	 * returns soupuireport type object after parsing soapui reports
-	 * @param inputPath
-	 * @param listTR
-	 * @return
-	 */
-	public static SoapUIReport  convert(String inputPath, List<TestCaseResult> listTR) 
-	{
-
+	public static SoapUIReport convert(String inputPath, List<TestCaseResult> listTR) {
 		EditDocType.edit(inputPath);
 		File file = new File(inputPath);
 		JAXBContext jaxbContext;
 		Unmarshaller jaxbUnmarshaller;
-		SoapUIReport s=new SoapUIReport();
-		//List<TestCaseResult> tr=new ArrayList<TestCaseResult>();
+		SoapUIReport s = new SoapUIReport();
+		// List<TestCaseResult> tr=new ArrayList<TestCaseResult>();
 		try {
-			 jaxbContext = JAXBContext.newInstance(Testsuite.class);
-			jaxbUnmarshaller=jaxbContext.createUnmarshaller();
-			Testsuite result= (Testsuite)jaxbUnmarshaller.unmarshal(file);
-			
-			
-			
+			jaxbContext = JAXBContext.newInstance(Testsuite.class);
+			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			Testsuite result = (Testsuite) jaxbUnmarshaller.unmarshal(file);
 			s.setErrors(result.getErrors());
 			s.setFailures(result.getFailures());
 			s.setName(result.getName());
 			s.setTests(result.getTests());
 			s.setTime(result.getTime());
-			
-			List<Testsuite.Testcase> testcaseList=result.getTestcase();
-			for(Testsuite.Testcase each:testcaseList)
-			{
-				
-				TestCaseResult tr=new TestCaseResult();
+			List<Testsuite.Testcase> testcaseList = result.getTestcase();
+			for (Testsuite.Testcase each : testcaseList) {
+				TestCaseResult tr = new TestCaseResult();
 				tr.settestSuiteName(result.getName());
 				tr.setCategory("Functional");
 				tr.setDuration(each.getTime());
 				tr.setId(each.getName());
-				if(!each.getFailure().isEmpty())
-				{
+				if (!each.getFailure().isEmpty()) {
 					tr.setStatus("FAILURE");
 					tr.setMessage("Testcase failed");
-				}
-				else{
+				} else {
 					tr.setMessage("Testcase passed");
 					tr.setStatus("SUCCESS");
 				}
-				
 				listTR.add(tr);
-				
-				
-				
-				
-				
 			}
-			
-			
 			return s;
-			//json.setTestCaseResult(tr);
-			
+			// json.setTestCaseResult(tr);
+		} catch (JAXBException e) {
+			e.printStackTrace();
 		}
-			catch (JAXBException e) {
-				e.printStackTrace();
-				}
 		return s;
-	
 	}
-	
 }

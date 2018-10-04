@@ -13,12 +13,11 @@ package org.infy.idp.dataapi.services;
  *
  */
 public class Config {
-
+	public static final int IDP_APPLICATION = 1;
+	
 	private Config() {
 
 	}
-
-	public static final int IDP_APPLICATION = 1;
 
 	/**
 	 * @param platformName

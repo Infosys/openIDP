@@ -26,6 +26,7 @@ import com.offbytwo.jenkins.model.FolderJob;
 import com.offbytwo.jenkins.model.JobWithDetails;
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class TriggerBuilds {
 	private static final Logger logger = LoggerFactory.getLogger(TriggerBuilds.class);
 

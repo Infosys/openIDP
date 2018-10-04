@@ -14,7 +14,7 @@ public class Licenses {
 	
 	@SerializedName("licenses")
     @Expose
-	List<License> licenseList;
+	private List<License> licenseList;
 
 	public List<License> getLicenses() {
 		return licenseList;

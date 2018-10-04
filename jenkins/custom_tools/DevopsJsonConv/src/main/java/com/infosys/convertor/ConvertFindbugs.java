@@ -19,9 +19,8 @@ import org.apache.log4j.Logger;
 
 import com.infosys.json.CodeAnalysis;
 import com.infosys.utilities.findbugs.BugCollection;
-import com.infosys.utilities.findbugs.BugCollection.BugInstance;
-import com.infosys.utilities.findbugs.BugCollection.BugInstance.Class;
-import com.infosys.utilities.findbugs.BugCollection.BugInstance.Method;
+import com.infosys.utilities.findbugs.BugInstance;
+import com.infosys.utilities.findbugs.BugInstance.Method;
 
 public class ConvertFindbugs {
 	private static int major;
@@ -29,53 +28,37 @@ public class ConvertFindbugs {
 	private static int blocker;
 	private static int critical;
 	private static int info;
-
 	private static final Logger logger = Logger.getLogger(ConvertFindbugs.class);
 
 	private ConvertFindbugs() {
 	}
 
-	/**
-	 * returns list of codeanalysis after parsing findbugs reports
-	 * 
-	 * @param inputPath
-	 * @param ruleToValue
-	 * @param ca
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue, List<CodeAnalysis> ca,
+	public static List<CodeAnalysis> convert(String inputPath, Map<String, String> ruleToValue,
 			String prefixForId) {
+		List<CodeAnalysis> ca = new ArrayList<>();
 		try {
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(BugCollection.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			BugCollection c = (BugCollection) jaxbUnmarshaller.unmarshal(file);
-
 			final String successMsg = "Report Converted Successfully..!!";
 			if (c.getBugInstance() == null) {
 				logger.info(successMsg);
 				return ca;
 			}
-
 			List<BugInstance> instance = c.getBugInstance();
 			for (BugInstance i : instance) {
-				if (i.getClass_() == null)
+				if (i.getClazz() == null)
 					continue;
-
-				List<BugInstance.Class> clsList = i.getClass_();
+				List<BugInstance.Class> clsList = i.getClazz();
 				final String noDesc = "No description available at this time";
 				final String bugCategory = "findbugs";
 				final String medSeverity = "medium";
-
 				iterateClass(i, ca, clsList, ruleToValue, bugCategory, noDesc, prefixForId);
-
 				List<BugInstance.Method> listMet;
 				if (i.getMethod() != null && (listMet = i.getMethod()) != null)
 					iterateMethod(i, listMet, ca, ruleToValue, bugCategory, medSeverity, noDesc, prefixForId);
-
 				if (i.getSourceLine() != null)
 					iterateSourceLines(i, ca, bugCategory, ruleToValue, noDesc, prefixForId);
 			}
@@ -100,7 +83,6 @@ public class ConvertFindbugs {
 			bug.setruleName(i.getCategory());
 			bug.setRecommendation(
 					(ruleToValue.get(i.getCategory())) == null ? noDesc : ruleToValue.get(i.getCategory()));
-
 			addCA(ca, bug);
 		}
 	}
@@ -128,7 +110,6 @@ public class ConvertFindbugs {
 			CodeAnalysis bug = getCodeAnalysisObject();
 			bug.setMessage(i.getCategory());
 			bug.setId(prefixForId + sl.getClassname().replace(".", "_"));
-
 			// Dashboard Summary for FindBugs
 			if (i.getPriority() == 1)
 				major++;
@@ -136,7 +117,6 @@ public class ConvertFindbugs {
 				minor++;
 			if (i.getPriority() == 3)
 				info++;
-
 			if (i.getPriority() <= 2) {
 				bug.setSeverity("complex");
 			} else if (i.getPriority() == 3) {
@@ -144,20 +124,17 @@ public class ConvertFindbugs {
 			} else if (i.getPriority() > 3) {
 				bug.setSeverity("low");
 			}
-
 			bug.setcategory(bugCategory);
 			bug.setLine(sl.getStart().toString());
 			bug.setruleName(i.getCategory());
 			bug.setRecommendation(
 					(ruleToValue.get(i.getCategory())) == null ? noDesc : ruleToValue.get(i.getCategory()));
-
 			addCA(ca, bug);
 		}
 	}
 
-	private static void iterateClass(BugInstance i, List<CodeAnalysis> ca, List<Class> clsList,
+	private static void iterateClass(BugInstance i, List<CodeAnalysis> ca, List<BugInstance.Class> clsList,
 			Map<String, String> ruleToValue, String bugCategory, String noDesc, String prefixForId) {
-
 		for (BugInstance.Class cls : clsList) {
 			BugInstance.Class.SourceLine sl = cls.getSourceLine();
 			CodeAnalysis bug = getCodeAnalysisObject();
@@ -169,7 +146,6 @@ public class ConvertFindbugs {
 			bug.setId(prefixForId + sl.getClassname().replace(".", "_"));
 			bug.setcategory(bugCategory);
 			setSeverityByPriority(i, bug);
-
 			int flag = 0;
 			if (!ca.isEmpty())
 				flag = iterateCA(bug, ca);
@@ -194,13 +170,7 @@ public class ConvertFindbugs {
 	}
 
 	private static void setSeverityByPriority(BugInstance i, CodeAnalysis bug) {
-
 		// Dashboard Summary for FindBugs
-		/*
-		 * if (i.getPriority() == 1) major++; if (i.getPriority() == 2) minor++;
-		 * if (i.getPriority() == 3) info++;
-		 */
-
 		if (i.getPriority() != null) {
 			if (i.getPriority() <= 2) {
 				bug.setSeverity("high");

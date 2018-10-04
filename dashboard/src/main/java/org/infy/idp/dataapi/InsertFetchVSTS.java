@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.infy.idp.entities.VSTSDataBean;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class InsertFetchVSTS {
 	
 	protected Logger logger=LoggerFactory.getLogger(InsertFetchVSTS.class);
@@ -70,7 +72,7 @@ public class InsertFetchVSTS {
              return obj;
              
 		}catch(SQLException|JSONException |NullPointerException e){
-			logger.error("Postgres Error while fetching trigger json",e.getMessage());
+			logger.error("Postgres Error while fetching trigger json",e);
 		}
 		
 		return null;
@@ -117,7 +119,7 @@ public class InsertFetchVSTS {
             
             logger.info("table updated"+ triggerId);      
 
-            if(tfsWorkItem!=null && !tfsWorkItem.equalsIgnoreCase("") && !tfsWorkItem.equalsIgnoreCase("NA")) {
+            if(tfsWorkItem!=null && !"".equalsIgnoreCase(tfsWorkItem) && !"NA".equalsIgnoreCase(tfsWorkItem)) {
 				workitem = tfsWorkItem;
             }
            
@@ -126,8 +128,7 @@ public class InsertFetchVSTS {
             return workitem;
              
 		}catch(SQLException|NullPointerException e){
-		    e.printStackTrace();
-			logger.error("Postgres Error while updating trigger history ",e.getMessage());
+		    logger.error("Postgres Error while updating trigger history ",e);
 		}
 		return null;
 	}

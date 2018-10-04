@@ -1,10 +1,4 @@
-/***********************************************************************************************
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.
-*
-***********************************************************************************************/
+
 package com.infosys.utilities.csvparser;
 
 import static org.junit.Assert.*;
@@ -16,7 +10,7 @@ public class BeanTest {
 	@Test
 	public void testEquals()
 	{
-		bean bean=new bean();
+		Bean bean=new Bean();
 		
 		bean.setCC("cc");
 		bean.setCP("cP");
@@ -34,7 +28,7 @@ public class BeanTest {
 	@Test
 	public void testNotEquals()
 	{
-		bean bean=new bean();
+		Bean bean=new Bean();
 		
 		bean.setCC("cc");
 		bean.setCP("cP");

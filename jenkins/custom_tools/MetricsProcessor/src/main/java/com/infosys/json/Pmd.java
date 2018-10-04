@@ -27,7 +27,6 @@ public class Pmd {
 	@Expose
 	private Integer info;
 
-
 	public Integer getCritical() {
 		return critical;
 	}
@@ -67,5 +66,4 @@ public class Pmd {
 	public void setInfo(Integer info) {
 		this.info = info;
 	}
-
 }

@@ -11,7 +11,7 @@ import { IdpdataService } from "../idpdata.service";
 import { Router } from "@angular/router";
 import { ViewChild } from "@angular/core";
 import { IdpService } from "../idp-service.service";
-import { IDPEncryption } from "../idpencryption.service";
+import { IDPEncryption }    from "../idpencryption.service";
 import { constants } from "os";
 
 @Component({
@@ -478,7 +478,6 @@ export class TestInfoComponent implements OnInit {
         this.testCategory = [{ "name": "Functional", "value": "functional" },
         { "name": "Performance", "value": "performance" },
         { "name": "Service", "value": "service" }];
-        //{ "name": "Security", "value": "security" }];
     }
   }
   redirectToBasicInfo() {

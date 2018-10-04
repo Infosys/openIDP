@@ -15,9 +15,9 @@ describe("BuildInfoComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        declarations: [ BuildInfoComponent, ParentFormConnectComponent ]
+      declarations: [BuildInfoComponent, ParentFormConnectComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

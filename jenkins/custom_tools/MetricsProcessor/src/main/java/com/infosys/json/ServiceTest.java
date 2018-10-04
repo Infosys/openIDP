@@ -11,7 +11,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ServiceTest {
-
 	@SerializedName("iFast")
 	@Expose
 	private IFast iFast;
@@ -22,5 +21,5 @@ public class ServiceTest {
 
 	public void setiFast(IFast iFast) {
 		this.iFast = iFast;
-	}	
+	}
 }

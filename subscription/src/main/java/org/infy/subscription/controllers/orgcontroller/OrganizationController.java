@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrganizationController {
 	
 	@Autowired
-	OrgBL orgRegistrationBL;
+	private OrgBL orgRegistrationBL;
 	
 	@Autowired
 	private EmailSender emailSender;

@@ -9,7 +9,6 @@ package org.infy.idp.utils.jira;
 
 
 import org.infy.idp.dataapi.InsertFetchJira;
-import org.infy.idp.utils.ConfigurationManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +26,9 @@ public class DetailsForJira {
 	protected Logger logger=LoggerFactory.getLogger(DetailsForJira.class);
 	
 	@Autowired
-	InsertFetchJira insertFetchJira;
+	private InsertFetchJira insertFetchJira;
 	
-	@Autowired 
-	ConfigurationManager configurationManager;
+	
 	
 public String getFromDatabase(Integer trigegrid){
 	String jiraprojectKeyUserStories=null;

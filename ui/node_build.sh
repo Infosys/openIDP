@@ -1,3 +1,4 @@
+#!/bin/sh
 cd src/main/angular4src
 $NPM_PROXY
 npm install

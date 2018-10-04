@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @ConfigurationProperties
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class ConfigurationManager {
 	
 	private String authProvider;

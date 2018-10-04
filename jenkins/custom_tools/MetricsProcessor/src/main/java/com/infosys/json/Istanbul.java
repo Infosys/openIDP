@@ -10,16 +10,14 @@ package com.infosys.json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Istanbul {
-@JsonProperty("lineCoverage")
-private String lineCoverage;
+	@JsonProperty("lineCoverage")
+	private String lineCoverage;
 
-public String getLineCoverage() {
-	return lineCoverage;
-}
+	public String getLineCoverage() {
+		return lineCoverage;
+	}
 
-public void setLineCoverage(String lineCoverage) {
-	this.lineCoverage = lineCoverage;
-}
-
-
+	public void setLineCoverage(String lineCoverage) {
+		this.lineCoverage = lineCoverage;
+	}
 }

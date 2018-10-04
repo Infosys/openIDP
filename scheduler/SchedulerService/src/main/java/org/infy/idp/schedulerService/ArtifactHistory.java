@@ -6,7 +6,7 @@
 *
 ***********************************************************************************************/
 
-package org.infy.idp.schedulerService;
+package org.infy.idp.schedulerservice;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-
 @Component
 public class ArtifactHistory {
 
@@ -46,11 +44,6 @@ public class ArtifactHistory {
 	private static final String SELECT_CLAUSE = " SELECT ";
 	private static final String FROM_CLAUSE = " FROM ";
 	private static final String APPLICATION_NAME = " application_name LIKE ? ";
-	private static final String PIPELINE_NAME = " pipeline_name LIKE ? ";
-	private static final String USER_ID = " user_id LIKE ? ";
-	private static final String APPLICATION_ID = " tpipeline_info.application_id=tapplication_info.application_id ";
-	private static final String ORDER_BY = " ORDER BY ";
-	private static final String ACTIVE_PIPELINE = " and active = true ";
 	protected final String ERROR1 = "Postgres Error while fetching user details:";
 	protected Logger logger=  LoggerFactory.getLogger(ArtifactHistory.class);
 
@@ -188,15 +181,15 @@ public class ArtifactHistory {
 	
 	public Integer updateTriggerHistory(int id, String artifactName)
 	  {
-		  Gson gson = new Gson();
+		  
 		  /*INSERT INTO public.ttrigger_history(
 		             pipeline_id, trigger_entity, release_number, 
 		            version)
 		    VALUES ( ?, ?, ?, ?);*/
 		  	Integer productId =null ;
-		   String tableName = "ttrigger_history";
-		   String queryStatement = new String();
-		   queryStatement="Update ttrigger_history set artifact_name = ? where trigger_id=?";
+		   
+		   
+		   String queryStatement ="Update ttrigger_history set artifact_name = ? where trigger_id=?";
 		   try (Connection connection = postGreSqlDbContext.getConnection();
 		        PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
 		    	preparedStatement.setString(1, artifactName);
@@ -227,17 +220,7 @@ public class ArtifactHistory {
 	public int getReleaseId(String appName, String pipelineName, String releaseNumber ,String status)
 			throws SQLException {
 		
-		int releaseId=0;
-		
-		/*SELECT release_id FROM
-		 public.tpipeline_info,tapplication_info,trelease_info where
-		 tapplication_info.application_id = tpipeline_info.application_id and
-		 tpipeline_info.application_id = trelease_info.application_id and
-		 tpipeline_info.pipeline_id = trelease_info.pipeline_id and
-		 tapplication_info.application_name like 'THIRD_APPLICATION' and
-		 tpipeline_info.pipeline_name like 'Tibco_Sanity_1' and status = 'on' 
-        and release_number like '1.0.1'*/
-		
+		int releaseId=0;		
 		StringBuilder queryStatement = new StringBuilder();
 
 		queryStatement.append(SELECT_CLAUSE);
@@ -354,11 +337,7 @@ public class ArtifactHistory {
 	  
 	  public int getEnvironmentId(String environmentName, int applicationId) throws SQLException {
 
-			/*
-			 * SELECT env_id FROM public.tenvironment_master WHERE environment_name
-			 * = 'DEV' AND application_id = 3
-			 */
-
+			
 			int env_id = -1;
 			StringBuilder queryStatement = new StringBuilder();
 
@@ -392,15 +371,7 @@ public class ArtifactHistory {
 		}
 	  
 	  public void insertArtifacttoData(int envId , int releaseId , String artifactName , String status) throws SQLException{
-			
-			/*
-			 * INSERT INTO public.tartifact_approval(
-		artifact_name, release_id, env_id, status)
-		VALUES ( 'ReleaseManagement29Dec_Informatica_RM_1', 26, 30, 'approved') 
-	    ON CONFLICT (artifact_name , release_id , env_id ) DO UPDATE
-	    SET artifact_name = 'ReleaseManagement29Dec_Informatica_RM_1';;
-			 */
-			
+					
 			StringBuilder queryStatement = new StringBuilder();
 			
 			queryStatement.append("INSERT INTO public.tartifact_approval( ");
@@ -430,11 +401,6 @@ public class ArtifactHistory {
 		}
 	  
 	  public int getArtifactId(String artifactName) throws SQLException {
-
-			/*
-			 * SELECT env_id FROM public.tenvironment_master WHERE environment_name
-			 * = 'DEV' AND application_id = 3
-			 */
 
 			int artifactId = -1;
 			StringBuilder queryStatement = new StringBuilder();
@@ -467,12 +433,7 @@ public class ArtifactHistory {
 
 	  public void insertArtifactDetails(int artifactId , String status , String remark , String environment , String env_owner ) throws SQLException{
 			
-			/*
-			 *INSERT INTO public.tartifact_history(
-		seq_id, artifact_id, status, remark, environment, env_owner, action_time)
-		VALUES (?, ?, ?, ?, ?, ?, ?)
-			 */
-			
+	
 			StringBuilder queryStatement = new StringBuilder();
 			
 			queryStatement.append("INSERT INTO public.tartifact_history( ");
@@ -515,14 +476,14 @@ public class ArtifactHistory {
 				int releaseId = getReleaseId(jsonInput.getString("applicationName"),
 						jsonInput.getString("pipelineName"), jsonInput.getString("releaseNumber"), "on");
 				int applicationId = getApplicationId(jsonInput.getString("applicationName")).intValue();
-				if(jsonInput.has("envSelected") && jsonInput.getString("envSelected")!="")
+				if(jsonInput.has("envSelected") && !"".equals(jsonInput.getString("envSelected")))
 					envId = getEnvironmentId(jsonInput.getString("envSelected"), applicationId);
 
 				String artifactName;
 				if (jsonInput.has("build")) {
 					artifactName =  jsonInput.getString("applicationName")+ "_" + jsonInput.getString("pipelineName")
 							+ "_" + jsonInput.getString("releaseNumber") + "-" ;
-					if(jsonInput.has("branchOrTag") && jsonInput.getString("branchOrTag")!="") {
+					if(jsonInput.has("branchOrTag") && !"".equals(jsonInput.getString("branchOrTag"))) {
 						artifactName = artifactName.concat(jsonInput.getString("branchOrTag"));
 					}
 					else {

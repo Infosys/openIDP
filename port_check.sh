@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 port_check(){ 
     netstat -ntpl | grep :$1 -q ; 
     if [ $? -eq 0 ]

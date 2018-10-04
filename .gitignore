@@ -4,11 +4,10 @@ dsldata
 jenkinsdata
 datafiles/grafanadata/data/grafana.db
 datafiles/dsldata/
-
-#Maven Build#
+### Maven Build ###
 target
 
-#STS#
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -16,45 +15,55 @@ target
 .settings
 .springBeans
 
-#CustomFiles#
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+###CustomFiles###
 sampleCSV.txt
 dist
 tmp
 out-tsc
 
-#Dependencies#
+# dependencies
 node_modules
 .vscode
 dist
 static
+/ui/src/main/angular4src/node_modules
+/ui/src/main/angular4src/dist
 
-#IDEs and Editors
-.idea
+# IDEs and editors
+/.idea
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
+
+# IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-#Misc#
-.sass-cache
-connect.lock
-coverage
-libpeerconnection.log
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
 npm-debug.log
 testem.log
-typings
+/typings
 
-#e2e#
+# e2e
 /e2e/*.js
 /e2e/*.map
 
-#System Files#
+# System Files
 .DS_Store
 Thumbs.db

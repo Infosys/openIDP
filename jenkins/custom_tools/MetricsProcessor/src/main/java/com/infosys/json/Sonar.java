@@ -11,25 +11,23 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Sonar {
-	
 	@SerializedName("critical")
-    @Expose
-    private Integer critical;
-    @SerializedName("blocker")
-    @Expose
-    private Integer blocker;
-    @SerializedName("major")
-    @Expose
-    private Integer major;
-    @SerializedName("minor")
-    @Expose
-    private Integer minor;
-    @SerializedName("info")
-    @Expose
-    private Integer info;
+	@Expose
+	private Integer critical;
+	@SerializedName("blocker")
+	@Expose
+	private Integer blocker;
+	@SerializedName("major")
+	@Expose
+	private Integer major;
+	@SerializedName("minor")
+	@Expose
+	private Integer minor;
+	@SerializedName("info")
+	@Expose
+	private Integer info;
 
-
-    public Integer getCritical() {
+	public Integer getCritical() {
 		return critical;
 	}
 
@@ -46,27 +44,26 @@ public class Sonar {
 	}
 
 	public Integer getMajor() {
-        return major;
-    }
+		return major;
+	}
 
-    public void setMajor(Integer major) {
-        this.major = major;
-    }
+	public void setMajor(Integer major) {
+		this.major = major;
+	}
 
-    public Integer getMinor() {
-        return minor;
-    }
+	public Integer getMinor() {
+		return minor;
+	}
 
-    public void setMinor(Integer minor) {
-        this.minor = minor;
-    }
+	public void setMinor(Integer minor) {
+		this.minor = minor;
+	}
 
-    public Integer getInfo() {
-        return info;
-    }
+	public Integer getInfo() {
+		return info;
+	}
 
-    public void setInfo(Integer info) {
-        this.info = info;
-    }
-
+	public void setInfo(Integer info) {
+		this.info = info;
+	}
 }

@@ -64,6 +64,13 @@ public class JobDetailsDLTest   {
 
 	@InjectMocks
 	private JobDetailsDL testedObject;
+	
+	@InjectMocks
+	private JobAdditionalDetailsDL jobAdditionalDL;
+	@InjectMocks
+	private JobInfoDL jobInfoDL;
+	@InjectMocks
+	private JobManagementDL jobManagementDL;
 
 	/**
 	 * Constructor for test class.
@@ -113,7 +120,7 @@ public class JobDetailsDLTest   {
 	public void testGetPermissions() {
 		List<String> permissionList = null;
 		try {
-			permissionList = testedObject.getPermissions("idpadmin", "DemoAppT");
+			permissionList = jobInfoDL.getPermissions("idpadmin", "DemoAppT");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,7 +167,7 @@ public class JobDetailsDLTest   {
 
 	@Test
 	public void testGetDomainName() {
-		String orgId = testedObject.getDomainName("idpadmin");
+		String orgId = jobInfoDL.getDomainName("idpadmin");
 	}
 
 	@Test
@@ -226,7 +233,7 @@ public class JobDetailsDLTest   {
 	public void testGetExistingAppNames() {
 		List<Application> list = null;
 		try {
-			list = testedObject.getExistingAppNames("Infosys", "IDP");
+			list = jobAdditionalDL.getExistingAppNames("Infosys", "IDP");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,7 +246,7 @@ public class JobDetailsDLTest   {
 	public void testGetExistingAppNamesPlatformSuccess() {
 		List<Application> list = null;
 		try {
-			list = testedObject.getExistingAppNames("IDP");
+			list = jobAdditionalDL.getExistingAppNames("IDP");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +259,7 @@ public class JobDetailsDLTest   {
 	public void testGetApplications() {
 		List<Application> list = null;
 		try {
-			list = testedObject.getExistingAppNames("idpadmin", "IDP");
+			list = jobAdditionalDL.getExistingAppNames("idpadmin", "IDP");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -265,7 +272,7 @@ public class JobDetailsDLTest   {
 	public void testGetBuildnumber() {
 		List<Application> list = null;
 		try {
-			list = testedObject.getExistingAppNames("DemoAppT", "JFrogTest");
+			list = jobAdditionalDL.getExistingAppNames("DemoAppT", "JFrogTest");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -278,7 +285,7 @@ public class JobDetailsDLTest   {
 	public void testGetSlaveDetailsFailure() {
 		List<String> list = null;
 		try {
-			list = testedObject.getSlaveDetails("DemoAppT", null);
+			list = jobAdditionalDL.getSlaveDetails("DemoAppT", null);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -288,7 +295,7 @@ public class JobDetailsDLTest   {
 	public void testGetPipelineInfo() {
 		IDPJob job = null;
 		try {
-			job = testedObject.getPipelineInfo("DemoAppT", "TC1_Maven");
+			job = jobAdditionalDL.getPipelineInfo("DemoAppT", "TC1_Maven");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -299,7 +306,7 @@ public class JobDetailsDLTest   {
 	public void testGetReleaseNumber() {
 		List<String> list = null;
 		try {
-			list = testedObject.getReleaseNumber("DemoAppT", "TC1_Maven");
+			list = jobAdditionalDL.getReleaseNumber("DemoAppT", "TC1_Maven");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -310,7 +317,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPipelinesCustomPipelineadmin() {
 		List<PipelineDetail> list = null;
-		list = testedObject.getPipelinesCustomPipelineadmin("idpadmin");
+		list = jobManagementDL.getPipelinesCustomPipelineadmin("idpadmin");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -318,14 +325,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetbuildnum() {
 		List<String> list = null;
-		list = testedObject.getbuildnum("DemoAppT","TC1_Maven");
+		list = jobManagementDL.getbuildnum("DemoAppT","TC1_Maven");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
 	
 	@Test
 	public void testGetreleaseNum() {
-		String rNo  = testedObject.getreleaseNum("DemoAppT","TC1_Maven","1");
+		String rNo  = jobManagementDL.getreleaseNum("DemoAppT","TC1_Maven","1");
 		assertNotNull(rNo);
 	}
 
@@ -333,7 +340,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetTriggerEntitytime() {
 		List<String> list = null;
-		list = testedObject.getTriggerEntitytime("DemoAppT","TC1_Maven","2");
+		list = jobManagementDL.getTriggerEntitytime("DemoAppT","TC1_Maven","2");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -341,7 +348,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetTriggerEntity() {
 		List<List> list = null;
-		list = testedObject.getTriggerEntity("DemoAppT","TC1_Maven","2");
+		list = jobManagementDL.getTriggerEntity("DemoAppT","TC1_Maven","2");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -350,7 +357,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetStatus() {
 		List<String> list = null;
-		list = testedObject.getStatus("DemoAppT","TC1_Maven","2");
+		list = jobManagementDL.getStatus("DemoAppT","TC1_Maven","2");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -359,7 +366,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetApplicationNameForReleaseManager() {
 		List<String> list = null;
-		list = testedObject.getApplicationNameForReleaseManager("idpadmin","IDP");
+		list = jobManagementDL.getApplicationNameForReleaseManager("idpadmin","IDP");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -368,7 +375,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testPipelineNamesForApplication() {
 		List<String> list = null;
-		list = testedObject.getApplicationNameForReleaseManager("idpadmin","workflow");
+		list = jobManagementDL.getApplicationNameForReleaseManager("idpadmin","workflow");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -376,7 +383,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetSubAppDetails() {
 		List<String> list = null;
-		list = testedObject.getSubAppDetails("DemoAppT");
+		list = jobInfoDL.getSubAppDetails("DemoAppT");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -385,7 +392,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetJobParamDetails() {
 		List<JobParam> list = null;
-		list = testedObject.getJobParamDetails("DemoAppT","TC1_Maven");
+		list = jobInfoDL.getJobParamDetails("DemoAppT","TC1_Maven");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -395,7 +402,7 @@ public class JobDetailsDLTest   {
 	public void testGetReleaseNumberAndBranches() {
 		HashMap<String, List<String>> map = null;
 		try {
-			map = testedObject.getReleaseNumberAndBranches("DemoAppT","TC1_Maven");
+			map = jobInfoDL.getReleaseNumberAndBranches("DemoAppT","TC1_Maven");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -408,7 +415,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPipelinePermission() {
 		List<String> list = null;
-		list = testedObject.getPipelinePermission("DemoAppT","TC1_Maven","idpadmin");
+		list = jobInfoDL.getPipelinePermission("DemoAppT","TC1_Maven","idpadmin");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -416,7 +423,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetDBDeployOperation() {
 		String opert = null;
-		opert  = testedObject.getDBDeployOperation("DemoAppT","TC1_Maven");
+		opert  = jobInfoDL.getDBDeployOperation("DemoAppT","TC1_Maven");
 		
 	}
 
@@ -424,7 +431,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testdbDeployPipelineNamesForApplication() {
 		List<String> list = null;
-		list = testedObject.dbDeployPipelineNamesForApplication("DemoAppT");
+		list = jobInfoDL.dbDeployPipelineNamesForApplication("DemoAppT");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -439,7 +446,7 @@ public class JobDetailsDLTest   {
 	}
 	@Test
 	public void testDeletePipelineRoles() {
-		 testedObject.deletePipelineRoles(1L);
+		 jobInfoDL.deletePipelineRoles(1L);
 		
 	}
 	
@@ -460,7 +467,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPipelinePermissionForApp() {
 		List<String> list = null;
-		list = testedObject.getPipelinePermissionForApplication("DemoAppT","idpadmin");
+		list = jobInfoDL.getPipelinePermissionForApplication("DemoAppT","idpadmin");
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
@@ -473,7 +480,7 @@ public class JobDetailsDLTest   {
 
 	@Test
 	public void testGetPermissionForApplications_Success() throws Throwable {
-		List result = testedObject.getPermissionForApplications("abc", "testapp");
+		List result = jobManagementDL.getPermissionForApplications("abc", "testapp");
 	}
 	
 
@@ -481,7 +488,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPermissionForApplications_Failure() throws Throwable {
 
-		List result = testedObject.getPermissionForApplications("idpadmin", "applicationName");
+		List result = jobManagementDL.getPermissionForApplications("idpadmin", "applicationName");
 
 	}
 
@@ -498,7 +505,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPipelines_Failure() throws Throwable {
 
-		List result = testedObject.getPipelines("appName");
+		List result = jobAdditionalDL.getPipelines("appName");
 
 	}
 
@@ -513,7 +520,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetReleaseNo0() throws Throwable {
 
-		String result = testedObject.getReleaseNo("pipelineName", "appName");
+		String result = jobManagementDL.getReleaseNo("pipelineName", "appName");
 
 	}
 
@@ -524,7 +531,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetRoleId_Failure() throws Throwable {
 
-		Long result = testedObject.getRoleId("developer");
+		Long result = jobInfoDL.getRoleId("developer");
 
 	}
 
@@ -532,7 +539,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetRoles_Failure() throws Throwable {
 
-		testedObject.getRoles("userName", "applicationName");
+		jobAdditionalDL.getRoles("userName", "applicationName");
 
 	}
 
@@ -542,14 +549,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetRoles1_Success() throws Throwable {
 
-		List result = testedObject.getRoles("idpadmin");
+		List result = jobManagementDL.getRoles("idpadmin");
 
 	}
 
 	@Test
 	public void testGetRoles1_Failure() throws Throwable {
 
-		List result = testedObject.getRoles("idpadmin");
+		List result = jobManagementDL.getRoles("idpadmin");
 
 	}
 
@@ -559,14 +566,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetRolesasApp_Success() throws Throwable {
 
-		List result = testedObject.getRolesasApp("idpadmin", "Demo_Appln");
+		List result = jobManagementDL.getRolesasApp("idpadmin", "Demo_Appln");
 
 	}
 
 	@Test
 	public void testGetRolesasApp_Failure() throws Throwable {
 
-		List result = testedObject.getRolesasApp("idpadmin", "appName");
+		List result = jobManagementDL.getRolesasApp("idpadmin", "appName");
 
 	}
 
@@ -577,7 +584,7 @@ public class JobDetailsDLTest   {
 	@Test(expected = Exception.class)
 	public void testGetSessionJobDetails0() throws Throwable {
 
-		Integer result = testedObject.getSessionJobDetails("sessionId", "key");
+		Integer result = jobAdditionalDL.getSessionJobDetails("sessionId", "key");
 
 	}
 
@@ -588,7 +595,7 @@ public class JobDetailsDLTest   {
 	@Test(expected = Exception.class)
 	public void testGetSessionJobDetails1() throws Throwable {
 
-		HashMap result = testedObject.getSessionJobDetails("sessionId");
+		HashMap result = jobAdditionalDL.getSessionJobDetails("sessionId");
 
 	}
 
@@ -596,7 +603,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetSlaveDetails_Failure() throws Throwable {
 
-		List result = testedObject.getSlaveDetails("applicationName", "usage");
+		List result = jobAdditionalDL.getSlaveDetails("applicationName", "usage");
 
 	}
 
@@ -604,7 +611,7 @@ public class JobDetailsDLTest   {
 	@Test(expected = Exception.class)
 	public void testUpdateBuildnumber0() throws Throwable {
 
-		int result = testedObject.updateBuildnumber("ApplicationNmae", "pipelineName", "newBuildId");
+		int result = jobAdditionalDL.updateBuildnumber("ApplicationNmae", "pipelineName", "newBuildId");
 
 	}
 
@@ -647,7 +654,7 @@ public class JobDetailsDLTest   {
 		tiggerJobName.setPipelineName("maven1_Copy");
 		tiggerJobName.setUserName("tiggerJobName_4");
 
-		Pipeline result = testedObject.getPipelineDetail(tiggerJobName);
+		Pipeline result = jobManagementDL.getPipelineDetail(tiggerJobName);
 
 	}
 
@@ -660,14 +667,14 @@ public class JobDetailsDLTest   {
 		tiggerJobName.setPipelineName("Fakedata");
 		tiggerJobName.setUserName("tiggerJobName_4");
 
-		Pipeline result = testedObject.getPipelineDetail(tiggerJobName);
+		Pipeline result = jobManagementDL.getPipelineDetail(tiggerJobName);
 
 	}
 
 	@Test
 	public void testGetPipelineId_Failure() throws Throwable {
 
-		Long result = testedObject.getPipelineId("pipelineName", "applicationName");
+		Long result = jobInfoDL.getPipelineId("pipelineName", "applicationName");
 
 	}
 
@@ -675,7 +682,7 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetApplication_Failure() throws Throwable {
 
-		ApplicationInfo result = testedObject.getApplication("applicationName");
+		ApplicationInfo result = jobInfoDL.getApplication("applicationName");
 
 	}
 
@@ -686,14 +693,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetApplicationDetail_Success() throws Throwable {
 
-		Application result = testedObject.getApplicationDetail("testing");
+		Application result = jobAdditionalDL.getApplicationDetail("testing");
 
 	}
 
 	@Test
 	public void testGetApplicationDetail_Failure() throws Throwable {
 
-		Application result = testedObject.getApplicationDetail("appName");
+		Application result = jobAdditionalDL.getApplicationDetail("appName");
 
 	}
 
@@ -703,14 +710,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetApplicationDetails_Success() throws Throwable {
 
-		List result = testedObject.getApplicationDetails("idpadmin", "IDP");
+		List result = jobAdditionalDL.getApplicationDetails("idpadmin", "IDP");
 
 	}
 
 	@Test
 	public void testGetApplicationDetails_Failure() throws Throwable {
 
-		List result = testedObject.getApplicationDetails("idpadmin", "IDP");
+		List result = jobAdditionalDL.getApplicationDetails("idpadmin", "IDP");
 
 	}
 
@@ -729,14 +736,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetApplicationId_Success() throws Throwable {
 
-		Long result = testedObject.getApplicationId("testing");
+		Long result = jobInfoDL.getApplicationId("testing");
 
 	}
 
 	@Test
 	public void testGetApplicationId_Failure() throws Throwable {
 
-		Long result = testedObject.getApplicationId("applicationName");
+		Long result = jobInfoDL.getApplicationId("applicationName");
 
 	}
 
@@ -759,14 +766,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetBasePermission_Success() throws Throwable {
 
-		List result = testedObject.getBasePermission("idpadmin");
+		List result = jobManagementDL.getBasePermission("idpadmin");
 
 	}
 
 	@Test
 	public void testGetBasePermission_Failure() throws Throwable {
 
-		List result = testedObject.getBasePermission("idpadmin");
+		List result = jobManagementDL.getBasePermission("idpadmin");
 
 	}
 
@@ -777,14 +784,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetBaseRoles_Success() throws Throwable {
 
-		List result = testedObject.getBaseRoles("idpadmin");
+		List result = jobManagementDL.getBaseRoles("idpadmin");
 
 	}
 
 	@Test
 	public void testGetBaseRoles_Failure() throws Throwable {
 
-		List result = testedObject.getBaseRoles("idpadmin");
+		List result = jobManagementDL.getBaseRoles("idpadmin");
 
 	}
 
@@ -794,14 +801,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetBuildnumber_Success() throws Throwable {
 
-		String result = testedObject.getBuildnumber("ApplicationName", "pipelineName");
+		String result = jobAdditionalDL.getBuildnumber("ApplicationName", "pipelineName");
 
 	}
 
 	@Test
 	public void testGetBuildnumber_Failure() throws Throwable {
 
-		String result = testedObject.getBuildnumber("ApplicationName", "pipelineName");
+		String result = jobAdditionalDL.getBuildnumber("ApplicationName", "pipelineName");
 
 	}
 
@@ -851,7 +858,7 @@ public class JobDetailsDLTest   {
 		getjob.setApplicationName("getjob_2");
 		getjob.setPipelineName("getjob_3");
 
-		List result = testedObject.getJobBuildDetails(getjob);
+		List result = jobManagementDL.getJobBuildDetails(getjob);
 
 	}
 
@@ -867,7 +874,7 @@ public class JobDetailsDLTest   {
 		getjob.setApplicationName("getjob_2");
 		getjob.setPipelineName("getjob_3");
 
-		Long result = testedObject.getLatestBuild(getjob);
+		Long result = jobManagementDL.getLatestBuild(getjob);
 
 	}
 
@@ -878,14 +885,14 @@ public class JobDetailsDLTest   {
 	@Test
 	public void testGetPermission_Success() throws Throwable {
 
-		List result = testedObject.getPermission("idpadmin");
+		List result = jobManagementDL.getPermission("idpadmin");
 
 	}
 
 	@Test
 	public void testGetPermission_Failure() throws Throwable {
 
-		List result = testedObject.getPermission("idpadmin");
+		List result = jobManagementDL.getPermission("idpadmin");
 
 	}
 

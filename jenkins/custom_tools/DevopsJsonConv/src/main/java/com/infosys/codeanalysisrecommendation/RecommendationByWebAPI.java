@@ -7,8 +7,6 @@
 ***********************************************************************************************/
 package com.infosys.codeanalysisrecommendation;
 
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +20,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-/**
- * The class RecommendationByWebAPI has methods for getting rules set related to
- * web api
- */
 public class RecommendationByWebAPI {
-
 	private static final Logger logger = Logger.getLogger(RecommendationByWebAPI.class);
 	private Map<String, String> ruleRecommendationMap = new HashMap<>();
 	private String host;
@@ -36,7 +29,7 @@ public class RecommendationByWebAPI {
 		super();
 	}
 
-	public RecommendationByWebAPI(String host, String key) {
+	public RecommendationByWebAPI(String host) {
 		super();
 		this.host = host;
 	}

@@ -14,17 +14,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.infy.idp.entities.Column;
 import org.infy.idp.entities.QueryResponse;
-import org.infy.idp.utils.ConfigurationManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,6 +30,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class FetchDetailsBL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
@@ -41,43 +40,6 @@ public class FetchDetailsBL {
 	@Autowired
 	private DBQuery dbQuery;
 
-	@Autowired
-	private ConfigurationManager configurationManager;
-	
-	@Value("${mtmuser}")
-    private String mtmuser;
-	@Value("${mtmpassword}")
-    private String mtmpassword;
-	@Value("${mtmurl}")
-    private String mtmurl;
-	@Value("${mtmproject}")
-    private String mtmproject;
-	@Value("${serverURL}")
-    private String serverURL;
-	@Value("${projectName}")
-    private String projectName;
-	@Value("${authorizationToken}")
-    private String authorizationToken;
-	@Value("${proxyip}")
-    private String proxyip;
-	@Value("${proxyport}")
-    private String proxyport;
-	@Value("${jiraurl}")
-    private String jiraurl;
-	@Value("${jirauser}")
-    private String jirauser;
-	@Value("${jirapassword}")
-    private String jirapassword;
-	@Value("${proxyuser}")
-    private String proxyuser;
-	@Value("${proxypassword}")
-    private String proxypassword;
-	@Value("${jenkinsID}")
-    private String jenkinsID;
-	@Value("${jenkinsURL}")
-    private String jenkinsURL;
-	@Value("${jenkinsPassword}")
-    private String jenkinsPassword;
 	
 	public static final String VALUES="values are";
 	protected Logger logger = LoggerFactory.getLogger(FetchDetailsBL.class);
@@ -115,11 +77,11 @@ public class FetchDetailsBL {
 	 * @param query
 	 * @return
 	 */
-	public List<QueryResponse> runQuery(String query)
+	public List<QueryResponse> runQuery(String inputquery)
 
 	{
 
-		query=query.replace("\\", "");
+		String query=inputquery.replace("\\", "");
 		logger.info("Executing " , query);
 		///
 		
@@ -139,8 +101,8 @@ public class FetchDetailsBL {
 	 * @return
 	 */
 
-	public QueryResponse runTableQuery(String query) {
-		query=query.replace("\\", "");
+	public QueryResponse runTableQuery(String inputQuery) {
+		String query=inputQuery.replace("\\", "");
 		
 		///
 		logger.info("Executing table query : %s", query);
@@ -163,8 +125,8 @@ public class FetchDetailsBL {
 	
 		public QueryResponse runTableQuerySCM(String query){
 		logger.info("Executing table query ", query);
-		List<Column> columns = new ArrayList();
-		List<List<String>> rows = new ArrayList();
+		List<Column> columns = new ArrayList<>();
+		List<List<String>> rows = new ArrayList<>();
 		Column c;
 		StringBuilder queryStatement = new StringBuilder();
 		queryStatement.append(query);
@@ -240,9 +202,9 @@ public class FetchDetailsBL {
 		return appid;
 	}
 	
-	public List<String> runSearchQuery(String query,String userid) { 
+	public List<String> runSearchQuery(String inputQuery,String userid) { 
 
-		query=query.replace("\\", "");
+		String query=inputQuery.replace("\\", "");
 		logger.info("Executing %s", query);
 		List<String> results = new ArrayList<>();
 		if(query.equalsIgnoreCase("select application_name from appinfo")){

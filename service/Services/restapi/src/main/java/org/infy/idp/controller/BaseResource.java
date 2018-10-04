@@ -22,11 +22,5 @@ public class BaseResource {
 	/** The Constant STATUS_SUCCESS. */
 	protected String STATUS_SUCCESS = "success";
 
-	/**
-	 * Default constructor.
-	 */
-	public BaseResource() {
-
-	}
 
 }

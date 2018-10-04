@@ -1,32 +1,36 @@
-
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-/**
- * Class ArtifactToStage
- * */
-public class ArtifactToStage {
 
+public class ArtifactToStage {
 	@SerializedName("artifact")
-    @Expose
-    private String artifact;
-    @SerializedName("flattenFileStructure")
-    @Expose
-    private String flattenFileStructure;
-    @SerializedName("artifactRepo")
-    @Expose
-    private ArtifactRepo artifactRepo;
-    @SerializedName("artifactRepoName")
-    @Expose
-    private String artifactRepoName;
-    @SerializedName("nuspecFilePath")
-    @Expose
-    private String nuspecFilePath;
-    @SerializedName("nexusAPIKey")
-    @Expose
-    private String nexusAPIKey;
-    
-    public ArtifactRepo getArtifactRepo() {
+	@Expose
+	private String artifact;
+	@SerializedName("flattenFileStructure")
+	@Expose
+	private String flattenFileStructure;
+	@SerializedName("artifactRepo")
+	@Expose
+	private ArtifactRepo artifactRepo;
+	@SerializedName("artifactRepoName")
+	@Expose
+	private String artifactRepoName;
+	@SerializedName("nuspecFilePath")
+	@Expose
+	private String nuspecFilePath;
+	@SerializedName("nexusAPIKey")
+	@Expose
+	private String nexusAPIKey;
+
+	public ArtifactRepo getArtifactRepo() {
 		return artifactRepo;
 	}
 
@@ -42,7 +46,7 @@ public class ArtifactToStage {
 		this.artifactRepoName = artifactRepoName;
 	}
 
-    public String getFlattenFileStructure() {
+	public String getFlattenFileStructure() {
 		return flattenFileStructure;
 	}
 
@@ -51,27 +55,26 @@ public class ArtifactToStage {
 	}
 
 	public String getArtifact() {
-        return artifact;
-    }
+		return artifact;
+	}
 
-    public void setArtifact(String artifact) {
-        this.artifact = artifact;
-    }
+	public void setArtifact(String artifact) {
+		this.artifact = artifact;
+	}
 
-    public String getnuspecFilePath() {
+	public String getnuspecFilePath() {
 		return nuspecFilePath;
 	}
 
 	public void setnuspecFilePath(String nuspecFilePath) {
 		this.nuspecFilePath = nuspecFilePath;
 	}
-	
-	 public String getnexusAPIKey() {
-			return nexusAPIKey;
-		}
 
-		public void setnexusAPIKey(String nexusAPIKey) {
-			this.nexusAPIKey = nexusAPIKey;
-		}
+	public String getnexusAPIKey() {
+		return nexusAPIKey;
+	}
+
+	public void setnexusAPIKey(String nexusAPIKey) {
+		this.nexusAPIKey = nexusAPIKey;
+	}
 }
-

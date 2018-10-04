@@ -8,7 +8,6 @@
 package org.infy.idp.dataapi;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class SCMInfoDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;

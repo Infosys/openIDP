@@ -14,15 +14,32 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "lastModified", "commitMessage", "id", "latestFileVersion", "lastModifiedBy","remoteUrl" })
-
+@JsonPropertyOrder({ "lastModified", "commitMessage", "id", "latestFileVersion", "lastModifiedBy", "remoteUrl" })
 public class SCMInfo {
-
 	@JsonProperty("lastModified")
 	private String lastModified;
-
 	@JsonProperty("commitMessage")
 	private String commitMessage;
+
+
+	@JsonProperty("id")
+	private String id;
+	@JsonProperty("latestFileVersion")
+	private String latestFileVersion;
+	@JsonProperty("lastModifiedBy")
+	private String lastModifiedBy;
+	@JsonProperty("remoteUrl")
+	private String remoteUrl;
+
+	public SCMInfo() {
+		super();
+		this.lastModified = "Wed Jan 01 00:00:00 IST 1897";
+		this.commitMessage = "File(s) Checked In";
+		this.id = "none";
+		this.latestFileVersion = "0";
+		this.lastModifiedBy = "none";
+		this.remoteUrl = "none";
+	}
 
 	public String getRemoteUrl() {
 		return remoteUrl;
@@ -31,28 +48,6 @@ public class SCMInfo {
 	public void setRemoteUrl(String remoteUrl) {
 		this.remoteUrl = remoteUrl;
 	}
-
-	@JsonProperty("id")
-	private String id;
-
-	@JsonProperty("latestFileVersion")
-	private String latestFileVersion;
-
-	@JsonProperty("lastModifiedBy")
-	private String lastModifiedBy;
-	@JsonProperty("remoteUrl")
-	private String remoteUrl;
-	
-	public SCMInfo() {
-			super();
-			this.lastModified = "Wed Jan 01 00:00:00 IST 1897";
-			this.commitMessage = "File(s) Checked In";
-			this.id = "none";
-			this.latestFileVersion = "0";
-			this.lastModifiedBy = "none";
-			this.remoteUrl="none";
-		}
-
 	@JsonProperty("lastModified")
 	public String getLastModified() {
 		return lastModified;

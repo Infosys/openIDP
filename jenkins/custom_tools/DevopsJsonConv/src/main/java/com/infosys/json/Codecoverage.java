@@ -1,22 +1,25 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Codecoverage {
-	
 	@SerializedName("jacoco")
 	@Expose
 	private Jacoco jacoco;
-	
 	@SerializedName("istanbul")
 	@Expose
 	private Istanbul istanbul;
-	
 	@SerializedName("cobertura")
 	@Expose
 	private Cobertura cobertura;
-	
 	@SerializedName("dsPriv")
 	@Expose
 	private CoverageDSPrivJson dsPriv;
@@ -51,6 +54,5 @@ public class Codecoverage {
 
 	public void setDsPriv(CoverageDSPrivJson dsPriv) {
 		this.dsPriv = dsPriv;
-	}	
-	
+	}
 }

@@ -1,4 +1,4 @@
-package org.infosys.idp.web.uiConfig;
+package org.infosys.idp.web.uiconfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

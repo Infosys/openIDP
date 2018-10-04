@@ -43,13 +43,13 @@ import com.google.gson.Gson;
 public class LicenseServiceBL {
 
 	@Autowired
-	LicenseKeyRepository licenseKeyRepository;
+	private LicenseKeyRepository licenseKeyRepository;
 
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
 	@Autowired
-	LicenseManager licensemanager;
+	private LicenseManager licensemanager;
 	@Autowired
 	private LicenseServiceFetcher licenseServiceFetcher;
 

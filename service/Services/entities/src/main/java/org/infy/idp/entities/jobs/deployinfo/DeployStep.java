@@ -24,6 +24,8 @@ import com.google.gson.annotations.SerializedName;
  * @author Infosys
  *
  */
+@SuppressWarnings("PMD")
+
 public class DeployStep {
 
 	@SerializedName("stepName")
@@ -309,10 +311,6 @@ public class DeployStep {
 	@SerializedName("dbOwnerPassword")
 	@Expose
 	private String dbOwnerPassword;
-
-	@SerializedName("iosDataPath")
-	@Expose
-	private String iosDataPath;
 
 	@SerializedName("bizScriptPath")
 	@Expose

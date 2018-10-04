@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8889/tcp
 
-ADD target/idprest.jar /idprest/idprest.jar
-ADD idprest.sh /idprest/idprest.sh
+COPY target/idprest.jar /idprest/idprest.jar
+COPY idprest.sh /idprest/idprest.sh
 RUN chmod +x /idprest/idprest.sh
 
 ENTRYPOINT /idprest/idprest.sh

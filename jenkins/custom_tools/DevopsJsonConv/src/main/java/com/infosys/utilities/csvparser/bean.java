@@ -7,7 +7,7 @@
 ***********************************************************************************************/
 package com.infosys.utilities.csvparser;
 
-public class bean {
+public class Bean {
 	// @CsvBindByPosition(position=0)
 	private String packageName;
 	// @CsvBindByPosition(position=15)
@@ -34,7 +34,7 @@ public class bean {
 	public void setCC(String cc) {
 		CC = cc;
 	}
-	
+
 	public String getMI() {
 		return MI;
 	}
@@ -58,5 +58,4 @@ public class bean {
 	public void setDP(String dP) {
 		DP = dP;
 	}
-
 }

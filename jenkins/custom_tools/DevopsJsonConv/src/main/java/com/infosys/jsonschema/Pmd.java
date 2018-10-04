@@ -18,128 +18,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "id", "message", "begincolumn", "endcolumn", "beginline", "endline", "externalInfoUrl", "priority",
 		"rule", "ruleset" })
 public class Pmd {
-
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("begincolumn")
 	private long begincolumn;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("beginline")
 	private long beginline;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("id")
 	private String id;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("message")
 	private String message;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("endcolumn")
 	private long endcolumn;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("endline")
 	private long endline;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("externalInfoUrl")
 	private String externalInfoUrl;
-
 	@JsonProperty("priority")
 	private long priority;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("rule")
 	private String rule;
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 */
 	@JsonProperty("ruleset")
 	private String ruleset;
 
-	/**
-	 * No args constructor for use in serialization
-	 * 
-	 */
-	public Pmd() {
-		// Empty Constructor
-	}
+	
 
-	/**
-	 * 
-	 * @param endcolumn
-	 * @param content
-	 * @param _class
-	 * @param ruleset
-	 * @param priority
-	 * @param _package
-	 * @param endline
-	 * @param rule
-	 * @param begincolumn
-	 * @param beginline
-	 * @param externalInfoUrl
-	 */
-	public Pmd(long begincolumn, long beginline, String _class, String content, long endcolumn, long endline,
-			String externalInfoUrl, long priority, String rule, String ruleset) {
-		this.begincolumn = begincolumn;
-		this.beginline = beginline;
-		this.id = _class;
-		this.message = content;
-		this.endcolumn = endcolumn;
-		this.endline = endline;
-		this.externalInfoUrl = externalInfoUrl;
-		this.priority = priority;
-		this.rule = rule;
-		this.ruleset = ruleset;
-	}
+	
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The begincolumn
-	 */
 	@JsonProperty("begincolumn")
 	public long getBegincolumn() {
 		return begincolumn;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param begincolumn
-	 *            The begincolumn
-	 */
 	@JsonProperty("begincolumn")
 	public void setBegincolumn(long begincolumn) {
 		this.begincolumn = begincolumn;
@@ -150,24 +58,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The beginline
-	 */
 	@JsonProperty("beginline")
 	public long getBeginline() {
 		return beginline;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param beginline
-	 *            The beginline
-	 */
 	@JsonProperty("beginline")
 	public void setBeginline(long beginline) {
 		this.beginline = beginline;
@@ -178,24 +73,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The _class
-	 */
 	@JsonProperty("id")
 	public String getId() {
 		return id;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param _class
-	 *            The class
-	 */
 	@JsonProperty("id")
 	public void setId(String _class) {
 		this.id = _class;
@@ -206,24 +88,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The content
-	 */
 	@JsonProperty("message")
 	public String getMessage() {
 		return message;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param content
-	 *            The content
-	 */
 	@JsonProperty("message")
 	public void setMessage(String content) {
 		this.message = content;
@@ -234,24 +103,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The endcolumn
-	 */
 	@JsonProperty("endcolumn")
 	public long getEndcolumn() {
 		return endcolumn;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param endcolumn
-	 *            The endcolumn
-	 */
 	@JsonProperty("endcolumn")
 	public void setEndcolumn(long endcolumn) {
 		this.endcolumn = endcolumn;
@@ -262,24 +118,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The endline
-	 */
 	@JsonProperty("endline")
 	public long getEndline() {
 		return endline;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param endline
-	 *            The endline
-	 */
 	@JsonProperty("endline")
 	public void setEndline(long endline) {
 		this.endline = endline;
@@ -290,24 +133,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The externalInfoUrl
-	 */
 	@JsonProperty("externalInfoUrl")
 	public String getExternalInfoUrl() {
 		return externalInfoUrl;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param externalInfoUrl
-	 *            The externalInfoUrl
-	 */
 	@JsonProperty("externalInfoUrl")
 	public void setExternalInfoUrl(String externalInfoUrl) {
 		this.externalInfoUrl = externalInfoUrl;
@@ -318,24 +148,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The priority
-	 */
 	@JsonProperty("priority")
 	public long getPriority() {
 		return priority;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param priority
-	 *            The priority
-	 */
 	@JsonProperty("priority")
 	public void setPriority(long priority) {
 		this.priority = priority;
@@ -346,24 +163,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The rule
-	 */
 	@JsonProperty("rule")
 	public String getRule() {
 		return rule;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param rule
-	 *            The rule
-	 */
 	@JsonProperty("rule")
 	public void setRule(String rule) {
 		this.rule = rule;
@@ -374,24 +178,11 @@ public class Pmd {
 		return this;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @return The ruleset
-	 */
 	@JsonProperty("ruleset")
 	public String getRuleset() {
 		return ruleset;
 	}
 
-	/**
-	 * 
-	 * (Required)
-	 * 
-	 * @param ruleset
-	 *            The ruleset
-	 */
 	@JsonProperty("ruleset")
 	public void setRuleset(String ruleset) {
 		this.ruleset = ruleset;
@@ -401,5 +192,4 @@ public class Pmd {
 		this.ruleset = ruleset;
 		return this;
 	}
-
 }

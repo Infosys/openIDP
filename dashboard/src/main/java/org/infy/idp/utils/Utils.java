@@ -33,7 +33,7 @@ public class Utils {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		long unixTime = 0L;
 		try {
-			Date date = new java.util.Date();
+			Date date = new Date();
 			if (StringUtils.isNotEmpty(dateval)) {
 				date = dateFormat.parse(dateval);
 			}

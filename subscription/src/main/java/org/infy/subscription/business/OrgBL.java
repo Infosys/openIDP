@@ -37,7 +37,7 @@ import com.google.gson.Gson;
 public class OrgBL {
 
 	@Autowired
-	OrgRegistrationRepository orgRegistrationRepository;
+	private OrgRegistrationRepository orgRegistrationRepository;
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 

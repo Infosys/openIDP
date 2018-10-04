@@ -29,58 +29,53 @@ public class CSVParser {
 	private static final Logger logger = Logger.getLogger(CSVParser.class);
 
 	public List<CSVInfo> parse(String inputpath) throws IOException, ClassNotFoundException {
-		List<CSVInfo> csv=null;
+		List<CSVInfo> csv = null;
 		CSVReader r = null;
-		try{
+		try {
 			if (inputpath != null) {
-				String csvOut="./sampleCSV.txt";
+				String csvOut = "./sampleCSV.txt";
 				String pathToCsvFile = writeCsv(inputpath, csvOut);
 				final File file = new File(inputpath);
 				if (!file.exists()) {
 					logger.error("The file you specified does not exist. path=" + pathToCsvFile);
 				}
-
 				Map<String, String> columnMapping = new HashMap<String, String>();
 				columnMapping.put("Type", "packageName");
 				columnMapping.put("CC", "CC");
 				columnMapping.put("MI", "MI");
 				columnMapping.put("CP", "CP");
 				columnMapping.put("DP", "DP");
-
-				HeaderColumnNameTranslateMappingStrategy<bean> strategy = new HeaderColumnNameTranslateMappingStrategy<>();
-				strategy.setType(bean.class);
+				HeaderColumnNameTranslateMappingStrategy<Bean> strategy = new HeaderColumnNameTranslateMappingStrategy<>();
+				strategy.setType(Bean.class);
 				strategy.setColumnMapping(columnMapping);
-				CsvToBean<bean> csvToBean = new CsvToBean<>();
+				CsvToBean<Bean> csvToBean = new CsvToBean<>();
 				r = new CSVReader(new FileReader(pathToCsvFile), ',');
-				List<bean> beanList = csvToBean.parse(strategy, r);
+				List<Bean> beanList = csvToBean.parse(strategy, r);
 				csv = new ArrayList<>();
-				for (bean b : beanList) {
+				for (Bean b : beanList) {
 					CSVInfo c = getCSVInfoObject();
 					c.setName(b.getPackageName());
-					c.setCc(b.getCC()==null?"0.00":b.getCC());
-					c.setMi(b.getMI()==null?"0.00":b.getMI());
-					c.setDp(b.getDP()==null?"0.00":b.getDP());
-					c.setCp(b.getCP()==null?"0.00":b.getCP());
-
-					if (c.getName() != null && isDouble(c.getCc()) && isDouble(c.getMi()) && isDouble(c.getCp()) && isDouble(c.getDp())) {
+					c.setCc(b.getCC() == null ? "0.00" : b.getCC());
+					c.setMi(b.getMI() == null ? "0.00" : b.getMI());
+					c.setDp(b.getDP() == null ? "0.00" : b.getDP());
+					c.setCp(b.getCP() == null ? "0.00" : b.getCP());
+					if (c.getName() != null && isDouble(c.getCc()) && isDouble(c.getMi()) && isDouble(c.getCp())
+							&& isDouble(c.getDp())) {
 						csv.add(c);
 					}
-
 				}
-				File f=new File(csvOut);
+				File f = new File(csvOut);
 				f.delete();
-
 			} else {
 				logger.error("No path specified");
 			}
-		}catch(Exception e){
-			logger.error(e.getMessage(),e);
-		}finally {
-			if(r != null){
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		} finally {
+			if (r != null) {
 				r.close();
 			}
 		}
-		
 		return csv;
 	}
 
@@ -97,43 +92,38 @@ public class CSVParser {
 		}
 	}
 
-	public static String writeCsv(String csvIn, String csvOut) throws IOException{
-		String path=null;
+	public static String writeCsv(String csvIn, String csvOut) throws IOException {
+		String path = null;
 		CSVWriter writer = null;
 		BufferedReader br = null;
 		FileWriter fw = null;
 		try {
-			fw =new FileWriter(csvOut);
+			fw = new FileWriter(csvOut);
 			writer = new CSVWriter(fw);
-
-
 			List<String[]> database = new ArrayList<>();
-			br = new BufferedReader( new FileReader(csvIn));
+			br = new BufferedReader(new FileReader(csvIn));
 			String line;
 			while ((line = br.readLine()) != null) {
 				String[] column = line.split("\\t");
-				for(int i=0; i<column.length; i++){
-					if (column[i].contains("Type Names")){
-						column[i]="Type";
+				for (int i = 0; i < column.length; i++) {
+					if (column[i].contains("Type Names")) {
+						column[i] = "Type";
 						break;
-
 					}
 				}
 				database.add(column);
 			}
-
-			writer.writeAll(database); 
-			path=csvOut;
+			writer.writeAll(database);
+			path = csvOut;
 		} catch (IOException e) {
-			logger.error(e.getMessage(),e);
-		}finally {
-			if(writer != null && br != null && fw != null){
+			logger.error(e.getMessage(), e);
+		} finally {
+			if (writer != null && br != null && fw != null) {
 				writer.close();
 				br.close();
 				fw.close();
 			}
 		}
-
 		return path;
 	}
 }

@@ -28,9 +28,9 @@
 			font-family: 'Open Sans Regular', sans-serif;
 }
 .disabled{
-  pointer-events: none !important;
-  cursor: not-allowed !important ;
-  color:#B0B8BF !important;
+  pointer-events: none;
+  cursor: not-allowed;
+  color:#B0B8BF;
 }
 .dropdown-submenu {
     position: relative;

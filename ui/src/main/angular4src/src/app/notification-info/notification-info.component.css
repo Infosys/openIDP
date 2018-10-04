@@ -1,4 +1,4 @@
-:host /deep/ .data-table-row {
+:host .data-table-row {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -14,7 +14,7 @@
         top:-10px; /* - top padding */
         right:9999px;
         width:200px;
-        margin-right:-320px !important; /* width + left/right padding */
+        margin-right:-320px ; /* width + left/right padding */
         padding:10px;
         color:#fff;
         background:#333;

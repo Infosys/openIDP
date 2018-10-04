@@ -25,13 +25,7 @@ public class TestCaseResult {
 
 	@JsonProperty("className")
 	private String className;
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
+	
 
 	@JsonProperty("message")
 	private String message;
@@ -74,6 +68,14 @@ public class TestCaseResult {
 		this.category = category;
 		this.startTime = startTime;
 		this.duration = duration;
+	}
+	
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	@JsonProperty("category")

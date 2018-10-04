@@ -8,7 +8,6 @@
 package com.infosys.json;
 
 public class ProtractorReports {
-
 	private String URL;
 
 	public String getURL() {

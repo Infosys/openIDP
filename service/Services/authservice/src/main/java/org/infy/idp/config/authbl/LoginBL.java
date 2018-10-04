@@ -70,7 +70,7 @@ public class LoginBL {
 		int iStatus;
 		iStatus = executor.performUserCheck(logindetails);
 		if (iStatus == 0) {
-			if (configmanager.getAuthProvider().toLowerCase().equals("ldap")) {
+			if (configmanager.getAuthProvider().equalsIgnoreCase("ldap")) {
 				iStatus = performLDAPAuth(logindetails);
 			} else {
 				iStatus = performKeyCloakAuth(logindetails);

@@ -1,3 +1,10 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
@@ -7,20 +14,16 @@ public class FileNetExportEventActionType {
 	@SerializedName("objectStore")
 	@Expose
 	private String objectStore;
-
 	@SerializedName("name")
 	@Expose
 	private String name;
-
 	@SerializedName("id")
 	@Expose
 	private String id;
-	
 	@SerializedName("objectType")
 	@Expose
-	private String objectType="Event Action";
+	private String objectType = "Event Action";
 
-	
 	public String getObjectType() {
 		return objectType;
 	}
@@ -58,5 +61,4 @@ public class FileNetExportEventActionType {
 		return "FileNetExportEventActionType [objectStore=" + objectStore + ", name=" + name + ", id=" + id
 				+ ", objectType=" + objectType + "]";
 	}
-
 }

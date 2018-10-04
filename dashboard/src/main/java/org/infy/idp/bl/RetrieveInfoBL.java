@@ -10,14 +10,12 @@ package org.infy.idp.bl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.infy.idp.dataapi.FetchDetailsBL;
 import org.infy.idp.entities.QueryRequest;
 import org.infy.idp.entities.QueryResponse;
 import org.infy.idp.entities.SearchRequest;
 import org.infy.idp.entities.Target;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

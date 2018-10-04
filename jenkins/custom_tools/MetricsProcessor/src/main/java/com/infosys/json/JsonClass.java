@@ -47,17 +47,10 @@ public class JsonClass {
 	@JsonProperty("ssoId")
 	private String ssoId;
 	
-	private String BaseURL;
-	public void setBaseURL(String baseURL) {
-		BaseURL = baseURL;
-	}
-	public String getBaseURL() {
-		return BaseURL;
-	}
 	@JsonProperty("reports")
 	private Reports Reports;
 	
-/*	@JsonProperty("unitTesting")
+	/*	@JsonProperty("unitTesting")
 	private UnitTesting unitTesting;*/
 	
 	@JsonProperty("functionalTest")
@@ -77,6 +70,54 @@ public class JsonClass {
 	
 	@JsonProperty("codeCoverage")
 	private Codecoverage codeCoverage;
+	
+	@JsonProperty("application")
+	private String application;
+
+	@JsonProperty("buildId")
+	private String buildId;
+	
+	@JsonProperty("jobBuildId")
+	private String jobBuildId;
+
+	@JsonProperty("buildDetails")
+	private List<BuildDetail> buildDetails;
+	
+	@JsonProperty("buildOwners")
+	private List<BuildOwner> buildOwners = null;
+
+	@JsonProperty("ruleSet")
+	private List<RuleSet> ruleSet;
+
+	@JsonProperty("codeMetric")
+	private List<CodeMetric> codeMetric = null;
+
+	@JsonProperty("testCaseResult")
+	private List<TestCaseResult> testCaseResult = null;
+
+	@JsonProperty("codeAnalysis")
+	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
+
+	@JsonProperty("CoverageDetails")
+	private List <CoverageDetails> coverageDetails;
+	
+	@JsonProperty("versionInfo")
+	private List<VersionInfo> versionInfo = null;
+	
+	@JsonProperty("scmInfo")
+	private List<SCMInfo> scmInfo = null;
+
+	
+	private String BaseURL;
+	public void setBaseURL(String baseURL) {
+		BaseURL = baseURL;
+	}
+	public String getBaseURL() {
+		return BaseURL;
+	}
+	
+	
+
 		
 /*	@JsonProperty("unitTesting")
 	public UnitTesting getUnitTesting() {
@@ -158,38 +199,7 @@ public class JsonClass {
 		this.functionalTest = functionalTest;
 	}
 
-	@JsonProperty("application")
-	private String application;
 
-	@JsonProperty("buildId")
-	private String buildId;
-	
-	@JsonProperty("jobBuildId")
-	private String jobBuildId;
-
-	@JsonProperty("buildDetails")
-	private List<BuildDetail> buildDetails;
-	
-	@JsonProperty("buildOwners")
-	private List<BuildOwner> buildOwners = null;
-
-	@JsonProperty("ruleSet")
-	private List<RuleSet> ruleSet;
-
-	@JsonProperty("codeMetric")
-	private List<CodeMetric> codeMetric = null;
-
-	@JsonProperty("testCaseResult")
-	private List<TestCaseResult> testCaseResult = null;
-
-	@JsonProperty("codeAnalysis")
-	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
-
-	@JsonProperty("CoverageDetails")
-	private List <CoverageDetails> coverageDetails;
-	
-	@JsonProperty("versionInfo")
-	private List<VersionInfo> versionInfo = null;
 
 	public List<CoverageDetails> getCoverageDetails() {
 		return coverageDetails;
@@ -198,13 +208,11 @@ public class JsonClass {
 		if (this.coverageDetails==null) this.coverageDetails=new ArrayList();
 		
 	}
-	public void AddCoverageDetails(CoverageDetails c)
+	public void addCoverageDetails(CoverageDetails c)
 	{
 		this.coverageDetails.add(c);
 	}
-	@JsonProperty("scmInfo")
-	private List<SCMInfo> scmInfo = null;
-
+	
 	@JsonProperty("sonarDetails")
 	public SonarDetails getSonarDetails() {
 		return sonarDetails;

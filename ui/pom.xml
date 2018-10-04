@@ -34,7 +34,7 @@ https://opensource.org/licenses/MIT
 		<maven-war-plugin.version>2.6</maven-war-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<cargo-maven2-plugin.version>1.4.19</cargo-maven2-plugin.version>
-		<start-class>org.infosys.idp.web.uiConfig.UiApplication</start-class>
+		<start-class>org.infosys.idp.web.uiconfig.UiApplication</start-class>
 	</properties>
 	
     <dependencies>

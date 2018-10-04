@@ -31,35 +31,23 @@ public class ConvertJUnit {
 	private ConvertJUnit() {
 	}
 
-	/**
-	 * returns list of testcaseresult after parsing junit report
-	 * 
-	 * @param inputPath
-	 * @param tr
-	 * @param prefixForId
-	 * @return
-	 */
-	public static List<TestCaseResult> convert(String inputPath, List<TestCaseResult> tr, String prefixForId) {
+	public static List<TestCaseResult> convert(String inputPath, JsonClass json, String prefixForId) {
+		List<TestCaseResult> tr=json.getTestCaseResult();
 		if (tr == null)
 			tr = new ArrayList<>();
-
 		try {
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(com.infosys.utilities.junit.Testsuite.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			com.infosys.utilities.junit.Testsuite c = (com.infosys.utilities.junit.Testsuite) jaxbUnmarshaller
 					.unmarshal(file);
-
 			if (c.getTestcase().isEmpty()) {
 				logger.info("Report Converted Successfully..!!");
 				return tr;
 			}
-
-			List<com.infosys.utilities.junit.Testsuite.Testcase> tcList = c.getTestcase();
-
-			for (com.infosys.utilities.junit.Testsuite.Testcase tc : tcList) {
+			List<Testcase> tcList = c.getTestcase();
+			for (Testcase tc : tcList) {
 				TestCaseResult tcObj = getTestCaseResultObject();
 				tcObj.setId(prefixForId + (tc.getClassname() + "_" + tc.getName()).replace(".", "_"));
 				tcObj.settestSuiteName(c.getName());
@@ -69,7 +57,6 @@ public class ConvertJUnit {
 					tcObj.setCategory("Functional Test");
 				else
 					tcObj.setCategory("Unit Test");
-
 				setTCStatus(tcObj, tc);
 				setTCMsg(tcObj, tc);
 				updateTR(tcObj, tr);
@@ -127,19 +114,15 @@ public class ConvertJUnit {
 	}
 
 	public static JUnit getJUnitSummary(JsonClass jsonClass) {
-
 		List<TestCaseResult> tcResultArr = jsonClass.getTestCaseResult();
 		JUnit jUnitObj = null;
-
 		if (tcResultArr == null)
 			return null;
-
 		jUnitObj = new JUnit();
 		int pass = 0;
 		int fail = 0;
 		int skip = 0;
 		int error = 0;
-
 		for (TestCaseResult tcObj : tcResultArr) {
 			if (tcObj.getStatus().equals("passed"))
 				pass++;
@@ -150,23 +133,19 @@ public class ConvertJUnit {
 			if (tcObj.getStatus().equals("error"))
 				error++;
 		}
-
 		jUnitObj.setPass(pass);
 		jUnitObj.setFail(fail);
 		jUnitObj.setError(error);
 		jUnitObj.setSkip(skip);
 		jUnitObj.setTotalTest(pass + fail + error + skip);
-
 		return jUnitObj;
 	}
 
 	public static JsonClass convertgo(String path, JsonClass json) {
-
 		try {
 			EditDocType.edit(path);
 			File file = new File(path);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Testsuites.class);
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			Testsuites root = (Testsuites) jaxbUnmarshaller.unmarshal(file);
 			TestCaseResult tr;
@@ -175,7 +154,6 @@ public class ConvertJUnit {
 				listresult = new ArrayList<>();
 			} else {
 				listresult = json.getTestCaseResult();
-
 			}
 			for (Testsuites.Testsuite suit : root.getTestsuite()) {
 				for (Testsuite.Testcase testcase : suit.getTestcase()) {

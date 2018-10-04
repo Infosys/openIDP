@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8222/tcp
 
-ADD target/idpscheduler.jar /idpscheduler/idpscheduler.jar
-ADD idpscheduler.sh /idpscheduler/idpscheduler.sh
+COPY target/idpscheduler.jar /idpscheduler/idpscheduler.jar
+COPY idpscheduler.sh /idpscheduler/idpscheduler.sh
 RUN chmod +x /idpscheduler/idpscheduler.sh
 
 ENTRYPOINT /idpscheduler/idpscheduler.sh

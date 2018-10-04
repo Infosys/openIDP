@@ -86,11 +86,9 @@ export SERVICES_PORT=8889
 export PROFILE=paas
 
 echo "Checking for selected ports open status"
-#docker stack ps IDP > /dev/null 2>&1
-if [ $? -ne 0 ]
+if !(docker stack ps IDP > /dev/null 2>&1);
 then 
-	docker run --rm --network="host" -v $PWD:/health -e GRAFANA_PORT=$GRAFANA_PORT -e ZOOKEEPER_PORT=$ZOOKEEPER_PORT -e KAFKA_PORT=$KAFKA_PORT -e CONFIG_PORT=$CONFIG_PORT -e EUREKA_PORT=$EUREKA_PORT -e SCHEDULER_PORT=$SCHEDULER_PORT -e POSTGRES_PORT=$POSTGRES_PORT -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e JENKINS_PORT=$JENKINS_PORT -e JENKINS_SLAVE_PORT=$JENKINS_SLAVE_PORT -e OAUTH_PORT=$OAUTH_PORT -e DASHBOARD_PORT=$DASHBOARD_PORT -e IDPAPP_PORT=$IDPAPP_PORT -e SUBSCRIPTION_PORT=$SUBSCRIPTION_PORT -e SERVICES_PORT=$SERVICES_PORT  -w=/health  --entrypoint "sh"  $NETWORK_IMAGE port_check.sh
-	if [ $? -ne 0 ]
+	if !(docker run --rm --network="host" -v $PWD:/health -e GRAFANA_PORT=$GRAFANA_PORT -e ZOOKEEPER_PORT=$ZOOKEEPER_PORT -e KAFKA_PORT=$KAFKA_PORT -e CONFIG_PORT=$CONFIG_PORT -e EUREKA_PORT=$EUREKA_PORT -e SCHEDULER_PORT=$SCHEDULER_PORT -e POSTGRES_PORT=$POSTGRES_PORT -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e JENKINS_PORT=$JENKINS_PORT -e JENKINS_SLAVE_PORT=$JENKINS_SLAVE_PORT -e OAUTH_PORT=$OAUTH_PORT -e DASHBOARD_PORT=$DASHBOARD_PORT -e IDPAPP_PORT=$IDPAPP_PORT -e SUBSCRIPTION_PORT=$SUBSCRIPTION_PORT -e SERVICES_PORT=$SERVICES_PORT  -w=/health  --entrypoint "sh"  $NETWORK_IMAGE port_check.sh);
 	then 
 		echo "Port Check: Failed"
 		echo "Specified ports are either occupied or not open. Please refer above error for checking which one actually is not open."

@@ -20,7 +20,9 @@ import org.infy.entities.triggerinputs.Steps;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.businessapi.EmailSender;
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.businessapi.SubscriptionBL;
 import org.infy.idp.entities.jobs.DownloadArtifactInputs;
 import org.infy.idp.entities.jobs.History;
@@ -67,7 +69,11 @@ public class JobServiceTest {
 
 	@MockBean
 	private JobsBL jobsBLBean;
-
+	@MockBean
+	private JobsManagementBL jobsmgmtBL;
+	@MockBean
+	private JobsAdditionalInfo jobsaddInfo;
+	
 	@MockBean
 	private EmailSender emailBean;
 
@@ -215,7 +221,7 @@ public class JobServiceTest {
 		History history = new History();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.checkAvailableJobsToTrigger(authBean.getPrincipal().toString().toLowerCase(), "IDP"))
+		Mockito.when(jobsmgmtBL.checkAvailableJobsToTrigger(authBean.getPrincipal().toString().toLowerCase(), "IDP"))
 				.thenReturn(history);
 
 		resourceResponse = jobService.checkAvailableJobsToTrigger(authBean, "IDP");
@@ -233,7 +239,7 @@ public class JobServiceTest {
 		history.setPipelineDetails(pipeList);
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.checkAvailableJobsToTrigger(authBean.getPrincipal().toString().toLowerCase(), "IDP"))
+		Mockito.when(jobsmgmtBL.checkAvailableJobsToTrigger(authBean.getPrincipal().toString().toLowerCase(), "IDP"))
 				.thenReturn(history);
 
 		resourceResponse = jobService.checkAvailableJobsToTrigger(authBean, "IDP");
@@ -249,7 +255,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.fecthTriggerOptions(tiggerJobName)).thenReturn(triggerInputs);
+			Mockito.when(jobsmgmtBL.fecthTriggerOptions(tiggerJobName)).thenReturn(triggerInputs);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -266,7 +272,7 @@ public class JobServiceTest {
 		JobsBuilds jobsBuilds = new JobsBuilds();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getBuildJobs(triggerJobName)).thenReturn(jobsBuilds);
+		Mockito.when(jobsmgmtBL.getBuildJobs(triggerJobName)).thenReturn(jobsBuilds);
 
 		resourceResponse = jobService.getNumberOfBuilds("1", triggerJobName, authBean);
 		assertEquals("No Access", resourceResponse.getResource());
@@ -281,7 +287,7 @@ public class JobServiceTest {
 		jobsBuilds.setJobName("jobName");
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getBuildJobs(triggerJobName)).thenReturn(jobsBuilds);
+		Mockito.when(jobsmgmtBL.getBuildJobs(triggerJobName)).thenReturn(jobsBuilds);
 
 		resourceResponse = jobService.getNumberOfBuilds("1", triggerJobName, authBean);
 		assertEquals("{\"jobName\":\"jobName\"}", resourceResponse.getResource());
@@ -297,7 +303,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.getPipelineDetails(triggerJobName)).thenReturn(pipeline);
+			Mockito.when(jobsmgmtBL.getPipelineDetails(triggerJobName)).thenReturn(pipeline);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -316,7 +322,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.getPipelineDetails(triggerJobName)).thenReturn(pipeline);
+			Mockito.when(jobsmgmtBL.getPipelineDetails(triggerJobName)).thenReturn(pipeline);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -333,7 +339,7 @@ public class JobServiceTest {
 		DownloadArtifactInputs downloadArtifactsInputs = new DownloadArtifactInputs();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.downloadArtifacts(downloadArtifactsInputs)).thenReturn("Response");
+		Mockito.when(jobsaddInfo.downloadArtifacts(downloadArtifactsInputs)).thenReturn("Response");
 
 		resourceResponse = jobService.downloadArtifact("1", downloadArtifactsInputs, authBean);
 		assertEquals("Response", resourceResponse.getResource());
@@ -346,7 +352,7 @@ public class JobServiceTest {
 		TriggerJobName triggerJobName = new TriggerJobName();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.deletePipeline(triggerJobName)).thenReturn(true);
+		Mockito.when(jobsaddInfo.deletePipeline(triggerJobName)).thenReturn(true);
 
 		resourceResponse = jobService.deletePipeline("1", triggerJobName, authBean);
 		assertEquals("success", resourceResponse.getResource());
@@ -359,7 +365,7 @@ public class JobServiceTest {
 		TriggerJobName triggerJobName = new TriggerJobName();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.deletePipeline(triggerJobName)).thenReturn(false);
+		Mockito.when(jobsaddInfo.deletePipeline(triggerJobName)).thenReturn(false);
 
 		resourceResponse = jobService.deletePipeline("1", triggerJobName, authBean);
 		assertEquals("error", resourceResponse.getResource());
@@ -402,7 +408,7 @@ public class JobServiceTest {
 		Names names = new Names();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.pipelineNamesForApplication(appName, workFlowString,
+		Mockito.when(jobsaddInfo.pipelineNamesForApplication(appName, workFlowString,
 				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
 
 		resourceResponse = jobService.getPipelineNamesForApplication(appName, workFlowString, authBean);
@@ -421,7 +427,7 @@ public class JobServiceTest {
 		names.setNames(namesList);
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.pipelineNamesForApplication(appName, workFlowString,
+		Mockito.when(jobsaddInfo.pipelineNamesForApplication(appName, workFlowString,
 				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
 
 		resourceResponse = jobService.getPipelineNamesForApplication(appName, workFlowString, authBean);
@@ -438,7 +444,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.getStageViewUrl(appName, pipName)).thenReturn("jenkinsUrl");
+			Mockito.when(jobsaddInfo.getStageViewUrl(appName, pipName)).thenReturn("jenkinsUrl");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -455,7 +461,7 @@ public class JobServiceTest {
 		Pipelines pips = new Pipelines();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getDependencyPipelines(appName, authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsaddInfo.getDependencyPipelines(appName, authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(pips);
 
 		resourceResponse = jobService.getDependencyJobs("1", appName, authBean);
@@ -474,7 +480,7 @@ public class JobServiceTest {
 		pips.setPipelines(pipList);
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getDependencyPipelines(appName, authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsaddInfo.getDependencyPipelines(appName, authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(pips);
 
 		resourceResponse = jobService.getDependencyJobs("1", appName, authBean);
@@ -493,7 +499,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.fecthTriggerSteps(appName, pipName, envName)).thenReturn(steps);
+			Mockito.when(jobsaddInfo.fecthTriggerSteps(appName, pipName, envName)).thenReturn(steps);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -512,7 +518,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.getJobParamDetails(appName, pipName)).thenReturn(jobparamList);
+			Mockito.when(jobsmgmtBL.getJobParamDetails(appName, pipName)).thenReturn(jobparamList);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -529,7 +535,7 @@ public class JobServiceTest {
 		Names names = new Names();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.dbDeployPipelineNamesForApplication(appName,
+		Mockito.when(jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
 				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
 
 		resourceResponse = jobService.getDBDeployPipelineNamesForApplication(appName, authBean);
@@ -547,7 +553,7 @@ public class JobServiceTest {
 		names.setNames(nameList);
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.dbDeployPipelineNamesForApplication(appName,
+		Mockito.when(jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
 				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
 
 		resourceResponse = jobService.getDBDeployPipelineNamesForApplication(appName, authBean);
@@ -564,7 +570,7 @@ public class JobServiceTest {
 		List<TestPlans> test = new ArrayList<>();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.fetchMTMTestPlans(appName, pipName)).thenReturn(test);
+		Mockito.when(jobsaddInfo.fetchMTMTestPlans(appName, pipName)).thenReturn(test);
 
 		resourceResponse = jobService.getMTMTestPlans(appName, pipName, authBean);
 		assertEquals("[]", resourceResponse.getResource());
@@ -580,7 +586,7 @@ public class JobServiceTest {
 		List<TestSuits> test = new ArrayList<>();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.fetchMTMTestSuits(testPlanId, appName, pipName)).thenReturn(test);
+		Mockito.when(jobsaddInfo.fetchMTMTestSuits(testPlanId, appName, pipName)).thenReturn(test);
 
 		resourceResponse = jobService.getMTMTestSuits(testPlanId, appName, pipName, authBean);
 		assertEquals("[]", resourceResponse.getResource());
@@ -594,7 +600,7 @@ public class JobServiceTest {
 		Names names = new Names();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getPairName(jobName)).thenReturn(names);
+		Mockito.when(jobsmgmtBL.getPairName(jobName)).thenReturn(names);
 
 		resourceResponse = jobService.getPairName(jobName, authBean);
 		assertEquals("{}", resourceResponse.getResource());
@@ -612,7 +618,7 @@ public class JobServiceTest {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
 		try {
-			Mockito.when(jobsBLBean.getPipelinePermission(appName, pipName, userName)).thenReturn(pipelinePermissions);
+			Mockito.when(jobsaddInfo.getPipelinePermission(appName, pipName, userName)).thenReturn(pipelinePermissions);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

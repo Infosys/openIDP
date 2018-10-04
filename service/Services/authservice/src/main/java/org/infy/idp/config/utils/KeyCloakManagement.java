@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class KeyCloakManagement {
 	private static final Logger logger = LoggerFactory.getLogger(KeyCloakManagement.class);
 

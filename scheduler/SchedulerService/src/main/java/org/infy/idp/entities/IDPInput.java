@@ -8,8 +8,6 @@
 
 package org.infy.idp.entities;
 
-import org.json.JSONObject;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

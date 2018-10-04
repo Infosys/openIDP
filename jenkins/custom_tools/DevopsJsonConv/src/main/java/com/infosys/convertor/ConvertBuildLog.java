@@ -15,15 +15,8 @@ import org.apache.log4j.Logger;
 
 import com.infosys.json.JsonClass;
 
-/**
- * 
- * class ConvertBuildLog has method to parse buildlog
- *
- */
 public class ConvertBuildLog {
-
-	static final Logger logger = Logger.getLogger(ConvertBuildLog.class);
-
+	private static final Logger logger = Logger.getLogger(ConvertBuildLog.class);
 	public static final String APIJSONPRETTYTRUE = "/api/json?pretty=true";
 	public static final String JOB = "/job/";
 	public static final String AUTHORIZATION = "Authorization";
@@ -43,12 +36,9 @@ public class ConvertBuildLog {
 	public static void convert(String inputPath, JsonClass jsonClass) {
 		try {
 			jsonClass.setLog(new String(Files.readAllBytes(Paths.get(inputPath)), Charset.defaultCharset()));
-
 			logger.info("Report Converted Successfully..!!");
-
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}
 	}
-
 }

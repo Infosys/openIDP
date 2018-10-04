@@ -1,22 +1,25 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class FileNet {
-
 	@SerializedName("fileNetExport")
 	@Expose
 	private FileNetExport fileNetExport;
-
 	@SerializedName("fileNetImport")
 	@Expose
 	private FileNetImport fileNetImport;
-
 	@SerializedName("env")
 	@Expose
 	private String env;
-
 	@SerializedName("triggerId")
 	@Expose
 	private Integer triggerId;
@@ -58,5 +61,4 @@ public class FileNet {
 		return "FileNet [fileNetExport=" + fileNetExport + ", fileNetImport=" + fileNetImport + ", env=" + env
 				+ ", triggerId=" + triggerId + "]";
 	}
-
 }

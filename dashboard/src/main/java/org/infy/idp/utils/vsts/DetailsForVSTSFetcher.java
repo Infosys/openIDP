@@ -21,7 +21,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.infy.idp.dataapi.InsertFetchVSTS;
 import org.infy.idp.entities.VSTSDataBean;
 import org.infy.idp.utils.ConfigurationManager;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +41,7 @@ public class DetailsForVSTSFetcher {
 	private InsertFetchVSTS insertFetchVSTS;
 	
 	@Autowired 
-	ConfigurationManager configurationManager;
+	private ConfigurationManager configurationManager;
 	
 	private static String buildNoStr = "PIPELINE_BUILD_ID";
 	 private static String apiString = "/api/json?tree=builds[number,timestamp,id,result,building,actions[parameters[name,value]]]";
@@ -195,16 +194,7 @@ public class DetailsForVSTSFetcher {
 			if(branchOrTagValue==null || branchOrTagValue.isEmpty() || branchOrTagValue.equals("")){
 				branchOrTagValue=triggerEntity.has("scmBranch")?triggerEntity.getString("scmBranch"):null;
 			}
-			logger.info("branchorTagValueFINAL : "+branchOrTagValue);
-			logger.info("Test : "+test);
-			logger.info("Deploy : "+deploy);
-			logger.info("Artifact : "+artifactName);
-			logger.info("DeploySteps : "+deploySteps);
-			logger.info("TestSteps : "+testSteps);
-			logger.info("EnvironmentSelected : "+envSelected);
-			logger.info("TfsWorkItem : "+tfsWorkItem);
-			logger.info("ArtifactorySelected : "+artifactorySelected);
-			logger.info("Build : "+build);
+			
 			
 			String scmJobUrl = jenkinsURL+"/job/"+appName+"_"+pipName+"_SCM"+apiString;
 			String scmStatus = null;

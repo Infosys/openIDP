@@ -6,18 +6,18 @@
 # Created Date  : 03-OCT-2017
 ###################################################
 
-SRC_REPO="SRC_RPO"
-TGT_REPO="TGT_RPO"
-SRC_SHRD="SRC_SRD"
-SRC_FLD="SRC_FOL"
-TGT_SHRD="TGT_SRD"
-TGT_FLD="TGT_FOL"
-EXP_OBJECT_SHRD="EXP_SHRD_XML"
-EXP_OBJECT_XML="EXP_OBJ_XML"
-CNTL_SHRD="$CNTL_SHRD"
-CNTL="$CNTL"
-UR='$UR'
-PASSWD='$PWD'
-Hostnm="$HST"
-Pt='PORT1'
-MAPNAME1="MAPPI"
+export SRC_REPO="SRC_RPO"
+export TGT_REPO="TGT_RPO"
+export SRC_SHRD="SRC_SRD"
+export SRC_FLD="SRC_FOL"
+export TGT_SHRD="TGT_SRD"
+export TGT_FLD="TGT_FOL"
+export EXP_OBJECT_SHRD="EXP_SHRD_XML"
+export EXP_OBJECT_XML="EXP_OBJ_XML"
+export CNTL_SHRD="$CNTL_SHRD"
+export CNTL="$CNTL"
+export UR="$UR"
+export PASSWD="$PWD"
+export Hostnm="$HST"
+export Pt="PORT1"
+export MAPNAME1="MAPPI"

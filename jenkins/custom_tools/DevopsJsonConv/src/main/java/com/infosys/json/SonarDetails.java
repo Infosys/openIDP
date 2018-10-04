@@ -1,50 +1,47 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class SonarDetails
-{
+
+public class SonarDetails {
 	@SerializedName("sonarServer")
 	@Expose
 	private String sonarServer;
 	@SerializedName("sonarPrjctKey")
 	@Expose
 	private String sonarPrjctKey;
-	
 	@SerializedName("sonarUserName")
 	@Expose
 	private String sonarUserName;
-	
 	@SerializedName("sonarPassword")
 	@Expose
 	private String sonarPassword;
-	
 	@SerializedName("bugs")
 	@Expose
 	private String bugs;
-	
 	@SerializedName("vulnerabilities")
 	@Expose
 	private String vulnerabilities;
-	
 	@SerializedName("codesmells")
 	@Expose
 	private String codesmells;
-	
 	@SerializedName("rateperhour")
 	@Expose
 	private String rateperhour;
-	
 	@SerializedName("technicaldebt")
-	@Expose 
+	@Expose
 	private String technicalDebt;
-	
 	@SerializedName("loc")
 	@Expose
 	private int loc;
-	
-	
-	
+
 	public String getTechnicalDebt() {
 		return technicalDebt;
 	}
@@ -52,7 +49,7 @@ public class SonarDetails
 	public void setTechnicalDebt(String technicalDebt) {
 		this.technicalDebt = technicalDebt;
 	}
-	
+
 	public String getSonarUserName() {
 		return sonarUserName;
 	}
@@ -68,7 +65,7 @@ public class SonarDetails
 	public void setSonarPassword(String sonarPassword) {
 		this.sonarPassword = sonarPassword;
 	}
-	
+
 	public int getLoc() {
 		return loc;
 	}
@@ -109,22 +106,19 @@ public class SonarDetails
 		this.rateperhour = rateperhour;
 	}
 
-	public void setSonarServer(String sonarServer) 
-	{
+	public void setSonarServer(String sonarServer) {
 		this.sonarServer = sonarServer;
 	}
 
-	public void setSonarPrjctKey(String sonarPrjctKey)
-	{
+	public void setSonarPrjctKey(String sonarPrjctKey) {
 		this.sonarPrjctKey = sonarPrjctKey;
 	}
-	public String getSonarPrjctKey() 
-	{
+
+	public String getSonarPrjctKey() {
 		return sonarPrjctKey;
 	}
-	public String getSonarServer() 
-	{
+
+	public String getSonarServer() {
 		return sonarServer;
 	}
-	
 }

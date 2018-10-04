@@ -7,7 +7,6 @@
 ***********************************************************************************************/
 package com.infosys.codeanalysisrecommendation;
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -15,27 +14,19 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-/**
- * The class RecommendationByCSV
- */
 public class RecommendationByCSV {
-
 	private static final Logger logger = Logger.getLogger(RecommendationByCSV.class);
 
 	private RecommendationByCSV() {
 	}
 
 	public static Map<String, String> createMap(String fileToParse, String postfixStr) {
-
 		Map<String, String> ruleToValue = new HashMap<>();
-
 		// Delimiter used in CSV file
 		final String DELIMITER = "\t";
-
 		try (BufferedReader fileReader = new BufferedReader(
 				new InputStreamReader(RecommendationByCSV.class.getClassLoader().getResourceAsStream(fileToParse)))) {
 			String line = "";
-
 			// Read the file line by line
 			while ((line = fileReader.readLine()) != null) {
 				// Get all tokens available in line
@@ -47,5 +38,4 @@ public class RecommendationByCSV {
 		}
 		return ruleToValue;
 	}
-
 }

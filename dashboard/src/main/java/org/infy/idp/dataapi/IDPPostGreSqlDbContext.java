@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
  * Database context class for PostGreSQL databases
  */
 @Component
+@SuppressWarnings({"PMD.MissingStaticMethodInNonInstantiatableClass","unused"})
 public class IDPPostGreSqlDbContext {
 	
 	@Autowired

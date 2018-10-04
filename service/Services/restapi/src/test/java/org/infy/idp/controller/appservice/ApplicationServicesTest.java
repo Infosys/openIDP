@@ -19,7 +19,9 @@ import java.util.List;
 
 import org.infy.idp.TokenUtils;
 import org.infy.idp.businessapi.EmailSender;
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.businessapi.SubscriptionBL;
 import org.infy.idp.entities.jobs.AppNames;
 import org.infy.idp.entities.jobs.EnvName;
@@ -52,7 +54,11 @@ public class ApplicationServicesTest {
 
 	@MockBean
 	private JobsBL jobsBL;
-
+	@MockBean
+	private JobsManagementBL jobsmgmtBL;
+	@MockBean
+	private JobsAdditionalInfo jobsaddInfo;
+	
 	@MockBean
 	private SubscriptionBL subscriptionBL;
 
@@ -206,11 +212,11 @@ public class ApplicationServicesTest {
 	public void testCreateApplicationForValidCase() {
 		ApplicationInfo appInfo = new ApplicationInfo();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.createApplication(appInfo, authBean.getPrincipal().toString().toLowerCase(), "INFOSYS"))
+		Mockito.when(jobsmgmtBL.createApplication(appInfo, authBean.getPrincipal().toString().toLowerCase(), "INFOSYS"))
 				.thenReturn("");
 		List<String> permission = new ArrayList<>();
 		permission.add("CREATE_APPLICATION");
-		Mockito.when(jobsBL.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
+		Mockito.when(jobsaddInfo.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
 		Mockito.spy(TokenUtils.class);
 		OAuth2AuthenticationDetails oAuth = Mockito.mock(OAuth2AuthenticationDetails.class);
 		Mockito.when(authBean.getDetails()).thenReturn(oAuth);
@@ -281,7 +287,7 @@ public class ApplicationServicesTest {
 		ApplicationInfo ap = new ApplicationInfo();
 		List<String> permission = new ArrayList<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
+		Mockito.when(jobsaddInfo.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
 
 		ResourceResponse<String> response = applicationServices.updateAppinfo("1", ap, authBean);
 		assertNotNull(response);
@@ -296,7 +302,7 @@ public class ApplicationServicesTest {
 		List<String> permission = new ArrayList<>();
 		permission.add("EDIT_APPLICATION");
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
+		Mockito.when(jobsaddInfo.getAllPermission(authBean.getPrincipal().toString().toLowerCase())).thenReturn(permission);
 		Mockito.spy(TokenUtils.class);
 		OAuth2AuthenticationDetails oAuth = Mockito.mock(OAuth2AuthenticationDetails.class);
 		Mockito.when(authBean.getDetails()).thenReturn(oAuth);
@@ -326,7 +332,7 @@ public class ApplicationServicesTest {
 	public void testGetApplicationForNoApplications() throws Throwable {
 		AppNames apps = new AppNames();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getApplications(authBean.getPrincipal().toString().toLowerCase(), "IDP")).thenReturn(apps);
+		Mockito.when(jobsmgmtBL.getApplications(authBean.getPrincipal().toString().toLowerCase(), "IDP")).thenReturn(apps);
 
 		ResourceResponse<String> response = applicationServices.getApplication("IDP", "1", authBean);
 		assertNotNull(response);
@@ -342,7 +348,7 @@ public class ApplicationServicesTest {
 		applicationNames.add("Application1");
 		apps.setApplicationNames(applicationNames);
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getApplications(authBean.getPrincipal().toString().toLowerCase(), "IDP")).thenReturn(apps);
+		Mockito.when(jobsmgmtBL.getApplications(authBean.getPrincipal().toString().toLowerCase(), "IDP")).thenReturn(apps);
 
 		ResourceResponse<String> response = applicationServices.getApplication("IDP", "1", authBean);
 		assertNotNull(response);
@@ -365,7 +371,7 @@ public class ApplicationServicesTest {
 		String appName = "AppName";
 		Application apps = new Application();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getApplicationDetails(appName, authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsmgmtBL.getApplicationDetails(appName, authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(apps);
 
 		ResourceResponse<String> response = applicationServices.getApplicationDetails("1", appName, authBean);
@@ -381,7 +387,7 @@ public class ApplicationServicesTest {
 		Application apps = new Application();
 		apps.setApplicationName("applicationNames");
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBL.getApplicationDetails(appName, authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsmgmtBL.getApplicationDetails(appName, authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(apps);
 
 		ResourceResponse<String> response = applicationServices.getApplicationDetails("1", appName, authBean);

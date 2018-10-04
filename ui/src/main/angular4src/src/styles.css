@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 label {
-    font-weight: normal !important;
+    font-weight: normal ;
 }
 
 select {
@@ -14,7 +14,7 @@ select {
     cursor:help;
 }
     .field-tip .tip-content {
-        position:absolute;
+        position:a  bsolute;
         top:-10px; /* - top padding */
         right:9999px;
         width:200px;
@@ -51,20 +51,20 @@ select {
         }
 
         .txtbox {
-			border-right: 0 !important;
-			border-top: 0 !important;
-			border-left: 0 !important;
-			border-radius: 0 !important;
+			border-right: 0 ;
+			border-top: 0 ;
+			border-left: 0 ;
+			border-radius: 0 ;
 			border-bottom-color:#e4e4e4;
-		    -webkit-box-shadow: none!important;
-			-moz-box-shadow: none!important;
-		 	-moz-transition: none!important;
-			-webkit-transition: none!important;
+		    -webkit-box-shadow: none;
+			-moz-box-shadow: none;
+		 	-moz-transition: none;
+			-webkit-transition: none;
 		}
 .Mail_Recipients_style{margin-top:10px;}
 .form-control{
-/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png")!important; */
-background-repeat: no-repeat!important;
+/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png"); */
+background-repeat: no-repeat;
 /*padding-left:30px;*/
 }
 
@@ -83,7 +83,7 @@ background-repeat: no-repeat!important;
         top:-10px; /* - top padding */
         right:9999px;
         width:200px;
-        margin-right:-290px !important; /* width + left/right padding */
+        margin-right:-290px ; /* width + left/right padding */
         padding:10px;
         color:#fff;
         background:#333;
@@ -146,7 +146,7 @@ background-repeat: no-repeat!important;
   visibility: visible;
   text-align: center;
   font-weight: bold;
-  color: white !important;
+  color: white ;
 }
 
 .logo{
@@ -187,28 +187,31 @@ a:hover{
 
 /* ------ Side Nav-bar ------ */
  a.list-group-item:hover {
-  color: #ffffff !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -moz-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -o-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: -ms-linear-gradient(#1fa0e4, #1992d1) !important;
-  background: linear-gradient(#1fa0e4, #1992d1) !important;
+  color: #ffffff ;
+  background: -webkit-linear-gradient(#1fa0e4, #1992d1) ;
+  background: -webkit-gradient(#1fa0e4, #1992d1) ;
+  background: -moz-linear-gradient(#1fa0e4, #1992d1) ;
+  background: -o-linear-gradient(#1fa0e4, #1992d1) ;
+  background: -ms-linear-gradient(#1fa0e4, #1992d1) ;
+  background: linear-gradient(#1fa0e4, #1992d1) ;
 } 
 a.list-group-item:focus {
-  text-decoration: none !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4) !important;
-  background: -moz-linear-gradient(#1fa0e4, #1fa0e4) !important;
-  background: -o-linear-gradient(#1fa0e4, #1fa0e4) !important;
-  background: -ms-linear-gradient(#1fa0e4, #1fa0e4) !important;
-  background: linear-gradient(#1fa0e4, #1fa0e4) !important;
+  text-decoration: none ;
+  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4) ;
+  background: -webkit-gradient(#1fa0e4, #1fa0e4) ;
+  background: -moz-linear-gradient(#1fa0e4, #1fa0e4) ;
+  background: -o-linear-gradient(#1fa0e4, #1fa0e4) ;
+  background: -ms-linear-gradient(#1fa0e4, #1fa0e4) ;
+  background: linear-gradient(#1fa0e4, #1fa0e4) ;
 }
 .marked {
-  text-decoration: none !important;
-  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4)!important;
-  background: -moz-linear-gradient(#1fa0e4, #1fa0e4)!important;
-  background: -o-linear-gradient(#1fa0e4, #1fa0e4)!important;
-  background: -ms-linear-gradient(#1fa0e4, #1fa0e4)!important;
-  background: linear-gradient(#1fa0e4, #1fa0e4)!important;
+  text-decoration: none ;
+  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -webkit-gradient(#1fa0e4, #1fa0e4);
+  background: -moz-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -o-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -ms-linear-gradient(#1fa0e4, #1fa0e4);
+  background: linear-gradient(#1fa0e4, #1fa0e4);
 }
 li a.active {
   background-color: #1fa0e4;

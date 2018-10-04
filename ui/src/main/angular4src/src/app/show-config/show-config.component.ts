@@ -73,11 +73,11 @@ export class ShowConfigurationsComponent implements OnInit {
         .then(response => {
         try {
             if (response) {
-                this.IdpdataService.devServerURL = response.json().idpresturl;
+            this.IdpdataService.devServerURL = response.json().idpresturl;
             // this.IdpdataService.devServerURL = "http://server401189d:8889/idprest";
             // this.IdpdataService.devServerURL = "https://idplinv02:8889/idprest";
             // this.IdpdataService.devServerURL = "http://server411214d:8889/idprest";
-             // this.IdpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
+            this.IdpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
             this.IdpdataService.IDPDashboardURL = response.json().idpdashboardurl;
             this.IdpdataService.IDPLink = response.json().IDPLink;
             this.IdpdataService.geUrl = response.json().geUrl;

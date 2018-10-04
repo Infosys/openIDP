@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class DeleteInfo {
 	@Autowired
 	private PostGreSqlDbContext postgresqlcontext;

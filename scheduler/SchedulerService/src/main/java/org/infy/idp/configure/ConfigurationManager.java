@@ -10,8 +10,6 @@
 
 package org.infy.idp.configure;
 
-import java.util.Map;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +18,9 @@ import org.springframework.stereotype.Component;
  */
 @ConfigurationProperties
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class ConfigurationManager {
-	private ConfigurationManager(){
-	}
+	
 	
 	private String postgresqlusername;
 	private String postgresqlpassword;
@@ -36,6 +34,8 @@ public class ConfigurationManager {
 	private String jenkinsuserid;
 	private String jenkinspassword;
 	
+	private ConfigurationManager(){
+	}
 	
 	public String getUrl() {
 		return url;

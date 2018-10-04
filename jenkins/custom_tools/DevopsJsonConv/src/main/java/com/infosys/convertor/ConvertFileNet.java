@@ -33,14 +33,6 @@ public class ConvertFileNet {
 	private FileNet fileNetJsonObj = new FileNet();
 	private FileNetImport fileNetImportJsonObj = new FileNetImport();
 
-	/**
-	 * method to convert filenet import report
-	 * 
-	 * @param inputPath
-	 * @param triggerId
-	 * @param importFileName
-	 * @throws JAXBException
-	 */
 	private void convertImport(String inputPath, String triggerId, String importFileName) throws JAXBException {
 		String importFilePath = inputPath + "/" + importFileName;
 		System.out.println("importFilePAth is  " + importFilePath);
@@ -51,13 +43,10 @@ public class ConvertFileNet {
 		JAXBContext jaxbContextForPair = JAXBContext.newInstance(PairConfig.class);
 		Unmarshaller jaxbUnmarshallerForPair = jaxbContextForPair.createUnmarshaller();
 		PairConfig pairConfig = (PairConfig) jaxbUnmarshallerForPair.unmarshal(importFile);
-
 		if (pairConfig.getSource().isEmpty() || pairConfig.getDestination().isEmpty()) {
 			logger.info("PairConfig.xml - Source and Destination is empty... ");
 			System.out.println("PairConfig.xml - Source and Destination is empty... ");
-
 		} else {
-
 			if (!pairConfig.getSource().isEmpty()) {
 				Source source = pairConfig.getSource().get(0);
 				System.out.println("Source" + source);
@@ -66,7 +55,6 @@ public class ConvertFileNet {
 			}
 			if (!pairConfig.getDestination().isEmpty()) {
 				Destination destination = pairConfig.getDestination().get(0);
-
 				fileNetImportJsonObj.setDestination(destination.getName());
 				System.out.println("Destinaton name" + destination.getName());
 				System.out.println("Set name" + fileNetImportJsonObj.getDestination());
@@ -75,13 +63,6 @@ public class ConvertFileNet {
 		}
 	}
 
-	/**
-	 * method to convert filenet export report
-	 * 
-	 * @param inputPath
-	 * @param triggerId
-	 * @param exportFileName
-	 */
 	private void convertExport(String inputPath, String triggerId, String exportFileName) {
 		try {
 			String exportFilePath = inputPath;// + "\\"+ exportFileName;
@@ -105,7 +86,6 @@ public class ConvertFileNet {
 			fileNetJsonObj.setFileNetImport(fileNetImportJsonObj);
 			fileNetJsonObj.setEnv("");
 			logger.info("Report Converted Successfully..!!");
-
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}
@@ -116,10 +96,8 @@ public class ConvertFileNet {
 		if (savedManifest.getPropertyTemplates().isEmpty()) {
 			logger.info("Report Converted Successfully..!!");
 		}
-
 		List<SavedManifest.PropertyTemplates> propertyTemplates = savedManifest.getPropertyTemplates();
 		System.out.println("Property list size " + savedManifest.getPropertyTemplates().size());
-
 		for (SavedManifest.PropertyTemplates local_propetyTemplates : propertyTemplates) {
 			List<SavedManifest.PropertyTemplates.PropertyTemplate> popertyTemplateList = local_propetyTemplates
 					.getPropertyTemplate();
@@ -145,14 +123,11 @@ public class ConvertFileNet {
 		if (savedManifest.getClassDefinitions().isEmpty()) {
 			logger.info("Report Converted Successfully..!!");
 		}
-
 		System.out.println("after if prepareclassDefinition");
 		List<SavedManifest.ClassDefinitions> classTemplates = savedManifest.getClassDefinitions();
-
 		for (SavedManifest.ClassDefinitions local_classTemplates : classTemplates) {
 			List<SavedManifest.ClassDefinitions.ClassDefinition> classDefinitionList = local_classTemplates
 					.getClassDefinition();
-
 			List<FileNetExportClassDefinitionType> classDefinationJson = new ArrayList<>();
 			for (SavedManifest.ClassDefinitions.ClassDefinition local_classTemplate : classDefinitionList) {
 				FileNetExportClassDefinitionType jsonclassDefinationObj = new FileNetExportClassDefinitionType();
@@ -174,9 +149,7 @@ public class ConvertFileNet {
 		if (savedManifest.getOthers().isEmpty()) {
 			logger.info("Report Converted Successfully..!!");
 		}
-
 		List<SavedManifest.Others> othersTemplates = savedManifest.getOthers();
-
 		for (SavedManifest.Others local_othersTemplates : othersTemplates) {
 			List<SavedManifest.Others.Other> otherList = local_othersTemplates.getOther();
 			List<FileNetExportOtherType> otherListJson = new ArrayList<>();
@@ -194,16 +167,6 @@ public class ConvertFileNet {
 		return fileNetExportJson;
 	}
 
-	/**
-	 * method to convert filenet import/export reports
-	 * 
-	 * @param expoertDataFilePath
-	 * @param importDataFilePath
-	 * @param triggerId
-	 * @param exportFile
-	 * @param importFile
-	 * @return
-	 */
 	public FileNet convert(String expoertDataFilePath, String importDataFilePath, String triggerId, String exportFile,
 			String importFile) {
 		System.out.println("inside convert");
@@ -216,7 +179,6 @@ public class ConvertFileNet {
 				logger.info("expoertDataFilePath is available inside convert filenet");
 				convertExport(expoertDataFilePath, triggerId, exportFile);
 			}
-
 			if (!importDataFilePath.endsWith("NA")) {
 				logger.info("importDataFilePath is available  inside convert filenet");
 				convertImport(importDataFilePath, triggerId, "PairConfig.xml");
@@ -225,7 +187,5 @@ public class ConvertFileNet {
 			logger.error("Conversion error for " + importDataFilePath + "and" + expoertDataFilePath + "Error: " + e);
 		}
 		return fileNetJsonObj;
-
 	}
-
 }

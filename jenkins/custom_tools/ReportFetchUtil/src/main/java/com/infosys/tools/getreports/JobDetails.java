@@ -31,144 +31,101 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/**
- * the class jobdetails has methods for generating jobdetails report file
- * @author shivam.bhagat
- *
- */
 public class JobDetails {
-	private JobDetails(){}
-	private static final Logger logger = Logger.getLogger(CreateChangeLog.class);
 	
-	/**
-	 * creates jobdetails report file
-	 * @param server
-	 * @param username
-	 * @param password
-	 * @param jobName
-	 * @param destPath
-	 * @param time
-	 * @param appName
-	 */
-	public static void createJobDetails(String server, String username, String password, String jobName,String destPath, String time, String appName) {
-		
+
+	private static final Logger logger = Logger.getLogger(CreateChangeLog.class);
+
+	private JobDetails() {
+	}
+	public static void createJobDetails(String server, String username, String password, String jobName,
+			String destPath, String time, String appName) {
 		String lastBuildId = null;
 		String lastSuccessfulBuildId = null;
 		String lastCompletedBuildId = null;
 		String lastUnstableBuildId = null;
 		String lastUnsuccessfulBuildId = null;
-		String lastFailedBuildId =null;
+		String lastFailedBuildId = null;
 		String score = null;
-
 		try {
-			
 			String tempJobName = jobName.replaceAll("/", "/job/").replaceAll(" ", "%20");
 			String webPage = server + "/job/" + tempJobName + "/api/xml";
 			String path = null;
 			String authString = username + ":" + password;
-
 			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 			String authStringEnc = new String(authEncBytes);
-
 			URL url = new URL(webPage);
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
 			InputStream is = urlConnection.getInputStream();
-
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(is);
-
-/*			//parsing Last Build Id.
-			Element root = document.getDocumentElement();
-			NodeList lastBuildList = root.getElementsByTagName("lastBuild");
-			for(int i =0 ;i< lastBuildList.getLength();i++){
-				Node node = lastBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
-					Element element = (Element) node;
-					lastBuildId=element.getElementsByTagName("number").item(0).getTextContent();
-				}
-				
-			}*/
-			
-			//parsing Last Build Id.
+			// parsing Last Build Id.
 			Element root = document.getDocumentElement();
 			NodeList lastBuildList = root.getElementsByTagName("lastSuccessfulBuild");
-			for(int i =0 ;i< lastBuildList.getLength();i++){
+			for (int i = 0; i < lastBuildList.getLength(); i++) {
 				Node node = lastBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					if(element.getElementsByTagName("number").item(0) != null)
-						lastSuccessfulBuildId=element.getElementsByTagName("number").item(0).getTextContent();
+					if (element.getElementsByTagName("number").item(0) != null)
+						lastSuccessfulBuildId = element.getElementsByTagName("number").item(0).getTextContent();
 					else
-						lastSuccessfulBuildId="";
+						lastSuccessfulBuildId = "";
 				}
-				
 			}
-			
-			//parsing last CompleteBuild Id..
+			// parsing last CompleteBuild Id..
 			NodeList lastCompletedBuildList = root.getElementsByTagName("lastCompletedBuild");
-			for(int i =0 ;i< lastCompletedBuildList.getLength();i++){
+			for (int i = 0; i < lastCompletedBuildList.getLength(); i++) {
 				Node node = lastCompletedBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					lastCompletedBuildId=element.getElementsByTagName("number").item(0).getTextContent();
+					lastCompletedBuildId = element.getElementsByTagName("number").item(0).getTextContent();
 				}
-				
 			}
-			
-			//parsing last UnstableBuild Id..
+			// parsing last UnstableBuild Id..
 			NodeList lastUnstableBuildList = root.getElementsByTagName("lastUnstableBuild");
-			for(int i =0 ;i< lastUnstableBuildList.getLength();i++){
+			for (int i = 0; i < lastUnstableBuildList.getLength(); i++) {
 				Node node = lastUnstableBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					lastUnstableBuildId=element.getElementsByTagName("number").item(0).getTextContent();
+					lastUnstableBuildId = element.getElementsByTagName("number").item(0).getTextContent();
 				}
-				
 			}
-			
-			//parsing last UnstableBuild Id..
+			// parsing last UnstableBuild Id..
 			NodeList lastUnsuccessfulBuildList = root.getElementsByTagName("lastUnsuccessfulBuild");
-			for(int i =0 ;i< lastUnsuccessfulBuildList.getLength();i++){
+			for (int i = 0; i < lastUnsuccessfulBuildList.getLength(); i++) {
 				Node node = lastUnsuccessfulBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					lastUnsuccessfulBuildId=element.getElementsByTagName("number").item(0).getTextContent();
+					lastUnsuccessfulBuildId = element.getElementsByTagName("number").item(0).getTextContent();
 				}
-				
 			}
-			
-			//parsing last UnstableBuild Id..
+			// parsing last UnstableBuild Id..
 			NodeList lastFailedBuildList = root.getElementsByTagName("lastFailedBuild");
-			for(int i =0 ;i< lastFailedBuildList.getLength();i++){
+			for (int i = 0; i < lastFailedBuildList.getLength(); i++) {
 				Node node = lastFailedBuildList.item(i);
-				if(node.getNodeType()== Node.ELEMENT_NODE){
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					lastFailedBuildId =element.getElementsByTagName("number").item(0).getTextContent();
+					lastFailedBuildId = element.getElementsByTagName("number").item(0).getTextContent();
 				}
-				
 			}
-			
-			
-
-			//parsing health score.
+			// parsing health score.
 			NodeList list1 = root.getElementsByTagName("score");
-			if (list1!= null && list1.getLength() > 0) {
+			if (list1 != null && list1.getLength() > 0) {
 				score = list1.item(0).getTextContent();
 			}
-			
-			//creating a xml file 
+			// creating a xml file
 			if (lastBuildId != null) {
 				path = destPath + "//" + appName + "_" + "jobDetails" + "_id_" + lastBuildId + "_" + time + ".xml";
 			} else {
 				path = destPath + "//" + appName + "_" + "jobDetails" + "_" + time + ".xml";
 			}
-			//NodeList children = root.getElementsByTagName("lastSuccessfulBuild");
+			// NodeList children =
+			// root.getElementsByTagName("lastSuccessfulBuild");
 			NodeList children = root.getElementsByTagName("lastBuild");
-			
 			Transformer tr;
-			try{
+			try {
 				tr = TransformerFactory.newInstance().newTransformer();
 				tr.setOutputProperty(OutputKeys.INDENT, "yes");
 				File f = new File(path);
@@ -176,49 +133,34 @@ public class JobDetails {
 				DOMSource source = new DOMSource(document);
 				source.setNode(children.item(0));
 				tr.transform(source, result);
-				
 				File f1 = new File(path);
 				Document doc2 = builder.parse(f1);
 				Element root2 = doc2.getDocumentElement();
-				
 				Element ts2 = doc2.createElement("lastSuccessfulBuild");
 				ts2.setTextContent(lastSuccessfulBuildId);
 				root2.appendChild(ts2);
-				
-/*				Element ts2 = doc2.createElement("lastBuildId");
-				ts2.setTextContent(lastBuildId);
-				root2.appendChild(ts2);*/
-				
 				Element ts3 = doc2.createElement("lastCompletedBuildId");
 				ts3.setTextContent(lastCompletedBuildId);
 				root2.appendChild(ts3);
-				
 				Element ts4 = doc2.createElement("lastUnstableBuildId");
 				ts4.setTextContent(lastUnstableBuildId);
 				root2.appendChild(ts4);
-				
 				Element ts5 = doc2.createElement("lastUnsuccessfulBuildId");
 				ts5.setTextContent(lastUnsuccessfulBuildId);
 				root2.appendChild(ts5);
-				
 				Element ts7 = doc2.createElement("lastFailedBuildId");
 				ts7.setTextContent(lastFailedBuildId);
 				root2.appendChild(ts7);
-				
 				Element ts6 = doc2.createElement("score");
 				ts6.setTextContent(score);
 				root2.appendChild(ts6);
-				
 				DOMSource source1 = new DOMSource(doc2);
 				StreamResult result2 = new StreamResult(f);
-				
 				tr.transform(source1, result2);
-				
 				logger.info("JobDetails created..!!");
-			}catch(Exception e){
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-			
 		} catch (MalformedURLException e) {
 			logger.error(e.getMessage());
 		} catch (IOException e) {

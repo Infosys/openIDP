@@ -15,44 +15,29 @@ import java.util.List;
 import com.infosys.json.Siebel;
 
 public class ConvertSiebelPackageContent {
+	private ConvertSiebelPackageContent() {
+	}
 
-	private ConvertSiebelPackageContent(){}
-	
-	/**
-	 * method to parse siebel package content
-	 * @param path
-	 * @param siebel
-	 */
-	public static void convert(String path,Siebel siebel)
-	{
-		try{
-			//EditDocType.edit(path);
+	public static void convert(String path, Siebel siebel) {
+		try {
+			// EditDocType.edit(path);
 			BufferedReader in = new BufferedReader(new FileReader(path));
-			
 			String line;
-			List<String> nonRepoList=new ArrayList<>();
-			List<String> repoList=new ArrayList<>();
-			if(path.toLowerCase().contains("_repo_"))
-			{
-				while((line=in.readLine()) != null)
-				{
+			List<String> nonRepoList = new ArrayList<>();
+			List<String> repoList = new ArrayList<>();
+			if (path.toLowerCase().contains("_repo_")) {
+				while ((line = in.readLine()) != null) {
 					repoList.add(line);
 				}
 				siebel.setRepoList(repoList);
-				
-			}
-			else
-			{
-				while((line=in.readLine()) != null)
-				{
+			} else {
+				while ((line = in.readLine()) != null) {
 					nonRepoList.add(line);
 				}
 				siebel.setNonRepoList(nonRepoList);
 			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Conversion error for " + path+ "Error: " + e);
+		} catch (Exception e) {
+			System.out.println("Conversion error for " + path + "Error: " + e);
 		}
 	}
 }

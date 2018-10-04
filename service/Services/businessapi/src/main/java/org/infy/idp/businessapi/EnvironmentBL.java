@@ -19,8 +19,9 @@ import org.infy.entities.triggerinputs.DeployArtifact;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.EnvironmentDetails;
-import org.infy.idp.dataapi.services.JobDetailsDL;
+import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
 import org.infy.idp.dataapi.services.JobDetailsInsertionService;
+import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.ReleaseDetails;
 import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
@@ -52,7 +53,12 @@ public class EnvironmentBL {
 	@Autowired
 	private EnvironmentDetails environmentDetails;
 	@Autowired
-	private JobDetailsDL getJobDetails;
+	private JobInfoDL getJobDetails;
+	
+	@Autowired
+	private JobAdditionalDetailsDL jobAdditionalDL;
+
+	
 	@Autowired
 	private ReleaseDetails releaseDetails;
 	@Autowired
@@ -194,7 +200,7 @@ public class EnvironmentBL {
 				triggerJobName.setApplicationName(artifactList.getApplicationName());
 				triggerJobName.setPipelineName(artifactList.getPipelineName());
 				TriggerInputs triggerInputs = new TriggerInputs();
-				IDPJob idp = getJobDetails.getPipelineInfo(triggerJobName.getApplicationName(),
+				IDPJob idp = jobAdditionalDL.getPipelineInfo(triggerJobName.getApplicationName(),
 						triggerJobName.getPipelineName());
 				ApplicationInfo app = getJobDetails.getApplication(triggerJobName.getApplicationName());
 

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.infy.idp.entities.BuildInfoDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class BuildInfoDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
@@ -38,7 +40,7 @@ public class BuildInfoDL {
 		 
 	 }
 	  
-	 public int insertbuilddetails(int appid,double buildtime,String buildstatus,int buildid,int lastcompletebuildid,int lastsuccessfulbuildid,int lastunstablebuildid,int lastunsuccessfulbuildid,int lastfailedbuildid,int pipelinebuildno,double score,String stagename) throws SQLException
+	 public int insertbuilddetails(BuildInfoDetails buildInfoDetails) throws SQLException
 	  {
 		  
 		
@@ -47,18 +49,18 @@ public class BuildInfoDL {
 		  
 		   try (Connection connection = postGreSqlDbContext.getConnection();
 		        PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
-		    	preparedStatement.setInt(1,appid);
-		    	preparedStatement.setDouble(2,buildtime);
-		    	preparedStatement.setString(3,buildstatus);
-		    	preparedStatement.setInt(4,buildid);
-		    	preparedStatement.setInt(5,lastcompletebuildid);
-		    	preparedStatement.setInt(6,lastsuccessfulbuildid);
-		    	preparedStatement.setInt(7,lastunstablebuildid);
-		    	preparedStatement.setInt(8,lastunsuccessfulbuildid);
-		    	preparedStatement.setInt(9,lastfailedbuildid);
-		    	preparedStatement.setInt(10,pipelinebuildno);
-		    	preparedStatement.setDouble(11,score);
-		    	preparedStatement.setString(12,stagename);
+		    	preparedStatement.setInt(1,buildInfoDetails.getAppid());
+		    	preparedStatement.setDouble(2,buildInfoDetails.getBuildtime());
+		    	preparedStatement.setString(3,buildInfoDetails.getBuildstatus());
+		    	preparedStatement.setInt(4,buildInfoDetails.getBuildid());
+		    	preparedStatement.setInt(5,buildInfoDetails.getLastcompletebuildid());
+		    	preparedStatement.setInt(6,buildInfoDetails.getLastsuccessfulbuildid());
+		    	preparedStatement.setInt(7,buildInfoDetails.getLastunstablebuildid());
+		    	preparedStatement.setInt(8,buildInfoDetails.getLastunsuccessfulbuildid());
+		    	preparedStatement.setInt(9,buildInfoDetails.getLastfailedbuildid());
+		    	preparedStatement.setInt(10,buildInfoDetails.getPipelinebuildno());
+		    	preparedStatement.setDouble(11,buildInfoDetails.getScore());
+		    	preparedStatement.setString(12,buildInfoDetails.getStagename());
 		    	preparedStatement.executeUpdate();
 		    	
 		      

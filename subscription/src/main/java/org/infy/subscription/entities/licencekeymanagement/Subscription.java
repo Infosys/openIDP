@@ -19,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
 public class Subscription {
 	@SerializedName("service")
     @Expose
-	List<Service> subscriptionTypes;
+	private List<Service> subscriptionTypes;
 
 	public List<Service> getSubscriptionTypes() {
 		return subscriptionTypes;

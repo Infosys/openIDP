@@ -15,7 +15,9 @@ import org.infy.entities.triggerinputs.Steps;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.businessapi.EmailSender;
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.businessapi.SubscriptionBL;
 import org.infy.idp.controller.BaseResource;
 import org.infy.idp.entities.jobs.DownloadArtifactInputs;
@@ -62,6 +64,10 @@ public class JobService extends BaseResource {
 	protected static final String modelId = "Model Id: ";
 	@Autowired
 	private JobsBL jobsBL;
+	@Autowired
+	private JobsManagementBL jobsmgmtBL;
+	@Autowired
+	private JobsAdditionalInfo jobsaddInfo;
 	@Autowired
 	private EmailSender emailSender;
 	@Autowired
@@ -321,7 +327,7 @@ public class JobService extends BaseResource {
 			logger.info("Checking available jobs to trigger");
 			Gson gson = new Gson();
 
-			History history = jobsBL.checkAvailableJobsToTrigger(auth.getPrincipal().toString().toLowerCase(),
+			History history = jobsmgmtBL.checkAvailableJobsToTrigger(auth.getPrincipal().toString().toLowerCase(),
 					platformName);
 			if (null == history.getPipelineDetails() || history.getPipelineDetails().isEmpty()) {
 				resourceResponse.setResource("No pipelines to trigger");
@@ -355,7 +361,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Retrieving inputs to trigger");
 			Gson gson = new Gson();
-			TriggerInputs triggerInputs = jobsBL.fecthTriggerOptions(tiggerJobName);
+			TriggerInputs triggerInputs = jobsmgmtBL.fecthTriggerOptions(tiggerJobName);
 			resourceResponse.setResource(gson.toJson(triggerInputs, TriggerInputs.class));
 			resourceResponse.setStatus("SUCCESS");
 
@@ -384,7 +390,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Retrieving no of builds");
 			Gson gson = new Gson();
-			JobsBuilds jobsBuilds = jobsBL.getBuildJobs(jobName);
+			JobsBuilds jobsBuilds = jobsmgmtBL.getBuildJobs(jobName);
 			if (null == jobsBuilds.getJobName() || jobsBuilds.getJobName().isEmpty()) {
 				resourceResponse.setResource("No Access");
 			} else {
@@ -422,7 +428,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Retrieving pipeline details");
 			Gson gson = new Gson();
-			Pipeline pipeline = jobsBL.getPipelineDetails(tiggerJobName);
+			Pipeline pipeline = jobsmgmtBL.getPipelineDetails(tiggerJobName);
 			String str = gson.toJson(pipeline, Pipeline.class);
 			String encrypted = "";
 			if (platform.equalsIgnoreCase("IDP"))
@@ -458,7 +464,7 @@ public class JobService extends BaseResource {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		try {
 			logger.info("Downloading artifacts");
-			String response = jobsBL.downloadArtifacts(downloadArtifactsInputs);
+			String response = jobsaddInfo.downloadArtifacts(downloadArtifactsInputs);
 			resourceResponse.setStatus("SUCCESS");
 			resourceResponse.setResource(response);
 
@@ -484,7 +490,7 @@ public class JobService extends BaseResource {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		try {
 			logger.info("Downloading artifacts");
-			boolean status = jobsBL.deletePipeline(tiggerJobName);
+			boolean status = jobsaddInfo.deletePipeline(tiggerJobName);
 
 			if (status) {
 				resourceResponse.setResource(STATUS_SUCCESS);
@@ -550,7 +556,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("getting pipeline list for application  " + appName);
 			Gson gson = new Gson();
-			Names names = jobsBL.pipelineNamesForApplication(appName, workflowString,
+			Names names = jobsaddInfo.pipelineNamesForApplication(appName, workflowString,
 					auth.getPrincipal().toString().toLowerCase());
 			if (null == names || null == names.getNames() || names.getNames().isEmpty())
 				resourceResponse.setResource("No Pipelines");
@@ -584,7 +590,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("getting stageviewUrl");
 
-			String url = jobsBL.getStageViewUrl(appName, pipelineName);
+			String url = jobsaddInfo.getStageViewUrl(appName, pipelineName);
 			resourceResponse.setStatus("SUCCESS");
 			resourceResponse.setResource(url);
 
@@ -613,7 +619,7 @@ public class JobService extends BaseResource {
 			logger.info("Retrieving job details");
 			Gson gson = new Gson();
 
-			Pipelines pips = jobsBL.getDependencyPipelines(appName, auth.getPrincipal().toString().toLowerCase());
+			Pipelines pips = jobsaddInfo.getDependencyPipelines(appName, auth.getPrincipal().toString().toLowerCase());
 			String str = gson.toJson(pips, Pipelines.class);
 			String encrypted = EncryptUtilUI.encrypt(str);
 			if (null == pips.getPipelines() || pips.getPipelines().isEmpty()) {
@@ -649,7 +655,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Retrieving STEPS to trigger");
 			Gson gson = new Gson();
-			Steps steps = jobsBL.fecthTriggerSteps(appName, pipelineName, envName);
+			Steps steps = jobsaddInfo.fecthTriggerSteps(appName, pipelineName, envName);
 
 			resourceResponse.setResource(gson.toJson(steps, Steps.class));
 			resourceResponse.setStatus("SUCCESS");
@@ -680,7 +686,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Retrieving JobParameter details of pipeline");
 			Gson gson = new Gson();
-			List<JobParam> jobparamList = jobsBL.getJobParamDetails(appName, pipelineName);
+			List<JobParam> jobparamList = jobsmgmtBL.getJobParamDetails(appName, pipelineName);
 
 			resourceResponse.setResource(gson.toJson(jobparamList));
 			resourceResponse.setStatus("SUCCESS");
@@ -710,7 +716,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("getting pipeline list for application  " + appName);
 			Gson gson = new Gson();
-			Names names = jobsBL.dbDeployPipelineNamesForApplication(appName,
+			Names names = jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
 					auth.getPrincipal().toString().toLowerCase());
 			String str = gson.toJson(names, Names.class);
 			String encrypted = EncryptUtilUI.encrypt(str);
@@ -746,7 +752,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("getting Test Plans  ");
 			Gson gson = new Gson();
-			List<TestPlans> testPlansList = jobsBL.fetchMTMTestPlans(appName, pipelineName);
+			List<TestPlans> testPlansList = jobsaddInfo.fetchMTMTestPlans(appName, pipelineName);
 			resourceResponse.setResource(gson.toJson(testPlansList));
 			resourceResponse.setStatus("SUCCESS");
 
@@ -776,7 +782,7 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("getting Test Suit  ");
 			Gson gson = new Gson();
-			List<TestSuits> testSuitList = jobsBL.fetchMTMTestSuits(testPlanId, appName, pipelineName);
+			List<TestSuits> testSuitList = jobsaddInfo.fetchMTMTestSuits(testPlanId, appName, pipelineName);
 			logger.info("MytestPlans:-----" + gson.toJson(testSuitList));
 			resourceResponse.setResource(gson.toJson(testSuitList));
 
@@ -806,7 +812,7 @@ public class JobService extends BaseResource {
 			logger.info("getPairNames");
 			Gson gson = new Gson();
 			jobName.setUserName(auth.getPrincipal().toString().toLowerCase());
-			Names names = jobsBL.getPairName(jobName);
+			Names names = jobsmgmtBL.getPairName(jobName);
 			resourceResponse.setResource(gson.toJson(names));
 			resourceResponse.setStatus("SUCCESS");
 
@@ -841,7 +847,7 @@ public class JobService extends BaseResource {
 			user.setUserId(auth.getPrincipal().toString().toLowerCase());
 			// user.setRoles(userRoles);
 
-			List<String> pipelinePermissions = jobsBL.getPipelinePermission(applicationName, pipelineName, userName);
+			List<String> pipelinePermissions = jobsaddInfo.getPipelinePermission(applicationName, pipelineName, userName);
 			user.setPermissions(pipelinePermissions);
 			String encrypted = EncryptUtilUI.encrypt(gson.toJson(user, UserRolesPermissions.class));
 			resourceResponse.setResource(encrypted);

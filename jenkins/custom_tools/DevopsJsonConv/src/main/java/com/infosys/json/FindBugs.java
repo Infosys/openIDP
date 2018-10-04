@@ -1,30 +1,31 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class FindBugs {
-
 	@SerializedName("critical")
 	@Expose
 	private Integer critical;
-	
 	@SerializedName("blocker")
 	@Expose
 	private Integer blocker;
-	
 	@SerializedName("major")
 	@Expose
 	private Integer major;
-	
 	@SerializedName("minor")
 	@Expose
 	private Integer minor;
-	
 	@SerializedName("info")
 	@Expose
 	private Integer info;
-
 
 	public Integer getCritical() {
 		return critical;

@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8181/tcp
 
-ADD target/idpoauth.jar /idpoauth/idpoauth.jar
-ADD idpoauth.sh /idpoauth/idpoauth.sh
+COPY target/idpoauth.jar /idpoauth/idpoauth.jar
+COPY idpoauth.sh /idpoauth/idpoauth.sh
 RUN chmod +x /idpoauth/idpoauth.sh
 
 ENTRYPOINT /idpoauth/idpoauth.sh

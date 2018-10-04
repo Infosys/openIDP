@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 import org.infy.idp.entities.FileNet;
 import org.infy.idp.entities.FileNetImport;
 import org.infy.idp.utils.ConfigurationManager;
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Component;
  * class FileNetExportAnalysisDL has methods related to filenet import in IDP
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class FileNetImportAnalysisDL {
 
 	

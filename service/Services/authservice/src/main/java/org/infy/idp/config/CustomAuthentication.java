@@ -23,11 +23,9 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public class CustomAuthentication extends UsernamePasswordAuthenticationToken implements Authentication {
 
-	/**
-	* 
-	*/
 	private static final long serialVersionUID = -1052238536718645685L;
-
+	private String keycloaktoken;
+	
 	public CustomAuthentication(Object principal, Object credentials, String keycloaktoken) {
 		super(principal, credentials);
 		this.keycloaktoken = keycloaktoken;
@@ -39,7 +37,7 @@ public class CustomAuthentication extends UsernamePasswordAuthenticationToken im
 		this.keycloaktoken = keycloaktoken;
 	}
 
-	private String keycloaktoken;
+
 
 	public String getKeyCloakToken() {
 		return keycloaktoken;

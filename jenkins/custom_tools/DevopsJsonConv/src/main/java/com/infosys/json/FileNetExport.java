@@ -1,3 +1,10 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package com.infosys.json;
 
 import java.util.List;
@@ -9,43 +16,33 @@ public class FileNetExport {
 	@SerializedName("triggerId")
 	@Expose
 	private String triggerId;
-	
 	@SerializedName("enviornment")
 	@Expose
 	private String enviornment;
-	
 	@SerializedName("propertyTypeList")
 	@Expose
 	private List<FileNetExportPropertyType> propertyTypeList;
-	
 	@SerializedName("lifeCyclePolicyTypeList")
 	@Expose
 	private List<FileNetExportLifeCyclePolicyType> lifeCyclePolicyTypeList;
-	
 	@SerializedName("lifeCycleActionTypeList")
 	@Expose
-	private List<FileNetExportLifeCycleActionType> lifeCycleActionTypeList; 
-	
+	private List<FileNetExportLifeCycleActionType> lifeCycleActionTypeList;
 	@SerializedName("choiceListTypeList")
 	@Expose
 	private List<FileNetExportChoiceListType> choiceListTypeList;
-	
 	@SerializedName("classDefinitionTypeList")
 	@Expose
 	private List<FileNetExportClassDefinitionType> classDefinitionTypeList;
-	
 	@SerializedName("folderTypeList")
 	@Expose
 	private List<FileNetExportFolderType> folderTypeList;
-	
 	@SerializedName("documentTypeList")
 	@Expose
 	private List<FileNetExportDocumentType> documentTypeList;
-	
 	@SerializedName("eventActionTypeList")
 	@Expose
 	private List<FileNetExportEventActionType> eventActionTypeList;
-	
 	@SerializedName("otherTypeList")
 	@Expose
 	private List<FileNetExportOtherType> otherTypeList;
@@ -137,9 +134,4 @@ public class FileNetExport {
 	public void setEnviornment(String enviornment) {
 		this.enviornment = enviornment;
 	}
-
-	
-	
-
-	
 }

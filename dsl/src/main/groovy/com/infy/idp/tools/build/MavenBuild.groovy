@@ -50,7 +50,24 @@ class MavenBuild {
 
             //Configurable Settings of Job
             PostBuildersAdder.addPostBuilders(delegate)
-            rootPOM(jsonData.buildInfo.modules.getAt(0).relativePath)
+            if (jsonData.code != null && jsonData.code != '' && jsonData.code.jobParam != null && jsonData.code.jobParam != '') {
+                if (jsonData.buildInfo.modules.getAt(0).relativePath.getAt(0).compareToIgnoreCase('%') == 0) {
+                    def rootPomPath = '${'
+                    for (int i = 1; i < jsonData.buildInfo.modules.getAt(0).relativePath.size() - 1; i++) {
+                        rootPomPath += jsonData.buildInfo.modules.getAt(0).relativePath.getAt(i)
+                    }
+                    rootPomPath += '}'
+
+                    rootPOM(rootPomPath)
+
+                } else {
+                    rootPOM(jsonData.buildInfo.modules.getAt(0).relativePath)
+                }
+
+
+            } else {
+                rootPOM(jsonData.buildInfo.modules.getAt(0).relativePath)
+            }
             mavenGoalSetter(delegate, jsonData)
             addPreBuildSteps(delegate, jsonData)
             addPostBuildSteps(delegate, jsonData, envVar)

@@ -18,7 +18,6 @@ import com.infosys.json.Functional;
 import com.infosys.json.TestCaseResult;
 
 public class ConvertEcatt {
-
 	private static final Logger logger = Logger.getLogger(ConvertEcatt.class);
 	private static Integer totalTest = 0;
 	private static Integer fail = 0;
@@ -27,29 +26,15 @@ public class ConvertEcatt {
 	private ConvertEcatt() {
 	}
 
-	/**
-	 * method to parse ecatt reports
-	 * 
-	 * @param inputPath
-	 * @param fn
-	 * @param tc
-	 */
 	public static void convert(String inputPath, Functional fn, List<TestCaseResult> tc) {
-
 		try (BufferedReader in = new BufferedReader(new FileReader(inputPath));) {
-
 			Ecatt ec = new Ecatt();
 			String line = null;
-
 			while ((line = in.readLine()) != null) {
-
 				Integer[] array = new Integer[3];
 				array[0] = Integer.valueOf(line.split("|")[0]);
-
 				array[1] = Integer.valueOf(line.split("|")[2]);
-
 				array[2] = array[0] - array[1];
-
 				pass += array[2];
 				fail += array[1];
 				totalTest += array[0];
@@ -72,10 +57,8 @@ public class ConvertEcatt {
 			ec.setPass(pass);
 			ec.setTotalTest(totalTest);
 			fn.setEcatt(ec);
-
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-
 }

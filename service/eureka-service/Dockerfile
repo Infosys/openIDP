@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8761/tcp
 
-ADD target/idpeureka.jar /idpeureka/idpeureka.jar
-ADD idpeureka.sh /idpeureka/idpeureka.sh
+COPY target/idpeureka.jar /idpeureka/idpeureka.jar
+COPY idpeureka.sh /idpeureka/idpeureka.sh
 RUN chmod +x /idpeureka/idpeureka.sh
 
 ENTRYPOINT /idpeureka/idpeureka.sh

@@ -24,6 +24,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Infosys
  *
  */
+@SuppressWarnings("PMD")
 public class Module {
 	@SerializedName("codeFormatting")
 	@Expose

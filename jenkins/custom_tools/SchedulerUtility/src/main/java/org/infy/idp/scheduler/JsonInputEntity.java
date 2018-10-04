@@ -5,9 +5,7 @@
 * https://opensource.org/licenses/MIT.
 *
 ***********************************************************************************************/
-
 package org.infy.idp.scheduler;
 
 public class JsonInputEntity {
-
 }

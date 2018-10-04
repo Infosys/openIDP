@@ -10,7 +10,6 @@ package org.infy.idp;
 
 import java.util.List;
 
-import org.infy.idp.businessapi.JobsBL;
 import org.infy.idp.businessapi.OrgInfoBL;
 import org.infy.idp.businessapi.SubscriptionBL;
 import org.slf4j.Logger;
@@ -47,8 +46,6 @@ public class ResourceServerApplication extends SpringBootServletInitializer {
 	@Autowired
 	private OrgInfoBL orgInfoBL;
 
-	@Autowired
-	private JobsBL jobsInfoBL;
 
 	/**
 	 * 

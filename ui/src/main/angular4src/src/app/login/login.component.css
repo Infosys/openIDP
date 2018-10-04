@@ -74,14 +74,14 @@ table.ex2 {
     border-spacing: 10px 50px;
 }
 .form-control{
-/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png")!important; */
-background-repeat: no-repeat!important;
+/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png"); */
+background-repeat: no-repeat;
 /*padding-left:30px;*/
 }
 #username{
 	margin-top:25px;
-/*background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png")!important;*/
-background-repeat: no-repeat!important;
+/*background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png");*/
+background-repeat: no-repeat;
 /*padding-left:30px;*/
 
 	}

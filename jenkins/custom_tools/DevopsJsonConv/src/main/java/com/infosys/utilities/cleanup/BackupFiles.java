@@ -12,7 +12,6 @@ import java.io.File;
 import org.apache.log4j.Logger;
 
 public class BackupFiles {
-
 	private static final Logger logger = Logger.getLogger(BackupFiles.class);
 
 	private BackupFiles() {
@@ -22,22 +21,18 @@ public class BackupFiles {
 		File folder1 = new File(srcPath);
 		if (!(folder1.exists() && folder1.isDirectory()))
 			return;
-
 		File folder2 = new File(destPath);
 		createDestFolder(folder2);
 		if (!(folder2.exists() && folder2.isDirectory()))
 			return;
-
 		moveSrcFiles(folder1, srcPath, destPath);
-
-		int lastIndex = srcPath.lastIndexOf('/') > srcPath.lastIndexOf("\\") ? srcPath.lastIndexOf('/') : srcPath.lastIndexOf("\\");
+		int lastIndex = srcPath.lastIndexOf('/') > srcPath.lastIndexOf("\\") ? srcPath.lastIndexOf('/')
+				: srcPath.lastIndexOf("\\");
 		String newSrcPath = srcPath.substring(0, lastIndex);
 		newSrcPath += "/ChangeLogs";
-
 		File folder3 = new File(srcPath);
 		if (!(folder3.exists() && folder3.isDirectory()) || folder3.listFiles().length <= 0)
 			return;
-		
 		File[] list2 = folder3.listFiles();
 		moveFilesForChangeLogs(list2, newSrcPath, destPath);
 	}
@@ -76,5 +71,4 @@ public class BackupFiles {
 			}
 		}
 	}
-
 }

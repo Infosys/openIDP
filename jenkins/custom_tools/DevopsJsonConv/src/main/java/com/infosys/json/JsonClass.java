@@ -1,3 +1,10 @@
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 
 package com.infosys.json;
 
@@ -45,21 +52,8 @@ public class JsonClass {
 	@JsonProperty("log")
 	private String log;
 	
-	
-	
-	public String getLog() {
-		return log;
-	}
-	public void setLog(String log) {
-		this.log = log;
-	}
 	private String BaseURL;
-	public void setBaseURL(String baseURL) {
-		BaseURL = baseURL;
-	}
-	public String getBaseURL() {
-		return BaseURL;
-	}
+	
 	@JsonProperty("reports")
 	private Reports Reports;
 	
@@ -83,6 +77,60 @@ public class JsonClass {
 	
 	@JsonProperty("codeCoverage")
 	private Codecoverage codeCoverage;
+	
+	@JsonProperty("application")
+	private String application;
+
+	@JsonProperty("buildId")
+	private String buildId;
+	
+	@JsonProperty("jobBuildId")
+	private String jobBuildId;
+
+	@JsonProperty("buildDetails")
+	private List<BuildDetail> buildDetails;
+	
+	@JsonProperty("buildOwners")
+	private List<BuildOwner> buildOwners = null;
+
+	@JsonProperty("ruleSet")
+	private List<RuleSet> ruleSet;
+
+	@JsonProperty("codeMetric")
+	private List<CodeMetric> codeMetric = null;
+
+	@JsonProperty("testCaseResult")
+	private List<TestCaseResult> testCaseResult = null;
+
+	@JsonProperty("codeAnalysis")
+	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
+
+	@JsonProperty("CoverageDetails")
+	private List <CoverageDetails> coverageDetails;
+	
+	@JsonProperty("versionInfo")
+	private List<VersionInfo> versionInfo = null;
+	
+	@JsonProperty("scmInfo")
+	private List<SCMInfo> scmInfo = null;
+
+	@JsonProperty("fileNet")
+	private  FileNet fileNet;
+	
+	public String getLog() {
+		return log;
+	}
+	public void setLog(String log) {
+		this.log = log;
+	}
+	
+	public void setBaseURL(String baseURL) {
+		BaseURL = baseURL;
+	}
+	public String getBaseURL() {
+		return BaseURL;
+	}
+	
 		
 /*	@JsonProperty("unitTesting")
 	public UnitTesting getUnitTesting() {
@@ -164,38 +212,7 @@ public class JsonClass {
 		this.functionalTest = functionalTest;
 	}
 
-	@JsonProperty("application")
-	private String application;
-
-	@JsonProperty("buildId")
-	private String buildId;
 	
-	@JsonProperty("jobBuildId")
-	private String jobBuildId;
-
-	@JsonProperty("buildDetails")
-	private List<BuildDetail> buildDetails;
-	
-	@JsonProperty("buildOwners")
-	private List<BuildOwner> buildOwners = null;
-
-	@JsonProperty("ruleSet")
-	private List<RuleSet> ruleSet;
-
-	@JsonProperty("codeMetric")
-	private List<CodeMetric> codeMetric = null;
-
-	@JsonProperty("testCaseResult")
-	private List<TestCaseResult> testCaseResult = null;
-
-	@JsonProperty("codeAnalysis")
-	private List<CodeAnalysis> codeAnalysis = new ArrayList<>();
-
-	@JsonProperty("CoverageDetails")
-	private List <CoverageDetails> coverageDetails;
-	
-	@JsonProperty("versionInfo")
-	private List<VersionInfo> versionInfo = null;
 
 	public List<CoverageDetails> getCoverageDetails() {
 		return coverageDetails;
@@ -204,13 +221,11 @@ public class JsonClass {
 		if (this.coverageDetails==null) this.coverageDetails=new ArrayList();
 		
 	}
-	public void AddCoverageDetails(CoverageDetails c)
+	public void addCoverageDetails(CoverageDetails c)
 	{
 		this.coverageDetails.add(c);
 	}
-	@JsonProperty("scmInfo")
-	private List<SCMInfo> scmInfo = null;
-
+	
 	@JsonProperty("sonarDetails")
 	public SonarDetails getSonarDetails() {
 		return sonarDetails;
@@ -220,8 +235,7 @@ public class JsonClass {
 		this.sonarDetails = sonarDetails;
 	}
 	
-		@JsonProperty("fileNet")
-	private  FileNet fileNet;
+	
 
 	@JsonProperty("fileNet")
 	public FileNet getFileNet() {

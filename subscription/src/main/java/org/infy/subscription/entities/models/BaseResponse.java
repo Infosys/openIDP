@@ -23,13 +23,6 @@ public class BaseResponse {
 	private String status;
 
 	/**
-	 * Instantiates a new base response.
-	 */
-	public BaseResponse() {
-		// constructor
-	}
-
-	/**
 	 * Gets the error message.
 	 *
 	 * @return the error message

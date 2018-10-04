@@ -27,12 +27,7 @@ public class BaseResponse {
 	/** The status. */
 	private String status;
 
-	/**
-	 * Instantiates a new base response.
-	 */
-	public BaseResponse() {
-		//constructor
-	}
+	
 
 	/**
 	 * Gets the error message.

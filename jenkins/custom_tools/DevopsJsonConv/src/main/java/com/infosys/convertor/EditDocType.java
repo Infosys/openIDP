@@ -6,6 +6,7 @@
 *
 ***********************************************************************************************/
 package com.infosys.convertor;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,39 +28,35 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 public class EditDocType {
-
 	private static final Logger logger = Logger.getLogger(EditDocType.class);
-
+	private static ArrayList<String> messagesforPunit = new ArrayList<>();
 	private EditDocType() {
 	}
-	private static ArrayList<String> messagesforPunit=new ArrayList<>();
+
+	
+
 	public static String getCharacterDataFromElement(Element e) {
-	   if ((Node)e.getFirstChild() instanceof CharacterData) {
-	      CharacterData cd = (CharacterData) e.getFirstChild();
-	      return cd.getData();
-	    }
-	    return "";
-	  }
+		if ((Node) e.getFirstChild() instanceof CharacterData) {
+			CharacterData cd = (CharacterData) e.getFirstChild();
+			return cd.getData();
+		}
+		return "";
+	}
 
 	public static void edit(String filepath) {
 		try {
 			Document xmlDoc = getDocument(filepath);
-			
-			if (filepath.contains("pythontest")){
-			NodeList l=xmlDoc.getElementsByTagName("failure");
-				for (int i=0;i<l.getLength();i++)
-					messagesforPunit.add(getCharacterDataFromElement((Element)(l.item(i))));
-					
+			if (filepath.contains("pythontest")) {
+				NodeList l = xmlDoc.getElementsByTagName("failure");
+				for (int i = 0; i < l.getLength(); i++)
+					messagesforPunit.add(getCharacterDataFromElement((Element) (l.item(i))));
 			}
 			saveToXml(xmlDoc, filepath);
-			
-		}
-		
-			catch (Exception ex) { // For simplicity Exception is used instead of
+		} catch (Exception ex) { // For simplicity Exception is used instead of
 			logger.error(ex);
 		}
-			
 	}
 
 	public static ArrayList<String> getMessagesforPunit() {
@@ -70,15 +67,6 @@ public class EditDocType {
 		EditDocType.messagesforPunit = messagesforPunit;
 	}
 
-	/**
-	 * To get DOM Document from the xml file.
-	 * 
-	 * @param filePath
-	 * @return DOM Document
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
-	 */
 	public static Document getDocument(String filePath) throws ParserConfigurationException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		docFactory.setCoalescing(true);
@@ -87,16 +75,12 @@ public class EditDocType {
 		docFactory.setAttribute("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
 		docFactory.setAttribute("http://xml.org/sax/features/namespaces", false);
 		docFactory.setAttribute("http://xml.org/sax/features/validation", false);
-		
-		//docFactory.setAttribute("http://cobertura.sourceforge.net/xml/coverage-04.dtd", false);
-		
+		// docFactory.setAttribute("http://cobertura.sourceforge.net/xml/coverage-04.dtd",
+		// false);
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		
 		Document xmlDoc = null;
 		try {
-			
 			xmlDoc = docBuilder.parse(filePath);
-			
 		} catch (SAXException se) {
 			logger.error(se);
 		} catch (IOException ie) {
@@ -105,21 +89,12 @@ public class EditDocType {
 		return xmlDoc;
 	}
 
-	/**
-	 * To save the Document in xml file
-	 * 
-	 * @param xmlDoc
-	 * @param filePath
-	 * @throws TransformerException
-	 */
 	public static void saveToXml(Document xmlDoc, String filePath) throws TransformerException {
 		DOMSource source = new DOMSource(xmlDoc);
 		StreamResult result = new StreamResult(new File(filePath));
-		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		
 		transformer.transform(source, result);
 	}
 }

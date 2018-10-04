@@ -19,13 +19,6 @@ public class ResourceResponse<T> extends BaseResponse {
 	private T resource;
 
 	/**
-	 * Instantiates a new resource response.
-	 */
-	public ResourceResponse() {
-		super();
-	}
-
-	/**
 	 * Gets the resource.
 	 *
 	 * @return the resource

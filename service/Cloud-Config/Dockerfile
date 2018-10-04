@@ -5,8 +5,8 @@ LABEL maintainer="idpadmin@domain.com"\
 
 EXPOSE 8888/tcp
 
-ADD target/idpconfig.jar /idpconfig/idpconfig.jar
-ADD idpconfig.sh /idpconfig/idpconfig.sh
+COPY target/idpconfig.jar /idpconfig/idpconfig.jar
+COPY idpconfig.sh /idpconfig/idpconfig.sh
 RUN chmod +x /idpconfig/idpconfig.sh
 
 ENTRYPOINT /idpconfig/idpconfig.sh

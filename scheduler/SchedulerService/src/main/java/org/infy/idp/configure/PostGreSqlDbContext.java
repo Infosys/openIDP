@@ -11,7 +11,9 @@ package org.infy.idp.configure;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import javax.annotation.PostConstruct;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
  * Database context class for PostGreSQL databases
  */
 @Component
+@SuppressWarnings({"PMD.MissingStaticMethodInNonInstantiatableClass","unused"})
 public class PostGreSqlDbContext {
 	
 	@Autowired
@@ -48,8 +51,7 @@ public class PostGreSqlDbContext {
 	@PostConstruct
 	private void init(){
 		POSTGRES_CONN_URL = configmanager.getUrl();
-		System.out.println("url"+configmanager.getUrl());
-	    POSTGRES_USERNAME = configmanager.getPostgresqlusername();
+		POSTGRES_USERNAME = configmanager.getPostgresqlusername();
 	    POSTGRES_PASSWORD = configmanager.getPostgresqlpassword();
 	    POSTGRES_DRIVER_CLASS = "org.postgresql.Driver";
 	    POSTGRES_INITIAL_SIZE = Integer.parseInt(configmanager.getPostgresqlinitialsize());
@@ -66,7 +68,6 @@ public class PostGreSqlDbContext {
 			Class.forName(POSTGRES_DRIVER_CLASS);
 			return connectionPool.getConnection();
 		} catch (ClassNotFoundException | SQLException exception) {
-			System.out.println("exception"+exception);
 			logger.error("Connection can not be created to postgres", exception);
 
 		}
@@ -81,7 +82,7 @@ public class PostGreSqlDbContext {
 		    connectionPool.setDriverClassName(POSTGRES_DRIVER_CLASS);
 		    connectionPool.setUrl(POSTGRES_CONN_URL);
 		    connectionPool.setInitialSize(POSTGRES_INITIAL_SIZE);
-		System.out.println("connectionpool"+connectionPool);
+		
 		return connectionPool;
 
 	}

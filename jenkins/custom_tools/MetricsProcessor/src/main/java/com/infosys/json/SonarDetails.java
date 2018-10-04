@@ -17,107 +17,89 @@ public class SonarDetails {
 	@SerializedName("sonarPrjctKey")
 	@Expose
 	private String sonarPrjctKey;
-	
 	@SerializedName("loc")
 	@Expose
 	private int loc;
-	
-	public int getLoc() {
-		return loc;
-	}
-
-
-	public void setLoc(int loc) {
-		this.loc = loc;
-	}
 
 
 	@SerializedName("bugs")
 	@Expose
 	private String bugs;
-	
+
+	@SerializedName("vulnerabilities")
+	@Expose
+	private String vulnerabilities;
+	@SerializedName("codesmells")
+	@Expose
+	private String codesmells;
+	@SerializedName("rateperhour")
+	@Expose
+	private String rateperhour;
+	@SerializedName("technicaldebt")
+	@Expose
+	private String technicalDebt;
+
+	public int getLoc() {
+		return loc;
+	}
+
+	public void setLoc(int loc) {
+		this.loc = loc;
+	}
 	public String getSonarServer() {
 		return sonarServer;
 	}
-
 
 	public void setSonarServer(String sonarServer) {
 		this.sonarServer = sonarServer;
 	}
 
-
 	public String getSonarPrjctKey() {
 		return sonarPrjctKey;
 	}
-
 
 	public void setSonarPrjctKey(String sonarPrjctKey) {
 		this.sonarPrjctKey = sonarPrjctKey;
 	}
 
-
 	public String getBugs() {
 		return bugs;
 	}
-
 
 	public void setBugs(String bugs) {
 		this.bugs = bugs;
 	}
 
-
 	public String getVulnerabilities() {
 		return vulnerabilities;
 	}
-
 
 	public void setVulnerabilities(String vulnerabilities) {
 		this.vulnerabilities = vulnerabilities;
 	}
 
-
 	public String getCodesmells() {
 		return codesmells;
 	}
-
 
 	public void setCodesmells(String codesmells) {
 		this.codesmells = codesmells;
 	}
 
-
 	public String getRateperhour() {
 		return rateperhour;
 	}
-
 
 	public void setRateperhour(String rateperhour) {
 		this.rateperhour = rateperhour;
 	}
 
-
 	public void setTechnicalDebt(String technicalDebt) {
 		this.technicalDebt = technicalDebt;
 	}
 
+	
 
-	@SerializedName("vulnerabilities")
-	@Expose
-	private String vulnerabilities;
-	
-	@SerializedName("codesmells")
-	@Expose
-	private String codesmells;
-	
-	@SerializedName("rateperhour")
-	@Expose
-	private String rateperhour;
-	
-	@SerializedName("technicaldebt")
-	@Expose 
-	private String technicalDebt;
-	
-	 
 	public String getTechnicalDebt() {
 		return technicalDebt;
 	}

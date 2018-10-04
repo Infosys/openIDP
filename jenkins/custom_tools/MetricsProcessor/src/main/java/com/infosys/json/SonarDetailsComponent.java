@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class SonarDetailsComponent {
 	@SerializedName("measures")
-	@Expose	
+	@Expose
 	private List<SonarDetailsLocmeasures> measures;
 
 	public List<SonarDetailsLocmeasures> getMeasures() {
@@ -24,6 +24,4 @@ public class SonarDetailsComponent {
 	public void setMeasures(List<SonarDetailsLocmeasures> measures) {
 		this.measures = measures;
 	}
-
-	
 }

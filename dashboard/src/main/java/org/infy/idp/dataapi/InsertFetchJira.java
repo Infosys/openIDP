@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public class InsertFetchJira {
 	
 	protected Logger logger=LoggerFactory.getLogger(InsertFetchJira.class);
@@ -61,8 +62,7 @@ public class InsertFetchJira {
 			 
 		 }
 		 catch(SQLException|NullPointerException e){
-			    e.printStackTrace();
-				logger.error("Postgres Error while updating trigger history ",e.getMessage());
+			   logger.error("Postgres Error while updating trigger history ",e.getMessage());
 			}
 	
 	return resultVal;

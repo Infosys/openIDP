@@ -1,4 +1,3 @@
-
 /***********************************************************************************************
 *
 * Copyright 2018 Infosys Ltd.
@@ -10,10 +9,7 @@ package com.infosys.json;
 
 import java.util.ArrayList;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-
 
 public class SonarJson {
 	@JsonProperty("issues")
@@ -22,40 +18,51 @@ public class SonarJson {
 	private String p;
 	@JsonProperty("total")
 	private String total;
-	public ArrayList<SonarIssues> getIssues() {
-		return issues;
-	}
-	public void setIssues(ArrayList<SonarIssues> issues) {
-		this.issues = issues;
-	}
-	public String getP() {
-		return p;
-	}
-	public void setP(String p) {
-		this.p = p;
-	}
-	public String getTotal() {
-		return total;
-	}
-	public void setTotal(String total) {
-		this.total = total;
-	}
-	public String getPs() {
-		return ps;
-	}
-	public void setPs(String ps) {
-		this.ps = ps;
-	}
-	public SonarPaging getPaging() {
-		return paging;
-	}
-	public void setPaging(SonarPaging paging) {
-		this.paging = paging;
-	}
+
 	@JsonProperty("ps")
 	private String ps;
 	@JsonProperty("paging")
 	private SonarPaging paging;
 	
+	public ArrayList<SonarIssues> getIssues() {
+		return issues;
+	}
 
+	public void setIssues(ArrayList<SonarIssues> issues) {
+		this.issues = issues;
+	}
+
+	public String getP() {
+		return p;
+	}
+
+	public void setP(String p) {
+		this.p = p;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public String getPs() {
+		return ps;
+	}
+
+	public void setPs(String ps) {
+		this.ps = ps;
+	}
+
+	public SonarPaging getPaging() {
+		return paging;
+	}
+
+	public void setPaging(SonarPaging paging) {
+		this.paging = paging;
+	}
+
+	
 }

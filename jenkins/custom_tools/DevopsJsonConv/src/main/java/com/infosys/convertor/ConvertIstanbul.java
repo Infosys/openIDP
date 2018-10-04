@@ -23,26 +23,16 @@ public class ConvertIstanbul {
 	private ConvertIstanbul() {
 	}
 
-	/**
-	 * method to parse istanbul reports
-	 * 
-	 * @param inputPath
-	 * @param jsonClass
-	 */
 	public static void convert(String inputPath, JsonClass jsonClass) {
 		EditDocType.edit(inputPath);
-
 		File file = new File(inputPath);
-
 		JAXBContext jaxbContext;
 		Unmarshaller jaxbUnmarshaller;
 		Coverage.Packages packages = new Coverage.Packages();
 		try {
 			jaxbContext = JAXBContext.newInstance(Coverage.class);
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
 			Coverage coverageObj = (Coverage) jaxbUnmarshaller.unmarshal(file);
-
 			if (coverageObj == null || coverageObj.getPackages() == null
 					|| coverageObj.getPackages().getPackage() == null
 					|| coverageObj.getPackages().getPackage().isEmpty())
@@ -54,10 +44,8 @@ public class ConvertIstanbul {
 			Istanbul istan = new Istanbul();
 			// istan.setBranchCoverage(String.valueOf(coverageObj.getBranchRate()*100));
 			istan.setLineCoverage(String.valueOf(coverageObj.getLineRate() * 100));
-
 			cc.setIstanbul(istan);
 			jsonClass.setCodecoverage(cc);
-
 			for (Coverage.Packages.Package p : packages.getPackage()) {
 				List<Coverage.Packages.Package.Classes.Class> c = p.getClasses().getClazz();
 				jsonClass.setCoverageDetails();
@@ -68,17 +56,13 @@ public class ConvertIstanbul {
 					cd1.setCategory("istanbul");
 					cd1.setClassName(class1.getName());
 					cd1.setLineCoverage(String.valueOf(class1.getLineRate() * 100));
-
 					//
 					cd1.setPckage(p.getName());
-					jsonClass.AddCoverageDetails(cd1);
+					jsonClass.addCoverageDetails(cd1);
 				}
-
 			}
 			System.out.println("istanbul coverage converted ");
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
 		}
 	}
