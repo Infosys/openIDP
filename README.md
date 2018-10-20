@@ -1,4 +1,4 @@
-<h3>Infosys DevOps Platform</h3>
+<center><h2 align="center">Infosys DevOps Platform</h2></center>
 </div>
 <br/>
 <div align="center"
