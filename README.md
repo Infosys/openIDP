@@ -1,4 +1,4 @@
-<div align="center"><img src="/docs/idplogo1.png" align="top" />
+<h3>Infosys DevOps Platform</h3>
 </div>
 <br/>
 <div align="center"
