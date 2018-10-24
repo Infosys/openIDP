@@ -1,19 +1,8 @@
 <center><h2 align="center">Infosys DevOps Platform</h2></center>
 </div>
 <br/>
-<div align="center"
-<p><strong><em>Jump start the DevOps Adoption </em></span></strong></p>
-<!--IDP Release --> 
-</div>
+
 <div align="center">
-<img src="/docs/captcha1.PNG"/>
-<hr/>
-</div>
-<div align="center">
-<img src="/docs/paas2.PNG" alt="IDP"/>
-<br/>
-<img src="/docs/idp2.gif" alt="IDP" />
-<br/>
 <h6>For more information, check out below links</h6>
 <h6><a href="https://www.youtube.com/watch?time_continue=1&v=t8cuE3Jog2U" target="_blank">IDP for Agile and DevOps at Scale for Digital transformation</a></h6>
 <h6><a href="https://www.youtube.com/watch?v=8V0OKlB-d2I" target="_blank">IDP for accelerated DevOps journey</a></h6>
