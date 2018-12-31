@@ -80,3 +80,25 @@
     border-radius: 6px 0 6px 6px;
 }
 
+.nav-outer-div{
+    padding-top: 10px;
+    text-align: center;
+}
+.nav-product {
+    font-size: 30px;
+    padding-top: 1px;
+    font-family: 'Open Sans Regular', sans-serif;
+    font-weight: 100; 
+}
+.welcome-nav {
+    font-family: 'Open Sans Regular', sans-serif;
+    font-size: 14px;
+}
+.usr-nav {
+    font-size: 18px;
+    font-family: 'Open Sans Light', sans-serif;
+}
+.logout-btn {
+    text-transform: uppercase;
+    color: white;
+}

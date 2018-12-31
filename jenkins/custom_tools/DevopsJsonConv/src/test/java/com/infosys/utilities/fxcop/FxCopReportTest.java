@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.fxcop;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +12,16 @@ import org.junit.Test;
 import com.infosys.utilities.fxcop.FxCopReport.Exceptions;
 import com.infosys.utilities.fxcop.FxCopReport.Localized;
 import com.infosys.utilities.fxcop.FxCopReport.Rules;
-import com.infosys.utilities.fxcop.FxCopReport.Targets;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Messages;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Messages.Message;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Messages.Message.Issue;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Namespaces;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Namespaces.Namespace;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Namespaces.Namespace.Types;
-import com.infosys.utilities.fxcop.FxCopReport.Targets.Target.Modules.Module.Namespaces.Namespace.Types.Type;
+import com.infosys.utilities.fxcop.Targets.Target;
+import com.infosys.utilities.fxcop.Targets.Target.Modules;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Messages;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Messages.Message;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Messages.Message.Issue;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces.Namespace;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces.Namespace.Types;
+import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces.Namespace.Types.Type;
 
 public class FxCopReportTest {
 

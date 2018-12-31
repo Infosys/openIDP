@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.infy.idp.AppContext;
 import org.infy.idp.jsonschema.SCMInfo;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
@@ -23,20 +24,22 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*This test case is used for SCM information Test*/
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class SCMInfoDLTest {
 
 	@Spy
 	@InjectMocks
-	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
 	
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private SCMInfoDL scmInfoDL;
@@ -61,8 +64,16 @@ public class SCMInfoDLTest {
 	public void insertSCMInfoTest() throws Throwable {
 		try 
 		{
-			
+			SCMInfo scmInfo=new SCMInfo();
+			scmInfo.setCommitMessage("commitMessage");
+			scmInfo.setGetAffectedPath("getAffectedPath");
+			scmInfo.setId("id");
+			scmInfo.setLastModified("string");
+			scmInfo.setLastModifiedBy("id");
+			scmInfo.setLatestFileVersion("id");
+			scmInfo.setRemoteUrl("remoteUrl");
 			 List<SCMInfo> scminfolist=new ArrayList<>();
+			 scminfolist.add(scmInfo);
 			Integer temp=scmInfoDL.insertSCMInfo(1, 1, scminfolist);
 			assertEquals((Integer)1,temp);
 		}

@@ -118,7 +118,9 @@ public class TriggerParameters {
 	@SerializedName("systemId")
 	@Expose
 	private String systemId;
-
+//	@SerializedName("sapUserName")
+//	@Expose
+//	private String sapUserName;
 	@SerializedName("password")
 	@Expose
 	private String password;
@@ -128,11 +130,7 @@ public class TriggerParameters {
 	@SerializedName("language")
 	@Expose
 	private String language;
-
-	@SerializedName("userStories")
-	@Expose
-	private String userStories;
-
+	
 	@SerializedName("pairName")
 	@Expose
 	private String pairName;
@@ -242,10 +240,12 @@ public class TriggerParameters {
 	@SerializedName("releaseManagers")
 	@Expose
 	private String releaseManagers;
+//	@SerializedName("sapTestName")
+//	@Expose
+//	private String saptestName;
 	@SerializedName("srcEnv")
 	@Expose
 	private String srcEnv;
-
 	@SerializedName("restoreTRFlag")
 	@Expose
 	private Boolean restoreTRFlag;
@@ -281,6 +281,47 @@ public class TriggerParameters {
 	@Expose
 	private List<JobParamTrigger> jobParam;
 	
+	//Add ALM
+//	@SerializedName("tfsWorkItem")
+//    @Expose
+//    private String tfsWorkItem;
+//
+//	@SerializedName("userStoryString")
+//	@Expose
+//	private String userStoryString;
+//	
+//	@SerializedName("jiraProjectKey")
+//	@Expose
+//	private String jiraProjectKey;
+//	
+	
+//	public String getJiraProjectKey() {
+//		return jiraProjectKey;
+//	}
+//
+//	public void setJiraProjectKey(String jiraProjectKey) {
+//		this.jiraProjectKey = jiraProjectKey;
+//	}
+//
+//
+//	
+//	
+//	public String getTfsWorkItem() {
+//		return tfsWorkItem;
+//	}
+//
+//	public void setTfsWorkItem(String tfsWorkItem) {
+//		this.tfsWorkItem = tfsWorkItem;
+//	}
+//
+//	public String getUserStoryString() {
+//		return userStoryString;
+//	}
+//
+//	public void setUserStoryString(String userStoryString) {
+//		this.userStoryString = userStoryString;
+//	}
+
 	public Boolean getRestoreTRFlag() {
 		return restoreTRFlag;
 	}
@@ -538,6 +579,7 @@ public class TriggerParameters {
 		this.depParam = depParam;
 	}
 
+
 	public String getRepoDeployStatus() {
 		return repoDeployStatus;
 	}
@@ -627,6 +669,14 @@ public class TriggerParameters {
 		this.client = client;
 	}
 
+/*	public String getSapUserName() {
+		return sapUserName;
+	}
+
+	public void setSapUserName(String sapUserName) {
+		this.sapUserName = sapUserName;
+	}*/
+
 	public String getPassword() {
 		return password;
 	}
@@ -649,14 +699,6 @@ public class TriggerParameters {
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public String getUserStories() {
-		return userStories;
-	}
-
-	public void setUserStories(String userStories) {
-		this.userStories = userStories;
 	}
 
 	public String getSystemName() {
@@ -858,4 +900,12 @@ public class TriggerParameters {
 	public void setTestStepDetails(ArrayList<TestStepInfo> testStepDetails) {
 		this.testStepDetails = testStepDetails;
 	}
+//	public String getSaptestName() {
+//		return saptestName;
+//	}
+//
+//	public void setSaptestName(String saptestName) {
+//		this.saptestName = saptestName;
+//	}
+
 }

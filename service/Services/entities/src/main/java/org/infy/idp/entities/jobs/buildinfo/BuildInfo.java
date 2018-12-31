@@ -28,7 +28,9 @@ public class BuildInfo {
 	@SerializedName("artifactToStage")
 	@Expose
 	private ArtifactToStage artifactToStage;
-	
+//    @SerializedName("castAnalysis")
+//    @Expose
+//    private CastAnalysis castAnalysis;
 	@SerializedName("modules")
 	@Expose
 	private List<Module> modules = null;
@@ -73,6 +75,33 @@ public class BuildInfo {
 	@SerializedName("sonarPassword")
 	@Expose
 	private String sonarPassword;
+
+	
+	// Add Jira ALM
+//    @SerializedName("jiraProjKey")
+//	@Expose
+//	private String jiraProjKey;
+//
+//	@SerializedName("jiraAssigneeName")
+//	@Expose
+//	private String jiraAssigneeName;
+
+	
+//	public String getJiraProjKey() {
+//		return jiraProjKey;
+//	}
+//
+//	public void setJiraProjKey(String jiraProjKey) {
+//		this.jiraProjKey = jiraProjKey;
+//	}
+//
+//	public String getJiraAssigneeName() {
+//		return jiraAssigneeName;
+//	}
+//
+//	public void setJiraAssigneeName(String jiraAssigneeName) {
+//		this.jiraAssigneeName = jiraAssigneeName;
+//	}
 
 	public String getSonarUserName() {
 		return sonarUserName;
@@ -186,7 +215,13 @@ public class BuildInfo {
 		this.artifactToStage = artifactToStage;
 	}
 
-	
+//    public CastAnalysis getCastAnalysis() {
+//        return castAnalysis;
+//    }
+//
+//    public void setCastAnalysis(CastAnalysis castAnalysis) {
+//        this.castAnalysis = castAnalysis;
+//    }
 	public List<Module> getModules() {
 		return modules;
 	}

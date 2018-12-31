@@ -30,6 +30,18 @@ public class ArtifactoryArtifacts {
 	@SerializedName("files")
 	@Expose
 	private List<ArtifactoryFile> files;
+	
+	@SerializedName("continuationToken")
+	@Expose
+	private String continuationToken;
+
+	public String getContinuationToken() {
+		return continuationToken;
+	}
+
+	public void setContinuationToken(String continuationToken) {
+		this.continuationToken = continuationToken;
+	}
 
 	public String getUri() {
 		return uri;

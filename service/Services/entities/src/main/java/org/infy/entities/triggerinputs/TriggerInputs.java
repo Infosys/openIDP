@@ -117,9 +117,6 @@ public class TriggerInputs {
 	@Expose
 	private String subApplicationName;
 
-	@SerializedName("releaseTransportInfo")
-	@Expose
-	private List<ReleaseTransportInfo> releaseTransportInfo;
 
 	@SerializedName("deployStep")
 	@Expose
@@ -414,14 +411,6 @@ public class TriggerInputs {
 
 	public void setPipelines(List<ApplicationDetails> pipeSequenceList) {
 		this.pipelines = pipeSequenceList;
-	}
-
-	public List<ReleaseTransportInfo> getReleaseTransportInfo() {
-		return releaseTransportInfo;
-	}
-
-	public void setReleaseTransportInfo(List<ReleaseTransportInfo> releaseTransportInfo) {
-		this.releaseTransportInfo = releaseTransportInfo;
 	}
 
 	public List<String> getCrRequests() {

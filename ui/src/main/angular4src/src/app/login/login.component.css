@@ -120,3 +120,8 @@ background-repeat: no-repeat;
 .fake-input { position: relative; width:240px; }
 .fake-input input { border:none; background:#fff; display:block; width: 100%; box-sizing: border-box }
 .fake-input img { position: absolute; top: 29px; right: 5px }
+
+html {
+	overflow-y: scroll;
+	background-size:100% 100%;
+}

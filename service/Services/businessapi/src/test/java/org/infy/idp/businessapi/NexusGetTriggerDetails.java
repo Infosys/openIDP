@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.infy.entities.triggerinputs.Build;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
@@ -119,6 +120,20 @@ public class NexusGetTriggerDetails {
 
 		assertEquals(t2.getRepoName(), t1.getRepoName());
 
+	}
+	
+	@Test
+	public void getBigdataModules(){
+		Gson g=new Gson();
+		String idpJson="{\"basicInfo\":{\"applicationName\":\"Awesome_App\",\"pipelineName\":\"Big_Data\",\"buildServerOS\":\"windows\",\"engine\":\"Jenkins Workflow\",\"buildInterval\":{\"pollSCM\":\"off\",\"buildInterval\":\"\",\"buildIntervalValue\":\"0\",\"buildAtSpecificInterval\":\"off\",\"event\":[{\"type\":\"--Select--\",\"hour\":\"00\",\"minute\":\"00\"}]},\"additionalMailRecipients\":{\"applicationTeam\":\"\",\"emailIds\":\"\"},\"pipelineStatus\":\"edit\"},\"code\":{\"category\":\"Standard\",\"technology\":\"bigData\",\"scm\":[{\"type\":\"git\",\"url\":\"http://infygit.domain.com/Sarojini_Meher/BigData_Proj_IDP.git\",\"userName\":\"userName\",\"password\":\"password\",\"repositoryBrowser\":\"gitLab\",\"browserUrl\":\"http://infygit.domain.com/\",\"projectName\":\"\",\"branch\":\"master\",\"projPath\":\"\",\"moduleName\":\"\",\"clearcaseType\":\"\",\"vobName\":\"\",\"snapshotViewName\":\"\",\"configSpec\":\"\",\"developmentStreamName\":\"\",\"buildConfiguration\":\"\",\"buildDefinition\":\"\",\"repositoryWorkspace\":\"\",\"projArea\":\"\",\"port\":\"\",\"version\":\"9\",\"exclude\":\"\",\"proxy\":\"\",\"proxyPort\":\"\",\"appRepo\":\"on\",\"deployRepo\":\"\",\"testRepo\":\"\"}],\"jobParam\":[],\"buildScript\":[{\"tool\":\"\"},{\"tool\":\"\"},{}],\"subApplication\":\"\"},\"buildInfo\":{\"buildtool\":\"bigData\",\"artifactToStage\":{\"artifact\":\"pig/,hive/,scala/,**/*.txt,**/*.sql\",\"artifactRepo\":{\"repoURL\":\"dummyNexus:8081\",\"repoName\":\"idp_Nexus\",\"repoUsername\":\"admin\",\"repoPassword\":\"dummy\"},\"artifactRepoName\":\"nexus\"},\"castAnalysis\":{},\"modules\":[{\"moduleName\":\"\",\"codeAnalysis\":[],\"unitTesting\":\"off\",\"sqlFilesPackage\":\"\",\"connectionName\":\"\",\"testSuite\":\"\",\"pigProjectName\":\"BigData_Proj_IDP/PIG_UnitTestProject\",\"pigPomPath\":\"BigData_Proj_IDP/PIG_UnitTestProject/pom.xml\",\"pigUT\":\"on\",\"hiveProjectPath\":\"BigData_Proj_IDP/hiveunit\",\"hivePomPath\":\"BigData_Proj_IDP/hiveunit/pom.xml\",\"hiveUT\":\"on\",\"scalaProjectName\":\"BigData_Proj_IDP/ScalaBuild\",\"scalaPomPath\":\"BigData_Proj_IDP/ScalaBuild/pom.xml\",\"scalaCC\":\"on\"}],\"postBuildScript\":{\"dependentPipelineList\":[]}},\"deployInfo\":{\"deployEnv\":[{\"envName\":\"Env1\",\"envFlag\":\"on\",\"scriptType\":\"\",\"deploySteps\":[{\"stepName\":\"step1\",\"deployOS\":\"\",\"runScript\":{\"scriptType\":\"\"},\"deployToContainer\":{\"containerName\":\"\",\"updateDB\":\"\",\"rollbackStrategy\":\"\",\"dbDeployPipelineList\":[]},\"deployDatabase\":{\"restorusername\":\"\",\"restorpassword\":\"\",\"dbusername\":\"\",\"dbpassword\":\"\",\"script\":\"\"},\"scalaServerName\":\"10.136.162.39\",\"scalaUsername\":\"sarojini_meher\",\"scalaPassword\":\"sarojini_meher\",\"scalaDir\":\"sarojini\",\"scalaUip\":\"users.txt,transactions.txt\",\"scalaJfn\":\"ScalaBuild-0.0.1-SNAPSHOT.jar\",\"scalaMmn\":\"master\",\"scalaCfn\":\"main.scala.ExampleJob\",\"scalaOf\":\"myjob\",\"pigServerName\":\"10.136.162.39\",\"pigUsername\":\"sarojini_meher\",\"pigPassword\":\"sarojini_meher\",\"pigDir\":\"sarojini\",\"pigScr\":\"pigunittest.pig\",\"pigLocalMac\":\"on\",\"hiveServerName\":\"10.136.162.39\",\"hiveUsername\":\"sarojini_meher\",\"hivePassword\":\"sarojini_meher\",\"hiveDir\":\"sarojini\",\"hiveScr\":\"create_table.sql\"}]}]},\"testInfo\":{\"testEnv\":[{\"envName\":\"Env1\",\"envFlag\":\"off\"}]}}";
+	    IDPJob idp=g.fromJson(idpJson, IDPJob.class);
+	    String abc="{\"applicationName\":\"Awesome_App\",\"pipelineAdmins\":\"shakti.saurabh\",\"releaseManager\":\"shakti.saurabh\",\"slavesDetails\":[{\"labels\":\"Nexus_slave\",\"slaveName\":\"Nexus_slave\",\"buildServerOS\":\"windows\",\"workspacePath\":\"D:/NexusSlave\",\"slaveUsage\":\"both\",\"createNewSlave\":\"on\"}],\"developers\":\"userName\",\"sapApplication\":\"off\",\"environmentOwnerDetails\":[{\"qa\":\"userName\",\"environmentName\":\"DEV\",\"environmentOwners\":\"userName,kudaka_vijayakumar\"},{\"environmentName\":\"Stage\",\"environmentOwners\":\"farneet.khehra\"},{\"environmentName\":\"Stage3\",\"environmentOwners\":\"shakti.saurabh\"}],\"artifactToStage\":{\"artifactRepo\":{\"repoURL\":\"dummyNexus:8081\",\"repoUsername\":\"admin\",\"repoPassword\":\"dummy\",\"repoName\":\"na\"},\"artifactRepoName\":\"na\"}}";
+	    ApplicationInfo app=g.fromJson(abc, ApplicationInfo.class);
+	    List<String> userEnvs=new ArrayList<>();
+	    userEnvs.add("shakti.saurabh");
+	    Build build=testedObject.getBuildInfo( idp, "bigData", app,"shakti.saurabh",userEnvs);
+	    assert(build.getModules().size()==3);
+	
 	}
 
 	@Test

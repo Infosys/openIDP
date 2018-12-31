@@ -27,7 +27,10 @@ public class EnvironmentOwnerDetail {
 	@SerializedName("qa")
 	@Expose
 	private String qa;
-
+    
+	@SerializedName("landscapeType")
+    @Expose
+    private String landscapeType;
 	@SerializedName("hostName")
 	@Expose
 	private String hostName;
@@ -105,7 +108,12 @@ public class EnvironmentOwnerDetail {
 	public void setQa(String qa) {
 		this.qa = qa;
 	}
-
+    public String getLandscapeType() {
+		return landscapeType;
+	}
+	public void setLandscapeType(String landscapeType) {
+		this.landscapeType = landscapeType;
+	}
 	public String getHostName() {
 		return hostName;
 	}

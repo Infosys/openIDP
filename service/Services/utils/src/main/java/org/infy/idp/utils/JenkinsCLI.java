@@ -305,7 +305,7 @@ public class JenkinsCLI {
 	 * @return int, status
 	 * @throws Exception
 	 */
-	public String addALMConfig(String inputalmServerName, String almServerUrl) throws IOException {
+	/*public String addALMConfig(String inputalmServerName, String almServerUrl) throws IOException {
 
 		int iStatus = 1;
 		logger.info("addALMConfig Method call initiated ");
@@ -391,7 +391,7 @@ public class JenkinsCLI {
 		}
 
 		return almServerName;
-	}
+	}*/
 
 	/**
 	 * This method is used to store the credentials in Jenkins: used by GIT and SVN

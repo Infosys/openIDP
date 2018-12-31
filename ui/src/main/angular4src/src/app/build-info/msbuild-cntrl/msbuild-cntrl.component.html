@@ -105,7 +105,7 @@
                   </div>
 
                   <!--Start  CodeAnalysis -->
-                  <div>
+                  <!-- <div>
                     <div class="row form-group" style="padding-left: 20px;">
 
                      <div class="col-md-12">
@@ -115,9 +115,9 @@
                        </label>
                      </div>
                    </div>
-                 </div>
+                 </div> -->
 
-<div *ngIf="tempObject.modules[i].dbObject==='on'">
+<!-- <div *ngIf="tempObject.modules[i].dbObject==='on'">
   <div class="panel panel-default">
   <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white">
            <b> {{'DB Object Operations'|translate}}</b>
@@ -197,7 +197,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
                   <!--Start  CodeAnalysis -->
                   <div>
@@ -696,89 +696,7 @@
                   </div>
                   <!--End  CodeCoverage -->
 
-                   <!-- Start OSS Compliance 
-                   <div>
-                      <div class="row form-group chkright" style="padding-left:20px">
-                        <div class="col-md-12">
-                          <label class="checkbox-inline">
-                            <input type="checkbox" [checked]="tempObject.modules[i].ossCheck=='on'"
-                            name="ossCheck{{i}}" id="bdbomvnocsch01{{i}}"
-                            (change)="tempObject.modules[i].ossCheck=$event.target.checked ?'on':'off'" >{{'Oss Compliance Check'|translate}}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                      
-                      <div *ngIf="tempObject.modules[i].ossCheck==='on'">
-                          <div class="row form-group chkright">
-                              <div class="col-md-3 text-right">
-                                <label class="control-label">{{'Send Report To '|translate}} </label>
-                                <span class="star">*</span>
-                              </div>
-                              <div class="col-md-9 field-tip text-left">
-                                <input
-                                  name="ossMailRecipients{{i}}"
-                                  #ossMailRecipients="ngModel"
-                                  class="form-control txtbox"
-                                  [(ngModel)]="module.ossMailRecipients"
-                                  type="text"
-                                  id="bdbomvnsrt{{i}}"
-                                  placeholder="abc@domain.com"
-                                  minlength="3"
-                                  maxlength="150"
-                                  required>
-                                  <div *ngIf="ossMailRecipients.errors && (ossMailRecipients.dirty || ossMailRecipients.touched)" class="alert alert-danger ">
-                                    <div [hidden]="!ossMailRecipients.errors.required">
-                                      This Field Name is required!
-                                    </div>
-                                    <div [hidden]="!ossMailRecipients.errors.minlength">
-                                      This Field Name must be at least 5 characters long.
-                                    </div>
-                                    <div [hidden]="!ossMailRecipients.errors.maxlength">
-                                      This Field Name cannot be more than 150 characters long.
-                                    </div>
-                                    <div [hidden]="!ossMailRecipients.errors.pattern">
-                                      This Field Name can only consist of alphabetical, number, dot and underscore
-                                    </div>
-                                  </div>
-                                <span class="tip-content">{{'Email id of the person whom you want to send report eg:abc@domain.com '|translate}}</span>
-          
-                              </div>
-                            </div>
-                            <div class="row form-group">
-                                 <div>
-                                  <label class="col-md-3 text-right control-label">
-                                       {{'Distribution Type'|translate}}<span class="star">*</span>
-                                      </label>
-                                    </div>
-                                <div class="col-md-9 text-left">
-                                  <select style="width:50%"  class="form-control" [(ngModel)]="module.ossDistributionType"
-                                  name="ossDistributionType{{i}}" id="bibsdd{{i}}" required>
-                                        <option value="">--Select--</option>
-                                        <option *ngFor="let os of distributionList" [ngValue]="os.value">{{os.value}}</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="row form-group">
-                                  <div>
-                                      <label class="col-md-3 text-right control-label">{{'Analysis Type'|translate}}
-                                      <span class="star">*</span>
-                                      </label>
-                                  </div>
-                                  <div class="col-md-6">
-                                      <div class="col-md-4 text-left">
-                                          <input id="bdbomvnanlysis" type="radio" [(ngModel)]="module.ossAnalysisType" value="analysis" name="ossAnalysisType{{i}}" />&nbsp; {{'Analysis'|translate}}
-                                      </div>
-                                      <div class="col-md-4 text-right">
-                                          <input id="bdbomvnreanlysis" type="radio" [(ngModel)]="module.ossAnalysisType" value="reanalysis" name="ossAnalysisType{{i}}" />&nbsp; {{'Re-Analysis'|translate}}
-                                      </div>
-                                  </div>
-                              </div>
-                      </div>
-                      
-                  End OSS Compliance  -->
                   <!--Default Module-->
-
                   <div>
                     <div class="row form-group" style="padding-left: 20px;">
                       <div class="col-md-12">
@@ -789,12 +707,9 @@
   															</label>
                       </div>
                     </div>
-
                   </div>
 
-
                   <!--End Default Module-->
-
                 </div>
               </div>
             </div>

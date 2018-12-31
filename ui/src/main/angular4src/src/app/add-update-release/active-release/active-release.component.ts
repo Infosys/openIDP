@@ -18,9 +18,12 @@ import { IdpdataService } from "../../idpdata.service";
 export class ActiveReleaseComponent implements OnInit {
     many = [];
     many2: String[][];
+    envName=[];
     release = [];
     envList = [];
     names = [];
+    scmBranches=[];
+    maxEndDate: any;
 
     str = "";
     scmType = "";
@@ -29,6 +32,7 @@ export class ActiveReleaseComponent implements OnInit {
 
         private Idprestapi: IdprestapiService,
     ) {
+        this.maxEndDate = new Date();
         this.many2 = [];
         this.Idpdata.pipelineNames = "";
 
@@ -41,10 +45,7 @@ export class ActiveReleaseComponent implements OnInit {
         this.release[i].actualEndDate = "";
     }
     /* Clears start and end date of release */
-    clearStart(i) {
-        this.release[i].actualStartDate = "";
-        this.release[i].actualEndDate = "";
-    }
+    
     /* Shows acive releases for a pipeline */
     showReleases() {
         this.Idpdata.loading = true;
@@ -52,13 +53,94 @@ export class ActiveReleaseComponent implements OnInit {
             this.Idprestapi.getActiveReleases(this.Idpdata.activeReleasePipelineName).then(response => {
                 this.Idpdata.loading = false;
                 const resp = response.json();
+                let errorMsg=resp.errorMessage;
                 this.release = JSON.parse(resp.resource).releasePipeline[0].release;
                 this.envList = JSON.parse(resp.resource).environmentList;
+                this.scmBranches=JSON.parse(resp.resource).releasePipeline[0].scmBranches;
+                this.scmType=JSON.parse(resp.resource).releasePipeline[0].scmType;
+                for(var i = 0; i < this.release.length; i++){
+                    this.many2[i]=[];
+              if(!this.release[i].hasOwnProperty("branchList")){
+                this.release[i].branchList=[];
+              }
+                }
             });
         } else {
             this.Idpdata.loading = false;
         }
     }
+
+    addEnv(index){
+        console.log(index);
+        console.log(this.many2[index]);
+        if(this.many2[index].length !== 0){
+            if(this.release[index].envPathList=== undefined){
+              this.release[index].envPathList=[];
+            }
+            if(this.many2[index].length === 1){
+                alert("Please select more than one environment to add a sequence!!");
+            }
+            else if(this.checkDuplicate(index)){
+                alert("Please select a ENV only once!!");
+            }
+            else{
+              this.release[index].envPathList.push({"pathList":this.many2[index]});
+            }
+        this.many2[index]=[];
+        }
+    }
+
+    clear(index){
+        this.many2[index]=[];
+    }
+
+    checkDuplicate(index){
+        for(var i = 0; i <= this.many2[index].length; i++) {
+          for(var j = i; j <= this.many2[index].length; j++) {
+              if(i != j && this.many2[index][i] == this.many2[index][j]) {
+                  return true;
+              }
+          }
+      }
+      return false;
+    }
+
+    removeEnvSequence(i, j){
+        var x = confirm("Are you sure you want to delete this Environment sequence?");
+        if(x){
+          this.release[i].envPathList.splice(j, 1);
+        }
+    }
+
+    addEnvName(index){
+        for(let name of this.envName[index]){
+          this.many2[index].push(name);
+        }
+        this.envName[index]=[];
+    }
+
+    stringConvert(name){
+        //var str="";
+        console.log(name);
+        this.str = "";
+        for(var env of name){
+            if(this.str !== ""){
+                this.str = this.str + " -> " + env;
+            }
+            else{
+                this.str = env;
+            }
+        }
+        console.log(this.str);
+        return true;
+    
+    }
+
+    clearStart(i){
+        console.log("clear");
+       this.release[i].actualStartDate="";
+       this.release[i].actualEndDate="";
+   }
 
     /* Updates release wih the provided date */
     update() {
@@ -80,8 +162,8 @@ export class ActiveReleaseComponent implements OnInit {
                         "release": this.release
                     }]
             };
+            
             this.Idpdata.loading = true;
-            if (stat === "on") {
                 this.Idprestapi.updateReleases(releaseManagerData).then(response => {
                     const resp = response.json();
                     if (resp.resource === "Successfully Updated") {
@@ -91,8 +173,7 @@ export class ActiveReleaseComponent implements OnInit {
                         alert("Update Failed!!!");
                     }
                     this.Idpdata.loading = false;
-                });
-            }
+            });
         }
     }
 }

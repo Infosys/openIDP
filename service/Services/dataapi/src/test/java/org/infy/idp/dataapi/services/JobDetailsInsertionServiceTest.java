@@ -431,6 +431,7 @@ public class JobDetailsInsertionServiceTest {
 
 	}
 
+	
 	/**
 	 * Used to set up the test. This method is called by JUnit before each of the
 	 * tests are executed.

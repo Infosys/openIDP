@@ -16,21 +16,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest(classes = ServiceInstanceRestController.class)
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ResourceServerApplicationTest {
 
 	@Autowired
+	@InjectMocks
 	private ServiceInstanceRestController rsaObj;
 
-	@MockBean
+	@Mock
 	private DiscoveryClient discoveryClient;
 
 	@Test

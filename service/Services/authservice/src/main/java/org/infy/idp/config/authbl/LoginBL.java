@@ -139,8 +139,9 @@ public class LoginBL {
 		String accesstoken = getAccessToken();
 		if (StringUtils.isNotEmpty(accesstoken)) {
 			try {
-				AccessToken token = RSATokenVerifier.create(accesstoken).getToken();
-				if (token != null) {
+				AccessToken rsaToken = RSATokenVerifier.create(accesstoken).getToken();
+				if (rsaToken != null) {
+					token = accesstoken;
 					return 0;
 				}
 				return 1;

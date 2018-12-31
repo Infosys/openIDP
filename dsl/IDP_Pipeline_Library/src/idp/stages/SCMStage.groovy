@@ -19,7 +19,6 @@ class SCMStage implements Serializable {
      */
 
     SCMStage(script) {
-        println "initialization BuildStage"
         this.script = script
     }
 

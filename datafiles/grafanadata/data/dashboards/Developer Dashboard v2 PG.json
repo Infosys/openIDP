@@ -1,0 +1,4874 @@
+{
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "briangann-datatable-panel",
+      "name": "Datatable Panel",
+      "version": "0.0.6"
+    },
+    {
+      "type": "panel",
+      "id": "briangann-gauge-panel",
+      "name": "D3 Gauge",
+      "version": "0.0.6"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "5.2.1"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-simple-json-datasource",
+      "name": "SimpleJson",
+      "version": "1.3.5"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": "5.0.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1537422793753,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 75,
+      "panels": [],
+      "repeat": null,
+      "title": "Dashboard Row",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(7, 170, 0, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 70,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [],
+          "measurement": "Build_Info",
+          "policy": "default",
+          "query": "SELECT last(\"Build_status\") FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /^$Application.*/ AND \"Stage_Name\" =~ /.*SCM.*/ AND \"PipelineNo\" =~ /^$Build_Number.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Build_status"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/.*$Pipeline.*/"
+            },
+            {
+              "condition": "AND",
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/^$Application.*/"
+            },
+            {
+              "condition": "AND",
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/.*.SCM*/"
+            }
+          ],
+          "target": "select buildstatus,created_at from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' and stagename like '%SCM%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "1,1",
+      "title": "SCM Status",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "SUCCESS",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "FAILURE",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "UNSTABLE",
+          "value": "-1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(8, 163, 2, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 42,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "B",
+          "target": "select buildstatus,created_at from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Build%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "1,1",
+      "title": "Build Status",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "SUCCESS",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "FAILURE",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "UNSTABLE",
+          "value": "-1"
+        },
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 43,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT \"Build_status\" FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /^$Application.*/ AND \"Stage_Name\" =~ /.*Deploy.*/ AND \"PipelineNo\" =~ /^$Build_Number.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select buildstatus,created_at from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Deploy%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0.1,1",
+      "title": "Deploy Status",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "SUCCESS",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "FAILURE",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "Partial Success",
+          "value": "0.50"
+        },
+        {
+          "op": "=",
+          "text": "UNSTABLE",
+          "value": "-1"
+        },
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 45,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT \"Build_status\" FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /^$Application.*/ AND \"Stage_Name\" =~ /.*Test.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select buildstatus,created_at from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Test%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0.1,1",
+      "title": "Test Status",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "FAILURE",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "SUCCESS",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "Partial Success",
+          "value": "0.50"
+        },
+        {
+          "op": "=",
+          "text": "Partial Success",
+          "value": "0.33"
+        },
+        {
+          "op": "=",
+          "text": "Partial Success",
+          "value": "0.25"
+        },
+        {
+          "op": "=",
+          "text": "Partial Success",
+          "value": "0.125"
+        },
+        {
+          "op": "=",
+          "text": "UNSTABLE",
+          "value": "-1"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 76,
+      "panels": [],
+      "repeat": null,
+      "title": "Dashboard Row",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "decimals": null,
+      "format": "dtdurationms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 5
+      },
+      "id": 40,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT Build_Time,timestamp FROM Build_Info WHERE Pipeline_Name ='$Pipeline' AND Application_Name ='$Application' AND Stage_Name ='SCM' AND PipelineNo='$Build_Number'",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "SELECT buildtime,created_at FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%SCM%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "SCM duration",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 6,
+        "y": 5
+      },
+      "id": 38,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT last(\"Build_Time\") FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /.*$Application.*/ AND \"Stage_Name\" =~ /(?i).*BUILD.*/ AND PipelineNo=~ /^.*$Build_Number.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "SELECT buildtime,created_at FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Build%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Build duration",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-1"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "dtdurationms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 10,
+        "y": 5
+      },
+      "id": 39,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT sum(\"Build_Time\") FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /.*$Application.*/ AND \"Stage_Name\" =~ /(?i).*DEPLOY.*/AND PipelineNo=~ /^.*$Build_Number.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "SELECT sum(buildtime),max(created_at) FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Deploy%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Deploy duration",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "0.0"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-1"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "dtdurationms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 16,
+        "y": 5
+      },
+      "id": 41,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT last(\"Build_Time\") FROM \"Build_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /.*$Application.*/ AND \"Stage_Name\" =~ /(?i).*Test.*/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "SELECT sum(buildtime),max(created_at) FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number'and stagename like '%Test%'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Test duration",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "50%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        },
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "0.0"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 5
+      },
+      "id": 46,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": true,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [],
+          "hide": false,
+          "measurement": "TimeTrackerAppInfo",
+          "policy": "default",
+          "query": "",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "TotalDurationOfApplication"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/^$Application$/"
+            },
+            {
+              "condition": "AND",
+              "key": "Pipeline_Name",
+              "operator": "=~",
+              "value": "/^$Pipeline$/"
+            }
+          ],
+          "target": "select sum(buildtime),max(created_at)from buildinfo group by appid,pipelineno having appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Total Duration",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-1"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-2"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-3"
+        },
+        {
+          "op": "=",
+          "text": "Need more builds",
+          "value": "-4"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 77,
+      "panels": [],
+      "repeat": null,
+      "title": "Coverage Details",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "DS_IDP",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 0,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 9
+      },
+      "id": 65,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"className\") FROM \"CoverageDetails_Info\" WHERE \"PipelineNo\" =~ /^$Build_Number$/ AND \"Application_Name\" =~ /^$Application$/ AND \"Pipeline_Name\" =~ /^$Pipeline$/  AND lineCoverage = 0",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(classname) , max(created_at) from codecoverage where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and linecoverage=0",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0,0",
+      "title": "Zero coverage classes",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(246, 185, 0, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 10,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 9
+      },
+      "id": 66,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"className\") FROM \"CoverageDetails_Info\" WHERE \"PipelineNo\" =~ /^$Build_Number$/ AND \"Application_Name\" =~ /^$Application$/ AND \"Pipeline_Name\" =~ /^$Pipeline$/  AND lineCoverage > 0 AND lineCoverage <= 50",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(classname) ,max(created_at) from codecoverage where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and linecoverage>0 and linecoverage<=50",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0,0",
+      "title": "0-50% coverage classes",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 10,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "id": 67,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"className\") FROM \"CoverageDetails_Info\" WHERE \"PipelineNo\" =~ /^$Build_Number$/ AND \"Application_Name\" =~ /^$Application$/ AND \"Pipeline_Name\" =~ /^$Pipeline$/  AND lineCoverage >= 50 AND lineCoverage <= 100",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(classname) ,max(created_at) from codecoverage where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and linecoverage>50 and linecoverage<=100",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0,0",
+      "title": "50-100% coverage classes",
+      "transparent": false,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 78,
+      "panels": [],
+      "repeat": null,
+      "title": "Code Analysis",
+      "type": "row"
+    },
+    {
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "DS_IDP",
+      "decimals": 0,
+      "fontSizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60,
+        62,
+        64,
+        66,
+        68,
+        70
+      ],
+      "fontTypes": [
+        "Arial",
+        "Avant Garde",
+        "Bookman",
+        "Consolas",
+        "Courier",
+        "Courier New",
+        "Garamond",
+        "Helvetica",
+        "Open Sans",
+        "Palatino",
+        "Times",
+        "Times New Roman",
+        "Verdana"
+      ],
+      "format": "none",
+      "gauge": {
+        "animateNeedleValueTransition": true,
+        "edgeWidth": 0.05,
+        "gaugeRadius": 0,
+        "gaugeUnits": "",
+        "innerCol": "rgb(255, 255, 255)",
+        "labelFontSize": 26,
+        "maxNeedleAngle": 320,
+        "maxTickAngle": 300,
+        "maxValue": 50,
+        "minValue": 0,
+        "needleCol": "rgb(0, 0, 0)",
+        "needleLengthNeg": 0.2,
+        "needleTickGap": 0.05,
+        "needleWidth": 5,
+        "outerEdgeCol": "rgb(0, 0, 0)",
+        "padding": 0.05,
+        "pivotCol": "#999",
+        "pivotRadius": 0.1,
+        "show": true,
+        "showLowerThresholdRange": true,
+        "showMiddleThresholdRange": true,
+        "showThresholdColorOnBackground": true,
+        "showThresholdColorOnValue": true,
+        "showThresholdOnGauge": true,
+        "showUpperThresholdRange": true,
+        "tickColMaj": "#0099CC",
+        "tickColMin": "#000",
+        "tickEdgeGap": 0.05,
+        "tickFont": "Open Sans",
+        "tickLabelCol": "#000",
+        "tickLengthMaj": 0.15,
+        "tickLengthMin": 0.05,
+        "tickSpaceMajVal": 10,
+        "tickSpaceMinVal": 1,
+        "tickWidthMaj": 5,
+        "tickWidthMin": 1,
+        "ticknessGaugeBasis": 200,
+        "unitsFont": "Open Sans",
+        "unitsLabelCol": "#000",
+        "unitsLabelFontSize": 32,
+        "zeroNeedleAngle": 40,
+        "zeroTickAngle": 60
+      },
+      "gaugeDivId": "d3gauge_svg_49",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 14
+      },
+      "id": 49,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "operatorName": "avg",
+      "operatorNameOptions": [
+        "min",
+        "max",
+        "avg",
+        "current",
+        "total",
+        "name"
+      ],
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "svgContainer": {},
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"Rule\") FROM \"CodeAnalysis_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /.*$Application.*/ AND \"Severity\" =~ /.*high.*/  AND PipelineNo=~ /^.*$Build_Number.*/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(rulename),max(created_at) from codeanalysis where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' and severity='high'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "1,3",
+      "tickMaps": [],
+      "title": "High Severity",
+      "transparent": true,
+      "type": "briangann-gauge-panel",
+      "unitFormats": [
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(0,0)",
+              "text": "none",
+              "value": "none"
+            },
+            {
+              "click": "menuItemSelected(0,1)",
+              "text": "short",
+              "value": "short"
+            },
+            {
+              "click": "menuItemSelected(0,2)",
+              "text": "percent (0-100)",
+              "value": "percent"
+            },
+            {
+              "click": "menuItemSelected(0,3)",
+              "text": "percent (0.0-1.0)",
+              "value": "percentunit"
+            },
+            {
+              "click": "menuItemSelected(0,4)",
+              "text": "Humidity (%H)",
+              "value": "humidity"
+            },
+            {
+              "click": "menuItemSelected(0,5)",
+              "text": "ppm",
+              "value": "ppm"
+            },
+            {
+              "click": "menuItemSelected(0,6)",
+              "text": "decibel",
+              "value": "dB"
+            },
+            {
+              "click": "menuItemSelected(0,7)",
+              "text": "hexadecimal (0x)",
+              "value": "hex0x"
+            },
+            {
+              "click": "menuItemSelected(0,8)",
+              "text": "hexadecimal",
+              "value": "hex"
+            }
+          ],
+          "text": "none"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(1,0)",
+              "text": "Dollars ($)",
+              "value": "currencyUSD"
+            },
+            {
+              "click": "menuItemSelected(1,1)",
+              "text": "Pounds (£)",
+              "value": "currencyGBP"
+            },
+            {
+              "click": "menuItemSelected(1,2)",
+              "text": "Euro (€)",
+              "value": "currencyEUR"
+            },
+            {
+              "click": "menuItemSelected(1,3)",
+              "text": "Yen (¥)",
+              "value": "currencyJPY"
+            },
+            {
+              "click": "menuItemSelected(1,4)",
+              "text": "Rubles (₽)",
+              "value": "currencyRUB"
+            }
+          ],
+          "text": "currency"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(2,0)",
+              "text": "Hertz (1/s)",
+              "value": "hertz"
+            },
+            {
+              "click": "menuItemSelected(2,1)",
+              "text": "nanoseconds (ns)",
+              "value": "ns"
+            },
+            {
+              "click": "menuItemSelected(2,2)",
+              "text": "microseconds (µs)",
+              "value": "µs"
+            },
+            {
+              "click": "menuItemSelected(2,3)",
+              "text": "milliseconds (ms)",
+              "value": "ms"
+            },
+            {
+              "click": "menuItemSelected(2,4)",
+              "text": "seconds (s)",
+              "value": "s"
+            },
+            {
+              "click": "menuItemSelected(2,5)",
+              "text": "minutes (m)",
+              "value": "m"
+            },
+            {
+              "click": "menuItemSelected(2,6)",
+              "text": "hours (h)",
+              "value": "h"
+            },
+            {
+              "click": "menuItemSelected(2,7)",
+              "text": "days (d)",
+              "value": "d"
+            },
+            {
+              "click": "menuItemSelected(2,8)",
+              "text": "duration (ms)",
+              "value": "dtdurationms"
+            },
+            {
+              "click": "menuItemSelected(2,9)",
+              "text": "duration (s)",
+              "value": "dtdurations"
+            }
+          ],
+          "text": "time"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(3,0)",
+              "text": "bits",
+              "value": "bits"
+            },
+            {
+              "click": "menuItemSelected(3,1)",
+              "text": "bytes",
+              "value": "bytes"
+            },
+            {
+              "click": "menuItemSelected(3,2)",
+              "text": "kibibytes",
+              "value": "kbytes"
+            },
+            {
+              "click": "menuItemSelected(3,3)",
+              "text": "mebibytes",
+              "value": "mbytes"
+            },
+            {
+              "click": "menuItemSelected(3,4)",
+              "text": "gibibytes",
+              "value": "gbytes"
+            }
+          ],
+          "text": "data (IEC)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(4,0)",
+              "text": "bits",
+              "value": "decbits"
+            },
+            {
+              "click": "menuItemSelected(4,1)",
+              "text": "bytes",
+              "value": "decbytes"
+            },
+            {
+              "click": "menuItemSelected(4,2)",
+              "text": "kilobytes",
+              "value": "deckbytes"
+            },
+            {
+              "click": "menuItemSelected(4,3)",
+              "text": "megabytes",
+              "value": "decmbytes"
+            },
+            {
+              "click": "menuItemSelected(4,4)",
+              "text": "gigabytes",
+              "value": "decgbytes"
+            }
+          ],
+          "text": "data (Metric)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(5,0)",
+              "text": "packets/sec",
+              "value": "pps"
+            },
+            {
+              "click": "menuItemSelected(5,1)",
+              "text": "bits/sec",
+              "value": "bps"
+            },
+            {
+              "click": "menuItemSelected(5,2)",
+              "text": "bytes/sec",
+              "value": "Bps"
+            },
+            {
+              "click": "menuItemSelected(5,3)",
+              "text": "kilobits/sec",
+              "value": "Kbits"
+            },
+            {
+              "click": "menuItemSelected(5,4)",
+              "text": "kilobytes/sec",
+              "value": "KBs"
+            },
+            {
+              "click": "menuItemSelected(5,5)",
+              "text": "megabits/sec",
+              "value": "Mbits"
+            },
+            {
+              "click": "menuItemSelected(5,6)",
+              "text": "megabytes/sec",
+              "value": "MBs"
+            },
+            {
+              "click": "menuItemSelected(5,7)",
+              "text": "gigabytes/sec",
+              "value": "GBs"
+            },
+            {
+              "click": "menuItemSelected(5,8)",
+              "text": "gigabits/sec",
+              "value": "Gbits"
+            }
+          ],
+          "text": "data rate"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(6,0)",
+              "text": "ops/sec (ops)",
+              "value": "ops"
+            },
+            {
+              "click": "menuItemSelected(6,1)",
+              "text": "reads/sec (rps)",
+              "value": "rps"
+            },
+            {
+              "click": "menuItemSelected(6,2)",
+              "text": "writes/sec (wps)",
+              "value": "wps"
+            },
+            {
+              "click": "menuItemSelected(6,3)",
+              "text": "I/O ops/sec (iops)",
+              "value": "iops"
+            },
+            {
+              "click": "menuItemSelected(6,4)",
+              "text": "ops/min (opm)",
+              "value": "opm"
+            },
+            {
+              "click": "menuItemSelected(6,5)",
+              "text": "reads/min (rpm)",
+              "value": "rpm"
+            },
+            {
+              "click": "menuItemSelected(6,6)",
+              "text": "writes/min (wpm)",
+              "value": "wpm"
+            }
+          ],
+          "text": "throughput"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(7,0)",
+              "text": "millimetre (mm)",
+              "value": "lengthmm"
+            },
+            {
+              "click": "menuItemSelected(7,1)",
+              "text": "meter (m)",
+              "value": "lengthm"
+            },
+            {
+              "click": "menuItemSelected(7,2)",
+              "text": "kilometer (km)",
+              "value": "lengthkm"
+            },
+            {
+              "click": "menuItemSelected(7,3)",
+              "text": "mile (mi)",
+              "value": "lengthmi"
+            }
+          ],
+          "text": "length"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(8,0)",
+              "text": "m/s",
+              "value": "velocityms"
+            },
+            {
+              "click": "menuItemSelected(8,1)",
+              "text": "km/h",
+              "value": "velocitykmh"
+            },
+            {
+              "click": "menuItemSelected(8,2)",
+              "text": "mph",
+              "value": "velocitymph"
+            },
+            {
+              "click": "menuItemSelected(8,3)",
+              "text": "knot (kn)",
+              "value": "velocityknot"
+            }
+          ],
+          "text": "velocity"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(9,0)",
+              "text": "millilitre",
+              "value": "mlitre"
+            },
+            {
+              "click": "menuItemSelected(9,1)",
+              "text": "litre",
+              "value": "litre"
+            },
+            {
+              "click": "menuItemSelected(9,2)",
+              "text": "cubic metre",
+              "value": "m3"
+            },
+            {
+              "click": "menuItemSelected(9,3)",
+              "text": "cubic decimetre",
+              "value": "dm3"
+            },
+            {
+              "click": "menuItemSelected(9,4)",
+              "text": "gallons",
+              "value": "gallons"
+            }
+          ],
+          "text": "volume"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(10,0)",
+              "text": "watt (W)",
+              "value": "watt"
+            },
+            {
+              "click": "menuItemSelected(10,1)",
+              "text": "kilowatt (kW)",
+              "value": "kwatt"
+            },
+            {
+              "click": "menuItemSelected(10,2)",
+              "text": "volt-ampere (VA)",
+              "value": "voltamp"
+            },
+            {
+              "click": "menuItemSelected(10,3)",
+              "text": "kilovolt-ampere (kVA)",
+              "value": "kvoltamp"
+            },
+            {
+              "click": "menuItemSelected(10,4)",
+              "text": "volt-ampere reactive (var)",
+              "value": "voltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,5)",
+              "text": "kilovolt-ampere reactive (kvar)",
+              "value": "kvoltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,6)",
+              "text": "watt-hour (Wh)",
+              "value": "watth"
+            },
+            {
+              "click": "menuItemSelected(10,7)",
+              "text": "kilowatt-hour (kWh)",
+              "value": "kwatth"
+            },
+            {
+              "click": "menuItemSelected(10,8)",
+              "text": "joule (J)",
+              "value": "joule"
+            },
+            {
+              "click": "menuItemSelected(10,9)",
+              "text": "electron volt (eV)",
+              "value": "ev"
+            },
+            {
+              "click": "menuItemSelected(10,10)",
+              "text": "Ampere (A)",
+              "value": "amp"
+            },
+            {
+              "click": "menuItemSelected(10,11)",
+              "text": "Kiloampere (kA)",
+              "value": "kamp"
+            },
+            {
+              "click": "menuItemSelected(10,12)",
+              "text": "Volt (V)",
+              "value": "volt"
+            },
+            {
+              "click": "menuItemSelected(10,13)",
+              "text": "Kilovolt (kV)",
+              "value": "kvolt"
+            },
+            {
+              "click": "menuItemSelected(10,14)",
+              "text": "Decibel-milliwatt (dBm)",
+              "value": "dBm"
+            }
+          ],
+          "text": "energy"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(11,0)",
+              "text": "Celcius (°C)",
+              "value": "celsius"
+            },
+            {
+              "click": "menuItemSelected(11,1)",
+              "text": "Farenheit (°F)",
+              "value": "farenheit"
+            },
+            {
+              "click": "menuItemSelected(11,2)",
+              "text": "Kelvin (K)",
+              "value": "kelvin"
+            }
+          ],
+          "text": "temperature"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(12,0)",
+              "text": "Millibars",
+              "value": "pressurembar"
+            },
+            {
+              "click": "menuItemSelected(12,1)",
+              "text": "Bars",
+              "value": "pressurebar"
+            },
+            {
+              "click": "menuItemSelected(12,2)",
+              "text": "Kilobars",
+              "value": "pressurekbar"
+            },
+            {
+              "click": "menuItemSelected(12,3)",
+              "text": "Hectopascals",
+              "value": "pressurehpa"
+            },
+            {
+              "click": "menuItemSelected(12,4)",
+              "text": "Inches of mercury",
+              "value": "pressurehg"
+            },
+            {
+              "click": "menuItemSelected(12,5)",
+              "text": "PSI",
+              "value": "pressurepsi"
+            }
+          ],
+          "text": "pressure"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(13,0)",
+              "text": "Newton-meters (Nm)",
+              "value": "forceNm"
+            },
+            {
+              "click": "menuItemSelected(13,1)",
+              "text": "Kilonewton-meters (kNm)",
+              "value": "forcekNm"
+            },
+            {
+              "click": "menuItemSelected(13,2)",
+              "text": "Newtons (N)",
+              "value": "forceN"
+            },
+            {
+              "click": "menuItemSelected(13,3)",
+              "text": "Kilonewtons (kN)",
+              "value": "forcekN"
+            }
+          ],
+          "text": "force"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(14,0)",
+              "text": "Gallons/min (gpm)",
+              "value": "flowgpm"
+            },
+            {
+              "click": "menuItemSelected(14,1)",
+              "text": "Cubic meters/sec (cms)",
+              "value": "flowcms"
+            },
+            {
+              "click": "menuItemSelected(14,2)",
+              "text": "Cubic feet/sec (cfs)",
+              "value": "flowcfs"
+            },
+            {
+              "click": "menuItemSelected(14,3)",
+              "text": "Cubic feet/min (cfm)",
+              "value": "flowcfm"
+            }
+          ],
+          "text": "flow"
+        }
+      ],
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "DS_IDP",
+      "decimals": 0,
+      "fontSizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60,
+        62,
+        64,
+        66,
+        68,
+        70
+      ],
+      "fontTypes": [
+        "Arial",
+        "Avant Garde",
+        "Bookman",
+        "Consolas",
+        "Courier",
+        "Courier New",
+        "Garamond",
+        "Helvetica",
+        "Open Sans",
+        "Palatino",
+        "Times",
+        "Times New Roman",
+        "Verdana"
+      ],
+      "format": "none",
+      "gauge": {
+        "animateNeedleValueTransition": true,
+        "edgeWidth": 0.05,
+        "gaugeRadius": 0,
+        "gaugeUnits": "",
+        "innerCol": "rgb(255, 255, 255)",
+        "labelFontSize": 18,
+        "maxNeedleAngle": 320,
+        "maxTickAngle": 300,
+        "maxValue": 300,
+        "minValue": 0,
+        "needleCol": "rgb(0, 0, 0)",
+        "needleLengthNeg": 0.2,
+        "needleTickGap": 0.05,
+        "needleWidth": 5,
+        "outerEdgeCol": "rgb(18, 18, 18)",
+        "padding": 0.05,
+        "pivotCol": "rgb(2, 2, 2)",
+        "pivotRadius": 0.1,
+        "show": true,
+        "showLowerThresholdRange": true,
+        "showMiddleThresholdRange": true,
+        "showThresholdColorOnBackground": true,
+        "showThresholdColorOnValue": true,
+        "showThresholdOnGauge": true,
+        "showUpperThresholdRange": true,
+        "tickColMaj": "#0099CC",
+        "tickColMin": "#000",
+        "tickEdgeGap": 0.05,
+        "tickFont": "Open Sans",
+        "tickLabelCol": "#000",
+        "tickLengthMaj": 0.15,
+        "tickLengthMin": 0.05,
+        "tickSpaceMajVal": "50",
+        "tickSpaceMinVal": 1,
+        "tickWidthMaj": 5,
+        "tickWidthMin": 1,
+        "ticknessGaugeBasis": 200,
+        "unitsFont": "Open Sans",
+        "unitsLabelCol": "#000",
+        "unitsLabelFontSize": 22,
+        "zeroNeedleAngle": 40,
+        "zeroTickAngle": 60
+      },
+      "gaugeDivId": "d3gauge_svg_51",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 14
+      },
+      "id": 51,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "operatorName": "avg",
+      "operatorNameOptions": [
+        "min",
+        "max",
+        "avg",
+        "current",
+        "total",
+        "name"
+      ],
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "svgContainer": {},
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"Rule\") FROM \"CodeAnalysis_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /.*$Application.*/ AND \"Severity\" =~ /.*medium.*/  AND PipelineNo=~ /^.*$Build_Number.*/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(rulename),max(created_at) from codeanalysis where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' and severity='medium'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "50,200",
+      "tickMaps": [],
+      "title": "medium Severity",
+      "transparent": true,
+      "type": "briangann-gauge-panel",
+      "unitFormats": [
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(0,0)",
+              "text": "none",
+              "value": "none"
+            },
+            {
+              "click": "menuItemSelected(0,1)",
+              "text": "short",
+              "value": "short"
+            },
+            {
+              "click": "menuItemSelected(0,2)",
+              "text": "percent (0-100)",
+              "value": "percent"
+            },
+            {
+              "click": "menuItemSelected(0,3)",
+              "text": "percent (0.0-1.0)",
+              "value": "percentunit"
+            },
+            {
+              "click": "menuItemSelected(0,4)",
+              "text": "Humidity (%H)",
+              "value": "humidity"
+            },
+            {
+              "click": "menuItemSelected(0,5)",
+              "text": "ppm",
+              "value": "ppm"
+            },
+            {
+              "click": "menuItemSelected(0,6)",
+              "text": "decibel",
+              "value": "dB"
+            },
+            {
+              "click": "menuItemSelected(0,7)",
+              "text": "hexadecimal (0x)",
+              "value": "hex0x"
+            },
+            {
+              "click": "menuItemSelected(0,8)",
+              "text": "hexadecimal",
+              "value": "hex"
+            }
+          ],
+          "text": "none"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(1,0)",
+              "text": "Dollars ($)",
+              "value": "currencyUSD"
+            },
+            {
+              "click": "menuItemSelected(1,1)",
+              "text": "Pounds (£)",
+              "value": "currencyGBP"
+            },
+            {
+              "click": "menuItemSelected(1,2)",
+              "text": "Euro (€)",
+              "value": "currencyEUR"
+            },
+            {
+              "click": "menuItemSelected(1,3)",
+              "text": "Yen (¥)",
+              "value": "currencyJPY"
+            },
+            {
+              "click": "menuItemSelected(1,4)",
+              "text": "Rubles (₽)",
+              "value": "currencyRUB"
+            }
+          ],
+          "text": "currency"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(2,0)",
+              "text": "Hertz (1/s)",
+              "value": "hertz"
+            },
+            {
+              "click": "menuItemSelected(2,1)",
+              "text": "nanoseconds (ns)",
+              "value": "ns"
+            },
+            {
+              "click": "menuItemSelected(2,2)",
+              "text": "microseconds (µs)",
+              "value": "µs"
+            },
+            {
+              "click": "menuItemSelected(2,3)",
+              "text": "milliseconds (ms)",
+              "value": "ms"
+            },
+            {
+              "click": "menuItemSelected(2,4)",
+              "text": "seconds (s)",
+              "value": "s"
+            },
+            {
+              "click": "menuItemSelected(2,5)",
+              "text": "minutes (m)",
+              "value": "m"
+            },
+            {
+              "click": "menuItemSelected(2,6)",
+              "text": "hours (h)",
+              "value": "h"
+            },
+            {
+              "click": "menuItemSelected(2,7)",
+              "text": "days (d)",
+              "value": "d"
+            },
+            {
+              "click": "menuItemSelected(2,8)",
+              "text": "duration (ms)",
+              "value": "dtdurationms"
+            },
+            {
+              "click": "menuItemSelected(2,9)",
+              "text": "duration (s)",
+              "value": "dtdurations"
+            }
+          ],
+          "text": "time"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(3,0)",
+              "text": "bits",
+              "value": "bits"
+            },
+            {
+              "click": "menuItemSelected(3,1)",
+              "text": "bytes",
+              "value": "bytes"
+            },
+            {
+              "click": "menuItemSelected(3,2)",
+              "text": "kibibytes",
+              "value": "kbytes"
+            },
+            {
+              "click": "menuItemSelected(3,3)",
+              "text": "mebibytes",
+              "value": "mbytes"
+            },
+            {
+              "click": "menuItemSelected(3,4)",
+              "text": "gibibytes",
+              "value": "gbytes"
+            }
+          ],
+          "text": "data (IEC)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(4,0)",
+              "text": "bits",
+              "value": "decbits"
+            },
+            {
+              "click": "menuItemSelected(4,1)",
+              "text": "bytes",
+              "value": "decbytes"
+            },
+            {
+              "click": "menuItemSelected(4,2)",
+              "text": "kilobytes",
+              "value": "deckbytes"
+            },
+            {
+              "click": "menuItemSelected(4,3)",
+              "text": "megabytes",
+              "value": "decmbytes"
+            },
+            {
+              "click": "menuItemSelected(4,4)",
+              "text": "gigabytes",
+              "value": "decgbytes"
+            }
+          ],
+          "text": "data (Metric)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(5,0)",
+              "text": "packets/sec",
+              "value": "pps"
+            },
+            {
+              "click": "menuItemSelected(5,1)",
+              "text": "bits/sec",
+              "value": "bps"
+            },
+            {
+              "click": "menuItemSelected(5,2)",
+              "text": "bytes/sec",
+              "value": "Bps"
+            },
+            {
+              "click": "menuItemSelected(5,3)",
+              "text": "kilobits/sec",
+              "value": "Kbits"
+            },
+            {
+              "click": "menuItemSelected(5,4)",
+              "text": "kilobytes/sec",
+              "value": "KBs"
+            },
+            {
+              "click": "menuItemSelected(5,5)",
+              "text": "megabits/sec",
+              "value": "Mbits"
+            },
+            {
+              "click": "menuItemSelected(5,6)",
+              "text": "megabytes/sec",
+              "value": "MBs"
+            },
+            {
+              "click": "menuItemSelected(5,7)",
+              "text": "gigabytes/sec",
+              "value": "GBs"
+            },
+            {
+              "click": "menuItemSelected(5,8)",
+              "text": "gigabits/sec",
+              "value": "Gbits"
+            }
+          ],
+          "text": "data rate"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(6,0)",
+              "text": "ops/sec (ops)",
+              "value": "ops"
+            },
+            {
+              "click": "menuItemSelected(6,1)",
+              "text": "reads/sec (rps)",
+              "value": "rps"
+            },
+            {
+              "click": "menuItemSelected(6,2)",
+              "text": "writes/sec (wps)",
+              "value": "wps"
+            },
+            {
+              "click": "menuItemSelected(6,3)",
+              "text": "I/O ops/sec (iops)",
+              "value": "iops"
+            },
+            {
+              "click": "menuItemSelected(6,4)",
+              "text": "ops/min (opm)",
+              "value": "opm"
+            },
+            {
+              "click": "menuItemSelected(6,5)",
+              "text": "reads/min (rpm)",
+              "value": "rpm"
+            },
+            {
+              "click": "menuItemSelected(6,6)",
+              "text": "writes/min (wpm)",
+              "value": "wpm"
+            }
+          ],
+          "text": "throughput"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(7,0)",
+              "text": "millimetre (mm)",
+              "value": "lengthmm"
+            },
+            {
+              "click": "menuItemSelected(7,1)",
+              "text": "meter (m)",
+              "value": "lengthm"
+            },
+            {
+              "click": "menuItemSelected(7,2)",
+              "text": "kilometer (km)",
+              "value": "lengthkm"
+            },
+            {
+              "click": "menuItemSelected(7,3)",
+              "text": "mile (mi)",
+              "value": "lengthmi"
+            }
+          ],
+          "text": "length"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(8,0)",
+              "text": "m/s",
+              "value": "velocityms"
+            },
+            {
+              "click": "menuItemSelected(8,1)",
+              "text": "km/h",
+              "value": "velocitykmh"
+            },
+            {
+              "click": "menuItemSelected(8,2)",
+              "text": "mph",
+              "value": "velocitymph"
+            },
+            {
+              "click": "menuItemSelected(8,3)",
+              "text": "knot (kn)",
+              "value": "velocityknot"
+            }
+          ],
+          "text": "velocity"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(9,0)",
+              "text": "millilitre",
+              "value": "mlitre"
+            },
+            {
+              "click": "menuItemSelected(9,1)",
+              "text": "litre",
+              "value": "litre"
+            },
+            {
+              "click": "menuItemSelected(9,2)",
+              "text": "cubic metre",
+              "value": "m3"
+            },
+            {
+              "click": "menuItemSelected(9,3)",
+              "text": "cubic decimetre",
+              "value": "dm3"
+            },
+            {
+              "click": "menuItemSelected(9,4)",
+              "text": "gallons",
+              "value": "gallons"
+            }
+          ],
+          "text": "volume"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(10,0)",
+              "text": "watt (W)",
+              "value": "watt"
+            },
+            {
+              "click": "menuItemSelected(10,1)",
+              "text": "kilowatt (kW)",
+              "value": "kwatt"
+            },
+            {
+              "click": "menuItemSelected(10,2)",
+              "text": "volt-ampere (VA)",
+              "value": "voltamp"
+            },
+            {
+              "click": "menuItemSelected(10,3)",
+              "text": "kilovolt-ampere (kVA)",
+              "value": "kvoltamp"
+            },
+            {
+              "click": "menuItemSelected(10,4)",
+              "text": "volt-ampere reactive (var)",
+              "value": "voltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,5)",
+              "text": "kilovolt-ampere reactive (kvar)",
+              "value": "kvoltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,6)",
+              "text": "watt-hour (Wh)",
+              "value": "watth"
+            },
+            {
+              "click": "menuItemSelected(10,7)",
+              "text": "kilowatt-hour (kWh)",
+              "value": "kwatth"
+            },
+            {
+              "click": "menuItemSelected(10,8)",
+              "text": "joule (J)",
+              "value": "joule"
+            },
+            {
+              "click": "menuItemSelected(10,9)",
+              "text": "electron volt (eV)",
+              "value": "ev"
+            },
+            {
+              "click": "menuItemSelected(10,10)",
+              "text": "Ampere (A)",
+              "value": "amp"
+            },
+            {
+              "click": "menuItemSelected(10,11)",
+              "text": "Kiloampere (kA)",
+              "value": "kamp"
+            },
+            {
+              "click": "menuItemSelected(10,12)",
+              "text": "Volt (V)",
+              "value": "volt"
+            },
+            {
+              "click": "menuItemSelected(10,13)",
+              "text": "Kilovolt (kV)",
+              "value": "kvolt"
+            },
+            {
+              "click": "menuItemSelected(10,14)",
+              "text": "Decibel-milliwatt (dBm)",
+              "value": "dBm"
+            }
+          ],
+          "text": "energy"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(11,0)",
+              "text": "Celcius (°C)",
+              "value": "celsius"
+            },
+            {
+              "click": "menuItemSelected(11,1)",
+              "text": "Farenheit (°F)",
+              "value": "farenheit"
+            },
+            {
+              "click": "menuItemSelected(11,2)",
+              "text": "Kelvin (K)",
+              "value": "kelvin"
+            }
+          ],
+          "text": "temperature"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(12,0)",
+              "text": "Millibars",
+              "value": "pressurembar"
+            },
+            {
+              "click": "menuItemSelected(12,1)",
+              "text": "Bars",
+              "value": "pressurebar"
+            },
+            {
+              "click": "menuItemSelected(12,2)",
+              "text": "Kilobars",
+              "value": "pressurekbar"
+            },
+            {
+              "click": "menuItemSelected(12,3)",
+              "text": "Hectopascals",
+              "value": "pressurehpa"
+            },
+            {
+              "click": "menuItemSelected(12,4)",
+              "text": "Inches of mercury",
+              "value": "pressurehg"
+            },
+            {
+              "click": "menuItemSelected(12,5)",
+              "text": "PSI",
+              "value": "pressurepsi"
+            }
+          ],
+          "text": "pressure"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(13,0)",
+              "text": "Newton-meters (Nm)",
+              "value": "forceNm"
+            },
+            {
+              "click": "menuItemSelected(13,1)",
+              "text": "Kilonewton-meters (kNm)",
+              "value": "forcekNm"
+            },
+            {
+              "click": "menuItemSelected(13,2)",
+              "text": "Newtons (N)",
+              "value": "forceN"
+            },
+            {
+              "click": "menuItemSelected(13,3)",
+              "text": "Kilonewtons (kN)",
+              "value": "forcekN"
+            }
+          ],
+          "text": "force"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(14,0)",
+              "text": "Gallons/min (gpm)",
+              "value": "flowgpm"
+            },
+            {
+              "click": "menuItemSelected(14,1)",
+              "text": "Cubic meters/sec (cms)",
+              "value": "flowcms"
+            },
+            {
+              "click": "menuItemSelected(14,2)",
+              "text": "Cubic feet/sec (cfs)",
+              "value": "flowcfs"
+            },
+            {
+              "click": "menuItemSelected(14,3)",
+              "text": "Cubic feet/min (cfm)",
+              "value": "flowcfm"
+            }
+          ],
+          "text": "flow"
+        }
+      ],
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "DS_IDP",
+      "decimals": 0,
+      "fontSizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60,
+        62,
+        64,
+        66,
+        68,
+        70
+      ],
+      "fontTypes": [
+        "Arial",
+        "Avant Garde",
+        "Bookman",
+        "Consolas",
+        "Courier",
+        "Courier New",
+        "Garamond",
+        "Helvetica",
+        "Open Sans",
+        "Palatino",
+        "Times",
+        "Times New Roman",
+        "Verdana"
+      ],
+      "format": "none",
+      "gauge": {
+        "animateNeedleValueTransition": true,
+        "edgeWidth": 0.05,
+        "gaugeRadius": 0,
+        "gaugeUnits": "",
+        "innerCol": "#fff",
+        "labelFontSize": 18,
+        "maxNeedleAngle": 320,
+        "maxTickAngle": 300,
+        "maxValue": 1000,
+        "minValue": 0,
+        "needleCol": "#0099CC",
+        "needleLengthNeg": 0.2,
+        "needleTickGap": 0.05,
+        "needleWidth": 5,
+        "outerEdgeCol": "rgb(214, 187, 0)",
+        "padding": 0.05,
+        "pivotCol": "#999",
+        "pivotRadius": 0.1,
+        "show": true,
+        "showLowerThresholdRange": true,
+        "showMiddleThresholdRange": true,
+        "showThresholdColorOnBackground": true,
+        "showThresholdColorOnValue": true,
+        "showThresholdOnGauge": true,
+        "showUpperThresholdRange": true,
+        "tickColMaj": "#0099CC",
+        "tickColMin": "#000",
+        "tickEdgeGap": 0.05,
+        "tickFont": "Open Sans",
+        "tickLabelCol": "#000",
+        "tickLengthMaj": 0.15,
+        "tickLengthMin": 0.05,
+        "tickSpaceMajVal": "100",
+        "tickSpaceMinVal": 1,
+        "tickWidthMaj": 5,
+        "tickWidthMin": 1,
+        "ticknessGaugeBasis": 200,
+        "unitsFont": "Open Sans",
+        "unitsLabelCol": "rgb(0, 0, 0)",
+        "unitsLabelFontSize": 22,
+        "zeroNeedleAngle": 40,
+        "zeroTickAngle": 60
+      },
+      "gaugeDivId": "d3gauge_svg_56",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 14
+      },
+      "id": 56,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "operatorName": "avg",
+      "operatorNameOptions": [
+        "min",
+        "max",
+        "avg",
+        "current",
+        "total",
+        "name"
+      ],
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "svgContainer": {},
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "B",
+          "target": "select count(rulename),max(created_at) from codeanalysis where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "100,1000",
+      "tickMaps": [],
+      "title": "Low Severity violations",
+      "transparent": true,
+      "type": "briangann-gauge-panel",
+      "unitFormats": [
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(0,0)",
+              "text": "none",
+              "value": "none"
+            },
+            {
+              "click": "menuItemSelected(0,1)",
+              "text": "short",
+              "value": "short"
+            },
+            {
+              "click": "menuItemSelected(0,2)",
+              "text": "percent (0-100)",
+              "value": "percent"
+            },
+            {
+              "click": "menuItemSelected(0,3)",
+              "text": "percent (0.0-1.0)",
+              "value": "percentunit"
+            },
+            {
+              "click": "menuItemSelected(0,4)",
+              "text": "Humidity (%H)",
+              "value": "humidity"
+            },
+            {
+              "click": "menuItemSelected(0,5)",
+              "text": "ppm",
+              "value": "ppm"
+            },
+            {
+              "click": "menuItemSelected(0,6)",
+              "text": "decibel",
+              "value": "dB"
+            },
+            {
+              "click": "menuItemSelected(0,7)",
+              "text": "hexadecimal (0x)",
+              "value": "hex0x"
+            },
+            {
+              "click": "menuItemSelected(0,8)",
+              "text": "hexadecimal",
+              "value": "hex"
+            }
+          ],
+          "text": "none"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(1,0)",
+              "text": "Dollars ($)",
+              "value": "currencyUSD"
+            },
+            {
+              "click": "menuItemSelected(1,1)",
+              "text": "Pounds (£)",
+              "value": "currencyGBP"
+            },
+            {
+              "click": "menuItemSelected(1,2)",
+              "text": "Euro (€)",
+              "value": "currencyEUR"
+            },
+            {
+              "click": "menuItemSelected(1,3)",
+              "text": "Yen (¥)",
+              "value": "currencyJPY"
+            },
+            {
+              "click": "menuItemSelected(1,4)",
+              "text": "Rubles (₽)",
+              "value": "currencyRUB"
+            }
+          ],
+          "text": "currency"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(2,0)",
+              "text": "Hertz (1/s)",
+              "value": "hertz"
+            },
+            {
+              "click": "menuItemSelected(2,1)",
+              "text": "nanoseconds (ns)",
+              "value": "ns"
+            },
+            {
+              "click": "menuItemSelected(2,2)",
+              "text": "microseconds (µs)",
+              "value": "µs"
+            },
+            {
+              "click": "menuItemSelected(2,3)",
+              "text": "milliseconds (ms)",
+              "value": "ms"
+            },
+            {
+              "click": "menuItemSelected(2,4)",
+              "text": "seconds (s)",
+              "value": "s"
+            },
+            {
+              "click": "menuItemSelected(2,5)",
+              "text": "minutes (m)",
+              "value": "m"
+            },
+            {
+              "click": "menuItemSelected(2,6)",
+              "text": "hours (h)",
+              "value": "h"
+            },
+            {
+              "click": "menuItemSelected(2,7)",
+              "text": "days (d)",
+              "value": "d"
+            },
+            {
+              "click": "menuItemSelected(2,8)",
+              "text": "duration (ms)",
+              "value": "dtdurationms"
+            },
+            {
+              "click": "menuItemSelected(2,9)",
+              "text": "duration (s)",
+              "value": "dtdurations"
+            }
+          ],
+          "text": "time"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(3,0)",
+              "text": "bits",
+              "value": "bits"
+            },
+            {
+              "click": "menuItemSelected(3,1)",
+              "text": "bytes",
+              "value": "bytes"
+            },
+            {
+              "click": "menuItemSelected(3,2)",
+              "text": "kibibytes",
+              "value": "kbytes"
+            },
+            {
+              "click": "menuItemSelected(3,3)",
+              "text": "mebibytes",
+              "value": "mbytes"
+            },
+            {
+              "click": "menuItemSelected(3,4)",
+              "text": "gibibytes",
+              "value": "gbytes"
+            }
+          ],
+          "text": "data (IEC)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(4,0)",
+              "text": "bits",
+              "value": "decbits"
+            },
+            {
+              "click": "menuItemSelected(4,1)",
+              "text": "bytes",
+              "value": "decbytes"
+            },
+            {
+              "click": "menuItemSelected(4,2)",
+              "text": "kilobytes",
+              "value": "deckbytes"
+            },
+            {
+              "click": "menuItemSelected(4,3)",
+              "text": "megabytes",
+              "value": "decmbytes"
+            },
+            {
+              "click": "menuItemSelected(4,4)",
+              "text": "gigabytes",
+              "value": "decgbytes"
+            }
+          ],
+          "text": "data (Metric)"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(5,0)",
+              "text": "packets/sec",
+              "value": "pps"
+            },
+            {
+              "click": "menuItemSelected(5,1)",
+              "text": "bits/sec",
+              "value": "bps"
+            },
+            {
+              "click": "menuItemSelected(5,2)",
+              "text": "bytes/sec",
+              "value": "Bps"
+            },
+            {
+              "click": "menuItemSelected(5,3)",
+              "text": "kilobits/sec",
+              "value": "Kbits"
+            },
+            {
+              "click": "menuItemSelected(5,4)",
+              "text": "kilobytes/sec",
+              "value": "KBs"
+            },
+            {
+              "click": "menuItemSelected(5,5)",
+              "text": "megabits/sec",
+              "value": "Mbits"
+            },
+            {
+              "click": "menuItemSelected(5,6)",
+              "text": "megabytes/sec",
+              "value": "MBs"
+            },
+            {
+              "click": "menuItemSelected(5,7)",
+              "text": "gigabytes/sec",
+              "value": "GBs"
+            },
+            {
+              "click": "menuItemSelected(5,8)",
+              "text": "gigabits/sec",
+              "value": "Gbits"
+            }
+          ],
+          "text": "data rate"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(6,0)",
+              "text": "ops/sec (ops)",
+              "value": "ops"
+            },
+            {
+              "click": "menuItemSelected(6,1)",
+              "text": "reads/sec (rps)",
+              "value": "rps"
+            },
+            {
+              "click": "menuItemSelected(6,2)",
+              "text": "writes/sec (wps)",
+              "value": "wps"
+            },
+            {
+              "click": "menuItemSelected(6,3)",
+              "text": "I/O ops/sec (iops)",
+              "value": "iops"
+            },
+            {
+              "click": "menuItemSelected(6,4)",
+              "text": "ops/min (opm)",
+              "value": "opm"
+            },
+            {
+              "click": "menuItemSelected(6,5)",
+              "text": "reads/min (rpm)",
+              "value": "rpm"
+            },
+            {
+              "click": "menuItemSelected(6,6)",
+              "text": "writes/min (wpm)",
+              "value": "wpm"
+            }
+          ],
+          "text": "throughput"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(7,0)",
+              "text": "millimetre (mm)",
+              "value": "lengthmm"
+            },
+            {
+              "click": "menuItemSelected(7,1)",
+              "text": "meter (m)",
+              "value": "lengthm"
+            },
+            {
+              "click": "menuItemSelected(7,2)",
+              "text": "kilometer (km)",
+              "value": "lengthkm"
+            },
+            {
+              "click": "menuItemSelected(7,3)",
+              "text": "mile (mi)",
+              "value": "lengthmi"
+            }
+          ],
+          "text": "length"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(8,0)",
+              "text": "m/s",
+              "value": "velocityms"
+            },
+            {
+              "click": "menuItemSelected(8,1)",
+              "text": "km/h",
+              "value": "velocitykmh"
+            },
+            {
+              "click": "menuItemSelected(8,2)",
+              "text": "mph",
+              "value": "velocitymph"
+            },
+            {
+              "click": "menuItemSelected(8,3)",
+              "text": "knot (kn)",
+              "value": "velocityknot"
+            }
+          ],
+          "text": "velocity"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(9,0)",
+              "text": "millilitre",
+              "value": "mlitre"
+            },
+            {
+              "click": "menuItemSelected(9,1)",
+              "text": "litre",
+              "value": "litre"
+            },
+            {
+              "click": "menuItemSelected(9,2)",
+              "text": "cubic metre",
+              "value": "m3"
+            },
+            {
+              "click": "menuItemSelected(9,3)",
+              "text": "cubic decimetre",
+              "value": "dm3"
+            },
+            {
+              "click": "menuItemSelected(9,4)",
+              "text": "gallons",
+              "value": "gallons"
+            }
+          ],
+          "text": "volume"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(10,0)",
+              "text": "watt (W)",
+              "value": "watt"
+            },
+            {
+              "click": "menuItemSelected(10,1)",
+              "text": "kilowatt (kW)",
+              "value": "kwatt"
+            },
+            {
+              "click": "menuItemSelected(10,2)",
+              "text": "volt-ampere (VA)",
+              "value": "voltamp"
+            },
+            {
+              "click": "menuItemSelected(10,3)",
+              "text": "kilovolt-ampere (kVA)",
+              "value": "kvoltamp"
+            },
+            {
+              "click": "menuItemSelected(10,4)",
+              "text": "volt-ampere reactive (var)",
+              "value": "voltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,5)",
+              "text": "kilovolt-ampere reactive (kvar)",
+              "value": "kvoltampreact"
+            },
+            {
+              "click": "menuItemSelected(10,6)",
+              "text": "watt-hour (Wh)",
+              "value": "watth"
+            },
+            {
+              "click": "menuItemSelected(10,7)",
+              "text": "kilowatt-hour (kWh)",
+              "value": "kwatth"
+            },
+            {
+              "click": "menuItemSelected(10,8)",
+              "text": "joule (J)",
+              "value": "joule"
+            },
+            {
+              "click": "menuItemSelected(10,9)",
+              "text": "electron volt (eV)",
+              "value": "ev"
+            },
+            {
+              "click": "menuItemSelected(10,10)",
+              "text": "Ampere (A)",
+              "value": "amp"
+            },
+            {
+              "click": "menuItemSelected(10,11)",
+              "text": "Kiloampere (kA)",
+              "value": "kamp"
+            },
+            {
+              "click": "menuItemSelected(10,12)",
+              "text": "Volt (V)",
+              "value": "volt"
+            },
+            {
+              "click": "menuItemSelected(10,13)",
+              "text": "Kilovolt (kV)",
+              "value": "kvolt"
+            },
+            {
+              "click": "menuItemSelected(10,14)",
+              "text": "Decibel-milliwatt (dBm)",
+              "value": "dBm"
+            }
+          ],
+          "text": "energy"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(11,0)",
+              "text": "Celcius (°C)",
+              "value": "celsius"
+            },
+            {
+              "click": "menuItemSelected(11,1)",
+              "text": "Farenheit (°F)",
+              "value": "farenheit"
+            },
+            {
+              "click": "menuItemSelected(11,2)",
+              "text": "Kelvin (K)",
+              "value": "kelvin"
+            }
+          ],
+          "text": "temperature"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(12,0)",
+              "text": "Millibars",
+              "value": "pressurembar"
+            },
+            {
+              "click": "menuItemSelected(12,1)",
+              "text": "Bars",
+              "value": "pressurebar"
+            },
+            {
+              "click": "menuItemSelected(12,2)",
+              "text": "Kilobars",
+              "value": "pressurekbar"
+            },
+            {
+              "click": "menuItemSelected(12,3)",
+              "text": "Hectopascals",
+              "value": "pressurehpa"
+            },
+            {
+              "click": "menuItemSelected(12,4)",
+              "text": "Inches of mercury",
+              "value": "pressurehg"
+            },
+            {
+              "click": "menuItemSelected(12,5)",
+              "text": "PSI",
+              "value": "pressurepsi"
+            }
+          ],
+          "text": "pressure"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(13,0)",
+              "text": "Newton-meters (Nm)",
+              "value": "forceNm"
+            },
+            {
+              "click": "menuItemSelected(13,1)",
+              "text": "Kilonewton-meters (kNm)",
+              "value": "forcekNm"
+            },
+            {
+              "click": "menuItemSelected(13,2)",
+              "text": "Newtons (N)",
+              "value": "forceN"
+            },
+            {
+              "click": "menuItemSelected(13,3)",
+              "text": "Kilonewtons (kN)",
+              "value": "forcekN"
+            }
+          ],
+          "text": "force"
+        },
+        {
+          "submenu": [
+            {
+              "click": "menuItemSelected(14,0)",
+              "text": "Gallons/min (gpm)",
+              "value": "flowgpm"
+            },
+            {
+              "click": "menuItemSelected(14,1)",
+              "text": "Cubic meters/sec (cms)",
+              "value": "flowcms"
+            },
+            {
+              "click": "menuItemSelected(14,2)",
+              "text": "Cubic feet/sec (cfs)",
+              "value": "flowcfs"
+            },
+            {
+              "click": "menuItemSelected(14,3)",
+              "text": "Cubic feet/min (cfm)",
+              "value": "flowcfm"
+            }
+          ],
+          "text": "flow"
+        }
+      ],
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "DS_IDP",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "editable": true,
+      "emptyData": true,
+      "error": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "hoverEnabled": true,
+      "id": 72,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "links": [],
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": 161,
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 5,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select  rulename,count(*) as count,category from codeanalysis  group by severity,rulename,appid,pipelineno,category having appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' order by count(*) desc limit 5",
+          "type": "table"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./css/datatable-dark.css",
+        "light": "./css/datatable-light.css"
+      },
+      "themes": [
+        {
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "title": "Top Rules violated",
+      "transform": "table",
+      "transparent": true,
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 79,
+      "panels": [],
+      "repeat": null,
+      "title": "Test Results including unit tests",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 20
+      },
+      "id": 53,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [],
+          "measurement": "TestInfo_Chirag_latest",
+          "policy": "default",
+          "query": "SELECT count(\"Application_Name\") FROM \"TestAnalysis_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /^$Application.*/  AND PipelineNo=~ /^.*$Build_Number.*/AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Application_Name"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/.*$Pipeline.*/"
+            },
+            {
+              "condition": "AND",
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/^$Application.*/"
+            }
+          ],
+          "target": "select count(*),max(created_at) from testanalysis where  appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0,100",
+      "title": "Total Tests",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "rgba(50, 172, 45, 0.97)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(245, 54, 54, 0.9)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 20
+      },
+      "id": 54,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "query": "SELECT count(\"Application_Name\") FROM \"TestAnalysis_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Test_Status\" !~ /(?i).*Passed.*/ AND \"Application_Name\" =~ /^$Application.*/  AND PipelineNo=~ /^.*$Build_Number.*/ AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select count(*),max(created_at) from testanalysis where  appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' and( status like '%Fail%' or status like '%FAILURE%' or status like '%fail%')",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "0,0,1",
+      "title": "Failed",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 20
+      },
+      "id": 68,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [],
+          "measurement": "TestInfo_Chirag_latest",
+          "policy": "default",
+          "query": "SELECT count(\"Application_Name\") FROM \"TestAnalysis_Info\" WHERE \"Pipeline_Name\" =~ /.*$Pipeline.*/ AND \"Application_Name\" =~ /^$Application.*/  AND PipelineNo=~ /^.*$Build_Number.*/AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Application_Name"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/.*$Pipeline.*/"
+            },
+            {
+              "condition": "AND",
+              "key": "Application_Name",
+              "operator": "=~",
+              "value": "/^$Application.*/"
+            }
+          ],
+          "target": "select count(*),max(created_at) from testanalysis where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number' and (status='SUCCESS' or status='Passed' or status ='passed')",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Passed Tests",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "DS_IDP",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "editable": true,
+      "emptyData": false,
+      "error": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "hoverEnabled": true,
+      "id": 73,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "links": [],
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": 161,
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 5,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select category,status,duration,message from testanalysis where appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline') and pipelineno='$Build_Number'",
+          "type": "table"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./css/datatable-dark.css",
+        "light": "./css/datatable-light.css"
+      },
+      "themes": [
+        {
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "title": "Test Results info",
+      "transform": "table",
+      "transparent": true,
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 80,
+      "panels": [],
+      "repeat": null,
+      "title": "Dashboard Row",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 81,
+      "panels": [],
+      "repeat": null,
+      "title": "Commit info",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "DS_IDP",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "editable": true,
+      "emptyData": true,
+      "error": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 18,
+        "x": 0,
+        "y": 27
+      },
+      "hoverEnabled": true,
+      "id": 69,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "links": [
+        {
+          "title": "",
+          "type": "absolute",
+          "url": "http://infygit.com"
+        }
+      ],
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": 161,
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 3,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select  lastmodifiedon as committed_on,lastmodifiedby as committed_by,commitmessage as commit_message from scminfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')and pipelineno='$Build_Number'",
+          "type": "table"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./css/datatable-dark.css",
+        "light": "./css/datatable-light.css"
+      },
+      "themes": [
+        {
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "title": "Commits info",
+      "transform": "table",
+      "transparent": true,
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "datasource": "DS_IDP",
+      "editable": true,
+      "error": false,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 27
+      },
+      "id": 71,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "target": "select  count(*),max(created_at)from scminfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "No of Commits",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "DS_IDP",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Application",
+        "multi": false,
+        "name": "Application",
+        "options": [],
+        "query": "select application_name from appinfo order by created_at desc",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "DS_IDP",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Pipeline",
+        "multi": false,
+        "name": "Pipeline",
+        "options": [],
+        "query": "select pipeline_name from appinfo where application_name ='$Application'",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "DS_IDP",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Build_Number",
+        "multi": false,
+        "name": "Build_Number",
+        "options": [],
+        "query": "select distinct pipelineno from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')",
+        "refresh": 1,
+        "regex": "",
+        "sort": 4,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "2018-01-29T09:14:25.854Z",
+    "to": "2018-01-29T09:24:25.854Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Developer Dashboard v2 PG",
+  "uid": "002",
+  "version": 3
+}

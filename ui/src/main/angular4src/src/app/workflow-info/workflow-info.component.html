@@ -1,0 +1,517 @@
+<!-- Modal/Alert Message  -->
+<div>
+    <!--for add applicationName  alert-->
+    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModal">Alert Modal</button>
+    <!-- Modal -->
+    <div id="myModal" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="redirectToBasicInfo()">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please choose the Application Name</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectToBasicInfo()">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalformandatoryFieldsAlert [hidden]="true" type="button" data-toggle="modal" data-target="#mandaoryField">Del Modal</button>
+    <div id="mandaoryField" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Please fill all the mandatory fields on
+                    <span *ngFor="let name of listToFillFields;let i=index">
+                        {{name}}
+                        <span *ngIf="i!=listToFillFields.length-1">, </span>
+                    </span> Page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalforconfirmAlert [hidden]="true" type="button" data-toggle="modal" data-target="#confirmmsg">Del Modal</button>
+    <div id="confirmmsg" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to submit?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="submitData()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalforAlertDataMiss [hidden]="true" type="button" data-toggle="modal" data-target="#MissDataDeploy">Alert Modal</button>
+    <!-- Modal -->
+    <div id="MissDataDeploy" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please add a Workflow Sequence with valid details!!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button #modalforTrigger [hidden]="true" type="button" data-toggle="modal" data-target="#triggerAlertForthis">Alert Modal</button>
+    <div id="triggerAlertForthis" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="triggerAlertForthis" (click)="closeModal('triggerAlertForthis')">&times;</button>
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to trigger the pipeline?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="triggerAlertForthis" (click)="triggerData()">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="triggerAlertForthis" (click)="closeModal('triggerAlertForthis')">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal for Trigger details component view Start -->
+    <div class="modal fade" id="addPipelineDetails">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Trigger Details for Step No_{{Idpdata.index+1}}
+                        <span style="float:right;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </span>
+                    </h4>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- <div class="container-fluid" *ngIf="pipeline.fetchJobDetails!== undefined && pipeline.fetchJobDetails">
+                  <app-trigger></app-trigger>
+                </div> -->
+                    <!-- <div *ngIf="(pipeline.appPipeNamesAvailable===undefined || !pipeline.appPipeNamesAvailable); then deload else loadingComplete"></div> -->
+                    <!-- {{appPipeNamesAvailable}} -->
+                    <div *ngIf="appPipeNamesAvailable===undefined || !appPipeNamesAvailable ">
+                        Loading Details&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-hourglass fa-spin"></i>
+                    </div>
+                    <ng-template dynamic-component></ng-template>
+                    <!-- <app-details></app-details> -->
+                    <!-- <app-trigger></app-trigger> -->
+                    <!-- pipeline {{i+1}}<br>
+              {{Idpdata.appName}}<br>
+              {{Idpdata.pipelineName}}<br> -->
+                </div>
+
+                <!-- Modal footer -->
+                <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Submit</button>
+              </div> -->
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Trigger details component view End -->
+
+</div>
+<!-- {{Idpdata.workflowTrigger}} -->
+<div [ngClass]="(Idpdata.workflowTrigger) ? 'panel-group container-fluid'  : ''">
+    <div [ngClass]="(Idpdata.workflowTrigger) ? 'panel panel-default col-md-7 col-md-offset-2'  : ''">
+
+        <form id="workflowInfo" name="workflowForm" #workflowForm="ngForm" ngNativeValidate class="form-horizontal" (ngSubmit)="submit()">
+            <!-- createWorkflow() -->
+            <!-- (ngSubmit)="go()" name="testInfoForm" #testInfoForm="ngForm" class="form-horizontal" ngNativeValidate -->
+            <fieldset [disabled]="Idpdata.freezeNavBars===true">
+                <div class="row" *ngIf="Idpdata.workflowTrigger">
+                    <div class="form-group" style="padding-top:20px">
+                        <div class="col-md-4 text-right">
+                            <label> {{'Application Name'| translate}} : </label>
+                        </div>
+                        <div class="col-md-4">
+                            <textarea class="form-control" readonly style="height:35px">{{Idpdata.triggerWorkflowJobData.applicationName}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <label> {{'Pipeline Name'| translate}} : </label>
+                        </div>
+                        <div class="col-md-4">
+                            <textarea class="form-control" readonly style="height:35px">{{Idpdata.triggerWorkflowJobData.pipelineName}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <label> {{'Release Number'| translate}} : </label>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="slave" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPWorkflowParamData.releaseNumber" class="form-control"
+                                required>
+                                <!-- (change)="fetchReleaseBranches(IDPWorkflowParamData.releaseNumber)" -->
+                                <option value="">--Select--</option>
+                                <option *ngFor="let releaseNo of  releaseNumberList" value="{{releaseNo}}">{{releaseNo}}</option>
+                            </select>
+                            <!--	<input type="text" class="form-control" placeholder="1.0.0"  [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" style="width:100%" required />-->
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        <div class="text-left">
+                            <b>{{'Workflow Details'| translate}}</b>
+                            <span style="float:right;transform: translateY(-7px);">
+                                <button type="button" class="btn btn-info" id="addSequence" (click)="addSequence()" style="float:left" *ngIf="!Idpdata.workflowTrigger">{{'Add Sequence Step'| translate}}</button>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label class="text-center control-label" style="float:right">
+                <b>{{'Workflow Name'|translate}}</b>
+                <span style="color:red">*</span>
+                </label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <input class="form-control  " style="float:left;width:90%"
+                [(ngModel)]="workflowData.workflowName" name="workflowName"  
+                placeholder="Master_Pipeline"
+                id="workflowName" #workflowName="ngModel">
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <button type="button" class="btn btn-info" id="cdadapbu" 
+                (click)="addSequence()" style="float:left" >{{'Add Sequence'|translate}}</button>
+            </div>
+        </div> -->
+                        <!-- [sortablejs]="workflowData.workflowSequence" -->
+                        <div class="panel-group " role="tablist" aria-multiselectable="true" [sortablejs]="(!Idpdata.workflowTrigger) ? workflowData.workflowSequence : []">
+
+                            <div class="panel panel-default" *ngFor="let pipeline of workflowData.workflowSequence; let i =index" [attr.data-index]="i">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a data-target="{{'#'+(i+1)}}" style="cursor:pointer;font-size:14px !important;" (click)="togglePanel(i)">
+                                            <!--data-toggle="collapse" aria-expanded="true" -->
+                                            <!-- <span (click)="togglePanel=!togglePanel;"> -->
+                                            <span class="glyphicon glyphicon-triangle-right" *ngIf="workflowData.workflowSequenceTemp[i].expand===undefined || !workflowData.workflowSequenceTemp[i].expand">
+                                            </span>
+                                            <span class="glyphicon glyphicon-triangle-bottom" *ngIf="workflowData.workflowSequenceTemp[i].expand">
+                                            </span>
+                                            Step No_{{(i+1)}}
+                                            <!-- </span> -->
+                                        </a>
+                                        <span style="float:right;transform: translateY(-7px);">
+                                            <button type="button" class="btn btn-info" id="addApplication" (click)="addApplication(i)" style="float:left" *ngIf="!Idpdata.workflowTrigger && workflowData.workflowSequenceTemp[i].expand">{{'Add Parallel'| translate}}</button>
+                                            <span style="margin-left:10px" *ngIf="workflowData.workflowSequence.length !== 1 && !Idpdata.workflowTrigger">
+                                                <a (click)="removeSequence(i)" style="cursor:pointer;font-size:16px !important;color:black;">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </a>
+                                            </span>
+                                        </span>
+
+                                    </h4>
+                                </div>
+
+                                <div id="{{'seq'+(i+1)}}" class="panel-collapse  " role="tabpanel" *ngFor="let application of pipeline.applicationDetails; let j =index"
+                                    [ngClass]="(workflowData.workflowSequenceTemp[i].expand=== undefined || !workflowData.workflowSequenceTemp[i].expand )?'collapse':'collapse in'">
+                                    <div class="panel-body form-group">
+                                        <!-- workflow-info {{i+1}} -->
+
+
+                                        <div class="row" style="margin-bottom: 15px; margin-top: 15px;">
+                                            <label class="col-md-2 text-right control-label " style="padding-right:  0px;">{{'Application Name'| translate}}
+                                                <span class="star" *ngIf="!Idpdata.workflowTrigger">*</span>
+                                            </label>
+                                            <div class="col-md-3 field-tip">
+                                                <!--<input id="pipelineName" class="form-control txtbox"  ng-model="basicInfo.applicationName" type="text" placeholder="IDP_ApplicationName" ng-minlength="3" ng-maxlength="20" required >-->
+                                                <!-- (change)="getPipelineList()" -->
+                                                <!-- [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'" -->
+                                                <span *ngIf="!Idpdata.workflowTrigger">
+                                                    <select [(ngModel)]="application.applicationName" class="form-control" #appSelect="ngModel" name="appSelect{{i}}{{j}}" (change)="refreshSaveDetails(i, j); getPipelineList(application.applicationName)"
+                                                        required id="appSelect{{i}}{{j}}">
+                                                        <!-- workflowData.workflowSequence -->
+                                                        <!-- name="jobParamName{{j}}"  id="cdadpjntf{{j}}" #jobParamName="ngModel" -->
+                                                        <option value="">--Select--</option>
+                                                        <option *ngFor="let name of appNames" [ngValue]="name">{{name}}</option>
+                                                    </select>
+                                                </span>
+                                                <span *ngIf="Idpdata.workflowTrigger">
+                                                    <textarea class="form-control" readonly>{{application.applicationName}}</textarea>
+                                                </span>
+
+
+                                            </div>
+
+                                            <label *ngIf="!Idpdata.workflowTrigger && ((application.applicationName!=='' || application.applicationName!==undefined) && pipeNames[application.applicationName]!==undefined)"
+                                                class="col-md-2 text-right control-label " style="padding-right:  0px;">{{'Pipeline Name'| translate}}
+                                                <span class="star" *ngIf="!Idpdata.workflowTrigger">*</span>
+                                            </label>
+                                            <div class="col-md-3 field-tip">
+                                                <!--<input id="pipelineName" class="form-control txtbox"  ng-model="basicInfo.applicationName" type="text" placeholder="IDP_ApplicationName" ng-minlength="3" ng-maxlength="20" required >-->
+                                                <!-- (change)="getPipelineList()" -->
+                                                <!-- [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'" -->
+                                                <span *ngIf="!Idpdata.workflowTrigger && ((application.applicationName!=='' || application.applicationName!==undefined) && pipeNames[application.applicationName]!==undefined)">
+                                                    <!--  <select [(ngModel)]="pipeline.pipelineName" class="form-control" #pipeSelect="ngModel" 
+                    name="pipeSelect{{i}}" (change)="refreshSaveDetails(i); workflowData.workflowSequenceTemp[i].pipelineName=pipeline.pipelineName; workflowData.workflowSequenceTemp[i].appPipeNamesDetails=true"
+                      required id="pipeSelect{{i}}">
+                      
+                        <option value="">--Select--</option>
+                        <option *ngFor="let pipe of pipeNames[pipeline.applicationName]" [ngValue]="pipe">{{pipe}}</option>
+                      </select> -->
+
+                                                    <angular2-multiselect [data]="pipeNames[application.applicationName]" [(ngModel)]="application.allPipelineNames" id="workfolwparallel{{i}},{{j}}"
+                                                        name="parallelPipelinename{{i}},{{j}}" (onSelect)="onItemSelect($event, i, j)"
+                                                        (onDeSelect)="OnItemDeSelect($event, i, j)" (onSelectAll)="onSelectAll($event, i, j)"
+                                                        (onDeSelectAll)="onDeSelectAll($event, i, j)" [settings]="extraMultiselectSettings">
+                                                    </angular2-multiselect>
+
+
+                                                </span>
+
+
+                                            </div>
+                                            <div [ngClass]="((application.applicationName!=='' || application.applicationName!==undefined) && pipeNames[application.applicationName]!==undefined) ? 'col-md-1': 'col-md-5'"
+                                                *ngIf="!Idpdata.workflowTrigger">
+                                                <a (click)="removeApplication(i, j)" style="cursor:pointer;font-size:16px !important;color:black;">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </a>
+                                            </div>
+                                            <!-- <div class="col-md-2" *ngIf="!Idpdata.workflowTrigger">
+                    <button type="button" class="btn btn-success btn-sm" 
+                    [disabled]="workflowData.workflowSequenceTemp[i].appPipeNamesDetails=== undefined || !workflowData.workflowSequenceTemp[i].appPipeNamesDetails"
+                    data-toggle="modal" (click)="setIndex(i, j)" data-target="#addPipelineDetails">Add details</button>
+                  </div> -->
+
+                                        </div>
+                                        <div *ngIf="Idpdata.workflowTrigger">
+
+                                            <div *ngFor="let name of application.pipelineDetails; let k =index">
+                                                <div class="row" style="margin-bottom:10px">
+                                                    <li class="col-md-offset-1 col-md-3">{{name.pipelineName}}</li>
+                                                    <input [checked]="IDPWorkflowParamData.pipelineSelection[i].appSelectionDetails[j].pipelineSelectionDetails[k]==='on'" name="pipeCheckBox"
+                                                        id="pipeCheckBoxW" type="checkbox" (change)="IDPWorkflowParamData.pipelineSelection[i].appSelectionDetails[j].pipelineSelectionDetails[k]=$event.target.checked ? 'on':'off'">
+
+                                                </div>
+                                                <div class="row " *ngIf="name.releaseNumber!==undefined">
+
+                                                    <div class="col-md-offset-1 col-md-9 alert-success">
+                                                        <!--  <div class="row">
+                            Saved Details:
+                            <span ><a (click)="deleteSequenceDetails(i, j, k)"  *ngIf="!Idpdata.workflowTrigger"
+                                style="cursor:pointer;font-size:16px !important;color:black; float:right">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </span>
+                        </div> -->
+                                                        <table style="margin-bottom:20px">
+                                                            <thead>
+                                                                <tr style="border: 1px solid black; border-collapse: collapse;">
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center">
+                                                                        <strong>Release No.</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Branch or Tag</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Build</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Deploy</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Test</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>ENV</strong>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr style="border: 1px solid black; border-collapse: collapse;">
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.releaseNumber}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.branchOrTag?name.branchOrTag:'Default'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.build?'Selected':'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.deploy?'Selected':'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{(name.testSelected!==undefined && name.testSelected === 'on') ? 'Selected' : 'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{(name.deploy || name.testSelected === 'on')?name.envSelected:'NA'}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!Idpdata.workflowTrigger">
+
+                                            <div *ngFor="let name of application.pipelineDetails; let k =index">
+                                                <div class="row" style="margin-bottom:10px">
+                                                    <li class="col-md-offset-1 col-md-3">{{name.pipelineName}}</li>
+                                                    <button type="button" class="btn btn-success btn-sm col-md-offset-1" data-toggle="modal" (click)="setIndex(i, j, k)" data-target="#addPipelineDetails">Add details</button>
+                                                </div>
+
+                                                <div class="row " *ngIf="name.releaseNumber!==undefined">
+
+                                                    <div class="col-md-offset-1 col-md-9 alert-success">
+                                                        <div class="row">
+                                                            Saved Details:
+                                                            <span>
+                                                                <a (click)="deleteSequenceDetails(i, j, k)" *ngIf="!Idpdata.workflowTrigger"
+                                                                    style="cursor:pointer;font-size:16px !important;color:black; float:right">
+                                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                        <table style="margin-bottom:20px">
+                                                            <thead>
+                                                                <tr style="border: 1px solid black; border-collapse: collapse;">
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center">
+                                                                        <strong>Release No.</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Branch or Tag</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Build</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Deploy</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>Test</strong>
+                                                                    </th>
+                                                                    <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                                                                        <strong>ENV</strong>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr style="border: 1px solid black; border-collapse: collapse;">
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.releaseNumber}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.branchOrTag?name.branchOrTag:'Default'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.build?'Selected':'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{name.deploy?'Selected':'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{(name.testSelected!==undefined && name.testSelected === 'on') ? 'Selected' : 'NA'}}</td>
+                                                                    <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">
+                                                                        {{(name.deploy || name.testSelected === 'on')?name.envSelected:'NA'}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+            <div class="row">
+                <div class="col-md-12 btn-container">
+                    <div>
+                        <div class="alert alert-success" *ngIf="message=='success'">
+                            <strong *ngIf="!Idpdata.workflowTrigger">{{'Your request for create master pipeline has been submitted'| translate}}.</strong>
+                            <strong *ngIf="Idpdata.workflowTrigger">{{'The pipeline has been triggered'| translate}}.</strong>
+                            <!-- {{'Redirecting to PreviousConfiguration'|translate}}. -->
+                        </div>
+
+                        <div class="alert alert-danger" *ngIf="message=='error'">
+                            <strong *ngIf="!Idpdata.workflowTrigger">{{'Error! Please check the input provided'| translate}}</strong>
+                            <strong *ngIf="Idpdata.workflowTrigger">{{'Error! The pipeline is not triggered. Please contact IDP admin'| translate}}</strong>
+                        </div>
+
+
+                    </div>
+                    <button *ngIf="!Idpdata.workflowTrigger" class="btn btn-danger btn-sm" (click)="resetData()" id="reset" type="button" [disabled]="Idpdata.freezeNavBars===true">{{'Reset'| translate}}</button>
+                    <!-- <button type="submit" class="btn btn-success btn-sm" style="float:right;" id="btn_txt">{{'Continue'|translate}}</button> -->
+                    <button id="tesbbtn" type="submit" class="btn btn-success btn-sm" style="float:right;" [disabled]="Idpdata.freezeNavBars===true || !workflowForm.form.valid ">
+                        <span *ngIf="loader=='off'"> {{'Submit'| translate}} &nbsp;</span>
+                        <span *ngIf="loader=='on'">{{'Submitting'| translate}} &nbsp;
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+
+                </div>
+            </div>
+            <br />
+            <div *ngIf="setFormStatus(workflowForm.form.valid)">
+
+            </div>
+
+        </form>
+
+    </div>
+</div>

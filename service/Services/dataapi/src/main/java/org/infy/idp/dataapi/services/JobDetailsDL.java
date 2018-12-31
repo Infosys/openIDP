@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.infy.entities.triggerinputs.DeployArtifact;
-import org.infy.entities.triggerinputs.ReleaseTransportInfo;
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.jobs.Pipeline;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
@@ -54,9 +53,12 @@ public class JobDetailsDL {
 	private static final String FROM_CLAUSE = " FROM ";
 	private static final String APPLICATION_NAME = " application_name LIKE ? ";
 	private static final String PIPELINE_NAME = " pipeline_name LIKE ? ";
+	private static final String APPLICATION = "application_name";
 	private static final String ORDER_BY = " ORDER BY ";
 	private static final String ACTIVE_PIPELINE = " and active = true ";
 	protected static final String ERROR1 = "Postgres Error while fetching user details:";
+	protected static final String ERROR2 = "Postgres Error while fetching permissions:";
+
 	/**
 	 * Constructor
 	 * 
@@ -129,7 +131,7 @@ public class JobDetailsDL {
 		queryStatement.append(FROM_CLAUSE);
 		queryStatement.append(tableName);
 		queryStatement.append(WHERE_CLAUSE);
-		queryStatement.append("application_name like ?");
+		queryStatement.append(APPLICATION_NAME);
 		queryStatement.append(";");
 		ResultSet rs = null;
 		Integer appId = null;
@@ -206,43 +208,6 @@ public class JobDetailsDL {
 		return pipelineNames;
 	}
 	
-	/**
-	 * 
-	 * Removes delete plan
-	 * 
-	 * @param releaseNumber
-	 * @param applicationName
-	 * @param env
-	 */
-	public void deletePlan(String releaseNumber, String applicationName, String env) {
-		logger.info("inside delete plan function");
-		String tableName = "tenvironment_planning";
-		StringBuilder queryStatement = new StringBuilder();
-
-		String query = "delete from " + tableName + " where release_no=" + "'" + releaseNumber + "'"
-				+ " and application_name=" + "'" + applicationName + "'" + " and environment=" + "'" + env + "'";
-		ResultSet rs = null;
-		queryStatement.append(query);
-		logger.info("query statement for delete " + queryStatement);
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			logger.info("inside try of delete");
-			rs = preparedStatement.executeQuery();
-
-		} catch (SQLException e) {
-
-			logger.info(e.getMessage(), e);
-		} finally {
-			try {
-				if (null != rs) {
-					rs.close();
-				}
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage(), e1);
-			}
-		}
-
-	}
 
 	/**
 	 * 
@@ -297,7 +262,7 @@ public class JobDetailsDL {
 		return releaseNumber;
 	}
 
-		/**
+	/**
 	 * get trigger count
 	 * 
 	 * 
@@ -413,7 +378,7 @@ public class JobDetailsDL {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching permissions:", e);
+			logger.error(ERROR2, e);
 			throw e;
 		}
 
@@ -463,7 +428,7 @@ public class JobDetailsDL {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching permissions:", e);
+			logger.error(ERROR2, e);
 
 		}
 
@@ -517,7 +482,7 @@ public class JobDetailsDL {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching permissions:", e);
+			logger.error(ERROR2, e);
 		}
 
 		finally {
@@ -576,7 +541,7 @@ public class JobDetailsDL {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching user details:", e);
+			logger.error(ERROR1, e);
 
 		} finally {
 			if (rs != null) {
@@ -614,7 +579,7 @@ public class JobDetailsDL {
 		queryStatement.append(FROM_CLAUSE);
 		queryStatement.append(tableName);
 		queryStatement.append(WHERE_CLAUSE);
-		queryStatement.append("application_name like ?");
+		queryStatement.append(APPLICATION_NAME);
 		queryStatement.append(";");
 
 		ResultSet rs = null;
@@ -626,8 +591,8 @@ public class JobDetailsDL {
 
 			if (rs.next()) {
 				app = new Application();
-				app.setApplicationName(rs.getString("application_name"));
-	
+				app.setApplicationName(rs.getString(APPLICATION));
+
 				app.setAppJson(gson.fromJson(rs.getObject(2).toString(), ApplicationInfo.class));
 				return app;
 			}
@@ -675,7 +640,7 @@ public class JobDetailsDL {
 		queryStatement.append(WHERE_CLAUSE);
 		queryStatement.append("tapplication_info.application_id = tpipeline_info.pipeline_id ");
 		queryStatement.append(AND_CLAUSE);
-		queryStatement.append("application_name like ?");
+		queryStatement.append(APPLICATION_NAME);
 
 		queryStatement.append(ACTIVE_PIPELINE);
 		queryStatement.append(";");
@@ -744,7 +709,7 @@ public class JobDetailsDL {
 
 			while (rs.next()) {
 				app = new Application();
-				app.setApplicationName(rs.getString("application_name"));
+				app.setApplicationName(rs.getString(APPLICATION));
 				app.setAppJson(gson.fromJson(rs.getObject("entity_info").toString(), ApplicationInfo.class));
 				apps.add(app);
 			}
@@ -800,7 +765,7 @@ public class JobDetailsDL {
 
 			while (rs.next()) {
 				app = new Application();
-				app.setApplicationName(rs.getString("application_name"));
+				app.setApplicationName(rs.getString(APPLICATION));
 				app.setAppJson(gson.fromJson(rs.getObject("entity_info").toString(), ApplicationInfo.class));
 				apps.add(app);
 			}
@@ -822,92 +787,6 @@ public class JobDetailsDL {
 		}
 
 		return apps;
-
-	}
-
-	/**
-	 * Returns release Transport Info
-	 * 
-	 * 
-	 * @param applicationName
-	 * @param pipelineName
-	 *
-	 * 
-	 * @return List of ReleaseTransportInfo the String
-	 */
-
-	public List<ReleaseTransportInfo> getReleaseTransportInfo(String appName, String pipelineName) throws SQLException {
-		StringBuilder queryStatement = new StringBuilder();
-
-		queryStatement.append(SELECT_CLAUSE);
-		queryStatement.append("release_number, transport_request ");
-		queryStatement.append(FROM_CLAUSE);
-		queryStatement.append("public.tpipeline_info,tapplication_info,ttrigger_history,tsap_deploy_details ");
-		queryStatement.append(WHERE_CLAUSE);
-		queryStatement.append("tapplication_info.application_id = tpipeline_info.application_id ");
-		queryStatement.append(AND_CLAUSE);
-		queryStatement.append("ttrigger_history.trigger_id = tsap_deploy_details.trigger_id ");
-		queryStatement.append(AND_CLAUSE);
-		queryStatement.append("tpipeline_info.pipeline_id = ttrigger_history.pipeline_id ");
-		queryStatement.append(AND_CLAUSE);
-		queryStatement.append("tapplication_info.application_name LIKE ? ");
-		queryStatement.append(AND_CLAUSE);
-		queryStatement.append("tpipeline_info.pipeline_name LIKE ? ");
-		queryStatement.append(ORDER_BY);
-		queryStatement.append("release_number");
-
-		ResultSet rs = null;
-		String releaseNumber;
-		String prevReleaseNumber = "";
-		String transportRequest;
-
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			preparedStatement.setString(1, appName);
-			preparedStatement.setString(2, pipelineName);
-
-			rs = preparedStatement.executeQuery();
-
-			List<ReleaseTransportInfo> releaseTransportInfoList = new ArrayList<>();
-			List<String> transportRequestList = new ArrayList<>();
-			ReleaseTransportInfo releaseTransportInfo;
-			while (rs.next()) {
-				releaseNumber = rs.getString(1);
-				transportRequest = rs.getString(2);
-
-				if (!prevReleaseNumber.equals(releaseNumber)) {
-					transportRequestList = new ArrayList<>();
-					releaseTransportInfo = new ReleaseTransportInfo();
-
-					releaseTransportInfo.setReleaseNumber(releaseNumber);
-					transportRequestList.add(transportRequest);
-					releaseTransportInfo.setTransportList(transportRequestList);
-
-					releaseTransportInfoList.add(releaseTransportInfo);
-				} else {
-					transportRequestList.add(transportRequest);
-				}
-
-				prevReleaseNumber = releaseNumber;
-			}
-
-			return releaseTransportInfoList;
-		}
-
-		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching ReleaseTransportInfo entity values :", e);
-			throw e;
-		}
-
-		finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					logger.info(e.getMessage(), e);
-				}
-			}
-		}
 
 	}
 

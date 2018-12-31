@@ -19,8 +19,7 @@ public class VSTSDataBean implements Comparable<VSTSDataBean>{
 			private String userName = null;
 			// VSTS Password
 			private String pass = null;
-			// VSTS API Version
-			//String apiVer = args [3];
+			
 			// workitem number
 			private String wiNum = null;
 			// Execution Number

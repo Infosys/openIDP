@@ -10,6 +10,7 @@ package com.infy.idp.tools.deploy
 
 import com.infy.idp.plugins.buildsteps.*
 import com.infy.idp.utils.*
+import com.infy.idp.plugins.wrappers.ToolEnvBuildWrapper
 import jenkins.model.*
 import org.infy.idp.entities.jobs.common.AntProperties
 
@@ -69,6 +70,15 @@ class RunScript {
                 }
                 break
         }
+		if(runScript.scriptType == 'ant'){
+		def toolList = 'ANT_HOME'
+			context.with {
+
+            wrappers {
+                (new ToolEnvBuildWrapper()).invokeToolEnvBuildWrapper(delegate, toolList)
+            }
+        }
+		}
     }
 
     /*

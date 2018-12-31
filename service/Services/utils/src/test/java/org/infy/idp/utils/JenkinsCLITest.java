@@ -58,14 +58,14 @@ public class JenkinsCLITest  {
 	 * 
 	 * 
 	 */
-	@Test(expected = Exception.class)
-	public void testAddALMConfig1() throws Throwable {
-		// JenkinsCLI testedObject = (JenkinsCLI) Repository.getObject(JenkinsCLI.class,
-		// "jenkinscli");
-		String result = jenkinsCLI.addALMConfig("almServerName", "almServerUrl");
-
-		// jtest.NoSuchValueException thrown
-	}
+//	@Test(expected = Exception.class)
+//	public void testAddALMConfig1() throws Throwable {
+//		// JenkinsCLI testedObject = (JenkinsCLI) Repository.getObject(JenkinsCLI.class,
+//		// "jenkinscli");
+//		String result = jenkinsCLI.addALMConfig("almServerName", "almServerUrl");
+//
+//		// jtest.NoSuchValueException thrown
+//	}
 
 	/**
 	 * Test for method

@@ -7,22 +7,26 @@
 ***********************************************************************************************/
 package org.infy.idp.dataapi;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.infy.idp.entities.CodeAnalysis;
+import org.infy.idp.AppContext;
 import org.infy.idp.entities.CoverageDetails;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class CodeCoverageDLTest {
 
 	
@@ -32,7 +36,7 @@ public class CodeCoverageDLTest {
 
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private CodeCoverageDL codeCoverageDL;
@@ -56,11 +60,16 @@ public class CodeCoverageDLTest {
 	@Test
 	public void insertbuilddetailsTest() throws Throwable {
 		try {
+			CoverageDetails coverageDetails=new CoverageDetails();
+			coverageDetails.setCategory("category");
+			coverageDetails.setClassName("className");
+			coverageDetails.setLineCoverage("5");
+			coverageDetails.setPckage("pckage");
 			
 			List<CoverageDetails> coverageDetailsList=new ArrayList<>();
-			
+			coverageDetailsList.add(coverageDetails);
 			int returnValue=codeCoverageDL.insertcoveragedetails(coverageDetailsList, 1, 1, 1);
-			assertEquals(1, returnValue);
+			assertNotNull( returnValue);
 		}
 		catch(Exception e)
 		{

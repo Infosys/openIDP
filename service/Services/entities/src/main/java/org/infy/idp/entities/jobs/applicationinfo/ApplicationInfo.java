@@ -44,6 +44,7 @@ public class ApplicationInfo {
 	@SerializedName("slavesDetails")
 	@Expose
 	private List<SlavesDetail> slavesDetails = null;
+
 	@SerializedName("artifactToStage")
 	@Expose
 	private ArtifactToStage artifactToStage;

@@ -43,7 +43,9 @@ public class RetrieveInfoBL {
 	 * @param queryRequest
 	 * @return
 	 */
-	public List<QueryResponse> queryInfo(QueryRequest queryRequest) 
+	
+	
+	public List<QueryResponse> queryInfo(QueryRequest queryRequest,String userid) 
 	{
 		List<QueryResponse> responelist = new ArrayList();
 		for (Target target : queryRequest.getTargets()) 
@@ -56,7 +58,7 @@ public class RetrieveInfoBL {
 								
 				
 				
-				responelist = jobDL.runQuery(target.getTarget());
+				responelist = jobDL.runQuery(target.getTarget(),userid);
 				return responelist;
 
 			
@@ -69,13 +71,14 @@ public class RetrieveInfoBL {
 				if(target.getTarget().contains("scminfo")|| target.getTarget().contains("codeanalysis")||target.getTarget().contains("appinfo")||target.getTarget().contains("filename_export")||target.getTarget().contains("buildinfo") ){
 					response=jobDL.runTableQuerySCM(target.getTarget());
 				}else{
-					response=jobDL.runTableQuery(target.getTarget());
+					response=jobDL.runTableQuery(target.getTarget(),userid);
 				}
 				responelist.add(response);
 			}
 			
 		}
 		return responelist;
+	
 	}
 
 

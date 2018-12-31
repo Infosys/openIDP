@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -55,51 +56,32 @@ public class GitLabBranchTagFetcher {
 		HttpURLConnection conn = null;
 		BufferedReader in = null;
 		try {
-			Integer page = 1;
-
-			List<String> totalPages = null;
-			boolean nextPage = true;
-			while (nextPage) {
-				String sUrl = repoUrl + "/api/v3/projects/?access_token=" + privateToken + "&url=" + projectUrl
-						+ "per_page=100&page=" + page;
-				logger.info("fecthing id from url : " + sUrl);
-				URL url = new URL(sUrl);
-				conn = (HttpURLConnection) url.openConnection();
-				conn.setDoOutput(true);
-				Map<String, List<String>> map = conn.getHeaderFields();
-
-				totalPages = map.get("X-Total-Pages");
-
-				in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-				String inputLine;
-				String input = "";
-				while ((inputLine = in.readLine()) != null) {
-					input = input + inputLine;
-				}
-
-				JSONArray js = JSONArray.fromObject(input);
-
-				int jsSize = js.size();
-				for (int i = 0; i < jsSize; i++) {
-					JSONObject js2 = js.getJSONObject(i);
-
-					String macthUrl = js2.getString("http_url_to_repo");
-
-					if (projectUrl.equalsIgnoreCase(macthUrl)) {
-
-						id = js2.getInt("id");
-						break;
-					}
-				}
-
-				if (totalPages.get(0) != null && (totalPages.get(0).equals(Integer.toString(page))
-						|| Integer.valueOf(totalPages.get(0)) < page)) {
-
-					nextPage = false;
-				}
-				page += 1;
-
+			String[] urlArray =  projectUrl.split("/");
+			String repoOwner="";
+			String repoName="";
+			try {
+				repoOwner = URLEncoder.encode(urlArray[3], "UTF-8");
+				 repoName =  URLEncoder.encode((urlArray[4].split("\\."))[0], "UTF-8");
+				System.out.println(repoOwner+"  "+repoName);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			}
+			String sUrl = repoUrl + "/api/v4/projects/"+repoOwner+"%2F"+repoName+"/?access_token=" + privateToken;
+			System.out.println("fecthing id from url : " + sUrl);
+			URL url = new URL(sUrl);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+
+			in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuilder input = new StringBuilder();
+			while ((inputLine = in.readLine()) != null) {
+				input.append(inputLine);
+			}
+
+			JSONObject js = JSONObject.fromObject(input.toString());
+
+			id = js.getInt("id");
 
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(), e);

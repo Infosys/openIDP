@@ -10,17 +10,14 @@ package org.infy.idp.dataapi.services;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.lang.reflect.Method;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.infy.entities.artifact.Artifact;
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.packagecontent.PackageContent;
-import org.infy.idp.entities.releasemanagerinfo.PathSequence;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,26 +98,6 @@ public class EnvironmentDetailsTest {
 		}
 	}
 
-	@Test(expected = Test.None.class)
-	public void testGetPathSequence() {
-		ArrayList<ArrayList<Integer>> list = null;
-		try {
-			list = testedObject.getPathSequence(5, 1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	@Test
-	public void testGetPathSequenceFailure() {
-		List<PathSequence> list = null;
-		ArrayList<ArrayList<Integer>> pathSequence = null;
-		try {
-			list = testedObject.getEnvPathSequence(pathSequence);
-		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
-		}
-		assertNull(list);
-	}
 
 	@Test
 	public void testGetArtifactList() {

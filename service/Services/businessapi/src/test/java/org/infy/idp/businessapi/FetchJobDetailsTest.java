@@ -17,6 +17,7 @@ import java.util.List;
 import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
 import org.infy.idp.entities.jobs.applicationinfo.EnvironmentOwnerDetail;
+import org.infy.idp.entities.jobs.applicationinfo.SlavesDetail;
 import org.infy.idp.entities.jobs.basicinfo.AdditionalMailRecipients;
 import org.infy.idp.entities.jobs.basicinfo.BasicInfo;
 import org.infy.idp.entities.jobs.basicinfo.BuildInterval;
@@ -102,7 +103,7 @@ public class FetchJobDetailsTest{
 		app.setSlavesDetails(slavesDetails);
 		List<String> env = new ArrayList<String>();
 		env.add("environmentName");
-		List result = testedObject.getEnvironments(app, "environmentOwners", env);
+		List result = testedObject.getEnvironments(app, env);
 
 		List<String> expectedResult = new ArrayList<String>();
 		expectedResult.add("environmentName");
@@ -327,6 +328,140 @@ public class FetchJobDetailsTest{
 		
 	}
 
+	/**
+	 * Test for method getlandscapenames(ApplicationInfo).
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see FetchJobDetails#getlandscapenames(ApplicationInfo app))
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetlandscapenames0(){
+		FetchJobDetails testedObject = new FetchJobDetails();
+		ApplicationInfo app = new ApplicationInfo();
+		app.setApplicationName("app");
+		app.setDevelopers("app_1");
+		app.setPipelineAdmins("app_2");
+		app.setReleaseManager("app_3");
+		List<EnvironmentOwnerDetail> environmentOwnerDetails = new ArrayList<>();
+		EnvironmentOwnerDetail env1 =  new EnvironmentOwnerDetail();
+		env1.setEnvironmentName("Env1");
+		EnvironmentOwnerDetail env2 =  new EnvironmentOwnerDetail();
+		env2.setEnvironmentName("Env2");
+		environmentOwnerDetails.add(env1);
+		environmentOwnerDetails.add(env2);
+		app.setEnvironmentOwnerDetails(environmentOwnerDetails);
+		List<SlavesDetail> slavesDetails = new ArrayList<>();
+		app.setSlavesDetails(slavesDetails);
+		
+//		List<String> landscapes = testedObject.getLandscapeNames(app);
+//		
+//		assertNotNull(landscapes);
+//		assertEquals("[Env1, Env2]", landscapes.toString());
+		
+	}
+	
+	/**
+	 * Test for method getSystemName(ApplicationInfo, String).
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see FetchJobDetails#getSystemName(ApplicationInfo app,Stirng landscape))
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetSystemName0(){
+		FetchJobDetails testedObject = new FetchJobDetails();
+		ApplicationInfo app = new ApplicationInfo();
+		app.setApplicationName("app");
+		app.setDevelopers("app_1");
+		app.setPipelineAdmins("app_2");
+		app.setReleaseManager("app_3");
+		List<EnvironmentOwnerDetail> environmentOwnerDetails = new ArrayList<>();
+		EnvironmentOwnerDetail env1 =  new EnvironmentOwnerDetail();
+		env1.setEnvironmentName("Env1");
+		env1.setHostName("host1");
+		EnvironmentOwnerDetail env2 =  new EnvironmentOwnerDetail();
+		env2.setEnvironmentName("Env2");
+		env2.setHostName("host2");
+		environmentOwnerDetails.add(env1);
+		environmentOwnerDetails.add(env2);
+		app.setEnvironmentOwnerDetails(environmentOwnerDetails);
+		List<SlavesDetail> slavesDetails = new ArrayList<>();
+		app.setSlavesDetails(slavesDetails);
+		
+//		String result = testedObject.getSystemName(app, "Env1");
+		
+//		assertNotNull(result);
+//		assertEquals("host1", result);
+		
+	}
+
+	
+	/**
+	 * Test for method getSystemInfo(ApplicationInfo).
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see FetchJobDetails#getSystemInfo(ApplicationInfo app))
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetSystemInfo0(){
+		FetchJobDetails testedObject = new FetchJobDetails();
+		ApplicationInfo app = new ApplicationInfo();
+		app.setApplicationName("app");
+		List<EnvironmentOwnerDetail> environmentOwnerDetails = new ArrayList<>();
+		EnvironmentOwnerDetail env1 =  new EnvironmentOwnerDetail();
+		env1.setEnvironmentName("Env1");
+		env1.setHostName("host1");
+		EnvironmentOwnerDetail env2 =  new EnvironmentOwnerDetail();
+		env2.setEnvironmentName("Env2");
+		env2.setHostName("host2");
+		environmentOwnerDetails.add(env1);
+		environmentOwnerDetails.add(env2);
+		app.setEnvironmentOwnerDetails(environmentOwnerDetails);
+		List<SlavesDetail> slavesDetails = new ArrayList<>();
+		app.setSlavesDetails(slavesDetails);
+		
+//		EnvironmentOwnerDetail result = testedObject.getSystemInfo("Env1", app);
+//		assertNotNull(result);
+//		assertEquals("host1", result.getHostName());
+		
+	}
+	
+	/**
+	 * Test for method getSystemInfo(ApplicationInfo).
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see FetchJobDetails#getSystemInfo(ApplicationInfo app))
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetSystemInfo1(){
+		FetchJobDetails testedObject = new FetchJobDetails();
+		ApplicationInfo app = new ApplicationInfo();
+		app.setApplicationName("app");
+		List<EnvironmentOwnerDetail> environmentOwnerDetails = new ArrayList<>();
+		EnvironmentOwnerDetail env1 =  new EnvironmentOwnerDetail();
+		env1.setEnvironmentName("Env1");
+		env1.setHostName("host1");
+		EnvironmentOwnerDetail env2 =  new EnvironmentOwnerDetail();
+		env2.setEnvironmentName("Env2");
+		env2.setHostName("host2");
+		environmentOwnerDetails.add(env1);
+		environmentOwnerDetails.add(env2);
+		app.setEnvironmentOwnerDetails(environmentOwnerDetails);
+		List<SlavesDetail> slavesDetails = new ArrayList<>();
+		app.setSlavesDetails(slavesDetails);
+		
+	}
 	/**
 	 * Used to set up the test. This method is called by JUnit before each of the
 	 * tests are executed.

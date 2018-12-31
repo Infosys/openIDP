@@ -278,12 +278,12 @@ public class JobsBLTest {
 
 	}
 
-	@Test
+/*	@Test
 	public void testdbDeployPipelineNamesForApplication() {
 		Names names = jobsaddInfo.dbDeployPipelineNamesForApplication("DemoAppT", "idpadmin");
 		assertNotNull(names);
 
-	}
+	}*/
 
 	@Test
 	public void testGetStageViewUrl() {
@@ -345,7 +345,7 @@ public class JobsBLTest {
 	@Test
 	public void testGetPipelines() throws Throwable {
 
-		jobsBL.getpipelines("DemoAppT", "idpadmin");
+		jobsBL.getpipelinesByAppNameAndUser("DemoAppT", "idpadmin");
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -481,7 +481,7 @@ public class JobsBLTest {
 	@Test
 	public void testgetpipelines_Success() throws Throwable {
 
-		jobsBL.getpipelines("JFrogTest1", "idpadmin");
+		jobsBL.getpipelinesByAppNameAndUser("JFrogTest1", "idpadmin");
 
 	}
 

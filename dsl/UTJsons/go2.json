@@ -1,0 +1,114 @@
+{
+  "basicInfo": {
+    "applicationName": "app",
+    "pipelineName": "go_pipeline",
+    "masterSequence": "pipeline",
+    "buildServerOS": "windows",
+    "engine": "Jenkins Workflow",
+    "buildInterval": {
+      "pollSCM": "off",
+      "buildInterval": "",
+      "buildIntervalValue": "0"
+    },
+    "additionalMailRecipients": {
+      "applicationTeam": "",
+      "emailIds": ""
+    },
+    "userName": "userName",
+    "pipelineStatus": "edit"
+  },
+  "code": {
+    "category": "Standard",
+    "technology": "go",
+    "scm": [
+      {
+        "type": "git",
+        "url": "http://infygit.domain.com/ambica.mehrotra/GoApp.git",
+        "userName": "userName",
+        "password": "password",
+        "repositoryBrowser": "gitLab",
+        "browserUrl": "http://infygit.domain.com/",
+        "projectName": "",
+        "branch": "master",
+        "projPath": "",
+        "moduleName": "",
+        "clearcaseType": "",
+        "vobName": "",
+        "snapshotViewName": "",
+        "configSpec": "",
+        "developmentStreamName": "",
+        "buildConfiguration": "",
+        "buildDefinition": "",
+        "repositoryWorkspace": "",
+        "projArea": "",
+        "port": "",
+        "version": "default",
+        "exclude": "",
+        "proxy": "",
+        "proxyPort": "",
+        "appRepo": "on",
+        "deployRepo": "",
+        "testRepo": ""
+      }
+    ],
+    "jobParam": [],
+    "buildScript": [
+      {
+        "tool": ""
+      },
+      {
+        "tool": ""
+      },
+      {}
+    ],
+    "subApplication": ""
+  },
+  "buildInfo": {
+    "buildtool": "go",
+    "artifactToStage": {
+      "artifact": "**/*.*",
+      "artifactRepo": {
+        "repoURL": "dummyNexus.domain.com:8081",
+        "repoName": "idp_Nexus",
+        "repoUsername": "admin",
+        "repoPassword": "dummy"
+      },
+      "artifactRepoName": "nexus"
+    },
+    "modules": [
+      {
+        "moduleName": "GoApp",
+        "relativePath": "GoApp/sample-go-app-master",
+        "codeAnalysis": [
+          "checkStyle",
+          "sonar"
+        ],
+        "unitTesting": "on",
+        "codeCoverage": "on",
+        "compile": "on",
+        "unitTestDir": "math",
+        "npmProxy": "http://10.74.91.103:80",
+        "npmProxyUserName": "userName",
+        "npmProxyPassword": "password"
+      }
+    ],
+    "postBuildScript": {},
+    "sonarUrl": "http://infysonarqube:8080/"
+  },
+  "deployInfo": {
+    "deployEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "off"
+      }
+    ]
+  },
+  "testInfo": {
+    "testEnv": [
+      {
+        "envName": "dev",
+        "envFlag": "off"
+      }
+    ]
+  }
+}

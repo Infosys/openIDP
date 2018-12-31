@@ -204,4 +204,17 @@ SetcodeCoverage() {
             this.tempObject.subModuleAction = "on";
     }
   }
+
+  /* Initializing OSS inputs on checking and unchecking */
+  ossCompliance(index,checked){
+    if (checked) {
+      this.tempObject.modules[index].ossCheck = "on";
+    } 
+    else {
+      this.tempObject.modules[index].ossCheck = "off";
+      this.buildInfo.modules[index].ossMailRecipients = "";
+      this.buildInfo.modules[index].ossDistributionType = "";
+      this.buildInfo.modules[index].ossAnalysisType = "";
+    }
+  }
 }

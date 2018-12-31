@@ -16,9 +16,9 @@ import org.infy.idp.businessapi.EmailSender;
 import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
 import org.infy.idp.businessapi.JobsManagementBL;
+import org.infy.idp.businessapi.ReleaseBL;
 import org.infy.idp.controller.BaseResource;
 import org.infy.idp.entities.jobs.AppNames;
-import org.infy.idp.entities.jobs.DBDeployOperations;
 import org.infy.idp.entities.jobs.EnvName;
 import org.infy.idp.entities.jobs.Names;
 import org.infy.idp.entities.jobs.SubApplication;
@@ -52,10 +52,12 @@ public class ApplicationServices extends BaseResource {
 	protected static final String modelId = "Model Id: ";
 	@Autowired
 	private JobsBL jobsBL;
-	
+	@Autowired
+	private ReleaseBL releaseBL;
+
 	@Autowired
 	private JobsAdditionalInfo jobsaddInfo;
-	
+
 	@Autowired
 	private JobsManagementBL jobsmgmtBL;
 	@Autowired
@@ -99,7 +101,7 @@ public class ApplicationServices extends BaseResource {
 	}
 
 	/**
-	 * Returns encrypted job 
+	 * Returns encrypted job
 	 * 
 	 * @param idp
 	 * @param auth
@@ -127,7 +129,7 @@ public class ApplicationServices extends BaseResource {
 	 * 
 	 * @param idp
 	 * @param auth
-	 * @return API exposed for decrypting  string values
+	 * @return API exposed for decrypting string values
 	 */
 
 	@PreAuthorize("#oauth2.hasScope('write')")
@@ -180,7 +182,6 @@ public class ApplicationServices extends BaseResource {
 		}
 		return resourceResponse;
 	}
-
 
 	/**
 	 * Returns Existing Apps for Organization.
@@ -331,8 +332,8 @@ public class ApplicationServices extends BaseResource {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		try {
 			logger.info("Creating Application");
-			resourceResponse.setResource(jobsmgmtBL.createApplication(appInfo, auth.getPrincipal().toString().toLowerCase(),
-					TokenUtils.getOrganization(auth)));
+			resourceResponse.setResource(jobsmgmtBL.createApplication(appInfo,
+					auth.getPrincipal().toString().toLowerCase(), TokenUtils.getOrganization(auth)));
 			resourceResponse.setStatus("SUCCESS");
 
 		} catch (Exception ex) {
@@ -401,7 +402,8 @@ public class ApplicationServices extends BaseResource {
 			logger.info("Update info");
 
 			jobsmgmtBL.deleteRole(appInfo);
-			jobsmgmtBL.updateInfo(appInfo, auth.getPrincipal().toString().toLowerCase(), TokenUtils.getOrganization(auth));
+			jobsmgmtBL.updateInfo(appInfo, auth.getPrincipal().toString().toLowerCase(),
+					TokenUtils.getOrganization(auth));
 
 			resourceResponse.setResource(STATUS_SUCCESS);
 			resourceResponse.setStatus("SUCCESS");
@@ -435,6 +437,7 @@ public class ApplicationServices extends BaseResource {
 			logger.info("Fetching application details");
 			Gson gson = new Gson();
 			AppNames apps = jobsmgmtBL.getApplications(auth.getPrincipal().toString().toLowerCase(), platform);
+
 			if (null == apps.getApplicationNames() || apps.getApplicationNames().isEmpty()) {
 				resourceResponse.setResource("No Application");
 			} else {
@@ -452,7 +455,7 @@ public class ApplicationServices extends BaseResource {
 
 	/**
 	 * 
-	 * Fetches  Applications based on filter 
+	 * Fetches Applications based on filter
 	 * 
 	 * @param taskid the String
 	 * @param auth   the OAuth2Authentication
@@ -471,8 +474,8 @@ public class ApplicationServices extends BaseResource {
 		try {
 			logger.info("Retrieving application");
 			Gson gson = new Gson();
-			AppNames apps = jobsmgmtBL.getFilteredApplications(filterString, auth.getPrincipal().toString().toLowerCase(),
-					platform);
+			AppNames apps = jobsmgmtBL.getFilteredApplications(filterString,
+					auth.getPrincipal().toString().toLowerCase(), platform);
 			if (null == apps.getApplicationNames() || apps.getApplicationNames().isEmpty()) {
 				resourceResponse.setResource("No Application");
 			} else {
@@ -625,35 +628,4 @@ public class ApplicationServices extends BaseResource {
 		return resourceResponse;
 	}
 
-	/**
-	 * Returns dbDeploy operations
-	 * 
-	 * @param subAppName
-	 * @param appName
-	 * @param auth
-	 * @return ResourceResponse<String>
-	 */
-	@PreAuthorize("#oauth2.hasScope('write')")
-	@RequestMapping(value = "/getDBDeployOperations", method = RequestMethod.GET)
-	public ResourceResponse<String> dBDeployOperations(String subAppName, String appName, OAuth2Authentication auth) {
-
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		try {
-			logger.info("Retrieving Database deploy operation");
-			Gson gson = new Gson();
-			DBDeployOperations dbDeployOperations = jobsaddInfo.getDBDeployOperations(subAppName, appName);
-			if (null == dbDeployOperations || dbDeployOperations.getOperations().isEmpty()) {
-				resourceResponse.setResource("No Database Deployment");
-			} else {
-				resourceResponse.setResource(gson.toJson(dbDeployOperations, DBDeployOperations.class));
-			}
-			resourceResponse.setStatus("SUCCESS");
-
-		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
-			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(ex.toString(), ex);
-		}
-		return resourceResponse;
-	}
 }

@@ -857,6 +857,9 @@ public class JobAdditionalDetailsDL {
 				List<String> permission = new ArrayList<>();
 				pipelineDetail.setPermissions(permission);
 				permission.addAll(jobInfoDL.getPermissions(userId, pipelineDetail.getApplicationName()));
+				//add custom pipeline admin permission
+				permission.addAll(jobInfoDL.getPipelinePermission(rs.getString("application_name"),rs.getString("pipeline_name"),userId));
+				
 				pipelineDetail.setBuildTool(rs.getString("build_tool"));
 				if ("DBDEPLOY".equalsIgnoreCase(rs.getString("technology"))) {
 					if (pipelineDetail.getPermissions().contains("DATABASE_DEPLOY")) {
@@ -888,6 +891,59 @@ public class JobAdditionalDetailsDL {
 		}
 
 		return pipelineDetails;
+
+	}
+	
+	
+	public List<String> getCustomPipelineAdminApplications(String userId, String platform) throws SQLException {
+
+		String tableName = "tapplication_info,tpipeline_roles";
+		String column = " application_name ";
+		List<String> apps = new ArrayList<>();
+		StringBuilder queryStatement = new StringBuilder();
+
+		queryStatement.append(SELECT_CLAUSE);
+		queryStatement.append(" DISTINCT ");
+		queryStatement.append(column);
+		queryStatement.append(FROM_CLAUSE);
+		queryStatement.append(tableName);
+		queryStatement.append(WHERE_CLAUSE);
+		queryStatement.append("tapplication_info.application_id=tpipeline_roles.app_id ");
+		queryStatement.append(AND_CLAUSE + "platform = " + Config.platformType(platform) + " ");
+		queryStatement.append(AND_CLAUSE + USER_ID);
+		queryStatement.append(ORDER_BY);
+		queryStatement.append("application_name ;");
+
+		ResultSet rs = null;
+
+		try (Connection connection = postGreSqlDbContext.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
+			preparedStatement.setString(1, userId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				apps.add(rs.getString(1));
+			}
+
+			return apps;
+		}
+
+		catch (SQLException | NullPointerException e) {
+
+			logger.error("Postgres Error while fetching applications:", e);
+			throw e;
+
+		}
+
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					logger.info(e.getMessage(), e);
+				}
+			}
+		}
 
 	}
 

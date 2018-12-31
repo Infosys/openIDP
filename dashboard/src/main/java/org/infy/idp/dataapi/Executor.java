@@ -162,29 +162,47 @@ public class Executor {
    * @throws SQLException
    * @throws IOException
    */
-  public Integer insertICQAdetails(int appid,String className, String mi,String cp,String dp) throws SQLException, IOException{
+  public Integer insertICQAdetails(int appid,String className,String cbo,String cr,String doth,String loc,String locom1,String mnol,String mnop,String noa,String noam,String nocon,String noo,String noom,String norm,String rfc,String cc,String wmpc1,String mi,String cp,String dp) throws SQLException, IOException{
 	  
-			   String queryStatement ="INSERT INTO icqa (appid,classname,mi,cp,dp) VALUES (?,?,?,?,?)"; 
-		       logger.info("icqa details");
-			  
-			   try (Connection connection = postGreSqlDbContext.getConnection();
-			        PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
-			    	preparedStatement.setInt(1,appid);
-			    	preparedStatement.setString(2,className);
-			    	preparedStatement.setString(3,mi);
-			    	preparedStatement.setString(4,cp);
-			    	preparedStatement.setString(5,dp);
-			    	preparedStatement.executeUpdate();
-			    	
-			      
-			     }		     
-			    
-			     catch (SQLException e) {
-			      logger.error("Postgres Error while inserting the insertHistoryInfo:",e);
-			      throw e;
-			      
-			    }
-			    
-			  return 1;
-  }
+	   String queryStatement ="INSERT INTO icqa (appid,classname,\"CBO\",\"CR\",\"DOTH\",\"LOC\",\"LOCOM1\",\"MNOL\",\"MNOP\",\"NOA\",\"NOAM\",\"NOCON\",\"NOO\",\"NOOM\",\"NORM\",\"RFC\",\"CC\",\"WMPC1\",\"mi\",\"cp\",\"dp\") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
+      logger.info("icqa details");
+	  
+	   try (Connection connection = postGreSqlDbContext.getConnection();
+	        PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
+	    	preparedStatement.setInt(1,appid);
+	    	preparedStatement.setString(2,className);
+	    	preparedStatement.setString(3,cbo);
+	    	preparedStatement.setString(4,cr);
+	    	preparedStatement.setString(5,doth);
+	    	preparedStatement.setString(6,loc);
+	    	preparedStatement.setString(7,locom1);
+	    	preparedStatement.setString(8,mnol);
+	    	preparedStatement.setString(9,mnop);
+	    	preparedStatement.setString(10,noa);
+	    	preparedStatement.setString(11,noam);
+	    	preparedStatement.setString(12,nocon);
+	    	preparedStatement.setString(13,noo);
+	    	preparedStatement.setString(14,noom);
+	    	preparedStatement.setString(15,norm);
+	    	preparedStatement.setString(16,rfc);
+	    	preparedStatement.setString(17,cc);
+	    	preparedStatement.setString(18,wmpc1);
+	    	preparedStatement.setString(19,mi);
+	    	preparedStatement.setString(20,cp);
+	    	preparedStatement.setString(21,dp);
+	    	preparedStatement.executeUpdate();
+	    	
+	      
+	     }		     
+	    
+	     catch (SQLException e) {
+	      logger.error("Postgres Error while inserting the insertHistoryInfo:",e);
+	      throw e;
+	      
+	    }
+	    
+	  return 1;
+}
+  
+  
 }

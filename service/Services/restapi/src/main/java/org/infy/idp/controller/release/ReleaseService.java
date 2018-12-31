@@ -7,21 +7,21 @@
 ***********************************************************************************************/
 package org.infy.idp.controller.release;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.infy.entities.artifact.Artifact;
 import org.infy.entities.artifact.ArtifactList;
+import org.infy.idp.businessapi.EmailSender;
 import org.infy.idp.businessapi.EnvironmentBL;
 import org.infy.idp.businessapi.JobsBL;
+import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.businessapi.ReleaseBL;
 import org.infy.idp.controller.BaseResource;
 import org.infy.idp.entities.models.ResourceResponse;
 import org.infy.idp.entities.nexus.ArtifactInputs;
 import org.infy.idp.entities.nexus.TriggerDeployArtifact;
 import org.infy.idp.entities.packagecontent.PackageContent;
-import org.infy.idp.entities.releasemanager.Slot;
 import org.infy.idp.entities.releasemanagerinfo.Release;
 import org.infy.idp.entities.releasemanagerinfo.ReleaseManager;
 import org.slf4j.Logger;
@@ -48,6 +48,11 @@ public class ReleaseService extends BaseResource {
 
 	@Autowired
 	private JobsBL jobsBL;
+	@Autowired
+	private JobsManagementBL jobsManagementBL;
+
+	@Autowired
+	private EmailSender emailSender;
 
 	/** The logger. */
 	protected final Logger logger = LoggerFactory.getLogger(ReleaseService.class);
@@ -79,63 +84,6 @@ public class ReleaseService extends BaseResource {
 			resourceResponse.setStatus("FAILURE");
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
-		}
-		return resourceResponse;
-	}
-
-	/**
-	 * Return environment slots for specified application
-	 * 
-	 * @param appName
-	 * @param environment
-	 * @param auth
-	 * @return ResourceResponse<String>
-	 * @throws SQLException
-	 */
-	@PreAuthorize("#oauth2.hasScope('write')")
-	@RequestMapping(value = "/existingEnvSlots/{application_name}/{environment}", method = RequestMethod.GET)
-	public ResourceResponse<String> getEnvSlots(@PathVariable("application_name") String appName,
-			@PathVariable("environment") String environment, OAuth2Authentication auth) throws SQLException {
-		logger.info("getting existing slots for env");
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		Gson gson = new Gson();
-		Slot s = releaseBL.getEnvSlots(appName, environment);
-		if (s.getSlot().size() != 0) {
-			resourceResponse.setResource(gson.toJson(s));
-			resourceResponse.setStatus("SUCCESS");
-		} else {
-			resourceResponse.setStatus("No previous slots");
-		}
-		return resourceResponse;
-
-	}
-
-	/**
-	 * Returns existing slots for specified app and environment
-	 * 
-	 * @param appName
-	 * @param releaseNumber
-	 * @param environment
-	 * @param auth
-	 * @return ResourceResponse<String>
-	 * @throws SQLException
-	 */
-	@PreAuthorize("#oauth2.hasScope('write')")
-	@RequestMapping(value = "/existingSlots/{release_number}/{application_name}/{environment}", method = RequestMethod.GET)
-	public ResourceResponse<String> getExistingSlots(@PathVariable("application_name") String appName,
-			@PathVariable("release_number") String releaseNumber, @PathVariable("environment") String environment,
-			OAuth2Authentication auth) throws SQLException {
-
-		logger.info("getting existing slots");
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		Gson gson = new Gson();
-		Slot s = releaseBL.getExistingSlots(appName, releaseNumber, environment);
-
-		if (s.getSlot().size() != 0) {
-			resourceResponse.setResource(gson.toJson(s));
-			resourceResponse.setStatus("SUCCESS");
-		} else {
-			resourceResponse.setStatus("No previous slots");
 		}
 		return resourceResponse;
 	}
@@ -403,4 +351,33 @@ public class ReleaseService extends BaseResource {
 		return resourceResponse;
 	}
 
+	
+	/**
+	 * 
+	 * @param artifactInputs
+	 * @param auth
+	 * @return ResourceResponse<String>
+	 */
+	@PreAuthorize("#oauth2.hasScope('write')")
+	@RequestMapping(value = "/getApprovedArtifact", method = RequestMethod.POST)
+	public ResourceResponse<String> getApprovedArtifact(@RequestBody ArtifactList artifactInputs,
+			OAuth2Authentication auth) {
+		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
+
+		try {
+			logger.info("getting ReleaseNo for Pipeline");
+
+			Gson gson = new Gson();
+			ArtifactList artifactList = environmentBL.getArtifactList(artifactInputs);
+
+			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setResource(gson.toJson(artifactList, ArtifactList.class));
+
+		} catch (Exception ex) {
+			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setErrorMessage(ex.toString());
+			logger.error(ex.toString(), ex);
+		}
+		return resourceResponse;
+	}
 }

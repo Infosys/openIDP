@@ -17,13 +17,14 @@ import { ModuleWithProviders } from "@angular/core";
 import {ReleaseConfigsComponent} from "./release-configs/release-configs.component";
 import { ServicePortalComponent } from "./service-portal/service-portal.component";
 import { KeycloakComponent } from "./keycloak/keycloak.component";
-import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
+// import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
 import { CreateLicenseComponent } from "./create-license/create-license.component";
 import { CreateOrganizationComponent } from "./create-organization/create-organization.component";
 import { NotificationInfoComponent } from "./notification-info/notification-info.component";
+import { ApproveReleaseComponent } from "./approve-release/approve-release.component";
 
 export const appRoutes: Routes = [
-  { path : "manageEnvironment", component: ManageEnvironmentComponent},
+  // { path : "manageEnvironment", component: ManageEnvironmentComponent},
   { path : "notificationPage", component: NotificationInfoComponent},
   { path : "", redirectTo: "/login", pathMatch: "full" },
   { path : "login", component: LoginComponent, canActivate: [AuthGuardService] },
@@ -37,6 +38,7 @@ export const appRoutes: Routes = [
         { path : "buildInfo", loadChildren : "app/build-info/build-info.module#BuildInfoModule" },
         { path : "testInfo", loadChildren : "app/test-info/test-info.module#TestInfoModule" },
         { path : "deployInfo", loadChildren : "app/deploy-info/deploy-info.module#DeployInfoModule" },
+        { path: "workflowInfo", loadChildren: "app/workflow-info/workflow-info.module#WorkflowModule" },
         { path : "**", redirectTo : "basicInfo", pathMatch : "full" },
     ]
   },
@@ -47,6 +49,10 @@ export const appRoutes: Routes = [
         { path : "stageviewTrigger", loadChildren : "app/stageview-trigger/stageview-trigger.module#StageviewTriggerModule" },
         { path : "stageviewHistory", loadChildren : "app/stageview-history/stageview-history.module#StageviewHistoryModule" },
         { path : "trigger", component : TriggerComponent },
+        { path : "workflowInfo", loadChildren: "app/workflow-info/workflow-info.module#WorkflowModule" },
+        { path:"approve", loadChildren:"app/approve-release/approve-release.module#ApproveReleaseModule"},
+        { path: "aboutView", loadChildren: 'app/about-view/about-view.module#AboutViewModule' },
+        { path: 'dashboardView', loadChildren: 'app/dashboard-view/dashboard-view.module#DashboardViewModule' },
         { path : "schedule", loadChildren : "app/build-interval-cntrl/build-interval-cntrl.module#BuildIntervalModule"},
         { path : "approveBuild" , loadChildren : "app/approve-build/approve-build.module#ApproveBuildModule"},
         { path : "createLicense", component : CreateLicenseComponent },

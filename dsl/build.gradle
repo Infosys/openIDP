@@ -2,14 +2,20 @@ apply plugin: 'groovy'
 buildscript {
     repositories {
         //mavenCentral()
+		
+		
 		maven {
 			
 			//url 'http://chdsez400283d:8081/repository/DSL/'
-			url 'http://dummyNexus:8081/repository/DSL_Group/'
+			url 'http://dummyNexus.domain.com:8081/repository/DSL_Group'
+			
+			//url 'http://nexusServer/nexus/repository/PUBLIC_REPO/'
 	   }
-	   maven {
-			url 'http://dummyNexus:8081/repository/maven-public/'
-	   }
+	   /*maven {
+			url 'http://dummyNexus.domain.com:8081/repository/maven-public/'
+	   }*/
+	   
+	   
     }
     dependencies {
         classpath "net.saliman:gradle-cobertura-plugin:2.5.0"
@@ -26,14 +32,18 @@ repositories {
 	flatDir {
        dirs 'lib','testlibs'
 	}
+	
     maven {
 		 
 		 //url 'http://chdsez400283d:8081/repository/DSL/'
-		 url 'http://dummyNexus:8081/repository/DSL_Group/'
+		 url 'http://dummyNexus.domain.com:8081/repository/DSL_Group'
+		//url 'http://nexusServer/nexus/repository/PUBLIC_REPO/'
     }
-	maven {
-		 url 'http://dummyNexus:8081/repository/maven-public/'
-    } 
+	/*maven {
+		 url 'http://dummyNexus.domain.com:8081/repository/maven-public/'
+    }*/ 
+	
+	
 }
 apply plugin: 'cobertura'
 
@@ -58,7 +68,7 @@ dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.4.9'
 	compile 'org.infy.idp:entities:3.0@jar'
 	compile 'com.google.code.gson:gson:2.8.0'
-	compile 'javaposse.jobdsl:job-dsl-core:${jobDslVersion}@jar'
+	compile "javaposse.jobdsl:job-dsl-core:${jobDslVersion}@jar"
 	compile 'org.jenkins-ci.plugins:credentials:2.1.9@jar'
 	compile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
 
@@ -111,7 +121,7 @@ dependencies {
 	testPlugins 'org.jenkins-ci.main:maven-plugin:2.14'
 	testPlugins 'org.jenkins-ci.plugins:msbuild:1.27'
 	testPlugins 'org.jenkins-ci.plugins:hockeyapp:1.2.2'
-	testPlugins 'org.jenkins-ci.plugins:nodelabelparameter:1.7.2'
+	testPlugins 'org.jenkins-ci.plugins:nodelabelparameter:1.0.0'
 	testPlugins 'sp.sd:nexus-artifact-uploader:2.9'
 	testPlugins 'org.jenkins-ci.plugins:parameterized-trigger:2.34'
 	testPlugins 'org.jenkins-ci.plugins:performance:3.1'
@@ -120,7 +130,7 @@ dependencies {
 	testPlugins 'org.jenkins-ci.plugins:publish-over-ssh:1.17'
 	testPlugins 'org.jvnet.hudson.plugins:pmd:3.48'
 	testPlugins 'org.jenkins-ci.plugins:rtc:0.3'
-	testPlugins 'org.jenkins-ci.plugins:sonar:2.6.1'
+	testPlugins 'org.jenkins-ci.plugins:sonar:2.1'
 	testPlugins 'org.jenkins-ci.plugins:subversion:2.8'
 	testPlugins 'org.jenkins-ci.plugins:throttle-concurrents:2.0.1'
 	testPlugins 'org.jenkins-ci.plugins:token-macro:2.1'

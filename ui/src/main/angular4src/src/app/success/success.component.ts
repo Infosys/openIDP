@@ -18,6 +18,8 @@ import { IdpdataService } from "../idpdata.service";
 
 
 export class SuccessComponent implements OnInit {
+
+
   application: any;
   pipelineDetails: any;
   pipelineName: any;
@@ -36,7 +38,29 @@ export class SuccessComponent implements OnInit {
     this.pipelineName = this.pipelineDetails.basicInfo.pipelineName;
     this.application = this.IdpdataService.application;
 
+    if (this.pipelineDetails.basicInfo.masterSequence === "workflow") {
+      this.pipelineDetails.pipelinesSuccess = [];
+      this.workflowSequence = this.pipelineDetails.pipelines;
+      let i = 0;
+      for (let pipe of this.workflowSequence) {
+            for (let appDetails of pipe.applicationDetails) {
+        for (let pipeDetails of appDetails.pipelineDetails) {
+          const obj = {
+            "applicationName": pipeDetails.applicationName,
+            "pipelineName": pipeDetails.pipelineName,
+            "releaseNumber": pipeDetails.releaseNumber,
+            "stepNo": i
+          };
+          this.pipelineDetails.pipelinesSuccess.push(obj);
+        }
+        }
+        i++;
+      }
+    }
+
   }
+
+
 
   /* Gets App details for Displaying in success page */
   getAppDetails(appName) {

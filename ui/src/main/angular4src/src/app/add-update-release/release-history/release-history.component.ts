@@ -42,8 +42,7 @@ export class ReleaseHistoryComponent implements OnInit {
             if (value.actualStartDate !== undefined && value.actualStartDate !== "" ) {
                 this.release.push(value);
             }
-            }),
-         console.log(this.release);
+            })
         });
     }
   }

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
-import org.infy.idp.entities.releasemanager.Slot;
 import org.infy.idp.entities.releasemanagerinfo.Release;
 import org.infy.idp.entities.releasemanagerinfo.ReleasePipeline;
 import org.infy.idp.utils.ConfigurationManager;
@@ -73,17 +72,6 @@ public class ReleaseDetailsTest {
 		assertNotNull(map);
 	}
 
-	@Test
-	public void testGetEnvSlots() throws Throwable {
-		Slot slot = testedObject.getEnvSlots("JFrogTest", "dev");
-		assertNotNull(slot);
-	}
-
-	@Test
-	public void testGetExistingslots() throws Throwable {
-		Slot slot = testedObject.getExistingslots("JFrogTest", "1.0.0", "dev");
-		assertNotNull(slot);
-	}
 
 	@Test
 	public void testGetReleasePipelineInfo() throws Throwable {

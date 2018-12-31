@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.infy.entities.triggerinputs.DeployArtifact;
-import org.infy.entities.triggerinputs.ReleaseTransportInfo;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.getjob.GetJob;
@@ -427,14 +426,14 @@ public class JobDetailsDLTest   {
 		
 	}
 
-	
-	@Test
-	public void testdbDeployPipelineNamesForApplication() {
-		List<String> list = null;
-		list = jobInfoDL.dbDeployPipelineNamesForApplication("DemoAppT");
-		assertNotNull(list);
-		assertNotEquals(list.size(), 0);
-	}
+//	
+//	@Test
+//	public void testdbDeployPipelineNamesForApplication() {
+//		List<String> list = null;
+//		list = jobInfoDL.dbDeployPipelineNamesForApplication("DemoAppT");
+//		assertNotNull(list);
+//		assertNotEquals(list.size(), 0);
+//	}
 	
 	
 	@Test
@@ -444,26 +443,12 @@ public class JobDetailsDLTest   {
 		assertNotNull(list);
 		assertNotEquals(list.size(), 0);
 	}
-	@Test
-	public void testDeletePipelineRoles() {
-		 jobInfoDL.deletePipelineRoles(1L);
-		
-	}
+//	@Test
+//	public void testDeletePipelineRoles() {
+//		 jobInfoDL.deletePipelineRoles(1L);
+//		
+//	}
 	
-	
-	
-	@Test
-	public void testGetReleaseTransportInfo() {
-		List<ReleaseTransportInfo> list = null;
-		try {
-			list = testedObject.getReleaseTransportInfo("DemoAppT","JFrogTest1");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertNotNull(list);
-		assertNotEquals(list.size(), 0);
-	}
 	@Test
 	public void testGetPipelinePermissionForApp() {
 		List<String> list = null;

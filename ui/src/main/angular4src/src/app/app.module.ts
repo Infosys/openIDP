@@ -46,11 +46,12 @@ import { SubscriptionService } from "./subscription.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
 import { RequestOptions, XHRBackend } from "@angular/http";
 import { KeycloakHttp, keycloakHttpFactory } from "./keycloak/keycloak.http";
-import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
+// import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
 import { CreateLicenseComponent } from "./create-license/create-license.component";
 import { CreateOrganizationComponent } from "./create-organization/create-organization.component";
 import { NotificationInfoComponent } from "./notification-info/notification-info.component";
-import { DynamicComponentDirective } from "./custom-directive/dynamicComponent.directive";
+// import { DynamicComponentDirective } from "./custom-directive/dynamicComponent.directive";
+// import { WorkflowInfoComponent } from "./workflow-info/workflow-info.component";
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, "assets/i18n", ".json");
 }
@@ -73,11 +74,10 @@ export function startupServiceFactory(startupService: StartupService): Function 
         MailSuccessComponent,
         ReleaseConfigsComponent,
         ServicePortalComponent,
-        ManageEnvironmentComponent,
+        // ManageEnvironmentComponent,
         CreateLicenseComponent,
         NotificationInfoComponent,
         CreateOrganizationComponent,
-        DynamicComponentDirective
     ],
     imports: [
         BrowserModule,

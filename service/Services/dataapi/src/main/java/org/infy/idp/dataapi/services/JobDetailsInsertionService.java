@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 
 /**
  * The class contains methods related to jobs, additional parameters
+ * 
  * @author Infosys
  */
 @Component
@@ -49,11 +50,11 @@ public class JobDetailsInsertionService {
 	private static final String UPDATE_CLAUSE = "UPDATE  ";
 	private static final String WHERE_CLAUSE = " WHERE ";
 	private static final String SET_CLAUSE = " SET ";
+	private static final String WORKFLOW = "workflow";
 
 	private JobDetailsInsertionService() {
 
 	}
-
 
 	/**
 	 * 
@@ -64,8 +65,7 @@ public class JobDetailsInsertionService {
 	 * @throws SQLException
 	 * @throws NullPointerException
 	 */
-	public Integer insertBuildNumber(String appName, String pipelineName, String buildnumber)
-			throws SQLException {
+	public Integer insertBuildNumber(String appName, String pipelineName, String buildnumber) throws SQLException {
 
 		String queryStatement = "INSERT INTO tdevops_info VALUES (?, ?, ?);";
 		try (Connection connection = postGreSqlDbContext.getConnection();
@@ -164,11 +164,31 @@ public class JobDetailsInsertionService {
 			preparedStatement.setString(1, idp.getBasicInfo().getPipelineName());
 			preparedStatement.setBytes(2, ecryptedJson.getBytes());
 			preparedStatement.setLong(3, applicationId);
-			preparedStatement.setString(4, idp.getCode().getTechnology());
-			preparedStatement.setString(5, idp.getBuildInfo().getBuildtool());
+			if (idp.getBasicInfo().getMasterSequence() != null
+					&& WORKFLOW.equalsIgnoreCase(idp.getBasicInfo().getMasterSequence())) {
+				preparedStatement.setString(4, idp.getBasicInfo().getMasterSequence());
+			} else {
+				preparedStatement.setString(4, idp.getCode().getTechnology());
+			}
+			if (idp.getBasicInfo().getMasterSequence() != null
+					&& WORKFLOW.equalsIgnoreCase(idp.getBasicInfo().getMasterSequence())) {
+				preparedStatement.setString(5, idp.getBasicInfo().getMasterSequence());
+			} else {
+				preparedStatement.setString(5, idp.getBuildInfo().getBuildtool());
+			}
 			preparedStatement.setObject(6, ecryptedJson.getBytes());
-			preparedStatement.setString(7, idp.getCode().getTechnology());
-			preparedStatement.setString(8, idp.getBuildInfo().getBuildtool());
+			if (idp.getBasicInfo().getMasterSequence() != null
+					&& WORKFLOW.equalsIgnoreCase(idp.getBasicInfo().getMasterSequence())) {
+				preparedStatement.setString(7, idp.getBasicInfo().getMasterSequence());
+			} else {
+				preparedStatement.setString(7, idp.getCode().getTechnology());
+			}
+			if (idp.getBasicInfo().getMasterSequence() != null
+					&& WORKFLOW.equalsIgnoreCase(idp.getBasicInfo().getMasterSequence())) {
+				preparedStatement.setString(8, idp.getBasicInfo().getMasterSequence());
+			} else {
+				preparedStatement.setString(8, idp.getBuildInfo().getBuildtool());
+			}
 			preparedStatement.executeUpdate();
 
 		}
@@ -244,7 +264,7 @@ public class JobDetailsInsertionService {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tapplication_info:", e);
+			logger.error("Postgres Error while updating the data in tapplication_info:", e);
 
 		} finally {
 			if (rs != null) {
@@ -333,7 +353,7 @@ public class JobDetailsInsertionService {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tslave_detials:", e);
+			logger.error("Postgres Error while updating the data in tslave_detials:", e);
 
 		}
 
@@ -356,6 +376,7 @@ public class JobDetailsInsertionService {
 		StringBuilder queryStatement = new StringBuilder();
 		queryStatement.append(INSERT_CLAUSE + " " + tableName
 				+ " (pipeline_id, trigger_entity, release_number) VALUES (?, cast(? as json), ?);");
+		ResultSet resultSet = null;
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString(),
 						new String[] { "trigger_id" })) {
@@ -366,15 +387,23 @@ public class JobDetailsInsertionService {
 
 			preparedStatement.executeUpdate();
 
-			ResultSet rs = preparedStatement.getGeneratedKeys();
-			if (rs.next()) {
-				productId = (int) rs.getLong(1);
+			resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next()) {
+				productId = (int) resultSet.getLong(1);
 			}
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tuser_info:", e);
+			logger.error("Postgres Error while inserting the data in ttrigger_history:", e);
 			return -1;
+		} finally {
+			if (resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (SQLException e) {
+					logger.error("Postgres Error while closing resultset:", e);
+				}
+			}
 		}
 
 		return productId;
@@ -433,12 +462,13 @@ public class JobDetailsInsertionService {
 	public Integer insertUsers(String userId, String emailId, Boolean status, Long orgId) {
 		String tableName = "tuser_info";
 		StringBuilder queryStatement = new StringBuilder();
-		queryStatement.append(INSERT_CLAUSE + " " + tableName + " (user_id, email_id, enabled) VALUES (?, ?, ?);");
+		queryStatement.append(INSERT_CLAUSE + " " + tableName + " (user_id, email_id, enabled, org_id) VALUES (?, ?, ?, ?);");
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 			preparedStatement.setString(1, userId.toLowerCase());
 			preparedStatement.setString(2, emailId);
 			preparedStatement.setBoolean(3, status);
+			preparedStatement.setFloat(4, orgId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException | NullPointerException e) {
 			logger.error("Postgres Error while inserting the data in tuser_info:", e);
@@ -503,7 +533,7 @@ public class JobDetailsInsertionService {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tuser_info:", e);
+			logger.error("Postgres Error while inserting the data in tapplication_roles:", e);
 			return -1;
 		}
 
@@ -537,7 +567,7 @@ public class JobDetailsInsertionService {
 				preparedStatement.executeUpdate();
 			}
 		} catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tuser_info:", e);
+			logger.error("Postgres Error while inserting the data in tapplication_roles:", e);
 			return -1;
 		}
 
@@ -567,7 +597,7 @@ public class JobDetailsInsertionService {
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tuser_info:", e);
+			logger.error("Postgres Error while updating the data in tdevops_build_details:", e);
 			logger.error(e.getMessage(), e);
 			return -1;
 		}
@@ -669,6 +699,7 @@ public class JobDetailsInsertionService {
 	public Integer updateTriggerHistory(int id, String version, String artifactName) {
 		Integer productId = null;
 		String queryStatement = "Update ttrigger_history set version=? , artifact_name = ? where trigger_id=?";
+		ResultSet rs = null;
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
 			preparedStatement.setString(1, version);
@@ -676,15 +707,21 @@ public class JobDetailsInsertionService {
 			preparedStatement.setInt(3, id);
 			preparedStatement.executeUpdate();
 
-			ResultSet rs = preparedStatement.getGeneratedKeys();
+			rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
 				productId = (int) rs.getLong(1);
 			}
 		}
 
 		catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while inserting the data in tuser_info:", e);
+			logger.error("Postgres Error while updating the data in ttrigger_history:", e);
 			return -1;
+		}finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				logger.error("Postgres Error while closing stream:", e);
+			}
 		}
 
 		return productId;
@@ -718,9 +755,6 @@ public class JobDetailsInsertionService {
 		}
 	}
 
-	
-	
-	
 	/**
 	 * Add notification for pipeline
 	 * 
@@ -750,5 +784,6 @@ public class JobDetailsInsertionService {
 		}
 
 	}
+
 
 }

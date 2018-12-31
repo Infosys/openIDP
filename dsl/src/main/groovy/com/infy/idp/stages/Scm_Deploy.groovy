@@ -18,6 +18,7 @@ import com.infy.idp.tools.*
 import com.infy.idp.utils.*
 import com.infy.idp.utils.Constants
 import javaposse.jobdsl.dsl.DslFactory
+import com.infy.idp.plugins.wrappers.BuildEnv
 
 /**
  *
@@ -36,7 +37,11 @@ class Scm_Deploy {
     void run(DslFactory factory, jsonData) {
         def scmFlag = true
         if (jsonData.code.scm.size() > 0) {
-
+			if(jsonData.code.technology.equalsIgnoreCase("SapNonCharm")){
+				def data = jsonData.code.scm.get(0);
+				if(!(data.size()>0))
+					scmFlag=false
+			}
             if (scmFlag) {
                 basepath = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName
                 baseJobCreationForScmDeploy(factory, jsonData)
@@ -119,6 +124,8 @@ class Scm_Deploy {
                 preBuild.setCleanupParameter("true")
                 preBuild.setDeleteCommand("")
                 preBuild.add(delegate, jsonData)
+				BuildEnv env = new BuildEnv();
+				env.add(delegate, jsonData);
             }
         }
     }

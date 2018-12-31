@@ -23,8 +23,8 @@ import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
 import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.JobManagementDL;
+import org.infy.idp.dataapi.services.ReleaseDetails;
 import org.infy.idp.dataapi.services.UpdateJobDetails;
-import org.infy.idp.entities.jobs.DBDeployOperations;
 import org.infy.idp.entities.jobs.DownloadArtifactInputs;
 import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.Names;
@@ -61,7 +61,7 @@ public class JobsAdditionalInfo {
 	private TriggerDetailBL getTriggerDetails;
 	@Autowired
 	private TriggerAdditionalBL triggerAddBl;
-	
+
 	@Autowired
 	private JobManagementDL jobManagementDL;
 	@Autowired
@@ -75,6 +75,8 @@ public class JobsAdditionalInfo {
 	private JenkinsCLI cli;
 	@Autowired
 	private TestPlanDetailsFetcher testPlanDetailsFetcher;
+	@Autowired
+	private ReleaseDetails releaseDetailsDL;
 
 	private JobsAdditionalInfo() {
 	}
@@ -171,7 +173,7 @@ public class JobsAdditionalInfo {
 		try {
 			userPermissions.addAll(getPipelinePermissionforApplication(applicationName, userName));
 		} catch (SQLException e) {
-			logger.error("error while getting pipeline permission for application ", e.getMessage());
+			logger.error("error while getting pipeline permission for application %s", e.getMessage());
 		}
 		logger.debug("Permissions:" + userPermissions);
 		return userPermissions;
@@ -255,31 +257,6 @@ public class JobsAdditionalInfo {
 		return subApplication;
 	}
 
-	public DBDeployOperations getDBDeployOperations(String subApplicationName, String appName) {
-		String subApps = jobInfoDL.getDBDeployOperation(subApplicationName, appName);
-		List<String> operations = new ArrayList<>();
-		String[] opt = subApps.split(";");
-		for (String string : opt) {
-			operations.add(string);
-		}
-		DBDeployOperations dbDeployOperations = new DBDeployOperations();
-		dbDeployOperations.setOperations(operations);
-		logger.debug("getting Database deployment opeartionas ");
-		return dbDeployOperations;
-	}
-
-	public Names dbDeployPipelineNamesForApplication(String applicationName, String userName) {
-		List<String> permissions = getAllPermission(userName);
-		Names names = new Names();
-		if (null == permissions || permissions.isEmpty()) {
-			return names;
-		}
-		Gson gson = new Gson();
-		List<String> pipelines = jobInfoDL.dbDeployPipelineNamesForApplication(applicationName);
-		names.setNames(pipelines);
-		logger.debug("pipeline Names for the application " + applicationName + " : " + gson.toJson(names, Names.class));
-		return names;
-	}
 
 	public List<Boolean> setBranchTagPresentValue(IDPJob idpjob, String branchOrTagValue, String branchOrTag) {
 		List<Boolean> list = new ArrayList<>();
@@ -338,8 +315,8 @@ public class JobsAdditionalInfo {
 							String port = idpjob.getCode().getScm().get(i).getProxyPort();
 							logger.info(port);
 							logger.info(idpjob.getCode().getScm().get(i).getProxyPort());
-							List<ArrayList<String>> branchTagList = triggerAddBl
-									.bitBucketbranchesTagsFetcher(repoUrl, username, pwd, projectUrl, proxy, port);
+							List<ArrayList<String>> branchTagList = triggerAddBl.bitBucketbranchesTagsFetcher(repoUrl,
+									username, pwd, projectUrl, proxy, port);
 							logger.info("sjowing branchTag");
 							logger.info(branchTagList.toString());
 							if (branchTagList != null) {
@@ -500,8 +477,7 @@ public class JobsAdditionalInfo {
 	}
 
 	public List<String> getPipelinePermission(String appname, String pipelineName, String userId) throws SQLException {
-		List<String> permissionList = jobInfoDL.getPipelinePermission(appname, pipelineName, userId);
-		return permissionList;
+		return jobInfoDL.getPipelinePermission(appname, pipelineName, userId);
 	}
 
 	public List<String> getPipelinePermissionforApplication(String appname, String userId) throws SQLException {
@@ -524,4 +500,5 @@ public class JobsAdditionalInfo {
 			}
 		}
 	}
+
 }

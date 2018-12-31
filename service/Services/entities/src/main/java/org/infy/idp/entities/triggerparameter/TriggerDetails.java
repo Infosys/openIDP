@@ -101,18 +101,14 @@ public class TriggerDetails {
 	@SerializedName("instance")
 	@Expose
 	private String instance;
-	@SerializedName("client")
-	@Expose
-	private String client;
-	/*
-	 * Remove SAP
-	 * 
-	 * @SerializedName("sapUserName")
-	 * 
-	 * @Expose private String sapUserName;
-	 */
-	@SerializedName("password")
-	@Expose
+//	@SerializedName("client")
+//	@Expose
+//	private String client;
+//	@SerializedName("sapUserName")
+//    @Expose
+//    private String sapUserName;
+//	@SerializedName("password")
+//	@Expose
 	private String password;
 	@SerializedName("technology")
 	@Expose
@@ -121,13 +117,13 @@ public class TriggerDetails {
 	@Expose
 	private String language;
 
-	@SerializedName("userStories")
-	@Expose
-	private String userStories;
-
-	@SerializedName("transportRequest")
-	@Expose
-	private List<String> transportRequest;
+//	@SerializedName("userStories")
+//	@Expose
+//	private String userStories;
+//
+//	@SerializedName("transportRequest")
+//	@Expose
+//	private List<String> transportRequest;
 	@SerializedName("sonardashBoardLink")
 	@Expose
 	private String sonardashBoardLink;
@@ -164,17 +160,17 @@ public class TriggerDetails {
 	@SerializedName("subApplicationName")
 	@Expose
 	private String subApplicationName;
-	@SerializedName("dbOperations")
-	@Expose
-	private String dbOperations;
-
-	@SerializedName("deployDB")
-	@Expose
-	private String deployDB;
-
-	@SerializedName("restoreDB")
-	@Expose
-	private String restoreDB;
+//	@SerializedName("dbOperations")
+//	@Expose
+//	private String dbOperations;
+//
+//	@SerializedName("deployDB")
+//	@Expose
+//	private String deployDB;
+//
+//	@SerializedName("restoreDB")
+//	@Expose
+//	private String restoreDB;
 	@SerializedName("testPlanId")
 	@Expose
 	private String testPlanId;
@@ -316,7 +312,7 @@ public class TriggerDetails {
 		this.jobParam = jobParam;
 	}
 
-	public String getDeployDB() {
+	/*public String getDeployDB() {
 		return deployDB;
 	}
 
@@ -330,7 +326,7 @@ public class TriggerDetails {
 
 	public void setRestoreDB(String restoreDB) {
 		this.restoreDB = restoreDB;
-	}
+	}*/
 
 	public String getBranchOrTag() {
 		return branchOrTag;
@@ -339,14 +335,14 @@ public class TriggerDetails {
 	public void setBranchOrTag(String branchOrTag) {
 		this.branchOrTag = branchOrTag;
 	}
-
+/*
 	public String getDbOperations() {
 		return dbOperations;
 	}
 
 	public void setDbOperations(String dbOperations) {
 		this.dbOperations = dbOperations;
-	}
+	}*/
 
 	public String getSubApplicationName() {
 		return subApplicationName;
@@ -445,7 +441,7 @@ public class TriggerDetails {
 		this.instance = instance;
 	}
 
-	public String getClient() {
+/*	public String getClient() {
 		return client;
 	}
 
@@ -453,12 +449,13 @@ public class TriggerDetails {
 		this.client = client;
 	}
 
-	/*
-	 * Remove SAP public String getSapUserName() { return sapUserName; }
-	 * 
-	 * public void setSapUserName(String sapUserName) { this.sapUserName =
-	 * sapUserName; }
-	 */
+		public String getSapUserName() {
+		return sapUserName;
+	}
+
+	public void setSapUserName(String sapUserName) {
+		this.sapUserName = sapUserName;
+	}*/
 	public String getPassword() {
 		return password;
 	}
@@ -483,13 +480,13 @@ public class TriggerDetails {
 		this.language = language;
 	}
 
-	public String getUserStories() {
+	/*public String getUserStories() {
 		return userStories;
 	}
 
 	public void setUserStories(String userStories) {
 		this.userStories = userStories;
-	}
+	}*/
 
 	public String getSystemName() {
 		return systemName;
@@ -499,13 +496,13 @@ public class TriggerDetails {
 		this.systemName = systemName;
 	}
 
-	public List<String> getTransportRequest() {
+/*	public List<String> getTransportRequest() {
 		return transportRequest;
 	}
 
 	public void setTransportRequest(List<String> transportRequest) {
 		this.transportRequest = transportRequest;
-	}
+	}*/
 
 	public String getDashBoardLink() {
 		return dashBoardLink;
@@ -659,12 +656,12 @@ public class TriggerDetails {
 		this.testSlaveName = testSlaveName;
 	}
 
-	public String getCastSlaveName() {
+	/*public String getCastSlaveName() {
 		return castSlaveName;
 	}
 
 	public void setCastSlaveName(String castSlaveName) {
 		this.castSlaveName = castSlaveName;
-	}
+	}*/
 
 }

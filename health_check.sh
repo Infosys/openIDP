@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Performing Health Checks .........."
 status=false;
-retries_allowed=3
+retries_allowed=10
 print_status(){
 	if [ "$1" != true ]
 	then

@@ -119,7 +119,6 @@ public class ModuleTest {
 		testedObject.setAvdName("avdName22");
 		testedObject.setEnvName("envName22");
 		testedObject.setDbName("dbName22");
-		// Integer port = new Integer(-2147483648);
 		String port = "-2147483648";
 		testedObject.setPort(port.toString());
 		testedObject.setProductKey("productKey22");
@@ -233,6 +232,9 @@ public class ModuleTest {
 		testedObject.setSourcePassword("dummy4+");
 		testedObject.setSourceUrl("url");
 		testedObject.setTimeout("timeout");
+//		testedObject.setRaiseJiraBug("raiseJiraBug");
+		
+//		assertEquals("raiseJiraBug", testedObject.getRaiseJiraBug());
 		assertEquals(proxy, testedObject.getProxy());
 		assertEquals("serverMachine22", testedObject.getServerMachine());
 		assertEquals("pig", testedObject.getPigProjectName());

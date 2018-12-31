@@ -3,6 +3,7 @@ package com.infosys.json;
 
 import org.junit.Test;
 
+import junit.framework.Assert;
 
 
 public class SonarDetailsLOCjsonTest {
@@ -12,7 +13,9 @@ public class SonarDetailsLOCjsonTest {
 		
 		SonarDetailsLOCjson sloc = new SonarDetailsLOCjson();
 		
-	
+		sloc.setComponent(null);
+		
+		Assert.assertEquals(null, sloc.getComponent());
 
 	}
 }

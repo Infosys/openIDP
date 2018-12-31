@@ -5,6 +5,7 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
+// tslint:disable
 import { MavenCntrlComponent } from "./maven-cntrl.component";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";

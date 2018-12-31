@@ -65,6 +65,46 @@ public class BuildInterval {
 	@Expose
 	private String lang;
 
+	//Add VSTS ALM
+//	@SerializedName("userStory")
+//	@Expose
+//	private String userStory;
+//
+//	@SerializedName("pollALM")
+//	@Expose
+//	private String pollALM;
+//	
+//	@SerializedName("almTool")
+//	@Expose
+//	private String almTool;
+
+	
+	
+	
+//	public String getUserStory() {
+//		return userStory;
+//	}
+//
+//	public void setUserStory(String userStory) {
+//		this.userStory = userStory;
+//	}
+//
+//	public String getPollALM() {
+//		return pollALM;
+//	}
+//
+//	public void setPollALM(String pollALM) {
+//		this.pollALM = pollALM;
+//	}
+//
+//	public String getAlmTool() {
+//		return almTool;
+//	}
+//
+//	public void setAlmTool(String almTool) {
+//		this.almTool = almTool;
+//	}
+
 	public String getBuildAtSpecificInterval() {
 		return buildAtSpecificInterval;
 	}

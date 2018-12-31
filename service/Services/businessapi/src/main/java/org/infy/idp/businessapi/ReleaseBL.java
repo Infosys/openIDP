@@ -18,13 +18,15 @@ import java.util.Set;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.EnvironmentDetails;
 import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
+import org.infy.idp.dataapi.services.JobDetailsInsertionService;
 import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.ReleaseDetails;
+import org.infy.idp.dataapi.services.ReleaseManagementDL;
+import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
 import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
 import org.infy.idp.entities.jobs.applicationinfo.EnvironmentOwnerDetail;
-import org.infy.idp.entities.releasemanager.Slot;
-import org.infy.idp.entities.releasemanagerinfo.PathSequence;
+import org.infy.idp.entities.models.GitHubBrachModel;
 import org.infy.idp.entities.releasemanagerinfo.Release;
 import org.infy.idp.entities.releasemanagerinfo.ReleaseManager;
 import org.infy.idp.entities.releasemanagerinfo.ReleasePipeline;
@@ -35,6 +37,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * The class ReleaseBL contains methods related to releases of pipeline
+ * 
  * @author Infosys
  */
 @Component
@@ -45,6 +48,8 @@ public class ReleaseBL {
 	@Autowired
 	private ReleaseDetails releaseDetails;
 	@Autowired
+	private ReleaseManagementDL releaseManagementDL;
+	@Autowired
 	private JobAdditionalDetailsDL jobAddInfoDL;
 	@Autowired
 	private JobInfoDL jobInfoDL;
@@ -54,6 +59,12 @@ public class ReleaseBL {
 	private EnvironmentDetails environmentDetails;
 	@Autowired
 	private FetchJobDetails fetchJobDetails;
+	@Autowired
+	private JobDetailsInsertionService jobDetailsInsertion;
+	@Autowired
+	private TriggerAdditionalBL triggerAdditionalBL;
+	@Autowired
+	private TriggerDetailBL triggerDetailBL;
 
 	/**
 	 * Returns release details for specified pipeline
@@ -116,17 +127,19 @@ public class ReleaseBL {
 	}
 
 	/**
+	 * 
+	 * Remove Env planning
 	 * Returns env slots for specified environment
 	 * 
 	 * @param appName
 	 * @param environment
 	 * @return slot
 	 */
-	public Slot getEnvSlots(String appName, String environment) {
-		Slot s = releaseDetails.getEnvSlots(appName, environment);
-		return s;
-
-	}
+//	public Slot getEnvSlots(String appName, String environment) {
+//		Slot s = releaseDetails.getEnvSlots(appName, environment);
+//		return s;
+//
+//	}
 
 	/**
 	 * 
@@ -137,9 +150,9 @@ public class ReleaseBL {
 	 * @param environment
 	 * @return slot
 	 */
-	public Slot getExistingSlots(String appName, String releaseNumber, String environment) {
-		return releaseDetails.getExistingslots(appName, releaseNumber, environment);
-	}
+//	public Slot getExistingSlots(String appName, String releaseNumber, String environment) {
+//		return releaseDetails.getExistingslots(appName, releaseNumber, environment);
+//	}
 
 	/**
 	 * 
@@ -158,19 +171,11 @@ public class ReleaseBL {
 			ReleaseManager releaseManager = new ReleaseManager();
 			ReleasePipeline releasePipeline = releaseDetails.getReleasePipelineInfo(appName, pipelineName, status);
 
-			List<Release> releaseList = releasePipeline.getRelease();
-			for (Release release : releaseList) {
-				int releaseId = releaseDetails.getReleaseId(appName, pipelineName, release.getReleaseNumber(), status);
-				List<PathSequence> envPathSequence = new ArrayList<>();
-				int pathCount = environmentDetails.getPathCount(releaseId);
-				if (pathCount > 0) {
-					ArrayList<ArrayList<Integer>> pathSequence = environmentDetails.getPathSequence(releaseId,
-							pathCount);
-					envPathSequence = environmentDetails.getEnvPathSequence(pathSequence);
-				}
-				release.setEnvPathList(envPathSequence);
 
-			}
+			// for setting git branches
+
+			releasePipeline.setScmBranches(getSCMBranches(appName, releasePipeline.getPipelineName()));
+			releasePipeline.setScmType(getSCMType(appName, releasePipeline.getPipelineName()));
 
 			List<String> envList = getEnvironmentList(appName);
 			ApplicationInfo app = jobInfoDL.getApplication(appName);
@@ -191,6 +196,132 @@ public class ReleaseBL {
 			logger.error("common Exception in ReleaseBL.getReleaseInfo", e1);
 			throw e1;
 		}
+	}
+
+	/**/
+	/**
+	 * 
+	 * @param appName
+	 * @param pipelineName
+	 * @return String
+	 */
+	private String getSCMType(String appName, String pipelineName) {
+
+		String scmType = "";
+		try {
+			IDPJob idp = jobAddInfoDL.getPipelineInfo(appName, pipelineName);
+			if (idp.getCode().getScm() != null && idp.getCode().getScm().size() != 0
+					&& idp.getCode().getScm().get(0) != null && idp.getCode().getScm().get(0).getType() != null) {
+
+				scmType = idp.getCode().getScm().get(0).getType();
+
+			}
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage(), e);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return scmType;
+	}
+
+	/**
+	 * 
+	 * @param appName
+	 * @param pipelineName
+	 * @return List<String>
+	 */
+	private List<String> getSCMBranches(String appName, String pipelineName) {
+
+		List<String> branches = new ArrayList<String>();
+
+		try {
+			IDPJob idp = jobAddInfoDL.getPipelineInfo(appName, pipelineName);
+			if (idp.getCode().getScm() != null && idp.getCode().getScm().size() != 0
+					&& idp.getCode().getScm().get(0) != null && idp.getCode().getScm().get(0).getType() != null) {
+
+				String scmType = idp.getCode().getScm().get(0).getType();
+
+				if (scmType.equalsIgnoreCase("git")) {
+
+					String repoBrowser = idp.getCode().getScm().get(0).getRepositoryBrowser();
+					if (repoBrowser.equalsIgnoreCase("gitlab")) {
+						String repoUrl = idp.getCode().getScm().get(0).getBrowserUrl();
+						String username = idp.getCode().getScm().get(0).getUserName();
+
+						String pwd = idp.getCode().getScm().get(0).getPassword();
+
+						String projectUrl = idp.getCode().getScm().get(0).getUrl();
+
+						ArrayList<ArrayList<String>> branchTagList = triggerDetailBL.gitLabbranchesTagsFetcher(repoUrl,
+								username, pwd, projectUrl);
+
+						if (branchTagList != null) {
+							if (branchTagList.size() != 0) {
+								branches = branchTagList.get(0);
+							}
+
+						}
+
+					}
+
+					else if (repoBrowser.equalsIgnoreCase("github")) {
+
+						String username = idp.getCode().getScm().get(0).getUserName();
+						String pwd = idp.getCode().getScm().get(0).getPassword();
+						logger.info(idp.getCode().getScm().toString());
+						String projectUrl = idp.getCode().getScm().get(0).getUrl();
+						String proxy = idp.getCode().getScm().get(0).getProxy();
+						String port = idp.getCode().getScm().get(0).getProxyPort();
+
+						String s[] = projectUrl.split("/");
+						String repoUrl = s[0] + "//" + s[2];
+
+						List<ArrayList<String>> branchTagList = triggerAdditionalBL.gitHubBranchesTagsFetcher(
+								new GitHubBrachModel(repoUrl, username, pwd, projectUrl, proxy, port));
+						if (branchTagList != null) {
+							if (branchTagList.size() != 0) {
+								branches = branchTagList.get(0);
+							}
+
+						}
+
+					}
+
+					else if (repoBrowser.equalsIgnoreCase("bitbucket")) {
+
+						String repoUrl = idp.getCode().getScm().get(0).getBrowserUrl();
+
+						String username = idp.getCode().getScm().get(0).getUserName();
+						String pwd = idp.getCode().getScm().get(0).getPassword();
+						logger.info(idp.getCode().getScm().toString());
+						String projectUrl = idp.getCode().getScm().get(0).getUrl();
+						String proxy = idp.getCode().getScm().get(0).getProxy();
+						String port = idp.getCode().getScm().get(0).getProxyPort();
+						logger.info(port);
+						logger.info(idp.getCode().getScm().get(0).getProxyPort());
+
+						List<ArrayList<String>> branchTagList = triggerAdditionalBL
+								.bitBucketbranchesTagsFetcher(repoUrl, username, pwd, projectUrl, proxy, port);
+						logger.info("showing branchTag");
+						logger.info(branchTagList.toString());
+						if (branchTagList != null) {
+							if (branchTagList.size() != 0) {
+								branches = branchTagList.get(0);
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+		} catch (NullPointerException e) {
+			logger.error(e.getMessage(), e);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return branches;
 	}
 
 	/**
@@ -225,6 +356,7 @@ public class ReleaseBL {
 	 * @param userName
 	 */
 	public void sendReleaseEmail(Release release, String pipelineName, String appName, String userName) {
+		try {
 		String applicationTeam = "";
 		String email = "";
 		String[] pipelineNames = pipelineName.split(",");
@@ -252,6 +384,10 @@ public class ReleaseBL {
 			triggerJobName.setUserName(userName);
 
 			emailSender.releaseUpdateSuccessMail(triggerJobName, userName, applicationTeam, email);
+		}
+		} catch (Exception e1) {
+			logger.error("Common Exception in ReleaseBL.insertReleaseInfo", e1);
+			
 		}
 	}
 
@@ -299,7 +435,6 @@ public class ReleaseBL {
 			setPipelineId(releaseManager);
 
 			updateRelease(releaseManager);
-
 			String appName = releaseManager.getApplicationName();
 			List<ReleasePipeline> releasePipelines = releaseManager.getReleasePipeline();
 			ReleasePipeline releasePipeline = null;
@@ -352,6 +487,7 @@ public class ReleaseBL {
 		}
 
 	}
+
 
 	/**
 	 * Updates release information
@@ -441,5 +577,6 @@ public class ReleaseBL {
 		return envList;
 
 	}
+
 
 }

@@ -16,6 +16,8 @@ import com.infy.idp.tools.deploy.*
 import com.infy.idp.tools.deploy.ArtifactoryDownload
 import com.infy.idp.tools.deploy.NexusDownload
 import com.infy.idp.utils.*
+import com.infy.idp.plugins.wrappers.BuildEnv
+import com.infy.idp.plugins.wrappers.BuildEnvIIS
 
 /**
  *
@@ -44,11 +46,42 @@ class Deploy {
         if (jsonData.deployInfo && jsonData.deployInfo.deployEnv) {
             for (int i = 0; i < jsonData.deployInfo.deployEnv.size(); i++) {
                 baseFolderCreation(factory, basepath + '/' + basepath + Constants.DEPLOYJOBNAMEPOSTFIX + '_' + jsonData.deployInfo.deployEnv[i].envName);
+                def envObj =  jsonData.deployInfo.deployEnv[i];
 
+                if(jsonData.code.technology.equalsIgnoreCase(Constants.SAP)) {
+                    new BaseJobCreator(
+                            jobName: basepath + '/' + basepath + Constants.DEPLOYJOBNAMEPOSTFIX + '_' + envObj.envName + '/' + basepath + Constants.DEPLOYJOBNAMEPOSTFIX + '_' + envObj.envName + '_' + 'Import',
+                            jobDescription: ''
+                    ).create(factory).with {
+                        configure { it / canRoam(false) }
+                        concurrentBuild(true)
 
+                        keepDependencies(false)
 
-                addDeploySteps(factory, jsonData, i, envVar)
+                        //Configurable Settings of Job
+                        addProperties(delegate, jsonData)
+                        addWrappers(delegate,jsonData)
+                        NiaIntegStage.run(delegate,jsonData,Constants.DEPLOY);
+                    }
 
+                    new BaseJobCreator(
+                            jobName: basepath + '/' + basepath + Constants.DEPLOYJOBNAMEPOSTFIX + '_' + envObj.envName + '/' + basepath + Constants.DEPLOYJOBNAMEPOSTFIX + '_' + envObj.envName + '_' + 'Release',
+                            jobDescription: ''
+                    ).create(factory).with {
+
+                        //Standard IDP Settings
+                        configure { it / canRoam(false) }
+                        concurrentBuild(true)
+                        keepDependencies(false)
+
+                        //Configurable Settings of Job
+                        addProperties(delegate, jsonData)
+                        addWrappers(delegate,jsonData)
+                        NiaIntegStage.run(delegate,jsonData,Constants.DEPLOY);
+                    }
+                }
+                else if(jsonData.deployInfo.deployEnv[i].deploySteps && jsonData.deployInfo.deployEnv[i].deploySteps.size() > 0)
+                    addDeploySteps(factory, jsonData, i, envVar)
             }
 
 
@@ -105,19 +138,19 @@ class Deploy {
                 CatalogDeploy.createPipelineScript(basepath, jsonData, index, envVar)
                 def jHome = envVar.JENKINS_HOME
                 addProperties(delegate, jsonData)
+                if(jsonData.deployInfo.deployEnv[index].envFlag == 'on'){
+                    definition {
+                        cps {
 
-                definition {
-                    cps {
+                            script(factory.readFileFromWorkspace(jHome + '/userContent/' + basepath + '_' + jsonData.deployInfo.deployEnv.getAt(index).envName + '_ps.groovy'))
 
-                        script(factory.readFileFromWorkspace(jHome + '/userContent/' + basepath + '_' + jsonData.deployInfo.deployEnv.getAt(index).envName + '_ps.groovy'))
+                            sandbox(true)
 
-                        sandbox(true)
+                        }
 
                     }
-
                 }
             }
-
         } else if (!jsonData.code.technology.equalsIgnoreCase(Constants.FILENET)) {
             if (envObj.deploySteps != '' && envObj.deploySteps != null) {
                 for (int i = 0; i < envObj.deploySteps.size(); i++) {
@@ -129,25 +162,10 @@ class Deploy {
                         //Standard IDP Settings
                         configure { it / canRoam(false) }
                         concurrentBuild(true)
-
-
-                        if (envObj.deploySteps[i].deployOperation && envObj.deploySteps[i].deployOperation.toString() == 'startWeb') {
                             environmentVariables {
                                 propertiesFile('$IDP_WS/CustomJobParm.properties')
-                                env('JOB_BUILD_ID', 'dontKillMe')
-                                env('BUILD_ID', 'pleaseDontKillMe')
-
                                 keepBuildVariables(true)
                             }
-
-                        } else {
-                            environmentVariables {
-                                propertiesFile('$IDP_WS/CustomJobParm.properties')
-
-                                keepBuildVariables(true)
-                            }
-
-                        }
 
                         keepDependencies(false)
 
@@ -156,18 +174,23 @@ class Deploy {
                         addWrappers(delegate, jsonData)
 
                         if (envObj.deploySteps[i].runScript) RunScript.add(delegate, envObj.deploySteps[i].runScript);
+						if(envObj.deploySteps[i].envProv)EnvProv.add(delegate,envObj.deploySteps[i].envProv);
                         if (envObj.deploySteps[i].deployToContainer && envObj.deploySteps[i].deployToContainer.containerName && envObj.deploySteps[i].deployToContainer.containerName != Constants.IISDEPLOY)
                             DeployToContainer.add(delegate, jsonData, index, i)
+
                         if (envObj.deploySteps[i].deployToContainer && envObj.deploySteps[i].deployToContainer.containerName && envObj.deploySteps[i].deployToContainer.containerName == Constants.IISDEPLOY)
                             DeployToIIS.add(delegate, jsonData, index, i)
-
                         if (envObj.deploySteps[i].dbServName)
                             DBDeployObject.add(delegate, jsonData, index, i)
-
                         if (envObj.deploySteps[i].dockerFilePath)
                             DockerDeploy.addSteps(delegate, jsonData, index, i, envVar)
-
-
+                        if (envObj.deploySteps[i].dockerFilePathDR) {
+                            if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                                DockerDeploy.addStepsDRWindows(delegate, jsonData, index, i, envVar)
+                            }else{
+                                DockerDeploy.addStepsDRLinux(delegate, jsonData, index, i, envVar)
+                            }
+                         }
 
                         NiaIntegStage.run(delegate, jsonData, Constants.DEPLOY);
 
@@ -175,6 +198,7 @@ class Deploy {
                         String customWS = 'workspace/' + basepath + Constants.WORKSPACENAMEPOSTFIX
                         if (customWS) customWorkspace('$IDP_WS')
                     }
+
 
 
                 }
@@ -194,6 +218,8 @@ class Deploy {
                 BuildNameSetter buildname1 = new BuildNameSetter()
                 buildname1.setTemplate('${BUILD_LABEL}' + '_' + '${build_number}')
                 buildname1.add(delegate, jsonData)
+				BuildEnv env = new BuildEnv();
+				env.add(delegate, jsonData);
             }
         }
     }
@@ -228,13 +254,10 @@ class Deploy {
                         PropertiesAdder.addStringParam(delegate, 'SUBMODULE_LIST', 'NA', '')
                     }
 
-
-
                     if (jsonData.code.technology.toString().equalsIgnoreCase(Constants.GENERAL)) {
                         PropertiesAdder.addStringParam(delegate, 'STEP_LIST', 'NA', '')
                         PropertiesAdder.addStringParam(delegate, 'USER_INFO', 'NA', '')
                     }
-
                 }
             }
         }

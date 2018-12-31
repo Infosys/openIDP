@@ -34,6 +34,7 @@
         <thead class="thead-dark">
           <tr style="border-color:#2885ae">
             <th>Release Info.</th>
+            <th *ngIf="scmType!==undefined && scmType==='git'">SCM Branch List</th>
             <th>Expected Dates</th>
             <th>Actual Dates</th>
             <th>Remarks</th>
@@ -59,7 +60,22 @@
                 </tr>
               </table>
             </td>
+            <td style="width:200px; height:100px;padding:4px;overflow-x:scroll;overflow-y:scroll" *ngIf="scmType!==undefined && scmType==='git'">
+              <!-- <div style=" height:100%" > -->
+              <div style="height:100px;width:100px;">
+                <div *ngFor="let branch of scmBranches;let j = index" style="margin-bottom: 0px;position:relative;width:200px" class="form-group">
 
+                  <input id="reacrcbbr" type="checkbox" name="branch{{i}}{{j}}" (change)="toggleSelection(i,branch)" [checked]="rel.branchList.indexOf(branch)!==-1"
+                  />{{branch}}
+
+
+                </div>
+
+              </div>
+              <div *ngIf="scmBranches===undefined || scmBranches.length===0" style="margin-top:70px">
+                Unable to fetch Branch List
+              </div>
+            </td>
             <td style="width:140px; height:100px">
               <table>
                 <tr>
@@ -86,15 +102,16 @@
 
                 </tr>
                 <tr>
-                  End Date:
+                  End Date :
                   <owl-date-time id="reacrcled" [(ngModel)]="rel.actualEndDate" [ngModelOptions]="{standalone: true}" [type]="'calendar'" [min]="rel.actualStartDate"
-                    [dataType]="'string'" [inputStyleClass]="form-control" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true
+                  [max]="maxEndDate" [dataType]="'string'" [inputStyleClass]="form-control" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true
                     [placeHolder]="'yyyy-mm-dd'" (onClear)="clearEnd(i)" [disabled]="rel.actualStartDate==='' || rel.actualStartDate===undefined"></owl-date-time>
 
 
                 </tr>
               </table>
             </td>
+            
             <td style="width:100px; height:100px">
               <div style="margin-top:30px" class="field-tip">
 

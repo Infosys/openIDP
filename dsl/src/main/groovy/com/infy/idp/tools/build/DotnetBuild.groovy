@@ -236,7 +236,17 @@ class DotnetBuild {
 
                         }
 
-                        if (unitTestingOn(jsonData, i)) {
+                       
+
+                        if (codeCoverageOn(jsonData, i)) {
+
+                            MSTestCoverageScriptGenCT.invokeTool(delegate, jsonData, i)
+                            MSTestCoverageCmdCT.invokeTool(delegate, jsonData, i)
+                            MSTestCoverageMSXSL.invokeTool(delegate, jsonData, i)
+                            isCodeCoverageSel = true
+                        }
+						
+						 if (unitTestingOn(jsonData, i)) {
 
                             MSTestBuilder msTestBuilder = new MSTestBuilder()
 
@@ -248,8 +258,10 @@ class DotnetBuild {
 
                             def testSettingsFile = jsonData.buildInfo.modules.getAt(i).testSettingFilePath
                             testSettingsFile = testSettingsFile == null ? '' : '/runconfig:"' + testSettingsFile + '"'
+							if(isCodeCoverageSel) {
                             msTestBuilder.setCmdArgs(testSettingsFile)
-
+							}
+	
                             def solDir = jsonData.buildInfo.modules.getAt(i).relativePath.replace('\\', '/')
                             solDir = solDir.contains('/') ? solDir.substring(0, solDir.lastIndexOf('/')) + '/' : ''
 
@@ -258,14 +270,6 @@ class DotnetBuild {
 
                             msTestBuilder.add(delegate, jsonData)
                             isMSTestSel = true
-                        }
-
-                        if (codeCoverageOn(jsonData, i)) {
-
-                            MSTestCoverageScriptGenCT.invokeTool(delegate, jsonData, i)
-                            MSTestCoverageCmdCT.invokeTool(delegate, jsonData, i)
-                            MSTestCoverageMSXSL.invokeTool(delegate, jsonData, i)
-                            isCodeCoverageSel = true
                         }
 
                         if (modulesArr.getAt(i).ossMailRecipients) {

@@ -50,15 +50,15 @@ import com.google.gson.Gson;
 @Component
 public class EnvironmentBL {
 
+	private static final String APPROVED = "approved";
 	@Autowired
 	private EnvironmentDetails environmentDetails;
 	@Autowired
 	private JobInfoDL getJobDetails;
-	
+
 	@Autowired
 	private JobAdditionalDetailsDL jobAdditionalDL;
 
-	
 	@Autowired
 	private ReleaseDetails releaseDetails;
 	@Autowired
@@ -66,8 +66,6 @@ public class EnvironmentBL {
 
 	@Autowired
 	private TriggerDetailBL getTriggerDetails;
-	@Autowired
-	private EnvironmentBL environmentBL;
 	@Autowired
 	private JobDetailsInsertionService jobDetailsInsertion;
 	@Autowired
@@ -137,7 +135,7 @@ public class EnvironmentBL {
 			List<String> envArtifact = new ArrayList<>();
 			for (int prevEnvId : prevEnvIdList) {
 				if (prevEnvId != 0) {
-					List<String> artifactList = environmentDetails.getArtifactList(prevEnvId, releaseId, "approved");
+					List<String> artifactList = environmentDetails.getArtifactList(prevEnvId, releaseId, APPROVED);
 					envArtifact = ListUtils.union(envArtifact, artifactList);
 				} else {
 					triggerDeployArtifact.setArtifactList(nexuxArtifact);
@@ -189,12 +187,12 @@ public class EnvironmentBL {
 			List<Artifact> importedArtifact = new ArrayList<>();
 			List<Artifact> approvedArtifact = new ArrayList<>();
 
-			List<String> importedArtifactNames = new ArrayList<>();
-			List<String> approvedArtifactNames = new ArrayList<>();
+			List<String> importedArtifactNames;
+			List<String> approvedArtifactNames;
 
 			if (pathCount >= 1) {
 				importedArtifactNames = environmentDetails.getArtifactList(envId, releaseId, "imported");
-				approvedArtifactNames = environmentDetails.getArtifactList(envId, releaseId, "approved");
+				approvedArtifactNames = environmentDetails.getArtifactList(envId, releaseId, APPROVED);
 
 				TriggerJobName triggerJobName = new TriggerJobName();
 				triggerJobName.setApplicationName(artifactList.getApplicationName());
@@ -237,7 +235,8 @@ public class EnvironmentBL {
 	}
 
 	/**
-	 * Used to update artifact status 
+	 * Used to update artifact status
+	 * 
 	 * @param artifactList
 	 * @throws SQLException
 	 */
@@ -255,7 +254,7 @@ public class EnvironmentBL {
 
 			for (Artifact artifact : importedArtifact) {
 
-				environmentDetails.updateArtifactStatus(envId, releaseId, artifact.getArtifactName(), "approved");
+				environmentDetails.updateArtifactStatus(envId, releaseId, artifact.getArtifactName(), APPROVED);
 				int artifacID = environmentDetails.getArtifactId(artifact.getArtifactName());
 				ArtifactDetails artifactDetails = artifact.getArtifactDetails().get(0);
 				environmentDetails.insertArtifactDetails(artifacID, artifactDetails.getStatus(),
@@ -279,11 +278,12 @@ public class EnvironmentBL {
 
 	/**
 	 * Updates slave details
+	 * 
 	 * @param username
 	 * @throws Exception
 	 */
 
-	public void updateSlave(String username) throws Exception {
+	public void updateSlave(String username) throws SQLException  {
 
 		Applications apps = jobsBL.getExistingApps(username);
 		List<Application> appList = apps.getApplications();
@@ -291,7 +291,7 @@ public class EnvironmentBL {
 
 			ApplicationInfo appInfo = app.getAppJson();
 			logger.info("Updating slave details for " + appInfo.getApplicationName());
-			environmentBL.updateSlaveDetails(appInfo);
+			updateSlaveDetails(appInfo);
 
 		}
 
@@ -303,7 +303,7 @@ public class EnvironmentBL {
 	 * @param appInfo
 	 * @throws SQLException
 	 */
-	public void updateSlaveDetails(ApplicationInfo appInfo) throws SQLException {
+	public void updateSlaveDetails(ApplicationInfo appInfo)  {
 
 		List<SlavesDetail> slaveDetailsList = appInfo.getSlavesDetails();
 		if (slaveDetailsList != null) {

@@ -64,4 +64,15 @@ public void methodCoveragetest(){
 	
 	Assert.assertEquals("10", ccd.getMethodCoverage());
 }
+
+@Test
+
+public void complexitytest(){
+	
+	CodeCoverageDetails ccd = new CodeCoverageDetails();
+	
+	ccd.setComplexityScore("10");
+	
+	Assert.assertEquals("10", ccd.getComplexityScore());
+}
 }

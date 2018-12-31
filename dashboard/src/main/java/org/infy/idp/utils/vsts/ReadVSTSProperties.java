@@ -50,13 +50,13 @@ public class ReadVSTSProperties {
      */
     public Properties getPropertiesFile() {
     	Properties propertiesObj = null;
-    	FileInputStream fis = null;
+    	
         try {
         	logger.info("Method call initiated ");
         	
         	propertiesObj = new Properties();
             
-            System.out.println(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties"));
+            logger.info(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties").toString());
             propertiesObj.load(ReadVSTSProperties.class.getResourceAsStream("/idpservicesVSTS.properties"));
 
             logger.info("Method executed successfully ");
@@ -65,13 +65,7 @@ public class ReadVSTSProperties {
 
         	logger.error(exceptionStr , eX);
         }
-        finally{
-        	try{
-        		if(fis!=null){fis.close(); fis=null;}
-        	}catch(Exception ignore){
-        		logger.error(exceptionStr , ignore);
-        	}
-        }
+       
         // Return the Properties object
         return propertiesObj;
     }

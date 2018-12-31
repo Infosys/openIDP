@@ -10,27 +10,27 @@
     <div class="row">
       <section>
         <div id="blue_header" class="app_header">
-          <div style="padding-top: 12px;">
+          <div style="padding-top: 9px;">
             <div class="col-md-2 col-md-offset-1 col-sm-4" id="logo">
               <div src="" class="logo" style="float: left;"></div>
             </div>
             <div class="col-md-4 col-md-offset-1 col-sm-3 col-xs-5" style="padding-top: 10px; text-align: center">
-              <div id="productName" style="font-size: 20px; font-family: 'Open Sans Regular', sans-serif; font-weight: 100; ">
+              <div id="productName" style="font-size: 30px; font-family: 'Open Sans Regular', sans-serif; font-weight: 100; ">
                 <span class="app_name"></span>
               </div>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-3 text-right">
-              <div style="font-family: 'Open Sans Regular', sans-serif; font-size: 14px; ">
+              <div style="font-family: 'Open Sans Regular', sans-serif; font-size: 17px; margin-top: 8px; ">
                 {{'Welcome'|translate}}
               </div>
               <div id="idpUserName" title="{{role}}" class="text_color" style="font-size: 18px; font-family: 'Open Sans Light', sans-serif;">              
                 {{IdpdataService.idpUserName}}
               </div>
-              <div id="idpOrganizationName" title="{{role}}" class="text_color" style="font-size: 18px; font-family: 'Open Sans Light', sans-serif;">
+              <!-- <div id="idpOrganizationName" title="{{role}}" class="text_color" style="font-size: 18px; font-family: 'Open Sans Light', sans-serif;">
                 {{IdpdataService.organization}}
-              </div>
+              </div> -->
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-3">
+            <div class="col-md-2 col-sm-2 col-xs-3" style="padding-top: 15px;">
               <span>
                 <img src="assets/images/user_icon.png" class="img-circle" alt="Cinque Terre" width="34" height="34" />
               </span>
@@ -62,7 +62,7 @@
       <ul class="nav navbar-nav">
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" [ngClass]="( hidePreviousConfig || hideCreateConfig ) ? 'navactive':''"
-            href="#" id="menu_pipeline">Pipelines
+            href="#" id="menu_pipeline" [style.font-size]="getfont()" [style.font-size]="getfont()">Pipelines
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -77,7 +77,7 @@
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#" [ngClass]="( hideRelease || IdpdataService.hideApp) ?  'navactive':''"
-            id="menu_manage">Manage
+            id="menu_manage" [style.font-size]="getfont()" [style.font-size]="getfont()">Manage
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -89,6 +89,10 @@
               <a [routerLink]="['/releaseConfig/release']" id="menu_release" [style.font-size]="getfont()" [style.font-size]="getfont()"
                 [style.cursor]="getCursor()" [ngClass]="hideRelease ? 'disabled'  : ''">Releases</a>
             </li>
+            <!-- <li>
+              <a [routerLink]="['/manageEnvironment']" id="menu_environment" [style.font-size]="getfont()" [style.font-size]="getfont()"
+                [style.cursor]="getCursor()">Environments</a>
+            </li> -->
             <li *ngIf=IdpdataService.createOrganisationflag>
               <a [routerLink]="['/previousConfig/createorg']" id="menu_createOrg" [style.font-size]="getfont()" [style.font-size]="getfont()"
                 [style.cursor]="getCursor()">Organization</a>
@@ -98,11 +102,16 @@
             </li>
           </ul>
         </li>
-        <li [hidden]="IdpdataService.hideDashboard">
-          <a href="{{IdpdataService.IDPDashboardURL}}">Dashboard</a>
+        <li class="dropdown" [hidden]="IdpdataService.hideDashboard">
+          <a class="dropdown-toggle" [routerLink]="['/previousConfig/dashboardView']" [ngClass]="( isDashboard) ? 'navactive':''" id="dashboardView" [style.font-size]="getfont()" [style.font-size]="getfont()"
+          [style.cursor]="getCursor()">Dashboard</a>
         </li>
         <li>
-          <a [routerLink]="['/notificationPage']">Notification</a>
+          <a [routerLink]="['/notificationPage']" [ngClass]="( isNotification) ? 'navactive':''" [style.font-size]="getfont()" [style.font-size]="getfont()">Notifications</a>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" [routerLink]="['/previousConfig/aboutView']" [ngClass]="( isAboutView) ? 'navactive':''" id="aboutView" [style.font-size]="getfont()" [style.font-size]="getfont()"
+          [style.cursor]="getCursor()">About IDP</a>
         </li>
       </ul>
     </div>

@@ -9,6 +9,7 @@
 package org.infy.idp.entities.jobs.buildinfo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,20 +50,21 @@ public class BuildInfoTest {
 	@Test
 	public void testBuildInfo0() throws Throwable {
 		BuildInfo testedObject = new BuildInfo();
-		/*
-		 * Remove Jira ALM testedObject.setJiraProjKey("jiraProjKey21");
-		 * testedObject.setJiraAssigneeName("jiraAssigneeName21");
-		 */
-		testedObject.setJavaModules("javaModules21");
-		testedObject.setEjbModules("ejbModules21");
-		testedObject.setWebModules("webModules21");
-		testedObject.setNexusType("nexusType21");
-		testedObject.setNexusUrl("nexusUrl21");
-		testedObject.setUserName("userName21");
-		testedObject.setPassword("password21");
-		testedObject.setSonarUrl("sonar_url21");
-		testedObject.setSonarPassword("sonar_password21");
-		testedObject.setSonarUserName("sonar_user21");
+
+		// Add Jira ALM
+//		testedObject.setJiraProjKey("jiraProjKey");
+//		testedObject.setJiraAssigneeName("jiraAssigneeName");
+
+		testedObject.setJavaModules("javaModules");
+		testedObject.setEjbModules("ejbModules");
+		testedObject.setWebModules("webModules");
+		testedObject.setNexusType("nexusType");
+		testedObject.setNexusUrl("nexusUrl");
+		testedObject.setUserName("userName");
+		testedObject.setPassword("password");
+		testedObject.setSonarUrl("sonar_url");
+		testedObject.setSonarPassword("sonar_password");
+		testedObject.setSonarUserName("sonar_user");
 		ArrayList<SubModule> subModule = new ArrayList<>();
 		SubModule sub = new SubModule();
 		sub.setDefaultModule("module1");
@@ -71,28 +73,32 @@ public class BuildInfoTest {
 		testedObject.setSubModule(subModule);
 		RunScript postBuildScript = new RunScript();
 		testedObject.setPostBuildScript(postBuildScript);
-		testedObject.setBuildtool("buildtool21");
+		testedObject.setBuildtool("buildtool");
 		ArtifactToStage artifactToStage = new ArtifactToStage();
 		testedObject.setArtifactToStage(artifactToStage);
 		List<Module> modules = new ArrayList<>();
 		testedObject.setModules(modules);
+//		CastAnalysis castObj = new CastAnalysis();
+//		testedObject.setCastAnalysis(castObj);
 		assertEquals(modules, testedObject.getModules());
 		assertEquals("sonar_url", testedObject.getSonarUrl());
 		assertEquals("sonar_password", testedObject.getSonarPassword());
 		assertEquals("sonar_user", testedObject.getSonarUserName());
 		assertEquals(artifactToStage, testedObject.getArtifactToStage());
 		assertEquals(postBuildScript, testedObject.getPostBuildScript());
-		assertEquals("ejbModules21", testedObject.getEjbModules());
-		assertEquals("userName21", testedObject.getUserName());
-		assertEquals("javaModules21", testedObject.getJavaModules());
+		assertEquals("ejbModules", testedObject.getEjbModules());
+		assertEquals("userName", testedObject.getUserName());
+		assertEquals("javaModules", testedObject.getJavaModules());
 
-		assertEquals("nexusType21", testedObject.getNexusType());
-		assertEquals("password21", testedObject.getPassword());
-		assertEquals("webModules21", testedObject.getWebModules());
-		assertEquals("buildtool21", testedObject.getBuildtool());
-		assertEquals("nexusUrl21", testedObject.getNexusUrl());
+		assertEquals("nexusType", testedObject.getNexusType());
+		assertEquals("password", testedObject.getPassword());
+		assertEquals("webModules", testedObject.getWebModules());
+		assertEquals("buildtool", testedObject.getBuildtool());
+		assertEquals("nexusUrl", testedObject.getNexusUrl());
 		assertEquals(subModule, testedObject.getSubModule());
-
+//		assertEquals("jiraProjKey", testedObject.getJiraProjKey());
+//		assertEquals("jiraAssigneeName", testedObject.getJiraAssigneeName());
+//		assertEquals(castObj, testedObject.getCastAnalysis());
 	}
 
 	/**
@@ -119,6 +125,9 @@ public class BuildInfoTest {
 		testedObject.setBuildtool("buildtool0");
 		testedObject.setArtifactToStage((ArtifactToStage) null);
 		testedObject.setModules((List) null);
+//		testedObject.setCastAnalysis(null);
+//		testedObject.setJiraProjKey("jiraProjKey");
+		
 		assertEquals(null, testedObject.getModules());
 		assertEquals(null, testedObject.getArtifactToStage());
 		assertEquals(null, testedObject.getPostBuildScript());
@@ -130,6 +139,8 @@ public class BuildInfoTest {
 		assertEquals("webModules0", testedObject.getWebModules());
 		assertEquals("buildtool0", testedObject.getBuildtool());
 		assertEquals("nexusUrl0", testedObject.getNexusUrl());
+//		assertNull(testedObject.getCastAnalysis());
+//		assertEquals("jiraProjKey", testedObject.getJiraProjKey());
 	}
 
 	/**
@@ -155,6 +166,10 @@ public class BuildInfoTest {
 		assertEquals(null, testedObject.getWebModules());
 		assertEquals(null, testedObject.getBuildtool());
 		assertEquals(null, testedObject.getNexusUrl());
+//		assertEquals(null, testedObject.getJiraProjKey());
+//		assertEquals(null, testedObject.getJiraAssigneeName());
+//		assertNull(testedObject.getCastAnalysis());
+		
 	}
 
 	/**
@@ -210,6 +225,23 @@ public class BuildInfoTest {
 		// No exception thrown
 
 	}
+	
+	/**
+	 * Test for method getCastAnalysis().
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see BuildInfo#getCastAnalysis()
+	 * 
+	 * 
+	 */
+//	@Test
+//	public void testGetCastAnalysis() throws Throwable {
+//		BuildInfo testedObject = new BuildInfo();
+//		CastAnalysis result = testedObject.getCastAnalysis();
+//		assertNull(result);
+//		// No exception thrown
+//	}
 
 	/**
 	 * Utility main method. Runs the test cases defined in this test class.
@@ -220,7 +252,6 @@ public class BuildInfoTest {
 	 * 
 	 */
 	public static void main(String[] args) {
-		
 
 		org.junit.runner.JUnitCore.main("org.infy.idp.entities.jobs.buildInfo.BuildInfoTest");
 	}

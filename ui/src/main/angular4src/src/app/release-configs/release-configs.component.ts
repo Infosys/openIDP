@@ -35,7 +35,7 @@ export class ReleaseConfigsComponent implements OnInit {
         try {
             if (response) {
             this.IdpdataService.devServerURL = response.json().idpresturl;
-            // this.IdpdataService.devServerURL = "http://server411214d:8889/idprest";
+           //   this.IdpdataService.devServerURL = "http://server324895d:8889/idprest";
             this.IdpdataService.IDPDashboardURL = response.json().idpdashboardurl;
             this.IdpdataService.IDPLink = response.json().IDPLink;
             this.IdpdataService.geUrl = response.json().geUrl;

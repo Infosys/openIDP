@@ -8,6 +8,8 @@
 
 package org.infy.idp.entities.jobs.basicinfo;
 
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -64,6 +66,7 @@ public class BasicInfo {
 	@SerializedName("customTriggerInterval")
 	@Expose
 	private TriggerInterval customTriggerInterval = null;
+	
 
 	public String getMasterSequence() {
 		return masterSequence;

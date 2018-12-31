@@ -35,6 +35,8 @@ https://opensource.org/licenses/MIT
 		<maven-war-plugin.version>2.6</maven-war-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<cargo-maven2-plugin.version>1.4.19</cargo-maven2-plugin.version>
+		<pg-embedded.version>0.9.0</pg-embedded.version>
+		<flyway.version>5.1.4</flyway.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -188,6 +190,18 @@ https://opensource.org/licenses/MIT
             <artifactId>httpclient</artifactId>
             <version>4.5.2</version>
         </dependency>
+
+		<dependency>
+			<groupId>com.opentable.components</groupId>
+			<artifactId>otj-pg-embedded</artifactId>
+			<version>${pg-embedded.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flyway.version}</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

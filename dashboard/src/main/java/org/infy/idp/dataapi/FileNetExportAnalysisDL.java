@@ -161,9 +161,10 @@ public class FileNetExportAnalysisDL {
 				+ triggerID + "';";
 		String environment = "";
 		try (Connection connection = idpPostGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement);
+				ResultSet fetchEnviornmentResultSet = preparedStatement.executeQuery();) {
 
-			ResultSet fetchEnviornmentResultSet = preparedStatement.executeQuery();
+			
 
 			while (fetchEnviornmentResultSet.next()) {
 				environment = fetchEnviornmentResultSet.getString(1);

@@ -620,14 +620,15 @@
             </div>
             <!-- End CodeCoverage -->
 
-            <!-- Start OSS Compliance  
+            <!-- Start OSS Compliance --> 
                   <div>
                     <div class="row form-group chkright" style="padding-left:20px">
                       <div class="col-md-12">
+                          
                         <label class="checkbox-inline">
                           <input type="checkbox" [checked]="tempObject.modules[0].ossCheck=='on'"
                           name="ossCheck" id="bdbomvnocsch01"
-                          (change)="tempObject.modules[0].ossCheck=$event.target.checked ?'on':'off'" >{{'Oss Compliance Check'|translate}}
+                          (change)="ossCompliance(0,$event.target.checked)" />{{'Oss Compliance Check'|translate}}
                         </label>
                       </div>
                     </div>
@@ -700,7 +701,7 @@
                             </div>
                     </div>
                   	
-                 End OSS Compliance  -->
+                <!-- End OSS Compliance  -->
           </div>
 
           <div class="panel panel-default">

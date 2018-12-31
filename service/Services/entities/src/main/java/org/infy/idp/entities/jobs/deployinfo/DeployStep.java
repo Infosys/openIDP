@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.infy.idp.entities.jobs.applicationinfo.EnvironmentProvDetails;
 import org.infy.idp.entities.jobs.common.AbortScript;
+import org.infy.idp.entities.jobs.common.EnvProv;
 import org.infy.idp.entities.jobs.common.Proxy;
 import org.infy.idp.entities.jobs.common.RunScript;
 
@@ -311,7 +312,9 @@ public class DeployStep {
 	@SerializedName("dbOwnerPassword")
 	@Expose
 	private String dbOwnerPassword;
-
+	@SerializedName("iosDataPath")
+	@Expose
+	private String iosDataPath;
 	@SerializedName("bizScriptPath")
 	@Expose
 	private String bizScriptPath;
@@ -371,74 +374,7 @@ public class DeployStep {
 	@SerializedName("admPassword")
 	@Expose
 	private String admPassword;
-	@SerializedName("scalaServerName")
-	@Expose
-	private String scalaServerName;
-	@SerializedName("scalaUsername")
-	@Expose
-	private String scalaUsername;
-	@SerializedName("scalaPassword")
-	@Expose
-	private String scalaPassword;
-	@SerializedName("scalaDir")
-	@Expose
-	private String scalaDir;
-	@SerializedName("scalaUip")
-	@Expose
-	private String scalaUip;
-	@SerializedName("scalaJfn")
-	@Expose
-	private String scalaJfn;
-	@SerializedName("scalaMmn")
-	@Expose
-	private String scalaMmn;
-	@SerializedName("scalaCfn")
-	@Expose
-	private String scalaCfn;
-	@SerializedName("scalaOf")
-	@Expose
-	private String scalaOf;
 
-	@SerializedName("pigServerName")
-	@Expose
-	private String pigServerName;
-	@SerializedName("pigUsername")
-	@Expose
-	private String pigUsername;
-	@SerializedName("pigPassword")
-	@Expose
-	private String pigPassword;
-	@SerializedName("pigDir")
-	@Expose
-	private String pigDir;
-	@SerializedName("pigScr")
-	@Expose
-	private String pigScr;
-	@SerializedName("pigLocalMac")
-	@Expose
-	private String pigLocalMac;
-	@SerializedName("pigMapRed")
-	@Expose
-	private String pigMapRed;
-	@SerializedName("pigdf")
-	@Expose
-	private String pigdf;
-
-	@SerializedName("hiveServerName")
-	@Expose
-	private String hiveServerName;
-	@SerializedName("hiveUsername")
-	@Expose
-	private String hiveUsername;
-	@SerializedName("hivePassword")
-	@Expose
-	private String hivePassword;
-	@SerializedName("hiveDir")
-	@Expose
-	private String hiveDir;
-	@SerializedName("hiveScr")
-	@Expose
-	private String hiveScr;
 	@SerializedName("deployOperation")
 	@Expose
 	private String deployOperation;
@@ -508,9 +444,7 @@ public class DeployStep {
 	@SerializedName("tableOwner")
 	@Expose
 	private String tableOwner;
-	@SerializedName("siebelRepository")
-	@Expose
-	private String siebelRepository;
+
 	@SerializedName("deployFuntion")
 	@Expose
 	private String deployFuntion;
@@ -524,9 +458,6 @@ public class DeployStep {
 	@Expose
 	private String datFileImport;
 
-	@SerializedName("muleConsoleURL")
-	@Expose
-	private String muleConsoleURL;
 	@SerializedName("targetUsername")
 	@Expose
 	private String targetUsername;
@@ -566,10 +497,22 @@ public class DeployStep {
 	@SerializedName("nexusurl")
 	@Expose
 	private String nexusurl;
+
+	@SerializedName("envProv")
+	@Expose
+	private EnvProv envProv;
+
 	@SerializedName("buildproperties")
 	@Expose
 	private String buildproperties;
-	
+
+	public EnvProv getEnvProv() {
+		return envProv;
+	}
+
+	public void setEnvProv(EnvProv envProv) {
+		this.envProv = envProv;
+	}
 
 	public String getNexusurl() {
 		return nexusurl;
@@ -587,6 +530,13 @@ public class DeployStep {
 		this.buildproperties = buildproperties;
 	}
 
+	public String getIosDataPath() {
+		return iosDataPath;
+	}
+
+	public void setIosDataPath(String iosDataPath) {
+		this.iosDataPath = iosDataPath;
+	}
 
 	public String getPubProfName() {
 		return pubProfName;
@@ -1012,196 +962,12 @@ public class DeployStep {
 		this.tableOwner = tableOwner;
 	}
 
-	public String getSiebelRepository() {
-		return siebelRepository;
-	}
-
-	public void setSiebelRepository(String siebelRepository) {
-		this.siebelRepository = siebelRepository;
-	}
-
 	public String getDeployFuntion() {
 		return deployFuntion;
 	}
 
 	public void setDeployFuntion(String deployFuntion) {
 		this.deployFuntion = deployFuntion;
-	}
-
-	public String getScalaServerName() {
-		return scalaServerName;
-	}
-
-	public void setScalaServerName(String scalaServerName) {
-		this.scalaServerName = scalaServerName;
-	}
-
-	public String getScalaUsername() {
-		return scalaUsername;
-	}
-
-	public void setScalaUsername(String scalaUsername) {
-		this.scalaUsername = scalaUsername;
-	}
-
-	public String getScalaPassword() {
-		return scalaPassword;
-	}
-
-	public void setScalaPassword(String scalaPassword) {
-		this.scalaPassword = scalaPassword;
-	}
-
-	public String getScalaDir() {
-		return scalaDir;
-	}
-
-	public void setScalaDir(String scalaDir) {
-		this.scalaDir = scalaDir;
-	}
-
-	public String getScalaUip() {
-		return scalaUip;
-	}
-
-	public void setScalaUip(String scalaUip) {
-		this.scalaUip = scalaUip;
-	}
-
-	public String getScalaJfn() {
-		return scalaJfn;
-	}
-
-	public void setScalaJfn(String scalaJfn) {
-		this.scalaJfn = scalaJfn;
-	}
-
-	public String getScalaMmn() {
-		return scalaMmn;
-	}
-
-	public void setScalaMmn(String scalaMmn) {
-		this.scalaMmn = scalaMmn;
-	}
-
-	public String getScalaCfn() {
-		return scalaCfn;
-	}
-
-	public void setScalaCfn(String scalaCfn) {
-		this.scalaCfn = scalaCfn;
-	}
-
-	public String getScalaOf() {
-		return scalaOf;
-	}
-
-	public void setScalaOf(String scalaOf) {
-		this.scalaOf = scalaOf;
-	}
-
-	public String getPigServerName() {
-		return pigServerName;
-	}
-
-	public void setPigServerName(String pigServerName) {
-		this.pigServerName = pigServerName;
-	}
-
-	public String getPigUsername() {
-		return pigUsername;
-	}
-
-	public void setPigUsername(String pigUsername) {
-		this.pigUsername = pigUsername;
-	}
-
-	public String getPigPassword() {
-		return pigPassword;
-	}
-
-	public void setPigPassword(String pigPassword) {
-		this.pigPassword = pigPassword;
-	}
-
-	public String getPigDir() {
-		return pigDir;
-	}
-
-	public void setPigDir(String pigDir) {
-		this.pigDir = pigDir;
-	}
-
-	public String getPigScr() {
-		return pigScr;
-	}
-
-	public void setPigScr(String pigScr) {
-		this.pigScr = pigScr;
-	}
-
-	public String getPigLocalMac() {
-		return pigLocalMac;
-	}
-
-	public void setPigLocalMac(String pigLocalMac) {
-		this.pigLocalMac = pigLocalMac;
-	}
-
-	public String getPigMapRed() {
-		return pigMapRed;
-	}
-
-	public void setPigMapRed(String pigMapRed) {
-		this.pigMapRed = pigMapRed;
-	}
-
-	public String getPigdf() {
-		return pigdf;
-	}
-
-	public void setPigdf(String pigdf) {
-		this.pigdf = pigdf;
-	}
-
-	public String getHiveServerName() {
-		return hiveServerName;
-	}
-
-	public void setHiveServerName(String hiveServerName) {
-		this.hiveServerName = hiveServerName;
-	}
-
-	public String getHiveUsername() {
-		return hiveUsername;
-	}
-
-	public void setHiveUsername(String hiveUsername) {
-		this.hiveUsername = hiveUsername;
-	}
-
-	public String getHivePassword() {
-		return hivePassword;
-	}
-
-	public void setHivePassword(String hivePassword) {
-		this.hivePassword = hivePassword;
-	}
-
-	public String getHiveDir() {
-		return hiveDir;
-	}
-
-	public void setHiveDir(String hiveDir) {
-		this.hiveDir = hiveDir;
-	}
-
-	public String getHiveScr() {
-		return hiveScr;
-	}
-
-	public void setHiveScr(String hiveScr) {
-		this.hiveScr = hiveScr;
 	}
 
 	public String getSrfHostName() {
@@ -1906,14 +1672,6 @@ public class DeployStep {
 
 	public void setAdminUserName(String adminUserName) {
 		this.adminUserName = adminUserName;
-	}
-
-	public String getMuleConsoleURL() {
-		return muleConsoleURL;
-	}
-
-	public void setMuleConsoleURL(String muleConsoleURL) {
-		this.muleConsoleURL = muleConsoleURL;
 	}
 
 	public String getMuleServerGroup() {

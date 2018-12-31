@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.infy.idp.AppContext;
 import org.infy.idp.entities.TestCaseResult;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
@@ -23,20 +24,22 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*This test case is used for TestAnalysis*/
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class TestAnalysisDLTest {
 
 	@Spy
 	@InjectMocks
-	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
 	
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private TestAnalysisDL testAnalysisDL;
@@ -61,8 +64,19 @@ public class TestAnalysisDLTest {
 	public void insertTestAnalysisTest() throws Throwable {
 		try 
 		{
-			List<TestCaseResult> testcaseList=new ArrayList<>();
+			TestCaseResult testCaseResult=new TestCaseResult();
+			testCaseResult.setCategory("hostname");
+			testCaseResult.setClassName("className");
+			testCaseResult.setDuration("none");
+			testCaseResult.setId("classname");
+			testCaseResult.setMessage("status");
+			testCaseResult.setStartTime("startTime");
+			testCaseResult.setStatus("status");
+			testCaseResult.settestSuiteName("testSuiteName");
 			
+			
+			List<TestCaseResult> testcaseList=new ArrayList<>();
+			testcaseList.add(testCaseResult);
 			Integer temp=testAnalysisDL.insertTestAnalysis(1,1,1,testcaseList);
 			assertEquals((Integer)1,temp);
 		}

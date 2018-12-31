@@ -193,9 +193,9 @@
 			</div>
             </div>
           </div>
-          <div class="col-md-6 alert alert-danger" *ngIf="IdpdataService.buildIntervalData===undefined || IdpdataService.buildIntervalData.length===0">No jobs scheduled.</div>
+          <div class="col-md-6 alert alert-danger" *ngIf="IdpdataService.buildIntervalData===undefined ||IdpdataService.buildIntervalData=== null || IdpdataService.buildIntervalData.length===0">No jobs scheduled.</div>
 		  <div class="col-md-3 btn-container" style="padding-top: 15px">
-			<button type="submit" class="btn btn-success btn-md" [disabled]="IdpdataService.buildIntervalData===undefined || IdpdataService.buildIntervalData.length===0" style="float: right;" id="btn_txt">
+			<button type="submit" class="btn btn-success btn-md" [disabled]="IdpdataService.buildIntervalData===undefined" style="float: right;" id="btn_txt">
 				<span > {{'Submit'|translate}} &nbsp;</span>
 					
 				</button>

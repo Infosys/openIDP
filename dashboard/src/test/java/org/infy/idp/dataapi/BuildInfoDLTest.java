@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
+import org.infy.idp.AppContext;
 import org.infy.idp.entities.BuildInfoDetails;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
@@ -21,9 +22,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*This test case is used for build information*/
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class BuildInfoDLTest {
 
 	
@@ -34,7 +38,7 @@ public class BuildInfoDLTest {
 
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private BuildInfoDL buildInfoDL;

@@ -299,9 +299,10 @@ public class JobInfoDL {
 
 	public List<Pipeline> getDependencyPipelines(String appName) throws SQLException {
 
+		Pipeline pipeline;
 		List<Pipeline> pips = new ArrayList<>();
 		Gson gson = new Gson();
-		
+		IDPJob jobJson = new IDPJob();
 		String tableName = "public.tpipeline_info,public.tapplication_info ";
 		String column = " pipeline_name, public.tpipeline_info.entity_info ";
 		StringBuilder queryStatement = new StringBuilder();
@@ -325,9 +326,17 @@ public class JobInfoDL {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
+				pipeline = new Pipeline();
 				byte[] encryptedIDP = rs.getBytes(2);
 				String decryptedIDP = EncryptionUtil.decrypt(new String(encryptedIDP));
-				gson.fromJson(decryptedIDP, IDPJob.class);
+				jobJson = gson.fromJson(decryptedIDP, IDPJob.class);
+				if ((jobJson.getBasicInfo().getMasterSequence() != null
+						&& WORKFLOW.equalsIgnoreCase(jobJson.getBasicInfo().getMasterSequence()))
+						|| !(jobJson.getCode().getTechnology().equalsIgnoreCase("dbDeployDelphix"))) {
+					pipeline.setPipelineName(rs.getString("pipeline_name"));
+					pipeline.setPipelineJson(gson.fromJson(decryptedIDP, IDPJob.class));
+					pips.add(pipeline);
+				}
 
 			}
 		} catch (SQLException | NullPointerException e) {
@@ -452,72 +461,6 @@ public class JobInfoDL {
 		return subApps.toString();
 	}
 
-	/**
-	 * Returns dbDeploy technology app
-	 * 
-	 * 
-	 * @param appName the String
-	 *
-	 * 
-	 * @return dbdeploy pipeline list of specific application
-	 */
-
-	public List<String> dbDeployPipelineNamesForApplication(String appName) {
-
-		List<String> pipelines = new ArrayList<>();
-		String tableName = " tpipeline_info,tapplication_info  ";
-		String column = " pipeline_name ";
-		String technology = "dbDeploy";
-		StringBuilder queryStatement = new StringBuilder();
-
-		queryStatement.append(SELECT_CLAUSE + column);
-		queryStatement.append(FROM_CLAUSE + tableName);
-		queryStatement.append(WHERE_CLAUSE);
-		queryStatement.append(" tpipeline_info.application_id= tapplication_info.application_id ");
-		queryStatement.append(AND_CLAUSE);
-		queryStatement.append(APPLICATION_NAME);
-		queryStatement.append(ACTIVE_PIPELINE);
-		queryStatement.append(TECHNOLOGY_NAME);
-		queryStatement.append(ORDER_BY);
-		queryStatement.append("pipeline_name");
-		queryStatement.append(";");
-		ResultSet rs = null;
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			preparedStatement.setString(1, appName);
-			preparedStatement.setString(2, technology);
-			logger.debug(preparedStatement.toString());
-			rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				if (null == rs.getString(1))
-					continue;
-
-				pipelines.add(rs.getString(1));
-			}
-			logger.debug("Pipeline names for the application " + appName + " is : " + pipelines.toString());
-		}
-
-		catch (SQLException | NullPointerException e) {
-
-			logger.error("Postgres Error while fetching data from tapplication_info :", e);
-			return null;
-
-		}
-
-		finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					logger.error(e.getMessage(), e);
-				}
-			}
-		}
-
-		return pipelines;
-
-	}
 
 	/**
 	 * Returns pipeline id of the specified application
@@ -898,26 +841,6 @@ public class JobInfoDL {
 		}
 	}
 
-	/**
-	 * Delete pipeline roles for the specified pipeline
-	 * 
-	 * @param pipelineId
-	 */
-	public void deletePipelineRoles(Long pipelineId) {
-
-		StringBuilder queryStatement = new StringBuilder();
-		queryStatement.append("DELETE FROM public.tpipeline_roles ");
-		queryStatement.append(" WHERE pipeline_id =?; ");
-
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString());) {
-			preparedStatement.setLong(1, pipelineId);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("Postgres Error while deleting pipeline roles :", e);
-
-		}
-	}
 
 	
 }

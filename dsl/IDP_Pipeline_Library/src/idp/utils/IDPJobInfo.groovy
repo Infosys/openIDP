@@ -8,8 +8,6 @@
 
 package idp.utils
 
-import org.jenkins.plugins.lockableresources.LockableResourcesManager
-import org.jenkins.plugins.lockableresources.LockableResource
 
 class IDPJobInfo implements Serializable {
 	def script

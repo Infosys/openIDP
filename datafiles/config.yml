@@ -97,3 +97,15 @@
         regexp: '^(.*)url(.*)$'
         line: "  url: {{ PROTOCOL }}://{{ HOSTNAME }}:8184/idpdashboard/"
         backrefs: yes
+    - name: Grafana Environment Dashboard set drill down links
+      lineinfile:
+        dest: "/datafiles/grafanadata/data/dashboards/Environment Dashboard.json"
+        regexp: '^(.*)linkUrl(.*)$'
+        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}:3000/d/004/environment_application?orgId=1&var-Application=$__cell_0&var-Environment=$__cell&var-ReleaseNo=$Release",'
+        backrefs: yes
+    - name: Grafana Environment_Application set drill down links
+      lineinfile:
+        dest: "/datafiles/grafanadata/data/dashboards/Environment_Application.json"
+        regexp: '^(.*)linkUrl(.*)$'
+        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}:3000/d/005/artifactsdashboard?orgId=1&var-Application=$Application&var-Environment=$Environment&var-Pipeline=$__cell_0",'
+        backrefs: yes

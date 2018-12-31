@@ -1,0 +1,1 @@
+insert into ttrigger_history (artifact_name) values('artifact-100')

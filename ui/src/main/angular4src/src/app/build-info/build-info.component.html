@@ -105,12 +105,6 @@
                 <app-nodejs-cntrl formName="forNodeJs"></app-nodejs-cntrl>
             </div>
         </div>
-        <!-- Go -->
-        <div [ngSwitch]="buildInfo.buildtool ==='go'">
-            <div *ngSwitchCase="true">
-                <app-go-cntrl formName="forGo"></app-go-cntrl>
-            </div>
-        </div>
         <!-- Angular -->
         <div [ngSwitch]="buildInfo.buildtool ==='angular'">
             <div *ngSwitchCase="true">
@@ -123,43 +117,45 @@
                 <app-python-cntrl formName="forPython"></app-python-cntrl>
             </div>
         </div>
-        <!-- General -->
-        <div [ngSwitch]="buildInfo.buildtool ==='general'">
+        <!-- Go -->
+        <div [ngSwitch]="buildInfo.buildtool ==='go'">
             <div *ngSwitchCase="true">
-                <app-general-cntrl formName="forGeneral"></app-general-cntrl>
+                <app-go-cntrl formName="forGo"></app-go-cntrl>
             </div>
         </div>
         <app-build-info-sub formName="forBuilInFoSub" [hidden]="buildInfo.buildtool ==='SapNonCharm' || buildInfo.buildtool ==='SAPPI'"></app-build-info-sub>
         <br />
         <br />
-        <div class="col-md-12 btn-container">
-
-            <div>
-                <div class="alert alert-success" *ngIf="checkMsgSuccess()">
-                    <strong>{{'Your request for create pipeline has been submitted'|translate}}.</strong>
-                </div>
-
-                <div class="alert alert-danger" *ngIf="checkMsgError()">
-                    <strong>{{'Error! Please check the input provided'|translate}}</strong>
-                </div>
-            </div>
-            <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="btn_txt">{{'Reset'|translate}}</button>&nbsp;&nbsp;
-
-            <button *ngIf="buildSubscriptionNotSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="!buildInfoForm.form.valid"
-                style="float:right;" id="btn_txt">{{'Continue'|translate}}</button>
-            <button *ngIf="buildSubscriptionSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="IdpdataService.freezeNavBars===true || !buildInfoForm.form.valid"
-                style="float:right;" id="btn_submit_txt">
-
-                <span *ngIf="checkLoaderOff()"> {{'Submit'|translate}} &nbsp;</span>
-                <span *ngIf="checkLoaderOn()">{{'Submitting'|translate}} &nbsp;
-                    <i class="fa fa-spinner fa-spin"></i>
-                </span>
-            </button>
-        </div>
-
-        <div *ngIf="setFormStatus(buildInfoForm.form.valid)">
-        </div>
+        
     </fieldset>
+
+    <div class="col-md-12 btn-container">
+
+        <div>
+            <div class="alert alert-success" *ngIf="checkMsgSuccess()">
+                <strong>{{'Your request for create pipeline has been submitted'|translate}}.</strong>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="checkMsgError()">
+                <strong>{{'Error! Please check the input provided'|translate}}</strong>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="btn_txt">{{'Reset'|translate}}</button>&nbsp;&nbsp;
+
+        <button *ngIf="buildSubscriptionNotSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="!buildInfoForm.form.valid"
+            style="float:right;" id="btn_txt">{{'Continue'|translate}}</button>
+        <button *ngIf="buildSubscriptionSubmitCheck()" type="submit" class="btn btn-success btn-sm" [disabled]="IdpdataService.freezeNavBars===true || !buildInfoForm.form.valid"
+            style="float:right;" id="btn_submit_txt">
+
+            <span *ngIf="checkLoaderOff()"> {{'Submit'|translate}} &nbsp;</span>
+            <span *ngIf="checkLoaderOn()">{{'Submitting'|translate}} &nbsp;
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+    </div>
+
+    <div *ngIf="setFormStatus(buildInfoForm.form.valid)">
+    </div>
 </form>
 <br>
 <br>

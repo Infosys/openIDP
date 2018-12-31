@@ -234,5 +234,20 @@
       <exportedPaths></exportedPaths>
       <additionalVariables></additionalVariables>
     </com.cloudbees.jenkins.plugins.customtools.CustomTool>
+	<com.cloudbees.jenkins.plugins.customtools.CustomTool>
+      <name>TG_RFTCustomTool</name>
+      <home></home>
+      <properties>
+        <hudson.tools.InstallSourceProperty>
+          <installers>
+            <hudson.tools.ZipExtractionInstaller>
+              <url>file:///var/jenkins_home/CUSTOM_TOOLS/TG_RFTCustomTool.zip</url>
+            </hudson.tools.ZipExtractionInstaller>
+          </installers>
+        </hudson.tools.InstallSourceProperty>
+      </properties>
+      <exportedPaths></exportedPaths>
+      <additionalVariables></additionalVariables>
+    </com.cloudbees.jenkins.plugins.customtools.CustomTool>
   </installations>
 </com.cloudbees.jenkins.plugins.customtools.CustomTool_-DescriptorImpl>

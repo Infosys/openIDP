@@ -1,20 +1,21 @@
 /***********************************************************************************************
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.
-*
-***********************************************************************************************/
+ *
+ * Copyright 2018 Infosys Ltd.
+ * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.
+ *
+ ***********************************************************************************************/
 
 package com.infy.idp.customtools
 
 import com.infy.idp.utils.*
-
+import com.infy.idp.tools.build.*
+import com.infy.idp.plugins.wrappers.BuildEnv
 /**
-*
-* This class includes the method for adding DevOpsJsonConversion customtool
-*
-*/
+ *
+ * This class includes the method for adding DevOpsJsonConversion customtool
+ *
+ */
 
 class DevopsJsonConversion {
 
@@ -37,6 +38,7 @@ class DevopsJsonConversion {
 
         }
 
+		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
         command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('REPORTS_PATH')}" "${
             data.get('APP_NAME')
         }" "${data.get('SONAR_KEY')}" ${data.get('SONAR_URL')} ${data.get('PREFIX_FOR_ID')} "${
@@ -45,9 +47,23 @@ class DevopsJsonConversion {
             data.get('BUILD_TOOL')
         }" "${data.get('CAST_WAR_FILE_NAME')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${
             data.get('DASHBOARD_SERVICE_UNAME')
-        }" "${data.get('DASHBOARD_SERVICE_PWD')}" "${data.get('JENKINS_HOSTNAME')}" "${
+            }" %DASHBOARD_SERVICE_PWD% "${data.get('JENKINS_HOSTNAME')}" "${
             data.get('JENKINS_USERNAME')
-        }" "${data.get('JENKINS_PASSWORD')}" """
+            }" %JENKINS_PASSWORD% """
+			}
+        else {
+			command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('REPORTS_PATH')}" "${
+            data.get('APP_NAME')
+        }" "${data.get('SONAR_KEY')}" ${data.get('SONAR_URL')} ${data.get('PREFIX_FOR_ID')} "${
+            data.get('PIPELINE_NAME')
+        }" "${data.get('GROUP_ID')}" "${data.get('GROUP_NAME')}" ${data.get('BUILD_ID')} "${
+            data.get('BUILD_TOOL')
+        }" "${data.get('CAST_WAR_FILE_NAME')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${
+            data.get('DASHBOARD_SERVICE_UNAME')
+            }" \$DASHBOARD_SERVICE_PWD "${data.get('JENKINS_HOSTNAME')}" "${
+            data.get('JENKINS_USERNAME')
+            }" \$JENKINS_PASSWORD """
+			}
         if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
             command += '%ARTIFACT_NAME% ';
         } else {
@@ -55,13 +71,35 @@ class DevopsJsonConversion {
         }
         command += "\"" + jsonData.code.technology + "\"" + ' ';
         command += stageName + ' ';
+		if (stageName.toLowerCase().equals('rebase') && jsonData.code.technology.toString().equalsIgnoreCase("sapnoncharm")) {
+			if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
+				command += ' %TARGET_LANDSCAPE% %TRANS_REQ% %TRANSPORT_OBJECT% %TRANSPORT_OBJECT_TYPE%';
+			} else {
+				command += ' $TARGET_LANDSCAPE $TRANS_REQ $TRANSPORT_OBJECT $TRANSPORT_OBJECT_TYPE';
+			}
+		}
+		
+		if (stageName.toLowerCase().equals('deploy') && jsonData.code.technology.toString().equalsIgnoreCase("sapnoncharm")) {
+
+			String databasePort = PropReader.readProperty(Constants.CONFIGFN, 'IDP_DATABASE_PORT')
+			String databasePwd = PropReader.readProperty(Constants.CONFIGFN, 'IDP_DATABASE_PASSWORD')
+
+			if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
+				command += ' %trigger_id%';
+			} else {
+				command += ' $trigger_id';
+			}
+
+			command += ' ' + databasePort + ' ' + databasePwd;
+		}
+
         ExecuteCmdPostBuild.invokeCmd(context, command, jsonData.basicInfo.buildServerOS)
     }
-
 
     /*
      * This function is used to perform mapping specific to DevOpsJsonConversion customtool
      */
+
     private static Map<String, String> performMapping(jsonData, stageName, prefixID) {
 
         HashMap<String, String> data = new HashMap<String, String>();
@@ -153,6 +191,7 @@ class DevopsJsonConversion {
             buildTool = jsonData.buildInfo.buildtool
         }
         data.put('BUILD_TOOL', buildTool)
+	
         return data;
     }
 }

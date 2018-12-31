@@ -82,4 +82,22 @@ public class SonarDetailsTest {
 		
 		Assert.assertEquals("none", sd.getVulnerabilities());
 	}
+	
+	@Test
+	public void sonarservertest(){
+		SonarDetails sd = new SonarDetails();
+		
+		sd.setSonarServer("server");
+		
+		Assert.assertEquals("server", sd.getSonarServer());
+	}
+	
+	@Test
+	public void sonarpasswordtest(){
+		SonarDetails sd = new SonarDetails();
+		
+		sd.setSonarPassword("pwd");
+		
+		Assert.assertEquals("pwd", sd.getSonarPassword());
+	}
 }

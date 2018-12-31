@@ -240,6 +240,39 @@ class Pipeline {
     }
 
     /*
+     * This function triggers the Jenkins pipeline from Jira status change
+     */
+	//Commented as this module is yet not implemented and tested for Daimler. Needs to be uncommented after implementation of webhooks in Jira
+   /* void triggerJira(context, jsonData)
+	{
+		def projectKey = jsonData.basicInfo.buildInterval.projectKey
+	
+		String jiraChangeLog = 'project = "' + projectKey +'" AND issuetype = Story AND status = Done'
+		context.with{
+			triggers {
+				jiraChangelogTrigger {
+						// A build will only be triggered if the updated issues matches this JQL filter.
+					jqlFilter(jiraChangeLog)
+					// Maps JIRA issue attributes as Jenkins parameters.
+					parameterMappings {
+						
+						issueAttributePathParameterMapping {
+							// The Jenkins parameter name that will be filled in with the JIRA attribute value resolves from the attribute path.
+							jenkinsParameter("JiraStoryID")
+							issueAttributePath("id")
+						}
+						issueAttributePathParameterMapping {
+							// The Jenkins parameter name that will be filled in with the JIRA attribute value resolves from the attribute path.
+							jenkinsParameter("JSON_Input")
+							issueAttributePath("id")
+						}
+					}
+				}
+			}
+		}
+	}*/
+
+    /*
      * This method is used to create pipeline job in jenkins
      */
 
@@ -255,7 +288,10 @@ class Pipeline {
                 propertiesFile('$IDP_WS/CustomJobParm.properties')
                 keepBuildVariables(true)
             }
-
+			/*if(jsonData.basicInfo.buildInterval.pollALM && jsonData.basicInfo.buildInterval.pollALM !=null && jsonData.basicInfo.buildInterval.pollALM.equalsIgnoreCase('on') && jsonData.basicInfo.buildInterval.almTool && jsonData.basicInfo.buildInterval.almTool !=null && jsonData.basicInfo.buildInterval.almTool.equalsIgnoreCase('Jira'))
+			{
+				triggerJira(delegate,jsonData)
+			}*/
             definition {
                 cps {
 

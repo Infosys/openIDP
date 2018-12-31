@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.junitgo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.math.BigDecimal;
 

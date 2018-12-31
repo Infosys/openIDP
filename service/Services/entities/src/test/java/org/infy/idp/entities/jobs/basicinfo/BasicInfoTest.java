@@ -61,6 +61,7 @@ public class BasicInfoTest  {
 		testedObject.setCustomTriggerInterval(tiObj);
 		testedObject.setUserName("userName");
 		testedObject.setPlatform("platform");
+//		testedObject.setJiraProjectKey("JiraKey");
 
 		assertEquals(buildInterval, testedObject.getBuildInterval());
 		assertEquals(additionalMailRecipients, testedObject.getAdditionalMailRecipients());
@@ -74,6 +75,7 @@ public class BasicInfoTest  {
 		assertEquals(tiObj, testedObject.getCustomTriggerInterval());
 		assertEquals("userName", testedObject.getUserName());
 		assertEquals("platform", testedObject.getPlatform());
+//		assertEquals("JiraKey", testedObject.getJiraProjectKey());
 	}
 
 	/**
@@ -134,6 +136,7 @@ public class BasicInfoTest  {
 		assertNull(testedObject.getBuildServerOS());
 		assertNull(testedObject.getPipelineStatus());
 		assertNull(testedObject.getCustomTriggerInterval());
+//		assertNull(testedObject.getJiraProjectKey());
 	}
 
 	/**

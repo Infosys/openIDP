@@ -31,11 +31,10 @@ export class IdpService {
         .then(response => {
         try {
             if (response) {
-
             this.idpdataService.devServerURL = response.json().idpresturl;
             // this.idpdataService.devServerURL = "http://localhost:8889/idprest";
             // this.idpdataService.devServerURL = "https://idplinv02:8889/idprest";
-            // this.idpdataService.devServerURL = "http://server411214d:8889/idprest";
+           // this.idpdataService.devServerURL = "http://server324895d:8889/idprest";
             this.idpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
             // this.idpdataService.subscriptionServerURL = "https://idptestServerHost:8090/subscription";
             this.idpdataService.IDPDashboardURL = response.json().idpdashboardurl;

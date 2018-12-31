@@ -284,7 +284,17 @@
                                 </div>
                             </div>
                             <!-- Pipeline admin, Release manager Names End -->
-
+                            <!-- Module Lead Name Start -->
+                            <div class="row form-group" *ngIf="grantAccess.applicationType==='SAP'">
+                                <div class="col-md-3 text-right">
+                                    <label class="control-label">{{'Module Lead'|translate}}<span class="star">*</span>  </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input id="catfml" [(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control txtbox textFieldWidth" type="text" placeholder="userName,idpuser1" pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$" required>
+                                    <span class="tip-content">{{'Please mention  Module Lead List'|translate}}({{'Comma Separated'|translate}})</span>
+                                </div>
+                            </div>
+                            <!-- Module Lead Name Start -->
                             <!-- Artifact Repository Manager -->
                             <div *ngIf="grantAccess.applicationType==='General'">
                                 <div class="row form-group">
@@ -905,6 +915,282 @@
                         </div>
                         <!-- enviroment Section end -->
 
+                        <!-- SAP Landscape Details Start -->
+                        <div *ngIf="grantAccess.applicationType==='SAP'">
+                            <div class="well">
+                        
+                                <div class="row form-group">
+                                    <div class="col-md-6 " style="padding-left:10px">
+                                        <label class="control-label">{{'SAP System Details'|translate}}:<span class="star">*</span></label>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button id="cabuaesap" type="button" class="btn btn-info" (click)="addEnvOwner()">&nbsp;
+                                            {{'Add System'|translate}} &nbsp;</button>
+                                    </div>
+                                </div>
+                        
+                        
+                        
+                                <div class="panel panel-default" class="container-fluid form-group" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
+                                    [attr.data-index]="envIndex" style="padding-bottom: 10px">
+                                    <div class="panel-heading">
+                                        Environment_{{envIndex+1}}
+                        
+                                        <span style="float:right" [hidden]="(grantAccess.environmentOwnerDetails.length==1) ||envIndex<indexToDisable">
+                                            <a id="caburesap" (click)="removeEnvOwner(envIndex)" style="cursor:pointer;font-size:14px !important;color:black">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <br>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">LandScape Name<span class="star">*</span></label>
+                                        </div>
+                        
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfln" class="form-control txtbox textFieldWidth" (blur)="checkEnvName(envIndex)"
+                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="environmentOwner.environmentName" type="text"
+                                                [disabled]="envIndex<indexToDisable" placeholder="{{'Environment Name'|translate}}" required>
+                                            <div class="text-danger" *ngIf="tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== '' && tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== undefined "
+                                                id="messageEnvName">{{tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName}}</div>
+                                            <span class="tip-content">Environment Name</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp; Landscape Type<span class="star">*</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <select id="caddltsap" style="width:50%" class="form-control" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="environmentOwner.landscapeType" required>
+                                                <option value="">--Select--</option>
+                                                <option value="DEV">Dev</option>
+                                                <option value="QA">QA</option>
+                                                <option value="HOTFIX">HotFix</option>
+                                                <option value="PREPROD">Pre-Production</option>
+                                                <option value="PROD">Production</option>
+                                            </select>
+                                            <span class="tip-content">Landscape Type</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Owners List<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="cabtfolsap" class="form-control txtbox textFieldWidth" name="OwnersList" #OwnersList="ngModel"
+                                                type="text" [(ngModel)]="environmentOwner.environmentOwners" [ngModelOptions]="{standalone: true}"
+                                                type="text" placeholder="{{'Owners List'|translate}}" required pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$">
+                                            <div *ngIf="OwnersList.errors && (OwnersList.dirty || OwnersList.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!OwnersList.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!OwnersList.errors.minlength">
+                                                    This Field Name must be at least 5 characters long.
+                                                </div>
+                                                <div [hidden]="!OwnersList.errors.maxlength">
+                                                    This Field Name cannot be more than 30 characters long.
+                                                </div>
+                                                <div [hidden]="!OwnersList.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">Release Owners for this Landscape</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Application Server<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfassap" class="form-control txtbox textFieldWidth" name="AppServer" #AppServer="ngModel"
+                                                [(ngModel)]="environmentOwner.hostName" [ngModelOptions]="{standalone: true}" type="text"
+                                                maxlength="30" placeholder="Host Name" required>
+                                            <div *ngIf="AppServer.errors && (AppServer.dirty || AppServer.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!AppServer.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!AppServer.errors.maxlength">
+                                                    This Field Name cannot be more than 30 characters long.
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">Host name</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Instance Number<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                        
+                                            <input id="catfinsap" class="form-control txtbox textFieldWidth" name="InstanceNumber"
+                                                #InstanceNumber="ngModel" [(ngModel)]="environmentOwner.instanceNumber" [ngModelOptions]="{standalone: true}"
+                                                type="text" minlength="2" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$" maxlength="2" placeholder="00"
+                                                required>
+                                            <div *ngIf="InstanceNumber.errors && (InstanceNumber.dirty || InstanceNumber.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!InstanceNumber.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!InstanceNumber.errors.minlength">
+                                                    This Field Name must be at least 2 characters long.
+                                                </div>
+                                                <div [hidden]="!InstanceNumber.errors.maxlength">
+                                                    This Field Name cannot be more than 2 characters long.
+                                                </div>
+                                                <div [hidden]="!InstanceNumber.errors.pattern">
+                                                    This Field Name can only consist of digits.
+                                                </div>
+                                            </div>
+                        
+                                            <span class="tip-content">Instance Number</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">System ID<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                        
+                                            <input id="catfsisap" class="form-control txtbox textFieldWidth" name="SID" #SID="ngModel"
+                                                [(ngModel)]="environmentOwner.systemId" [ngModelOptions]="{standalone: true}" type="text"
+                                                minlength="3" pattern="[a-zA-Z0-9]+" maxlength="3" placeholder="EP1" required>
+                                            <div *ngIf="SID.errors && (SID.dirty || SID.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!SID.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!SID.errors.minlength">
+                                                    This Field Name must be at least 3 characters long.
+                                                </div>
+                                                <div [hidden]="!SID.errors.maxlength">
+                                                    This Field Name cannot be more than 3 characters long.
+                                                </div>
+                                                <div [hidden]="!SID.errors.pattern">
+                                                    This Field Name can only consist of alphabets and digits.
+                                                </div>
+                                            </div>
+                        
+                                            <span class="tip-content">System ID (SID)</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Client<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfclsap" class="form-control txtbox textFieldWidth" name="Client" #Client="ngModel"
+                                                [(ngModel)]="environmentOwner.client" [ngModelOptions]="{standalone: true}" type="text" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$"
+                                                minlength="3" maxlength="3" placeholder="100" required>
+                                            <div *ngIf="Client.errors && (Client.dirty || Client.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!Client.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!Client.errors.minlength">
+                                                    This Field Name must be at least 3 characters long.
+                                                </div>
+                                                <div [hidden]="!Client.errors.maxlength">
+                                                    This Field Name cannot be more than 3 characters long.
+                                                </div>
+                                                <div [hidden]="!Client.errors.pattern">
+                                                    This Field Name can only consist of digits.
+                                                </div>
+                                            </div>
+                                            <span class="tip-content">Client number</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Username<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="catfunsap" class="form-control txtbox textFieldWidth" name="UsernameSAP" #UsernameSAP="ngModel"
+                                                [(ngModel)]="environmentOwner.userName" [ngModelOptions]="{standalone: true}" type="text"
+                                                pattern="[A-Za-z0-9]+(?:[ ._-][A-Za-z0-9]+)*" maxlength="12" placeholder="INFDEV1" required>
+                                            <span class="tip-content">Username to connect to SAP System</span>
+                                            <div *ngIf="UsernameSAP.errors && (UsernameSAP.dirty || UsernameSAP.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!UsernameSAP.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!UsernameSAP.errors.maxlength">
+                                                    This Field Name cannot be more than 12 characters long.
+                                                </div>
+                                                <div [hidden]="!UsernameSAP.errors.pattern">
+                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                </div>
+                                            </div>
+                        
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;">Password<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <input id="capwpasap" class="form-control txtbox textFieldWidth" name="PasswordSAP" #PasswordSAP="ngModel"
+                                                [(ngModel)]="environmentOwner.password" [ngModelOptions]="{standalone: true}" type="password"
+                                                maxlength="40" placeholder="Password" required>
+                                            <span class="tip-content">Password to connect to SAP System</span>
+                                            <div *ngIf="PasswordSAP.errors && (PasswordSAP.dirty || PasswordSAP.touched)" class="alert alert-danger ">
+                                                <div [hidden]="!PasswordSAP.errors.required">
+                                                    This Field Name is required!
+                                                </div>
+                                                <div [hidden]="!PasswordSAP.errors.maxlength">
+                                                    This Field Name cannot be more than 40 characters long.
+                                                </div>
+                                            </div>
+                        
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                    <div class="row form-group">
+                                        <div class="col-md-3 text-right">
+                                            <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp;
+                                                Language<span class="star">*</span></label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left">
+                                            <select id="caddlasap" style="width:50%" class="form-control" [(ngModel)]="environmentOwner.language"
+                                                [ngModelOptions]="{standalone: true}" required>
+                                                <option value="">--Select--</option>
+                                                <option value="EN">English</option>
+                                                <option value="GR">German</option>
+                                            </select>
+                                            <span class="tip-content">Language</span>
+                                        </div>
+                                    </div>
+                        
+                        
+                        
+                                </div>
+                            </div>
+                        </div>
+                    <!-- SAP Landscape Details End -->
 
                         <div class="well">
                             <div class="row">

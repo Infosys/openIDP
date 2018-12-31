@@ -72,6 +72,7 @@ public class DeployTest {
 		testedObject.setDbDeployFailSafe("safe");
 		testedObject.setDbDeployPipelineOwners("owner");
 		testedObject.setDbDeployPipelineList("pepiline");
+		testedObject.setDeployOperationSelected("release");
 
 		assertEquals("owner", testedObject.getDestEnvOwner());
 		assertEquals("pwd", testedObject.getPassword());
@@ -98,6 +99,7 @@ public class DeployTest {
 		assertEquals("nexusId11", testedObject.getNexusId());
 		assertEquals("version12", testedObject.getVersion());
 		assertEquals("artifactID12", testedObject.getArtifactID());
+		assertEquals("release", testedObject.getDeployOperationSelected());
 		// No exception thrown
 
 	}

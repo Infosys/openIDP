@@ -33,39 +33,41 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @SpringBootTest(classes = ApplicationServices.class)
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @WebAppConfiguration
 @ActiveProfiles("mvc")
 public class ApplicationServicesTest {
 
 	@Autowired
+	@InjectMocks
 	private ApplicationServices applicationServices;
 
-	@MockBean
+	@Mock
 	private JobsBL jobsBL;
-	@MockBean
+	@Mock
 	private JobsManagementBL jobsmgmtBL;
-	@MockBean
+	@Mock
 	private JobsAdditionalInfo jobsaddInfo;
 	
-	@MockBean
+	@Mock
 	private SubscriptionBL subscriptionBL;
 
-	@MockBean
+	@Mock
 	private EmailSender emailSender;
 
-	@MockBean
+	@Mock
 	private OAuth2Authentication authBean;
 
 	@Before

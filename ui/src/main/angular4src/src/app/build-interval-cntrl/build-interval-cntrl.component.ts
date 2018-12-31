@@ -27,6 +27,7 @@ export class BuildIntervalCntrlComponent implements OnInit {
   statusCheck: any = ["", ""];
   dropdownListTest: any = [];
   dropdownListDeploy: any = [];
+  initialNotZero = false;
 @ViewChild("modalforTotalSubmit") submitButton;
     ngOnInit() {
   }
@@ -43,6 +44,7 @@ export class BuildIntervalCntrlComponent implements OnInit {
         "userName": this.IdpdataService.idpUserName
     };
     this.IdpdataService.loading = true;
+    this.IdpdataService.buildIntervalData = [];
    this.IdprestapiService.getPipelineDetails(data)
         .then(response => {
         console.log(new Date().toUTCString(), "Pipeline details retrieved");
@@ -51,6 +53,9 @@ export class BuildIntervalCntrlComponent implements OnInit {
             let resp = JSON.parse(responseData);
             resp = this.idpencryption.doubleEncryptPassword(resp.pipelineJson);
           this.IdpdataService.buildIntervalData = resp.basicInfo.customTriggerInterval.interval;
+          if( this.IdpdataService.buildIntervalData!=null &&  this.IdpdataService.buildIntervalData.length!==0){
+            this.initialNotZero  = true;
+          }
         } catch (e) {
             console.log("Failed to get the Build Interval Schedule Details");
             console.log(e);
@@ -72,8 +77,7 @@ export class BuildIntervalCntrlComponent implements OnInit {
         this.IdpdataService.buildIntervalData[i].details.schedule = true;
     }
      const data = {"interval": this.IdpdataService.buildIntervalData};
-        this.IdprestapiService.buildIntervalTriggerJobs(data)
-        .then(response => {
+        this.IdprestapiService.buildIntervalTriggerJobs(data,this.IdpdataService.triggerJobData.applicationName,this.IdpdataService.pipelineName,this.IdpdataService.idpUserName).then(response => {
             try {
             if (response) {
             const err = response.json().errorMessage;
@@ -112,6 +116,11 @@ setIndex(i) {
       }
   }
   checkDetailsFilled() {
+     if( !this.initialNotZero && this.IdpdataService.buildIntervalData!==undefined && this.IdpdataService.buildIntervalData!=null && this.IdpdataService.buildIntervalData.length === 0){
+        console.log('len : '+this.IdpdataService.buildIntervalData.length);
+        alert('No job is scheduled !')
+        return false;
+     }
       for (const interval of this.IdpdataService.buildIntervalData) {
           console.log(interval.details);
           if (Object.getOwnPropertyNames(interval.details).length === 0) {

@@ -31,6 +31,10 @@ export class IdpheaderComponent implements OnInit {
   isIDPAdmin = false;
   idpUserName: any = this.IdpdataService.idpUserName;
   role: any = this.IdpdataService.role;
+  isAboutView: boolean = false;
+  isDashboard: boolean = false;
+  isNotification: boolean = false;
+
   constructor(
     private idpservice: IdpService,
     public IdpdataService: IdpdataService,
@@ -59,6 +63,9 @@ export class IdpheaderComponent implements OnInit {
         this.hidePreviousConfig = false;
         this.hideRelease = false;
         this.hideService = false;
+        this.isDashboard = false;
+        this.isAboutView = false;
+
         if (url.includes("createapp")) {
         this.hideCreateConfig = false;
         this.IdpdataService.hideApp = true;
@@ -75,6 +82,8 @@ export class IdpheaderComponent implements OnInit {
         this.hideRelease = false;
         this.IdpdataService.hideApp = false;
         this.hideService = false;
+        this.isDashboard = false;
+        this.isAboutView = false;
         if (!url.includes("approve")) {
         this.IdpdataService.hideDashboard = false;
         }
@@ -91,6 +100,9 @@ export class IdpheaderComponent implements OnInit {
         this.hideRelease = false;
         this.IdpdataService.hideApp = false;
         this.hideService = false;
+        this.isDashboard = false;
+        this.isAboutView = false;
+
         if (url.includes("approve")) {
         this.IdpdataService.hideDashboard = true;
         }
@@ -98,17 +110,36 @@ export class IdpheaderComponent implements OnInit {
         this.hidePreviousConfig = false;
         this.hideRelease = true;
         this.IdpdataService.hideApp = false;
+        this.isDashboard = false;
+        this.isAboutView = false;
+
     } else if (url.includes("servicePortal")) {
-            this.hidePreviousConfig = false;
-            this.hideRelease = false;
-         this.hideCreateConfig = false;
-         this.hideService = false;
-        } else if (url.includes("createLicense")) {
         this.hidePreviousConfig = false;
         this.hideRelease = false;
         this.hideCreateConfig = false;
         this.hideService = false;
-        }
+        this.isDashboard = false;
+        this.isAboutView = false;
+
+    } else if (url.includes("createLicense")) {
+        this.hidePreviousConfig = false;
+        this.hideRelease = false;
+        this.hideCreateConfig = false;
+        this.hideService = false;
+        this.isDashboard = false;
+        this.isAboutView = false;
+    }
+    if(url.includes('dashboardView')){
+        this.isDashboard = true;
+        this.hidePreviousConfig = false;
+    } if(url.includes('notificationPage')){
+        this.isNotification = true;
+        this.hidePreviousConfig = false;
+    }
+    if(url.includes('aboutView')){
+        this.isAboutView = true;
+        this.hidePreviousConfig = false;
+    }
   }
   ngOnInit() {
   }
@@ -151,7 +182,7 @@ export class IdpheaderComponent implements OnInit {
   logout() {
     this.IdprestapiService.logout().then(response => {
         try {
-        if (response) {
+        if (response!=null) {
             console.log(response);
         }
         } catch (e) {

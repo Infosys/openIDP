@@ -12,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
 
+import org.infy.idp.AppContext;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,20 +22,22 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*This test case is used for jira*/
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class InsertFetchJiraTest {
 
 	@Spy
 	@InjectMocks
-	@Autowired
 	private IDPPostGreSqlDbContext idppostGreSqlDbContext;
 	
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private InsertFetchJira insertFetchJiraoj;
@@ -45,7 +48,7 @@ public class InsertFetchJiraTest {
 		try {
 
 			MockitoAnnotations.initMocks(this);
-			Method postConstruct = PostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
+			Method postConstruct = IDPPostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
 			postConstruct.setAccessible(true);
 			postConstruct.invoke(idppostGreSqlDbContext);
 

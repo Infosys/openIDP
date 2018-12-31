@@ -23,6 +23,10 @@ import org.jsoup.select.Elements;
  */
 public class SetHtmlValues {
 	
+	private SetHtmlValues() {
+		
+	}
+	
 	private static SimpleDateFormat sdfTimeStamp = new SimpleDateFormat("yyyy-MM-dd 'T'HH:mm:ss");
 	
 	public static String setNewTableValues(String inputHtml, VSTSDataBean mainObj, String inputHtmlNew){
@@ -49,9 +53,6 @@ public class SetHtmlValues {
 		// setting values for each column in the first row
 		String execStr = "<a href=\""+mainObj.getExecNoLink()+"\">"+mainObj.getExecNo()+"</a>";
 		columns.get(0).html(execStr);
-		/*columns.get(1).html(mainObj.getBuild());
-		columns.get(2).html(mainObj.getDeploy());
-		columns.get(3).html(mainObj.getTest());*/
 		columns.get(1).html(mainObj.getUser());
 		columns.get(2).html(mainObj.getScmBranch());
 		String artiStr = "NA".equalsIgnoreCase(mainObj.getArtivalue())?mainObj.getArtivalue():"<a href=\""+mainObj.getArtilink()+"\">"+mainObj.getArtivalue()+"</a>";
@@ -94,11 +95,6 @@ public class SetHtmlValues {
 		// setting values for each column in the first row
 		String execStr = "<a href=\""+mainObj.getExecNoLink()+"\">"+mainObj.getExecNo()+"</a>";
 		columns.get(0).html(execStr);
-		/*columns.get(1).html(mainObj.getBuild());
-		columns.get(2).html(mainObj.getDeploy());
-		columns.get(3).html(mainObj.getTest());*/
-		columns.get(1).html(mainObj.getUser());
-		//System.out.println("scm "+mainObj.getPipelineName()+" : "+mainObj.getScmBranch());
 		columns.get(2).html(mainObj.getScmBranch());
 		String artiStr = "NA".equalsIgnoreCase(mainObj.getArtivalue())?mainObj.getArtivalue():"<a href=\""+mainObj.getArtilink()+"\">"+mainObj.getArtivalue()+"</a>";
 		columns.get(3).html(artiStr);
@@ -140,9 +136,7 @@ public class SetHtmlValues {
 						execNotPresent = false;
 						String execStr = "<a href=\""+mainObj.getExecNoLink()+"\">"+mainObj.getExecNo()+"</a>";
 						tds.get(0).html(execStr);
-						/*tds.get(1).html(mainObj.getBuild());
-						tds.get(2).html(mainObj.getDeploy());
-						tds.get(3).html(mainObj.getTest());*/
+						
 						tds.get(1).html(mainObj.getUser());
 						tds.get(2).html(mainObj.getScmBranch());
 						String artiStr = "NA".equalsIgnoreCase(mainObj.getArtivalue())?mainObj.getArtivalue():"<a href=\""+mainObj.getArtilink()+"\">"+mainObj.getArtivalue()+"</a>";
@@ -164,20 +158,12 @@ public class SetHtmlValues {
 					String tr = "tr";
 					String trTag = "<tr></tr>";
 					
-					// adding last row 
-					//tableEntry.appendElement(tr);
-					// adding in first row 
 					tableEntry.select(tr).first().before(trTag);
-					// adding all columns tds
 					Element rowL =  tableEntry.select(tr).first().html(inputRow);
 					Elements columns = rowL.select("td");
 					
-					// setting values for each column in the last row
 					String execStr = "<a href=\""+mainObj.getExecNoLink()+"\">"+mainObj.getExecNo()+"</a>";
 					columns.get(0).html(execStr);
-					/*columns.get(1).html(mainObj.getBuild());
-					columns.get(2).html(mainObj.getDeploy());
-					columns.get(3).html(mainObj.getTest());*/
 					columns.get(1).html(mainObj.getUser());
 					columns.get(2).html(mainObj.getScmBranch());
 					String artiStr = "NA".equalsIgnoreCase(mainObj.getArtivalue())?mainObj.getArtivalue():"<a href=\""+mainObj.getArtilink()+"\">"+mainObj.getArtivalue()+"</a>";

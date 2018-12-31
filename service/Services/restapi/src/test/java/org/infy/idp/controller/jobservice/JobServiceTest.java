@@ -37,7 +37,6 @@ import org.infy.idp.entities.jobs.TestSuits;
 import org.infy.idp.entities.jobs.UserRolesPermissions;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
 import org.infy.idp.entities.jobs.applicationinfo.Applications;
-import org.infy.idp.entities.jobs.basicinfo.TriggerInterval;
 import org.infy.idp.entities.jobs.code.JobParam;
 import org.infy.idp.entities.models.ResourceResponse;
 import org.infy.idp.entities.triggerparameter.ApproveBuildParams;
@@ -46,38 +45,40 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @SpringBootTest(classes = JobService.class)
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @WebAppConfiguration
 @ActiveProfiles("mvc")
 public class JobServiceTest {
 
 	@Autowired
+	@InjectMocks
 	private JobService jobService;
 
-	@MockBean
+	@Mock
 	private OAuth2Authentication authBean;
 
-	@MockBean
+	@Mock
 	private JobsBL jobsBLBean;
-	@MockBean
+	@Mock
 	private JobsManagementBL jobsmgmtBL;
-	@MockBean
+	@Mock
 	private JobsAdditionalInfo jobsaddInfo;
 	
-	@MockBean
+	@Mock
 	private EmailSender emailBean;
 
-	@MockBean
+	@Mock
 	private SubscriptionBL subscriptionBL;
 
 	/**
@@ -104,7 +105,7 @@ public class JobServiceTest {
 		Pipelines pipelines = new Pipelines();
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getpipelines("App_0101", authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsBLBean.getpipelinesByAppNameAndUser("App_0101", authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(pipelines);
 
 		resourceResponse = jobService.getJobs("IDP", "1", "App_0101", authBean);
@@ -122,7 +123,7 @@ public class JobServiceTest {
 		pipelines.setPipelines(pipList);
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.getpipelines("App_0101", authBean.getPrincipal().toString().toLowerCase()))
+		Mockito.when(jobsBLBean.getpipelinesByAppNameAndUser("App_0101", authBean.getPrincipal().toString().toLowerCase()))
 				.thenReturn(pipelines);
 
 		resourceResponse = jobService.getJobs("IDP", "1", "App_0101", authBean);
@@ -203,18 +204,18 @@ public class JobServiceTest {
 		assertNull(resourceResponse.getErrorMessage());
 	}
 
-	@Test
-	public void testTriggerIntervalForValidJob() {
-		TriggerInterval triggerInterval = new TriggerInterval();
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsBLBean.submitInterval(triggerInterval, authBean.getPrincipal().toString().toLowerCase()))
-				.thenReturn("");
-
-		resourceResponse = jobService.triggerInterval(triggerInterval, authBean);
-		assertEquals("SUCCESS", resourceResponse.getStatus());
-		assertNull(resourceResponse.getErrorMessage());
-	}
+//	@Test
+//	public void testTriggerIntervalForValidJob() {
+//		TriggerInterval triggerInterval = new TriggerInterval();
+//		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
+//		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
+//		Mockito.when(jobsBLBean.submitInterval(triggerInterval, authBean.getPrincipal().toString().toLowerCase()))
+//				.thenReturn("");
+//
+//		resourceResponse = jobService.triggerInterval(triggerInterval, authBean);
+//		assertEquals("SUCCESS", resourceResponse.getStatus());
+//		assertNull(resourceResponse.getErrorMessage());
+//	}
 
 	@Test
 	public void testCheckAvailableJobsToTriggerForNoAvailablePipelines() {
@@ -528,41 +529,6 @@ public class JobServiceTest {
 		assertEquals("SUCCESS", resourceResponse.getStatus());
 		assertNull(resourceResponse.getErrorMessage());
 	}
-
-	@Test
-	public void testGetDBDeployPipelineNamesForApplicationForNoPipelinesAvalilable() {
-		String appName = "appName";
-		Names names = new Names();
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
-				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
-
-		resourceResponse = jobService.getDBDeployPipelineNamesForApplication(appName, authBean);
-		assertEquals("No Pipelines", resourceResponse.getResource());
-		assertEquals("SUCCESS", resourceResponse.getStatus());
-		assertNull(resourceResponse.getErrorMessage());
-	}
-
-	@Test
-	public void testGetDBDeployPipelineNamesForApplicationForPipelinesAvalilable() {
-		String appName = "appName";
-		Names names = new Names();
-		List<String> nameList = new ArrayList<>();
-		nameList.add("deployPipeline");
-		names.setNames(nameList);
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
-		Mockito.when(jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
-				authBean.getPrincipal().toString().toLowerCase())).thenReturn(names);
-
-		resourceResponse = jobService.getDBDeployPipelineNamesForApplication(appName, authBean);
-		assertEquals("ml/hNMhTl3L5U2QRNuHuOGkD20IMl1Vii+sPdcpskxU=", resourceResponse.getResource());
-		assertNotEquals("No Pipelines", resourceResponse.getResource());
-		assertEquals("SUCCESS", resourceResponse.getStatus());
-		assertNull(resourceResponse.getErrorMessage());
-	}
-
 	@Test
 	public void testGetMTMTestPlans() {
 		String appName = "appName";

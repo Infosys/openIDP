@@ -3,6 +3,7 @@ package com.infosys.json;
 
 import org.junit.Test;
 
+import junit.framework.Assert;
 
 
 public class ServiceTestTest {
@@ -11,6 +12,8 @@ public class ServiceTestTest {
 	public void test(){
 		ServiceTest st = new ServiceTest();
 		
-	
+		st.setiFast(null);
+		
+		Assert.assertEquals(null, st.getiFast());
 	}
 }

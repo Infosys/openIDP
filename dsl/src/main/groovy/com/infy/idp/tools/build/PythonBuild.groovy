@@ -66,10 +66,10 @@ class PythonBuild {
                 //Sonar runner
                 if (jsonData.buildInfo.modules.getAt(0).codeAnalysis && jsonData.buildInfo.modules.getAt(0).codeAnalysis.contains(Constants.SONAR)) {
                     SonarRunner sonar = new SonarRunner()
-                    sonar.setProject(gitRepoName + '/' + jsonData.buildInfo.modules.getAt(0).relativePath + '/sonar-project.properties')
+                   // sonar.setProject(gitRepoName + '/' + jsonData.buildInfo.modules.getAt(0).relativePath + '/sonar-project.properties')
                     sonar.setProperties('sonar.projectKey=' + jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName +
                             '\nsonar.projectName=' + jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName +
-                            '\nsonar.projectVersion=$RELEASE_IDENTIFIER')
+                            '\nsonar.projectVersion=$RELEASE_IDENTIFIER' + '\nsonar.sources=.')
                     sonar.add(delegate, jsonData)
                 }
                 SshBuilder sshBuilder = new SshBuilder();
@@ -152,7 +152,7 @@ class PythonBuild {
             wrappers {
 
                 (new ToolEnvBuildWrapper()).invokeToolEnvBuildWrapper(delegate, toolList)
-                if (copyPattern != '')
+               // if (copyPattern != '')
                     CopyToSlave.invokeCopyToSlave(delegate, copyPattern)
             }
         }
@@ -160,10 +160,10 @@ class PythonBuild {
 
     private static String filesToCopy(modulesArr) {
         String copyPattern = ''
-        if (modulesArr.getAt(0).unitTestDir) {
+       // if (modulesArr.getAt(0).unitTestDir) {
             copyPattern += (basepath + '_zipping_build.xml')
-            return copyPattern
-        }
+            //return copyPattern
+     //   }
         return copyPattern
     }
 

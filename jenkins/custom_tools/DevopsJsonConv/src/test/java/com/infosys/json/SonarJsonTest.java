@@ -40,4 +40,24 @@ public class SonarJsonTest {
 		Assert.assertEquals("none", sj.getTotal());		
 		
 	}
+	
+	@Test
+	public void pagingtest(){
+		SonarJson sj = new SonarJson();
+		
+		sj.setPaging(null);
+		
+		Assert.assertEquals(null, sj.getPaging());		
+		
+	}
+	
+	@Test
+	public void issuestest(){
+		SonarJson sj = new SonarJson();
+		
+		sj.setIssues(null);
+		
+		Assert.assertEquals(null, sj.getIssues());		
+		
+	}
 }

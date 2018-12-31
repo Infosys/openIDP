@@ -41,7 +41,6 @@ class IDPSlaveConfiguration implements Serializable {
         String lockAvailable = 'NA'
         def labeledNodeList = this.nodeExistance(labelName)
 
-        println "Checking node availability -Nodes with label(" + labelName + ") : " + labeledNodeList.collect { node -> node.name }
         Boolean slaveActive = false
         def activeSlave = ''
         def inactiveSlaves = 0
@@ -50,7 +49,6 @@ class IDPSlaveConfiguration implements Serializable {
             def slaveWorkspace = (String) selectedSlave.getWorkspaceRoot() + '/' + basePath
 
             Boolean executorAvailable = (selectedSlave.getChannel() != null && (selectedSlave.toComputer().countIdle() > 0))
-            println 'Executors available :' + executorAvailable + " for slave:" + selectedSlave.name
             if (executorAvailable) {
                 // check if slave is online and executor is available
 
@@ -58,9 +56,9 @@ class IDPSlaveConfiguration implements Serializable {
                 if (hostName == null) {
                     hostName = selectedSlave.getChannel().getName().tokenize('/')[1]
                 }
-                println "Connected host name: " + hostName
+
                 def lockToken = 'lock_' + hostName + '_' + slaveWorkspace
-                println 'Checking node availability -Generated Token for lock : ' + lockToken
+
                 slaveActive = true
                 lockAvailable = this.checkLockAvailability(lockToken)
                 if (lockAvailable == 'true') {
@@ -73,15 +71,15 @@ class IDPSlaveConfiguration implements Serializable {
             }
             if (selectedSlave.getChannel() == null) {
                 inactiveSlaves++
-                println 'Offline slave- ' + selectedSlave.name
+
             } else {
                 activeSlave = selectedSlave.name
             }
             if (i == (labeledNodeList.size() - 1) && slaveActive) {
-                println 'Active Slave but no executors available: ' + activeSlave
+
                 nodeObject.put('slaveActive', slaveActive)
             } else if (i == (labeledNodeList.size() - 1) && inactiveSlaves == (labeledNodeList.size())) {
-                println 'All Offline slave for label: ' + labelName
+
                 nodeObject.put('slaveActive', slaveActive)
             }
         }
@@ -93,20 +91,20 @@ class IDPSlaveConfiguration implements Serializable {
     def checkLockAvailability(lockToken) {
         String lockAvailable = 'NA'
         try {
-            println "check Lock Availability-CheckLock init"
+
             //def labeledNodeList = jenkins.model.Jenkins.instance.getPluginManager().activePlugins
             LockableResourcesManager lockManager = (LockableResourcesManager) jenkins.model.Jenkins.instance.getDescriptorOrDie(LockableResourcesManager.class)
 
             LockableResource resourceDetails = lockManager.fromName(lockToken)
 
             if (resourceDetails == null) {
-                println "Checking lock availability: " + lockToken + " - new resource "
+
                 lockAvailable = 'true'
             } else if (!resourceDetails.isLocked()) {
-                println "Checking lock availability: " + resourceDetails.getName() + " - resource not locked"
+
                 lockAvailable = 'true'
             } else {
-                println "Checking lock availability: " + resourceDetails.getName() + " - resource locked"
+
                 lockAvailable = 'false'
             }
 
@@ -125,23 +123,23 @@ class IDPSlaveConfiguration implements Serializable {
         def labeledNodeList = nodeExistance(labelName)
         if (labeledNodeList.size() <= 0) {
             def errorStr = 'No slave with Label(or Name): ' + labelName + ' defined for the pipeline'
-            println errorStr
+
             this.script.error(errorStr)
         }
 
-        println 'Finding active Slave to assign'
+
 
         nodeObject = [:]
         this.checkNodeAvailability(labelName, basePath, nodeObject)
         if (nodeObject.slaveActive != null && nodeObject.slaveActive &&
                 nodeObject.slaveName != null && nodeObject.slaveWorkspace != null && nodeObject.token != null) {
             //throw new RuntimeException('Slave Available')
-            println 'Node Object: ' + nodeObject
+
             return nodeObject
         } else if (nodeObject.slaveActive != null && !nodeObject.slaveActive) {
-            println 'No slave with Label(or Name): ' + labelName + ' is online. Please make a slave online.'
+
         } else if (nodeObject.slaveActive != null && nodeObject.slaveActive && nodeObject.token == null) {
-            println 'No slave with Label(or Name): ' + labelName + ' is Free.'
+
         }
         // sending empty nodeObject map for slave unavailability
         nodeObject = [:]

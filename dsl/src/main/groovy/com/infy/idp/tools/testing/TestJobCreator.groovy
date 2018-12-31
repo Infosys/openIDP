@@ -7,15 +7,20 @@
  ***********************************************************************************************/
 
 package com.infy.idp.tools.testing
-
-import com.infy.idp.customtools.*
+import java.util.List;
+import java.util.Map;
+import org.infy.idp.entities.jobs.common.AntProperties;
 import com.infy.idp.plugins.buildsteps.SshBuilder
-import com.infy.idp.plugins.publishers.ArchiveArtifacts
-import com.infy.idp.plugins.wrappers.Xvfb
-import com.infy.idp.tools.*
 import com.infy.idp.utils.*
+import com.infy.idp.tools.*
+import com.infy.idp.customtools.*
 import jenkins.model.*
-import org.infy.idp.entities.jobs.common.AntProperties
+import com.infy.idp.plugins.publishers.ArchiveArtifacts;
+//import com.infy.idp.plugins.publishers.RobotPublisher
+import com.infy.idp.plugins.wrappers.Xvfb
+import com.infy.idp.plugins.wrappers.BuildNameSetter
+import com.infy.idp.plugins.wrappers.*
+
 
 /**
  *
@@ -92,7 +97,15 @@ class TestJobCreator {
                     PropertiesAdder.addStringParam(delegate, 'JOB_BUILD_ID', 'NA', '')
                     PropertiesAdder.addNodeParam(delegate, 'SLAVE_NODE', ['ldaproleapp_Jmvn1_14Mr1_Slave'], '')
 
-
+					if(jsonData.code.technology.toString().equalsIgnoreCase(Constants.SAP))
+					{
+						PropertiesAdder.addStringParam(delegate, 'APP_SERVER', 'NA', 'This parameter tells the application server name')
+						PropertiesAdder.addStringParam(delegate, 'INSTANCE', 'NA', 'This parameter tells the instance name')
+						PropertiesAdder.addStringParam(delegate, 'CLIENT', 'NA', 'This parameter tells the client name')
+						PropertiesAdder.addStringParam(delegate, 'SAP_USERID', 'NA', 'This parameter tells the SAP User Name')
+						PropertiesAdder.addStringParam(delegate, 'SAP_PASSWORD', 'NA', 'This parameter tells the SAP password')
+						PropertiesAdder.addStringParam(delegate, 'LANGUAGE', 'NA', 'This parameter tells which ')
+					}
                     if (jsonData.testInfo && jsonData.testInfo.testEnv && jsonData.testInfo.testEnv[envIndex]) {
                         if (jsonData.testInfo.testEnv[envIndex].testSteps && jsonData.testInfo.testEnv[envIndex].testSteps[stepIndex] && jsonData.testInfo.testEnv[envIndex].testSteps[stepIndex].test) {
                             def stepName = jsonData.testInfo.testEnv[envIndex].testSteps[stepIndex].stepName
@@ -332,6 +345,8 @@ class TestJobCreator {
 
             wrappers {
 
+			BuildEnv env = new BuildEnv();
+				env.add(delegate, jsonData);
                 // add X11 support for linux environment
                 if (jsonData.basicInfo.buildServerOS == Constants.UNIXOS && testStepElem.testCategory == Constants.FUNCTEST && testStepElem.testTypeName.toString() != Constants.MONKEYTALK)
                     new Xvfb().add(delegate, jsonData)

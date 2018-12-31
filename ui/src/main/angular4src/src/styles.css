@@ -14,7 +14,7 @@ select {
     cursor:help;
 }
     .field-tip .tip-content {
-        position:a  bsolute;
+        position:absolute;
         top:-10px; /* - top padding */
         right:9999px;
         width:200px;
@@ -73,6 +73,15 @@ background-repeat: no-repeat;
 }
 
 
+.showConfig .table thead th {
+  text-align: center;/*change that parameter to left/right*/
+}
+
+.showConfig .dateclass1{
+  text-align: center;
+}
+
+
 .showConfig .field-tip {
     position:relative;
     cursor:help;
@@ -119,7 +128,8 @@ background-repeat: no-repeat;
 
 /*----------------------------UI Skinning--------------------------------*/
 .app_name::before{
-  content: 'Infosys DevOps Platform'
+  content: 'Infosys DevOps Platform';
+  text-align: center;
 }
 .text_color{
   color: #FFFFFF ;
@@ -263,15 +273,15 @@ li a.navactive {
   content:'Infosys DevOps Platform';
   visibility: visible;
   text-align: center;
-  font-size: xx-large;
-  padding-left: 500px;
+  font-size: 35px;
   width: 60%;
   font-family: Sans-serif;
-   color: #1b6bb1; 
-  /* color: whitesmoke; */
+  color: #1b6bb1; 
   font-weight: 700; 
-  position: relative;
-  top: 18px;
+  top: 30px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .logo_login {
@@ -290,4 +300,22 @@ li a.navactive {
 	height: 79px;
 	background-color: white;
 	box-shadow: 2px 2px 2px #d0d0d0;
-	}
+  }
+.bgwrapper {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+  background: url('assets/images/Login_page_BG.png') no-repeat center;
+  
+}
+.logo_login {
+  background: url("assets/images/Automation_BlueLogo2.png") no-repeat; 
+  visibility: visible;
+  margin-left:100px;
+  margin-top:18px;
+  width: 250px !important;
+  height: 100px !important;
+}

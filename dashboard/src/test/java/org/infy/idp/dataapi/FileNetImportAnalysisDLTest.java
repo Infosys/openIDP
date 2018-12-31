@@ -7,14 +7,15 @@
 ***********************************************************************************************/
 package org.infy.idp.dataapi;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import org.infy.idp.AppContext;
 import org.infy.idp.entities.FileNet;
-import org.infy.idp.entities.FileNetExport;
+import org.infy.idp.entities.FileNetImport;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,33 +26,26 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /*This test case is used for Import analysis*/
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class FileNetImportAnalysisDLTest {
 
 
 	@Spy
 	@InjectMocks
-	private PostGreSqlDbContext postGreSqlDbContext;
-
-	@Spy
-	@InjectMocks
-	@Autowired
-	private IDPPostGreSqlDbContext idpPostGreSqlDbContext;
+	private IDPPostGreSqlDbContext idppostGreSqlDbContext;
 	
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private FileNetImportAnalysisDL fileNetImportAnalysisDL;
 	
-	@Mock
-	private Connection connection;
-	
-	@Mock
-	private PreparedStatement preparedStatement;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -59,9 +53,9 @@ public class FileNetImportAnalysisDLTest {
 		try {
 
 			MockitoAnnotations.initMocks(this);
-			Method postConstruct = PostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
+			Method postConstruct = IDPPostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
 			postConstruct.setAccessible(true);
-			postConstruct.invoke(postGreSqlDbContext);
+			postConstruct.invoke(idppostGreSqlDbContext);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -73,11 +67,17 @@ public class FileNetImportAnalysisDLTest {
 	public void insertFileNetImportAnalysisDetailsTest() throws Throwable {
 		try 
 		{
+			FileNetImport fileNetImport=new FileNetImport();
+			fileNetImport.setDestination("destination");
+			fileNetImport.setSource("source");
+			fileNetImport.setTriggerId(1);
 			
 			FileNet fileNet=new FileNet();
-			
+			fileNet.setEnv("env");
+			fileNet.setTriggerId(1);
+			fileNet.setFileNetImport(fileNetImport);
 			int temp=fileNetImportAnalysisDL.insertFileNetImportAnalysisDetails(fileNet);
-			assertEquals(1, temp);
+			assertNotNull(temp);
 		}
 		catch(Exception e)
 		{

@@ -20,8 +20,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -86,8 +89,11 @@ public class JobsBL {
 	private static final String TRUE = "true";
 	private static final String FALSE = "FALSE";
 	private static final String JOB_URL = "/job/";
+	private static final String WORKFLOW = "workflow";
 	@Autowired
 	private FetchJobDetails fetchJobDetails;
+	@Autowired
+	private TriggerDetailBL triggerDetailBL;
 	@Autowired
 	private JobsManagementBL jobsmgmtBL;
 	@Autowired
@@ -143,6 +149,11 @@ public class JobsBL {
 		if (!(permissions.contains(CREATE_PIPELINE) || permissions.contains(EDIT_PIPELINE))) {
 			return "User Does not have permission to create pipeline";
 		}
+		IDPJob aLocal = new IDPJob();
+		Gson g1 = new Gson();
+		String newidpforLocal = g1.toJson(idp);
+		aLocal = g1.fromJson(newidpforLocal, IDPJob.class);
+
 		setArtificatStage(idp);
 		IDPJob a = new IDPJob();
 		Gson g = new Gson();
@@ -152,13 +163,25 @@ public class JobsBL {
 		idp = fetchJobDetails.getSonarInfo(idp);
 		logger.info("IDP JSON " + gson.toJson(idp, IDPJob.class).toString());
 		logger.debug("IDP JSON " + gson.toJson(idp, IDPJob.class).toString());
+		
+		if (idp.getCode() != null && idp.getCode().getTechnology() != null
+				&& idp.getCode().getTechnology().equalsIgnoreCase("pega")) {
+			try {
+				idp = jobsmgmtBL.setProductKey(idp);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
 		buildService.createNewJob(idp);
 		logger.info(
 				idp.getBasicInfo().getApplicationName() + "_" + idp.getBasicInfo().getPipelineName() + " Job created.");
 		IDPJob idpLocal = idp;
-		IDPJob aLocal = a;
 		runInThread(idpLocal, aLocal, user);
-		return "SUCCESS";
+		return SUCCESS;
 	}
 
 	private void setArtificatStage(IDPJob idp) {
@@ -186,38 +209,12 @@ public class JobsBL {
 							idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoUsername().toLowerCase()
 									+ "_" + idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoName());
 				} catch (Exception e) {
-					logger.error("error while adding artifcatory repo", e.getMessage());
+					logger.error("error while adding artifcatory repo {}", e.getMessage());
 				}
 			}
 		}
 	}
 
-	private void addALMServer(IDPJob idp) {
-		String serverUrl = null;
-		String serverName = null;
-		if (idp != null && idp.getTestInfo() != null && idp.getTestInfo().getTestEnv() != null
-				&& idp.getTestInfo().getTestEnv().size() > 0) {
-			for (TestEnv testenv : idp.getTestInfo().getTestEnv()) {
-				if (testenv != null && testenv.getTestSteps() != null && testenv.getTestSteps().size() > 0) {
-					for (TestStep testStep : testenv.getTestSteps()) {
-						if ("hpAlm".equalsIgnoreCase(testStep.getTest().getTestTypeName())) {
-							serverUrl = testStep.getTest().getServerName();
-							if (!serverUrl.contains("qcbin")) {
-								serverUrl += "/qcbin/";
-							}
-							serverName = idp.getBasicInfo().getPipelineName() + "_ALM";
-							try {
-								serverName = cli.addALMConfig(serverName, serverUrl);
-								testStep.getTest().setServerName(serverName);
-							} catch (IOException e) {
-								logger.error(e.getMessage(), e);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	private void runInThread(IDPJob idpLocal, IDPJob aLocal, String user) {
 		new Thread(new Runnable() {
@@ -227,7 +224,7 @@ public class JobsBL {
 				String jenkinsURL = configmanager.getJenkinsurl();
 				String userName = configmanager.getJenkinsuserid();
 				String password = configmanager.getJenkinspassword();
-				addALMServer(idpLocal);
+
 				try {
 					JenkinsServer server = new JenkinsServer(new URI(jenkinsURL), userName, password);
 					BuildStatus buildStatus = buildService.getBuildStatus(server,
@@ -248,16 +245,23 @@ public class JobsBL {
 						long pipelineId = jobInfoDL.getPipelineId(idpLocal.getBasicInfo().getPipelineName(),
 								idpLocal.getBasicInfo().getApplicationName());
 						jobDetailsInsertion.deleteAdditionalJobParamDetails(pipelineId);
-						for (JobParam jobParam : aLocal.getCode().getJobParam()) {
-							jobDetailsInsertion.insertAdditionalJobParamDetails(jobParam,
-									idpLocal.getBasicInfo().getApplicationName(),
-									idpLocal.getBasicInfo().getPipelineName());
+						if (aLocal.getBasicInfo().getMasterSequence() == null
+								|| !WORKFLOW.equalsIgnoreCase(aLocal.getBasicInfo().getMasterSequence())) {
+
+							for (JobParam jobParam : aLocal.getCode().getJobParam()) {
+								jobDetailsInsertion.insertAdditionalJobParamDetails(jobParam,
+										idpLocal.getBasicInfo().getApplicationName(),
+										idpLocal.getBasicInfo().getPipelineName());
+							}
 						}
+						jobDetailsDL.getOrgId(user);
+						
+
 					}
 					if (buildStatus.getState().equalsIgnoreCase("FAILURE")) {
 						jobDetailsInsertion.addNotification(idpLocal.getBasicInfo().getPipelineName(), "FAILURE", user);
 					} else {
-						jobDetailsInsertion.addNotification(idpLocal.getBasicInfo().getPipelineName(), "SUCCESS", user);
+						jobDetailsInsertion.addNotification(idpLocal.getBasicInfo().getPipelineName(), SUCCESS, user);
 					}
 					logger.info("Pipeline information is inserted in the database");
 				} catch (URISyntaxException | SQLException e) {
@@ -273,25 +277,27 @@ public class JobsBL {
 		}).start();
 	}
 
-	public String submitInterval(org.infy.idp.entities.jobs.basicinfo.TriggerInterval inputIdp, String user) {
+
+	public String submitInterval(org.infy.idp.entities.jobs.basicinfo.TriggerInterval inputIdp, String applicationName,String pipelineName,String userName, String user) {
+		
 		org.infy.idp.entities.jobs.basicinfo.TriggerInterval idp = inputIdp;
 		TriggerJobName triggerJobName = new TriggerJobName();
-		triggerJobName.setApplicationName(idp.getInterval().get(0).getDetails().getApplicationName());
-		triggerJobName.setPipelineName(idp.getInterval().get(0).getDetails().getPipelineName());
-		triggerJobName.setUserName(idp.getInterval().get(0).getDetails().getUserName());
+		triggerJobName.setApplicationName(applicationName);
+		triggerJobName.setPipelineName(pipelineName);
+		triggerJobName.setUserName(userName);
 		Pipeline pipeline = jobManagementDL.getPipelineDetail(triggerJobName);
-		idp = setEmails(idp, pipeline, user);
+		idp = setEmails(idp, pipeline,applicationName,pipelineName,userName, user);
 		IDPJob idpjson = pipeline.getPipelineJson();
 		idpjson.getBasicInfo().setCustomTriggerInterval(idp);
-		submitJob(idpjson, triggerJobName.getUserName());
+		submitJob(idpjson, triggerJobName.getUserName());		
 		return "SUCCESS";
 	}
 
 	public org.infy.idp.entities.jobs.basicinfo.TriggerInterval setEmails(
-			org.infy.idp.entities.jobs.basicinfo.TriggerInterval triggerInterval, Pipeline pipeline, String user) {
+			org.infy.idp.entities.jobs.basicinfo.TriggerInterval triggerInterval, Pipeline pipeline,String applicationName,String pipelineName,String userName, String user) {
 		TriggerJobName triggerJobName = new TriggerJobName();
-		triggerJobName.setApplicationName(triggerInterval.getInterval().get(0).getDetails().getApplicationName());
-		triggerJobName.setPipelineName(triggerInterval.getInterval().get(0).getDetails().getPipelineName());
+		triggerJobName.setApplicationName(applicationName);
+		triggerJobName.setPipelineName(pipelineName);
 		triggerJobName.setUserName(user);
 		List<String> users = emailSender.getUsersFromApplication(triggerJobName, user);
 		String emailIds = String.join(",", users);
@@ -347,8 +353,7 @@ public class JobsBL {
 	}
 
 	public List<String> getPipelines(String applicationName, String releaseNumber) {
-		List<String> pipelineNames = jobDetailsDL.getPipelines(applicationName, releaseNumber);
-		return pipelineNames;
+		return jobDetailsDL.getPipelines(applicationName, releaseNumber);
 	}
 
 	public List<String> getReleaseInfo(String appName) {
@@ -363,15 +368,6 @@ public class JobsBL {
 			logger.error(e.getMessage(), e);
 		}
 		return releaseNumber;
-	}
-
-	public void deletePlan(String releaseNumber, String applicationName, String env) {
-		logger.info("inside deleteing");
-		try {
-			jobDetailsDL.deletePlan(releaseNumber, applicationName, env);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
 	}
 
 	public Applications getExistingApps(String userName) {
@@ -491,7 +487,7 @@ public class JobsBL {
 		return pipelines;
 	}
 
-	public Pipelines getpipelines(String appName, String user) {
+	public Pipelines getpipelinesByAppNameAndUser(String appName, String user) {
 		Gson gson = new Gson();
 		List<Pipeline> pips = new ArrayList<>();
 		try {
@@ -525,7 +521,7 @@ public class JobsBL {
 			logger.debug("getting environments names");
 			apps = jobDetailsDL.getExistingAppDetails(appName);
 			logger.debug("AppDetails : " + gson.toJson(apps, Application.class));
-			env.setEnvNames(fetchJobDetails.getEnvironmentsforPipelineCreation(apps.getAppJson(), user));
+			env.setEnvNames(fetchJobDetails.getEnvironmentsforPipelineCreation(apps.getAppJson()));
 			logger.debug("Env Names : " + gson.toJson(env, EnvName.class));
 		} catch (SQLException e) {
 			logger.error("Existing Apps Error!!\n" + e.getMessage(), e);
@@ -558,12 +554,14 @@ public class JobsBL {
 	public String triggerJobs(TriggerParameters inputTriggerparameters, String userName) {
 		logger.debug("Triggering jobs");
 		TriggerParameters triggerparameters = inputTriggerparameters;
+		ApplicationInfo app = null;
 		IDPJob idpjob = null;
 		Gson g = new Gson();
 		try {
 			idpjob = jobAddDetailDL.getPipelineInfo(triggerparameters.getApplicationName(),
 					triggerparameters.getPipelineName());
 			logger.debug(g.toJson(idpjob, IDPJob.class));
+			app = jobInfoDL.getApplication(triggerparameters.getApplicationName());
 		} catch (SQLException e) {
 			logger.debug(e.getMessage());
 			logger.error("Could not trigger the pipeline " + triggerparameters.getApplicationName() + "_"
@@ -579,16 +577,18 @@ public class JobsBL {
 		triggerparameters.setLanscapeName(triggerparameters.getEnvSelected());
 		triggerparameters.setDashBoardLink(configmanager.getDashboardurl());
 		triggerparameters = setDbDeployDetails(triggerparameters, idpjob);
-		triggerJobs(triggerparameters, idpjob, userName);
+		triggerJobs(triggerparameters, idpjob, app, userName);
 		logger.info("Job " + triggerparameters.getApplicationName() + "_" + triggerparameters.getPipelineName()
 				+ "is triggered.");
 		return "SUCESS";
 	}
 
-	private void triggerJobs(TriggerParameters inputTriggerparameters, IDPJob idpjob, String userName) {
+	private void triggerJobs(TriggerParameters inputTriggerparameters, IDPJob idpjob, ApplicationInfo app,
+			String userName) {
 		// Modularized email ids
 		TriggerParameters triggerparameters = inputTriggerparameters;
 		Gson g = new Gson();
+		String domain = jobInfoDL.getDomainName(userName);
 		List<String> users = emailSender.getUsersFromApplication(triggerparameters.getApplicationName(),
 				triggerparameters.getPipelineName(), triggerparameters.getUserName());
 		String emailIds = String.join(",", users);
@@ -596,11 +596,18 @@ public class JobsBL {
 		triggerparameters.setSonardashBoardLink(configmanager.getSonardashboardurl());
 		logger.info(g.toJson(triggerparameters));
 		triggerparameters.setNugetPackaging(
-				(idpjob.getBuildInfo() != null && null != idpjob.getBuildInfo().getArtifactToStage().getnuspecFilePath()
+				(!WORKFLOW.equalsIgnoreCase(idpjob.getBasicInfo().getMasterSequence()) && idpjob.getBuildInfo() != null && null != idpjob.getBuildInfo().getArtifactToStage().getnuspecFilePath()
 						&& !(idpjob.getBuildInfo().getArtifactToStage().getnuspecFilePath().equals(""))) ? true
 								: false);
 		// setting scm branch
 		triggerparameters = setSCMBranch(triggerparameters, idpjob);
+		
+		if (idpjob.getBasicInfo().getMasterSequence() != null
+				&& WORKFLOW.equalsIgnoreCase(idpjob.getBasicInfo().getMasterSequence()) && idpjob.getPipelines() != null
+				&& idpjob.getPipelines().size() > 0) {
+			triggerparameters.setPipelines(idpjob.getPipelines());
+		}
+		
 		Integer triggerId = jobDetailsInsertion.insertTriggerHistory(triggerparameters);
 		triggerparameters.setTriggerId(triggerId);
 		// The pipeline is getting triggered here
@@ -611,7 +618,7 @@ public class JobsBL {
 		String artifactName = getAritifactName(triggerparameters, buildJson);
 		jobDetailsInsertion.updateTriggerHistory(triggerId, buildJson.getString("nextBuildNumber"), artifactName);
 		logger.info("nuget packaging is set to:" + triggerparameters.getNugetPackaging());
-		if (triggerparameters.getDeploy() != null || triggerparameters.getBuild() != null) {
+		if ((triggerparameters.getDeploy() != null || triggerparameters.getBuild() != null)) {
 			insertArtifact(triggerparameters, buildJson, userName);
 		}
 		triggerBuilds.buildByJobName(triggerparameters);
@@ -921,6 +928,25 @@ public class JobsBL {
 			logger.error("Input/Output excetion :", e.getMessage());
 		}
 		return "";
+	}
+
+	private String emailIds(String mailed, String domain) {
+
+		String lastMail = "";
+		if (mailed != null && !"".equals(mailed)) {
+			String[] array = mailed.split(",");
+			Set<String> uniqueWords = new HashSet<String>(Arrays.asList(array));
+			uniqueWords.remove("null");
+			String str_1 = StringUtils.join(uniqueWords, ",");
+			String[] comaMail = str_1.split(",");
+			for (String a : comaMail) {
+				if (!a.contains(domain)) {
+					a += "@" + domain;
+				}
+				lastMail += a + ",";
+			}
+		}
+		return lastMail;
 	}
 
 	private Boolean validateTestStep(IDPJob idpjson, ArrayList<String> testSteps) {

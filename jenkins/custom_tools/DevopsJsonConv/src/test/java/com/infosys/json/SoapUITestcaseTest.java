@@ -26,4 +26,14 @@ public class SoapUITestcaseTest {
 		
 		Assert.assertEquals("10", sc.getTime());
 	}
+	
+	@Test
+	public void failtest(){
+		
+		SoapUITestcase sc = new SoapUITestcase();
+		
+		sc.setFailures(null);
+		
+		Assert.assertEquals(null, sc.getFailures());
+	}
 }

@@ -7,7 +7,7 @@
 -->
 <div style="margin-top: 150px;">
 	<div class="col-md-3" style="position: relative;">
-		<section id="sidebar" class="navbar navbar-inverse" ng-if="showSidebar()">
+		<section id="sidebar" class="navbar" ng-if="showSidebar()">
 			<div id="MainMenu" style="background-color: black;">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mybar">
@@ -16,9 +16,13 @@
 						<span class="icon-bar"></span>
 					</button>
 				</div>
+				<div style="background-color: #282828; margin-top: -5; margin-left: -5; margin-right: -3; color:#FFF; font-size: 14px; padding-left: 24px; padding-right: 5px; padding-top: 15px; padding-bottom: 12px;" >
+					Application: {{this.IdpdataService.appName}} 
+				</div>
+
 				<div class="collapse navbar-collapse" id="mybar" style="background-color: #000000">
 					<div class="list-group panel" style="border: none;">
-						<span class="list-group-item" data-toggle="collapse" data-parent="#MainMenu" style="color: white;">{{'Steps'}}</span>
+						<!-- <span class="list-group-item" data-toggle="collapse" data-parent="#MainMenu" style="color: white;">{{'Steps'}}</span> -->
 						<div ng-switch on="createPipelineflag">
 							<div ng-switch-when='true'>
 
@@ -27,7 +31,7 @@
 								 id="menu_basic" [ngClass]="(basicInfo) ? 'list-group-item marked'  : 'list-group-item '" style="color: white;">
 									<span class="glyphicon glyphicon-info-sign" id="glyph_style"></span>
 									{{'Basic Info'|translate}}</a>
-								<div>
+								<div *ngIf="!IdpdataService.createWorkflowSequenceflag">
 									<a [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/codeInfo']" [style.cursor]="getCursor()"
 									 id="menu_code" [ngClass]="codeInfo ? 'list-group-item marked' : 'list-group-item '" style="color: white;">
 										<span class="glyphicon glyphicon-folder-close" id="glyph_style"></span>
@@ -47,6 +51,15 @@
 									 style="color: white;">
 										<span class="glyphicon glyphicon-file" id="glyph_style"></span>
 										{{'Test'|translate}}</a>
+								</div>
+
+								<div *ngIf="IdpdataService.createWorkflowSequenceflag">
+
+									<a [routerLink]="IdpdataService.freezeNavBars?['/createConfig/workflowInfo']:['/createConfig/workflowInfo']" id="menu_grant"
+											[style.cursor]="getCursor()"
+											[ngClass]="(workflowInfo && IdpdataService.createWorkflowSequenceflag) ? 'list-group-item marked'  : 'list-group-item '" style="color: white;">
+						<span class="glyphicon glyphicon-tasks" id="glyph_style" ></span>
+						{{'Workflow of Pipelines'|translate}}</a>
 								</div>
 							</div>
 						</div>

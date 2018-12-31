@@ -1,13 +1,13 @@
 
 package com.infosys.utilities.findbugs;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
 import com.infosys.utilities.findbugs.BugCollection.BugCategory;
 import com.infosys.utilities.findbugs.BugCollection.BugCode;
-import com.infosys.utilities.findbugs.BugCollection.BugInstance;
 import com.infosys.utilities.findbugs.BugCollection.BugPattern;
 import com.infosys.utilities.findbugs.BugCollection.Errors;
 import com.infosys.utilities.findbugs.BugCollection.FindBugsSummary;

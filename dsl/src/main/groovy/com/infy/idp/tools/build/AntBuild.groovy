@@ -93,7 +93,7 @@ class AntBuild {
                 if (junitPattern != '') {
                     JUnitArchive jUnitArchive = new JUnitArchive()
                     jUnitArchive.setPattern(junitPattern)
-                    jUnitArchive.invokeJUnitArchive(delegate)
+                    jUnitArchive.invokeJUnitArchive(delegate,jsonData)
                 }
 
                 //Call for Archive Artifacts

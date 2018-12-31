@@ -5,9 +5,16 @@
 * https://opensource.org/licenses/MIT.
 *
 ***********************************************************************************************/
-
+/***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at 
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/
 package org.infy.idp.controller.triggerservice;
 
+import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.entities.models.ResourceResponse;
 import org.infy.idp.utils.SlaveDetails;
 import org.slf4j.Logger;
@@ -26,7 +33,8 @@ public class TriggerService {
 
 	@Autowired
 	private SlaveDetails slaveDetails;
-
+	@Autowired
+	private JobsAdditionalInfo jobsAdditionalInfo;
 	private Logger logger = LoggerFactory.getLogger(TriggerService.class);
 
 	/**

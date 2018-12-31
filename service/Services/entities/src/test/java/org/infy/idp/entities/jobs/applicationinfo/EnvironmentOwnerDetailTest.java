@@ -57,6 +57,8 @@ public class EnvironmentOwnerDetailTest  {
 		testedObject.setUserName("userName");
 		testedObject.setLanguage("language");
 		testedObject.setPassword("password");
+		testedObject.setServerName("serverName");
+		testedObject.setLandscapeType("landscapeType");
 
 		assertEquals("dBOwners11", testedObject.getdBOwners());
 		assertEquals("environmentName12", testedObject.getEnvironmentName());
@@ -69,6 +71,8 @@ public class EnvironmentOwnerDetailTest  {
 		assertEquals("userName", testedObject.getUserName());
 		assertEquals("language", testedObject.getLanguage());
 		assertEquals("password", testedObject.getPassword());
+		assertEquals("serverName", testedObject.getServerName());
+		assertEquals("landscapeType", testedObject.getLandscapeType());
 	}
 
 	/**
@@ -94,6 +98,8 @@ public class EnvironmentOwnerDetailTest  {
 		assertNull(testedObject.getUserName());
 		assertNull(testedObject.getLanguage());
 		assertNull(testedObject.getPassword());
+		assertNull(testedObject.getServerName());
+		assertNull(testedObject.getLandscapeType());
 	}
 
 

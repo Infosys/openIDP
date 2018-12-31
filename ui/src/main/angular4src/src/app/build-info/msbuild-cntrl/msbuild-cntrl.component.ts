@@ -251,4 +251,17 @@ nUnit(index, checked) {
         "value": "Deliverable Application"
     }];
   }
+
+  /* Initializing OSS inputs on checking and unchecking */
+  ossCompliance(index,checked){
+    if (checked) {
+      this.tempObject.modules[index].ossCheck = "on";
+    } 
+    else {
+      this.tempObject.modules[index].ossCheck = "off";
+      this.buildInfo.modules[index].ossMailRecipients = "";
+      this.buildInfo.modules[index].ossDistributionType = "";
+      this.buildInfo.modules[index].ossAnalysisType = "";
+    }
+  }
 }

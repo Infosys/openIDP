@@ -88,12 +88,7 @@ public class ConfigurationManager {
 		this.jenkinsPassword = jenkinsPassword;
 	}
 
-	/**
-	 * Private constructor
-	 */
-	private ConfigurationManager() {
 
-	}
 
 	public String getClientid() {
 		return clientid;

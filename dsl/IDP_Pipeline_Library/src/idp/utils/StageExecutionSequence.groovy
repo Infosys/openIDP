@@ -24,26 +24,23 @@ class StageExecutionSequence implements Serializable{
 		for(int seq=0; seq<jsonData["pipelines"].size(); seq++){
 
 			def pipeList = jsonData["pipelines"][seq];
-			print("AppName: "+pipeList["applicationName"])
+
 			def jobpath = pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'/'+pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'_'+"Pipeline"
 			def jobName = pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'_'+"Pipeline"
-			print("Triggering job " + jobName)
+
 			def jsonString = new JsonBuilder(pipeList).toString();
 			def status = this.script.build job: jobpath, parameters: [
 				[$class: 'StringParameterValue', name: 'JSON_Input', value: jsonString ]
 			]
 			def values = status.getBuildVariables()
-			
-			print("Status: "+values.toString())
+
 		}
 	}
 	
 	def executeBuildWithCastOnDifferentSlaves(iterationCount,waitForSlave,jsonData,basePath,buildStage,deployStage,testStage,castStage,stageFlag){
 		def mainNodeObject = [:]
-		def castNodeObject = [:]
 		def labelName = jsonData["slaveName"]
 		def testLabel = jsonData["testSlaveName"]
-		def castLabel = jsonData["castSlaveName"]		
 		IDPSlaveConfiguration idpSlaveConfiguration = new IDPSlaveConfiguration(this)
 		
 		this.script.parallel build:{

@@ -109,5 +109,113 @@ class DockerDeploy {
             }
         }
     }
+	
+	/*
+	 * This methos add steps or confiuration in deploy job
+	 */
+ 
+	 public static void addStepsDRWindows(context, jsonData, envIndex, stepIndex, envVar) {
+ 
+ 
+		 String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
+		 String command = '';
+		 if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+			 command = 'D: \n' + 'cd '
+		 } else {
+			 command = 'cd '
+		 }
+ 
+		 //def modulesArr = jsonData.buildInfo.modules
+		 def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
+		 context.with {
+			 addWrappers(delegate, envVar)
+			 steps {
+
+					 String createImageCommand = '';
+					 createImageCommand += command + idpWS + '\n' + 'docker build -t ' + modulesArr.tagNameDR + ' -f ' +modulesArr.dockerFilePathDR+ ' .'
+					 ExecuteCmd.invokeCmd(delegate, createImageCommand, jsonData.basicInfo.buildServerOS)
+
+
+
+					 if (modulesArr.passwordDR != null) {
+						 String pushCommand = '';
+                         String imageTagCommand = '';
+						 imageTagCommand += 'docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker image tag ' + modulesArr.tagNameDR + ' ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+						 pushCommand += 'docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+						 ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+					 }
+					 if (modulesArr.passwordDR == null) {
+						 String pushCommand = ''
+						 pushCommand += 'docker login ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+						 ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+					 }
+
+
+                 String stopCommand = ''
+                 stopCommand += 'docker ps -a --filter="name=' + modulesArr.tagNameDR +'" -q'
+                 ExecuteCmd.invokeCmd(delegate, stopCommand, jsonData.basicInfo.buildServerOS)
+
+                 String removeCommand = ''
+                 removeCommand += 'docker rm ' + ExecuteCmd.invokeCmd(delegate, stopCommand, jsonData.basicInfo.buildServerOS) +' -f'
+                 ExecuteCmd.invokeCmd(delegate, removeCommand, jsonData.basicInfo.buildServerOS)
+
+				 String runCommand = '';
+				 runCommand += command + idpWS + '\n' + 'docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + modulesArr.tagNameDR + '  -itd ' + modulesArr.tagNameDR
+				 ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
+ 
+ 
+			 }
+		 }
+	 }
+    public static void addStepsDRLinux(context, jsonData, envIndex, stepIndex, envVar) {
+
+
+        String idpWS = '$IDP_WS/'
+        String command = '';
+
+            command = 'cd '
+
+        //def modulesArr = jsonData.buildInfo.modules
+        def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
+        context.with {
+            addWrappers(delegate, envVar)
+            steps {
+
+                String createImageCommand = '';
+                createImageCommand += command + idpWS + '\n' + 'sudo docker build -t ' + modulesArr.tagNameDR + ' -f ' +modulesArr.dockerFilePathDR+ ' .'
+                ExecuteCmd.invokeCmd(delegate, createImageCommand, jsonData.basicInfo.buildServerOS)
+
+
+
+                if (modulesArr.passwordDR != null) {
+                    String pushCommand = '';
+                    String imageTagCommand = '';
+                    imageTagCommand += 'sudo docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker image tag ' + modulesArr.tagNameDR + ' ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+                    pushCommand += 'sudo docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+                    ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+                }
+                if (modulesArr.passwordDR == null) {
+                    String pushCommand = '';
+                    pushCommand += 'sudo docker login ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+
+                    ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+                }
+
+
+
+
+                String runCommand = '';
+                runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + modulesArr.tagNameDR +  'sudo docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + modulesArr.tagNameDR + '  -itd ' + modulesArr.tagNameDR
+                ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
+
+
+            }
+        }
+    }
 }
 

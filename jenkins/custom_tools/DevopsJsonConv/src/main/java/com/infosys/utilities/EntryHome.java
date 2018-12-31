@@ -15,9 +15,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +38,8 @@ import java.util.Set;
 
 import org.apache.commons.net.util.Base64;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +55,7 @@ import com.infosys.convertor.ConvertFileNet;
 import com.infosys.convertor.ConvertFindbugs;
 import com.infosys.convertor.ConvertFxCop;
 import com.infosys.convertor.ConvertFxCopCons;
-import com.infosys.convertor.ConvertICQAReport;
+//import com.infosys.convertor.ConvertICQAReport;
 import com.infosys.convertor.ConvertIFast;
 import com.infosys.convertor.ConvertIstanbul;
 import com.infosys.convertor.ConvertJMeter;
@@ -62,11 +71,9 @@ import com.infosys.convertor.ConvertParasoftSOATest;
 import com.infosys.convertor.ConvertPmd;
 import com.infosys.convertor.ConvertProtractor;
 import com.infosys.convertor.ConvertPythonUT;
-
 import com.infosys.convertor.ConvertSAPUnit;
 import com.infosys.convertor.ConvertSCMInfo;
 import com.infosys.convertor.ConvertSci;
-
 import com.infosys.convertor.ConvertSoapUIReport;
 import com.infosys.convertor.ConvertSonarqube;
 import com.infosys.convertor.ConvertTRXNunit;
@@ -80,15 +87,18 @@ import com.infosys.json.FileNet;
 import com.infosys.json.FindBugs;
 import com.infosys.json.Functional;
 import com.infosys.json.JUnit;
+import com.infosys.json.JiraDeployObjects;
 import com.infosys.json.JsonClass;
 import com.infosys.json.Lint;
+import com.infosys.json.PackageContent;
 import com.infosys.json.ParasoftSOATest;
+import com.infosys.json.Pega;
 import com.infosys.json.Pmd;
 import com.infosys.json.Protractor;
 import com.infosys.json.PythonUT;
 import com.infosys.json.Reports;
 import com.infosys.json.RuleSet;
-
+import com.infosys.json.Siebel;
 import com.infosys.json.SoapUIReport;
 import com.infosys.json.Sonar;
 import com.infosys.json.SonarDetails;
@@ -105,7 +115,8 @@ public class EntryHome {
 	private static final String JSON = ".json";
 	private static final Logger logger = Logger.getLogger(EntryHome.class);
 	private static CodeQuality codeQuality = new CodeQuality();
-
+	public static final String CONTENTTYPE="Content-Type";
+	public static final String APPLICATIONJSON="application/json";
 	private EntryHome() {
 	}
 
@@ -159,8 +170,12 @@ public class EntryHome {
 		if (args.length > 8)
 			json.setbuildId(args[8]);
 		
-		
-		
+		String technologyName="";	
+		if (args.length > 18 && !args[18].equals("NA"))technologyName=args[18];
+		String serviceUrl="";
+		if (args.length > 14 && !args[14].equals("NA"))serviceUrl=args[14]+":8889";
+		String artifactName="";
+		if (args.length > 17 && !args[17].equals("NA"))artifactName=args[17];
 		
 		// For VSTS
 		// Passing vsts flag and setting flag value accordingly
@@ -179,6 +194,8 @@ public class EntryHome {
 		List<CoverageDetails> coverageDetails = null;
 		FileNet fileNetJsonObj = null;
 		boolean isFileNet = false;
+		boolean isDeploy=false;
+		
 		logger.info(isFileNet);
 		logger.info("FileNet flag is set to " + isFileNet);
 		if (args.length > 20 && args[20] != null && !args[20].equals("NA") && args[20].equalsIgnoreCase("filenet")) {
@@ -223,7 +240,7 @@ public class EntryHome {
 				httpConnection.setDoInput(true);
 				httpConnection.setDoOutput(true);
 				httpConnection.setRequestMethod("POST");
-				httpConnection.setRequestProperty("Content-Type", "application/json");
+				httpConnection.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
 				fileNetJsonObj = new ConvertFileNet().convert(expoertDataFilePath, importDataFilePath, triggerId,
 						exportFile, importFile);
 				json.setFileNet(fileNetJsonObj);
@@ -253,11 +270,67 @@ public class EntryHome {
 			}
 		}
 		processVSTS(args, isVSTS);
+		processSAPTRDeploy(args,isDeploy);
+		
+		PackageContent packageContent=new PackageContent();
+		Siebel siebel=new Siebel();
+		boolean isSiebel=false;
+		
 		for (int i = 0; i < list2.size(); i++) {
 			if (list2.get(i).isFile() && list2.get(i).getName().toLowerCase().contains(args[1].toLowerCase())) {
 				json = computeIDPJson(list2.get(i), json, args, coverageDetails);
 			}
 		}
+		
+		//Update Package Contents
+		if(args.length>19 && args[19].toLowerCase().contains("build") && json.getBuildDetails().get(0).getBuiltStatus().toLowerCase().contains("fail")){
+			PackageContent packageContent1=new PackageContent();
+			packageContent.setArtifactName(artifactName);
+			Gson gson = new Gson();
+			String packageInString=gson.toJson(packageContent);
+			
+			sendPackageContent(packageInString,serviceUrl);
+			logger.info("Updating package content to null as build failed");
+		}
+		else if(args.length>19 && args[19].toLowerCase().contains("build") && technologyName.toLowerCase().contains("siebel"))
+		{
+			packageContent.setArtifactName(artifactName);
+			packageContent.setSiebel(siebel);
+			Gson gson = new Gson();
+			String packageInString=gson.toJson(packageContent);
+			
+			sendPackageContent(packageInString,serviceUrl);
+			logger.info("Siebel package content parsed");
+		}
+		else if(technologyName.toLowerCase().contains("pega") && args.length>19 && args[19].toLowerCase().contains("build"))
+		{
+			String path=args[0].replaceAll("\\\\", "/");
+			path=path.replace("IDP_DevopsJSON_Integration/Jenkins_Reports","Deploy");
+			File pegaFile=new File(path);
+			File[] listOfPegaFiles = pegaFile.listFiles();
+			
+			Pega pega=new Pega();
+			List<String> pegaFileList=new ArrayList<>();
+			for(int i=0;i<listOfPegaFiles.length;i++)
+			{
+				if(listOfPegaFiles[i].getPath().endsWith("zip") || listOfPegaFiles[i].getPath().endsWith("jar"))
+				{
+					
+					//System.out.println(listOfPegaFiles[i].getName());
+					pegaFileList.add(listOfPegaFiles[i].getName());
+				}
+			}
+			pega.setPegaFileList(pegaFileList);
+			packageContent.setArtifactName(artifactName);
+			packageContent.setPega(pega);
+			Gson gson = new Gson();
+			String packageInString=gson.toJson(packageContent);
+			
+			sendPackageContent(packageInString,serviceUrl);
+			logger.info("Pega package content parsed");
+		}
+		
+		
 		logger.info(json.getCodecoverage());
 		String idPrefixFlag = args[4];
 		String appName = args[1];
@@ -313,7 +386,153 @@ public class EntryHome {
 			out.println(gson.toJson(json));
 		}
 	}
+	
+	private static void sendPackageContent(String packageContent,String serviceUrl)
+	{
+		try{
+			String requestUrl="https://"+serviceUrl+"/idprest/releaseService/release/insert/package%26dummy";
+	        System.out.println("service url for package content "+requestUrl);
+	        
+	        URL url = new URL(requestUrl);
+	       
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestMethod("POST");
+ //           System.out.println("asd");
+//            String userCredentials = "admin"+":"+"admin";
+//            String basicAuth = "Basic " + new String(new Base64().encode(userCredentials.getBytes()));
+//            basicAuth= basicAuth.replaceAll("\n","");
+//            basicAuth=basicAuth.replaceAll("\r","");
+//            conn.setRequestProperty ("Authorization", basicAuth);
+            
+            OutputStream os = conn.getOutputStream();
+            os.write(packageContent.getBytes("UTF-8"));
+            os.close();
+            
+            conn.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuffer jsonString = new StringBuffer();
+            String line;
+            while ((line = br.readLine()) != null) {
+                    jsonString.append(line);
+            }
+            br.close();
+            
 
+            
+            conn.disconnect();
+            
+            //System.out.println("done");
+		}
+		catch(Exception e)
+		{
+			logger.error("Exception while sending packageContent",e);
+		}
+	}
+	
+	private static void processSAPTRDeploy(String[] args, boolean bIsDeploy)
+	{
+		String buildTriggerID="";
+		String dbUser="";
+		String dbPort="";
+		String dbPassword="";
+		String technologyName=args[18];	
+		String stage=args[19];
+		boolean isDeploy=bIsDeploy;
+		if(stage.equalsIgnoreCase("deploy") && technologyName.equalsIgnoreCase("sapnoncharm")){
+			isDeploy=true;
+			if(args.length>20 )buildTriggerID=args[20];
+			dbUser="postgres";
+			if(args.length>21 )dbPort=args[21];
+			if(args.length>22 )dbPassword=args[22];
+		}
+		if(isDeploy && !"".equals(buildTriggerID) && !"".equals(dbPort) && !"".equals(dbPassword))
+		{
+
+			///////postgres connection
+	
+			String url = "jdbc:postgresql://"+args[14]+":"+dbPort+"/IDP";
+		    String user = dbUser;
+		    String password = dbPassword;
+		    
+		    String query="Select trigger_entity from ttrigger_history where trigger_id='"+buildTriggerID+"'";
+			try(
+					Connection connectionNew =DriverManager.getConnection(url, user, password);
+					PreparedStatement preparedStatement = connectionNew.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+					ResultSet rs = preparedStatement.executeQuery();
+					)
+			{
+				
+				ResultSetMetaData metars = rs.getMetaData();
+				if (metars.getColumnCount() != 0) {
+					while(rs.next())
+					{
+						String jsonString=rs.getString(1);
+						JSONObject applicationInfoJson=new JSONObject(jsonString);
+						
+						String appName=args[1];
+						String pipelineName=args[5];
+						String landscapeName;
+						String userStory;
+						String releaseNo;
+						
+						landscapeName=applicationInfoJson.getString("lanscapeName");
+						userStory=applicationInfoJson.getString("userStories");
+						releaseNo=applicationInfoJson.getString("releaseNumber");
+						List<String> userStoryNameList=new ArrayList();
+						JSONArray userStoryMapping= applicationInfoJson.getJSONArray("userStoryMapping");
+						for(int i=0;i<userStoryMapping.length();i++)
+						{
+							String userStoryName=userStoryMapping.getJSONObject(i).getString("userstory");
+							userStoryNameList.add(userStoryName);
+						}
+						
+						//kafka connection
+						JiraDeployObjects jiraDeployObjects=new JiraDeployObjects();
+						jiraDeployObjects.setApplicationName(appName);
+						jiraDeployObjects.setLandscapeName(landscapeName);
+						jiraDeployObjects.setPipelineName(pipelineName);
+						jiraDeployObjects.setReleaseName(releaseNo);
+						jiraDeployObjects.setUserStoryName(userStory);
+						//Modify to include Userstory list
+						jiraDeployObjects.setUserStoryNameList(userStoryNameList);
+						Gson gson = new Gson();
+						String str = gson.toJson(jiraDeployObjects);
+						
+						///hitting rest api
+						try{
+							String rebaseReqUrlString=args[11]+"/SAP/JiraDetailUpdateForImport";
+							URL rebaseUrl = new URL(rebaseReqUrlString);
+							HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
+							rebaseConn.setRequestMethod("POST");
+							rebaseConn.setDoOutput(true);
+							rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+							 OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream());
+							 writer.write(str);
+						     writer.close();
+
+						    logger.info("connected rest service");
+							logger.info(rebaseConn.getResponseCode());
+							
+						}catch(Exception e){
+							logger.error("Error in sending rebase data for insertion: "+e);
+				
+						}
+						
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error("Errors while populating applicationInfo",e);
+			}
+
+		}
+	}
+	
 	private static void processVSTS(String[] args, boolean isVSTS) {
 		// If VSTS is selected
 		if (isVSTS) {
@@ -336,7 +555,7 @@ public class EntryHome {
 				connection.setDoInput(true);
 				connection.setDoOutput(true);
 				connection.setRequestMethod("POST");
-				connection.setRequestProperty("Content-Type", "application/json");
+				connection.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
 				connection.getInputStream();
 				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
@@ -595,10 +814,11 @@ public class EntryHome {
 				|| reportfile.getName().toLowerCase().endsWith("trx")
 				|| reportfile.getName().toLowerCase().endsWith("csv")) {
 			logger.info("parsing => " + reportfile);
-			if ((reportfile.getName().toLowerCase().contains("pqm_report_pmd-existing"))
-					&& reportfile.getName().toLowerCase().endsWith(".txt")) {
-				ConvertICQAReport.convert(reportfile.getCanonicalPath(), args[1], args[5], args[11]);
-			}else if (reportType.toLowerCase().contains("parasoftsoatest")
+//			if ((reportfile.getName().toLowerCase().contains("pqm_report_pmd-existing"))
+//					&& reportfile.getName().toLowerCase().endsWith(".txt")) {
+//				ConvertICQAReport.convert(reportfile.getCanonicalPath(), args[1], args[5], args[11]);
+//			}else
+				if (reportType.toLowerCase().contains("parasoftsoatest")
 					&& reportType.toLowerCase().endsWith("xml")) {
 				List<TestCaseResult> listTR = json.getTestCaseResult();
 				if (listTR == null)
@@ -726,7 +946,7 @@ public class EntryHome {
 				json.setCodeQuality(codeQuality);
 				json.setCodeAnalysis(ca);
 			} else if (reportfile.getName().toLowerCase().contains("buildlog")) {
-				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json);
+				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json,args);
 			} else if (reportType.toLowerCase().contains("findbugs")) {
 				Map<String, String> ruleToValueCheckStyle = RecommendationByCSV.createMap("csv/findbugs.csv", "Check");
 				List<CodeAnalysis> ca;

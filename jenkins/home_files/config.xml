@@ -17,6 +17,7 @@
         <permissions>
           <permission>hudson.model.Hudson.Read</permission>
           <permission>hudson.model.Computer.Connect</permission>
+           <permission>hudson.model.Item.Discover</permission>
         </permissions>
         <assignedSIDs>
           <sid>anonymous</sid>
@@ -37,7 +38,6 @@
           <permission>hudson.model.Item.Configure</permission>
           <permission>hudson.model.Hudson.Administer</permission>
           <permission>hudson.model.Item.Cancel</permission>
-          <permission>hudson.model.Item.Read</permission>
           <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View</permission>
           <permission>hudson.model.Computer.Delete</permission>
           <permission>jenkins.metrics.api.Metrics.HealthCheck</permission>

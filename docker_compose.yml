@@ -93,6 +93,7 @@ services:
           TZ: Asia/Kolkata
           JENKINS_HOME: /var/jenkins_home/
         volumes:
+            - ${MOUNT_DIR}/server.xml:/usr/local/tomcat/conf/server.xml
             - ${MOUNT_DIR}/jenkinsdata:/var/jenkins_home/
             - ${MOUNT_DIR}/dsldata:/DSL/
         deploy:

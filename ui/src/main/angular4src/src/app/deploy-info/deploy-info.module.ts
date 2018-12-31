@@ -15,6 +15,7 @@ import { FormsModule } from "@angular/forms";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
 import { DateTimePickerModule } from "ng-pick-datetime";
 import {IdpEncryptionModule } from "../idpEncryption.module";
+import {NgJsonEditorModule} from 'ang-jsoneditor';
 
 
 export function createTranslateLoader(http: Http) {
@@ -26,6 +27,7 @@ export function createTranslateLoader(http: Http) {
   imports: [
     CommonModule,
     deployInfoRouter,
+    NgJsonEditorModule,
     TranslateModule.forRoot({
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),

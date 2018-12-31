@@ -28,7 +28,7 @@ public class ServiceIdentityTest {
 	public void testOrgInfoNull() {
 		ServiceIdentity testObj = new ServiceIdentity();
 
-		assertNull(testObj.getLicenseId());
+		assertEquals(0,testObj.getLicenseId());
 		assertNull(testObj.getServiceName());
 
 	}

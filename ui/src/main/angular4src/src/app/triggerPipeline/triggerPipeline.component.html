@@ -219,20 +219,17 @@
 										<div ng-switch on="IDPDataSwitch.releaseManager">
 											<div ng-switch-when="true">
 												<div class="col-md-4">
-													<select id="trddrn" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" (change)="fetchReleaseBranches(IDPDataSwitch.releaseNumber)"
+													<select id="trddrn" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" (change)="fetchReleaseBranches(IDPDataSwitch.releaseNumber);"
 													 class="form-control" required>
 														<option value="">--Select--</option>
 														<option *ngFor="let releaseNo of  IDPDataSwitch.releaseNumberList" value="{{releaseNo}}">{{releaseNo}}</option>
 													</select>
-													<!--	<input type="text" class="form-control" placeholder="1.0.0"  [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" style="width:100%" required />-->
 												</div>
 											</div>
 										</div>
-
 									</div>
 
-
-									<div class="form-group" *ngIf="IDPDataSwitch.releaseNumber && (scmType==='git' || scmType==='tfs')">
+									<div class="form-group" *ngIf="!idpdataService.isSAPApplication && IDPDataSwitch.releaseNumber && (scmType==='git' || scmType==='tfs')">
 										<div class="col-md-4 text-right">
 											<label> {{'Branch/Tag'|translate}} : </label>
 										</div>
@@ -249,7 +246,6 @@
 													<div>
 														<input id="trtfansi" class="txtbox form-control" type="text" (input)="searchValue()" [(ngModel)]="IDPParamData.branchOrTagValue"
 														 name="searchInput" placeholder="Search">
-
 													</div>
 
 													<div style="margin-top:5px">
@@ -287,7 +283,6 @@
 										</div>
 									</div>
 
-
 									<br>
 
 									<div id="row_line " class="row form-group" style="padding-top: 20px; padding-left:90px " *ngIf="!idpdataService.isSAPApplication">
@@ -304,7 +299,6 @@
 											</div>
 
 										</div>
-
 
 										<div [ngSwitch]="IDPDataSwitch.deploy">
 											<div *ngSwitchCase="true">
@@ -334,6 +328,7 @@
 										</div>
 
 									</div>
+
 									<div *ngIf="!idpdataService.isSAPApplication">
 										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.buildBranch>0">
 											<div *ngSwitchCase="true">
@@ -345,8 +340,6 @@
 														<select id="trddbr" ng-options="let branch of IDPDataSwitch.buildBranch" [(ngModel)]="IDPParamData.build.branchSelected"
 														 class="form-control" required>
 															<option value="">--Select--</option>
-															<!-- <option ng:repeat="branch in Branch" value="{{branch.name}}">
-														{{branch.name}}</option> -->
 														</select>
 													</div>
 												</div>
@@ -354,7 +347,7 @@
 										</div>
 
 										<!-- Additinal Job parameter  -->
-
+										
 										<div *ngIf="showJobParamFlag!==undefined && showJobParamFlag==='on'">
 											<div class="panel panel-body ">
 												<div class="row container-fluid form-group ">
@@ -412,7 +405,7 @@
 											</div>
 										</div>
 
-										<div *ngIf="(IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.subModules.length>0)">
+										<div *ngIf="(IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.subModules.length>0 && !idpdataService.isSAPApplication)">
 											<div class="form-group">
 												<div class="col-md-4 text-right">
 													<label> {{'Module'|translate}}: </label>
@@ -433,6 +426,36 @@
 												</div>
 											</div>
 										</div>
+										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.modules.length>0 && !idpdataService.isSAPApplication && idpdataService.triggerJobData.technology=='bigData'">
+											<div *ngSwitchCase="true">
+												<div class="form-group">
+													<div class="col-md-4 text-right">
+														<label> {{'Module'|translate}}: </label>
+													</div>
+
+													<div class="col-md-8">
+														<div>
+															<div *ngFor="let module of IDPDataSwitch.modules">
+																<div style="max-height:100px; padding-left:15px;">
+																	<div class="form-group">
+																		<input id="trcbbbd" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.moduleName}}"
+																		 [required]="IDPParamData.build.module.length==0" (change)="toggleSelection(module.moduleName)" />
+																		<label> {{module.moduleName}} </label>
+																	</div>
+
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+
+										<!-- Code changes for slave seperation Start -->
+										<!-- {{IDPDataSwitch.appSlaves}} -->
 										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on'">
 											<div *ngSwitchCase="true">
 												<div class="form-group">
@@ -576,11 +599,8 @@
 													<div class="col-md-4">
 														<input id="trcbrpa" type="checkbox" name="removePreviousAssemblies" class="checkbox-inline" [checked]="IDPParamData.removePrevAssem==='on'"
 														 (change)="IDPParamData.removePrevAssem=$event.target.checked ? 'on':'off'" />
-
 													</div>
-
 												</div>
-
 
 												<div [ngSwitch]="IDPParamData.removePrevAssem=='on'">
 													<div *ngSwitchCase="true">
@@ -880,6 +900,7 @@
 																</div>
 															</div>
 														</ng-container>
+														
 													</div>
 												</div>
 											</div>
@@ -903,7 +924,7 @@
 										</div>
 
 										<div class="row form-group">
-											<div [ngSwitch]="(IDPDataSwitch.deploySelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '') && (idpdataService.triggerJobData.technology !=='dbDeploy') && (idpdataService.triggerJobData.technology !=='fileNet')">
+											<div [ngSwitch]="(IDPDataSwitch.deploySelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '') && (idpdataService.triggerJobData.technology !=='fileNet')">
 												<div *ngSwitchCase="true">
 													<div class="col-md-4 text-right">
 														<label>{{'Deploy Steps'|translate}}:</label>
@@ -986,21 +1007,21 @@
 
 									<div class="row">
 										<div>
-											<div class="alert alert-success" *ngIf="msg=='success'">
+											<div class="alert alert-success notify-trigger" *ngIf="msg=='success'">
 												<strong>{{'The pipeline has been triggered'|translate}}.</strong>
 												<!-- {{'Redirecting to PreviousConfiguration'|translate}}. -->
 											</div>
 
-											<div class="alert alert-danger" *ngIf="msg=='error'">
+											<div class="alert alert-danger notify-trigger" *ngIf="msg=='error'">
 												<strong>{{'Error! The pipeline is not triggered. Please contact IDP admin'|translate}}</strong>
 											</div>
 										</div>
 										<div class="col-md-8"></div>
 
 										<div *ngIf="idpdataService.schedulePage!==true && !idpdataService.createWorkflowSequenceflag" class="col-md-4 paddingbottom">
-											<div class="col-md-12 btn-container" style="padding-top: 15px">
+											<div class="col-md-12 btn-container mg15" style="padding-top: 15px">
 												<!-- <button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')"> -->
-												<button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled ">
+												<button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || disableSubmitBtn || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')">
 
 													<span [hidden]="parameterloading"> {{'Submit'|translate}} &nbsp;</span>
 													<span [hidden]="!parameterloading">{{'Submitting'|translate}} &nbsp;

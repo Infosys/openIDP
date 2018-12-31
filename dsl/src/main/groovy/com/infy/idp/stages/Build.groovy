@@ -17,6 +17,9 @@ import com.infy.idp.utils.*
 import com.infy.idp.utils.fs.*
 import javaposse.jobdsl.dsl.DslFactory
 
+import com.infy.idp.plugins.wrappers.BuildEnv
+
+
 /**
  *
  * This class has the method to create the build job based on the technology of the project
@@ -34,9 +37,7 @@ class Build {
     void run(DslFactory factory, jsonData, envVar) {
         basepath = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName
         buildJobCreation(factory, jsonData, envVar)
-
-    }
-
+	}
     /*
      * this method is used to create the build job in jenkins
      */
@@ -197,7 +198,7 @@ class Build {
                             case Constants.PYTHON:
                                 PythonBuild.pythonBuildJobCreation(delegate, jsonData, envVar, basepath)
                                 break
-
+				
                             default:
                                 break
                         }
@@ -225,7 +226,7 @@ class Build {
                         configure { it / canRoam(false) }
                         concurrentBuild(true)
 
-                        if (jsonData.buildInfo && jsonData.buildInfo.buildtool != '' && !'SapNonCharm'.equalsIgnoreCase(jsonData.buildInfo.buildtool)) {
+                        if (jsonData.buildInfo && jsonData.buildInfo.buildtool != '') {
                             environmentVariables {
                                 propertiesFile('$IDP_WS/CustomJobParm.properties')
                                 keepBuildVariables(true)
@@ -235,7 +236,7 @@ class Build {
                         String customWS = 'workspace/' + basepath + Constants.WORKSPACENAMEPOSTFIX
                         if (customWS) customWorkspace('$IDP_WS')
 
-                        if (jsonData.buildInfo && jsonData.buildInfo.buildtool != '' && !'SapNonCharm'.equalsIgnoreCase(jsonData.buildInfo.buildtool)) {
+                        if (jsonData.buildInfo && jsonData.buildInfo.buildtool != '') {
                             environmentVariables {
                                 propertiesFile('$IDP_WS/CustomJobParm.properties')
                                 keepBuildVariables(true)
@@ -265,6 +266,8 @@ class Build {
                 BuildNameSetter buildname1 = new BuildNameSetter()
                 buildname1.setTemplate('${BUILD_LABEL}' + '_' + '${BUILD_NUMBER}')
                 buildname1.add(delegate, jsonData)
+				BuildEnv env = new BuildEnv();
+				env.add(delegate, jsonData);
             }
         }
     }
@@ -339,8 +342,7 @@ class Build {
                            
                        }
                     }
-
-
+					
                     if (jsonData.code.technology.toString().equalsIgnoreCase(Constants.GENERAL)) {
                         PropertiesAdder.addStringParam(delegate, 'STEP_LIST', 'NA', '')
                         PropertiesAdder.addStringParam(delegate, 'USER_INFO', 'NA', '')

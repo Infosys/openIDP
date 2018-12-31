@@ -63,7 +63,6 @@ public class ConfigurationManagerTest {
 		testObj.setPassword("password");
 		testObj.setProxyip("proxyip");
 		testObj.setProxyport("proxyport");
-
 		
 		assertEquals("kafkahost",testObj.getKafkahost());
 		assertEquals("kafkaport",testObj.getKafkaport());
@@ -111,6 +110,7 @@ public class ConfigurationManagerTest {
 		assertEquals("password",testObj.getPassword());
 		assertEquals("proxyip",testObj.getProxyip());
 		assertEquals("proxyport",testObj.getProxyport());
+		
 
 
 	}

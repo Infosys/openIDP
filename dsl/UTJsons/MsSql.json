@@ -1,0 +1,113 @@
+{
+	"basicInfo": {
+		"applicationName": "Application_stack",
+		"pipelineName": "app_pip",
+		"masterSequence": "pipeline",
+		"buildServerOS": "windows",
+		"engine": "Jenkins Workflow",
+		"buildInterval": {
+			"pollSCM": "off",
+			"buildInterval": "",
+			"buildIntervalValue": "0"
+		},
+		"additionalMailRecipients": {
+			"applicationTeam": "",
+			"emailIds": ""
+		},
+		"userName": "userName",
+		"pipelineStatus": "edit"
+	},
+	"code": {
+		"category": "Standard",
+		"technology": "mssql",
+		"scm": [
+			{
+				"type": "git",
+				"url": "http://harshita.badlani@infygit.domain.com/harshita.badlani/MSSQL.git",
+				"userName": "userName",
+				"password": "password",
+				"repositoryBrowser": "gitLab",
+				"browserUrl": "http://infygit.domain.com/",
+				"projectName": "",
+				"branch": "master",
+				"projPath": "",
+				"moduleName": "",
+				"clearcaseType": "",
+				"vobName": "",
+				"snapshotViewName": "",
+				"configSpec": "",
+				"developmentStreamName": "",
+				"buildConfiguration": "",
+				"buildDefinition": "",
+				"repositoryWorkspace": "",
+				"projArea": "",
+				"port": "",
+				"version": "default",
+				"exclude": "",
+				"proxy": "",
+				"proxyPort": "",
+				"appRepo": "on",
+				"deployRepo": "",
+				"testRepo": ""
+			}
+		],
+		"jobParam": [],
+		"buildScript": [
+			{
+				"tool": ""
+			},
+			{
+				"tool": ""
+			},
+			{
+				
+			}
+		],
+		"subApplication": ""
+	},
+	"buildInfo": {
+		"buildtool": "mssql",
+		"artifactToStage": {
+			"artifact": "**/*.*",
+			"flattenFileStructure": "off",
+			"artifactRepo": {
+				"repoURL": "dummyNexus.domain.com:8081",
+				"repoName": "idp_Nexus",
+				"repoUsername": "admin",
+				"repoPassword": "dummy"
+			},
+			"artifactRepoName": "nexus"
+		},
+		"modules": [
+			{
+				"customScript": "Successscript.sql",
+				"hostName": "MYSTGSERV01",
+				"userName": "libraryadmin",
+				"password": "admin",
+				"authenticationMode": "sql",
+				"rollbackScript": "Failurescript.sql",
+				"database": "dummyPOC"
+			}
+		],
+		"postBuildScript": {
+			
+		}
+	},
+	"deployInfo": {
+		"deployEnv": [
+			{
+				"envName": "dev",
+				"envFlag": "off",
+				"scriptType": ""
+			}
+		]
+	},
+	"testInfo": {
+		"testEnv": [
+			{
+				"envName": "dev",
+				"envFlag": "off"
+			}
+		]
+	}
+}

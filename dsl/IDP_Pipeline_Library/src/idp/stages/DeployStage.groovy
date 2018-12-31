@@ -22,7 +22,6 @@ class DeployStage implements Serializable {
      */
 
     DeployStage(script) {
-        println "initialization BuildStage"
         this.script = script
     }
 
@@ -35,9 +34,10 @@ class DeployStage implements Serializable {
         if (jsonData["deploy"]) {
 
 
+
             def moduleList1 = 'NA'
-            def flag = '1'
             def branchOrtag = 'NA'
+            
 
             if (jsonData["deploy"]["subModule"])
                 moduleList1 = ';' + jsonData["deploy"]["subModule"].join(';').toString() + ';'
@@ -60,13 +60,14 @@ class DeployStage implements Serializable {
             if (jsonData["deploy"]["deployArtifact"]) {
 
 
-                if (!jsonData["deploy"]["deployArtifact"]["downloadURL"]) {
-                    path = "http://" + jsonData["deploy"]["deployArtifact"]["nexusURL"] + "/repository/" + jsonData["deploy"]["deployArtifact"]["repoName"] + "/" + jsonData["applicationName"] + "/" + jsonData["pipelineName"] + "/" + jsonData["releaseNumber"] + "-" + branchNexus + "-${this.script.BUILD_NUMBER}/" + jsonData["pipelineName"] + "-" + jsonData["releaseNumber"] + "-" + branchNexus + "-${this.script.BUILD_NUMBER}.zip"
-                    nugetVersion = jsonData["releaseNumber"] + "-" + branchNexus + "-" + this.script.BUILD_NUMBER
-
-                } else {
+                if (jsonData["deploy"]["deployArtifact"]["downloadURL"]) {
                     path = jsonData["deploy"]["deployArtifact"]["downloadURL"]
                     nugetVersion = path.split('/')[path.split('/').size() - 2]
+
+
+                } else {
+                    path = "http://" + jsonData["deploy"]["deployArtifact"]["nexusURL"] + "/repository/" + jsonData["deploy"]["deployArtifact"]["repoName"] + "/" + jsonData["applicationName"] + "/" + jsonData["pipelineName"] + "/" + jsonData["releaseNumber"] + "-" + branchNexus + "-${this.script.BUILD_NUMBER}/" + jsonData["pipelineName"] + "-" + jsonData["releaseNumber"] + "-" + branchNexus + "-${this.script.BUILD_NUMBER}.zip"
+                    nugetVersion = jsonData["releaseNumber"] + "-" + branchNexus + "-" + this.script.BUILD_NUMBER
 
                 }
 
@@ -136,11 +137,14 @@ class DeployStage implements Serializable {
                 }
             } else {
                 def tempDeployStepURLList = []
-                if (jsonData["technology"] && !jsonData["technology"].equalsIgnoreCase("SapNonCharm")
-                        && !jsonData["technology"].equalsIgnoreCase("DBDEPLOY")) {
+                if (jsonData["technology"] && !jsonData["technology"].equalsIgnoreCase("SapNonCharm")) {
                     if (jsonData["deploy"]["deployStep"] && jsonData["deploy"]["deployStep"].size() != 0) {
+					
                         for (int j = 0; j < jsonData["deploy"]["deployStep"].size(); j++) {
+						
                             def tempJobName = basePath + "/" + basePath + "_Deploy_" + jsonData.envSelected + "/" + basePath + "_Deploy_" + jsonData.envSelected + "_" + jsonData["deploy"]["deployStep"][j];
+							
+							
                             if (!tempDeployStepURLList.contains(tempJobName)) {
                                 tempDeployStepURLList.add(tempJobName);
                             }
@@ -149,7 +153,9 @@ class DeployStage implements Serializable {
                 }
 
                 for (int i = 0; i < names.size(); i++) {
+					
                     if (jsonData["rmAssemblies"] != null && jsonData["rmAssemblies"] != '') {
+						
                         this.script.build job: names[i],
                                 parameters: [[$class: 'BooleanParameterValue', name: 'REMOVE_PREVIOUS_ASSEMBLIES', value: true],
                                              [$class: 'StringParameterValue', name: 'PREVIOUS_VERSION', value: jsonData["rmAssemblies"]],
@@ -166,6 +172,7 @@ class DeployStage implements Serializable {
 
                     if (jsonData["technology"] && !jsonData["technology"].equalsIgnoreCase("SapNonCharm")
                             && !jsonData["technology"].equalsIgnoreCase("DBDEPLOY") && !jsonData["technology"].equalsIgnoreCase("general")) {
+							
                         if (jsonData["deploy"]["deployStep"] && jsonData["deploy"]["deployStep"].size() != 0) {
                             /* for(int j=0 ; j < jsonData["deploy"]["deployStep"].size() ; j++)
                             {
@@ -232,9 +239,9 @@ class DeployStage implements Serializable {
                     } else if ((jsonData["technology"] && jsonData["technology"].equalsIgnoreCase("DBDEPLOY"))) {
                         def rollbackType = 'NA'
                         def rollbackValue = 'NA'
-
                         if (jsonData["deploy"]["dbDeployRollbackType"] && !jsonData["deploy"]["dbDeployRollbackType"].equalsIgnoreCase("")) {
                             rollbackType = jsonData["deploy"]["dbDeployRollbackType"]
+							
                         }
 
                         if (jsonData["deploy"]["dbDeployRollbackValue"] && !jsonData["deploy"]["dbDeployRollbackValue"].equalsIgnoreCase("")) {
@@ -243,7 +250,10 @@ class DeployStage implements Serializable {
 
                         if ("UPDATE".equalsIgnoreCase(jsonData["deploy"]["dbDeployOperation"]) && !names[i].endsWith("_ROLLBACK")) {
                             try {
-
+								for(int k=0; k < tempDeployStepURLList.size(); k++){
+								if(names[i].contains(tempDeployStepURLList[k])){
+								this.script.echo "update job execution"
+								this.script.echo names[i]
                                 this.script.build job: names[i],
                                         parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
                                                      [$class: 'StringParameterValue', name: 'MODULE_LIST', value: moduleList],
@@ -255,6 +265,8 @@ class DeployStage implements Serializable {
                                                      [$class: 'StringParameterValue', name: 'ROLLBACK_VALUE', value: rollbackValue],
                                                      [$class: 'StringParameterValue', name: 'BUILD_LABEL', value: buildLabel]]
                             }
+							}
+							}
                             catch (Exception e) {
                                 this.script.echo 'DBDeployment Exception Handling Mechanism'
 
@@ -270,6 +282,9 @@ class DeployStage implements Serializable {
                                                      [$class: 'StringParameterValue', name: 'BUILD_LABEL', value: buildLabel]]
                             }
                         } else if ("ROLLBACK".equalsIgnoreCase(jsonData["deploy"]["dbDeployOperation"]) && names[i].endsWith("_ROLLBACK")) {
+						for(int k=0; k < tempDeployStepURLList.size(); k++){
+							if(names[i].contains(tempDeployStepURLList[k])){
+						
                             this.script.build job: names[i],
                                     parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
                                                  [$class: 'StringParameterValue', name: 'MODULE_LIST', value: moduleList],
@@ -280,7 +295,9 @@ class DeployStage implements Serializable {
                                                  [$class: 'StringParameterValue', name: 'ROLLBACK_STRATEGY', value: rollbackType],
                                                  [$class: 'StringParameterValue', name: 'ROLLBACK_VALUE', value: rollbackValue],
                                                  [$class: 'StringParameterValue', name: 'BUILD_LABEL', value: buildLabel]]
+												 }
                         }
+						}
 
                     } else if ((jsonData["technology"] && jsonData["technology"].equalsIgnoreCase("general"))) {
                         def deploySteps = 'NA'
@@ -300,14 +317,8 @@ class DeployStage implements Serializable {
                     }
 
                     if ((jsonData["technology"] && jsonData["technology"].equalsIgnoreCase("SapNonCharm"))) {
-                        this.script.echo "sap"
-                        this.script.echo names[i]
-                        this.script.echo basePath + "_Import"
-                        this.script.echo jsonData["deploy"]["deploymentType"]
-
+                       
                         if ((names[i].endsWith("Import") && jsonData["deploy"]["deploymentType"].equalsIgnoreCase("Import")) || (names[i].endsWith("Release") && jsonData["deploy"]["deploymentType"].equalsIgnoreCase("Release"))) {
-                            this.script.echo "got it"
-                            this.script.echo names[i]
                             def SAPDeployStatus = 'NA'
                             def jobObj
                             try {
@@ -315,6 +326,7 @@ class DeployStage implements Serializable {
                                         parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
                                                      [$class: 'StringParameterValue', name: 'MODULE_LIST', value: moduleList],
                                                      [$class: 'StringParameterValue', name: 'RELEASE_IDENTIFIER', value: jsonData["releaseNumber"]],
+													 [$class: 'StringParameterValue', name: 'trigger_id', value: jsonData["triggerId"].toString()],
                                                      [$class: 'LabelParameterValue', name: 'SLAVE_NODE', label: nodeObject.slaveName],
                                                      [$class: 'StringParameterValue', name: 'PIPELINE_BUILD_ID', value: this.script.BUILD_NUMBER],
                                                      [$class: 'StringParameterValue', name: 'APP_SERVER', value: jsonData["systemName"]],

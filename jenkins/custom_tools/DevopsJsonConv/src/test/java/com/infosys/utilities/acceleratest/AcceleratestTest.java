@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.acceleratest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,7 +16,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 
-import com.infosys.utilities.acceleratest.Acceleratest;
 import com.infosys.utilities.acceleratest.Acceleratest.TestSuite;
 import com.infosys.utilities.acceleratest.Acceleratest.TestSuite.TestCase;
 import com.infosys.utilities.acceleratest.Acceleratest.TestSuite.TestCase.TCIteration;

@@ -10,13 +10,13 @@
     <fieldset [disabled]="Idpdata.PagePersmission.basic">
       <div class="panel panel-default panel-body-container">
         <div class="panel-heading">
-          <b>{{'Basic Info'|translate}}</b>
+          <b>{{'Basic Info'| translate}}</b>
         </div>
         <div class="panel-body">
           <!-- Application Name -->
           <div class="row form-group">
             <div id="appName">
-              <label class="col-md-3 text-right control-label ">{{'Application Name'|translate}}
+              <label class="col-md-3 text-right control-label ">{{'Application Name'| translate}}
                 <span class="star">*</span>
               </label>
             </div>
@@ -27,14 +27,14 @@
                 <option value="">--Select--</option>
                 <option *ngFor="let name of appNames" [ngValue]="name">{{name}}</option>
               </select>
-              <span class="tip-content">{{'Name of the application under which the job has to be created'|translate}}</span>
+              <span class="tip-content">{{'Name of the application under which the job has to be created'| translate}}</span>
             </div>
           </div>
           <!-- Pipeline Name -->
           <div>
             <div class="row  form-group   has-feedback">
               <div>
-                <label class="col-md-3 text-right control-label" for="pipelineName">{{'Pipeline Name'|translate}}
+                <label class="col-md-3 text-right control-label" for="pipelineName">{{'Pipeline Name'| translate}}
                   <span class="star">*</span>
                 </label>
               </div>
@@ -42,7 +42,7 @@
                 <input id="bipntf" (change)="checkJobName(basicInfo.pipelineName)" #title="ngModel" name="title" class="form-control txtbox"
                   [disabled]="formStatusObject.operation == 'edit'" [(ngModel)]="basicInfo.pipelineName" type="text" placeholder="JobName"
                   minlength="5" maxlength="35" pattern="[_a-zA-Z0-9]+" required>
-                <span class="tip-content">{{'Unique name for the job to be created'|translate}}</span>
+                <span class="tip-content">{{'Unique name for the job to be created'| translate}}</span>
                 <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger ">
                   <div [hidden]="!title.errors.required">
                     This Field Name is required!
@@ -67,7 +67,7 @@
           <div class="row form-group">
             <div>
               <label class="col-md-3 text-right control-label">
-                {{'Build Server OS'|translate}}
+                {{'Build Server OS'| translate}}
                 <span class="star">*</span>
               </label>
             </div>
@@ -79,19 +79,119 @@
               </select>
             </div>
           </div>
+          <div class="row form-group">
+            <div>
+              <label class="col-md-3 text-right control-label">
+                         {{'Pipeline Type'|translate}}
+                         <!-- <span class="star">*</span> -->
+                          </label>
+            </div>
+            <div class="col-md-9 text-left">
+              <select style="width:50%"  class="form-control" [(ngModel)]="basicInfo.masterSequence"
+              name="masterSequence" id="masterSeq" [disabled]="formStatusObject.operation == 'edit' || formStatusObject.operation == 'copy'" 
+              (change)="changeNavigationLinks()">
+                          <option value="">--Select--</option>
+                          <option *ngFor="let seq of sequenceList" [ngValue]="seq.value">{{seq.name}}</option>
+                        </select>
+            </div>
+          </div>
+        
         </div>
       </div>
+
+      <!-- <div *ngIf="!Idpdata.isSAPApplication">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+           
+            <input type="checkbox" id="bijpcb"  [checked]="tempObject.JiraALM==='on'" (change)="tempObject.JiraALM=$event.target.checked ? 'on':clearProjectKey()"/>
+            <b>{{'Jira ALM'|translate}}</b>
+          </div>
+          
+          <div *ngIf="tempObject.JiraALM==='on' && !Idpdata.isSAPApplication && Idpdata.isSAPPIApplication!=='on'">
+            <div class="panel-body panel-body-container">
+            <div class="row form-group">
+               <div class="row">
+                <div></div>
+                  <div>
+                    <label class=" col-md-3 text-right control-label">{{'Jira Project Key'|translate}}</label>
+                  </div>
+                  <div class="col-md-9 text-left field-tip textFieldContainer">
+                    <input  [(ngModel)]="basicInfo.jiraProjectKey" #jiraProjectKey="ngModel" name="jiraProjectKey" class="form-control txtbox" 
+    
+                    type="text" placeholder="Jira Project Key" minlength="2" maxlength="35" required />
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- Poll ALM for SAP -->
+      <!-- <div class="panel panel-default" *ngIf="Idpdata.isSAPApplication">
+        <div class="panel-heading">
+          <input type="checkbox" [checked]="basicInfo.buildInterval.pollALM==='on'" (change)="basicInfo.buildInterval.pollALM=$event.target.checked ? 'on':clearPollALM()" />
+          &nbsp;
+          <b>{{'Poll ALM'|translate}}</b>
+        </div>
+        <div *ngIf="basicInfo.buildInterval.pollALM ==='on'">
+          <div class="panel-body">
+            <div class="row form-group">
+              <div class="col-md-3 text-right"><label>{{'SAP Workflow System'|translate}}<span class="star">*</span></label></div>
+              <div class="col-md-9 text-left">
+                <div *ngIf="Idpdata.isSAPApplication">
+                  <select [(ngModel)]="basicInfo.buildInterval.almTool" id="bipscmtf" name="pollALM" class="form-control"
+                    style="width:50%" (change)="ResetALMTool()" required>
+                    <option value="">--Select--</option>
+                    <option *ngFor="let sapWorkFlow of sapWorkFlowSystem" value="{{sapWorkFlow.value}}">{{sapWorkFlow.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="(basicInfo.buildInterval.almTool==='jira')">
+              <div class="row form-group">
+                <div class="row  form-group   has-feedback">
+                  <div>
+                    <label class="col-md-3 text-right control-label" for="pipelineName">{{'JIRA Project Key'|translate}}<span
+                        class="star">*</span></label>
+                  </div>
+                  <div class="col-md-9 field-tip">
+                    <input [(ngModel)]="basicInfo.buildInterval.projectKey" #projectKey="ngModel" name="projectKey" class="form-control txtbox"
+                      type="text" placeholder="JobName" minlength="3" maxlength="35" required>
+                    <div *ngIf="projectKey.errors && (projectKey.dirty || projectKey.touched)" class="alert alert-danger ">
+                      <div [hidden]="!projectKey.errors.required">
+                        This Field Name is required!
+                      </div>
+                      <div [hidden]="!projectKey.errors.minlength">
+                        This Field Name must be at least 5 characters long.
+                      </div>
+                      <div [hidden]="!projectKey.errors.maxlength">
+                        This Field Name cannot be more than 30 characters long.
+                      </div>
+                      <div [hidden]="!projectKey.errors.pattern">
+                        This Field Name can only consist of alphabetical, number, dot and underscore
+                      </div>
+                    </div>
+                    <span class="tip-content">{{'JIRA Project Key'|translate}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- Poll ALM for SAP ends -->
+      
       <!-- Optional Mail Recipients -->
       <div class="panel panel-default">
         <div class="panel-heading">
-          <b>{{'Additional Mail Recipients'|translate}}</b>
+          <b>{{'Additional Mail Recipients'| translate}}</b>
         </div>
         <div class="panel-body panel-body-container">
           <div class="panel-body form-group">
             <div class="row">
               <div>
                 <label class="col-md-3 text-right control-label">
-                  {{'All Application Users'|translate}}
+                  {{'All Application Users'| translate}}
                 </label>
               </div>
               <div class="col-md-9 text-left field-tip textFieldContainer">
@@ -101,13 +201,13 @@
             </div>
             <div class="row">
               <div>
-                <label class=" col-md-3 text-right control-label">{{'Email Ids'|translate}}</label>
+                <label class=" col-md-3 text-right control-label">{{'Email Ids'| translate}}</label>
               </div>
               <div class="col-md-9 text-left field-tip textFieldContainer">
                 <input class="form-control txtbox" id="biemtf01" name="emailid" #emailid="ngModel" [(ngModel)]="basicInfo.additionalMailRecipients.emailIds"
                   type="text" placeholder="William_Jones,Jerry_Gonzalez" minlength="5" maxlength="150" pattern="[_a-zA-Z0-9-.@]+(,[_a-zA-Z0-9-.@]+)*"
                 />
-                <span class="tip-content">{{'Emails will be sent after the job creation'|translate}}</span>
+                <span class="tip-content">{{'Emails will be sent after the job creation'| translate}}</span>
                 <div *ngIf="emailid.errors && (emailid.dirty || emailid.touched)" class="alert alert-danger ">
                   <div [hidden]="!emailid.errors.required">
                     This Field Name is required!
@@ -127,15 +227,122 @@
           </div>
         </div>
       </div>
+      <!-- <fieldset [disabled]="(tempObject.isCustomadmin)">
+          <div class="panel panel-default">
+            <div class="panel-heading" >
+              <input type="checkbox" [checked]="tempObject.checkCustomPipelineAdmin ==='on'" 
+                            (change)="tempObject.checkCustomPipelineAdmin=$event.target.checked?openCustomAdminField():closeCustomAdminField(); ">
+                              <b> {{'Custom Pipeline Administrator(s)'|translate}}:</b>
+            </div>
+          </div>
+          <div class="panel-body panel-body-container" 
+              *ngIf="tempObject.checkCustomPipelineAdmin ==='on'"> 
+              <div class="panel-body ">
+                <table id="table"  class=" table table-vcenter " >
+                  <thead>
+                    <tr>
+                        <th  style="vertical-align: middle;">No.</th>
+                        <th  style="vertical-align: middle;">Admin Name</th>
+                        <th  colspan="5">Set Edit Permission</th>
+                        <th ></th>
+                    </tr>
+                    <tr>
+                      <th style="height:0px;border-bottom: 2px solid #fcfcfc !important ;"></th>
+                      <th style="height:0px;border-bottom: 2px solid #fcfcfc !important ;"></th>
+                      <th  style="vertical-align:middle;height:0px">Basic</th>
+                      <th  style="vertical-align:middle;height:0px">Code</th>
+                        <th  style="vertical-align:middle;height:0px">Build</th>
+                        <th  style="vertical-align:middle;height:0px">Deploy</th>
+                        <th  style="vertical-align:middle;height:0px">Test</th>
+                      <th style="height:0px;border-bottom: 2px solid #fcfcfc !important ;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let admin of basicInfo.customPipelineAdmins; let j=index" [attr.data-index]="j">
+                    <tr > 
+                      <td class="form-group field-tip">
+                        <label class="control-label">{{j+1}}.</label>
+                      </td>
+                      <td class="field-tip">
+                        <input class="form-control " type="text" style="width:90%;"
+                        [(ngModel)]="admin.adminName" name="nameAdmin+{{j}}" #nameAdmin="ngModel"
+                        pattern="[0-9a-zA-z-_\.]+"
+                        placeholder="admin.name" 
+                        (change)="checkPipelineAdminName(admin.adminName,j)"
+                         required>
+                         <div class="text-danger" *ngIf="basicInfo.customAdminMsgs!==undefined && basicInfo.customAdminMsgs[j]!==undefined && basicInfo.customAdminMsgs[j].errrorMessage !== undefined && basicInfo.customAdminMsgs[j].errrorMessage !== ''"
+                         style="width:90%;">
+                          {{basicInfo.customAdminMsgs[j].errrorMessage}}
+                        </div>
+                        <div *ngIf="pipelineAdminFlag && admin.adminName === lastEditedAdmin" class="alert alert-danger" style="width:90%;">
+                            Pipeline admin cannot be custom pipeline admin.
+                        </div>
+                        <div *ngIf="nameAdmin.errors && (nameAdmin.dirty || nameAdmin.touched)" class="alert alert-danger " style="width:90%;">
+                          <div [hidden]="!nameAdmin.errors.required">
+                            This Field Name is required!
+                          </div>
+                          <div [hidden]="!nameAdmin.errors.pattern">
+                            This Field Name can only consist of alphabetical, number, dot, hyphen and underscore
+                          </div>
+                        </div>
+                      </td>
+                      <td class="form-group">
+                        <input type="checkbox" 
+                        [checked]="admin.editBasic === 'y'" 
+                        (change)="admin.editBasic=$event.target.checked ?'y':'n'"
+                         style="transform: translateY(2px);margin-left: 10px;">
+                      </td>
+                      <td class="form-group">
+                      <input type="checkbox" 
+                        [checked]="admin.editCode === 'y'" 
+                        (change)="admin.editCode=$event.target.checked ?'y':'n'"
+                        style="transform: translateY(2px);margin-left: 10px;">
+                      </td>
+                      <td class="form-group">
+                      <input type="checkbox" 
+                        [checked]="admin.editBuild === 'y'" 
+                        (change)="admin.editBuild=$event.target.checked ?'y':'n'"
+                        style="transform: translateY(2px);margin-left: 10px;">
+                      </td>
+                      <td class="form-group">
+                      <input type="checkbox" 
+                        [checked]="admin.editDeploy === 'y'" 
+                        (change)="admin.editDeploy=$event.target.checked ?'y':'n'"
+                        style="transform: translateY(2px);margin-left: 10px;">
+                      </td>
+                      <td class="form-group">
+                      <input type="checkbox" 
+                        [checked]="admin.editTest === 'y'" 
+                        (change)="admin.editTest=$event.target.checked ?'y':'n'"
+                        style="transform: translateY(2px);margin-left: 10px;">
+                      </td>
+                      <td class="form-group">
+                        <span style="transform: translateY(70%);transform: translateX(40px);"  
+                        class="glyphicon glyphicon-remove" aria-hidden="true"
+                        id="removeButton" *ngIf="(j>0)"
+                        (click)="removeCustomAdmin(j)"></span>
+                      <button type="button" class="btn btn-info" *ngIf="(j==0)" 
+                        style="display:inline;margin-left: 1%;"
+                        id="btn_txt" (click)="addCustomAdmin()">&nbsp;Add&nbsp;</button>
+                      </td>
+                    </tr>
+                    <tr *ngIf = "!(isCPASelectedOnce(admin)) && (nameAdmin.dirty || nameAdmin.touched)">
+                      <td colspan="2"></td>
+                      <td colspan="5"><label class="text-danger">Select atlease one page</label></td>
+                    </tr>
+                  </tbody>
+                </table>
+               </div>
+          </div>
+      </fieldset> -->
     </fieldset>
     <div>
-      <span class="star">*{{'Denotes Mandatory Fields'|translate}}</span>
+      <span class="star">*{{'Denotes Mandatory Fields'| translate}}</span>
       <br />
       <br />
       <div class="col-md-12 btn-container">
-        <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="birsbu01">{{'Reset'|translate}}</button>&nbsp;&nbsp;
-        <button type="submit" class="btn btn-success btn-sm" [disabled]="!(isCPASelectedOnceAllUser(basicInfoForm.form.valid))" style="float:right;"
-          id="biccbu01">{{'Continue'|translate}}</button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="resetData()" id="birsbu01">{{'Reset'| translate}}</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success btn-sm" [disabled]="!(isCPASelectedOnceAllUser(basicInfoForm.form.valid)) || pipelineAdminFlag " style="float:right;"
+          id="biccbu01">{{'Continue'| translate}}</button>
       </div>
     </div>
     <div *ngIf="setFormStatus(basicInfoForm.form.valid)">

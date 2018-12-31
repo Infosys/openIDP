@@ -77,7 +77,7 @@ public class FileNetImportAnalysisDL {
 						", Destination: "+fileNetImport.getDestination());
 			
 			preparedStatement.executeBatch(); // insert remaining records
-			//preparedStatement.close();
+
 			connection.commit();
 			}
 		}

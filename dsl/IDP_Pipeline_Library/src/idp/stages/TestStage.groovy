@@ -21,7 +21,6 @@ class TestStage implements Serializable {
     */
 
     TestStage(script) {
-        println "initialization BuildStage"
         this.script = script
     }
 
@@ -81,7 +80,6 @@ class TestStage implements Serializable {
                     def tempServJobName1 = basePath + "/" + basePath + "_Test_" + jsonData.envSelected + "/" + basePath + "_Test_" + jsonData.envSelected + "_" + jsonData["virtualTestStep"]
                     if (jsonData["virtualTestStep"] && jsonData["virtualServicesList"] && names.contains(tempServJobName1)) {
                         this.script.echo "Building Service Virtualization test job with Action: Stop "
-                        def actionStr = 'stop'
                         def virtualServicesStr = '["' + jsonData["virtualServicesList"].join('","') + '"]'
                         this.script.echo "Virtual service list: " + virtualServicesStr
                         this.script.build job: tempServJobName1,
@@ -107,13 +105,6 @@ class TestStage implements Serializable {
     def executeNonSapJobs(jsonData, i, basePath, customWS, nodeObject, jobBuildId, buildLabel, names, tempTestStepURLList) {
 
         if (jsonData["testStep"] && jsonData["testStep"].size() != 0) {
-            //try{
-            /*for(int j=0 ; j < jsonData["testStep"].size() ; j++)
-            {*/
-
-            //def tempJobName = basePath + "/" + basePath + "_Test_" + jsonData.envSelected + "/" + basePath + "_Test_" + jsonData.envSelected + "_" + jsonData["testStep"][j]
-            //def virtualServicesStopJobName = ""
-            //if(names.contains(tempJobName))
             def j = tempTestStepURLList.indexOf(names[i])
             if (tempTestStepURLList.contains(names[i])) {
                 if (jsonData["mtmStepName"] && jsonData["testStep"][j].equalsIgnoreCase(jsonData["mtmStepName"]) && jsonData["testPlanId"]) {
@@ -198,10 +189,6 @@ class TestStage implements Serializable {
     def sapNonCharmExecution(jsonData, i, basePath, nodeObject, jobBuildId, customWS, names, tempTestStepURLList) {
 
         if (jsonData["testStep"] && jsonData["testStep"].size() != 0) {
-            /*for(int j=0 ; j < jsonData["testStep"].size() ; j++)
-            {*/
-            //def tempJobName = basePath + "/" + basePath + "_Test_" + jsonData.envSelected + "/" + basePath + "_Test_" + jsonData.envSelected + "_" + jsonData["testStep"][j]
-            //if(names.contains(tempJobName))
             if (tempTestStepURLList.contains(names[i])) {
                 this.script.build job: names[i],
                         parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
@@ -215,10 +202,8 @@ class TestStage implements Serializable {
                                      [$class: 'StringParameterValue', name: 'SAP_USERID', value: jsonData["sapUserName"]],
                                      [$class: 'StringParameterValue', name: 'SAP_PASSWORD', value: jsonData["password"]],
                                      [$class: 'StringParameterValue', name: 'LANGUAGE', value: jsonData["language"]]]
-                //[$class: 'StringParameterValue', name: 'TRANS_REQ', value: transReq]]
             }
 
-            /*}*/
         } else {
             this.script.build job: names[i],
                     parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
@@ -232,7 +217,6 @@ class TestStage implements Serializable {
                                  [$class: 'StringParameterValue', name: 'SAP_USERID', value: jsonData["sapUserName"]],
                                  [$class: 'StringParameterValue', name: 'SAP_PASSWORD', value: jsonData["password"]],
                                  [$class: 'StringParameterValue', name: 'LANGUAGE', value: jsonData["language"]]]
-            //[$class: 'StringParameterValue', name: 'TRANS_REQ', value: transReq]]
         }
     }
 }

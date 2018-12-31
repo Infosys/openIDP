@@ -45,6 +45,7 @@ import org.infy.idp.entities.jobs.deployinfo.DeployEnv;
 import org.infy.idp.entities.jobs.testinfo.TestEnv;
 import org.infy.idp.entities.models.GitHubBrachModel;
 import org.infy.idp.entities.nexus.Nexus;
+import org.infy.idp.entities.triggerparameter.ApplicationDetails;
 import org.infy.idp.entities.triggerparameter.TriggerParameters;
 import org.infy.idp.utils.ConfigurationManager;
 import org.infy.idp.utils.GitLabBranchTagFetcher;
@@ -66,6 +67,12 @@ public class TriggerDetailBL {
 	private static final String DEPLOY = "DEPLOY";
 	private static final String TEST = "TEST";
 	private static final String WORKFLOW = "workflow";
+	private static final String HOTFIX = "HOTFIX";
+	private static final String PREPROD = "PREPROD";
+	private static final String PROD = "PROD";
+	private static final String VALUE = "value";
+	
+	
 	@Autowired
 	private JobsManagementBL jobsmgmtBL;
 	@Autowired
@@ -118,20 +125,29 @@ public class TriggerDetailBL {
 			// getting enitity info from application table
 			ApplicationInfo app = jobInfoDL.getApplication(triggerJobName.getApplicationName());
 			logger.debug("application info : " + gson.toJson(app));
-			// getting technology
-			// check for workflow / pipeline
+
 			String technology = null;
-			if (idp.getCode() != null) {
-				technology = idp.getCode().getTechnology();
-				logger.debug("technology : " + technology);
+			
+
+			if (idp.getBasicInfo().getMasterSequence() != null
+					&& WORKFLOW.equalsIgnoreCase(idp.getBasicInfo().getMasterSequence())) {
+				technology = idp.getBasicInfo().getMasterSequence();
+				List<ApplicationDetails> pipeSequenceList = idp.getPipelines();
+				triggerInputs.setPipelines(pipeSequenceList);
+				logger.debug("pipeline sequence : " + pipeSequenceList);
+			} else {
+				if (idp.getCode() != null) {
+					technology = idp.getCode().getTechnology();
+					logger.debug("technology : " + technology);
+				}
 			}
 			triggerInputs.setTechnology(technology);
-			logger.debug("technology : " + technology);
+			logger.debug("technology : {}", technology);
 			// getting Permissions
 			List<String> permissions = getPermissions(triggerJobName.getApplicationName(),
 					triggerJobName.getUserName());
 			triggerInputs.setPermissions(permissions);
-			logger.debug("permissions : " + permissions.toString());
+			logger.debug("permissions : {}", permissions);
 			boolean ssh = false;
 			if (idp.getDeployInfo() != null && idp.getDeployInfo().getDeployEnv() != null) {
 				int depEnvSize = idp.getDeployInfo().getDeployEnv().size();
@@ -156,7 +172,7 @@ public class TriggerDetailBL {
 			if (technology != null && !WORKFLOW.equalsIgnoreCase(technology)
 					&& idp.getBuildInfo().getPostBuildScript() != null
 					&& idp.getBuildInfo().getPostBuildScript().getDependentPipelineList() != null
-					&& (idp.getBuildInfo().getPostBuildScript().getDependentPipelineList().size() > 0) && ssh)
+					&& (!idp.getBuildInfo().getPostBuildScript().getDependentPipelineList().isEmpty()) && ssh)
 				triggerInputs.setSshAndDependent("on");
 			else
 				triggerInputs.setSshAndDependent("off");
@@ -166,9 +182,10 @@ public class TriggerDetailBL {
 						idp.getBuildInfo().getPostBuildScript().getDependentPipelineList()));
 			}
 			List<String> userEnvs = fetchJobDetails.getUserEnvironment(app, userName);
+			
 			if (permissions.contains(BUILD) && technology != null && !WORKFLOW.equalsIgnoreCase(technology)) {
 				logger.debug("Build section enabled for pipeline : " + triggerJobName.getPipelineName());
-				triggerInputs.setBuild(getBuildInfo(idp, technology));
+				triggerInputs.setBuild(getBuildInfo(idp, technology, app, userName, userEnvs));
 				if (GENERAL.equalsIgnoreCase(technology)) {
 					List<String> jsonResponse = checkApproval(
 							triggerJobName.getApplicationName() + "_" + triggerJobName.getPipelineName(), BUILD, "");
@@ -182,17 +199,20 @@ public class TriggerDetailBL {
 			// get all application details based on OS
 			triggerInputs.setAppSlaves(getAppSlaveDetails(app, idp));
 			// getting release number
-			List<String> releaseNumbers = jobAddInfoDL.getReleaseNumber(triggerJobName.getApplicationName(),
+			List<String> releaseNumbers;
+				releaseNumbers = jobAddInfoDL.getReleaseNumber(triggerJobName.getApplicationName(),
 					triggerJobName.getPipelineName());
+			if(releaseNumbers==null || releaseNumbers.size()== 0) {
+				releaseNumbers = jobAddInfoDL.getReleaseNumber(triggerJobName.getApplicationName(),
+						triggerJobName.getPipelineName());
+			}
 			HashMap<String, List<String>> releaseAndBranches = null;
 			try {
 				releaseAndBranches = jobInfoDL.getReleaseNumberAndBranches(triggerJobName.getApplicationName(),
 						triggerJobName.getPipelineName());
 			} catch (Exception e) {
-				logger.error("release and branches: " + e.getMessage());
+				logger.error("release and branches: {}", e.getMessage());
 			}
-			triggerInputs.setReleaseTransportInfo(getJobDetails
-					.getReleaseTransportInfo(triggerJobName.getApplicationName(), triggerJobName.getPipelineName()));
 			triggerInputs.setReleaseNumber(releaseNumbers);
 			triggerInputs.setReleaseBranches(releaseAndBranches);
 			// getting scm type
@@ -273,39 +293,41 @@ public class TriggerDetailBL {
 			// getting environments
 			if (permissions.contains(DEPLOY) && technology != null && !WORKFLOW.equalsIgnoreCase(technology)) {
 				Deploy deploy = new Deploy();
-				if (idp.getDeployInfo() != null && idp.getDeployInfo().getDeployEnv() != null) {
-					triggerInputs.setDeploy(deploy);
-					List<DeployEnv> deployEnvs = idp.getDeployInfo().getDeployEnv();
-					HashMap<String, List<ApproveBuild>> workEnvApprovalList = new HashMap<>();
-					int deployEnvsSize = deployEnvs.size();
-					for (int i = 0; i < deployEnvsSize; i++) {
-						if (null != deployEnvs.get(i).getDeploySteps()
-								&& !deployEnvs.get(i).getDeploySteps().isEmpty()) {
-							deployStatus = true;
-							if (GENERAL.equalsIgnoreCase(technology)) {
-								String env = deployEnvs.get(i).getEnvName();
-								List<String> jsonResponse = checkApproval(
-										triggerJobName.getApplicationName() + "_" + triggerJobName.getPipelineName(),
-										DEPLOY, env);
-								deploy.setJobType(DEPLOY);
-								if (jsonResponse != null && jsonResponse.size() != 0) {
-									apprParamSet(jsonResponse, triggerInputs, "deploy");
-									workEnvApprovalList.put(env, apprParamSet(jsonResponse, triggerInputs, "deploy"));
+				
+					if (idp.getDeployInfo() != null && idp.getDeployInfo().getDeployEnv() != null) {
+						triggerInputs.setDeploy(deploy);
+						List<DeployEnv> deployEnvs = idp.getDeployInfo().getDeployEnv();
+						HashMap<String, List<ApproveBuild>> workEnvApprovalList = new HashMap<>();
+						int deployEnvsSize = deployEnvs.size();
+						for (int i = 0; i < deployEnvsSize; i++) {
+							if (null != deployEnvs.get(i).getDeploySteps()
+									&& !deployEnvs.get(i).getDeploySteps().isEmpty()) {
+								deployStatus = true;
+								if (GENERAL.equalsIgnoreCase(technology)) {
+									String env = deployEnvs.get(i).getEnvName();
+									List<String> jsonResponse = checkApproval(triggerJobName.getApplicationName() + "_"
+											+ triggerJobName.getPipelineName(), DEPLOY, env);
+									deploy.setJobType(DEPLOY);
+									if (jsonResponse != null && jsonResponse.size() != 0) {
+										apprParamSet(jsonResponse, triggerInputs, "deploy");
+										workEnvApprovalList.put(env,
+												apprParamSet(jsonResponse, triggerInputs, "deploy"));
+									}
+								} else {
+									break;
 								}
-							} else {
-								break;
 							}
 						}
-					}
-					if (deployStatus) {
-						logger.info("Deploy steps are found in the pipeline");
-						List<String> envInDeploy = fetchJobDetails.getEnvironmentsDeploy(idp, userEnvs);
-						deploy.setDeployEnv(envInDeploy);
-						deploy.setBizobj(fetchJobDetails.getbizObj(idp, envInDeploy));
-						deploy.setWorkEnvApprovalList(workEnvApprovalList);
+						if (deployStatus) {
+							logger.info("Deploy steps are found in the pipeline");
+							List<String> envInDeploy = fetchJobDetails.getEnvironmentsDeploy(idp, userEnvs);
+							deploy.setDeployEnv(envInDeploy);
+							deploy.setBizobj(fetchJobDetails.getbizObj(idp, envInDeploy));
+							deploy.setWorkEnvApprovalList(workEnvApprovalList);
+						}
 					}
 				}
-			}
+			
 			if (permissions.contains(TEST) && technology != null && !WORKFLOW.equalsIgnoreCase(technology)) {
 				Test test = new Test();
 				if (idp.getTestInfo() != null && idp.getTestInfo().getTestEnv() != null) {
@@ -360,7 +382,7 @@ public class TriggerDetailBL {
 				}
 				triggerInputs.setBuildDeployEnv(buildDeployEnvList);
 			}
-			if (technology != null && !WORKFLOW.equalsIgnoreCase(technology)
+			if (technology != null && !WORKFLOW.equalsIgnoreCase(technology) && permissions.contains(BUILD)
 					&& "git".equalsIgnoreCase(idp.getCode().getScm().get(0).getType())) {
 				List<String> gitBranches = new ArrayList<>();
 				gitBranches.add(idp.getCode().getScm().get(0).getBranch());
@@ -455,20 +477,20 @@ public class TriggerDetailBL {
 						for (int j = 0; j < parametersJsonArrSize; j++) {
 							JSONObject parameterJson = (JSONObject) parametersJsonArr.get(j);
 							if ("PIPELINE_BUILD_ID".equalsIgnoreCase((String) parameterJson.get("name"))) {
-								buildNo = (String) parameterJson.get("value");
+								buildNo = (String) parameterJson.get(VALUE);
 								app.setApprBuildNo(buildNo);
 							}
 							if ("MODULE_LIST".equalsIgnoreCase((String) parameterJson.get("name"))) {
-								moduleList = " Executing Modules: " + parameterJson.get("value") + "";
+								moduleList = " Executing Modules: " + parameterJson.get(VALUE) + "";
 								app.setModuleList(moduleList);
 							}
 							if ("USER_INFO".equalsIgnoreCase((String) parameterJson.get("name"))) {
-								String userInfoT = (String) parameterJson.get("value");
+								String userInfoT = (String) parameterJson.get(VALUE);
 								userInfo = " Executed by: " + userInfoT.split(";")[0];
 								app.setUserInfo(userInfo);
 							}
 							if ("RELEASE_IDENTIFIER".equalsIgnoreCase((String) parameterJson.get("name"))) {
-								releaseNo = (String) parameterJson.get("value");
+								releaseNo = (String) parameterJson.get(VALUE);
 								app.setReleaseIdentifier(releaseNo);
 							}
 						}
@@ -539,7 +561,20 @@ public class TriggerDetailBL {
 				triggerInputs.setNexusURL(nexusURL);
 				String response = this.getInputStream(userName, passWord, urlToHit);
 				Gson gson = new Gson();
-				Nexus nexus = gson.fromJson(response, Nexus.class);
+				Nexus nexusArtifact = gson.fromJson(response, Nexus.class);
+				String data="";
+				ArrayList<Nexus> nexusJson=new ArrayList<>();
+				nexusJson.add(nexusArtifact);
+				if(nexusArtifact != null) {
+				while(nexusArtifact.getContinuationToken() != null) {
+					data=data+this.getInputStream(userName, passWord, urlToHit+"&continuationToken="+nexusArtifact.getContinuationToken());
+					nexusArtifact=gson.fromJson(data, Nexus.class);
+					nexusJson.add(nexusArtifact);
+				}
+				}
+				
+				for(int l=0;l<nexusJson.size();l++) {
+					Nexus nexus=nexusJson.get(l);
 				logger.debug(gson.toJson(nexus));
 				if (nexus != null && nexus.getItems() != null && (nexus.getItems().size() != 0)) {
 					for (int i = 0; i < nexus.getItems().size(); i++) {
@@ -617,6 +652,7 @@ public class TriggerDetailBL {
 						}
 					}
 				}
+			}
 			} else if (artifactType.equalsIgnoreCase("jfrog")) {
 				String urlToHit = nexusURL + "/api/storage/" + repoName + "/" + pipelineName
 						+ "?list&deep=1&listFolders=0";
@@ -628,6 +664,7 @@ public class TriggerDetailBL {
 				String response = this.getInputStream(userName, passWord, urlToHit);
 				Gson gson = new Gson();
 				ArtifactoryArtifacts artifacts = gson.fromJson(response, ArtifactoryArtifacts.class);
+				
 				logger.debug(gson.toJson(artifacts));
 				if (artifacts != null && artifacts.getFiles() != null && (artifacts.getFiles().size() != 0)) {
 					for (int i = 0; i < artifacts.getFiles().size(); i++) {
@@ -789,7 +826,7 @@ public class TriggerDetailBL {
 		return permission;
 	}
 
-	public Build getBuildInfo(IDPJob idp, String technology) {
+	public Build getBuildInfo(IDPJob idp, String technology, ApplicationInfo app, String string, List<String> userEnvs) {
 		Build build = new Build();
 		switch (technology) {
 		case "dotNetCsharp":
@@ -803,6 +840,7 @@ public class TriggerDetailBL {
 		case "J2EE/Maven":
 			build.setSubModules(setSubModules(idp));
 			break;
+		
 		default:
 			break;
 		}
@@ -872,7 +910,7 @@ public class TriggerDetailBL {
 		if (null == idp.getBuildInfo().getModules().get(0).getCodeAnalysis()
 				|| idp.getBuildInfo().getModules().get(0).getCodeAnalysis().isEmpty()
 				|| "".equalsIgnoreCase(idp.getBuildInfo().getModules().get(0).getCodeAnalysis().get(0))) {
-			logger.info("code analysis is not selected for the pipeline : " + idp.getBasicInfo().getPipelineName());
+			logger.info("code analysis is not selected for the pipeline : {}", idp.getBasicInfo().getPipelineName());
 			return false;
 		} else {
 			logger.info("code analysis is selected.");
@@ -885,7 +923,7 @@ public class TriggerDetailBL {
 				|| idp.getBuildInfo().getModules().get(0).getUnitTesting().isEmpty()
 				|| "".equalsIgnoreCase(idp.getBuildInfo().getModules().get(0).getUnitTesting())
 				|| "off".equalsIgnoreCase(idp.getBuildInfo().getModules().get(0).getUnitTesting())) {
-			logger.info("unit testing is not selected for the pipeline : " + idp.getBasicInfo().getPipelineName());
+			logger.info("unit testing is not selected for the pipeline : {}", idp.getBasicInfo().getPipelineName());
 			return false;
 		} else {
 			logger.info("unit testing is selected.");
@@ -893,6 +931,8 @@ public class TriggerDetailBL {
 		}
 	}
 
+	
+	
 	public ArrayList<ArrayList<String>> gitLabbranchesTagsFetcher(String repoUrl, String username, String pwd,
 			String projectUrl) {
 		String token = "";
@@ -913,5 +953,4 @@ public class TriggerDetailBL {
 		return list;
 	}
 
-	
 }

@@ -109,9 +109,10 @@ public class RetrieveController {
     @ResponseBody
     public List<QueryResponse> query(@CookieValue("grafana_user") String grafanaUser,@RequestBody QueryRequest queryRequest) {
     	logger.debug("Target is " + queryRequest.getTargets().get(0).getTarget());
-    	return retrieveBL.queryInfo(queryRequest);
+    	return retrieveBL.queryInfo(queryRequest,grafanaUser);
         
     }
+    
     @RequestMapping(method = RequestMethod.GET, value = "/annotations")
     @ResponseBody
     public AnnotationResponse annotations(@RequestBody AnnotationRequest annotationRequest) {

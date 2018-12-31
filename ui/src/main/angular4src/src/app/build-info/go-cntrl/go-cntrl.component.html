@@ -1,29 +1,14 @@
-<!--
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.”
-*
--->
-
 <form [parentFormConnect]="formName">
   <div class="animate-switch-container">
     <div class="animate-switch">
       <div class="panel panel-default">
-        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white">
-          <b> {{'Go Project Details'|translate}}</b>
+        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white"> <b> {{'Go Project Details'|translate}}</b>
         </div>
         <div class="panel-body">
-          <!-- GO Project Details Start -->
           <div class="row form-group ">
-            <div class="col-md-3 text-right ">
-              <label class="control-label"> Project Name </label>
-              <span class="star">*</span>
+            <div class="col-md-3 text-right "> <label class="control-label"> Project Name </label> <span class="star">*</span>
             </div>
-            <div class="col-md-9 text-left field-tip">
-              <input class="form-control txtbox boxWidth" name="projectNameField" #projectNameField="ngModel" [(ngModel)]="buildInfo.modules[0].moduleName"
-                [ngModelOptions]="{standalone: true}" pattern="^[a-zA-Z0-9\-\_\.]+$" type="text" id="bdbogopntf" placeholder="Project1"
-                minlength="1" maxlength="150" required>
+            <div class="col-md-9 text-left field-tip"> <input class="form-control txtbox boxWidth" name="projectNameField" #projectNameField="ngModel" [(ngModel)]="buildInfo.modules[0].moduleName" [ngModelOptions]="{standalone: true}" pattern="^[a-zA-Z0-9\-\_\.]+$" type="text" id="bdbogopntf" placeholder="Project1" minlength="1" maxlength="150" required>
               <div *ngIf="projectNameField.errors && (projectNameField.dirty || projectNameField.touched)" class="alert alert-danger ">
                 <div [hidden]="!projectNameField.errors.required">
                   This Field Name is required!
@@ -38,20 +23,12 @@
               <span class="tip-content">Name of the Project</span>
             </div>
           </div>
-
-
-          <!-- GO Project path -->
           <div class="row form-group">
-            <div>
-              <label class="col-md-3 control-label">
-                {{'Project path'|translate}}
-                <span style="color:red">*</span>
-              </label>
-            </div>
+            <div> <label class="col-md-3 control-label">
+                              {{'Project path'|translate}} <span style="color:red">*</span>
+                            </label> </div>
             <div class="col-md-9 field-tip">
-              <input class="form-control txtbox" name="projectPathField" #projectPathField="ngModel" [(ngModel)]="buildInfo.modules[0].relativePath"
-                [ngModelOptions]="{standalone: true}" type="text" id="bdbogopptf" placeholder="Main" minlength="1" maxlength="150"
-                pattern="^[a-zA-Z_.0-9\.-\s\/\\]+$" required />
+              <input class="form-control txtbox" name="projectPathField" #projectPathField="ngModel" [(ngModel)]="buildInfo.modules[0].relativePath" [ngModelOptions]="{standalone: true}" type="text" id="bdbogopptf" placeholder="Main" minlength="1" maxlength="150" pattern="^[a-zA-Z_.0-9\.-\s\/\\]+$" required />
               <div *ngIf="projectPathField.errors && (projectPathField.dirty || projectPathField.touched)" class="alert alert-danger ">
                 <div [hidden]="!projectPathField.errors.required">
                   This Field Name is required!
@@ -67,83 +44,70 @@
             </div>
           </div>
         </div>
-        <!-- GO Project Details End -->
       </div>
-
-      <!-- GO Build operations -->
       <div class="panel panel-default">
-        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white">
-          <b> {{'Build Operations'|translate}}</b>
+        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white"> <b> {{'Build Operations'|translate}}</b>
         </div>
         <div class="panel-body">
           <div class="container-fluid form-group chkright">
-            <div class="col-md-12">
-              <label class="checkbox-inline">
-                <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':'off'"> &nbsp;{{'Build'|translate}}
-              </label>
-            </div>
+            <div class="col-md-12"> <label class="checkbox-inline">
+                          <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':'off'"> &nbsp;{{'Build'|translate}}
+                        </label>
+                      </div>
           </div>
           <div class="container-fluid form-group chkright">
-            <div class="col-md-12">
-              <label class="checkbox-inline">
-                <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'" id="bdbogobocach01" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':codeAnalysisEmpty()"
-                  (change)="codeAnalysisCheckbox()"> &nbsp;{{'Code Analysis'|translate}}
-              </label>
-            </div>
+            <div class="col-md-12"> <label class="checkbox-inline">
+                          <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'" id="bdbogobocach01" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':codeAnalysisEmpty()"
+                          (change)="codeAnalysisCheckbox()"> &nbsp;{{'Code Analysis'|translate}}
+                        </label> </div>
           </div>
-          <!-- GO Code Analysis Start -->
           <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].codeAnalysis">
             <div class="container-fluid animate-switch" *ngSwitchCase="'on'">
-              <div class="col-md-12 form-group" style="margin-left:20px;height: 40px;">
-                <label class="checkbox-inline " style="text-transform:capitalize;">
-                  <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[0]===tempCodeAnalysis[0]" id="bdbogobotcach01" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:'off'"
-                    [disabled]="buildInfo.modules[0].codeAnalysis[1]==tempCodeAnalysis[1]"> {{tempCodeAnalysis[0]}}
-                </label>
-                <label class="checkbox-inline " style="text-transform:capitalize;">
-                  <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]===tempCodeAnalysis[1]" id="bdbogobotca1ch01" (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:'off'"
-                    (change)=check()> {{tempCodeAnalysis[1]}}
-                </label>
-              </div>
+              <div class="col-md-12 form-group" style="margin-left:20px;height: 40px;"> <label class="checkbox-inline " style="text-transform:capitalize;">
+                            <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[0]===tempCodeAnalysis[0]" id="bdbogobotcach01" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:'off'"
+
+                            >
+                            {{tempCodeAnalysis[0]}}
+
+                          </label> <label class="checkbox-inline " style="text-transform:capitalize;">
+                            <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]===tempCodeAnalysis[1]" id="bdbogobotca1ch01" (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:'off'"
+
+                           
+                            >
+                            {{tempCodeAnalysis[1]}}
+                          </label>
+                        </div>
               <div style="color:red;margin-top:5px" *ngIf="tempObject.modules[0].codeAnalysis=='on'
                               && (buildInfo.modules[0].codeAnalysis[0]==null ||buildInfo.modules[0].codeAnalysis[0]=='off' )
                               && (buildInfo.modules[0].codeAnalysis[1]==null || buildInfo.modules[0].codeAnalysis[1]=='off' )
-                              ">
-                <div *ngIf="paFalse()"> </div>
-              </div>
+                              " ><div *ngIf="paFalse()"> </div>
+                            </div>
               <div style="color:red;margin-top:5px" *ngIf="!(tempObject.modules[0].codeAnalysis=='on'
                             && ( buildInfo.modules[0].codeAnalysis[0]==null || buildInfo.modules[0].codeAnalysis[0]=='off' )
                             && (buildInfo.modules[0].codeAnalysis[1]==null || buildInfo.modules[0].codeAnalysis[1]=='off' )
-                            )">
-                <div *ngIf="paTrue()"> </div>
-              </div>              
-            </div>
+                            )"><div *ngIf="paTrue()"> </div></div>
+              
+                  </div>
 
           </div>
-        <!-- GO Code Analysis End -->
-
-        <!-- GO Compile Start -->
           <div [ngSwitch]="buildInfo.modules[0].compile=='on'">
             <div *ngSwitchCase="true">
               <div class="container-fluid form-group chkright">
-                <div class="col-md-12">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" [checked]="buildInfo.modules[0].unitTesting==='on'" id="bdbogoutch01" (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? 'on':codeCoverageOffUnitTestDirEmpty()">Unit Testing
-                  </label>
-                </div>
+                <div class="col-md-12"> <label class="checkbox-inline">
+                              <input
+                              type="checkbox" [checked]="buildInfo.modules[0].unitTesting==='on'" id="bdbogoutch01" (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? 'on':codeCoverageOffUnitTestDirEmpty()"
+
+                              >Unit Testing
+
+                            </label> </div>
               </div>
               <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">
                 <div class="container-fluid animate-switch" *ngSwitchCase="true">
                   <div class="row form-group">
-                    <div>
-                      <label class="col-md-3 control-label">
-                        {{'Unit Test Dir Path'|translate}}
-                        <span style="color:red">*</span>
-                      </label>
-                    </div>
-                    <div class="col-md-9 field-tip">
-                      <input class="form-control txtbox" name="UnitTestDirPathField" #UnitTestDirPathField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir"
-                        id="bdbogoutdrtf" [ngModelOptions]="{standalone: true}" type="text" placeholder="math" minlength="1"
-                        maxlength="150" required />
+                    <div> <label class="col-md-3 control-label">
+                                  {{'Unit Test Dir Path'|translate}} <span style="color:red">*</span>
+                                </label> </div>
+                    <div class="col-md-9 field-tip"> <input class="form-control txtbox" name="UnitTestDirPathField" #UnitTestDirPathField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir" id="bdbogoutdrtf" [ngModelOptions]="{standalone: true}" type="text" placeholder="math" minlength="1" maxlength="150" required />
                       <div *ngIf="UnitTestDirPathField.errors && (UnitTestDirPathField.dirty || UnitTestDirPathField.touched)" class="alert alert-danger ">
                         <div [hidden]="!UnitTestDirPathField.errors.required">
                           This Field Name is required!
@@ -151,9 +115,9 @@
                         <div [hidden]="!UnitTestDirPathField.errors.minlength">
                           This Field Name must be at least 1 character long.
                         </div>
+
                       </div>
-                      <span class="tip-content"> {{'Please provide Unit Test Directory Path'|translate}} </span>
-                    </div>
+                       <span class="tip-content"> {{'Please provide Unit Test Directory Path'|translate}} </span>                    </div>
                   </div>
                 </div>
                 <div *ngSwitchCase="false">
@@ -161,92 +125,100 @@
                 </div>
               </div>
               <div class="container-fluid form-group chkright">
-                <div class="col-md-12">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" [checked]="buildInfo.modules[0].codeCoverage==='on'" [disabled]="buildInfo.modules[0].unitTesting!='on'"
-                      id="bdbogoccch01" (change)="buildInfo.modules[0].codeCoverage=$event.target.checked ? 'on':codeCoverageOff()">Code Coverage
-                  </label>
-                </div>
+                <div class="col-md-12"> <label class="checkbox-inline">
+                                    <input
+                                      type="checkbox" [checked]="buildInfo.modules[0].codeCoverage==='on'" [disabled]="buildInfo.modules[0].unitTesting!='on'"
+                                      id="bdbogoccch01" (change)="buildInfo.modules[0].codeCoverage=$event.target.checked ? 'on':codeCoverageOff()"
+                                      >Code Coverage
+
+                                  </label> </div>
               </div>
-              <div class="container-fluid form-group chkright">
-                <div class="col-md-12">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" [checked]="tempObject.modules[0].compile==='on'" id="bdbogospch01" (change)="tempObject.modules[0].compile=$event.target.checked ? 'on':clearProxyDetails()"
-                      style="width: 15px; height: 15px">Set Proxy
-                  </label>
-                </div>
+  			<div class="container-fluid form-group chkright">
+                <div class="col-md-12"> <label class="checkbox-inline">
+                              <input
+                              type="checkbox" [checked]="tempObject.modules[0].compile==='on'" id="bdbogospch01" (change)="tempObject.modules[0].compile=$event.target.checked ? 'on':clearProxyDetails()" style="width: 15px; height: 15px"
+
+                              >Set Proxy
+
+                            </label> </div>
               </div>
 
-              <!-- GO Proxy Details Start -->
-              <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].compile=='on'">
-                <div class="panel-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
-                  <div class="row form-group labelIndent1">
-                    <div class="col-md-3 text-right labelIndent2">
-                      <label class="control-label">Proxy URL</label>
-                    </div>
-                    <div class="col-md-9 text-left field-tip">
-                      <input class="form-control txtbox boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy"
-                        type="text" id="bdbogoputf" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2"
-                        minlength="1" maxlength="150">
-                      <span class="tip-content">URL for Proxy to install glide dependency.</span>
-                      <div *ngIf="proxyUrl.errors && (proxyUrl.dirty || proxyUrl.touched)" class="alert alert-danger ">
+  			<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].compile=='on'">
+  						<div class="panel-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
-                        <div [hidden]="!proxyUrl.errors.required">
-                          This is a required field
-                        </div>
-                        <div [hidden]="!proxyUrl.errors.pattern">
-                          Please give correct url
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row form-group labelIndent1">
-                    <div class="col-md-3 text-right labelIndent2">
-                      <label class="control-label"> Proxy Username
-                        <span class="star" *ngIf="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''">*</span>
-                      </label>
-                    </div>
-                    <div class="col-md-9 text-left field-tip">
-                      <input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
-                        #proxyname="ngModel" name="proxyname" id="bdbogopuntf" [required]="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''"
-                        type="text" placeholder="user1" minlength="1" maxlength="150">
-                      <span class="tip-content">Username Proxy to install glide dependency.</span>
-                      <div *ngIf="proxyname.errors && (proxyname.dirty || proxyname.touched)" class="alert alert-danger ">
-                        <div [hidden]="!proxyname.errors.required">
-                          This is a required Field
-                        </div>
-                        <div [hidden]="!proxyname.errors.pattern">
-                          Username can only contain alphabets, numbers, dot or underscore.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row form-group labelIndent1">
-                    <div class="col-md-3 text-right labelIndent2">
-                      <label class="control-label">Proxy Password
-                        <span class="star" *ngIf="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''">*</span>
-                      </label>
-                    </div>
-                    <div class="col-md-9 text-left field-tip">
-                      <input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''"
-                        name="npmProxyPassword1" type="password" placeholder="**********" minlength="1" maxlength="150" name="npmProxyPassword"
-                        id="bdbogopppw" #npmProxyPassword="ngModel">
-                      <span class="tip-content">Password for Proxy to install glide dependency.</span>
-                      <div *ngIf="npmProxyPassword.errors && (npmProxyPassword.dirty || npmProxyPassword.touched)" class="alert alert-danger ">
-                        <div [hidden]="!npmProxyPassword.errors.required">
-                          This is a required Field
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- GO Proxy URl End -->
+
+  							<div class="row form-group labelIndent1">
+  								<div class="col-md-3 text-right labelIndent2">
+  									<label class="control-label">Proxy URL</label>
+  								</div>
+  								<div class="col-md-9 text-left field-tip">
+  									<input class="form-control txtbox boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy" type="text" id="bdbogoputf" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2" minlength="1" maxlength="150">
+  									<span class="tip-content">URL for Proxy to install glide dependency.</span>
+  									<div *ngIf="proxyUrl.errors && (proxyUrl.dirty || proxyUrl.touched)" class="alert alert-danger ">
+
+  										<div [hidden]="!proxyUrl.errors.required">
+  												This is a required field
+  										</div>
+  										<div [hidden]="!proxyUrl.errors.pattern">
+  											Please give correct url
+  										</div>
+  									</div>
+  								</div>
+  							</div>
+  							<div class="row form-group labelIndent1">
+  								<div class="col-md-3 text-right labelIndent2">
+  									<label class="control-label"> Proxy Username
+  								<span class="star" *ngIf="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''">*</span>
+  							</label>
+  								</div>
+  								<div class="col-md-9 text-left field-tip">
+  									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
+  									#proxyname="ngModel" name="proxyname" id="bdbogopuntf" [required]="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''"
+  									  type="text" placeholder="user1" minlength="1" maxlength="150">
+  									<span class="tip-content">Username Proxy to install glide dependency.</span>
+  									<div *ngIf="proxyname.errors && (proxyname.dirty || proxyname.touched)" class="alert alert-danger ">
+  										<div [hidden]="!proxyname.errors.required">
+  												This is a required Field
+  										</div>
+
+  										<div [hidden]="!proxyname.errors.pattern">
+  											Username can only contain alphabets, numbers, dot or underscore.
+  										</div>
+  									</div>
+  								</div>
+  							</div>
+  							<div class="row form-group labelIndent1">
+  								<div class="col-md-3 text-right labelIndent2">
+  									<label class="control-label">Proxy Password
+  								<span class="star" *ngIf="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''">*</span></label>
+  								</div>
+  								<div class="col-md-9 text-left field-tip">
+  									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''" name="npmProxyPassword1" type="password" placeholder="**********"
+  									  minlength="1" maxlength="150" name="npmProxyPassword" id="bdbogopppw" #npmProxyPassword="ngModel">
+  									<span class="tip-content">Password for Proxy to install glide dependency.</span>
+  									<div *ngIf="npmProxyPassword.errors && (npmProxyPassword.dirty || npmProxyPassword.touched)" class="alert alert-danger ">
+  										<div [hidden]="!npmProxyPassword.errors.required">
+  												This is a required Field
+  										</div>
+
+
+  									</div>
+  								</div>
+  							</div>
+
+  						</div>
+
+  					</div>
+
             </div>
+
           </div>
-          <!-- GO Compile End -->
         </div>
       </div>
-    </div>
-  </div>
+
+
+      </div>
+        </div>
+
+
 </form>

@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -35,6 +36,7 @@ import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.JobManagementDL;
 import org.infy.idp.entities.jobs.AppNames;
 import org.infy.idp.entities.jobs.History;
+import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.JobBuilds;
 import org.infy.idp.entities.jobs.JobsBuilds;
 import org.infy.idp.entities.jobs.Names;
@@ -45,6 +47,7 @@ import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
 import org.infy.idp.entities.jobs.applicationinfo.EnvironmentOwnerDetail;
 import org.infy.idp.entities.jobs.applicationinfo.SlavesDetail;
 import org.infy.idp.entities.jobs.code.JobParam;
+import org.infy.idp.entities.response.ProductKey;
 import org.infy.idp.utils.ConfigurationManager;
 import org.infy.idp.utils.JenkinsCLI;
 import org.slf4j.Logger;
@@ -183,9 +186,22 @@ public class JobsManagementBL {
 		Gson gson = new Gson();
 		logger.debug("check available jobs to trigger");
 		List<PipelineDetail> pipelineDetails = jobAddDetailDL.getApplicationDetails(userName, platformName);
+		List<PipelineDetail> customPermissionPipelineDetails = new ArrayList<>();
 		if (platformName.equalsIgnoreCase("IDP")) {
-			pipelineDetails.addAll(jobManagementDL.getPipelinesCustomPipelineadmin(userName));
+			for(PipelineDetail p1:  jobManagementDL.getPipelinesCustomPipelineadmin(userName)) {
+				boolean flag = true;
+				for(PipelineDetail p2 : pipelineDetails ) {
+					if (p2.getPipelineName().equals(p1.getPipelineName())) {
+						flag = false;
+						break;
+					}
+				}
+				if(flag) {
+					customPermissionPipelineDetails.add(p1);
+				}
+			}
 		}
+		pipelineDetails.addAll(customPermissionPipelineDetails);
 		history.setPipelineDetails(pipelineDetails);
 		history.setUserName(userName);
 		logger.debug("History : " + gson.toJson(history, History.class));
@@ -653,6 +669,58 @@ public class JobsManagementBL {
 		logger.debug(APPLICATION_NAME + gson.toJson(appNames, AppNames.class));
 		return appNames;
 	}
+	public IDPJob setProductKey(IDPJob idp) {
+		if (null != idp.getBuildInfo() && null != idp.getBuildInfo().getModules()
+				&& idp.getBuildInfo().getModules().size() > 0
+				&& null != idp.getBuildInfo().getModules().get(0).getArchName()) {
+
+			String urlToHit = "http://" + idp.getBuildInfo().getModules().get(0).getAppServ() + ":"
+					+ idp.getBuildInfo().getModules().get(0).getAppPort()
+					+ "/prweb/PRRestService/DevopsIntegration/Int-DevopsIntegration-REST-Product/DevopsIntegration/"
+					+ idp.getBuildInfo().getModules().get(0).getProPar();
+
+			String authString = idp.getBuildInfo().getModules().get(0).getSerUname() + ":"
+					+ idp.getBuildInfo().getModules().get(0).getServPass();
+
+			String authStringEnc = Base64.getEncoder().encodeToString(authString.getBytes());
+			URL url;
+			BufferedReader br = null;
+			try {
+				url = new URL(urlToHit);
+
+				URLConnection urlconnection = url.openConnection();
+				urlconnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+
+				br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream()));
+
+				String response = "";
+				String line = br.readLine();
+
+				while (line != null) {
+					response += line + "\n";
+					line = br.readLine();
+
+				}
+
+				Gson g = new Gson();
+				ProductKey pk = g.fromJson(response, ProductKey.class);
+				idp.getBuildInfo().getModules().get(0).setPegaProductKey(pk.getProdutRuleKey());
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						logger.error(e.getMessage(), e);
+					}
+				}
+			}
+		}
+		return idp;
+
+	}
+
 
 	public List<String> getRolesApp(String uname, String appName) {
 		return jobManagementDL.getRolesasApp(uname, appName);
@@ -834,6 +902,9 @@ public class JobsManagementBL {
 		Gson gson = new Gson();
 		List<String> permissions = jobsaddInfo.getAllPermissionforApp(triggerJobName.getApplicationName(),
 				triggerJobName.getUserName());
+		// custom pipeline admin fix
+		permissions.addAll(jobInfoDL.getPipelinePermission(triggerJobName.getApplicationName(),
+				triggerJobName.getPipelineName(), triggerJobName.getUserName()));
 		if (permissions.isEmpty()) {
 			return new Pipeline();
 		}
@@ -843,6 +914,9 @@ public class JobsManagementBL {
 		if ("copy".equalsIgnoreCase(triggerJobName.getMethod())) {
 			pipeline.setPipelineName(newPipelineName);
 			pipeline.getPipelineJson().getBasicInfo().setPipelineName(newPipelineName);
+		}
+		if (pipeline.getApplicationName() == null || pipeline.getApplicationName().equals("")) {
+			pipeline.setApplicationName(triggerJobName.getApplicationName());
 		}
 		logger.debug("Pipeline Names : " + gson.toJson(pipeline, Pipeline.class));
 		return pipeline;

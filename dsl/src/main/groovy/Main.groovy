@@ -10,7 +10,7 @@ import com.infy.idp.creators.*
 import com.infy.idp.stages.*
 import com.infy.idp.utils.*
 import groovy.json.JsonSlurper
-import org.infy.idp.entities.jobs.IDPJob
+import org.infy.idp.entities.jobs.IDPJob 
 
 /*
  * This is the entry point for the pipeline creation
@@ -24,6 +24,7 @@ def jsonData = new IDPJob(new JsonSlurper().parseText(JSON_Input))
 
 Preparation prepare = new Preparation()
 prepare.run(this, jsonData)
+
 
 Build build = new Build()
 build.run(this, jsonData, binding.variables)
@@ -48,6 +49,9 @@ test.run(this, jsonData, binding.variables)
 
 Deploy deploy = new Deploy()
 deploy.run(this, jsonData, binding.variables)
+
+
+
 
 
 

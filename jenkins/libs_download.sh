@@ -4,7 +4,7 @@ mkdir -p home_files/plugins home_files/CUSTOM_TOOLS
 mkdir -p jenkins/WEB-INF/lib
 
 echo "Downloading and Preparing required Jenkins version"
-wget $WGET_PROXY -O jenkins.war http://repo.jenkins-ci.org/releases/org/jenkins-ci/main/jenkins-war/2.46.3/jenkins-war-2.46.3.war --no-check-certificate
+wget $WGET_PROXY -O jenkins.war https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/jenkins-war/2.46.3/jenkins-war-2.46.3.war --no-check-certificate
 yes | \cp -rf /jenkins/custom_tools/SchedulerUtility/target/scheduleutility.jar /jenkins/jenkins/WEB-INF/lib/
 
 if find "/jenkinsdata/" -mindepth 1 -print -quit 2>/dev/null | grep -q .; then
@@ -275,4 +275,5 @@ else
 	wget $WGET_PROXY -O home_files/plugins/nunit.hpi https://updates.jenkins-ci.org/download/plugins/nunit/0.23/nunit.hpi --no-check-certificate
 	wget $WGET_PROXY -O home_files/plugins/ivy.hpi https://updates.jenkins-ci.org/download/plugins/ivy/1.28/ivy.hpi --no-check-certificate
 	wget $WGET_PROXY -O home_files/plugins/xvfb.hpi https://updates.jenkins-ci.org/download/plugins/xvfb/1.1.3/xvfb.hpi --no-check-certificate
+	wget $WGET_PROXY -O home_files/plugins/ansible.hpi https://updates.jenkins-ci.org/download/plugins/ansible/1.0/ansible.hpi --no-check-certificate
 fi

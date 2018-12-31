@@ -1,0 +1,270 @@
+<form id="approveForm" name="approveForm" #approveForm="ngForm" ngNativeValidate >
+  <div class="panel panel-default " style="margin-left:250px; width:70%">
+    <div class="panel-heading">
+      <div class="text-left">
+        <b>{{'Approve/Disapprove Artifacts'|translate}}</b>
+      </div>
+    </div>
+  
+    <div class="panel-body">
+      <div *ngIf="!update">
+        <div>
+          <div class="row form-group">
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{'Application Name:'|translate}}
+  
+  
+              </label>
+            </div>
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{idpdataService.appName|translate}}
+  
+              </label>
+            </div>
+          </div>
+        </div>
+  
+        <div>
+          <div class="row form-group">
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{'Pipeline Name:'|translate}}
+  
+              </label>
+            </div>
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{idpdataService.pipelineName|translate}}
+  
+              </label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="row form-group">
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{'Release Number'|translate}}
+                <span class="star">*</span>
+              </label>
+            </div>
+            <div class="col-md-8 field-tip">
+              <select style="width:70%" [(ngModel)]="data.releaseNumber" class="form-control" [ngModelOptions]="{standalone: true}" (change)="clearData()"
+                required>
+                <option value="">--Select--</option>
+                <option *ngFor="let name of releaseList" [ngValue]="name">{{name}}</option>
+              </select>
+              <span class="tip-content">{{'Release Number'|translate}}</span>
+            </div>
+  
+          </div>
+        </div>
+        <div class="text-align">
+          <div class="row form-group">
+            <div class="col-md-4 text-right ">
+              <label class="control-label ">{{'Environment Name'|translate}}
+                <span class="star">*</span>
+              </label>
+            </div>
+            <div class="col-md-8 field-tip">
+              <select style="width:70%" [(ngModel)]="data.environmentName" class="form-control" [ngModelOptions]="{standalone: true}" (click)="getArtifactsApprovePortal();clearArtifact()"
+                required>
+                <option value="">--Select--</option>
+                <option *ngFor="let name of envList" [ngValue]="name">{{name}}</option>
+              </select>
+              <span class="tip-content">{{'Environment Name'|translate}}</span>
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="row">
+  
+          <div class="col-md-offset-4 col-md-3  ">
+            <input type="radio" [(ngModel)]="approve" (change)="getReleaseNamesApprovePortal();clearArtifact()" required value="approve" name="'approve'"
+            /> Approve
+          </div>
+          <div>
+            <input type="radio" [(ngModel)]="approve" (change)="getReleaseNamesApprovePortal();clearArtifact()" required value="disapprove" name="'disapprove'"
+            /> Disapprove
+          </div>
+  
+        </div>
+        <div *ngIf="approve==='approve'" class="col-md-12" style="padding-top:20px">
+          <div class="col-md-offset-4 col-md-4" style="width:70%">
+            <angular2-multiselect [data]="importedList" [(ngModel)]="data.importedArtifact" name="dependentPipelinename" (onSelect)="onItemSelect($event)"
+              (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+              [settings]="extraMultiselectSettings"> </angular2-multiselect>
+          </div>
+        </div>
+  
+        <div *ngIf="approve==='disapprove'" class="col-md-12" style="padding-top:20px">
+          <div class="col-md-offset-4 col-md-4" style="width:70%">
+            <angular2-multiselect [data]="approvedList" [(ngModel)]="data.approvedArtifact" name="dependentPipelinename" (onSelect)="onItemSelectDisapprove($event)"
+              (onDeSelect)="OnItemDeSelectDisapprove($event)" (onSelectAll)="onSelectAllDisapprove($event)" (onDeSelectAll)="onDeSelectAllDisapprove($event)"
+              [settings]="extraMultiselectSettings"> </angular2-multiselect>
+          </div>
+        </div>
+  
+        <div class="col-md-4" style="width:100%">
+          <div *ngIf="approve==='approve' && importedSelected!==undefined && importedSelected.length>0">
+            <div class="panel-group" id="accordion" *ngFor="let artifact of importedSelected ; let count = index">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div>
+                    <a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
+                    <span style="color:white;">
+                      <strong>{{artifact.artifactName}}</strong>
+                    </span>
+                  </div>
+                </div>
+                <div id="collapse1" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+  
+                  <table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+                    cellspacing="0" width="70%">
+                    <thead class="thead-dark">
+                      <tr style="border-color:#2885ae;border-collapse: collapse;">
+                        <th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Environment'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'User'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Action Time'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Remark'|translate}}</th>
+                      </tr>
+                    </thead>
+  
+                    <tbody>
+                      <tr *ngIf="artifact.artifactDetails?.length == 0">
+                            <td colspan="5" style="text-align:center;" >No Data Available To Show</td>
+                      </tr>
+                      <tr style="border-color:#2885ae;" *ngFor="let tr of artifact.artifactDetails">
+                        <td style="width:20%">{{tr.status}}</td>
+                        <td style="width:20%">{{tr.environment}}</td>
+                        <td style="width:20%">{{tr.owner}}</td>
+                        <td style="width:20%">{{tr.actionTime}}</td>
+                        <td style="width:20%">{{tr.remark}}</td>
+                      </tr>
+                    </tbody>
+  
+                  </table>
+  
+                </div>
+  
+  
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-3 text-right">
+                <label class="control-label">{{'Remarks'|translate}}
+                  <span class="star">*</span>
+                </label>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input [(ngModel)]="outputApproveRemark" ngModel name="remark" #remark="ngModel" required (blur)="insertApproveRemark(outputApproveRemark)" class="form-control txtbox textFieldWidth"
+                  type="text" placeholder="Remark"  required/>
+                <span class="tip-content">{{'Remarks'|translate}}</span>
+                <div *ngIf="remark.errors && (remark.dirty || remark.touched)" class="alert alert-danger">
+                  <div [hidden]="!remark.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!remark.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+  
+  
+        <div class="col-md-4" style="width:100%">
+          <div *ngIf="approve==='disapprove' && approveSelected!==undefined && approveSelected.length>0">
+            <div class="panel-group" id="accordion" *ngFor="let artifact of approveSelected ; let count = index ;">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div>
+                    <a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
+                    <span style="color:white;">
+                      <strong>{{artifact.artifactName}}</strong>
+                    </span>
+                  </div>
+                </div>
+                <div id="collapse1" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+  
+                  <table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+                    cellspacing="0" width="70%">
+                    <thead class="thead-dark">
+                      <tr style="border-color:#2885ae;border-collapse: collapse;">
+                        <th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Environment'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'User'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Action Time'|translate}}</th>
+                        <th style="text-align:center;  width:20%;">{{'Remark'|translate}}</th>
+                      </tr>
+                    </thead>
+  
+                    <tbody>
+                      <tr *ngIf="artifact.artifactDetails?.length == 0">
+                        <td colspan="5" style="text-align:center;" >No Data Available To Show</td>
+                      </tr>
+                      <tr style="border-color:#2885ae;" *ngFor="let tr of artifact.artifactDetails">
+                        <td style="width:20%">{{tr.status}}</td>
+                        <td style="width:20%">{{tr.environment}}</td>
+                        <td style="width:20%">{{tr.owner}}</td>
+                        <td style="width:20%">{{tr.actionTime}}</td>
+                        <td style="width:20%">{{tr.remark}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
+  
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-3 text-right">
+                <label class="control-label">{{'Remarks'|translate}}
+                  <span class="star">*</span>
+                </label>
+              </div>
+              <div class="col-md-9 field-tip text-left">
+                <input [(ngModel)]="outputDisapproveRemark" required ngModel name="remark" #remark="ngModel" (blur)="insertDisapproveRemark(outputDisapproveRemark)"
+                  class="form-control txtbox textFieldWidth" type="text" placeholder="Remark" />
+                <span class="tip-content">{{'Remarks'|translate}}</span>
+                <div *ngIf="remark.errors && (remark.dirty || remark.touched)" class="alert alert-danger">
+                  <div [hidden]="!remark.errors.required">
+                    This Field Name is required!
+                  </div>
+                  <div [hidden]="!remark.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="button" (click)="updateArtifacts()" [disabled]="approveForm.form.invalid" class="btn btn-info btn-sm text-center">{{'Submit'|translate}}</button>
+        </div>
+      </div>
+      <br>
+  
+      <div *ngIf="update">
+        Updated Successfully!!
+        <br>
+        <br>
+        <div *ngIf="approve==='disapprove'">
+          <h4>Following artifacts have been disapproved:</h4>
+          <ul>
+            <li *ngFor="let name of displayapproveSelected">{{name.artifactName}}</li>
+          </ul>
+        </div>
+        <div *ngIf="approve==='approve'">
+          <h4>Following artifacts have been approved:</h4>
+          <ul>
+            <li *ngFor="let name of displayimportedSelected">{{name.artifactName}}</li>
+          </ul>
+        </div>
+        <button class="btn btn-sm btn-success" (click)="updateFalse()">Continue</button>
+      </div>
+    </div>
+  </div>
+  </form>

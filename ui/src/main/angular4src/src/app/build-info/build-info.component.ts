@@ -51,44 +51,59 @@ export class BuildInfoComponent implements OnInit {
     }
   }
 
-  go() {
+    go() {
 
-    if (this.IdpdataService.pa) {
-        if ((this.buildInfo.artifactToStage.artifact === undefined || this.buildInfo.artifactToStage.artifact === "")
-        && this.buildInfo.artifactToStage.artifactRepoName !== "na" && this.IdpdataService.artifactAppVariable === true) {
-        alert("Artifact Repository manager selected at application level.Either give repository at pipeline level or fill the artifact pattern.");
-        return;
-        }
-
-        this.IdpdataService.data.buildInfo = this.buildInfo;
-        this.IdpdataService.data.masterJson["buildInfo"] = this.buildInfo;
-        console.log(this.IdpdataService.data);
-        if (this.IdpdataService.buildSubscriptionSubmit !== true) {
-        this.router.navigate(["/createConfig/deployInfo"]);
-        } else if (this.IdpdataService.buildSubscriptionSubmit === true) {
-        if (this.IdpdataService.allFormStatus.basicInfo &&
-            this.IdpdataService.allFormStatus.codeInfo &&
-            this.IdpdataService.allFormStatus.buildInfo) {
-            this.confirmationAlert.nativeElement.click();
+        if (this.IdpdataService.isSAPApplication
+            && this.IdpdataService.data.checkboxStatus.buildInfo.RaiseJiraBugonfailureCheck === "on"
+            && this.IdpdataService.data.checkboxStatus.buildInfo.codeAnalysisCheck !== "on"
+            && this.IdpdataService.data.checkboxStatus.buildInfo.castAnalysisCheck !== "on"
+            && this.IdpdataService.data.buildInfo.modules[0].unitTesting !== "on") {
+            alert("Atleast one operation should be selected along with \"Raise Jira Bug on failure\"");
+            return;
+        } else if (this.IdpdataService.isSAPApplication
+            && this.IdpdataService.data.checkboxStatus.buildInfo.codeAnalysisCheck === "on"
+            && this.IdpdataService.data.checkboxStatus.buildInfo.SAPCodeInspectorCheck !== "on") {
+            alert("Please select code inspection to continue.");
         } else {
-            if (!this.IdpdataService.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo") === -1) {
-            this.listToFillFields.push("BasicInfo");
-            }
-            if (!this.IdpdataService.allFormStatus.codeInfo && this.listToFillFields.indexOf("CodeInfo") === -1) {
-            this.listToFillFields.push("CodeInfo");
-            }
-            if (!this.IdpdataService.allFormStatus.buildInfo && this.listToFillFields.indexOf("BuildInfo") === -1) {
-            this.listToFillFields.push("BuildInfo");
-            }
-            this.mandatoryFieldsAlert.nativeElement.click();
-        }
+            if (this.IdpdataService.pa) {
+                if (this.IdpdataService.isSAPApplication) {
+                    this.buildInfo = this.IdpdataService.SapBuildTemp;
+                }
+                if ((this.buildInfo.artifactToStage.artifact === undefined || this.buildInfo.artifactToStage.artifact === "")
+                    && this.buildInfo.artifactToStage.artifactRepoName !== "na" && this.IdpdataService.artifactAppVariable === true) {
+                    alert("Artifact Repository manager selected at application level.Either give repository at pipeline level or fill the artifact pattern.");
+                    return;
+                }
 
+                this.IdpdataService.data.buildInfo = this.buildInfo;
+                this.IdpdataService.data.masterJson["buildInfo"] = this.buildInfo;
+                console.log(this.IdpdataService.data);
+                if (this.IdpdataService.buildSubscriptionSubmit !== true) {
+                    this.router.navigate(["/createConfig/deployInfo"]);
+                } else if (this.IdpdataService.buildSubscriptionSubmit === true) {
+                    if (this.IdpdataService.allFormStatus.basicInfo &&
+                        this.IdpdataService.allFormStatus.codeInfo &&
+                        this.IdpdataService.allFormStatus.buildInfo) {
+                        this.confirmationAlert.nativeElement.click();
+                    } else {
+                        if (!this.IdpdataService.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo") === -1) {
+                            this.listToFillFields.push("BasicInfo");
+                        }
+                        if (!this.IdpdataService.allFormStatus.codeInfo && this.listToFillFields.indexOf("CodeInfo") === -1) {
+                            this.listToFillFields.push("CodeInfo");
+                        }
+                        if (!this.IdpdataService.allFormStatus.buildInfo && this.listToFillFields.indexOf("BuildInfo") === -1) {
+                            this.listToFillFields.push("BuildInfo");
+                        }
+                        this.mandatoryFieldsAlert.nativeElement.click();
+                    }
+
+                }
+            } else {
+                alert("Please select atleast one tool for code analysis.");
+            }
         }
-    } else {
-        alert("Please select atleast one tool for code analysis.");
     }
-
-  }
 
   // ngOnInit starts
   ngOnInit() {

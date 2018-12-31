@@ -65,7 +65,7 @@ public class ResourceServerApplication extends SpringBootServletInitializer {
 	 */
 	@KafkaListener(topics = "IDPlicense", group = "IDPlicense")
 	public void listen(String message) {
-		logger.info("Received Messasge in group IDPlicense: " + message);
+		logger.info("Received Messasge in group IDPlicense: {}", message);
 		subscriptionBL.updateSubScriptionList(message);
 
 	}
@@ -76,11 +76,11 @@ public class ResourceServerApplication extends SpringBootServletInitializer {
 	 */
 	@KafkaListener(topics = "IDPorgInfo", group = "IDPorgInfo")
 	public void listenOrgInfo(String message) {
-		logger.info("Received Messasge in group IDPorgInfo: " + message);
+		logger.info("Received Messasge in group IDPorgInfo: {}", message);
 		orgInfoBL.updateOrgInfo(message);
 
 	}
-
+	
 }
 
 /**

@@ -321,7 +321,7 @@ class GoBuild {
             publishers {
 
                 if (junitFlag)
-                    jUnitArchive.invokeJUnitArchive(delegate)
+                    jUnitArchive.invokeJUnitArchive(delegate,jsonData)
 
                 if (cobFlag)
                     coberturaPublisher.add(delegate, jsonData)

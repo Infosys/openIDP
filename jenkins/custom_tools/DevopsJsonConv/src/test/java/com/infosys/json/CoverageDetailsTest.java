@@ -42,4 +42,13 @@ public class CoverageDetailsTest {
 		
 		Assert.assertEquals("infosys", cd.getPckage());
 	}
+	
+	@Test
+	public void branchtest(){
+		CoverageDetails cd = new CoverageDetails();
+		
+		cd.setBranchCoverage("100");
+		
+		Assert.assertEquals("100", cd.getBranchCoverage());
+	}
 }

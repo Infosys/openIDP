@@ -64,6 +64,10 @@ public class BuildIntervalTest {
 		testedObject.setLang("lang");
 		testedObject.setSolmanpassword("solmanpassword");
 		testedObject.setSolmanuserName("solmanuserName");
+//		testedObject.setPollALM("pollALM");
+//		testedObject.setAlmTool("almTool");
+		testedObject.setSystemNumber("systemNumber");
+//		testedObject.setUserStory("userStory");
 
 		assertEquals("appServer", testedObject.getAppServer());
 		assertEquals("buildInterval", testedObject.getBuildInterval());
@@ -77,6 +81,10 @@ public class BuildIntervalTest {
 		assertEquals("buildAtSpecificInterval", testedObject.getBuildAtSpecificInterval());
 		assertEquals("projectKey", testedObject.getProjectKey());
 		assertEquals(eventList, testedObject.getEvent());
+//		assertEquals("pollALM", testedObject.getPollALM());
+//		assertEquals("almTool", testedObject.getAlmTool());
+		assertEquals("systemNumber", testedObject.getSystemNumber());
+//		assertEquals("userStory", testedObject.getUserStory());
 	}
 
 	/**
@@ -118,6 +126,10 @@ public class BuildIntervalTest {
 		assertNull(testedObject.getBuildAtSpecificInterval());
 		assertNull(testedObject.getProjectKey());
 		assertNull(testedObject.getEvent());
+//		assertNull(testedObject.getPollALM());
+//		assertNull(testedObject.getAlmTool());
+		assertNull(testedObject.getSystemNumber());
+//		assertNull(testedObject.getUserStory());
 	}
 
 	/**

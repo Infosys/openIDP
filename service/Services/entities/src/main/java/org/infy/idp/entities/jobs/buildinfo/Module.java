@@ -245,7 +245,54 @@ public class Module {
 	@SerializedName("integrationFileName")
 	@Expose
 	private String integrationFileName;
-
+	@SerializedName("pegaUserName")
+	@Expose
+	private String pegaUserName;
+	@SerializedName("pegaPassword")
+	@Expose
+	private String pegaPassword;
+	@SerializedName("pegaProductKey")
+	@Expose
+	private String pegaProductKey;
+	@SerializedName("pegaDBdataUname")
+	@Expose
+	private String pegaDBdataUname;
+	@SerializedName("pegaDBName")
+	@Expose
+	private String pegaDBName;
+	@SerializedName("pegaDBHost")
+	@Expose
+	private String pegaDBHost;
+	@SerializedName("pegaDBDataPort")
+	@Expose
+	private String pegaDBDataPort;
+	@SerializedName("pegaSqlFile")
+	@Expose
+	private String pegaSqlFile;
+	@SerializedName("ruleSchema")
+	@Expose
+	private String ruleSchema;
+	@SerializedName("pegaDBUname")
+	@Expose
+	private String pegaDBUname;
+	@SerializedName("pegaDBPwd")
+	@Expose
+	private String pegaDBPwd;
+	@SerializedName("pegaDBSchema")
+	@Expose
+	private String pegaDBSchema;
+	@SerializedName("pegaDBPort")
+	@Expose
+	private String pegaDBPort;
+	@SerializedName("pegHost")
+	@Expose
+	private String pegaHost;
+	@SerializedName("pegaProjName")
+	@Expose
+	private String pegaProjName;
+	@SerializedName("pegaTableName")
+	@Expose
+	private String pegaTableName;
 	@SerializedName("ossMailRecipients")
 	@Expose
 	private String ossMailRecipients;
@@ -389,7 +436,15 @@ public class Module {
 	@SerializedName("ipcUserName")
 	@Expose
 	private String ipcUserName;
-
+	@SerializedName("iosCodeAnalysis")
+	@Expose
+	private String iosCodeAnalysis;
+	@SerializedName("iosBuildVersion")
+	@Expose
+	private String iosBuildVersion;
+	@SerializedName("iosBuildTarget")
+	@Expose
+	private String iosBuildTarget;
 	@Expose
 	private String codeAnalysisTarget;
 	@SerializedName("unitTestingTarget")
@@ -563,6 +618,26 @@ public class Module {
 	@Expose
 	private String npmProxyPassword;
 
+	//Add Jira
+//	@SerializedName("raiseJiraBug")
+//	@Expose
+//	private String raiseJiraBug;
+
+	
+	
+	
+//	public String getRaiseJiraBug() {
+//		return raiseJiraBug;
+//	}
+//
+//	public void setRaiseJiraBug(String raiseJiraBug) {
+//		this.raiseJiraBug = raiseJiraBug;
+//	}
+
+	public void setCodeAnalysisTargets(String codeAnalysisTargets) {
+		this.codeAnalysisTargets = codeAnalysisTargets;
+	}
+
 	public String getSonarUserName() {
 		return sonarUserName;
 	}
@@ -627,6 +702,30 @@ public class Module {
 	public void setProPar(String proPar) {
 		this.proPar = proPar;
 	}
+	public String getIosBuildVersion() {
+		return iosBuildVersion;
+	}
+
+	public void setIosBuildVersion(String iosBuildVersion) {
+		this.iosBuildVersion = iosBuildVersion;
+	}
+
+	public String getIosBuildTarget() {
+		return iosBuildTarget;
+	}
+
+	public void setIosBuildTarget(String iosBuildTarget) {
+		this.iosBuildTarget = iosBuildTarget;
+	}
+	
+	public String getIosCodeAnalysis() {
+		return iosCodeAnalysis;
+	}
+
+	public void setIosCodeAnalysis(String iosCodeAnalysis) {
+		this.iosCodeAnalysis = iosCodeAnalysis;
+	}
+
 
 	public String getArchName() {
 		return archName;
@@ -1879,6 +1978,133 @@ public class Module {
 
 	public void setTimeout(String timeout) {
 		this.timeout = timeout;
+	}
+	public String getPegaUserName() {
+		return pegaUserName;
+	}
+
+	public void setPegaUserName(String pegaUserName) {
+		this.pegaUserName = pegaUserName;
+	}
+
+	public String getPegaPassword() {
+		return pegaPassword;
+	}
+
+	public void setPegaPassword(String pegaPassword) {
+		this.pegaPassword = pegaPassword;
+	}
+
+	public String getPegaProductKey() {
+		return pegaProductKey;
+	}
+
+	public void setPegaProductKey(String pegaProductKey) {
+		this.pegaProductKey = pegaProductKey;
+	}
+
+	public String getPegaDBdataUname() {
+		return pegaDBdataUname;
+	}
+
+	public void setPegaDBdataUname(String pegaDBdataUname) {
+		this.pegaDBdataUname = pegaDBdataUname;
+	}
+
+	public String getPegaDBName() {
+		return pegaDBName;
+	}
+
+	public void setPegaDBName(String pegaDBName) {
+		this.pegaDBName = pegaDBName;
+	}
+
+	public String getPegaDBHost() {
+		return pegaDBHost;
+	}
+
+	public void setPegaDBHost(String pegaDBHost) {
+		this.pegaDBHost = pegaDBHost;
+	}
+
+	public String getPegaDBDataPort() {
+		return pegaDBDataPort;
+	}
+
+	public void setPegaDBDataPort(String pegaDBDataPort) {
+		this.pegaDBDataPort = pegaDBDataPort;
+	}
+
+	public String getPegaSqlFile() {
+		return pegaSqlFile;
+	}
+
+	public void setPegaSqlFile(String pegaSqlFile) {
+		this.pegaSqlFile = pegaSqlFile;
+	}
+
+	public String getRuleSchema() {
+		return ruleSchema;
+	}
+
+	public void setRuleSchema(String ruleSchema) {
+		this.ruleSchema = ruleSchema;
+	}
+
+	public String getPegaDBUname() {
+		return pegaDBUname;
+	}
+
+	public void setPegaDBUname(String pegaDBUname) {
+		this.pegaDBUname = pegaDBUname;
+	}
+
+	public String getPegaDBPwd() {
+		return pegaDBPwd;
+	}
+
+	public void setPegaDBPwd(String pegaDBPwd) {
+		this.pegaDBPwd = pegaDBPwd;
+	}
+
+	public String getPegaDBSchema() {
+		return pegaDBSchema;
+	}
+
+	public void setPegaDBSchema(String pegaDBSchema) {
+		this.pegaDBSchema = pegaDBSchema;
+	}
+
+	public String getPegaDBPort() {
+		return pegaDBPort;
+	}
+
+	public void setPegaDBPort(String pegaDBPort) {
+		this.pegaDBPort = pegaDBPort;
+	}
+
+	public String getPegaHost() {
+		return pegaHost;
+	}
+
+	public void setPegaHost(String pegaHost) {
+		this.pegaHost = pegaHost;
+	}
+
+	public String getPegaProjName() {
+		return pegaProjName;
+	}
+
+	public void setPegaProjName(String pegaProjName) {
+		this.pegaProjName = pegaProjName;
+	}
+
+	public String getPegaTableName() {
+		return pegaTableName;
+	}
+
+	public void setPegaTableName(String pegaTableName) {
+		this.pegaTableName = pegaTableName;
 	}
 
 

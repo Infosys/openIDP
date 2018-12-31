@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.parasoftsoatest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,19 +16,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project.TestSuite1;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3.TestSuite4;
+import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3.TestSuite4.TestSuite5;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.AssocUrls;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.Authors;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.Authors.Author;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.Exec;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.Exec.AssocUrls.Tag;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project.TestSuite1;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3.TestSuite4;
-import com.infosys.utilities.parasoftsoatest.ResultsSession.ExecutedTestsDetails.Total.Project.TestSuite1.TestSuite2.TestSuite3.TestSuite4.TestSuite5;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.FunctionalTests;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.FunctionalTests.Categories;
 import com.infosys.utilities.parasoftsoatest.ResultsSession.FunctionalTests.Categories.Category;

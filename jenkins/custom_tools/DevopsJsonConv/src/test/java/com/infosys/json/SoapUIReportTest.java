@@ -53,4 +53,13 @@ public class SoapUIReportTest {
 		
 		Assert.assertEquals("10", sui.getTime());
 	}
+	
+	@Test
+	public void testcasetest(){
+		SoapUIReport sui = new SoapUIReport();
+		
+		sui.setTestcase(null);
+		
+		Assert.assertEquals(null, sui.getTestcase());
+	}
 }

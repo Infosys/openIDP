@@ -22,8 +22,6 @@ import java.util.Map;
 
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.jobs.basicinfo.AdditionalMailRecipients;
-import org.infy.idp.entities.releasemanager.Slot;
-import org.infy.idp.entities.releasemanager.SlotDetail;
 import org.infy.idp.entities.releasemanagerinfo.Release;
 import org.infy.idp.entities.releasemanagerinfo.ReleaseManager;
 import org.infy.idp.entities.releasemanagerinfo.ReleasePipeline;
@@ -31,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 /**
  * The class ReleaseDetails contains methods related to release of pipelines
@@ -44,7 +43,11 @@ public class ReleaseDetails {
 
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
-
+	@Autowired
+	private JobInfoDL jobInfoDL;
+	@Autowired
+	private DateFormatter datefunctions;
+	
 	protected Logger logger = LoggerFactory.getLogger(ReleaseDetails.class);
 	private static final String WHERE_CLAUSE = " WHERE ";
 	private static final String AND_CLAUSE = " AND ";
@@ -132,174 +135,6 @@ public class ReleaseDetails {
 	}
 
 	/**
-	 * Returns env slot detail
-	 * 
-	 * @param appName
-	 * @param environment
-	 * @return slot
-	 */
-	public Slot getEnvSlots(String appName, String environment) {
-
-		String slot = "select * from tenvironment_planning where application_name=" + "'" + appName + "'"
-				+ " AND environment=" + "'" + environment + "'";
-		StringBuilder queryStatement = new StringBuilder();
-		queryStatement.append(slot);
-		ResultSet rs = null;
-		logger.info("query statement  " + queryStatement);
-
-		List<SlotDetail> slotList = new ArrayList<>();
-		Slot s = new Slot();
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString());) {
-
-			rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				SlotDetail slotDetail = new SlotDetail();
-				slotDetail.setEndTime(rs.getString("end_time"));
-
-				slotDetail.setStartTime(rs.getString("start_time"));
-				slotDetail.setType(rs.getString("type_plan"));
-				slotDetail.setReleaseNumber(rs.getString("release_no"));
-
-				if (rs.getString("type_plan").equalsIgnoreCase("Month")) {
-					String month = rs.getString("on_plan");
-					StringBuilder sb = new StringBuilder(month);
-					sb.deleteCharAt(0);
-					sb.deleteCharAt(sb.length() - 1);
-
-					month = sb.toString();
-					month = month.replaceAll("\\s+", "");
-					String[] monthDay = month.split(",");
-					List<String> days = new ArrayList<>();
-					for (String mo : monthDay) {
-						days.add(mo);
-					}
-					logger.info("printing month in existing slot " + days);
-					slotDetail.setDate(days);
-				} else if (rs.getString("type_plan").equalsIgnoreCase("Week")) {
-					String week = rs.getString("on_plan");
-					StringBuilder sb = new StringBuilder(week);
-					sb.deleteCharAt(0);
-					sb.deleteCharAt(sb.length() - 1);
-
-					week = sb.toString();
-					week = week.replaceAll("\\s+", "");
-					String[] weekDay = week.split(",");
-					List<String> days = new ArrayList<>();
-					for (String mo : weekDay) {
-						days.add(mo);
-					}
-					logger.info("printing week in existing slot " + days);
-					slotDetail.setWeek(days);
-				}
-
-				slotList.add(slotDetail);
-			}
-
-			s.setSlot(slotList);
-
-		} catch (SQLException e) {
-
-			logger.info(e.getMessage(), e);
-		} finally {
-			try {
-				if (null != rs) {
-					rs.close();
-					rs = null;
-				}
-			} catch (Exception e2) {
-				logger.error(e2.getMessage(), e2);
-			}
-		}
-		return s;
-
-	}
-
-	/**
-	 * Returns slot details
-	 * 
-	 * @param appName
-	 * @param releaseNumber
-	 * @param environment
-	 * @return slot
-	 */
-	public Slot getExistingslots(String appName, String releaseNumber, String environment) {
-		String slot = "select * from tenvironment_planning where application_name=" + "'" + appName + "'"
-				+ " AND release_no=" + "'" + releaseNumber + "'" + " AND environment=" + "'" + environment + "'";
-		StringBuilder queryStatement = new StringBuilder();
-		queryStatement.append(slot);
-		ResultSet rs = null;
-		logger.info("query statement  " + queryStatement);
-
-		List<SlotDetail> slotList = new ArrayList<>();
-		Slot s = new Slot();
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString());) {
-
-			rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				SlotDetail slotDetail = new SlotDetail();
-				slotDetail.setEndTime(rs.getString("end_time"));
-
-				slotDetail.setStartTime(rs.getString("start_time"));
-				slotDetail.setType(rs.getString("type_plan"));
-
-				if (rs.getString("type_plan").equalsIgnoreCase("Month")) {
-					String month = rs.getString("on_plan");
-					StringBuilder sb = new StringBuilder(month);
-					sb.deleteCharAt(0);
-					sb.deleteCharAt(sb.length() - 1);
-
-					month = sb.toString();
-					month = month.replaceAll("\\s+", "");
-					String[] monthDay = month.split(",");
-					List<String> days = new ArrayList<>();
-					for (String mo : monthDay) {
-						days.add(mo);
-					}
-					logger.info("printing month in existing slot " + days);
-					slotDetail.setDate(days);
-				} else if (rs.getString("type_plan").equalsIgnoreCase("Week")) {
-					String week = rs.getString("on_plan");
-					StringBuilder sb = new StringBuilder(week);
-					sb.deleteCharAt(0);
-					sb.deleteCharAt(sb.length() - 1);
-
-					week = sb.toString();
-					week = week.replaceAll("\\s+", "");
-					String[] weekDay = week.split(",");
-					List<String> days = new ArrayList<>();
-					for (String mo : weekDay) {
-						days.add(mo);
-					}
-					logger.info("printing week in existing slot " + days);
-					slotDetail.setWeek(days);
-				}
-
-				slotList.add(slotDetail);
-			}
-
-			s.setSlot(slotList);
-
-		} catch (SQLException e) {
-
-			logger.info(e.getMessage(), e);
-		} finally {
-			try {
-				if (null != rs) {
-					rs.close();
-					rs = null;
-				}
-			} catch (Exception e2) {
-				logger.error(e2.getMessage(), e2);
-			}
-		}
-		return s;
-	}
-
-	/**
 	 * Returns release pipeline information
 	 * 
 	 * @param appName
@@ -316,7 +151,7 @@ public class ReleaseDetails {
 		if (null == appName || null == pipelineName || null == status)
 			return releasePipeline;
 
-		StringBuilder queryStatement = new StringBuilder();
+		StringBuilder queryStatement = new StringBuilder();		
 
 		queryStatement.append(SELECT_CLAUSE);
 		queryStatement.append("pipeline_name , release_number, vsts_release_number, ");
@@ -637,8 +472,19 @@ public class ReleaseDetails {
 			String branchList = String.join(",", release.getBranchList());
 			queryStatement.append("branch_list = \'" + branchList + "\' , ");
 		}
-		if (null != release.getStatus())
-			queryStatement.append("status = \'" + release.getStatus() + "\' , ");
+		if (null != release.getStatus()) {
+			String status="on";
+			String today_date=datefunctions.DateFormater();
+			if(release.getActualEndDate() != null) {
+				if(release.getActualEndDate().compareTo(today_date) > 0) {
+					status="on";
+				}
+				else {
+					status="off";
+				}
+			}
+			queryStatement.append("status = \'" + status + "\' , ");
+		}
 		if (null != release.getReleaseNumber())
 			queryStatement.append("release_number = \'" + release.getReleaseNumber() + "\' , ");
 

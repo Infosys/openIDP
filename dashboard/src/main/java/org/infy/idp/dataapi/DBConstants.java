@@ -25,8 +25,8 @@ public class DBConstants {
 	private HashMap<String, String> datamap = new HashMap();
 	private List<String> idpList = new ArrayList();
 	protected Logger logger = LoggerFactory.getLogger(DBConstants.class);
-	public String dashboard = "DASHBOARD";
-	public String idp = "IDP";
+	public static final String DASHBOARD = "DASHBOARD";
+	public static final String IDP = "IDP";
 
 	DBConstants() {
 		datamap.put("pipelineIdForApplication",
@@ -139,17 +139,12 @@ public class DBConstants {
 				"select distinct trigger_entity::json ->> 'testSuitId' from ttrigger_history where (trigger_entity::json ->> 'testSuitId'!='null' and trigger_entity::json ->> 'testSuitId'!='');");
 		datamap.put("mtmTotalTestCases",
 				"select distinct trigger_entity::json ->> 'testPlanId' as \"testPlanId\" from ttrigger_history where (trigger_entity::json ->> 'testPlanId' !='null' and trigger_entity::json ->> 'testPlanId' !='' and trigger_entity::json->>'applicationName'=? and trigger_entity::json->>'releaseNumber'=? and trigger_entity::json->>'envSelected'=?);");
-		// datamap.put("mtmTestCaseSuccessRatio ="select distinct
-		// trigger_entity::json ->> 'testPlanId' as \"testPlanId\" from
-		// ttrigger_history where (trigger_entity::json ->> 'testPlanId'
-		// !='null' and trigger_entity::json ->> 'testPlanId' !='' and
-		// trigger_entity::json->>'applicationName'=? and
-		// trigger_entity::json->>'releaseNumber'=? and
-		// trigger_entity::json->>'envSelected'=?);");
 		datamap.put("mtmTestRunid",
 				"select distinct trigger_entity::json ->> 'testPlanId' as \"testPlanId\" from ttrigger_history where (trigger_entity::json ->> 'testPlanId' !='null' and trigger_entity::json ->> 'testPlanId' !='' and trigger_entity::json->>'applicationName'=? and trigger_entity::json->>'releaseNumber'=? and trigger_entity::json->>'envSelected'=?);");
 		datamap.put("mtmTestRuntime",
 				"select distinct trigger_entity::json ->> 'testPlanId' as \"testPlanId\" from ttrigger_history where (trigger_entity::json ->> 'testPlanId' !='null' and trigger_entity::json ->> 'testPlanId' !='' and trigger_entity::json->>'applicationName'=? and trigger_entity::json->>'releaseNumber'=? and trigger_entity::json->>'envSelected'=?;");
+		
+		
 		idpList.add("updatedRelease");
 		idpList.add("expectedStartDate");
 		idpList.add("expectedEndDate");
@@ -160,6 +155,7 @@ public class DBConstants {
 		idpList.add("buildStatus");
 		idpList.add("deploySelected");
 		idpList.add("deployStatus");
+			
 	}
 
 
@@ -169,18 +165,18 @@ public class DBConstants {
 		if (datamap.containsKey(queryName)) {
 			query.add(datamap.get(queryName));
 			if (idpList.contains(queryName)) {
-				query.add(idp);
+				query.add(IDP);
 			} else {
-				query.add(dashboard);
+				query.add(DASHBOARD);
 			}
 		}
 		if (query.isEmpty()) {
 			query.add(queryName);
 			if (queryName.contains("tapplication_info") || queryName.contains("ttrigger_history")
 					|| queryName.contains("tpipeline_info"))
-				query.add(idp);
+				query.add(IDP);
 			else
-				query.add(dashboard);
+				query.add(DASHBOARD);
 		}
 		return query;
 	}

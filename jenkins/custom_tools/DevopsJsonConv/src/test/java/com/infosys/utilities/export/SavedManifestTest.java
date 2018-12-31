@@ -1,18 +1,10 @@
 
 package com.infosys.utilities.export;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
-
-import com.infosys.utilities.export.SavedManifest.ClassDefinitions;
-import com.infosys.utilities.export.SavedManifest.Documents;
-import com.infosys.utilities.export.SavedManifest.EventActions;
-import com.infosys.utilities.export.SavedManifest.Folders;
-import com.infosys.utilities.export.SavedManifest.LifeCycleActions;
-import com.infosys.utilities.export.SavedManifest.LifeCyclePolicies;
-import com.infosys.utilities.export.SavedManifest.Others;
-import com.infosys.utilities.export.SavedManifest.PropertyTemplates;
 
 public class SavedManifestTest {
 

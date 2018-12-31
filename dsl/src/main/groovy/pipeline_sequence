@@ -10,8 +10,12 @@ IDPJobInfo idpJobInfo = new IDPJobInfo(this)
 //Initialization of SCM Library Class
 SCMStage scmStage = new SCMStage(this)
 
-
-if(JSON_Input == "NA" && JiraStoryID == "NA"){
+if(JiraStoryID != "NA" && JiraStoryID == JSON_Input){
+    JSON_Input = FetchJiraKey.getUserStories(JiraStoryID)
+    echo "Trigger through Jira"
+    echo JSON_Input
+}
+else if(JSON_Input == "NA" && JiraStoryID == "NA"){
 	JSON_Input = idpJobInfo.GetLastPara("JSON_Input")
 }
 
@@ -41,9 +45,6 @@ def testSlave = 'NA'
 def castLabel = 'NA'
 def castSlave  = 'NA'
 def SAPDeployStatus = 'NA'
-
-
-
 
 if(jsonData["build"] && !(jsonData["artifactName"]))
 {
@@ -84,7 +85,6 @@ if(jsonData["jobBuildId"] && ( !jsonData["jobBuildId"].equalsIgnoreCase("")) ){
 			jobBuildId = jsonData["jobBuildId"]
 }
 					
-
 
 // time in seconds
 def sleepTime = 60
@@ -172,6 +172,23 @@ Closure buildStage = { customWS,nodeObject ->
 	
 }
 
+//Closure for cast stage
+Closure castStage = { customWS, nodeObject -> 
+		//Cast Stage Start
+	stage('Cast Job') {
+		CASTStage castStage = new CASTStage(this)
+		castStage.execute(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath,transReq)
+	}
+}
+
+//Closure for rebase stage
+Closure rebaseStage = { customWS, nodeObject -> 
+		//Rebase Stage Start
+	stage('Rebase Job') {
+		RebaseStage rebaseStage = new RebaseStage(this)
+		rebaseStage.execute(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath,transReq)
+	}
+}
 
 //Closure for Deploy stage
 Closure deployStage = { customWS,nodeObject ->
@@ -183,13 +200,11 @@ Closure deployStage = { customWS,nodeObject ->
 		try{
 			
 			deployStage.execute(jsonData, customWS, nodeObject, jobBuildId, buildLabel, basePath, transReq)
-			
 
 		}
 		catch(Exception e){
 			echo e.toString()+""
 			if(e.toString().contains("FAILURE")){
-
 				throw e
 			}
 		}
@@ -234,6 +249,10 @@ try{
 	{
 	if(jsonData["build"] && stageFlag[0] == 'off'){
 		stageFlag[0] = 'on'
+		if(castLabel!=null && castLabel!='' && labelName!=castLabel){
+			stageFlag = stageExecutionSequence.executeBuildWithCastOnDifferentSlaves(iterationCount,waitForSlave,jsonData,basePath,buildStage,deployStage,testStage,castStage,stageFlag)
+		}
+		else{
 					int i = 0;
 			// mutex locking and slave assignment Build
 			for(;i<iterationCount;++i){
@@ -261,15 +280,15 @@ try{
 									testStage(mainCustomWS,mainNodeObject)
 								}
 							}
-						}
-						/*cast:{
+						},
+						cast:{
 							if (jsonData["build"] && jsonData["build"]["cast"]){
 								castStage(mainCustomWS,mainNodeObject)
 							}
-						}*/
+						}
 						
 					}
-					//castSlave=mainNodeObject.slaveName
+					castSlave=mainNodeObject.slaveName
 					break;
 				}
 				buildSlave=mainNodeObject.slaveName
@@ -281,7 +300,7 @@ try{
 				//println errorStr
 				error(errorStr)
 			}
-		
+		}
 	}
 	
 	deployStageExecution(jsonData,stageFlag,waitForSlave,mainNodeObject,labelName,basePath,mainCustomWS,testLabel,iterationCount,deployStage,testStage,idpSlaveConfiguration)
@@ -328,9 +347,7 @@ catch(all){
 	//jobStatus = 'FAILURE'
 }
 
-	
 
-	
 EmailSender emailSender = new EmailSender(this)
 if(currentBuild.result=='SUCCESS' || currentBuild.result=='' || currentBuild.result==null)
 {

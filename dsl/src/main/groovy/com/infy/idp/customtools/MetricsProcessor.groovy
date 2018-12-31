@@ -25,7 +25,11 @@ class MetricsProcessor{
 	public static void invokeTool(context, jsonData) {
 		HashMap<String, String> data = performMapping(jsonData)
 		def command;
-		command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${data.get('DASHBOARD_SERVICE_UNAME')}" "${data.get('DASHBOARD_SERVICE_PWD')}" "${data.get('APP_NAME')}" "${data.get('PIPELINE_NAME')}" "${data.get('JSON_PATH')}" """
+		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
+		command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${data.get('DASHBOARD_SERVICE_UNAME')}" %DASHBOARD_SERVICE_PWD% "${data.get('APP_NAME')}" "${data.get('PIPELINE_NAME')}" "${data.get('JSON_PATH')}" """
+		} else {
+		command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${data.get('DASHBOARD_SERVICE_UNAME')}" \$DASHBOARD_SERVICE_PWD "${data.get('APP_NAME')}" "${data.get('PIPELINE_NAME')}" "${data.get('JSON_PATH')}" """
+		}
 		ExecuteCmdPostBuild.invokeCmd(context, command, jsonData.basicInfo.buildServerOS)
 	}
 

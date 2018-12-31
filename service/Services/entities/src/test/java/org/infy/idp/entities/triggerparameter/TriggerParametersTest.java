@@ -9,6 +9,7 @@
 package org.infy.idp.entities.triggerparameter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -145,7 +146,7 @@ public class TriggerParametersTest {
 		testedObject.setPassword("pwd");
 		testedObject.setTechnology("angular");
 		testedObject.setLanguage("english");
-		testedObject.setUserStories("55918");
+		List<String> userStories = new ArrayList<>();
 		testedObject.setSystemName("system");
 		ArrayList<String> transportRequest = new ArrayList<>();
 		testedObject.setTransportRequest(transportRequest);
@@ -156,6 +157,17 @@ public class TriggerParametersTest {
 		testedObject.setArtifactorySelected("yes");
 		testedObject.setTestSlaveName("slave");
 		testedObject.setCastSlaveName("slave");
+//		testedObject.setTfsWorkItem("tfsWorkItem");
+//		testedObject.setUserStoryString("userStoryString");
+		testedObject.setRestoreTRFlag(true);
+//		testedObject.setSapUserName("sapUserName");
+		testedObject.setReconcileSlaveName("reconcileSlaveName");
+//		testedObject.setJiraProjectKey("jiraProjectKey");
+//		testedObject.setSaptestName("saptestName");
+//		Rebase rebase = new Rebase();
+//		testedObject.setRebase(rebase);
+		testedObject.setRestoreTRParams("restoreTRParams");
+		
 		assertEquals("type", testedObject.getJobType());
 		assertEquals("input", testedObject.getApprInput());
 		assertEquals("comment", testedObject.getApprComment());
@@ -198,7 +210,6 @@ public class TriggerParametersTest {
 		assertEquals("pwd", testedObject.getPassword());
 		assertEquals("angular", testedObject.getTechnology());
 		assertEquals("english", testedObject.getLanguage());
-		assertEquals("55918", testedObject.getUserStories());
 		assertEquals("system", testedObject.getSystemName());
 		assertEquals(transportRequest, testedObject.getTransportRequest());
 		assertTrue(testedObject.getCopyTR());
@@ -223,6 +234,15 @@ public class TriggerParametersTest {
 		assertEquals("testSelected21", testedObject.getTestSelected());
 		assertEquals("releaseNumber22", testedObject.getReleaseNumber());
 		assertEquals("jobBuildId22", testedObject.getJobBuildId());
+//		assertEquals("tfsWorkItem", testedObject.getTfsWorkItem());
+//		assertEquals("userStoryString", testedObject.getUserStoryString());
+		assertEquals(true, testedObject.getRestoreTRFlag());
+//		assertEquals("sapUserName", testedObject.getSapUserName());
+		assertEquals("reconcileSlaveName", testedObject.getReconcileSlaveName());
+//		assertEquals("jiraProjectKey", testedObject.getJiraProjectKey());
+//		assertEquals("saptestName", testedObject.getSaptestName());
+//		assertEquals(rebase, testedObject.getRebase());
+		assertEquals("restoreTRParams", testedObject.getRestoreTRParams());
 	}
 
 	/**
@@ -257,6 +277,7 @@ public class TriggerParametersTest {
 		List<String> outTestSteps = new ArrayList<>();
 		outTestSteps.add("testSelected0");
 		outTestSteps.add("testStep1");
+//		testedObject.setRebase(null);
 		assertEquals(null, testedObject.getBuild());
 		assertEquals(null, testedObject.getDeploy());
 		assertEquals("applicationName1", testedObject.getApplicationName());
@@ -271,6 +292,7 @@ public class TriggerParametersTest {
 		assertEquals("testSelected0", testedObject.getTestSelected());
 		assertEquals("releaseNumber1", testedObject.getReleaseNumber());
 		assertEquals("jobBuildId1", testedObject.getJobBuildId());
+//		assertNull(testedObject.getRebase());
 	}
 
 	/**
@@ -347,6 +369,14 @@ public class TriggerParametersTest {
 		assertEquals(null, testedObject.getTestSelected());
 		assertEquals(null, testedObject.getReleaseNumber());
 		assertEquals(null, testedObject.getJobBuildId());
+		assertNull(testedObject.getRestoreTRFlag());
+//		assertNull(testedObject.getSapUserName());
+		assertNull(testedObject.getReconcileSlaveName());
+//		assertNull(testedObject.getJiraProjectKey());
+//		assertNull(testedObject.getSaptestName());
+//		assertNull(testedObject.getRebase());
+		assertNull(testedObject.getRestoreTRParams());
+		
 		// No exception thrown
 
 	}

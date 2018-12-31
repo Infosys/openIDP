@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.ntrxunit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
@@ -15,24 +16,23 @@ import com.infosys.utilities.ntrxunit.TestRun.Results;
 import com.infosys.utilities.ntrxunit.TestRun.TestDefinitions;
 import com.infosys.utilities.ntrxunit.TestRun.TestEntries;
 import com.infosys.utilities.ntrxunit.TestRun.TestLists;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Deployment;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors.DataCollector;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage.Regular;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage.Regular.CodeCoverageItem;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig.AssemblyResolution;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig.AssemblyResolution.TestDirectory;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration.Browser;
-import com.infosys.utilities.ntrxunit.TestRun.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration.Browser.Headers;
 import com.infosys.utilities.ntrxunit.TestRun.Times;
+import com.infosys.utilities.ntrxunit.TestSettings.Deployment;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors.DataCollector;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage.Regular;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.AgentRule.DataCollectors.DataCollector.Configuration.CodeCoverage.Regular.CodeCoverageItem;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig.AssemblyResolution;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.UnitTestRunConfig.AssemblyResolution.TestDirectory;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration.Browser;
+import com.infosys.utilities.ntrxunit.TestSettings.Execution.TestTypeSpecific.WebTestRunConfiguration.Browser.Headers;
 
 public class TestRunTest {
 

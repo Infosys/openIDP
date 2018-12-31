@@ -140,7 +140,7 @@ public class ArtifactHistory {
 		try
 		{
 			URL url = new URL (jobUrl.toString()); 
-			System.out.println(jobUrl);
+			logger.info("JobURL: ",jobUrl);
 			StringBuilder json=new StringBuilder();
 		    String line="";   
 			String s = configmanager.getJenkinsuserid()+":"+configmanager.getJenkinspassword();
@@ -168,7 +168,7 @@ public class ArtifactHistory {
 		}
 		catch(MalformedURLException e)
 		{
-		//	e.printStackTrace();
+			e.printStackTrace();
 			logger.error("malformed url",e.getMessage());
 		}
 		catch( IOException e)
@@ -181,37 +181,34 @@ public class ArtifactHistory {
 	
 	public Integer updateTriggerHistory(int id, String artifactName)
 	  {
-		  
-		  /*INSERT INTO public.ttrigger_history(
-		             pipeline_id, trigger_entity, release_number, 
-		            version)
-		    VALUES ( ?, ?, ?, ?);*/
 		  	Integer productId =null ;
 		   
-		   
+		  	ResultSet rs = null;
 		   String queryStatement ="Update ttrigger_history set artifact_name = ? where trigger_id=?";
 		   try (Connection connection = postGreSqlDbContext.getConnection();
 		        PreparedStatement preparedStatement = connection.prepareStatement(queryStatement)) {
 		    	preparedStatement.setString(1, artifactName);
 		    	preparedStatement.setInt(2,id);
-		    	//preparedStatement.setString(3,triggerParameters.getReleaseNumber());
-		    	//preparedStatement.setString(4,version);
 		    	preparedStatement.executeUpdate();
 		    	
-		    	
-		    	
-		    	ResultSet rs = preparedStatement.getGeneratedKeys();
+		    	rs = preparedStatement.getGeneratedKeys();
 		    	if (rs.next()) {
 		    	    productId = (int) rs.getLong(1);
 		    	}
-		    	preparedStatement.close();
-		      
 		     }		     
 		    
 		     catch (SQLException | NullPointerException e) {
-		      logger.error("Postgres Error while inserting the data in tuser_info:",e);	      
+		          
 		      return -1;
-		    }
+		    }finally {
+				if(rs!=null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						  logger.error("Postgres Error while closing resultset :",e);	
+					}
+				}
+			}
 		    
 		  return productId;	  
 		   
@@ -313,11 +310,7 @@ public class ArtifactHistory {
 
 
 		     catch(SQLException | NullPointerException e) {
-
-
 		      logger.error("Postgres Error while fetching data from tapplication_info:",e);
-		      
-		      
 		    }
 
 		   finally{
@@ -326,7 +319,7 @@ public class ArtifactHistory {
 		   			rs.close();
 		   			}
 		   			catch(SQLException e){
-		   				e.printStackTrace();
+		   				logger.error("Postgres Error while closing resultset :",e);
 		   			}
 		   		}
 		   	}
@@ -338,7 +331,7 @@ public class ArtifactHistory {
 	  public int getEnvironmentId(String environmentName, int applicationId) throws SQLException {
 
 			
-			int env_id = -1;
+			int envId = -1;
 			StringBuilder queryStatement = new StringBuilder();
 
 			queryStatement.append(SELECT_CLAUSE);
@@ -350,7 +343,7 @@ public class ArtifactHistory {
 			queryStatement.append(AND_CLAUSE);
 			queryStatement.append(" application_id = ? ; ");
 
-			ResultSet rs;
+			ResultSet rs =null;
 			try (Connection connection = postGreSqlDbContext.getConnection();
 					PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 
@@ -359,14 +352,23 @@ public class ArtifactHistory {
 				rs = preparedStatement.executeQuery();
 
 				while (rs.next()) {
-					env_id = rs.getInt("env_id");
+					envId = rs.getInt("env_id");
 				}
 
-				return env_id;
+				return envId;
 			} catch (SQLException e) {
 				logger.error("Postgres Error while fetching permissions:", e);
 				throw e;
-			}
+			}  finally{
+		   		if(rs != null){
+		   			try{
+		   			rs.close();
+		   			}
+		   			catch(SQLException e){
+		   				logger.error("Postgres Error while closing resultset :",e);
+		   			}
+		   		}
+		   	}
 
 		}
 	  
@@ -413,7 +415,7 @@ public class ArtifactHistory {
 			queryStatement.append(" artifact_name LIKE ? ;");
 			
 
-			ResultSet rs;
+			ResultSet rs =null;
 			try (Connection connection = postGreSqlDbContext.getConnection();
 					PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 
@@ -428,7 +430,16 @@ public class ArtifactHistory {
 			} catch (SQLException e) {
 				logger.error("Postgres Error while fetching permissions:", e);
 				throw e;
-			}
+			}  finally{
+		   		if(rs != null){
+		   			try{
+		   			rs.close();
+		   			}
+		   			catch(SQLException e){
+		   				logger.error("Postgres Error while closing resultset :",e);
+		   			}
+		   		}
+		   	}
 	  }
 
 	  public void insertArtifactDetails(int artifactId , String status , String remark , String environment , String env_owner ) throws SQLException{

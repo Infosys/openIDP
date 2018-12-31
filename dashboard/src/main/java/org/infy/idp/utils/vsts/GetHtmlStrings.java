@@ -20,24 +20,27 @@ import java.io.InputStreamReader;
  */
 public class GetHtmlStrings {
 
+	private GetHtmlStrings() {
+		
+	}
 	
 	public static String getTableHtml(){
 		String inputHtmlNew = "";
-		//String fileName = "src/newTable.html";
+
 		InputStream is = GetHtmlStrings.class.getResourceAsStream("/newTable_Mod.html");
 		inputHtmlNew=readfile(is);
 		return inputHtmlNew;
 	}
 	public static String getPipelineTableHtml(){
 		String inputTableNew = "";
-		//String fileName = "src/newTable.html";
+
 		InputStream is = GetHtmlStrings.class.getResourceAsStream("/newPipelineTable.html");
 		inputTableNew=readfile(is);
 		return inputTableNew;
 	}
 	public static String getRowHtml(){
 		String inputHtmlRow = "";
-		//String fileName = "src/newRow.html";
+
 		InputStream is = GetHtmlStrings.class.getResourceAsStream("/newRow.html");
 		inputHtmlRow=readfile(is);
 		return inputHtmlRow;
@@ -70,7 +73,5 @@ public class GetHtmlStrings {
 		return outStr;
 	}
 
-	/*public static void main(String args []){
-		System.out.println(new StringValueResources().getRowHtml());
-	}*/
+	
 }

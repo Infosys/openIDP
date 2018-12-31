@@ -11,7 +11,7 @@ import { IdpdataService } from "../idpdata.service";
 import { Router } from "@angular/router";
 import { ViewChild } from "@angular/core";
 import { IdpService } from "../idp-service.service";
-import { IDPEncryption }    from "../idpencryption.service";
+import { IDPEncryption } from "../idpencryption.service";
 import { constants } from "os";
 
 @Component({
@@ -183,66 +183,115 @@ export class TestInfoComponent implements OnInit {
 
     /* Functional Testing Options */
     if (category === "functional") {
-        if (this.buildInfo.buildtool === "msBuild") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
+        if (this.buildInfo.buildtool === 'iOS(Swift)') {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
+                { 'name': 'Monkey Talk IOS', 'value': 'monkeyTalk' },
+                { "name": "Selenium", "value": "selenium" },
+                {'name':'SAHI','value':'sahi'},
+                {'name':'HP UFT','value':'hpUft'}
+            ];
+        } else if (this.buildInfo.buildtool === 'oracleEBS') {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
+                { 'name': 'OATS', 'value': 'oats' },
+                { "name": "Selenium", "value": "selenium" },
+                {'name':'SAHI','value':'sahi'},
+                {'name':'HP UFT','value':'hpUft'}
+            ];
+        } else if (this.buildInfo.buildtool === 'tibco') {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
+                { "name": "Selenium", "value": "selenium" },
+                //{ 'name': 'Soap UI', 'value': 'soapUI' },
+                {'name':'SAHI','value':'sahi'},
+                {'name':'HP UFT','value':'hpUft'}
+            ];
+        } else if (this.buildInfo.buildtool === "msBuild") {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
             // { "name": "RFT", "value": "rft" }, { "name": "SAHI", "value": "sahi" }, { "name": "HP UFT", "value": "hpUft" }
             { "name": "SAHI", "value": "sahi" },
             { "name": "Selenium", "value": "selenium" },
+            { "name": "HP UFT", "value": "hpUft" },
+             { "name": "IBM RFT", "value": "rft" }
             // { "name": "Protractor", "value": "protractor" }
-        ];
+            ];
         } else if (this.buildInfo.buildtool === "maven") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "Selenium", "value": "selenium" },
-            // { "name": "RFT", "value": "rft" },
+            {"name": "HP UFT", "value": "hpUft" },
+             { "name": "IBM RFT", "value": "rft" },
             // { "name": "Protractor", "value": "protractor" },
-            // {"name": "Microsoft Test Manager", "value": "mtm"},
+            // { "name": "Microsoft Test Manager", "value": "mtm"},
             { "name": "SAHI", "value": "sahi" }];
         // {"name": "HP UFT", "value": "hpUft"},
         // {"name": "HP ALM", "value": "hpAlm"}];
         } else if (this.buildInfo.buildtool === "dotNetCsharp") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "Selenium", "value": "selenium" },
-            // { "name": "Protractor", "value": "protractor" },
+            {"name": "HP UFT", "value": "hpUft" },
+             { "name": "IBM RFT", "value": "rft" },
             { "name": "SAHI", "value": "sahi" }];
         // { "name": "RFT", "value": "rft" }
         // {"name": "HP UFT", "value": "hpUft"}, {"name": "HP ALM", "value": "hpAlm"}];
         } else if (this.buildInfo.buildtool === "angular") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [{ "name": "Selenium", "value": "selenium" }];
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [{ "name": "Selenium", "value": "selenium" },
+            {"name": "HP UFT", "value": "hpUft"},
+            { "name": "IBM RFT", "value": "rft" }];
+        } else if (this.buildInfo.buildtool === "nodeJs") {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+                [{ "name": "Selenium", "value": "selenium" },
+                { "name": "SAHI", "value": "sahi" },
+                {"name": "HP UFT", "value": "hpUft" },
+                { "name": "IBM RFT", "value": "rft" }];
+        } else if (this.buildInfo.buildtool === "ant") {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+                [{ "name": "Selenium", "value": "selenium" },
+                { "name": "SAHI", "value": "sahi" },
+                {"name": "HP UFT", "value": "hpUft" },
+             { "name": "IBM RFT", "value": "rft" }];
+              // { 'name': 'Protractor', 'value': 'protractor' }];
+            // {"name": "Microsoft Test Manager", "value": "mtm"}];
+            // {"name": "HP UFT", "value": "hpUft"},
+            // {"name": "HP ALM", "value": "hpAlm"}];
+        } else if (this.buildInfo.buildtool === "gradle") {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+                [{ "name": "Monkey Talk", "value": "androidmonkeyTalk" },
+                ];
+        } else if (this.buildInfo.buildtool === 'maximo') {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [
+                { "name": "Selenium", "value": "selenium" },
+               // { 'name': 'Soap UI', 'value': 'soapUI' },
+                {'name' : 'SAHI','value': 'sahi'},
+                {'name' : 'HP UFT','value':'hpUft'}
+            ];
         } else {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [{ "name": "Selenium", "value": "selenium" },
-        { "name": "RFT", "value": "rft" }, { "name": "SAHI", "value": "sahi" }, { "name": "Microsoft Test Manager", "value": "mtm" }];
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [{ "name": "Selenium", "value": "selenium" },
+            {"name": "HP UFT", "value": "hpUft" },
+            { "name": "IBM RFT", "value": "rft" }, { "name": "SAHI", "value": "sahi" }];
         }
-        if (this.buildInfo.buildtool === "nodeJs") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
-            [{ "name": "Selenium", "value": "selenium" },
-            { "name": "SAHI", "value": "sahi" },
-            { "name": "HP UFT", "value": "hpUft" },
-            { "name": "HP ALM", "value": "hpAlm" }];
-        }
-        if (this.buildInfo.buildtool === "ant") {
-        this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
-            [{ "name": "Selenium", "value": "selenium" },
-            { "name": "SAHI", "value": "sahi" }];
-          // { 'name': 'Protractor', 'value': 'protractor' }];
-        // {"name": "Microsoft Test Manager", "value": "mtm"}];
-        // {"name": "HP UFT", "value": "hpUft"},
-        // {"name": "HP ALM", "value": "hpAlm"}];
+        if (this.IdpdataService.isSAPApplication) {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+            [{ "name": "eCATT", "value": "eCATT" }, { "name": "HP UFT", "value": "hpUft" }];
         }
     }
     if (category === "performance") {
         if (this.buildInfo.buildtool === "msBuild") {
         this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "JMeter", "value": "jMeter" }];
-          // { 'name': 'MSLoadTest', 'value': 'msLoadTest' }];
+           //{ "name": "MSLoadTest", "value": "msLoadTest" }];
         } else if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant") {
         this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "JMeter", "value": "jMeter" }];
         } else if (this.buildInfo.buildtool === "nodeJs") {
         this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "JMeter", "value": "jMeter" }];
+        } else if (this.buildInfo.buildtool === "SAPNonCharm") {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
+            [{ "name": "RPT", "value": "rpt" }];
         } else {
         this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
             [{ "name": "JMeter", "value": "jMeter" }, { "name": "RPT", "value": "rpt" }];
+        }
+        if (this.IdpdataService.isSAPApplication) {
+            this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName = [{ "name": "RPT", "value": "rpt" }];
         }
     }
     if (category === "security") {
@@ -256,7 +305,7 @@ export class TestInfoComponent implements OnInit {
             [{ "name": "Soap UI", "value": "soapUI" }];
         } else {
         this.tempObjecttest.testEnv[outerIndex].testSteps[innerIndex].testTypeName =
-            [{ "name": "Soap UI", "value": "soapUI" }];
+            [{ "name": "Soap UI", "value": "soapUI" }, { 'name': 'Parasoft SOA', 'value': 'parasoftsoa' }];
         }
     }
   }
@@ -421,12 +470,49 @@ export class TestInfoComponent implements OnInit {
 
   go() {
     if (this.validatePage()) {
+      if (this.IdpdataService.isSAPApplication && this.buildInfo.buildtool === "SapNonCharm"
+      && this.IdpdataService.data.checkboxStatus.buildInfo.codeAnalysisCheck === "on"
+      && this.IdpdataService.data.checkboxStatus.buildInfo.SAPCodeInspectorCheck !== "on") {
+        this.IdpdataService.allFormStatus.buildInfo = false;
+      }
         if (this.IdpdataService.allFormStatus.basicInfo &&
         this.IdpdataService.allFormStatus.codeInfo &&
         this.IdpdataService.allFormStatus.buildInfo &&
         this.IdpdataService.allFormStatus.deployInfo &&
         this.IdpdataService.allFormStatus.testInfo) {
-        this.confirmationAlert.nativeElement.click();
+            let scmCheckBreak = false;
+            let operationCheckBreak = false;
+            if (this.IdpdataService.isSAPApplication && this.buildInfo.buildtool === "SapNonCharm") {
+                const testEnv = this.testInfo.testEnv;
+                for (let i = 0; i < testEnv.length; i++) {
+                    if (testEnv[i].envFlag === "on") {
+                        const testStep = testEnv[i].testSteps;
+                        for (let j = 0; j < testStep.length; j++) {
+                            if (testStep[j].test !== undefined
+                                && (testStep[j].test.testTypeName === "rpt" || testStep[j].test.testTypeName === "hpUft")) {
+                                if (this.IdpdataService.SAPScmCheck === undefined
+                                    || this.IdpdataService.SAPScmCheck === "off" || this.IdpdataService.SAPScmCheck === "") {
+                                    scmCheckBreak = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (this.IdpdataService.data.checkboxStatus.buildInfo.RaiseJiraBugonfailureCheck === "on"
+                && this.IdpdataService.data.checkboxStatus.buildInfo.codeAnalysisCheck !== "on"
+                && this.IdpdataService.data.checkboxStatus.buildInfo.castAnalysisCheck !== "on"
+                && this.IdpdataService.data.buildInfo.modules[0].unitTesting !== "on") {
+                    operationCheckBreak = true;
+                }
+            }
+            if (scmCheckBreak) {
+                this.mandatorySCMAlert.nativeElement.click();
+            } else if (operationCheckBreak) {
+                this.mandatorySAPsteps.nativeElement.click();
+            } else {
+                this.confirmationAlert.nativeElement.click();
+            }
         } else {
         if (!this.IdpdataService.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo") === -1) {
             this.listToFillFields.push("BasicInfo");
@@ -459,7 +545,10 @@ export class TestInfoComponent implements OnInit {
         this.loc = "/createConfig/codeInfo";
         this.TriggerAlert();
     }
-    if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant") {
+
+    if (this.buildInfo.buildtool === "SapNonCharm") {
+      this.testCategory = [{ "name": "Functional", "value": "functional" }, { "name": "Performance", "value": "performance" }];
+    } else if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant") {
         this.testCategory = [{ "name": "Functional", "value": "functional" },
         { "name": "Performance", "value": "performance" },
         // { "name": "Security", "value": "security" },
@@ -474,7 +563,45 @@ export class TestInfoComponent implements OnInit {
         { "name": "Performance", "value": "performance" },
         // { "name": "Security", "value": "security" },
         { "name": "Service", "value": "service" }];
-    } else {
+    }else if (this.buildInfo.buildtool === "mainframe") {
+        this.testCategory = [{ "name": "Functional", "value": "functional" },
+        { "name": "Performance", "value": "performance" },
+     { "name": "Security", "value": "security" },
+        { "name": "Service", "value": "service" }];
+    } else if (this.buildInfo.buildtool === 'tibco') {
+        this.testCategory = [
+            { "name": "Functional", "value": "functional" },
+            { 'name': 'Performance', 'value': 'performance' },
+            { "name": "Security", "value": "security" },
+            { 'name': 'Service', 'value': 'service' }
+        ];
+    } else if (this.buildInfo.buildtool === 'maximo') {
+        this.testCategory = [{ "name": "Functional", "value": "functional" },
+        { "name": "Performance", "value": "performance" },
+        { "name": "Security", "value": "security" },
+        { "name": "Service", "value": "service" }];
+    } else if (this.buildInfo.buildtool === "php") {
+        this.testCategory = [{ "name": "Functional", "value": "functional" },
+        { "name": "Performance", "value": "performance" },
+        { "name": "Security", "value": "security" },
+        { "name": "Service", "value": "service" }];
+
+    } else if (this.buildInfo.buildtool === "mssql") {
+        this.testCategory = [{ "name": "Functional", "value": "functional" },
+        { "name": "Performance", "value": "performance" },
+        { "name": "Security", "value": "security" },
+        { "name": "Service", "value": "service" }];
+
+    }
+    else if (this.buildInfo.buildtool === 'tibco') {
+        this.testCategory = [{ 'name': 'Performance', 'value': 'performance' },
+        { 'name': 'Service', 'value': 'service' }];
+    }
+    else if (this.buildInfo.buildtool === "gradle") {
+        this.testCategory = [{ "name": "Functional", "value": "functional" }];
+
+    }
+    else {
         this.testCategory = [{ "name": "Functional", "value": "functional" },
         { "name": "Performance", "value": "performance" },
         { "name": "Service", "value": "service" }];
@@ -589,7 +716,7 @@ export class TestInfoComponent implements OnInit {
                 }
                 this.tempObjecttest.testEnv[i].testSteps[j].runScriptFlag = "on";
                 if (this.testInfo.testEnv[i].testSteps[j].runScript.scriptType === "ant") {
-                if (this.testInfo.testEnv[i].testSteps[j].runScript.antPropertiesArr
+                if (this.testInfo.testEnv[i].testSteps[j].runScript.antPropertiesArr!==undefined && this.testInfo.testEnv[i].testSteps[j].runScript.antPropertiesArr.length!=0
                     && this.testInfo.testEnv[i].testSteps[j].runScript.antPropertiesArr[0].antKey !== undefined
                     && this.testInfo.testEnv[i].testSteps[j].runScript.antPropertiesArr[0].antValue !== undefined) {
                     this.testInfo.testEnv[i].testSteps[j].runScript.antProperty1 = "on";

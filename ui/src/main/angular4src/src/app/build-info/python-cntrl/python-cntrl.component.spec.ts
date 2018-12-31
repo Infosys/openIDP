@@ -5,6 +5,7 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
+// tslint:disable
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ParentFormConnectComponent } from "../../parent-form-connect/parent-form-connect.component";
 import { PythonCntrlComponent } from "./python-cntrl.component";

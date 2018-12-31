@@ -1,7 +1,8 @@
 
 package com.infosys.utilities.pmd;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.text.DateFormat;
 import java.text.ParseException;

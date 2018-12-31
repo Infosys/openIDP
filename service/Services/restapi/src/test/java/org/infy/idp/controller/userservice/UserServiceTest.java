@@ -21,35 +21,41 @@ import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.entities.models.ResourceResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @SpringBootTest(classes = UserService.class)
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @WebAppConfiguration
 @ActiveProfiles("mvc")
 public class UserServiceTest {
 
 	@Autowired
+	@InjectMocks
 	private UserService userService;
 
-	@MockBean
+	@Mock
 	private JobsBL jobsBL;
-	@MockBean
+	@Mock
 	private JobsManagementBL jobsmgmtBL;
-	@MockBean
+	@Mock
 	private JobsAdditionalInfo jobsaddInfo;
-	@MockBean
+	@Mock
 	private OAuth2Authentication authBean;
 
 	@Test
 	public void testGetUserRolePermissonForApp_forException() {
+		String applicationName = "appName";
+		Mockito.when(authBean.getPrincipal()).thenReturn("idpadmin");
+		Mockito.when(jobsaddInfo.getRolesForApp(applicationName, authBean.getPrincipal().toString().toLowerCase()))
+				.thenReturn(null);
 		ResourceResponse<String> response = userService.getUserRolePermissonForApp("RajaprabuUnitTest", authBean);
 		assertNotNull(response);
 		assertNull(response.getResource());

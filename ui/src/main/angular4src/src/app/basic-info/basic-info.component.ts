@@ -45,6 +45,7 @@ export class BasicInfoComponent implements OnInit {
   nameFlag = false;
   pipelineAdminmsg: string;
   pipelineAdminFlag = false;
+  sapWorkFlowSystem: any = [{ "name": "Jira", "value": "jira" }];
   typeOfInterval: any = "Select Interval Type";
   hourValue: any = [];
   minuteValue: any = [];
@@ -61,6 +62,7 @@ export class BasicInfoComponent implements OnInit {
     "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
   sequenceList: any;
   customPipelineAdmins: any;
+    lastEditedAdmin: any;
   customAdminMsgs: any;
   pipeLineAdminNames: any;
   isCustomadmin: any;
@@ -94,9 +96,21 @@ export class BasicInfoComponent implements OnInit {
         this.Idpdata.data.backUp.testInfo.testEnv = [];
     }
 
+    if(this.Idpdata.data.basicInfo.jiraProjectKey===undefined ||
+         this.Idpdata.data.basicInfo.jiraProjectKey==="" ||
+          this.Idpdata.data.basicInfo.jiraProjectKey=== null){
+  
+        this.basicInfo.JiraALM='off';
+      }
+
     this.basicInfo.engine = "Jenkins Workflow";
 
-    this.Idpdata.createWorkflowSequenceflag = false;
+    if (this.basicInfo.masterSequence !== undefined && this.basicInfo.masterSequence === "workflow") {
+        this.Idpdata.createWorkflowSequenceflag = true;
+      } else {
+        this.basicInfo.masterSequence = "pipeline";
+        this.Idpdata.createWorkflowSequenceflag = false;
+      }
     this.init();
 
   }
@@ -106,12 +120,24 @@ export class BasicInfoComponent implements OnInit {
   deleteBuildInterval(i) {
     this.basicInfo.buildInterval.event.splice(i, 1);
   }
+
+  clearProjectKey(){
+    this.basicInfo.jiraProjectKey='';
+    return 'off';
+  }
+
   // Initializes server list, username by fetching from services
   init() {
     this.basicInfo.userName = this.Idpdata.idpUserName;
     const data = {
         "username": this.Idpdata.idpUserName
     };
+        this.tempObject.isCustomadmin = false;
+        this.Idpdata.PagePersmission.basic = false;
+        this.Idpdata.PagePersmission.code = false;
+        this.Idpdata.PagePersmission.build = false;
+        this.Idpdata.PagePersmission.deploy = false;
+        this.Idpdata.PagePersmission.test = false;
     this.operation = this.Idpdata.operation;
     // console.log(this.operation);
     if (this.Idpdata.devServerURL !== "") {
@@ -121,9 +147,8 @@ export class BasicInfoComponent implements OnInit {
         .then(response => {
             try {
             if (response) {
-                this.Idpdata.devServerURL = response.json().idpresturl;
-                // this.Idpdata.devServerURL = "https://idptestServerHost:8889/idprest";
-                // this.Idpdata.devServerURL = "http://server411214d:8889/idprest";
+                  this.Idpdata.devServerURL = response.json().idpresturl;
+                // this.Idpdata.devServerURL = "http://server458747d:8889/idprest";
                 this.Idpdata.subscriptionServerURL = response.json().idpsubscriptionurl;
                 this.Idpdata.IDPDashboardURL = response.json().idpdashboardurl;
                 this.Idpdata.IDPLink = response.json().IDPLink;
@@ -131,7 +156,6 @@ export class BasicInfoComponent implements OnInit {
                 this.Idpdata.uName = response.json().uName;
                 this.Idpdata.pass = response.json().pass;
                 if (this._cookieService.get("access_token")) {
-                // console.log('details');
                 this.getApplicationName(data);
                 this.IdpService.getDetails();
                 }
@@ -170,6 +194,11 @@ export class BasicInfoComponent implements OnInit {
         "name": "Pipeline Sequence",
         "value": "pipeline"
     },
+
+    {
+        "name": "Master Workflow Sequence",
+        "value": "workflow"
+      },
     ];
   }
 
@@ -243,7 +272,11 @@ export class BasicInfoComponent implements OnInit {
 
   // Fetches application Names
   getApplicationName(data) {
-    this.IdprestapiService.checkApplicationNames(data)
+        let oprMethod = "jobid1";
+        if (this.Idpdata.operation === undefined || this.Idpdata.operation === "") {
+            oprMethod = "create";
+        }
+        this.IdprestapiService.checkApplicationNames(data, oprMethod)
         .then(response => {
         try {
             if (response) {
@@ -255,13 +288,33 @@ export class BasicInfoComponent implements OnInit {
             alert("Failed while getting applications names");
         }
         });
-    if (typeof (Storage) !== undefined) {
+    if (typeof (Storage) !== "undefined") {
         console.log(typeof (Storage));
         this.operation = this.Idpdata.operation;
         if (this.operation === "copy" || this.operation === "edit") {
-        const data = localStorage.getItem("appName");
-        this.Idpdata.isSAPApplication = false;
-        this.copyEditOperation();
+            const data = localStorage.getItem("appName");
+            this.Idpdata.appName = data;
+            this.copyEditOperation();
+            // this.IdprestapiService.checkForApplicationType(data).then(response => {
+            //     try {
+            //         if (response) {
+            //             if (response.json().errorMessage === null && response.json().resource !== "") {
+            //                 if (response.json().resource === "true") {
+            //                     this.Idpdata.isSAPApplication = true;
+            //                 } else {
+            //                     this.Idpdata.isSAPApplication = false;
+            //                 }
+            //                 this.copyEditOperation();
+            //                 this.Idpdata.operation = "off";
+            //             } else {
+            //                 alert("failed to verify application Type");
+            //             }
+            //         }
+            //     } catch (e) {
+            //         console.log(e);
+            //         alert("Failed to verify application type");
+            //     }
+            // });
         } else {
         console.log(localStorage);
         localStorage.clear();
@@ -279,6 +332,15 @@ export class BasicInfoComponent implements OnInit {
         && this.Idpdata.data.basicInfo.buildInterval.event[0].type !== "--Select--")) {
         this.tempObject.buildIntervalCheck = "on";
     }
+    if(this.Idpdata.data.basicInfo.jiraProjectKey!=='' &&
+      this.Idpdata.data.basicInfo.jiraProjectKey!==undefined){
+        this.tempObject.JiraALM='on';
+      }
+        if (this.basicInfo.customPipelineAdmins &&
+            this.basicInfo.customPipelineAdmins.length > 0 &&
+            this.basicInfo.customPipelineAdmins[0] !== undefined) {
+            this.tempObject.checkCustomPipelineAdmin = "on";
+        }
   }
 
   // On copy and edit, fetches all info and updates/ creates it
@@ -292,8 +354,8 @@ export class BasicInfoComponent implements OnInit {
         "pipelineName": this.pipelineName,
         "userName": this.userName
     };
-    this.appNames = [];
-    this.appNames.push(this.applicationName);
+    // this.appNames = [];
+    // this.appNames.push(this.applicationName);
     this.IdprestapiService.getPipelineDetails(this.data)
         .then(response => {
         console.log(new Date().toUTCString(), "Pipeline details retrieved");
@@ -315,7 +377,15 @@ export class BasicInfoComponent implements OnInit {
             this.Idpdata.data.testInfo = this.pipelineJson.testInfo;
             this.basicInfo.masterSequence = "pipeline";
             this.Idpdata.createWorkflowSequenceflag = false;
-            }
+            } else {
+                this.Idpdata.workflowData.workflowSequence = this.pipelineJson.pipelines;
+                const workflowTemp = [];
+                for (let i = 0; i < this.pipelineJson.pipelines.length; i++) {
+                  workflowTemp.push({});
+                }
+                this.Idpdata.workflowData.workflowSequenceTemp = workflowTemp;
+                this.Idpdata.createWorkflowSequenceflag = true;
+              }
             this.Idpdata.data.formStatus.operation = this.operation;
             this.getPipelineNames(this.basicInfo.applicationName);
             if (this.basicInfo.masterSequence === undefined || this.basicInfo.masterSequence === "pipeline") {
@@ -323,6 +393,10 @@ export class BasicInfoComponent implements OnInit {
             }
             if (this.Idpdata.data.code.buildScript === undefined) {
             this.Idpdata.data.code.buildScript = [{}, {}];
+            }
+
+            if (this.basicInfo.jiraProjectKey === undefined  || this.basicInfo.jiraProjectKey === "") {
+                this.tempObject.JiraALM = "off";
             }
             this.Idpdata.data.formStatus.basicInfo.appNameStatus = "1";
             if (this.Idpdata.data.buildInfo.buildtool !== undefined
@@ -341,7 +415,13 @@ export class BasicInfoComponent implements OnInit {
                 "deployInfo": true,
                 "testInfo": true
             };
-            }
+            } else {
+                this.Idpdata.allFormStatus = {
+                  "basicInfo": true,
+                  "workflowInfo": true
+                };
+
+          }
             if (this.operation === "copy") {
             this.basicInfo.pipelineStatus = "copy";
             const pipelineName = this.basicInfo.pipelineName + "_Copy";
@@ -353,6 +433,17 @@ export class BasicInfoComponent implements OnInit {
             this.Idpdata.data.formStatus.operation = "off";
             this.formStatusObject.operation = "off";
             }
+            // for setting landscapeName
+            // if (this.Idpdata.isSAPApplication) {
+            //     if (this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== ""
+            //     || this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== "") {
+            //         this.Idpdata.landscapeName = this.Idpdata.data.buildInfo.castAnalysis.landscapeName;
+            //         // this.getLandscapeNamesForSap();
+            //         // this.getVariantsForSap();
+            //     } else {
+            //         this.Idpdata.landscapeName = "";
+            //     }
+            // }
             // Fetched Artifact details required in build info
             if (this.Idpdata.data.buildInfo.artifactToStage !== undefined
             && this.Idpdata.data.buildInfo.artifactToStage.artifact
@@ -388,34 +479,158 @@ export class BasicInfoComponent implements OnInit {
     });
     this.IdprestapiService.getPipelinePermission(this.data)
         .then(response => {
-        this.responseData = this.idpencryption.decryptAES(response.json().resource);
-        const resp = JSON.parse(this.responseData);
-        let permissionKey = [];
-        permissionKey = resp.permissions;
-        this.Idpdata.PagePersmission.basic = true;
-        this.Idpdata.PagePersmission.code = true;
-        this.Idpdata.PagePersmission.build = true;
-        this.Idpdata.PagePersmission.deploy = true;
-        this.Idpdata.PagePersmission.test = true;
-        if (resp.permissions.length === 0) {
-            this.tempObject.isCustomadmin = false;
-            this.Idpdata.PagePersmission.basic = false;
-            this.Idpdata.PagePersmission.code = false;
-            this.Idpdata.PagePersmission.build = false;
-            this.Idpdata.PagePersmission.deploy = false;
-            this.Idpdata.PagePersmission.test = false;
+                this.responseData = this.idpencryption.decryptAES(response.json().resource);
+                const resp = JSON.parse(this.responseData);
+                console.log("permission");
+                console.log(resp);
+                let permissionKey = [];
+                permissionKey = resp.permissions;
 
-        }
-        });
+
+
+                if (resp.permissions.length === 0) {
+                    this.tempObject.isCustomadmin = false;
+                    this.Idpdata.PagePersmission.basic = false;
+                    this.Idpdata.PagePersmission.code = false;
+                    this.Idpdata.PagePersmission.build = false;
+                    this.Idpdata.PagePersmission.deploy = false;
+                    this.Idpdata.PagePersmission.test = false;
+
+                } else {
+                    this.Idpdata.PagePersmission.basic = true;
+                    this.Idpdata.PagePersmission.code = true;
+                    this.Idpdata.PagePersmission.build = true;
+                    this.Idpdata.PagePersmission.deploy = true;
+                    this.Idpdata.PagePersmission.test = true;
+                    this.tempObject.isCustomadmin = true;
+                    for (let j = 0; j < resp.permissions.length; j++) {
+                        if (resp.permissions[j] === ("EDIT_BASIC_INFO")) {
+
+                            this.Idpdata.PagePersmission.basic = false;
+
+                        }
+                        if (resp.permissions[j] === ("EDIT_CODE_INFO")) {
+                            this.Idpdata.PagePersmission.code = false;
+
+                        }
+                        if (resp.permissions[j] === ("EDIT_BUILD_INFO")) {
+                            this.Idpdata.PagePersmission.build = false;
+
+                        }
+                        if (resp.permissions[j] === ("EDIT_DEPLOY_INFO")) {
+                            this.Idpdata.PagePersmission.deploy = false;
+
+                        }
+                        if (resp.permissions[j] === ("EDIT_TEST_INFO")) {
+                            this.Idpdata.PagePersmission.test = false;
+
+
+                        }
+                    }
+                }
+            });
   }
+
+    // fetch variants for SAP application
+    // getVariantsForSap() {
+    //     const data = {
+    //         "landscape_name": this.Idpdata.landscapeName,
+    //         "application_name": this.Idpdata.data.basicInfo.applicationName
+    //     };
+
+    //     if (data.landscape_name !== "") {
+
+    //         this.IdprestapiService.getVariantNamesForSap(data).then(response => {
+    //             try {
+    //                 if (response) {
+    //                     if (response.json().resource !== "{}" && response.json().resource !== null) {
+    //                         const temp = response.json().resource;
+    //                         this.Idpdata.VariantNameList = [];
+    //                         if (JSON.parse(temp).names.length !== 0) {
+    //                             this.Idpdata.VariantNameList = JSON.parse(temp).names;
+    //                         } else {
+    //                             alert("Variants are not available for application " + data.application_name);
+    //                         }
+    //                     } else {
+    //                         alert("failed to get variant Names");
+    //                     }
+    //                 } else {
+    //                     alert("failed to get variant Names");
+    //                 }
+
+    //             } catch (e) {
+    //                 console.log(e);
+    //                 alert("failed while getting varianst");
+    //             }
+    //         });
+    //     }
+    // }
+
+    // fetch SAP landcape names for the application
+    // getLandscapeNamesForSap() {
+    //     const applicationName = this.Idpdata.data.basicInfo.applicationName;
+    //     this.IdprestapiService.getLandscapesForSap(applicationName).then(response => {
+    //         try {
+    //             if (response) {
+    //                 if (response.json().resource !== "{}" && response.json().resource !== null) {
+    //                     const temp = response.json().resource;
+    //                     const operation = this.Idpdata.operation;
+    //                     if (operation === "copy" || operation === "edit") {
+    //                         // for copy or edit pipeline
+    //                         const landscapeName = this.Idpdata.landscapeName;
+    //                         this.Idpdata.SAPEnvList = [];
+    //                         const test = JSON.parse(temp).landscapes;
+    //                         for (let i = 0; i < test.length; i++) {
+    //                             this.Idpdata.SAPEnvList.push(test[i]);
+    //                         }
+    //                         this.Idpdata.landscapeName = landscapeName;
+    //                     } else {
+    //                         this.Idpdata.SAPEnvList = JSON.parse(temp).landscapes;
+    //                     }
+    //                 } else {
+    //                     alert("failed to get landscapes Names");
+    //                 }
+    //             } else {
+    //                 alert("failed to get landscapes Names");
+    //             }
+    //         } catch (e) {
+    //             console.log(e);
+    //             alert("failed while getting landscapes Names");
+    //         }
+    //     });
+    // }
+
   // Gives the app selected by the user
   selectedApp1() {
     const data = this.basicInfo.applicationName;
+    this.Idpdata.appName = data;
     this.Idpdata.loading = true;
-    this.Idpdata.isSAPApplication = false;
     this.selectedApp();
     this.getApplicationDetails(data);
-  }
+        // this.IdprestapiService.checkForApplicationType(data).then(response => {
+        //     try {
+        //         if (response) {
+        //             if (response.json().errorMessage === null && response.json().resource !== "") {
+        //                 if (response.json().resource === "true") {
+        //                     this.Idpdata.isSAPApplication = true;
+        //                     this.selectedApp();
+        //                     // this.getLandscapeNamesForSap();
+        //                 } else {
+        //                     this.Idpdata.isSAPApplication = false;
+        //                     this.selectedApp();
+        //                     this.getApplicationDetails(data);
+        //                 }
+        //             } else {
+        //                 alert("failed to verify application Type");
+        //             }
+        //         }
+        //     } catch (e) {
+        //         alert("failed during verifying the application type");
+        //     }
+        //     this.Idpdata.loading = false;
+        // });
+    }
+
   // Fetches the pipeline details for the application selected by user
   selectedApp() {
     const applicationName = this.basicInfo.applicationName;
@@ -430,6 +645,18 @@ export class BasicInfoComponent implements OnInit {
     if (this.basicInfo.applicationName) {
         console.log("getting pipeline names");
         this.getPipelineNames(this.basicInfo.applicationName);
+            // if (this.Idpdata.isSAPApplication) {
+            //     if (this.Idpdata.setSAPdata()) {
+            //         this.testInfo = this.Idpdata.data.testInfo;
+            //         this.deployInfo = this.Idpdata.data.deployInfo;
+            //         this.basicInfo = this.Idpdata.data.basicInfo;
+            //         this.tempObject = this.Idpdata.data.checkboxStatus.basicInfo;
+            //         this.formStatusObject = this.Idpdata.data.formStatus;
+            //         this.basicInfo.applicationName = applicationName;
+            //         this.constructorFunction();
+            //         this.getPipelineNames(this.basicInfo.applicationName);
+            //     }
+            // }
         this.getEnvironmentNames();
     }
 
@@ -492,7 +719,14 @@ export class BasicInfoComponent implements OnInit {
   }
 
   changeNavigationLinks() {
-    this.Idpdata.createWorkflowSequenceflag = false;
+    if (this.basicInfo.masterSequence !== undefined && this.basicInfo.masterSequence === "pipeline") {
+        this.Idpdata.createWorkflowSequenceflag = false;
+      } else if ( this.basicInfo.masterSequence !== undefined && this.basicInfo.masterSequence === "workflow") {
+        this.Idpdata.createWorkflowSequenceflag = true;
+      } else {
+        this.Idpdata.createWorkflowSequenceflag = false;
+      }
+
   }
 
   // Clears the data on resetting
@@ -523,6 +757,7 @@ export class BasicInfoComponent implements OnInit {
             "engine": "Jenkins Workflow",
             "pipelineName": "",
             "groupName": "",
+            "jiraProjectKey": "",
             "groupId": "",
             "masterSequence": ""
         };
@@ -586,13 +821,53 @@ export class BasicInfoComponent implements OnInit {
   }
   // On continue, save the basic Info details and navigate to codeInfo
   go() {
-    if (this.nameFlag === false && this.pipelineAdminFlag === false) {
-        this.basicInfo.masterSequence = "pipeline";
+    if (this.nameFlag === false &&  this.pipelineAdminFlag === false) {
         this.Idpdata.data.basicInfo = this.basicInfo;
         this.Idpdata.data.masterJson["basicInfo"] = this.basicInfo;
+        console.log(this.Idpdata.data);
+        // window.location.href='#/code/';
+        if (this.basicInfo.masterSequence !== "workflow") {
         this.router.navigate(["/createConfig/codeInfo"]);
+        } else {
+          this.router.navigate(["/createConfig/workflowInfo"]);
+        }
+      }
     }
-  }
+    openCustomAdminField() {
+        this.basicInfo.customPipelineAdmins = [];
+        this.basicInfo.customAdminMsgs = [];
+        this.addCustomAdmin();
+        return "on";
+
+    }
+
+    closeCustomAdminField() {
+        this.basicInfo.customPipelineAdmins = null;
+        this.basicInfo.customAdminMsgs = null;
+        return "off";
+
+    }
+
+    addCustomAdmin() {
+        this.basicInfo.customPipelineAdmins.push({
+            "editBasic": "n",
+            "editCode": "n",
+            "editBuild": "n",
+            "editDeploy": "n",
+            "editTest": "n"
+        });
+        this.basicInfo.customAdminMsgs.push({});
+    }
+    removeCustomAdmin(index) {
+        // add condition
+        const adminName = (this.basicInfo.customPipelineAdmins[index].adminName === undefined) ?
+            "entry" : "'" + this.basicInfo.customPipelineAdmins[index].adminName + "'";
+        const x = confirm("Are you sure to remove " + adminName + " as custom pipeline admin?");
+        if (x) {
+            this.basicInfo.customPipelineAdmins.splice(index, 1);
+            this.basicInfo.customAdminMsgs.splice(index, 1);
+        }
+    }
   testfunction() {
     this.basicInfo.buildInterval.buildIntervalValue = "";
   }
@@ -605,6 +880,14 @@ export class BasicInfoComponent implements OnInit {
     return "off";
   }
 
+  clearPollALM() {
+    this.basicInfo.buildInterval.almTool = "";
+    this.basicInfo.buildInterval.projectKey = "";
+    return "off";
+  }
+  ResetALMTool() {
+    this.basicInfo.buildInterval.projectKey = "";
+  }
   setFormStatus(data) {
     this.Idpdata.allFormStatus.basicInfo = data;
   }
@@ -685,6 +968,7 @@ export class BasicInfoComponent implements OnInit {
   }
   // Checks if logged in user is pipeline admin and allows for pipeline creation
   checkPipelineAdminName(pipelineAdminName, j) {
+        this.lastEditedAdmin = pipelineAdminName;
     this.getPipelineAdminNames(this.basicInfo.applicationName, pipelineAdminName, j);
   }
   isCPASelectedOnce(admin) {
@@ -713,7 +997,18 @@ export class BasicInfoComponent implements OnInit {
 
     if (!isFormValid) {
         return false;
-    }
+        }
+        if (this.basicInfo !== undefined && this.basicInfo !== null) {
+            if (this.basicInfo.customPipelineAdmins !== undefined && this.basicInfo.customPipelineAdmins !== null) {
+              for (let i = 0; i < this.basicInfo.customPipelineAdmins.length; i++) {
+               const isSelected: boolean = this.isCPASelectedOnce(this.basicInfo.customPipelineAdmins[i]);
+                if (!isSelected) {
+                  return false;
+               } // if any one CPA didnt select any page.
+              }
+            }
+
     return true;
   }
+}
 }

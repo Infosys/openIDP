@@ -42,25 +42,34 @@ export class TriggerComponent implements OnInit {
   error: any = "";
   devEnvList: any = [];
   userStoryArray: any = [];
+  validateClick: any = "";
+  valideStory: any = "";
   envJson: any = "";
+  SAPEnv: any = "";
+  TransReq: any = "";
+  SapBuild: any;
+  SapDeploy: any;
+  SapTest: any;
   parameterloading: any = false;
   msg: any;
   IDPParamData: any = {};
   IDPDataSwitch: any = {};
   Env: any;
   Envbiz: any;
+  SapSystemName: any = "";
   hideTransportRequest = false;
   import: any;
   ApproveDep: any;
   environment: any;
   SapsystemNames: any;
-  transportRequests: any;
+  transportRequests: any = [];
   transportRequest: any;
-  unselectedTRs: any;
+  unselectedTRs: any = [];
   selectedTR: any;
   showData: any;
   devTrue: any;
   build: any = {};
+  allArtifactlist: any;
   buildSelect: any = "off";
   deploySelect: any = "off";
   testSelect: any = "off";
@@ -178,6 +187,14 @@ export class TriggerComponent implements OnInit {
   requiredSCM: any = false;
   branchListReqTemp: any = [];
   branchOrTagValue = "";
+  disableSubmitBtn: boolean = false;
+  tempTrArrayDeploy: any = [];
+  tempTrArrayJira:  any = [];
+  userstoryDropdownSettings: any = {};
+  userStoryList: any;
+  selectedUS: any;
+  selectedUSData: any;
+
   ngOnInit() {
     this.getJobParamDetails();
   }
@@ -194,6 +211,14 @@ export class TriggerComponent implements OnInit {
         this.idpdataService.buildIntervalData = [];
     }
     this.initialize();
+  }
+
+  populateDBDeployRollBackTypeList() {
+    this.dbDeployRollbackTypeList = [{ 'name': 'byTag', 'value': 'byTag' },
+    { 'name': 'byChangeSet', 'value': 'byChangeSet' },
+    { 'name': 'byHours', 'value': 'byHours' },
+    { 'name': 'byDate', 'value': 'byDate' }
+    ];
   }
 
   changeDBDeployRollbackValues() {
@@ -213,10 +238,12 @@ export class TriggerComponent implements OnInit {
         }
     }
   }
+
   addArtifact() {
     const temp = this.idpdataService.triggerJobData.artifactList;
     this.artifacts = [];
-    if (this.IDPDataSwitch.deploySelected === "on") {
+  this.allArtifactlist = [];
+  if (this.IDPDataSwitch.deploySelected === "on" && this.IDPDataSwitch.buildSelected === "on") {
         const tempLatestArtifact = [{
         "artifactName": "",
         "artifactID": "", "groupId": "", "nexusURL": "", "repoName": "",
@@ -230,8 +257,109 @@ export class TriggerComponent implements OnInit {
         tempLatestArtifact[0].nexusURL = this.idpdataService.triggerJobData.nexusURL;
         tempLatestArtifact[0].repoName = this.idpdataService.triggerJobData.repoName;
         this.artifacts = tempLatestArtifact;
+    this.allArtifactlist = tempLatestArtifact;
+      }
+  }
+
+  clearWorkItemField() {
+    this.notFound = [];
+    this.invalid = [];
+    this.validWorkItems = false;
+  }
+
+  validate() {
+    const list = this.IDPParamData.tfsWorkItem.split(",");
+
+    const mainList = [];
+    let x = true;
+
+    if (x) {
+      for (let y = 0; y < list.length; y++) {
+        if (y === list.length - 1) {
+          x = false;
+        }
+        const data = list[y];
+        this.idpdataService.loading = true;
+        this.idprestapiService.getWorkItems(data)
+          .then(response => {
+            if (response) {
+              this.idpdataService.loading = false;
+              const fields = response.json().fields;
+              const msg = response.json().message;
+
+              if (fields) {
+                const workType = fields["System.WorkItemType"];
+                const obj = {"workItem": data, "status": workType };
+                mainList.push(obj);
+              } else if (msg && msg.indexOf("does not exist") !== -1) {
+                const obj = { "workItem": data, "status": "not Found" };
+                mainList.push(obj);
+              }
+              if (mainList.length === list.length) {
+                this.checkValidity(mainList);
+              }
+            }
+            this.idpdataService.loading = false;
+          })
+          .catch(error => {
+            this.idpdataService.loading = false;
+          });
+      }
     }
   }
+
+  checkValidity(data) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].status === "not Found") {
+        this.notFound.push(data[i]);
+      } else if (data[i].status !== "Product Backlog Item" && data[i].status !== "Task") {
+        this.invalid.push(data[i]);
+      }
+    }
+
+    if (this.invalid.length === 0 && this.notFound.length === 0) {
+      this.validWorkItems = true;
+    }
+  }
+
+  clearUserStory() {
+    this.validateClick = "false";
+    this.valideStory = "false";
+  }
+
+  validateStories() {
+    this.idpdataService.loading = true;
+    this.idprestapiService.getUserStories(this.IDPParamData.jiraProjectKey).then(response => {
+      if (response) {
+        this.idpdataService.loading = false;
+        this.valideStory = "true";
+        if (response.json().resource !== null) {
+          const userStories = JSON.parse(response.json().resource).userStoryInfo;
+          const stories = this.IDPParamData.userStoryString.split(",");
+          let count = 0;
+          for (const i of stories) {
+            if (userStories.indexOf(i) === -1) {
+                count += 1;
+                this.validateClick = "false";
+            }
+          }
+          if (count === 0) {
+            this.validateClick = "true";
+          }
+
+        } else {
+          alert("No user stories available for this project");
+          this.validateClick = "false";
+        }
+
+      } else {
+        this.idpdataService.loading = false;
+        alert("Failed to get User Stories for the project");
+        this.validateClick = "false";
+      }
+    });
+}
+
   setArtifact1() {
     this.IDPDataSwitch.buildSelected = "on";
     this.IDPParamData.deploy.artifacts = "";
@@ -441,6 +569,11 @@ export class TriggerComponent implements OnInit {
 
   initialize() {
     if (!this.idpdataService.isSAPApplication) {
+        this.dbDeployRollbackTypeList = [{ 'name': 'byTag', 'value': 'byTag' },
+        { 'name': 'byChangeSet', 'value': 'byChangeSet' },
+        { 'name': 'byHours', 'value': 'byHours' },
+        { 'name': 'byDate', 'value': 'byDate' }
+        ];
 
         this.IDPParamData = {
         "applicationName": "",
@@ -452,6 +585,7 @@ export class TriggerComponent implements OnInit {
         "dashBoardLink": this.idpdataService.IDPDashboardURL,
         "pairNames": [],
         "jobParam": [],
+        "jiraProjectKey": "",
         "build": {
             "branchSelected": "",
             "module": []
@@ -594,6 +728,8 @@ export class TriggerComponent implements OnInit {
             ? this.idpdataService.triggerJobData.appSlaves : [];
         this.IDPParamData.applicationName = this.idpdataService.triggerJobData.hasOwnProperty("applicationName")
             ? this.idpdataService.triggerJobData.applicationName : "";
+            this.IDPParamData.jiraProjectKey = this.idpdataService.triggerJobData.hasOwnProperty("jiraProjectKey")
+             ? this.idpdataService.triggerJobData.jiraProjectKey : "";
         this.IDPParamData.pipelineName = this.idpdataService.triggerJobData.hasOwnProperty("pipelineName")
             ? this.idpdataService.triggerJobData.pipelineName : "";
         this.IDPDataSwitch.releaseNumberList = this.idpdataService.triggerJobData.hasOwnProperty("releaseNumber")
@@ -623,6 +759,14 @@ export class TriggerComponent implements OnInit {
         this.router.navigate(["/previousConfig"]);
         }
     } else {
+      this.userstoryDropdownSettings = {
+        singleSelection: false,
+        text: "Select User story(s)",
+        selectAllText: "Select All",
+        unSelectAllText: "UnSelect All",
+        enableSearchFilter: true,
+        classes: "myclass custom-class"
+      };
         this.dropdownSettings = {
         singleSelection: false,
         text: "Select Transport Requests",
@@ -656,6 +800,8 @@ export class TriggerComponent implements OnInit {
         "language": "",
         "transportRequest": [],
         "copyTR": false,
+        "userStories": [],
+        "userStoryMapping": [],
         "jobParam": [],
         "testPlanId": "",
         "testSuitId": "",
@@ -728,6 +874,11 @@ export class TriggerComponent implements OnInit {
                 this.build.codeAnalysis = this.idpdataService.triggerJobData.build.codeAnalysis;
                 }
             }
+            if (this.idpdataService.triggerJobData.build.hasOwnProperty("cast")) {
+              if (this.idpdataService.triggerJobData.build.cast) {
+                this.build.cast = this.idpdataService.triggerJobData.build.cast;
+              }
+            }
             if (this.idpdataService.triggerJobData.build.hasOwnProperty("unitTesting")) {
                 if (this.idpdataService.triggerJobData.build.unitTesting) {
                 this.build.unitTest = this.idpdataService.triggerJobData.build.unitTesting;
@@ -794,9 +945,19 @@ export class TriggerComponent implements OnInit {
             this.idprestapiService.getApplicationInfo(this.IDPParamData.applicationName).then(response => {
             if (response) {
                 const app = JSON.parse(response.json().resource);
-            }
+                    if (this.idpdataService.isSAPApplication) {
+                        this.IDPParamData.landscapesDetails = app.environmentOwnerDetails;
+                        const details = this.IDPParamData.landscapesDetails;
+                        for (let i = 0; i < details.length; i++) {
+                            if ("DEV" === details[i].landscapeType || "HOTFIX" === details[i].landscapeType) {
+                                this.devEnvList.push(details[i].environmentName);
+                            }
+                        }
+                    }
+                }
             });
         }
+        this.environment = this.idpdataService.SAPEnvList;
         this.intersectionValues();
         this.removeDuplicates();
         } catch (e) {
@@ -805,9 +966,37 @@ export class TriggerComponent implements OnInit {
         }
     }
   }
+
+  toggleSelectionSiebel(module) {
+
+    var idx = this.IDPParamData.build.module.indexOf(module);
+    if (idx > -1) {
+      this.IDPParamData.build.module.splice(idx, 1);
+      if (module == 'Full_Compile') {
+        this.IDPDataSwitch.srfcompile = 'off';
+      }
+      if (module == 'SIFSelected') {
+        this.IDPDataSwitch.sifImport = 'off';
+      }
+    }
+    else {
+      this.IDPParamData.build.module.push(module);
+      if (module == 'Full_Compile') {
+        this.IDPDataSwitch.srfcompile = 'on';
+      }
+      if (module == 'SIFSelected') {
+        this.IDPDataSwitch.sifImport = 'on';
+      }
+    }
+
+    console.log(this.IDPParamData.build.module)
+  }
+
   closeBuild() {
     this.IDPParamData.build.module = [];
     this.IDPDataSwitch.buildSelected = "off";
+    this.IDPParamData.slaveName = "";
+    this.slavestatus="";
     if (this.IDPParamData.deploy.artifacts === "") {
         this.IDPDataSwitch.deploySelected = "off";
     }
@@ -818,11 +1007,16 @@ export class TriggerComponent implements OnInit {
   closeDeploy() {
     this.IDPDataSwitch.deploySelected = "off";
     this.IDPParamData.deploy.artifacts = "";
+    if(this.IDPDataSwitch.buildSelected === "off"){
+    this.IDPParamData.slaveName="";
+    this.slavestatus="";
+    }
     this.tempDeploySteps = [];
     this.deployArr = [];
     this.IDPParamData.deploy.deployStep = [];
     this.IDPParamData.deploy.subModule = [];
     this.operation = [];
+    
     this.addArtifact();
     this.closeDBDeploy();
     return "off";
@@ -848,8 +1042,53 @@ export class TriggerComponent implements OnInit {
         this.IDPParamData.envSelected = "";
     }
   }
+  //siebel
+  repoDeployTrue() {
+    this.IDPParamData.repoDeployStatus = 'true';
+    return "on";
+  }
+
+  repoDeployFalse() {
+    this.IDPParamData.repoDeployStatus = 'false';
+    return "off";
+  }
+
+  nonRepoDeployTrue() {
+
+    this.IDPParamData.nonRepoDeployStatus = 'true';
+    this.IDPParamData.technology = 'siebel';
+    return "on";
+  }
+
+  nonRepoDeployFalse() {
+    this.IDPParamData.nonRepoDeployStatus = 'false';
+    this.IDPParamData.technology = 'siebel';
+    return "off";
+  }
   deployOptionAlert() {
     alert("Please select atleast one deploy option");
+  }
+  siebelBuildOption() {
+
+    this.IDPParamData.build.module[0] = []
+    if (this.IDPDataSwitch.sifImport == 'on') {
+      this.IDPParamData.build.module[0] += ';SIFSelected;';
+      if (this.IDPDataSwitch.srfCompile == 'on')
+        this.IDPParamData.build.module[0] += 'SRFSelected;';
+      if (this.IDPDataSwitch.srfCompileType == 'fullCompile')
+        this.IDPParamData.build.module[0] += 'Full_Compile;';
+      if (this.IDPDataSwitch.srfCompileType == 'incCompile')
+        this.IDPParamData.build.module[0] += 'Incremental_Compile;';
+    } else {
+      if (this.IDPDataSwitch.srfCompile == 'on')
+        this.IDPParamData.build.module[0] += ';SRFSelected;';
+      if (this.IDPDataSwitch.srfCompileType == 'fullCompile')
+        this.IDPParamData.build.module[0] += 'Full_Compile;';
+      if (this.IDPDataSwitch.srfCompileType == 'incCompile')
+        this.IDPParamData.build.module[0] += 'Incremental_Compile;';
+    }
+    this.IDPParamData.technology = 'siebel';
+    return true;
   }
 
   triggerAlert() {
@@ -867,18 +1106,20 @@ export class TriggerComponent implements OnInit {
   triggerSubmitArtifactAlert() {
     this.buttonSubmitArtifact.nativeElement.click();
   }
-  getObjectNames() {
-    this.IDPParamData.rebase.transportObject = "";
-    this.IDPParamData.rebase.targetEnvSelected = "";
-    this.IDPParamData.rebase.bugFixTR = "";
-    const tempObjectName = [];
-    for (let i = 0; i < this.objectData.length; i++) {
-        if (this.objectData[i].objectType === this.IDPParamData.rebase.transportObjectType) {
-        tempObjectName.push(this.objectData[i].objectName);
-        }
-    }
-    this.objectNameList = Array.from(new Set(tempObjectName));
+
+  // Checks conditions to show Landscape dropdown
+  checkCheckBoxesOn() {
+      if (this.IDPDataSwitch.buildSelected === "on" && (this.IDPParamData.build.cast === "on"
+      || this.IDPParamData.build.codeAnalysis === "on" || this.IDPParamData.build.unitTest === "on")) {
+          return true;
+      } else if (this.IDPDataSwitch.buildSelected !== "on"
+      && (this.IDPDataSwitch.deploySelected === "on" || this.IDPDataSwitch.testSelected === "on")) {
+          return true;
+      } else {
+          return false;
+      }
   }
+
   intersectionValues() {
     const finalData = this.buildEnv.filter(x => this.testEnv.indexOf(x) > -1);
     if (finalData !== undefined) {
@@ -900,6 +1141,7 @@ export class TriggerComponent implements OnInit {
         }
     }
   }
+
   onItemSelect(item: any) {
     for (let j = 0; j < this.unselectedTRs.length; j++) {
         if (item.itemName === this.unselectedTRs[j].transportReqName) {
@@ -949,82 +1191,145 @@ export class TriggerComponent implements OnInit {
   }
   saveData() {
     jQuery("#saveAlertForthis").modal("hide");
+
     this.idpdataService.loading = true;
     this.IDPParamData.releaseNumber = this.IDPDataSwitch.releaseNumber;
     if (this.IDPDataSwitch.repoName === "na") {
-        this.IDPParamData.deploy.deployArtifact = {};
+      this.IDPParamData.deploy.deployArtifact = {};
     } else {
-        if (this.IDPParamData.deploy !== null) {
+      if (this.IDPParamData.deploy !== null) {
         this.IDPParamData.deploy.deployArtifact = this.IDPParamData.deploy.artifacts;
+      }
+    }
+
+
+
+    console.log(this.IDPParamData.deploy.deployArtifact);
+
+    if (this.idpdataService.isSAPApplication) {
+      if (this.idpdataService.checkpollALM) {
+        if (this.IDPParamData.userStories === undefined) {
+          this.IDPParamData.useStories = [];
         }
+        for (const i of this.selectedUS) {
+          this.IDPParamData.userStories.push(i.itemName);
+        }
+      }
+      for (const i of this.selectedItems) {
+        this.IDPParamData.transportRequest.push(i.itemName);
+      }
+      if (this.idpdataService.checkpollALM) {
+        const userStoryMapsTRs = new Map<String, any>();
+        for (const data of this.userStoryArray) {
+          if (this.IDPParamData.userStories.indexOf(data.Userstory) !== -1) {
+            const tempTRs = [];
+            for (const tr of data.transportRequest) {
+              if (this.IDPParamData.transportRequest.includes(tr)) {
+                tempTRs.push(tr);
+              }
+            }
+            if (tempTRs.length > 0) {
+              userStoryMapsTRs.set(data.Userstory, tempTRs);
+            }
+          }
+        }
+        this.IDPParamData.userStoryMapping = userStoryMapsTRs;
+      }
     }
     if (((this.IDPDataSwitch.buildSelected === "off"
-        || this.IDPDataSwitch.buildSelected === null
-        || this.IDPDataSwitch.buildSelected === undefined) &&
-        (this.IDPDataSwitch.testSelected === "off"
-        || this.IDPDataSwitch.testSelected === null
-        || this.IDPDataSwitch.testSelected === undefined) &&
-        (this.IDPDataSwitch.deploySelected === "off"
-        || this.IDPDataSwitch.deploySelected === null
-        || this.IDPDataSwitch.deploySelected === undefined))) {
-        this.idpdataService.loading = false;
+     || this.IDPDataSwitch.buildSelected === null
+      || this.IDPDataSwitch.buildSelected === undefined) &&
+      (this.IDPDataSwitch.testSelected === "off"
+       || this.IDPDataSwitch.testSelected === null
+        || this.IDPDataSwitch.testSelected === undefined)
+      && (this.IDPDataSwitch.deploySelected === "off"
+       || this.IDPDataSwitch.deploySelected === null || this.IDPDataSwitch.deploySelected === undefined)) ||
+      (this.IDPParamData.deploy.update !== "on" && this.IDPParamData.deploy.rollback !== "on" &&
+        this.IDPParamData.deploy.misc !== "on" && this.idpdataService.triggerJobData.technology === "dbDeployDelphix")) {
+      this.idpdataService.loading = false;
+      if (this.IDPParamData.deploy.update !== "on" && this.IDPParamData.deploy.rollback !== "on" &&
+        this.IDPParamData.deploy.misc !== "on" && this.idpdataService.triggerJobData.technology === "dbDeployDelphix") {
+        this.triggerAlertDBDep();
+      } else {
         this.triggerAlert();
+      }
+      // this.parameterloading = false;
     } else {
-        if (this.tempDeploySteps.length !== 0 && this.tempDeploySteps.length !== undefined) {
+      if (this.tempDeploySteps.length !== 0 && this.tempDeploySteps.length !== undefined) {
         for (let i = 0; i < this.deployArr.length; i++) {
-            const step = this.deployArr[i];
-            if (this.deployArr[i] !== null) {
+          const step = this.deployArr[i];
+          if (this.deployArr[i] !== null) {
             this.IDPParamData.deploy.deployStep.push(step);
-            }
+            console.log(this.IDPParamData.deploy.deployStep);
+          }
         }
-        }
-        if (this.tempTestSteps.length !== 0 && this.tempTestSteps.length !== undefined) {
+      }
+      if (this.tempTestSteps.length !== 0 && this.tempTestSteps.length !== undefined) {
         for (let i = 0; i < this.testArr.length; i++) {
-            const step = this.testArr[i];
-            if (this.testArr[i] !== null) {
+          const step = this.testArr[i];
+          if (this.testArr[i] !== null) {
             this.IDPParamData.testStep.push(step);
-            }
+            console.log(this.IDPParamData.testStep);
+          }
         }
+      }
+      const requestData = this.IDPParamData;
+      console.log(requestData);
+
+      if (this.idpdataService.isSAPApplication) {
+        if (this.IDPDataSwitch.buildSelected === "on" && this.idpdataService.checkpollALM) {
+          if (this.buildEnv[0]) {
+            requestData.envSelected = this.buildEnv[0];
+            console.log(this.buildEnv[0]);
+          }
         }
-        const requestData = this.IDPParamData;
-        if (this.IDPDataSwitch.buildSelected === "off"
-        || this.IDPDataSwitch.buildSelected === null
-        || this.IDPDataSwitch.buildSelected === undefined) {
+      }
+      if (this.IDPDataSwitch.buildSelected === "off"
+       || this.IDPDataSwitch.buildSelected === null ||
+        this.IDPDataSwitch.buildSelected === undefined) {
         requestData.build = null;
-        }
-        if (this.IDPDataSwitch.deploySelected !== "on"
-        || this.IDPDataSwitch.deploySelected === null
-        || this.IDPDataSwitch.deploySelected === undefined) {
+      }
+      if (this.IDPDataSwitch.deploySelected !== "on"
+       || this.IDPDataSwitch.deploySelected === null || this.IDPDataSwitch.deploySelected === undefined) {
         requestData.deploy = null;
-        }
-        if (this.IDPDataSwitch.testSelected === "off"
-        || this.IDPDataSwitch.testSelected === null
-        || this.IDPDataSwitch.testSelected === undefined) {
+      }
+      if (this.IDPDataSwitch.testSelected === "off"
+       || this.IDPDataSwitch.testSelected === null || this.IDPDataSwitch.testSelected === undefined) {
         if (this.idpdataService.isSAPApplication) {
+          // requestData.testSelected = 'off';
         } else {
-            requestData.testSelected = "off";
+          requestData.testSelected = "off";
+          // requestData.test = null;
         }
-        } else if (this.IDPDataSwitch.testSelected === "on") {
+      } else if (this.IDPDataSwitch.testSelected === "on") {
         requestData.testSelected = "on";
-        }
+      }
 
-        if (this.IDPDataSwitch.reconcileSelected === undefined
-        || this.IDPDataSwitch.reconcileSelected === null
-        || this.IDPDataSwitch.reconcileSelected === "off") {
+      if (this.IDPDataSwitch.reconcileSelected === undefined
+         || this.IDPDataSwitch.reconcileSelected === null || this.IDPDataSwitch.reconcileSelected === "off") {
         requestData.rebase = null;
-        }
+        console.log("rebase: " + requestData.rebase);
+      }
 
-        if (this.IDPDataSwitch.deploySelected === "off"
-        && this.IDPDataSwitch.testSelected === "off"
-        && (!this.idpdataService.isSAPApplication)) {
+      if (this.IDPDataSwitch.deploySelected === "off"
+       && this.IDPDataSwitch.testSelected === "off" && (!this.idpdataService.isSAPApplication)) {
         requestData.envSelected = "";
-        }
-        requestData.jobParam = [];
-        this.idpdataService.buildIntervalData[this.idpdataService.index].details = requestData;
-        this.idpdataService.statusCheck[this.idpdataService.index] = "off";
-        this.idpdataService.loading = false;
-        jQuery("#addDetails").modal("hide");
+      }
+      requestData.jobParam = [];
+      console.log(requestData);
+
+
+      // console.log(JSON.stringify(requestData));
+      this.idpdataService.buildIntervalData[this.idpdataService.index].details = requestData;
+      this.idpdataService.statusCheck[this.idpdataService.index] = "off";
+      console.log(this.idpdataService.buildIntervalData);
+      this.idpdataService.loading = false;
+      console.log(this.idpdataService.triggerJobData);
+      jQuery("#addDetails").modal("hide");
+
     }
+
+    console.log(this.idpdataService.triggerJobData);
     this.initialize();
   }
 
@@ -1042,9 +1347,11 @@ export class TriggerComponent implements OnInit {
                 if (err === null && response.json().resource.toLowerCase() === "success") {
                 this.idpdataService.loading = false;
                 this.msg = "success";
+                this.disableSubmitBtn = true;
                 setTimeout(() => { this.router.navigate(["/previousConfig/stageviewTrigger"]); }, 7000);
                 this.redirectTo();
                 } else {
+                this.disableSubmitBtn = false;
                 this.idpdataService.loading = false;
                 this.msg = "error";
                 setTimeout(() => { this.router.navigate(["/previousConfig"]); }, 7000);
@@ -1069,6 +1376,40 @@ export class TriggerComponent implements OnInit {
         this.IDPParamData.deploy.deployArtifact = {};
     } else {
         this.IDPParamData.deploy.deployArtifact = this.IDPParamData.deploy.artifacts;
+    }
+    if (this.idpdataService.isSAPApplication) {
+      if (this.idpdataService.checkpollALM) {
+        if (this.IDPParamData.userStories === undefined) {
+          this.IDPParamData.userStories = [];
+        }
+        for (const i of this.selectedUS) {
+          this.IDPParamData.userStories.push(i.itemName);
+        }
+      }
+      for (const i of this.selectedItems) {
+        this.IDPParamData.transportRequest.push(i.itemName);
+      }
+    if (this.idpdataService.checkpollALM) {
+        for (const data of this.userStoryArray) {
+            const userStoryMapsTRs = {
+            userstory : "",
+            transportRequests : []
+          };
+          if (this.IDPParamData.userStories.indexOf(data.Userstory) !== -1) {
+            const tempTRs = [];
+            for (const tr of data.Transport) {
+              if (this.IDPParamData.transportRequest.includes(tr)) {
+                tempTRs.push(tr);
+              }
+            }
+            if (tempTRs.length > 0) {
+              userStoryMapsTRs.userstory = data.Userstory;
+              userStoryMapsTRs.transportRequests = tempTRs;
+              this.IDPParamData.userStoryMapping.push(userStoryMapsTRs);
+            }
+          }
+        }
+      }
     }
     if (this.IDPDataSwitch.buildSelected === "off"
         || this.IDPDataSwitch.buildSelected === null
@@ -1139,6 +1480,14 @@ export class TriggerComponent implements OnInit {
         this.IDPParamData.virtualServicesList = this.virtualServicesArr;
         }
         requestData = this.IDPParamData;
+
+        if (this.idpdataService.isSAPApplication) {
+            if (this.IDPDataSwitch.buildSelected === "on" && this.idpdataService.checkpollALM) {
+                if (this.buildEnv[0]) {
+                    requestData.envSelected = this.buildEnv[0];
+                }
+            }
+        }
         if (this.IDPDataSwitch.buildSelected === "off"
         || this.IDPDataSwitch.buildSelected === null
         || this.IDPDataSwitch.buildSelected === undefined) {
@@ -1152,9 +1501,16 @@ export class TriggerComponent implements OnInit {
         if (this.IDPDataSwitch.testSelected === "off"
         || this.IDPDataSwitch.testSelected === null
         || this.IDPDataSwitch.testSelected === undefined) {
-        requestData.testSelected = "off";
+            if (!this.idpdataService.isSAPApplication) {
+                requestData.testSelected = "off";
+            }
         } else if (this.IDPDataSwitch.testSelected === "on") {
-        requestData.testSelected = "on";
+            requestData.testSelected = "on";
+        }
+        if (this.IDPDataSwitch.reconcileSelected === undefined
+            || this.IDPDataSwitch.reconcileSelected === null
+            || this.IDPDataSwitch.reconcileSelected === "off") {
+            requestData.rebase = null;
         }
         if (this.IDPDataSwitch.deploySelected === "off"
         && this.IDPDataSwitch.testSelected === "off"
@@ -1177,9 +1533,23 @@ export class TriggerComponent implements OnInit {
     jQuery("#saveAlertForthis").modal("hide");
     this.idpdataService.loading = true;
     const requestData = this.getRequestData();
+
+
+
     if (requestData === undefined) {
-        console.log("Request data undefined: " + requestData);
+      console.log("Request data undefined: " + requestData);
     } else {
+      console.log(requestData);
+
+      console.log(JSON.stringify(requestData));
+      if (this.workflowSequenceIndexI !== undefined) {
+        console.log("workflowSequenceIndex: " + this.workflowSequenceIndexI);
+        this.idpdataService.workflowData.workflowSequence[this.workflowSequenceIndexI].
+        applicationDetails[this.workflowSequenceIndexJ].pipelineDetails[this.workflowSequenceIndexK] = requestData;
+        this.idpdataService.workflowData.workflowSequenceTemp[this.workflowSequenceIndexI].IDPDataSwitch = this.IDPDataSwitch;
+      } else {
+        console.log("Unable to update as workflowSequenceIndex is: " + this.workflowSequenceIndexI);
+      }
     }
     this.idpdataService.loading = false;
     jQuery("#addPipelineDetails").modal("hide");
@@ -1241,26 +1611,46 @@ export class TriggerComponent implements OnInit {
                 && response.json().resource !== "[]"
                 && response.json().resource !== "{}") {
                 this.artifacts = JSON.parse(response.json().resource).artifactList;
+				this.allArtifactlist = JSON.parse(response.json().resource).artifactList;
                 const tempLatestArtifact = [{
                     "artifactName": "",
                     "artifactID": "", "groupId": "", "nexusURL": "",
                     "repoName": "", "version": "", "buildModules": "",
                     "enviromment": "", "userInfo": "", "timestamp": "", "downloadURL": ""
                 }];
+				                                
+				this.filterArtifacts();
+				const artifactSize=this.artifacts.length;
                 tempLatestArtifact[0].artifactName = this.idpdataService.triggerJobData.applicationName + "_" +
                     this.idpdataService.triggerJobData.pipelineName + "_latestArtifact";
+				alert("version" + this.artifacts[artifactSize-1].version); 
                 tempLatestArtifact[0].groupId = this.idpdataService.triggerJobData.applicationName;
                 tempLatestArtifact[0].artifactID = this.idpdataService.triggerJobData.pipelineName;
                 tempLatestArtifact[0].nexusURL = this.idpdataService.triggerJobData.nexusURL;
                 tempLatestArtifact[0].repoName = this.idpdataService.triggerJobData.repoName;
-                this.artifacts.push(tempLatestArtifact[0]);
-                }
+				tempLatestArtifact[0].downloadURL="http://"+tempLatestArtifact[0].nexusURL + "/repository/" + tempLatestArtifact[0].repoName+"/"+this.IDPParamData.applicationName+"/"+this.IDPParamData.pipelineName+"/"+this.artifacts[artifactSize-1].version+"/"+this.IDPParamData.pipelineName+"-"+this.artifacts[artifactSize-1].version+".zip";
+				this.artifacts.push(tempLatestArtifact[0]);
+				}
             }
             this.idpdataService.loading = false;
             });
+			
         }
         }
     }
+  }
+  
+  filterArtifacts() {
+      this.artifacts = [];
+      for (let i = 0; i < this.allArtifactlist.length; i++) {
+        if (_.includes(this.allArtifactlist[i].version, this.IDPDataSwitch.releaseNumber) !== false) {
+            this.artifacts.push(this.allArtifactlist[i]);
+        }
+
+      }
+      if (this.artifacts.length === 0) {
+            alert("Please select both build and deploy");
+      }
   }
 
   /*calling rest service for getting jobparam details*/
@@ -1595,6 +1985,12 @@ export class TriggerComponent implements OnInit {
         }
     }
   }
+  unCheckCast() {
+    this.IDPParamData.build.cast = "off";
+    this.IDPParamData.castSlaveName = "";
+    this.IDPParamData.build.oldVersion = "";
+    this.IDPParamData.build.newVersion = "";
+  }
   scheduleJobOn() {
     const data = {
         "applicationName": this.IDPParamData.applicationName,
@@ -1656,6 +2052,16 @@ export class TriggerComponent implements OnInit {
             if (this.packageContent !== undefined && this.packageContent.dotNet !== undefined
             && this.packageContent.dotNet.moduleName !== undefined) {
             this.dotNet = this.packageContent.dotNet.moduleName;
+            }
+            if (this.packageContent !== undefined && this.packageContent.bigData !== undefined
+                && this.packageContent.bigData.moduleName !== undefined) {
+                this.bigData = this.packageContent.bigData.moduleName;
+            }
+            if(this.packageContent !== undefined && this.packageContent.pega !== undefined){
+                this.pega = this.packageContent.pega;
+            }
+			      if(this.packageContent !== undefined && this.packageContent.siebel !== undefined){
+              this.siebel = this.packageContent.siebel;
             }
         }
 

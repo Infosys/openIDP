@@ -11,44 +11,33 @@ package com.infy.idp.tools
 import com.infy.idp.creators.*
 import com.infy.idp.utils.*
 
-/**
- *
- * This class has the method to archive Junit results
- *
- */
 class JUnitArchive {
 
-    private String pattern = ''
+	private String pattern = ''
 
-    public String updatePattern(pattern) {
-        this.pattern += (pattern + ',')
-    }
+	public String updatePattern(pattern) {
+		this.pattern += (pattern+',')
+	}
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
+	public void invokeJUnitArchive(context, jsonData) {
 
-    /*
-     * This method can be used for archiving Junit test results reports
-     */
+		context.with {
 
-    public void invokeJUnitArchive(context) {
+			archiveJunit(this.pattern) {
 
-        context.with {
+				// If set, does not fail the build on empty test results.
+				allowEmptyResults(false)
 
-            archiveJunit(this.pattern) {
+				// Sets the amplification factor to apply to test failures when computing the test result contribution to the build health score.
+				healthScaleFactor(1.0)
 
-                // If set, does not fail the build on empty test results.
-                allowEmptyResults(false)
-
-                // Sets the amplification factor to apply to test failures when computing the test result contribution to the build health score.
-                healthScaleFactor(1.0)
-
-                // If set, retains any standard output or error from a test suite in the test results after the build completes.
-                retainLongStdout(false)
-            }
-        }
-    }
-
-
+				// If set, retains any standard output or error from a test suite in the test results after the build completes.
+				retainLongStdout(false)
+			}
+		}
+	}
+	
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
 }

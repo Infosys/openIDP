@@ -17,9 +17,11 @@ import java.util.List;
 
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.jobs.IDPJob;
+import org.infy.idp.entities.jobs.Names;
 import org.infy.idp.entities.jobs.Pipeline;
 import org.infy.idp.entities.jobs.Pipelines;
 import org.infy.idp.utils.EncryptionUtil;
+import org.infy.idp.utils.TriggerBuilds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,12 @@ public class DeploymentDL {
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
 
+	@Autowired
+	private DeploymentDL deploymentDL;
+	
+	@Autowired
+	private TriggerBuilds triggerBuilds;
+	
 	private static final Logger logger = LoggerFactory.getLogger(DeploymentDL.class);
 	private static final String WHERE_CLAUSE = " WHERE ";
 	private static final String SELECT_CLAUSE = " SELECT ";
@@ -99,5 +107,44 @@ public class DeploymentDL {
 
 		return pipelines;
 	}
+	
+	public boolean updatePipelies() {
+		Pipelines pipelines = deploymentDL.getPipelineDetails();
+		int pipelinesSize = pipelines.getPipelines().size();
+		
+		for (int i = 0; i < pipelinesSize; i++) {
+			updateJob(pipelines.getPipelines().get(i));
+		}
+		return true;
+	}
+	
+	
+	public void updateJob(Pipeline pipeline) {
+		logger.info("Pipeline " + pipeline.getApplicationName() + "_" + pipeline.getPipelineName() + "_Main"
+				+ " is getting updated.");
+		try {
+			triggerBuilds.buildByJobName(pipeline.getPipelineJson());
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+
+	}
+	
+	
+	public boolean updateProvidedPipelies(Names pipeList) {
+		Pipelines pipelines = deploymentDL.getPipelineDetails();
+
+		int pipelinesSize = pipelines.getPipelines().size();
+		for (int i = 0; i < pipelinesSize; i++) {
+			Pipeline pipeline = pipelines.getPipelines().get(i);
+			String pipelineName = pipeline.getApplicationName() + "_" + pipeline.getPipelineName();
+			if (pipeList.getNames().contains(pipelineName)) {
+				logger.debug("Pipeline to update: " + pipelineName);
+				updateJob(pipeline);
+			}
+		}
+		return true;
+	}
+
 
 }

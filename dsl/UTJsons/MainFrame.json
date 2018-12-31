@@ -1,0 +1,108 @@
+{
+	"basicInfo": {
+		"applicationName": "Application_stack",
+		"pipelineName": "MF_Pipe",
+		"masterSequence": "pipeline",
+		"buildServerOS": "windows",
+		"engine": "Jenkins Workflow",
+		"buildInterval": {
+			"pollSCM": "off",
+			"buildInterval": "",
+			"buildIntervalValue": "0"
+		},
+		"additionalMailRecipients": {
+			"applicationTeam": "",
+			"emailIds": ""
+		},
+		"userName": "userName",
+		"pipelineStatus": "edit"
+	},
+	"code": {
+		"category": "Standard",
+		"technology": "mainframe",
+		"scm": [
+			{
+				"type": "git",
+				"url": "http://infygit.domain.com/angelin.mariya/MFED_CLI.git",
+				"userName": "Ciplatform",
+				"password": "password",
+				"repositoryBrowser": "gitHub",
+				"browserUrl": "",
+				"projectName": "",
+				"branch": "master",
+				"projPath": "",
+				"moduleName": "",
+				"clearcaseType": "",
+				"vobName": "",
+				"snapshotViewName": "",
+				"configSpec": "",
+				"developmentStreamName": "",
+				"buildConfiguration": "",
+				"buildDefinition": "",
+				"repositoryWorkspace": "",
+				"projArea": "",
+				"port": "",
+				"version": "",
+				"exclude": "",
+				"proxy": "",
+				"proxyPort": "",
+				"appRepo": "on",
+				"deployRepo": "",
+				"testRepo": ""
+			}
+		],
+		"jobParam": [],
+		"buildScript": [
+			{
+				"tool": ""
+			},
+			{
+				"tool": ""
+			},
+			{
+				
+			}
+		],
+		"subApplication": ""
+	},
+	"buildInfo": {
+		"buildtool": "mainframe",
+		"artifactToStage": {
+			"artifactRepo": {
+				"repoPassword": "password"
+			},
+			"artifactRepoName": "na"
+		},
+		"modules": [
+			{
+				"codeAnalysis": [],
+				"unitTesting": "off",
+				"testSuite": "",
+				"mainProjectName": "MFED_CLI\\TEST1",
+				"codeAna": "on",
+				"dllName": "Cobol_UnitTest.dll",
+				"fixPath": "MFED_CLI\\Cobol_UnitTest\\New_Configuration.bin"
+			}
+		],
+		"postBuildScript": {
+			
+		}
+	},
+	"deployInfo": {
+		"deployEnv": [
+			{
+				"envName": "dev",
+				"envFlag": "off",
+				"scriptType": ""
+			}
+		]
+	},
+	"testInfo": {
+		"testEnv": [
+			{
+				"envName": "dev",
+				"envFlag": "off"
+			}
+		]
+	}
+}

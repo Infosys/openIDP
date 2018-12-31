@@ -5,6 +5,8 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
+// tslint:disable
+
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { PreviousConfigComponent } from "./previous-config.component";
 

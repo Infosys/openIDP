@@ -40,12 +40,12 @@ export ZOOKEEPER_PORT=2181
 export KAFKA_HOSTNAME=kafka
 export KAFKA_PORT=9092
 
-export CONFIG_HOSTNAME=config
+export CONFIG_HOSTNAME=$HOSTNAME
 export CONFIG_PORT=8888
 export CONFIG_USERNAME=idpadmin
 export CONFIG_PASSWORD=idpadmin@123
 
-export EUREKA_HOSTNAME=eureka
+export EUREKA_HOSTNAME=$HOSTNAME
 export EUREKA_PORT=8761
 
 export SCHEDULER_HOSTNAME=$HOSTNAME
@@ -108,11 +108,21 @@ mkdir -p $MOUNT_DIR/jenkinsdata/
 
 
 #Checking SSL Preferences
+export SSL_ENABLED=false
+export SSL_KS_LOC=/certs/idp.p12
+export SSL_KS_LOC_JKS=/certs/idp.jks
+export SSL_KS_PASSWORD=password
+export SSL_KS_TYPE=PKCS12
+export SSL_CERT_ALIAS=idp
+export SSL_CA_LOC=/certs/cacerts
+export SSL_CA_PASSWORD=changeit
 if [ "$SSL_ENABLED" = true ]
 then
 	export PROTOCOL=https
+	export COMPOSE_FILE=docker_compose_ssl.yml
 else
 	export PROTOCOL=http
+	export COMPOSE_FILE=docker_compose.yml
 fi
 
 
@@ -136,7 +146,7 @@ then
 	then
 		echo "Compiling Cloud Config ......."
 		cd $EXEC_DIR/service/Cloud-Config
-		docker run --rm -v $PWD:/Config $LOCAL_M2_CACHE -w=/Config $MAVEN_BUILD_IMAGE  mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/Config $LOCAL_M2_CACHE -w=/Config $MAVEN_BUILD_IMAGE  mvn clean install $MAVEN_TESTS
 		echo "Building Cloud Config Docker Image"
 		docker build -t idp/idpconfig ./
 	fi
@@ -147,7 +157,7 @@ then
 	then
 		echo "Compiling Eurkea ......."
 		cd $EXEC_DIR/service/eureka-service
-		docker run --rm -v $PWD:/eureka $LOCAL_M2_CACHE -w=/eureka $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/eureka $LOCAL_M2_CACHE -w=/eureka $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		echo "Building Eureka Docker Image"
 		docker build -t idp/idpeureka ./
 	fi
@@ -158,7 +168,7 @@ then
 	then
 		echo "Compiling Services & OAuth ......."
 		cd $EXEC_DIR/service/Services
-		docker run --rm -v $PWD:/Services $LOCAL_M2_CACHE -w=/Services $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/Services $LOCAL_M2_CACHE -w=/Services $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		
 		echo "Building OAuth Docker Image"
 		cd $EXEC_DIR/service/Services/authservice
@@ -174,9 +184,9 @@ then
 	then
 		echo "Compiling DSL"
 		cd $EXEC_DIR/dsl
-		docker run --rm -v $PWD:/dsl -v $PWD/../service/Services/entities/target/:/entities -e WGET_PROXY="$WGET_PROXY" -w=/dsl --entrypoint "sh" $WGET_IMAGE libs_download.sh
-		docker run --rm -v $PWD:/dsl $LOCAL_M2_CACHE -w=/dsl $MAVEN_BUILD_IMAGE mvn clean package $DSL_EXEC
-		docker run --rm -v $PWD:/dsl -v $MOUNT_DIR:$MOUNT_DIR -w=/dsl $ARCHIVE_MGMT_IMAGE unzip -o target/DSL.zip -d $MOUNT_DIR/dsldata/
+		docker run --rm -it -v $PWD:/dsl -v $PWD/../service/Services/entities/target/:/entities -e WGET_PROXY="$WGET_PROXY" -w=/dsl --entrypoint "sh" $WGET_IMAGE libs_download.sh
+		docker run --rm -it -v $PWD:/dsl $LOCAL_M2_CACHE -w=/dsl $MAVEN_BUILD_IMAGE mvn clean package $DSL_EXEC
+		docker run --rm -it -v $PWD:/dsl -v $MOUNT_DIR:$MOUNT_DIR -w=/dsl $ARCHIVE_MGMT_IMAGE unzip -o target/DSL.zip -d $MOUNT_DIR/dsldata/
 	fi
 	
 	#UI
@@ -184,8 +194,8 @@ then
 	then
 		echo "Compiling UI ......."
 		cd $EXEC_DIR/ui
-		docker run --rm -v $PWD:/idpapp -w=/idpapp -e NPM_PROXY="$NPM_PROXY" $ANGULAR_BUILD_IMAGE sh node_build.sh
-		docker run --rm -v $PWD:/idpapp $LOCAL_M2_CACHE -w=/idpapp $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/idpapp -w=/idpapp -e NPM_PROXY="$NPM_PROXY" $ANGULAR_BUILD_IMAGE sh node_build.sh
+		docker run --rm -it -v $PWD:/idpapp $LOCAL_M2_CACHE -w=/idpapp $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		echo "Building UI Docker Image"
 		docker build -t idp/idpapp ./
 	fi
@@ -195,7 +205,7 @@ then
 	then
 		echo "Compiling Subscription Module ......."
 		cd $EXEC_DIR/subscription
-		docker run --rm -v $PWD:/subscription $LOCAL_M2_CACHE -w=/subscription $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/subscription $LOCAL_M2_CACHE -w=/subscription $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		echo "Building Subscription Docker Image"
 		docker build -t idp/idpsubscription ./
 	fi
@@ -205,7 +215,7 @@ then
 	then
 		echo "Compiling Dashboard Module ......."
 		cd $EXEC_DIR/dashboard
-		docker run --rm -v $PWD:/dashboard $LOCAL_M2_CACHE -w=/dashboard $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/dashboard $LOCAL_M2_CACHE -w=/dashboard $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		echo "Building Dashboard Docker Image"
 		docker build -t idp/idpdashboard ./
 	fi
@@ -215,7 +225,7 @@ then
 	then
 		echo "Compiling Scheduler Module ......."
 		cd $EXEC_DIR/scheduler/SchedulerService
-		docker run --rm -v $PWD:/scheduler $LOCAL_M2_CACHE -w=/scheduler $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD:/scheduler $LOCAL_M2_CACHE -w=/scheduler $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		echo "Building Scheduler Docker Image"
 		docker build -t idp/idpscheduler ./
 	fi
@@ -226,15 +236,15 @@ then
 	then
 		echo "Building Custom Tools ......."
 		cd $EXEC_DIR/jenkins/custom_tools
-		docker run --rm -v $PWD/DevopsJsonConv:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
-		docker run --rm -v $PWD/MetricsProcessor:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
-		docker run --rm -v $PWD/ReportFetchUtil:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
-		docker run --rm -v $PWD/SchedulerUtility:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD/DevopsJsonConv:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD/MetricsProcessor:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD/ReportFetchUtil:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
+		docker run --rm -it -v $PWD/SchedulerUtility:/custom_tools $LOCAL_M2_CACHE -w=/custom_tools $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS
 		
 		echo "Configuring Jenkins for Startup ......."
 		cd $EXEC_DIR/jenkins
-		docker run --rm -v $PWD:/jenkins -v $MOUNT_DIR/jenkinsdata/:/jenkinsdata/ -e WGET_PROXY="$WGET_PROXY" -w=/jenkins --entrypoint "sh" $WGET_IMAGE libs_download.sh
-		docker run --rm -v $PWD:/jenkins -v $MOUNT_DIR/jenkinsdata/:/jenkinsdata/ -e WGET_PROXY="$WGET_PROXY" -w=/jenkins --entrypoint "sh" $ARCHIVE_CREATE_IMAGE libs_pack_move.sh
+		docker run --rm -it -v $PWD:/jenkins -v $MOUNT_DIR/jenkinsdata/:/jenkinsdata/ -e WGET_PROXY="$WGET_PROXY" -w=/jenkins --entrypoint "sh" $WGET_IMAGE libs_download.sh
+		docker run --rm -it -v $PWD:/jenkins -v $MOUNT_DIR/jenkinsdata/:/jenkinsdata/ -e WGET_PROXY="$WGET_PROXY" -w=/jenkins --entrypoint "sh" $ARCHIVE_CREATE_IMAGE libs_pack_move.sh
 		
 		echo "Building Jenkins Docker Image"
 		docker build -t idp/jenkins ./
@@ -248,14 +258,14 @@ fi
 if [ "$SKIP_TOOLS_CONFIG" != true ]
 then
 	cd $MOUNT_DIR
-	docker run --rm -v $PWD:/datafiles -v $PWD/grafanadata/:/grafanadata -v $PWD/jenkinsdata/:/jenkinsdata -v $PWD/dsldata/:/dsldata -e PIP_PROXY="$PIP_PROXY" -e HOSTNAME=$HOSTNAME -e PROTOCOL=$PROTOCOL -e JENKINS_PORT=$JENKINS_PORT -e JENKINS_USERNAME=$JENKINS_USERNAME -e JENKINS_PASSWORD=$JENKINS_PASSWORD  -e DASHBOARD_PORT=$DASHBOARD_PORT -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e IDPAPP_PORT=$IDPAPP_PORT  -w=/datafiles $ANSIBLE_IMAGE sh config.sh
+	docker run --rm -it -v $PWD:/datafiles -v $PWD/grafanadata/:/grafanadata -v $PWD/jenkinsdata/:/jenkinsdata -v $PWD/dsldata/:/dsldata -e PIP_PROXY="$PIP_PROXY" -e HOSTNAME=$HOSTNAME -e PROTOCOL=$PROTOCOL -e JENKINS_PORT=$JENKINS_PORT -e JENKINS_USERNAME=$JENKINS_USERNAME -e JENKINS_PASSWORD=$JENKINS_PASSWORD  -e DASHBOARD_PORT=$DASHBOARD_PORT -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e IDPAPP_PORT=$IDPAPP_PORT  -w=/datafiles $ANSIBLE_IMAGE sh config.sh
 fi
 
 #Docker Stack Deployment
 echo "Deploying IDP Stack"
 cd $EXEC_DIR
 chmod -R 0777 $EXEC_DIR/datafiles
-docker stack deploy -c $EXEC_DIR/docker_compose.yml IDP
+docker stack deploy -c $EXEC_DIR/$COMPOSE_FILE IDP
 
 #Health Checks
-docker run --rm --network="host" -v $PWD:/health -e PROTOCOL=$PROTOCOL -e GRAFANA_HOSTNAME=$HOSTNAME -e GRAFANA_PORT=$GRAFANA_PORT -e CONFIG_HOSTNAME=$HOSTNAME -e CONFIG_PORT=$CONFIG_PORT -e CONFIG_USERNAME=$CONFIG_USERNAME -e CONFIG_PASSWORD=$CONFIG_PASSWORD -e EUREKA_HOSTNAME=$HOSTNAME -e EUREKA_PORT=$EUREKA_PORT -e SCHEDULER_HOSTNAME=$HOSTNAME -e SCHEDULER_PORT=$SCHEDULER_PORT -e KEYCLOAK_HOSTNAME=$HOSTNAME -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e JENKINS_HOSTNAME=$HOSTNAME -e JENKINS_PORT=$JENKINS_PORT -e OAUTH_HOSTNAME=$HOSTNAME -e OAUTH_PORT=$OAUTH_PORT -e DASHBOARD_HOSTNAME=$HOSTNAME -e DASHBOARD_PORT=$DASHBOARD_PORT -e IDPAPP_HOSTNAME=$HOSTNAME -e IDPAPP_PORT=$IDPAPP_PORT -e SUBSCRIPTION_HOSTNAME=$HOSTNAME -e SUBSCRIPTION_PORT=$SUBSCRIPTION_PORT -e SERVICES_HOSTNAME=$HOSTNAME -e SERVICES_PORT=$SERVICES_PORT -w=/health --entrypoint "sh" $WGET_IMAGE health_check.sh
+docker run --rm -it --network="host" -v $PWD:/health -e PROTOCOL=$PROTOCOL -e GRAFANA_HOSTNAME=$HOSTNAME -e GRAFANA_PORT=$GRAFANA_PORT -e CONFIG_HOSTNAME=$HOSTNAME -e CONFIG_PORT=$CONFIG_PORT -e CONFIG_USERNAME=$CONFIG_USERNAME -e CONFIG_PASSWORD=$CONFIG_PASSWORD -e EUREKA_HOSTNAME=$HOSTNAME -e EUREKA_PORT=$EUREKA_PORT -e SCHEDULER_HOSTNAME=$HOSTNAME -e SCHEDULER_PORT=$SCHEDULER_PORT -e KEYCLOAK_HOSTNAME=$HOSTNAME -e KEYCLOAK_PORT=$KEYCLOAK_PORT -e JENKINS_HOSTNAME=$HOSTNAME -e JENKINS_PORT=$JENKINS_PORT -e OAUTH_HOSTNAME=$HOSTNAME -e OAUTH_PORT=$OAUTH_PORT -e DASHBOARD_HOSTNAME=$HOSTNAME -e DASHBOARD_PORT=$DASHBOARD_PORT -e IDPAPP_HOSTNAME=$HOSTNAME -e IDPAPP_PORT=$IDPAPP_PORT -e SUBSCRIPTION_HOSTNAME=$HOSTNAME -e SUBSCRIPTION_PORT=$SUBSCRIPTION_PORT -e SERVICES_HOSTNAME=$HOSTNAME -e SERVICES_PORT=$SERVICES_PORT -w=/health --entrypoint "sh" $WGET_IMAGE health_check.sh

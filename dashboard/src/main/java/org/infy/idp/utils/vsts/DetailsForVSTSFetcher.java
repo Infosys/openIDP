@@ -68,7 +68,7 @@ public class DetailsForVSTSFetcher {
 			logger.info("Jenkins URL for Job: "+jenkinsURL);
 			String userName = configurationManager.getJenkinsID();
 			String password = configurationManager.getJenkinsPassword();
-//			logger.info("get update id: "+triggerId);
+
 //			logger.info("Job "+appName+"_"+pipName+" is triggered.");
 			String jobname = appName+"_"+pipName+"_Pipeline";
 			String executionLink = jenkinsURL+"/job/"+jobname+"/"+buildNumber+"/console";
@@ -462,11 +462,11 @@ public class DetailsForVSTSFetcher {
 			}
 			
 			if(test==null || test.equals("off")){
-				//System.out.println("3r2525");
+
 				testTriggered = "N";
 			}
 			else{
-				//System.out.println("what");
+
 				testTriggered= "Y";
 			}
 			
@@ -498,7 +498,7 @@ public class DetailsForVSTSFetcher {
             
             
 			
-			//String tfs = insertFetchVSTS.updateJobStatus(buildBuildStatus,tfsWorkItem,executionLink,branchorTagValue,envSelected,deployStatus,testStatus);
+
 			
 			
 			
@@ -632,7 +632,7 @@ public class DetailsForVSTSFetcher {
         }
 
         
-       // System.out.println("FINAL build No"+scmStatusArray);
+
 		return status;
 	}
 

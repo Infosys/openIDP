@@ -19,7 +19,7 @@ import {LoginKcService} from "../login-kc.service";
 })
 export class KeycloakComponent implements OnInit {
 
-  constructor(private IdpdataService: IdpdataService,
+  constructor(private idpdataService: IdpdataService,
     private IdpService: IdpService,
     private IdprestapiService: IdprestapiService,
     private router: Router,
@@ -31,24 +31,25 @@ export class KeycloakComponent implements OnInit {
         .then(response => {
         try {
         if (response) {
-                this.IdpdataService.devServerURL = response.json().idpresturl;
-                // this.IdpdataService.devServerURL = "https://idplinv02:8889/idprest";
-                // this.IdpdataService.devServerURL = "http://server411214d:8889/idprest";
-                this.IdpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
-                this.IdpdataService.IDPDashboardURL = response.json().idpdashboardurl;
-                this.IdpdataService.IDPLink = response.json().IDPLink;
-                this.IdpdataService.geUrl = response.json().geUrl;
-                this.IdpdataService.geFlag = response.json().geFlag;
-                this.IdpdataService.serverUrl = response.json().tfsServerUrl;
-                this.IdpdataService.uName = response.json().uName;
-                this.IdpdataService.pass = response.json().pass;
-                console.log(this.IdpdataService.devServerURL);
+                 this.idpdataService.devServerURL = response.json().idpresturl;
+                // this.idpdataService.devServerURL = "https://idplinv02:8889/idprest";
+                // this.idpdataService.devServerURL = "http://server324895d:8889/idprest";
+                this.idpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
+                this.idpdataService.IDPDashboardURL = response.json().idpdashboardurl;
+                this.idpdataService.IDPLink = response.json().IDPLink;
+                this.idpdataService.geUrl = response.json().geUrl;
+                this.idpdataService.geFlag = response.json().geFlag;
+                this.idpdataService.serverUrl = response.json().tfsServerUrl;
+                this.idpdataService.uName = response.json().uName;
+                this.idpdataService.pass = response.json().pass;
+                console.log(this.idpdataService.devServerURL);
 
                 // KC properties
-                this.IdpdataService.keycloakUrl = response.json().keycloakUrl;
-                this.IdpdataService.keycloakRealm = response.json().keycloakRealm;
-                this.IdpdataService.keycloakClientId = response.json().keycloakClientId;
-                KeycloakService.init(this.IdpdataService.keycloakUrl, this.IdpdataService.keycloakRealm, this.IdpdataService.keycloakClientId)
+                this.idpdataService.keycloakUrl = response.json().keycloakUrl;
+                this.idpdataService.keycloakRealm = response.json().keycloakRealm;
+                this.idpdataService.keycloakClientId = response.json().keycloakClientId;
+                KeycloakService.init(this.idpdataService.keycloakUrl,
+                   this.idpdataService.keycloakRealm, this.idpdataService.keycloakClientId)
     .then(() => this.loginkcService.getData())
     .catch(e => console.log(e));
             }

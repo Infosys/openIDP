@@ -93,18 +93,18 @@ export class IdprestapiService {
         {
         "name": "Standard",
         "value": "Standard"
-        }
-        /* OSS Removal of Package and Mobile
-      {
+        },
+        {
         "name": "Package",
         "value": "Package"
-      }
+        }
+       
        ,
        {
          "name": "Mobile",
          "value": "Mobile"
        }
-       OSS Removal End */
+      
     ],
     "SCMList": [
         {
@@ -120,14 +120,15 @@ export class IdprestapiService {
         "value": "tfs"
         },
         // {
+        //     "name": "IBM RTC",
+        //     "value": "rtc"
+        // },
+        // {
         //   "name": "CVS",
         //   "value": "cvs"
         // },
         /* OSS Milestone 2
-      {
-        "name": "IBM RTC",
-        "value": "rtc"
-      },
+
       */
         // {
         //   "name": "Rational ClearCase",
@@ -316,6 +317,39 @@ export class IdprestapiService {
         .catch(Error => console.log(Error));
 
   }
+
+  getWorkItems(workitem): Promise <any> {
+    const url = this.idpdataService.serverUrl + "/_apis/wit/Workitems/" + workitem + "?api-version=2.2";
+    const headers = new Headers();
+    headers.append("Authorization", "Basic " + this.base64EncodeDecode(this.idpdataService.uName, this.idpdataService.pass));
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http
+    .get(url, options)
+    .toPromise()
+    .then(response => response)
+    .catch(error => error);
+
+  }
+
+  getUserStories(data): Promise<any> {
+    const url = this.idpdataService.devServerURL + "/trigger/pipelines/stories/" + data;
+    const headers = new Headers();
+    let cookie;
+    if (this._cookieService.get("access_token")) {
+      cookie = this._cookieService.get("access_token");
+    }
+    headers.append("Authorization", "Bearer " + cookie);
+    const options = new RequestOptions({ headers: headers });
+    console.log(url);
+    return this.http
+          .get(url, options)
+          .toPromise()
+          .then(response => response)
+          .catch(error => console.log(error));
+
+  }
+
   updatePlan(data1, data2, data3, envData): Promise<any> {
     const url = this.idpdataService.devServerURL + "/applicationService/updateRelease/" + data1 + "/" + data2 + "/" + data3;
     let cookie;
@@ -416,8 +450,8 @@ export class IdprestapiService {
         .then(response => console.log(response))
         .catch(error => console.log(error));
   }
-  checkApplicationNames(data): Promise<any> {
-    const url = this.idpdataService.devServerURL + "/applicationService/IDP/jobid1/getApplication";
+  checkApplicationNames(data,  operation = "jobid1"): Promise<any> {
+    const url = this.idpdataService.devServerURL + "/applicationService/IDP/" + operation + "/getApplication";
     const headers = new Headers();
     let cookie;
     if (this._cookieService.get("access_token")) {
@@ -502,7 +536,7 @@ export class IdprestapiService {
 
   }
   checkForApplicationType(data): Promise<any> {
-    const url = this.idpdataService.devServerURL + "/jobService/pipelines/sapApplication/" + data;
+    const url = this.idpdataService.devServerURL + "/sapJobService/pipelines/sapApplication/" + data;
     const headers = new Headers();
     let cookie;
     if (this._cookieService.get("access_token")) {
@@ -519,38 +553,38 @@ export class IdprestapiService {
 
   }
 
-  getEnvSlots(application_name, env): Promise<any> {
+//   getEnvSlots(application_name, env): Promise<any> {
 
-    const url = this.idpdataService.devServerURL + "/releaseService/existingEnvSlots/" + application_name + "/" + env; let cookie;
-    const headers = new Headers();
-    if (this._cookieService.get("access_token")) {
-        cookie = this._cookieService.get("access_token");
-    }
-    headers.append("Authorization", "Bearer " + cookie);
-    const options = new RequestOptions({ headers: headers });
-    return this.http
-        .get(url, options)
-        .toPromise()
-        .then(response => response)
-        .catch(Error => console.log(Error));
+//     const url = this.idpdataService.devServerURL + "/releaseService/existingEnvSlots/" + application_name + "/" + env; let cookie;
+//     const headers = new Headers();
+//     if (this._cookieService.get("access_token")) {
+//         cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
+//     const options = new RequestOptions({ headers: headers });
+//     return this.http
+//         .get(url, options)
+//         .toPromise()
+//         .then(response => response)
+//         .catch(Error => console.log(Error));
 
-  }
+//   }
 
-  getExistingSlot(application_name, release_number, env): Promise<any> {
-    const url = this.idpdataService.devServerURL + "/releaseService/existingSlots/" + release_number + "/" + application_name + "/" + env;
-    let cookie;
-    const headers = new Headers();
-    if (this._cookieService.get("access_token")) {
-        cookie = this._cookieService.get("access_token");
-    }
-    headers.append("Authorization", "Bearer " + cookie);
-    const options = new RequestOptions({ headers: headers });
-    return this.http
-        .get(url, options)
-        .toPromise()
-        .then(response => response)
-        .catch(Error => console.log(Error));
-  }
+//   getExistingSlot(application_name, release_number, env): Promise<any> {
+//     const url = this.idpdataService.devServerURL + "/releaseService/existingSlots/" + release_number + "/" + application_name + "/" + env;
+//     let cookie;
+//     const headers = new Headers();
+//     if (this._cookieService.get("access_token")) {
+//         cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
+//     const options = new RequestOptions({ headers: headers });
+//     return this.http
+//         .get(url, options)
+//         .toPromise()
+//         .then(response => response)
+//         .catch(Error => console.log(Error));
+//   }
 
   emailToEnvOwner(envOwner): Promise<any> {
 
@@ -573,24 +607,24 @@ export class IdprestapiService {
 
   }
 
-  getPipelineEnv(data, data1): Promise<any> {
-    const url = this.idpdataService.devServerURL + "/applicationService/environment/pipelines/" + data1 + "/" + data;
-    const headers = new Headers();
-    let cookie;
-    if (this._cookieService.get("access_token")) {
-        cookie = this._cookieService.get("access_token");
-    }
-    headers.append("Authorization", "Bearer " + cookie);
+//   getPipelineEnv(data, data1): Promise<any> {
+//     const url = this.idpdataService.devServerURL + "/applicationService/environment/pipelines/" + data1 + "/" + data;
+//     const headers = new Headers();
+//     let cookie;
+//     if (this._cookieService.get("access_token")) {
+//         cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
 
-    const options = new RequestOptions({ headers: headers });
-    console.log(url);
-    return this.http
-        .get(url, options)
-        .toPromise()
-        .then(response => response)
-        .catch(error => console.log(error));
+//     const options = new RequestOptions({ headers: headers });
+//     console.log(url);
+//     return this.http
+//         .get(url, options)
+//         .toPromise()
+//         .then(response => response)
+//         .catch(error => console.log(error));
 
-  }
+//   }
   getEnvironmentPairs(data): Promise<any> {
     const url = this.idpdataService.devServerURL + "/jobService/pairName";
     const headers = new Headers();
@@ -628,6 +662,83 @@ export class IdprestapiService {
         .catch(error => console.log(error));
 
   }
+
+
+// getLandscapesForSap(data): Promise<any> {
+
+//         const url = this.idpdataService.devServerURL + "/sapJobService/pipelines/landscapes/" + data;
+//         const headers = new Headers();
+//         let cookie;
+//         if (this._cookieService.get("access_token")) {
+//           cookie = this._cookieService.get("access_token");
+//         }
+//         headers.append("Authorization", "Bearer " + cookie);
+//         const options = new RequestOptions({ headers: headers });
+//         return this.http
+//               .get(url, options)
+//               .toPromise()
+//               .then(response => response)
+//               .catch(error => console.log(error));
+
+//   }
+
+
+//   getVariantNamesForSap(data): Promise<any> {
+
+//     const url = this.idpdataService.devServerURL + "/sapJobService/pipelines/variant/" + data.application_name + "/" + data.landscape_name;
+//     const headers = new Headers();
+//     let cookie;
+//     if (this._cookieService.get("access_token")) {
+//       cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
+//     const options = new RequestOptions({ headers: headers });
+//     return this.http
+//           .get(url, options)
+//           .toPromise()
+//           .then(response => response)
+//           .catch(error => console.log(error));
+//   }
+
+
+//   getTransportRequest(data): Promise<any> {
+
+//     const url = this.idpdataService.devServerURL + "/sapJobService/pipelines/transportrequest/"
+//     + data.application_name + "?landscapeName=" + data.landscapeName + "&&deployOperation=" + data.deployOperation;
+//     const headers = new Headers();
+//     let cookie;
+//     if (this._cookieService.get("access_token")) {
+//       cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
+//     headers.append("Accept", "*/*");
+//     const options = new RequestOptions({ headers: headers });
+//     return this.http
+//           .get(url, options)
+//           .toPromise()
+//           .then(response => response)
+//           .catch(error => console.log(error));
+
+//   }
+
+
+//   getUserStoriesSAP(data): Promise<any> {
+//     const url = this.idpdataService.devServerURL + "/sapJobService/pipelines/userstories/"
+//     + data.application_name + "/" + data.pipeline_name + "/" + data.release;
+//     const headers = new Headers();
+//     let cookie;
+//     if (this._cookieService.get("access_token")) {
+//       cookie = this._cookieService.get("access_token");
+//     }
+//     headers.append("Authorization", "Bearer " + cookie);
+//     const options = new RequestOptions({ headers: headers });
+//     return this.http
+//           .get(url, options)
+//           .toPromise()
+//           .then(response => response)
+//           .catch(error => console.log(error));
+//   }
+
   getIDPDropdownProperties() {
     const techStackJson = this.dropDownProperties;
     return techStackJson;
@@ -1153,7 +1264,7 @@ export class IdprestapiService {
 
   getHistoryReleases(requestData): Promise<any> {
     const url = this.idpdataService.devServerURL + "/releaseService/release/info/" +
-        this.idpdataService.releaseManagerData.applicationName + "/" + requestData + "/on";
+        this.idpdataService.releaseManagerData.applicationName + "/" + requestData + "/off";
     const headers = new Headers();
     let cookie;
     if (this._cookieService.get("access_token")) {
@@ -1208,6 +1319,24 @@ export class IdprestapiService {
         .then(response => response)
         .catch(error => console.log(error));
   }
+
+  getArtifactsApprovePortal(data): Promise < any > {
+    var url= this.idpdataService.devServerURL + '/releaseService/getApprovedArtifact';
+      let headers = new Headers();
+      let cookie;
+      if(this._cookieService.get('access_token')) {
+        cookie = this._cookieService.get('access_token');
+      }
+                 headers.append('Content-type', 'application/json');
+      headers.append('Authorization', 'Bearer ' + cookie);
+      //let data = requestData;
+      let options = new RequestOptions({ headers: headers });
+      return this.http
+    .post(url, data, options)
+    .toPromise()
+    .then(response => { return response; })
+    .catch(error => console.log(error));
+}
 
   updateReleases(responseData): Promise<any> {
     const url = this.idpdataService.devServerURL + "/releaseService/release/update";
@@ -1412,9 +1541,9 @@ export class IdprestapiService {
     return encodedString;
   }
 
-  buildIntervalTriggerJobs(data): Promise<any> {
+  buildIntervalTriggerJobs(data,applicationName,pipelineName,userName): Promise<any> {
 
-    const url = this.idpdataService.devServerURL + "/jobService/trigger/triggerInterval";
+    const url = this.idpdataService.devServerURL + "/jobService/trigger/"+applicationName+"/"+pipelineName+"/"+userName+"/triggerInterval";
     const headers = new Headers();
     let cookie;
     console.log(data);
@@ -1471,7 +1600,7 @@ export class IdprestapiService {
   }
 
   getPipelineAdmins(appName): Promise<any> {
-    const url = this.idpdataService.devServerURL + "/jobService/pipelineAdmins?applicationName=" + appName;
+    const url = this.idpdataService.devServerURL + "/trigger/pipelineAdmins?applicationName=" + appName;
     const headers = new Headers();
     let cookie;
     if (this._cookieService.get("access_token")) {
@@ -1566,6 +1695,24 @@ export class IdprestapiService {
         .then(response => response)
         .catch(error => console.log(error));
   }
+
+    getTRObjects(appName, landscapeName): Promise<any> {
+        const url = this.idpdataService.devServerURL + "/sapJobService/rebase/" + appName + "/" + landscapeName;
+        const headers = new Headers();
+        let cookie;
+        if (this._cookieService.get("access_token")) {
+            cookie = this._cookieService.get("access_token");
+        }
+        headers.append("Content-type", "application/json");
+        headers.append("Authorization", "Bearer " + cookie);
+        const options = new RequestOptions({ headers: headers });
+        return this.http
+            .get(url, options)
+            .toPromise()
+            .then(response => response)
+            .catch(error => console.log(error));
+    }
+
 
   createLicense(data): Promise<any> {
 

@@ -1,12 +1,11 @@
 /***********************************************************************************************
 *
-* Copyright 2018 Infosys Ltd. 
+* Copyright 2018 Infosys Ltd.
 * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
 * https://opensource.org/licenses/MIT.
 *
 ***********************************************************************************************/
 package org.infy.idp.bl;
-
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -108,9 +107,9 @@ public class InsertInfoBL {
 	 * @param dp
 	 */
 	 
-	public void dataInfo(int appid,String classname,String mi,String cp,String dp){
+	public void dataInfo(int appid,String classname,String mi,String cbo,String cr,String doth,String loc,String locom1,String mnol,String mnop,String noa,String noam,String nocon,String noo,String noom,String norm,String rfc,String cc,String wmpc1,String cp,String dp){
 		 try {
-			 executor.insertICQAdetails(appid, classname, mi, cp, dp);
+			 executor.insertICQAdetails(appid, classname,cbo,cr,doth,loc,locom1,mnol,mnop,noa,noam,nocon,noo,noom,norm,rfc,cc,wmpc1, mi, cp, dp);
 	    } catch (SQLException | IOException e) {
 	    	logger.error(e.getMessage(),e);
 	    }
@@ -613,10 +612,9 @@ public class InsertInfoBL {
 				String jenkinsUrl=configurationManager.getJenkinsURL();
 				if(jenkinsUrl.indexOf("//")!=-1) {
 					logger.info(jenkinsUrl+ "jenkinsUrl");
-					String[] splitWith=jenkinsUrl.split("//");
-					String[] splitForrest=splitWith[1].split(":");
-					String apiFixUrl="http://"+splitForrest[0]+":8889/";
-					String url=apiFixUrl+"idprest/jobService/jiraUpdate/"+resultSplit[0]+"/"+resultSplit[1];
+					String[] splitWith=jenkinsUrl.split(":");
+				    String apiFixUrl= splitWith[0]+":"+splitWith[1]+":8889/";
+					String url=apiFixUrl+"idprest/trigger/jiraUpdate/"+resultSplit[0]+"/"+resultSplit[1];
 					logger.info(url+ "apiurl");
 					URL urlCall;
 					try {
@@ -627,7 +625,7 @@ public class InsertInfoBL {
 						logger.info("connection" );
 						connection.setRequestMethod("GET");
 						connection.setDoOutput(false);
-
+						connection.getInputStream();
 						
 						
 					} 

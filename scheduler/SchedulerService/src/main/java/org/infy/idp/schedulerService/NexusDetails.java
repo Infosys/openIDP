@@ -188,8 +188,6 @@ public class NexusDetails {
 			if (artifact) {
 				String urlToHit = "http://" + nexusURL + "/service/siesta/rest/beta/search?repository=" + repoName
 						+ "&group=" + applicationName + "&name=" + pipelineName;
-				// triggerInputs.setRepoName(repoName);
-				// triggerInputs.setNexusURL(nexusURL);
 
 				String response = this.getInputStream(userName, passWord, urlToHit);
 				logger.info("abcdefg" + response);
@@ -375,11 +373,12 @@ public class NexusDetails {
 		queryStatement.append(" FROM trelease_path_config ");
 		queryStatement.append(" WHERE release_id = ? ");
 		int count = 0;
+		ResultSet rs = null;
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 
 			preparedStatement.setInt(1, releaseId);
-			ResultSet rs = preparedStatement.executeQuery();
+			 rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				count = rs.getInt(1);
 			}
@@ -389,7 +388,17 @@ public class NexusDetails {
 		} catch (SQLException | NullPointerException e) {
 			logger.error("Postgres Error while fetching permissions:", e);
 			throw e;
-		}
+		}finally{
+	   		if(rs != null){
+	   			try{
+	   			rs.close();
+	   			}
+	   			catch(SQLException e){
+	   				logger.error("Postgres Error while closing resultset :",e);
+	   			}
+	   		}
+	   	}
+		
 	}
 
 	public List<Integer> getParentEnvId(int envId, int releaseId) throws SQLException {
@@ -406,13 +415,13 @@ public class NexusDetails {
 		queryStatement.append(" env_id = ? ");
 		queryStatement.append(AND_CLAUSE);
 		queryStatement.append(" release_id = ? ");
-
+		ResultSet rs = null;
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 
 			preparedStatement.setInt(1, envId);
 			preparedStatement.setInt(2, releaseId);
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 
@@ -426,7 +435,16 @@ public class NexusDetails {
 		} catch (SQLException e) {
 			logger.error("Postgres Error while fetching permissions:", e);
 			throw e;
-		}
+		}finally{
+	   		if(rs != null){
+	   			try{
+	   			rs.close();
+	   			}
+	   			catch(SQLException e){
+	   				logger.error("Postgres Error while closing resultset :",e);
+	   			}
+	   		}
+	   	}
 
 	}
 
@@ -447,13 +465,14 @@ public class NexusDetails {
 		queryStatement.append(AND_CLAUSE);
 		queryStatement.append(" status LIKE ? ");
 		System.out.println("yooyy" + queryStatement);
+		ResultSet rs = null;
 		try (Connection connection = postGreSqlDbContext.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
 
 			preparedStatement.setInt(1, envId);
 			preparedStatement.setInt(2, releaseId);
 			preparedStatement.setString(3, status);
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 
@@ -467,7 +486,16 @@ public class NexusDetails {
 		} catch (SQLException e) {
 			logger.error("Postgres Error while fetching permissions:", e);
 			throw e;
-		}
+		}finally{
+	   		if(rs != null){
+	   			try{
+	   			rs.close();
+	   			}
+	   			catch(SQLException e){
+	   				logger.error("Postgres Error while closing resultset :",e);
+	   			}
+	   		}
+	   	}
 
 	}
 

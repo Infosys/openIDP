@@ -22,11 +22,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DBTableConstants {
+	
 	private HashMap<String, String> datamap = new HashMap();
 	private List<String> idplist = new ArrayList();
 	protected Logger logger = LoggerFactory.getLogger(DBTableConstants.class);
-	public String dashboard = "DASHBOARD";
-	public String idp = "IDP";
+	public static final String DASHBOARD = "DASHBOARD";
+	public static final String IDP = "IDP";
 
 	DBTableConstants() {
 		datamap.put("appCommitsPerEngineer",
@@ -56,34 +57,37 @@ public class DBTableConstants {
 		datamap.put("jiraPipelineCount",
 				" select count (distinct t1.pipeline_name )from tpipeline_info as t1 inner join( select release_number,pipeline_id,userstorystring from ttrigger_history where release_number=? and pipeline_id in (select pipeline_id from tpipeline_info where application_id in (select application_id from tapplication_info where application_name=? ))) as t2 on t1.pipeline_id=t2.pipeline_id");
 		datamap.put("idpnoofapplications", "Select count(distinct application_name) from appinfo");
-		datamap.put("idpnoofusers", "SELECT  count(distinct user_id) FROM private.tuser_info");
-		datamap.put("idpnoofpipelines", "SELECT  count(id) FROM private.appinfo");
+
+		datamap.put("idpnoofusers", "SELECT  count(distinct user_id) FROM public.tuser_info");
+		datamap.put("idpnoofpipelines", "SELECT  count(id) FROM public.appinfo");
 		datamap.put("idpnoofbuilds",
-				"SELECT count(appid) FROM private.buildinfo where (stagename like '%Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
-		datamap.put("idpnooftests", "SELECT count(*) FROM private.testanalysis");
+				"SELECT count(appid) FROM public.buildinfo where (stagename like '%Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
+		datamap.put("idpnooftests", "SELECT count(*) FROM public.testanalysis");
 		datamap.put("passbuilds",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
 		datamap.put("unstablebuilds",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='UNSTABLE' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='UNSTABLE' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
 		datamap.put("failbuilds",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='FAILURE' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='FAILURE' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
 		datamap.put("abortbuilds",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='ABORTED' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
-		datamap.put("cidata", "SELECT count(appid) FROM private.buildinfo where (stagename like 'Build%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='ABORTED' AND (stagename like 'Build%' OR stagename like 'Deploy%' OR stagename like 'Test%')");
+		datamap.put("cidata", "SELECT count(appid) FROM public.buildinfo where (stagename like 'Build%')");
 		datamap.put("cidatapass",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Build%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Build%')");
 		datamap.put("cidatafail",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='FAILURE' AND (stagename like 'Build%')");
-		datamap.put("cddata", "SELECT count(appid) FROM private.buildinfo where (stagename like 'Deploy%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='FAILURE' AND (stagename like 'Build%')");
+		datamap.put("cddata", "SELECT count(appid) FROM public.buildinfo where (stagename like 'Deploy%')");
 		datamap.put("cddatapass",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Deploy%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Deploy%')");
 		datamap.put("cddatafail",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='FAILURE' AND (stagename like 'Deploy%')");
-		datamap.put("ctdata", "SELECT count(appid) FROM private.buildinfo where (stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='FAILURE' AND (stagename like 'Deploy%')");
+		datamap.put("ctdata", "SELECT count(appid) FROM public.buildinfo where (stagename like 'Test%')");
 		datamap.put("ctdatapass",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='SUCCESS' AND (stagename like 'Test%')");
 		datamap.put("ctdatafail",
-				"SELECT count(appid) FROM private.buildinfo where buildstatus='FAILURE' AND (stagename like 'Test%')");
+				"SELECT count(appid) FROM public.buildinfo where buildstatus='FAILURE' AND (stagename like 'Test%')");
+		datamap.put("applicationname",
+				"Select count(distinct application_name) from appinfo");
 		idplist.add("storystatusboard");
 		idplist.add("updatedRelease");
 		idplist.add("pipelineExecutedForRelease");
@@ -92,8 +96,13 @@ public class DBTableConstants {
 		idplist.add("alm1StoryCount");
 		idplist.add("alm1PipelineCount");
 		idplist.add("jiraPipelineCount");
-		idplist.add("idpnoofusers");
 		idplist.add("jiraStoryCount");
+		idplist.add("sparkEnvDetailsTypeNew");
+		idplist.add("applicationname");
+		idplist.add("idpnoofusers");
+		idplist.add("devTopViolatedRules");
+		idplist.add("devTestResultInfo");
+		
 	}
 
 
@@ -102,18 +111,18 @@ public class DBTableConstants {
 		if (datamap.containsKey(queryName)) {
 			query.add(datamap.get(queryName));
 			if (idplist.contains(queryName)) {
-				query.add(idp);
+				query.add(IDP);
 			} else {
-				query.add(dashboard);
+				query.add(DASHBOARD);
 			}
 		}
 		if (query.isEmpty()) {
 			query.add(queryName);
 			if (queryName.contains("tapplication_info") || queryName.contains("ttrigger_history")
-					|| queryName.contains("tpipeline_info"))
-				query.add(idp);
+					|| queryName.contains("tpipeline_info") || queryName.contains("icqa"))
+				query.add(IDP);
 			else
-				query.add(dashboard);
+				query.add(DASHBOARD);
 		}
 		return query;
 	}

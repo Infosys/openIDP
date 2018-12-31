@@ -5,6 +5,7 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
+// tslint:disable
 import { GoCntrlComponent } from "./go-cntrl.component";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ParentFormConnectComponent } from "../../parent-form-connect/parent-form-connect.component";

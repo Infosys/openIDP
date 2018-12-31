@@ -51,14 +51,14 @@ class DeployToContainer {
                 case 'wildFly':
 
                     break
-                /*case 'weblogic':
+                case 'weblogic':
                     def webLogic = new WeblogicDeploy()
                     webLogic.envIndex = envIndex;
                     webLogic.stepIndex = stepIndex;
                     WeblogicDeploy.buildServer = jsonData.basicInfo.buildServerOS;
                     webLogic.add(delegate, jsonData);
                     break
-                case 'nifi':
+                /*case 'nifi':
                     publishers {
                         PublishOverSSH pbObj = new PublishOverSSH();
                         pbObj.envIndex = envIndex;

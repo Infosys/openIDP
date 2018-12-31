@@ -124,7 +124,7 @@
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
                 <div class="modal-body">
-                    For RPT analysis, SCM section details are mandatory.
+                    For RPT and HP-UFT analysis, SCM section details are mandatory.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
@@ -133,6 +133,32 @@
             </div>
         </div>
     </div>
+    <!-- -->
+
+    <!-- Alert for mandatory SAP fields with Jira Bug -->
+    <button #modalforMandatorySAPStepswithJira [hidden]="true" type="button" data-toggle="modal" data-target="#mandatorySAPSteps">Del Modal</button>
+    <div id="mandatorySAPSteps" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert Message</h4>
+                </div>
+                <div class="modal-body">
+                    Atleast one more operation should be selected along with "Raise Jira Bug on failure" on BuildInfo Page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- -->
+
 
     <button #modalforconfirmAlert [hidden]="true" type="button" data-toggle="modal" data-target="#confirmmsg">Del Modal</button>
     <div id="confirmmsg" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -178,7 +204,24 @@
 
 <form (ngSubmit)="go()" name="testInfoForm" #testInfoForm="ngForm" class="form-horizontal" ngNativeValidate>
     <fieldset [disabled]="IdpdataService.PagePersmission.test">
-        <div>
+        <!-- <div [ngSwitch]=" buildInfo.buildtool == 'go'">
+						<div *ngSwitchCase="true">
+								<div class="panel panel-default">
+										<div class="panel-heading panelHeadingBackground">
+												<div class="text-left">
+														<b class="txt_style">
+																{{'No Test Operations Available' | translate}}
+														</b>
+												</div>
+										</div>
+										<div class="panel-body">
+												{{'For the selected technology/pipeline Test Operations are not applicable.' | translate}}
+										</div>
+								</div>
+						</div>
+                </div> -->
+
+        <div >
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="text-left">
@@ -234,7 +277,7 @@
                                                             </div>
                                                             <div class="col-md-9 field-tip text-left">
                                                                 <input class="form-control txtbox" name="stepName{{i}}{{j}}" #stepName="ngModel" [(ngModel)]="env.stepName" type="text" id="tetssntb{{i}}{{j}}"
-                                                                    placeholder="Enter Step Name" (blur)="checkStepName(i,j)"
+                                                                    placeholder="Enter Step Name" (blur)="checkStepName(i,j)" pattern="[_a-zA-Z0-9-.]+"
                                                                     minlength="3" maxlength="200" required>
                                                                 <span class="tip-content" style="z-index: 1;"> {{'Please provide the test Step name'|translate}} </span>
                                                                 <div class="alert alert-danger" *ngIf="tempObjecttest.testEnv[i].testSteps[j].msgStep">
@@ -407,7 +450,7 @@
                                                                                                     </label>
                                                                                                 </div>
                                                                                                 <div class="col-md-3 text-left">
-                                                                                                    <input id="tirav{{i}}{{j}}{{k}}" class="form-control txtbox" name="antValue+{{i}}{{j}}{{k}}" #antKey="ngModel" [(ngModel)]="property.antValue"
+                                                                                                    <input id="tirav{{i}}{{j}}{{k}}" class="form-control txtbox" name="antValue+{{i}}{{j}}{{k}}" #antValue="ngModel" [(ngModel)]="property.antValue"
                                                                                                         type="text" placeholder="{{'value'|translate}}"
                                                                                                         pattern="[_a-zA-Z0-9-. ]+"
                                                                                                         minlength="1" maxlength="150"
@@ -663,7 +706,7 @@
                                                         <!-- End Run Script -->
 
                                                         <!-- Start Test Tool Option -->
-                                                        <div class="animate-switch-container" *ngIf="buildInfo.buildtool !=undefined && buildInfo.buildtool !='' && buildInfo.buildtool !='mssql'  && buildInfo.buildtool !='python' && buildInfo.buildtool !='dbDeploy' && buildInfo.buildtool!='reactjs'">
+                                                        <div class="animate-switch-container" *ngIf="buildInfo.buildtool !=undefined && buildInfo.buildtool !=''">
                                                             <div class="animate-switch" ng-switch-when="true">
                                                                 <div class="container-fluid form-group">
                                                                     <label class="checkbox-inline">
@@ -707,7 +750,254 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
+                                                               
+                                                                <!-- ios Monkey Talk start -->
+                                                                <div *ngIf="env.test.testTypeName ==='monkeyTalk'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class="col-md-3 text-right control-label">
+                                                                                {{'Project Name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosProjectName" type="text" name="iosProjectName{{i}}{{j}}" #iosProjectName="ngModel"
+                                                                                class="form-control txtbox" placeholder="DemoProject"
+                                                                                maxlength="150" required />
+                                                                            <span class="tip-content">{{'please provide Name of project which contains
+                                                                                Monkey Talk Test Scripts'|translate}}</span>
+                                                                            <div *ngIf="iosProjectName.errors && (iosProjectName.dirty || iosProjectName.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!iosProjectName.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!iosProjectName.errors.minlength">
+                                                                                    This Field Name must be at least 3 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosProjectName.errors.maxlength">
+                                                                                    This Field Name cannot be more than 200 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosProjectName.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
+                                                                        <div>
+                                                                            <label class="col-md-3 text-right control-label">
+                                                                                {{'Target'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosTarget" type="text" name="iosTarget{{i}}{{j}}" #iosTarget="ngModel"
+                                                                                class="form-control txtbox" placeholder="testOSSimulator"
+                                                                                maxlength="150" required />
+                                                                            <span class="tip-content">{{'Please provide Name of target which has to
+                                                                                be executed'|translate}}</span>
+                                                                            <div *ngIf="iosTarget.errors && (iosTarget.dirty || iosTarget.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!iosTarget.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!iosTarget.errors.minlength">
+                                                                                    This Field Name must be at least 3 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosTarget.errors.maxlength">
+                                                                                    This Field Name cannot be more than 200 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosTarget.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div>
+                                                                            <label class="col-md-3 text-right control-label">
+                                                                                {{'Monkey Talk Script Name'|translate}}
+                                                                                <span
+                                                                                    style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosMonkeyTalkScript" type="text" name="iosMonkeyTalkScript{{i}}{{j}}"
+                                                                                #iosMonkeyTalkScript="ngModel" class="form-control txtbox"
+                                                                                placeholder="MTScripts/script.mt, scripts.mts"
+                                                                                maxlength="150" required />
+                                                                            <span class="tip-content">{{'Please provide Path of Monkey Talk Script
+                                                                                which has to be executed'|translate}}</span>
+                                                                            <div *ngIf="iosMonkeyTalkScript.errors && (iosMonkeyTalkScript.dirty || iosMonkeyTalkScript.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!iosMonkeyTalkScript.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!iosMonkeyTalkScript.errors.minlength">
+                                                                                    This Field Name must be at least 3 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosMonkeyTalkScript.errors.maxlength">
+                                                                                    This Field Name cannot be more than 200 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!iosMonkeyTalkScript.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+<!-- ios Monkey Talk end -->
+<!-- android monkey talk start-->
+<div *ngIf="env.test.testTypeName ==='androidmonkeyTalk'">
+    <div class="row form-group">
+        <div>
+            <label class="col-md-3 text-right control-label">
+                {{'Project Name'|translate}}
+                <span style="color: red">*</span>
+            </label>
+        </div>
+        <div class="col-md-9 field-tip text-left">
+            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidProjectName" type="text" name="androidProjectName{{i}}{{j}}" #androidProjectName="ngModel"
+                class="form-control txtbox" placeholder="DemoProject"
+                maxlength="150" required />
+            <span class="tip-content">{{'please provide Name of project which contains
+                Monkey Talk Test Scripts'|translate}}</span>
+            <div *ngIf="androidProjectName.errors && (androidProjectName.dirty || androidProjectName.touched)" class="alert alert-danger ">
+                <div [hidden]="!androidProjectName.errors.required">
+                    This Field Name is required!
+                </div>
+                <div [hidden]="!androidProjectName.errors.minlength">
+                    This Field Name must be at least 3 characters long.
+                </div>
+                <div [hidden]="!androidProjectName.errors.maxlength">
+                    This Field Name cannot be more than 200 characters long.
+                </div>
+                <div [hidden]="!androidProjectName.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label class="col-md-3 text-right control-label">
+                {{'Target'|translate}}
+                <span style="color: red">*</span>
+            </label>
+        </div>
+        <div class="col-md-9 field-tip text-left">
+            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidTarget" type="text" name="androidTarget{{i}}{{j}}" #androidTarget="ngModel"
+                class="form-control txtbox" placeholder="testOSSimulator"
+                maxlength="150" required />
+            <span class="tip-content">{{'Please provide Name of target which has to
+                be executed'|translate}}</span>
+            <div *ngIf="androidTarget.errors && (androidTarget.dirty || androidTarget.touched)" class="alert alert-danger ">
+                <div [hidden]="!androidTarget.errors.required">
+                    This Field Name is required!
+                </div>
+                <div [hidden]="!androidTarget.errors.minlength">
+                    This Field Name must be at least 3 characters long.
+                </div>
+                <div [hidden]="!androidTarget.errors.maxlength">
+                    This Field Name cannot be more than 200 characters long.
+                </div>
+                <div [hidden]="!androidTarget.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label class="col-md-3 text-right control-label">
+                {{'Monkey Talk Script Name'|translate}}
+                <span
+                    style="color: red">*</span>
+            </label>
+        </div>
+        <div class="col-md-9 field-tip text-left">
+            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidMonkeyTalkScript" type="text" name="androidMonkeyTalkScript{{i}}{{j}}"
+                #androidMonkeyTalkScript="ngModel" class="form-control txtbox"
+                placeholder="MTScripts/script.mt, scripts.mts"
+                maxlength="150" required />
+            <span class="tip-content">{{'Please provide Path of Monkey Talk Script
+                which has to be executed'|translate}}</span>
+            <div *ngIf="androidMonkeyTalkScript.errors && (androidMonkeyTalkScript.dirty || androidMonkeyTalkScript.touched)" class="alert alert-danger ">
+                <div [hidden]="!androidMonkeyTalkScript.errors.required">
+                    This Field Name is required!
+                </div>
+                <div [hidden]="!androidMonkeyTalkScript.errors.minlength">
+                    This Field Name must be at least 3 characters long.
+                </div>
+                <div [hidden]="!androidMonkeyTalkScript.errors.maxlength">
+                    This Field Name cannot be more than 200 characters long.
+                </div>
+                <div [hidden]="!androidMonkeyTalkScript.errors.pattern">
+                    This Field Name can only consist of alphabetical, number, dot and underscore
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- android monkey talk end-->
+                                                                <!-- Oracle OATS-->
+                                                                <div *ngIf="env.test.testTypeName ==='oats'">
+                                                                    <div class="row form-group">
+                                                                        <div>
+                                                                            <label class="col-md-3 text-right control-label">
+                                                                                {{'Test Script'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.testScript" type="text" name="testScript{{i}}{{j}}" #testScript="ngModel"
+                                                                                class="form-control txtbox" placeholder="/EbizzScriptLogin/EbizzScriptLogin/EbizzScriptLogin.jwg"
+                                                                                maxlength="150" required />
+                                                                            <span class="tip-content">{{'Path of OATS Test Script relative to the checkout
+                                                                                path which has to be executed'|translate}}</span>
+                                                                            <div *ngIf="testScript.errors && (testScript.dirty || testScript.touched)" class="alert alert-danger ">
+                                                                                <div [hidden]="!testScript.errors.required">
+                                                                                    This Field Name is required!
+                                                                                </div>
+                                                                                <div [hidden]="!testScript.errors.minlength">
+                                                                                    This Field Name must be at least 3 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!testScript.errors.maxlength">
+                                                                                    This Field Name cannot be more than 200 characters long.
+                                                                                </div>
+                                                                                <div [hidden]="!testScript.errors.pattern">
+                                                                                    This Field Name can only consist of alphabetical, number, dot and underscore
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+																<!-- Start eCATT -->
+                                                                <div *ngIf="env.test.testTypeName ==='eCATT'">
+                                                                    <div class="row form-group">
+                                                                        <label class=" col-md-3 text-right control-label">
+                                                                            {{'Test Config Name'|translate}}
+                                                                            <span style="color:red">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-9 field-tip text-left">
+                                                                            <input id="tetttsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="testConf{{i}}{{j}}" class="form-control txtbox"
+                                                                                placeholder="ZTG_TEST_CONFIG" maxlength="150"
+                                                                                required />
+                                                                            <span class="tip-content" style="z-index:1">{{'Name of the Test Configuration'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group" *ngIf="!IdpdataService.isSAPApplication">
+                                                                        <div>
+                                                                            <label class=" col-md-3 text-right control-label">
+                                                                                {{'Slave name'|translate}}
+                                                                                <span style="color: red">*</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-9 text-left field-tip">
+                                                                            <select id="tettsndd{{i}}{{j}}" class="form-control" name="slaveNames{{i}}{{j}}" [(ngModel)]="env.test.slaveName" style="width:50%"
+                                                                                required>
+                                                                                <option value="">--Select--</option>
+                                                                                <option *ngFor="let testframeworkList of testframeworkList" value="{{testframeworkList.value}}">{{testframeworkList.name}}
+                                                                            </select>
+                                                                            <span class="tip-content">{{'Select the Slave'|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- END eCATT -->
+                       
                                                                 <!-- Start Selenium -->
                                                                 <div *ngIf="env.test.testTypeName ==='selenium'">
                                                                     <div class="row form-group">
@@ -1080,7 +1370,7 @@
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tettnofinum{{i}}{{j}}" type="number" class="form-control txtbox" name="numOfIteRFT{{i}}{{j}}" [(ngModel)]="env.test.iteration"
                                                                                         placeholder="10" [disabled]="env.test.fullIteration==='on'"
-                                                                                        required>                                                                                   
+                                                                                        required>
                                                                                 </div>
                                                                             </div>
 

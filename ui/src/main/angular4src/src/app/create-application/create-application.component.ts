@@ -87,6 +87,7 @@ export class CreateApplicationComponent implements OnInit {
         "pipelineAdmins": "",
         "releaseManager": "",
         "artifactToStage": { "artifactRepoName": "", "artifactRepo": {} },
+        "sapApplication": "off",
         "applicationType": "",
         "environmentOwnerDetails": [{}],
         "environmentProvDetails": [],
@@ -109,6 +110,8 @@ export class CreateApplicationComponent implements OnInit {
   /* Application Type Support - General */
   setAppType(appType) {
     this.grantAccess.applicationType = "General";
+    this.grantAccess.sapApplication = "off";
+    this.grantAccess.environmentOwnerDetails = [{}];
   }
 
   /* Subscription Permission
@@ -138,7 +141,27 @@ export class CreateApplicationComponent implements OnInit {
         }
     });
   }
-
+  setSAPgrantAccessDetails() {
+      const applicationName = this.grantAccess.applicationName;
+      this.grantAccess.applicationType = "SAP";
+      this.grantAccess.sapApplication = "on";
+      this.grantAccess.environmentOwnerDetails = [
+        {
+            "client": "",
+            "dBOwners": "",
+            "environmentName": "",
+            "environmentOwners": "",
+            "hostName": "",
+            "instanceNumber": "",
+            "systemId": "",
+            "landscapeType": "",
+            "language": "",
+            "password": "",
+            "userName": ""
+          }
+      ];
+      this.tempObjectApp = this.IdpService.copy(this.grantAccess);
+  }
   /* Getting app Information
    * on edit of Application
    */
@@ -166,8 +189,26 @@ export class CreateApplicationComponent implements OnInit {
    * while creating application
    */
   addEnvOwner() {
-    this.grantAccess.environmentOwnerDetails.push({});
-    this.tempObjectApp.environmentOwnerDetails.push({
+    if (this.grantAccess.sapApplication === "on") {
+        this.grantAccess.environmentOwnerDetails.push(
+            {
+                "client": "",
+                "dBOwners": "",
+                "environmentName": "",
+                "environmentOwners": "",
+                "hostName": "",
+                "instanceNumber": "",
+                "systemId": "",
+                "landscapeType": "",
+                "language": "",
+                "password": "",
+                "userName": ""
+            }
+        );
+    } else {
+        this.grantAccess.environmentOwnerDetails.push({});
+    }
+        this.tempObjectApp.environmentOwnerDetails.push({
         "messageEnvName": ""
     });
   }
@@ -335,6 +376,9 @@ export class CreateApplicationComponent implements OnInit {
         try {
             const responseData = JSON.parse(response.json().resource);
             this.grantAccess = responseData;
+            if (!(this.grantAccess.hasOwnProperty("sapApplication"))) {
+                this.grantAccess.sapApplication = "off";
+            }
             if (this.FlagEdit && this.grantAccess.environmentProvDetails !== undefined
             && this.grantAccess.environmentProvDetails.length >= 0) {
             this.envProvPanelExpand = true;
@@ -349,7 +393,11 @@ export class CreateApplicationComponent implements OnInit {
             if (this.grantAccess.slavesDetails) {
             this.indexToDisForSlave = this.grantAccess.slavesDetails.length;
             }
-            this.grantAccess.applicationType = "General";
+            if (this.grantAccess.sapApplication === "on") {
+                this.grantAccess.applicationType = "SAP";
+            } else {
+                this.grantAccess.applicationType = "General";
+            }
             this.checkCheckBox();
         } catch (e) {
             alert("Failed to get Application Info");

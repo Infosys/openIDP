@@ -5,6 +5,7 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
+/* tslint:disable */
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { AntCtrlComponent } from "./ant-ctrl.component";
@@ -371,4 +372,25 @@ describe("AntCtrlComponent", () => {
     const a = component.javaOptionList();
     expect(a).toBeFalsy();
   });
+  it("setSomeValues", () => {
+    const a = component.setSomeValues1(0);
+    expect(a).toBeTruthy();
+  });
+  it("setCustomBuild", () => {
+    const a = component.setCustomBuildOn(0);
+    expect(a).toBeTruthy();
+  });
+  it("setCustomeBuildOFf", () => {
+    const a = component.setCustomBuildOff(0);
+    expect(a).toBeTruthy();
+  });
+  it("checkCheckBox", () => {
+    const a = component.checkCheckBox();
+    expect(a).toBeTruthy();
+  });
+  it("setSomeValues", () => {
+    const a = component.setSomeValues1(0);
+    expect(a).toBeTruthy();
+  });
+
 });

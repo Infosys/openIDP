@@ -61,7 +61,11 @@ import com.google.gson.stream.JsonWriter;
 @RestController
 @RequestMapping(value = "jobService")
 public class JobService extends BaseResource {
-	protected static final String modelId = "Model Id: ";
+	protected static final String MODELID = "Model Id: ";
+	private static final String FAILURE = "FAILURE";
+	private static final String SUCCESS = "SUCCESS";
+	private static final String NOACCESS = "No Access";
+
 	@Autowired
 	private JobsBL jobsBL;
 	@Autowired
@@ -130,13 +134,13 @@ public class JobService extends BaseResource {
 			idpData = g.fromJson(decryptedString, IDPJob.class);
 			logger.info(idpData.toString());
 			String status = jobsBL.submitJob(idpData, auth.getPrincipal().toString().toLowerCase());
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 			resourceResponse.setResource(status);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(modelId + taskid + ex.toString(), ex);
+			logger.error(MODELID + taskid + ex.toString(), ex);
 		}
 		return resourceResponse;
 	}
@@ -159,7 +163,7 @@ public class JobService extends BaseResource {
 			logger.info("Retrieving job details");
 			Gson gson = new Gson();
 
-			Pipelines pips = jobsBL.getpipelines(appName, auth.getPrincipal().toString().toLowerCase());
+			Pipelines pips = jobsBL.getpipelinesByAppNameAndUser(appName, auth.getPrincipal().toString().toLowerCase());
 			String str = gson.toJson(pips, Pipelines.class);
 			String encrypted = "";
 			if (platform.equalsIgnoreCase("IDP")) {
@@ -173,12 +177,12 @@ public class JobService extends BaseResource {
 			} else {
 				resourceResponse.setResource(encrypted);
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(modelId + taskid + ex.toString(), ex);
+			logger.error(MODELID + taskid + ex.toString(), ex);
 		}
 		return resourceResponse;
 	}
@@ -204,11 +208,11 @@ public class JobService extends BaseResource {
 
 			jobsBL.apprRejectJobs(approveBuildParams, auth.getPrincipal().toString().toLowerCase());
 
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 			resourceResponse.setResource(STATUS_SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -237,12 +241,12 @@ public class JobService extends BaseResource {
 				resourceResponse.setResource("No Application found!!");
 			else
 				resourceResponse.setResource(gson.toJson(apps, Applications.class));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(modelId + taskid + ex.toString(), ex);
+			logger.error(MODELID + taskid + ex.toString(), ex);
 		}
 		return resourceResponse;
 	}
@@ -268,11 +272,11 @@ public class JobService extends BaseResource {
 
 			jobsBL.triggerJobs(triggerParameters, auth.getPrincipal().toString().toLowerCase());
 
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 			resourceResponse.setResource(STATUS_SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -288,17 +292,17 @@ public class JobService extends BaseResource {
 	 * @return the resource response
 	 */
 	@PreAuthorize("#oauth2.hasScope('write')")
-	@RequestMapping(value = "/trigger/triggerInterval", method = RequestMethod.POST, consumes = {
+	@RequestMapping(value = "/trigger/{applicationName}/{pipelineName}/{userName}/triggerInterval", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
 
 	public ResourceResponse<String> triggerInterval(
-			@RequestBody org.infy.idp.entities.jobs.basicinfo.TriggerInterval triggerInterval,
+			@RequestBody org.infy.idp.entities.jobs.basicinfo.TriggerInterval triggerInterval,@PathVariable("applicationName") String applicationName,@PathVariable("pipelineName") String pipelineName,@PathVariable("userName")String userName,
 			OAuth2Authentication auth) {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		try {
 			logger.info("Submitting Job");
 
-			String status = jobsBL.submitInterval(triggerInterval, auth.getPrincipal().toString().toLowerCase());
+			String status = jobsBL.submitInterval(triggerInterval,applicationName,pipelineName,userName,auth.getPrincipal().toString().toLowerCase());
 			resourceResponse.setStatus("SUCCESS");
 			resourceResponse.setResource(status);
 
@@ -334,10 +338,10 @@ public class JobService extends BaseResource {
 			} else {
 				resourceResponse.setResource(gson.toJson(history, History.class));
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.getMessage());
 		}
@@ -363,10 +367,10 @@ public class JobService extends BaseResource {
 			Gson gson = new Gson();
 			TriggerInputs triggerInputs = jobsmgmtBL.fecthTriggerOptions(tiggerJobName);
 			resourceResponse.setResource(gson.toJson(triggerInputs, TriggerInputs.class));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -392,16 +396,16 @@ public class JobService extends BaseResource {
 			Gson gson = new Gson();
 			JobsBuilds jobsBuilds = jobsmgmtBL.getBuildJobs(jobName);
 			if (null == jobsBuilds.getJobName() || jobsBuilds.getJobName().isEmpty()) {
-				resourceResponse.setResource("No Access");
+				resourceResponse.setResource(NOACCESS);
 			} else {
 				resourceResponse.setResource(gson.toJson(jobsBuilds, JobsBuilds.class));
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
-			logger.error("Model Id: " + taskid + ex.toString(), ex);
+			logger.error(MODELID + taskid + ex.toString(), ex);
 		}
 		return resourceResponse;
 	}
@@ -436,14 +440,14 @@ public class JobService extends BaseResource {
 			else
 				encrypted = str;
 			if (null == pipeline.getPipelineName() || "".equalsIgnoreCase(pipeline.getPipelineName()))
-				resourceResponse.setResource("No Access");
+				resourceResponse.setResource(NOACCESS);
 			else {
 				resourceResponse.setResource(encrypted);
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -465,11 +469,11 @@ public class JobService extends BaseResource {
 		try {
 			logger.info("Downloading artifacts");
 			String response = jobsaddInfo.downloadArtifacts(downloadArtifactsInputs);
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 			resourceResponse.setResource(response);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error("Model Id: " + taskid + ex.toString(), ex);
 		}
@@ -497,10 +501,10 @@ public class JobService extends BaseResource {
 			} else {
 				resourceResponse.setResource(STATUS_ERROR);
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error("Model Id: " + taskid + ex.toString(), ex);
 		}
@@ -529,10 +533,10 @@ public class JobService extends BaseResource {
 			} else {
 				resourceResponse.setResource(STATUS_ERROR);
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error("Model Id: " + taskid + ex.toString(), ex);
 		}
@@ -563,10 +567,10 @@ public class JobService extends BaseResource {
 			else
 				resourceResponse.setResource(gson.toJson(names, Names.class));
 
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -591,11 +595,11 @@ public class JobService extends BaseResource {
 			logger.info("getting stageviewUrl");
 
 			String url = jobsaddInfo.getStageViewUrl(appName, pipelineName);
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 			resourceResponse.setResource(url);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -627,12 +631,12 @@ public class JobService extends BaseResource {
 			} else {
 				resourceResponse.setResource(encrypted);
 			}
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(modelId + taskid + ex.toString(), ex);
+			logger.error(MODELID + taskid + ex.toString(), ex);
 		}
 		return resourceResponse;
 	}
@@ -658,10 +662,10 @@ public class JobService extends BaseResource {
 			Steps steps = jobsaddInfo.fecthTriggerSteps(appName, pipelineName, envName);
 
 			resourceResponse.setResource(gson.toJson(steps, Steps.class));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -689,50 +693,14 @@ public class JobService extends BaseResource {
 			List<JobParam> jobparamList = jobsmgmtBL.getJobParamDetails(appName, pipelineName);
 
 			resourceResponse.setResource(gson.toJson(jobparamList));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
 		return resourceResponse;
 
-	}
-
-	/**
-	 * getDBDeployPipelineNamesForApplication
-	 *
-	 * @param appName the String
-	 * 
-	 * @return the resource response
-	 */
-
-	@PreAuthorize("#oauth2.hasScope('write')")
-	@RequestMapping(value = "/dbdeploypipelines/list/{application_name}", method = RequestMethod.GET)
-	public ResourceResponse<String> getDBDeployPipelineNamesForApplication(
-			@PathVariable("application_name") String appName, OAuth2Authentication auth) {
-		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
-
-		try {
-			logger.info("getting pipeline list for application  " + appName);
-			Gson gson = new Gson();
-			Names names = jobsaddInfo.dbDeployPipelineNamesForApplication(appName,
-					auth.getPrincipal().toString().toLowerCase());
-			String str = gson.toJson(names, Names.class);
-			String encrypted = EncryptUtilUI.encrypt(str);
-			if (null == names || null == names.getNames() || names.getNames().isEmpty())
-				resourceResponse.setResource("No Pipelines");
-			else
-				resourceResponse.setResource(encrypted);
-
-			resourceResponse.setStatus("SUCCESS");
-
-		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
-			resourceResponse.setErrorMessage(ex.toString());
-			logger.error(ex.toString(), ex);
-		}
-		return resourceResponse;
 	}
 
 	/**
@@ -754,10 +722,10 @@ public class JobService extends BaseResource {
 			Gson gson = new Gson();
 			List<TestPlans> testPlansList = jobsaddInfo.fetchMTMTestPlans(appName, pipelineName);
 			resourceResponse.setResource(gson.toJson(testPlansList));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -786,10 +754,10 @@ public class JobService extends BaseResource {
 			logger.info("MytestPlans:-----" + gson.toJson(testSuitList));
 			resourceResponse.setResource(gson.toJson(testSuitList));
 
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -814,10 +782,10 @@ public class JobService extends BaseResource {
 			jobName.setUserName(auth.getPrincipal().toString().toLowerCase());
 			Names names = jobsmgmtBL.getPairName(jobName);
 			resourceResponse.setResource(gson.toJson(names));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -851,11 +819,10 @@ public class JobService extends BaseResource {
 			user.setPermissions(pipelinePermissions);
 			String encrypted = EncryptUtilUI.encrypt(gson.toJson(user, UserRolesPermissions.class));
 			resourceResponse.setResource(encrypted);
-			// resourceResponse.setResource(gson.toJson(user, UserRolesPermissions.class));
-			resourceResponse.setStatus("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}
@@ -874,11 +841,11 @@ public class JobService extends BaseResource {
 		ResourceResponse<String> resourceResponse = new ResourceResponse<>();
 		try {
 			subscriptionBL.updateSubScriptionList(idp);
-			resourceResponse.setStatus("SUCCESS");
-			resourceResponse.setResource("SUCCESS");
+			resourceResponse.setStatus(SUCCESS);
+			resourceResponse.setResource(SUCCESS);
 
 		} catch (Exception ex) {
-			resourceResponse.setStatus("FAILURE");
+			resourceResponse.setStatus(FAILURE);
 			resourceResponse.setErrorMessage(ex.toString());
 			logger.error(ex.toString(), ex);
 		}

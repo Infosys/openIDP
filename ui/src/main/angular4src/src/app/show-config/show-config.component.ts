@@ -30,17 +30,18 @@ export class ShowConfigurationsComponent implements OnInit {
   isDeploy: any = false;
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    { title: "Application Name", name: "applicationName" },
+    { title: "Application", name: "applicationName" },
     {
-        title: "Pipeline Name",
-        name: "pipelineName"
+        title: "Pipeline",
+        name: "pipelineName", sort: 'asc'
     },
-    { title: "Creation Date", name: "creationDate" },
-    { title: "Trigger Pipeline", name: "trigger", sort: false },
-    { title: "Schedule Job", name: "schedule", sort: false },
-    { title: "Copy Pipeline", name: "copy", sort: false },
-    { title: "Edit Pipeline", name: "edit", sort: false },
-    { title: "Delete Pipeline", name: "delete", sort: false },
+    { title: "Creation Date", name: "creationDate", style: 'text-align: center'},
+    { title: "Trigger", name: "trigger", sort: false },
+    { title: "Schedule", name: "schedule", sort: false },
+    { title: "Copy", name: "copy", sort: false },
+    { title: "Edit", name: "edit", sort: false },
+    { title: "Delete", name: "delete", sort: false },
+    // { title: "Approve Artifacts", name: "approve", sort: false }
   ];
   public page = 1;
   public itemsPerPage = 10;
@@ -54,18 +55,18 @@ export class ShowConfigurationsComponent implements OnInit {
     className: ["table-striped", "table-bordered"]
   };
   public constructor(
-    private IdpdataService: IdpdataService,
+    private idpdataService: IdpdataService,
     private IdpService: IdpService,
     private IdprestapiService: IdprestapiService,
     private router: Router,
     private _cookieService: CookieService
   ) {
-      this.IdpdataService.schedulePage = false;
-    this.IdpdataService.data = JSON.parse(JSON.stringify(this.IdpdataService.template));
-    this.IdpdataService.operation = "";
+    this.idpdataService.schedulePage = false;
+    this.idpdataService.data = JSON.parse(JSON.stringify(this.idpdataService.template));
+    this.idpdataService.operation = "";
     // workflow remove
-    this.IdpdataService.workflowData = [];
-    this.IdpdataService.workflowDataTemp = [];
+    this.idpdataService.workflowData = [];
+    this.idpdataService.workflowDataTemp = [];
     this.callforRest();
   }
   callforRest() {
@@ -73,18 +74,15 @@ export class ShowConfigurationsComponent implements OnInit {
         .then(response => {
         try {
             if (response) {
-            this.IdpdataService.devServerURL = response.json().idpresturl;
-            // this.IdpdataService.devServerURL = "http://server401189d:8889/idprest";
-            // this.IdpdataService.devServerURL = "https://idplinv02:8889/idprest";
-            // this.IdpdataService.devServerURL = "http://server411214d:8889/idprest";
-            this.IdpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
-            this.IdpdataService.IDPDashboardURL = response.json().idpdashboardurl;
-            this.IdpdataService.IDPLink = response.json().IDPLink;
-            this.IdpdataService.geUrl = response.json().geUrl;
-            this.IdpdataService.geFlag = response.json().geFlag;
-            this.IdpdataService.serverUrl = response.json().tfsServerUrl;
-            this.IdpdataService.uName = response.json().uName;
-            this.IdpdataService.pass = response.json().pass;
+           this.idpdataService.devServerURL = response.json().idpresturl;
+            this.idpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
+            this.idpdataService.IDPDashboardURL = response.json().idpdashboardurl;
+            this.idpdataService.IDPLink = response.json().IDPLink;
+            this.idpdataService.geUrl = response.json().geUrl;
+            this.idpdataService.geFlag = response.json().geFlag;
+            this.idpdataService.serverUrl = response.json().tfsServerUrl;
+            this.idpdataService.uName = response.json().uName;
+            this.idpdataService.pass = response.json().pass;
             if (this._cookieService.get("access_token")) {
                 this.getPipelineData();
                 this.IdpService.getDetails();
@@ -185,50 +183,49 @@ export class ShowConfigurationsComponent implements OnInit {
   }
 
   public onCellClick(data: any): any {
-    this.IdpdataService.operation = "";
+    this.idpdataService.operation = "";
 const indexStart = data.row.pipelineName.indexOf(">") + 1;
     const indexEnd = data.row.pipelineName.indexOf("</");
     const pName = data.row.pipelineName.substring(indexStart, indexEnd);
-    console.log(pName);
     if (data.column === "pipelineName") {
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.IdpdataService.idpUserName };
-        this.IdpdataService.pipelineName = this.reqData.pipelineName;
-      this.IdpdataService.appName = this.reqData.applicationName;
+        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
+        this.idpdataService.pipelineName = this.reqData.pipelineName;
+      this.idpdataService.appName = this.reqData.applicationName;
       this.stageView();
     }
     if (data.column === "trigger") {
         let trigger = true;
-        for (let i = 0 ; i < this.IdpdataService.pipelineData.length; i++) {
-        if (data.row.pipelineName === this.IdpdataService.pipelineData[i].pipelineName) {
-            trigger = this.IdpdataService.pipelineData[i].triggerFlag;
+        for (let i = 0 ; i < this.idpdataService.pipelineData.length; i++) {
+        if (data.row.pipelineName === this.idpdataService.pipelineData[i].pipelineName) {
+            trigger = this.idpdataService.pipelineData[i].triggerFlag;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.IdpdataService.idpUserName };
-     this.IdpdataService.pipelineName = this.reqData.pipelineName;
-    this.IdpdataService.appName = this.reqData.applicationName;
+        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
+     this.idpdataService.pipelineName = this.reqData.pipelineName;
+    this.idpdataService.appName = this.reqData.applicationName;
     if (data.column === "trigger" && trigger) {
         this.trigger();
     }
     }
     if (data.column === "schedule") {
-        this.IdpdataService.schedulePage = true;
-      this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.IdpdataService.idpUserName };
-     this.IdpdataService.pipelineName = this.reqData.pipelineName;
-      this.IdpdataService.appName = this.reqData.applicationName;
+        this.idpdataService.schedulePage = true;
+      this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
+     this.idpdataService.pipelineName = this.reqData.pipelineName;
+      this.idpdataService.appName = this.reqData.applicationName;
         this.trigger();
     }
     if (data.column === "copy" || data.column === "edit") {
         let copy = true;
         let edit = true;
-        for (let i = 0 ; i < this.IdpdataService.pipelineData.length; i++) {
-        if (data.row.pipelineName === this.IdpdataService.pipelineData[i].pipelineName) {
-            copy = this.IdpdataService.pipelineData[i].copyFlag;
-            edit = this.IdpdataService.pipelineData[i].editFlag;
+        for (let i = 0 ; i < this.idpdataService.pipelineData.length; i++) {
+        if (data.row.pipelineName === this.idpdataService.pipelineData[i].pipelineName) {
+            copy = this.idpdataService.pipelineData[i].copyFlag;
+            edit = this.idpdataService.pipelineData[i].editFlag;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.IdpdataService.idpUserName };
+        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
         if (data.column === "copy" && copy) {
         this.copyEdit(data.column);
         } else if (data.column === "edit" && edit) {
@@ -237,24 +234,41 @@ const indexStart = data.row.pipelineName.indexOf(">") + 1;
     }
     if (data.column === "delete") {
         let delete1 = true ;
-        for (let i = 0 ; i < this.IdpdataService.pipelineData.length; i++) {
-        if (data.row.pipelineName === this.IdpdataService.pipelineData[i].pipelineName) {
-            delete1 = this.IdpdataService.pipelineData[i].deleteFlag;
+        for (let i = 0 ; i < this.idpdataService.pipelineData.length; i++) {
+        if (data.row.pipelineName === this.idpdataService.pipelineData[i].pipelineName) {
+            delete1 = this.idpdataService.pipelineData[i].deleteFlag;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.IdpdataService.idpUserName };
+        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
         if (data.column === "delete" && delete1) {
         this.deleteAlert();
         }
     }
+
+    if(data.column === "approve"){
+		let approve=true ;
+		  for(var i = 0 ;i <this.idpdataService.pipelineData.length;i++){
+			if(data.row.pipelineName===this.idpdataService.pipelineData[i].pipelineName){
+			  approve=this.idpdataService.pipelineData[i].approveFlag;
+			  console.log(approve);
+			  break;
+			}
+		  }
+		this.idpdataService.appName=data.row.applicationName;
+		this.idpdataService.pipelineName=pName;
+		if(data.column==="approve" && approve){
+			this.router.navigate(['/previousConfig/approve']);
+		}
+    }
+
+
   }
 stageView() {
         this.router.navigate(["/previousConfig/stageviewHistory"]);
     }
 
   trigger() {
-    this.checkApplicationType();
     this.trigger1();
   }
   trigger1() {
@@ -264,19 +278,19 @@ stageView() {
             if (response) {
             const result = response.json().resource;
             if (result !== "{}" && result !== null) {
-                this.IdpdataService.triggerJobData = JSON.parse(result);
+                this.idpdataService.triggerJobData = JSON.parse(result);
                 const temp = JSON.parse(result);
-                const checkInBuild = this.IdpdataService.triggerJobData.hasOwnProperty("build")
-                && this.IdpdataService.triggerJobData.build.approveBuild !== undefined
-                && this.IdpdataService.triggerJobData.build.approveBuild !== null
-                    && this.IdpdataService.triggerJobData.build.approveBuild.length !== 0;
-                const checkInDeploy = this.IdpdataService.triggerJobData.hasOwnProperty("deploy")
-                && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList !== undefined
-                && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList !== null
-                    && Object.keys(this.IdpdataService.triggerJobData.deploy.workEnvApprovalList).length !== 0
-                    && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList.constructor === Object;
+                const checkInBuild = this.idpdataService.triggerJobData.hasOwnProperty("build")
+                && this.idpdataService.triggerJobData.build.approveBuild !== undefined
+                && this.idpdataService.triggerJobData.build.approveBuild !== null
+                    && this.idpdataService.triggerJobData.build.approveBuild.length !== 0;
+                const checkInDeploy = this.idpdataService.triggerJobData.hasOwnProperty("deploy")
+                && this.idpdataService.triggerJobData.deploy.workEnvApprovalList !== undefined
+                && this.idpdataService.triggerJobData.deploy.workEnvApprovalList !== null
+                    && Object.keys(this.idpdataService.triggerJobData.deploy.workEnvApprovalList).length !== 0
+                    && this.idpdataService.triggerJobData.deploy.workEnvApprovalList.constructor === Object;
                 if (checkInBuild || checkInDeploy) {
-                this.IdpdataService.checkPausedBuilds = true;
+                this.idpdataService.checkPausedBuilds = true;
                 if (checkInBuild) {
                     this.isBuild = true;
                 }
@@ -284,29 +298,35 @@ stageView() {
                 this.isDeploy = true;
                 }
             } else {
-                            this.IdpdataService.checkPausedBuilds = false;
-                    }
-                if (this.IdpdataService.triggerJobData.applicationName) {
-                const applicationName = this.IdpdataService.triggerJobData.applicationName;
-                }
-              if (this.IdpdataService.triggerJobData.releaseNumber !== null && this.IdpdataService.triggerJobData.releaseNumber.length !== 0) {
-            if (this.IdpdataService.checkPausedBuilds === true) {
-                if (this.IdpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1
+                this.idpdataService.checkPausedBuilds = false;
+            }
+            if (this.idpdataService.triggerJobData.applicationName) {
+                const applicationName = this.idpdataService.triggerJobData.applicationName;
+            }
+            if (this.idpdataService.triggerJobData.releaseNumber !== null
+                 && this.idpdataService.triggerJobData.releaseNumber.length !== 0) {
+                if (this.idpdataService.triggerJobData.technology !== undefined &&
+                    this.idpdataService.triggerJobData.technology === "workflow" &&
+                    this.idpdataService.triggerJobData.pipelines !== undefined && this.idpdataService.triggerJobData.pipelines.length > 0) {
+                      this.idpdataService.workflowTrigger = true;
+                      this.router.navigate(["/previousConfig/workflowInfo"]);
+                    } else if (this.idpdataService.checkPausedBuilds === true) {
+                if (this.idpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1
                 && (this.isBuild === true || this.isDeploy === true)) {
-                const forBuild = this.isBuild && this.IdpdataService.approveBuildFlag;
-                const forDeploy = this.isDeploy && this.IdpdataService.approveDeployFlag;
+                const forBuild = this.isBuild && this.idpdataService.approveBuildFlag;
+                const forDeploy = this.isDeploy && this.idpdataService.approveDeployFlag;
                 if (forBuild && forDeploy) {
                     this.router.navigate(["/previousConfig/approveBuild"]);
                 }
 
                 if (forBuild) {
-                    if ((this.IdpdataService.approveDeployFlag !== true)) {
+                    if ((this.idpdataService.approveDeployFlag !== true)) {
                     alert("You do no thave permission to approve build for Deploy Stage");
                     }
                     this.router.navigate(["/previousConfig/approveBuild"]);
                 }
                 if (forDeploy) {
-                    if ((this.IdpdataService.approveBuildFlag !== true)) {
+                    if ((this.idpdataService.approveBuildFlag !== true)) {
                     alert("You do no thave permission to approve build for Build Stage");
                     }
                     this.router.navigate(["/previousConfig/approveBuild"]);
@@ -317,14 +337,14 @@ stageView() {
             } else {
             const x = confirm("Please ensure slave is launched");
             if (x) {
-                if (this.IdpdataService.schedulePage === true) {
+                if (this.idpdataService.schedulePage === true) {
                 this.router.navigate(["/previousConfig/schedule"]);
                 } else {
                 this.router.navigate(["/previousConfig/trigger"]);
                 }
             }
             }
-              } else if (this.IdpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1) {
+              } else if (this.idpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1) {
                   alert("No active releases for this pipeline. Please add releases.");
                   this.router.navigate(["/releaseConfig/release"]);
               } else {
@@ -342,16 +362,11 @@ stageView() {
   }
 
   copyEdit(operation) {
-    this.IdpdataService.operation = operation;
+    this.idpdataService.operation = operation;
     localStorage.setItem("appName", this.reqData.applicationName);
     localStorage.setItem("pipeName", this.reqData.pipelineName);
     const data = this.reqData.applicationName;
-    this.checkApplicationType();
     this.router.navigate(["createConfig/basicInfo"]);
-  }
-  checkApplicationType() {
-    const data = this.reqData.applicationName;
-    this.IdpdataService.isSAPApplication = false;
   }
   TriggerAlert() {
     this.button.nativeElement.click();
@@ -380,94 +395,85 @@ stageView() {
   }
 
   getPipelineData() {
-    console.log(this.IdpdataService.devServerURL);
+    console.log(this.idpdataService.devServerURL);
     this.IdprestapiService.checkAvailableJobs()
         .then(response => {
         try {
             if (response) {
             const data = response.json().resource;
             if (data !== "No pipelines to trigger") {
-                this.IdpdataService.pipelineData = [];
+                this.idpdataService.pipelineData = [];
                 const maindata = JSON.parse(data).pipelineDetails;
                 if (maindata && maindata.length !== 0) {
                 for (let i = 0; i < maindata.length; i++) {
-                this.IdpdataService.pipelineData.push(maindata[i]);
+                    this.idpdataService.pipelineData.push(maindata[i]);
                       const tempPipeName = maindata[i].pipelineName;
+                      this.idpdataService.pipelineData[i].creationDate = '<div class="text-center field-tip">' + maindata[i].creationDate + "</div>";
                 const permissions = maindata[i].permissions;
                 const triggerPipeline = (permissions.indexOf("BUILD") === -1
                     && permissions.indexOf("DEPLOY") === -1 && permissions.indexOf("TEST") === -1) ? false : true;
                 const copyPipeline = (permissions.indexOf("COPY_PIPELINE") === -1) ? false : true ;
                 const editPipeline = (permissions.indexOf("EDIT_PIPELINE") === -1) ? false : true ;
                 const deletePipeline = (permissions.indexOf("DELETE_PIPELINE") === -1) ? false : true ;
-                const approveRelease = (this.IdpdataService.role.indexOf("ENVIRONMENT_OWNER") === -1 ||
+                const schedulePipeline = (permissions.indexOf("PIPELINE_ADMIN") === -1) ? false : true ;
+                const approveRelease = (this.idpdataService.role.indexOf("ENVIRONMENT_OWNER") === -1 ||
                     maindata[i].buildTool === "SapNonCharm" || maindata[i].buildTool === "workflow") ? false : true ;
-                      this.IdpdataService.pipelineData[i].pipelineName = "<a style=\"cursor:pointer\">" + tempPipeName + "</a>";
-                this.IdpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
+                      this.idpdataService.pipelineData[i].pipelineName = "<a style=\"cursor:pointer\">" + tempPipeName + "</a>";
+                this.idpdataService.pipelineData[i].creationDate =  '<div class="text-center field-tip">' + maindata[i].creationDate + "</div>";
+                this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
                     "src=\"assets/images/build_now.png\"" +
-                    "id=\"TBN\" name=\"TBN\"  /></div>";
-                this.IdpdataService.pipelineData[i].copyFlag = copyPipeline;
-                this.IdpdataService.pipelineData[i].editFlag = editPipeline;
-                this.IdpdataService.pipelineData[i].deleteFlag = deletePipeline;
-                this.IdpdataService.pipelineData[i].approveFlag = approveRelease;
-                this.IdpdataService.pipelineData[i].triggerFlag = triggerPipeline;
+                    "id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image'  /></div>";
+                this.idpdataService.pipelineData[i].copyFlag = copyPipeline;
+                this.idpdataService.pipelineData[i].editFlag = editPipeline;
+                this.idpdataService.pipelineData[i].deleteFlag = deletePipeline;
+                this.idpdataService.pipelineData[i].approveFlag = approveRelease;
+                this.idpdataService.pipelineData[i].triggerFlag = triggerPipeline;
+                this.idpdataService.pipelineData[i].schedulePipeline = schedulePipeline;
                 if (copyPipeline) {
-                    this.IdpdataService.pipelineData[i].copy = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\"  /></div>";
+                    this.idpdataService.pipelineData[i].copy = "<div class=\"text-center \"><input TYPE=\"image\"" +
+                    "src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\"  alt='Copy Pipeline Image' /></div>";
                 } else {
-                this.IdpdataService.pipelineData[i].copy = "<div class=\"text-center field-tip\"" +
+                this.idpdataService.pipelineData[i].copy = "<div class=\"text-center field-tip\"" +
                     "style=\"cursor:not-allowed\"><input style=\"cursor:not-allowed;opacity:0.4\" TYPE=\"image\"" +
-                    "readonly [disabled]=\"true\" src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\"  />" +
-                    "<span class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:80%;\">" +
+                    "readonly [disabled]=\"true\" src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\" alt='Copy Pipeline Image' />" +
+                    "<span class=\"tip-content hover-tip-content-copy text-center\" style=\"z-index: 1;cursor:not-allowed;width:90%;zoom:85%;\">" +
                     "Copy pipeline is not available </span></div>";
                 }
 
                 if (editPipeline) {
-                    this.IdpdataService.pipelineData[i].edit = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\"  /></div>";
+                    this.idpdataService.pipelineData[i].edit = "<div class=\"text-center \"><input TYPE=\"image\"" +
+                    "src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\" alt='Edit Pipeline Image' /></div>";
                 } else {
-                this.IdpdataService.pipelineData[i].edit = "<div class=\"text-center field-tip\"" +
+                this.idpdataService.pipelineData[i].edit = "<div class=\"text-center field-tip\"" +
                     "style=\"cursor:not-allowed\"><input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\"" +
-                    "readonly [disabled]=\"true\"  src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\"  /><span class=\"" +
-                    "tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:80%;\">" +
+                    "readonly [disabled]=\"true\"  src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\" alt='Edit Pipeline Image' /><span class=\"" +
+                    "tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:82%;zoom:86%;\">" +
                     "Edit pipeline is not available </span></div>";
                 }
                 if (deletePipeline) {
-                    this.IdpdataService.pipelineData[i].delete = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\"  /></div>";
+                    this.idpdataService.pipelineData[i].delete = "<div class=\"text-center \"><input TYPE=\"image\"" +
+                    "src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\" alt='Delete Pipeline Image' /></div>";
                 } else {
-                    this.IdpdataService.pipelineData[i].delete = "<div class=\"text-center field-tip\"" +
+                    this.idpdataService.pipelineData[i].delete = "<div class=\"text-center field-tip\"" +
                     "style=\"cursor:not-allowed\"><input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\"" +
-                    "readonly [disabled]=\"true\" src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\"  />" +
-                    "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:70%;\">" +
+                    "readonly [disabled]=\"true\" src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\"  alt='Delete Pipeline Image' />" +
+                    "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:82%;zoom:86%;\">" +
                         "Delete pipeline is not available </span></div>";
                 }
-
-                if (approveRelease) {
-                    this.IdpdataService.pipelineData[i].approve = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/images.png\" id=\"TBN\" name=\"TBN\"  /></div>";
-                } else {
-                    this.IdpdataService.pipelineData[i].approve = "<div class=\"text-center field-tip\" style=\"cursor:not-allowed\">" +
-                    "<input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\"" +
-                    "readonly [disabled]=\"true\" src=\"assets/images/images.png\" id=\"TBN\" name=\"TBN\"  />" +
-                    "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:70%;\">" +
-                    "Approve artifacts is not available </span></div>";
-                }
                 if (triggerPipeline) {
-                this.IdpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
-                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\"  /></div>";
+                this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
+                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image' /></div>";
                 } else {
-                    this.IdpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\" style=\"cursor:not-allowed\" >" +
+                    this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\" style=\"cursor:not-allowed\" >" +
                     "<input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\" readonly [disabled]=\"true\"" +
-                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\"  />" +
-                        "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:70%;\">" +
+                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image' />" +
+                        "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:70%;zoom:92%;\">" +
                         "Trigger is not allowed for this user.</span></div>";
                 }
-
-
-        this.IdpdataService.pipelineData[i].schedule = "<div class=\"text-center \"><input TYPE=\"image\"" +
-        "src=\"assets/images/schedule.png\" id=\"TBN\" name=\"TBN\"  /></div>";
+                this.idpdataService.pipelineData[i].schedule = "<div class=\"text-center \"><input TYPE=\"image\"" +
+                    "src=\"assets/images/schedule.png\" id=\"TBN\" name=\"TBN\" alt='Schedule Pipeline Image' /></div>";
                 }
-                this.data = this.IdpdataService.pipelineData;
+                this.data = this.idpdataService.pipelineData;
                 this.length = this.data.length;
                 this.onChangeTable(this.config);
             }
@@ -482,14 +488,14 @@ stageView() {
         });
   }
   noAccessCheck() {
-      if (this.IdpdataService.noAccess) {
+      if (this.idpdataService.noAccess) {
           return true;
       } else {
           return false;
       }
   }
   accessCheck() {
-  if (!this.IdpdataService.noAccess) {
+  if (!this.idpdataService.noAccess) {
       return true;
   } else {
       return false;

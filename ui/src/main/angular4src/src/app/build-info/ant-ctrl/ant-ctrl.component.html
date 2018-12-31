@@ -478,17 +478,18 @@
                   <!--End WARPackaging -->
 
 
-                  <!-- Start OSS Compliance  
+                  <!-- Start OSS Compliance  -->
                   <div>
                     <div class="row form-group chkright" style="padding-left:20px">
                       <div class="col-md-12">
+                        
                         <label class="checkbox-inline">
-                          <input type="checkbox" [checked]="module.ossCheck=='on'" name="ossCheck{{i}}" id="bdbomvnocsch01{{i}}" (change)="module.ossCheck=$event.target.checked ?'on':'off'">{{'Oss Compliance Check'|translate}}
-                        </label>
+                            <input type="checkbox" [checked]="tempObject.modules[i].ossCheck=='on'" name="ossCheck{{i}}" id="bdbomvnocsch01{{i}}" (change)="ossCompliance(i,$event.target.checked)"/>{{'Oss Compliance Check'|translate}}
+                          </label>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="module.ossCheck==='on'">
+                  <div *ngIf="tempObject.modules[i].ossCheck==='on'">
                     <div class="row form-group chkright">
                       <div class="col-md-3 text-right">
                         <label class="control-label">{{'Send Report To '|translate}} </label>
@@ -549,7 +550,7 @@
                     </div>
                   </div>
 
-                  <!-- Start OSS Compliance 
+                  <!-- End OSS Compliance -->
 
                   <!--Default Module-->
                   <div>

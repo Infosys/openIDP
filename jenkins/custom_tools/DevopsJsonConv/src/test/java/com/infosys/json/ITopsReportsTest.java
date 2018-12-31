@@ -10,7 +10,7 @@ public class ITopsReportsTest {
 
 	@Test
 	public void urltest(){
-		IFastReports ifr = new IFastReports();
+		ITopsReports ifr = new ITopsReports();
 		
 		ifr.setURL("infosys.com");
 		

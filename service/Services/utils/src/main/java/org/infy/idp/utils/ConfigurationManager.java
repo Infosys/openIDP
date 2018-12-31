@@ -75,6 +75,7 @@ public class ConfigurationManager {
 	private String password;
 	private String proxyip;
 	private String proxyport;
+	
 
 	private Map<String, String> validation;
 

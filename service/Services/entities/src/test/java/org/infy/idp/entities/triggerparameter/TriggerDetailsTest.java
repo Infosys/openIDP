@@ -48,13 +48,13 @@ public class TriggerDetailsTest {
 		Build build = new Build();
 		triggerDetails.setBuild(build);
 		triggerDetails.setBuildartifactNumber("number");
-		triggerDetails.setCastSlaveName("slave");
-		triggerDetails.setClient("client");
+//		triggerDetails.setCastSlaveName("slave");
+//		triggerDetails.setClient("client");
 		triggerDetails.setDashBoardLink("dashboard");
-		triggerDetails.setDbOperations("operation");
+//		triggerDetails.setDbOperations("operation");
 		Deploy deploy = new Deploy();
 		triggerDetails.setDeploy(deploy);
-		triggerDetails.setDeployDB("db");
+//		triggerDetails.setDeployDB("db");
 		triggerDetails.setDepParam("param");
 		triggerDetails.setEmailed("email");
 		triggerDetails.setEnvSelected("dev");
@@ -77,7 +77,7 @@ public class TriggerDetailsTest {
 		triggerDetails.setPipId("pip");
 		triggerDetails.setReleaseNumber("1.0");
 		triggerDetails.setRepoDeployStatus("success");
-		triggerDetails.setRestoreDB("db");
+//		triggerDetails.setRestoreDB("db");
 		triggerDetails.setRmAssemblies("rm");
 		triggerDetails.setScmBranch("scm");
 		triggerDetails.setSlaveName("slave");
@@ -92,11 +92,12 @@ public class TriggerDetailsTest {
 		triggerDetails.setTestStep(testStep);
 		triggerDetails.setTestSuitId("id");
 		ArrayList<String> transportRequest = new ArrayList<>();
-		triggerDetails.setTransportRequest(transportRequest);
+//		triggerDetails.setTransportRequest(transportRequest);
 		triggerDetails.setTriggerId(101);
 		triggerDetails.setUsePreviousArtifact("yes");
 		triggerDetails.setUserName("admin");
-		triggerDetails.setUserStories("55918");
+//		triggerDetails.setUserStories("55918");
+//		triggerDetails.setSapUserName("sapUserName");
 
 		assertEquals("app", triggerDetails.getAppId());
 		assertEquals("pip", triggerDetails.getPipId());
@@ -107,10 +108,10 @@ public class TriggerDetailsTest {
 		assertEquals("id", triggerDetails.getTestPlanId());
 		assertEquals("id", triggerDetails.getTestSuitId());
 		assertEquals(jobParam, triggerDetails.getJobParam());
-		assertEquals("db", triggerDetails.getDeployDB());
-		assertEquals("db", triggerDetails.getRestoreDB());
+//		assertEquals("db", triggerDetails.getDeployDB());
+//		assertEquals("db", triggerDetails.getRestoreDB());
 		assertEquals("branch", triggerDetails.getBranchOrTag());
-		assertEquals("operation", triggerDetails.getDbOperations());
+//		assertEquals("operation", triggerDetails.getDbOperations());
 		assertEquals("sub", triggerDetails.getSubApplicationName());
 		assertEquals("rm", triggerDetails.getRmAssemblies());
 		assertEquals("param", triggerDetails.getDepParam());
@@ -123,13 +124,13 @@ public class TriggerDetailsTest {
 		assertEquals("land", triggerDetails.getLanscapeName());
 		assertEquals("dashboard", triggerDetails.getSonardashBoardLink());
 		assertEquals("instance", triggerDetails.getInstance());
-		assertEquals("client", triggerDetails.getClient());
+//		assertEquals("client", triggerDetails.getClient());
 		assertEquals("pwd", triggerDetails.getPassword());
 		assertEquals("angular", triggerDetails.getTechnology());
 		assertEquals("english", triggerDetails.getLanguage());
-		assertEquals("55918", triggerDetails.getUserStories());
+//		assertEquals("55918", triggerDetails.getUserStories());
 		assertEquals("system", triggerDetails.getSystemName());
-		assertEquals(transportRequest, triggerDetails.getTransportRequest());
+//		assertEquals(transportRequest, triggerDetails.getTransportRequest());
 		assertEquals("dashboard", triggerDetails.getDashBoardLink());
 		assertEquals("404", triggerDetails.getErrorCode());
 		assertEquals("1", triggerDetails.getJobBuildId());
@@ -149,7 +150,8 @@ public class TriggerDetailsTest {
 		assertEquals("number", triggerDetails.getBuildartifactNumber());
 		assertEquals("true", triggerDetails.getArtifactorySelected());
 		assertEquals("slave", triggerDetails.getTestSlaveName());
-		assertEquals("slave", triggerDetails.getCastSlaveName());
+//		assertEquals("slave", triggerDetails.getCastSlaveName());
+//		assertEquals("sapUserName", triggerDetails.getSapUserName());
 
 	}
 

@@ -34,7 +34,7 @@ public class ConfigurationManager {
 	private String jenkinsuserid;
 	private String jenkinspassword;
 	
-	private ConfigurationManager(){
+	public ConfigurationManager(){
 	}
 	
 	public String getUrl() {

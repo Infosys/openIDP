@@ -5,27 +5,28 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { TriggerServiceComponent } from "./trigger-service.component";
+//tslint:disable
+// import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+// import { TriggerServiceComponent } from "./trigger-service.component";
 
-describe("TriggerServiceComponent", () => {
-  let component: TriggerServiceComponent;
-  let fixture: ComponentFixture<TriggerServiceComponent>;
+// describe("TriggerServiceComponent", () => {
+//   let component: TriggerServiceComponent;
+//   let fixture: ComponentFixture<TriggerServiceComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-        declarations: [ TriggerServiceComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//         declarations: [ TriggerServiceComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TriggerServiceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(TriggerServiceComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  xit("should be created", () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   xit("should be created", () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

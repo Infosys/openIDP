@@ -14,18 +14,15 @@ import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
 import { ParentFormConnectComponent } from "../parent-form-connect/parent-form-connect.component";
-import {IdpEncryptionModule } from "../idpEncryption.module";
-
+import { IdpEncryptionModule } from "../idpEncryption.module";
 import { AngularCntrlComponent } from "./angular-cntrl/angular-cntrl.component";
 import { AntCtrlComponent } from "./ant-ctrl/ant-ctrl.component";
-import { GeneralCntrlComponent } from "./general-cntrl/general-cntrl.component";
-import { GoCntrlComponent } from "./go-cntrl/go-cntrl.component";
 import { MavenCntrlComponent } from "./maven-cntrl/maven-cntrl.component";
 import { NodejsCntrlComponent } from "./nodejs-cntrl/nodejs-cntrl.component";
 import { PythonCntrlComponent } from "./python-cntrl/python-cntrl.component";
 import { BuildInfoSubComponent } from "./build-info-sub/build-info-sub.component";
 import { MsbuildCntrlComponent } from "./msbuild-cntrl/msbuild-cntrl.component";
-
+import { GoCntrlComponent } from "./go-cntrl/go-cntrl.component";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, "assets/i18n", ".json");
@@ -36,9 +33,9 @@ export function createTranslateLoader(http: Http) {
     CommonModule,
     buildInfoRouter,
     TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
     }),
     HttpModule,
     FormsModule,
@@ -50,11 +47,10 @@ export function createTranslateLoader(http: Http) {
         AntCtrlComponent,
         BuildInfoSubComponent,
         PythonCntrlComponent,
-        GeneralCntrlComponent,
-        GoCntrlComponent,
         MavenCntrlComponent,
         ParentFormConnectComponent,
         MsbuildCntrlComponent,
+        GoCntrlComponent,
         NodejsCntrlComponent,
     ]
 })

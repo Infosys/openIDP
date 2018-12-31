@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
-
+import org.infy.idp.AppContext;
 import org.infy.idp.utils.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,22 +21,25 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 /*This test case is used history test*/
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppContext.class)
 public class IDPHistoryInfoDLTest {
 
 	
 	
 	@Spy
 	@InjectMocks
-	@Autowired
-	private IDPPostGreSqlDbContext postGreSqlDbContext;
+	
+	private IDPPostGreSqlDbContext idppostGreSqlDbContext;
 	
 	@Spy
 	@Autowired
-	private ConfigurationManager configurationManager;
+	private ConfigurationManager configmanager;
 	
 	@InjectMocks
 	private IDPHistoryInfoDL idpHistoryInfoDL;
@@ -47,9 +50,9 @@ public class IDPHistoryInfoDLTest {
 		try {
 
 			MockitoAnnotations.initMocks(this);
-			Method postConstruct = PostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
+			Method postConstruct = IDPPostGreSqlDbContext.class.getDeclaredMethod("init", null); // methodName,parameters
 			postConstruct.setAccessible(true);
-			postConstruct.invoke(postGreSqlDbContext);
+			postConstruct.invoke(idppostGreSqlDbContext);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -63,7 +66,7 @@ public class IDPHistoryInfoDLTest {
 		{
 			
 			
-			int temp=idpHistoryInfoDL.insertHistoryInfo("appName","pipName","stage","pipelineId","status");
+			int temp=idpHistoryInfoDL.insertHistoryInfo("appName","pipName","stage","1","status");
 			assertEquals(1, temp);
 		}
 		catch(Exception e)

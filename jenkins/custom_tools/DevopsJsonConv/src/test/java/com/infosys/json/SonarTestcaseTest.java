@@ -28,4 +28,13 @@ public class SonarTestcaseTest {
 		
 		Assert.assertEquals("10",stc.getTime());
 	}
+	
+	@Test
+	public void failtest(){
+		SonarTestcase stc = new SonarTestcase();
+		
+		stc.setFailures(null);
+		
+		Assert.assertEquals(null,stc.getFailures());
+	}
 }

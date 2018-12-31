@@ -48,7 +48,7 @@ public class FetchJobDetails {
 	 * @param userEnv
 	 * @return
 	 */
-	public List<String> getEnvironments(ApplicationInfo app, String userName, List<String> userEnv) {
+	public List<String> getEnvironments(ApplicationInfo app, List<String> userEnv) {
 		List<String> env = new ArrayList<>();
 		List<EnvironmentOwnerDetail> envDetails = app.getEnvironmentOwnerDetails();
 		int envDetailsSize = envDetails.size();
@@ -110,13 +110,39 @@ public class FetchJobDetails {
 		return env;
 	}
 
+/**
+	 * 
+	 * @param app
+	 * @param idp
+	 * @param userName
+	 * @param userEnvs
+	 * @return List<String>
+	 */
+	public List<String> getEnvironmentsForTest(ApplicationInfo app, IDPJob idp, String userName,
+			List<String> userEnvs) {
+
+		List<String> envFromIDP = getEnvironmentsTest(app, idp, userEnvs, userName);
+
+		List<String> env = new ArrayList<>();
+		List<String> testEnv;
+		List<EnvironmentOwnerDetail> envDetails = app.getEnvironmentOwnerDetails();
+		int envDetailsSize = envDetails.size();
+		for (int i = 0; i < envDetailsSize; i++) {
+			env.add(envDetails.get(i).getEnvironmentName());
+		}
+		env = intersection(env, envFromIDP);
+		testEnv = getQAUserEnvironment(app, userName);
+		env = union(env, testEnv);
+		return env;
+	}
+	
 	/**
 	 * 
 	 * @param app
 	 * @param userName
 	 * @return List<String>
 	 */
-	public List<String> getEnvironmentsforPipelineCreation(ApplicationInfo app, String userName) {
+	public List<String> getEnvironmentsforPipelineCreation(ApplicationInfo app) {
 		List<String> env = new ArrayList<>();
 		List<EnvironmentOwnerDetail> envDetails = app.getEnvironmentOwnerDetails();
 		for (int i = 0; i < envDetails.size(); i++) {
@@ -292,9 +318,6 @@ public class FetchJobDetails {
 		}
 		return emails;
 	}
-
-	
-
 	/**
 	 * Fetching all environments except build Env
 	 * 
@@ -304,7 +327,7 @@ public class FetchJobDetails {
 	 * @param buildEnv
 	 * @return the required list
 	 */
-	public List<String> getEnvExceptBuildEnv(IDPJob idp, String userName, List<String> userEnvs,
+	public List<String> getEnvExceptBuildEnv(IDPJob idp, List<String> userEnvs,
 			List<String> buildEnv) {
 
 		List<String> env = getEnvironmentsDeploy(idp, userEnvs);
@@ -385,7 +408,7 @@ public class FetchJobDetails {
 	public IDPJob getSonarInfo(IDPJob idp) {
 
 		if (null != idp.getBuildInfo() && null != idp.getBuildInfo().getModules()
-				&& (idp.getBuildInfo().getModules().size() > 0)
+				&& (!idp.getBuildInfo().getModules().isEmpty())
 				&& null != idp.getBuildInfo().getModules().get(0).getCodeAnalysis()
 				&& idp.getBuildInfo().getModules().get(0).getCodeAnalysis().contains("sonar")) {
 			if (null == idp.getBuildInfo().getModules().get(0).getSonarUrl()

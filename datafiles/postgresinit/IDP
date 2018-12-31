@@ -940,6 +940,45 @@ CREATE TABLE tnotification_info
 
 ALTER TABLE tnotification_info OWNER TO postgres;
 
+-- Table: public.tsap_tr_details
+
+CREATE TABLE public.tsap_tr_details
+(
+  transport_request character varying NOT NULL,
+  task_associated character varying,
+  object_name character varying,
+  object_timestamp character varying,
+  username character varying,
+  object_type character varying
+);
+
+ALTER TABLE public.tsap_tr_details
+  OWNER TO postgres;
+
+
+
+-- Table: public.tsap_trigger_details
+
+CREATE TABLE public.tsap_trigger_details
+(
+  trigger_id integer NOT NULL DEFAULT '-1'::integer,
+  release_number character varying NOT NULL,
+  user_story character varying NOT NULL,
+  transport_request character varying NOT NULL,
+  deploy_operation character varying NOT NULL,
+  change_request character varying,
+  landscape character varying NOT NULL,
+  CONSTRAINT tsap_trigger_details_pkey PRIMARY KEY (release_number, user_story, transport_request, landscape)
+
+);
+
+ALTER TABLE public.tsap_trigger_details
+  OWNER TO postgres;
+
+  
+
+
+
 --
 -- TOC entry 2181 (class 2604 OID 16754)
 -- Name: dashboard_info id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -1559,6 +1598,9 @@ INSERT INTO trole_permissions VALUES (2, 'VIEW_PIPELINE');
 INSERT INTO trole_permissions VALUES (3, 'BUILD');
 INSERT INTO trole_permissions VALUES (3, 'RELEASE');
 INSERT INTO trole_permissions VALUES (3, 'VIEW_PIPELINE');
+INSERT INTO trole_permissions VALUES (3, 'APPROVE_BUILD');
+INSERT INTO trole_permissions VALUES (3, 'APPROVE_DEPLOY');
+
 
 INSERT INTO trole_permissions VALUES (4, 'BUILD');
 INSERT INTO trole_permissions VALUES (4, 'DEPLOY');

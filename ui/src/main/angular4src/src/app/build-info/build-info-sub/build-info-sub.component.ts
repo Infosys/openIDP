@@ -50,13 +50,7 @@ export class BuildInfoSubComponent implements OnInit {
     if (this.buildInfo.artifactToStage.artifactRepo === undefined ) {
         this.buildInfo.artifactToStage.artifactRepo = {};
     }
-
     this.checkCheckBox();
-
-    console.log(this.IdpdataService.data.buildInfo);
-        console.log(this.buildInfo);
-
-
   }
 
   buildInfo: any = this.IdpdataService.data.buildInfo;
@@ -131,6 +125,7 @@ detailsApplication() {
     this.buildInfo.artifactToStage.artifactRepo = {};
     this.buildInfo.artifactToStage.artifact = "";
     this.checkBoxObject.nugetPackage = "off";
+    this.checkBoxObject.flattenFileStructure = "off";
     this.IdpdataService.artifactVariable = false;
     return "off";
   }
@@ -139,32 +134,16 @@ detailsApplication() {
     this.buildInfo.artifactToStage.artifactRepo = {};
     this.buildInfo.artifactToStage.artifact = "";
     this.checkBoxObject.nugetPackage = "off";
-    console.log(this.checkBoxObject.flattenFileStructure);
-    // this.buildInfo.artifactToStage.flattenFileStructure = "off";
   }
 
   naArtifact() {
-    console.log(this.buildInfo.artifactToStage.artifactRepoName);
     if (this.buildInfo.artifactToStage.artifactRepoName !== "na") {
         this.IdpdataService.artifactVariable = true;
-        console.log("naArtifact : this.buildInfo.artifactToStage.artifactRepoName === " + this.buildInfo.artifactToStage.artifactRepoName);
-        console.log("naArtifact : this.IdpdataService.artifactVariable === " + this.IdpdataService.artifactVariable);
-        // console.log(this.buildInfo.artifactToStage.artifactRepoName+"aaaaaaaaaaaaaaa"+this.IdpdataService.artifactVariable);
     }
-   if (this.buildInfo.artifactToStage.artifactRepoName === "na") {
-
-
-            this.IdpdataService.artifactVariable = false;
-            console.log("naArtifact : this.buildInfo.artifactToStage.artifactRepoName === " +
-            this.buildInfo.artifactToStage.artifactRepoName);
-            console.log("naArtifact : this.IdpdataService.artifactVariable === " + this.IdpdataService.artifactVariable);
-            // console.log("Zzvfxgbvcbhvgn+"+this.IdpdataService.artifactVariable);
-
+    if (this.buildInfo.artifactToStage.artifactRepoName === "na") {
+        this.IdpdataService.artifactVariable = false;
         this.clearArtifactOnSelect();
     }
-    console.log("this.IdpdataService.artifactVariable :" + this.IdpdataService.artifactVariable);
-    console.log("this.IdpdataService.artifactAppVariable " + this.IdpdataService.artifactAppVariable);
-    // console.log(this.IdpdataService.artifactVariable+"ccccccccccccc"+this.IdpdataService.artifactAppVariable);
   }
 
   clearRunScripts() {
@@ -224,7 +203,6 @@ detailsApplication() {
    openAntPropertiesField() {
     this.buildInfo.postBuildScript.antPropertiesArr = [];
     this.addAntProperties();
-    console.log("inside 1");
     return "on";
   }
   addAntProperties() {
@@ -232,7 +210,6 @@ detailsApplication() {
     }
    clearAntPropertisField() {
     this.buildInfo.postBuildScript.antPropertiesArr = [];
-        console.log("inside 1");
     return false;
     }
     deleteAntProp(index) {
@@ -243,7 +220,6 @@ detailsApplication() {
         this.buildInfo.postBuildScript.antPropertiesArr.splice(this.index, 1);
     }
   checkCheckBox() {
-    console.log(1);
     if (this.buildInfo.postBuildScript === undefined) {
         this.buildInfo.postBuildScript = {};
 
@@ -253,23 +229,24 @@ detailsApplication() {
         this.buildInfo.postBuildScript.tool !== "") || (this.buildInfo.postBuildScript.archiveLogs !== undefined &&
         this.buildInfo.postBuildScript.archiveLogs !== null &&
         this.buildInfo.postBuildScript.archiveLogs !== "")) {
-            console.log(2);
         this.checkBoxObject.postBuildAction = "on";
     }
     if (this.buildInfo.postBuildScript.tool !== undefined &&
         this.buildInfo.postBuildScript.tool !== null &&
         this.buildInfo.postBuildScript.tool !== "") {
-            console.log(3);
         this.checkBoxObject.postBuildRunScript = "on";
     }
         // edit and copy to check the check box
 
     if (this.buildInfo.artifactToStage.artifactRepoName !== undefined &&
         this.buildInfo.artifactToStage.artifactRepoName !== null &&
+        this.buildInfo.artifactToStage.artifact !== undefined &&
+        this.buildInfo.artifactToStage.artifact.length > 0 &&
         this.buildInfo.artifactToStage.artifactRepoName !== "") {
         this.checkBoxObject.artifact = "on";
         } else {
         this.checkBoxObject.artifact = "off";
+        this.buildInfo.artifactToStage.artifactRepoName = "";
     }
 
         if (this.buildInfo.artifactToStage.artifact !== undefined ||
@@ -330,9 +307,6 @@ detailsApplication() {
      *  if artifact Pattern is requried
      *  else false.
      */
-
-        console.log("this.checkBoxObject.artifact :" + this.checkBoxObject.artifact);
-
     // If nexus got override return true else false.
     if (this.checkBoxObject.artifact === "on") {
         return (this.buildInfo.artifactToStage.artifactRepoName === "nexus" || this.buildInfo.artifactToStage.artifactRepoName === "jfrog");

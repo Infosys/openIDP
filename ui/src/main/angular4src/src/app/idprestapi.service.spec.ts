@@ -1,3 +1,11 @@
+/**
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+* https://opensource.org/licenses/MIT.�
+*
+**/
+/* tslint:disable */
 import { async, TestBed, inject } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { IdprestapiService } from "./idprestapi.service";
@@ -9,17 +17,15 @@ import {  HttpModule,  XHRBackend,  ResponseOptions,  Response,  RequestMethod} 
 import "rxjs/add/operator/toPromise";
 import { IdpdataService } from "./idpdata.service";
 import { CookieService } from "ngx-cookie";
-import { Router } from "@angular/router";
+import { Router, NavigationExtras } from "@angular/router";
 import { environment } from "../environments/environment";
 import { Adal4Service } from "adal-angular4";
 import { StartupService } from "./startup.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { asyncData, asyncError } from "./testing/async-observables-helpers";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient, HttpResponse, HttpErrorResponse } from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {of} from "rxjs";
 
 describe("IdprestapiService", () => {
 
@@ -299,7 +305,7 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #checkApplicationNames()", async(() => {
-     const result = idprestapiService.checkApplicationNames(data);
+     const result = idprestapiService.checkApplicationNames({});
   }));
 
   it("should run #getOrganizationWiseApplicationNames()", async(() => {
@@ -328,7 +334,7 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #getEnvSlots()", async(() => {
-    const result = idprestapiService.getEnvSlots(application_name, env);
+    const result = idprestapiService.getEnvSlots("application_name", "env");
   }));
 
   it("should run #getExistingSlot()", async(() => {
@@ -397,21 +403,21 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #submit()", async(() => {
-    const result = idprestapiService.submit(requestData);
+    const result = idprestapiService.submit({});
   }));
 
   it("should run #triggerJobs()", async(() => {
       let requestData;
-    const result = idprestapiService.triggerJobs(requestData);
+    const result = idprestapiService.triggerJobs({});
   }));
 
   it("should run #getApplicationDetails()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getApplicationDetails(requestData);
   }));
 
   it("should run #deletePipeline()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.deletePipeline(requestData);
   }));
 
@@ -422,28 +428,28 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #getApplicationInfo()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getApplicationInfo(requestData);
   }));
 
   it("should run #getFilteredApplicationNames()", async(() => {
-      let filterString;
+      const filterString = "";
     const result = idprestapiService.getFilteredApplicationNames(filterString);
   }));
 
   it("should run #editApplicationDetails()", async(() => {
-      let requestData;
+      const requestData = {};
 
     const result = idprestapiService.editApplicationDetails(requestData);
   }));
 
   it("should run #createApplication()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.createApplication(requestData);
   }));
 
   it("should run #getJobs()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getJobs(requestData);
   }));
 
@@ -453,38 +459,38 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #getPipelineList()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.getPipelineList(responseData);
   }));
 
   it("should run #sendAppMail()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.sendAppMail(responseData);
   }));
 
   it("should run #sendOrgMail()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.sendOrgMail(responseData);
   }));
 
   it("should run #sendLicenseMail()", async(() => {
 
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.sendLicenseMail(responseData);
   }));
 
   it("should run #sendPipeMail()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.sendPipeMail(responseData);
   }));
 
   it("should run #getPipelineNames()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getPipelineNames(requestData);
   }));
 
   it("should run #getPipelineListforWorkflow()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getPipelineListforWorkflow(requestData);
   }));
 
@@ -493,32 +499,32 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #checkSubApplication()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.checkSubApplication(data);
   }));
 
   it("should run #getActiveReleases()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getActiveReleases(requestData);
   }));
 
   it("should run #getHistoryReleases()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.getHistoryReleases(requestData);
   }));
 
   it("should run #getApplicationNameForReleaseManager()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.getApplicationNameForReleaseManager(responseData);
   }));
 
   it("should run #postReleaseData()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.postReleaseData(responseData);
   }));
 
   it("should run #updateReleases()", async(() => {
-      let responseData;
+      const responseData = {};
     const result = idprestapiService.updateReleases(responseData);
   }));
 
@@ -527,7 +533,7 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #getArtifactsRm()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.getArtifactsRm(data);
   }));
 
@@ -536,12 +542,12 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #updateArtifacts()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.updateArtifacts(data);
   }));
 
   it("should run #fetchTriggerSteps()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.fetchTriggerSteps(data);
   }));
 
@@ -550,46 +556,45 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #getTestPlanList()", async(() => {
-    const result = idprestapiService.getTestPlanList(appName, pipeName);
+    const result = idprestapiService.getTestPlanList("appName", "pipeName");
   }));
 
   it("should run #getTestSuitList()", async(() => {
-    const result = idprestapiService.getTestSuitList(id, appName, pipeName);
+    const result = idprestapiService.getTestSuitList("id", "appName", "pipeName");
   }));
 
   it("should run #base64EncodeDecode()", async(() => {
-    const result = idprestapiService.base64EncodeDecode(uname, pass);
+    const result = idprestapiService.base64EncodeDecode("uname", "pass");
   }));
 
   it("should run #buildIntervalTriggerJobs()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.buildIntervalTriggerJobs(data);
   }));
 
   it("should run #getSlaveStatus()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.getSlaveStatus(data);
   }));
 
   it("should run #getArtifactLatestDetails()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.getArtifactLatestDetails(data);
   }));
 
   it("should run #getPipelineAdmins()", async(() => {
-      let appName;
+      const appName = "appName";
     const result = idprestapiService.getPipelineAdmins(appName);
   }));
 
   it("should run #getPipelinePermission()", async(() => {
-      let data;
+      const data = {};
 
     const result = idprestapiService.getPipelinePermission(data);
   }));
 
   it("should run #approveJobs()", async(() => {
-      let requestData
-      ;
+      const requestData = {};
     const result = idprestapiService.approveJobs(requestData);
   }));
 
@@ -602,12 +607,12 @@ describe("IdprestapiService", () => {
   }));
 
   it("should run #createLicense()", async(() => {
-      let data;
+      const data = {};
     const result = idprestapiService.createLicense(data);
   }));
 
   it("should run #createOrganization()", async(() => {
-      let requestData;
+      const requestData = {};
     const result = idprestapiService.createOrganization(requestData);
   }));
 
@@ -618,7 +623,7 @@ describe("IdprestapiService", () => {
   it("should run #editOrganizationDetails()", async(() => {
 
 
-    const result = idprestapiService.editOrganizationDetails(requestData);
+    const result = idprestapiService.editOrganizationDetails({});
   }));
 
 });

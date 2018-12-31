@@ -43,6 +43,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailSender {
 
+	private static final String SENDGRID = "sendgrid";
+
 	private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
 
 	private static final String MAIL_TEMPLATE_PATH = "Mail.html";
@@ -98,7 +100,7 @@ public class EmailSender {
 		triggerJobName.setMailBody(createMailBody(user, triggerJobName.getPipelineName(),
 				triggerJobName.getApplicationName(), triggerJobName.getMethod()));
 		String emailserver = configmanager.getEmailserver();
-		if (emailserver.equalsIgnoreCase("sendgrid")) {
+		if (emailserver.equalsIgnoreCase(SENDGRID)) {
 			status = sendEmailSendGrid(sub, triggerJobName, user, emails);
 		} else {
 			status = sendEmail(sub, triggerJobName, user, emails);
@@ -138,7 +140,7 @@ public class EmailSender {
 				triggerJobName.getApplicationName(), triggerJobName.getMethod(), triggerJobName.getReleaseNumber()));
 
 		String emailserver = configmanager.getEmailserver();
-		if (emailserver != null && emailserver.equalsIgnoreCase("sendgrid")) {
+		if (emailserver != null && emailserver.equalsIgnoreCase(SENDGRID)) {
 			status = sendEmailSendGrid(sub, triggerJobName, user, emails);
 		} else {
 			status = sendEmail(sub, triggerJobName, user, emails);
@@ -167,13 +169,13 @@ public class EmailSender {
 			triggerJobName.setMailBody(
 					createAppMailBody(user, triggerJobName.getApplicationName(), triggerJobName.getMethod(), app));
 			String emailserver = configmanager.getEmailserver();
-			if (emailserver.equalsIgnoreCase("sendgrid")) {
+			if (emailserver.equalsIgnoreCase(SENDGRID)) {
 				status = sendEmailSendGrid(sub, triggerJobName, user, emails);
 			} else {
 				status = sendEmail(sub, triggerJobName, user, emails);
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			status = false;
 			logger.error(e.getMessage(), e);
 		}

@@ -9,6 +9,7 @@
 package org.infy.entities.triggerinputs;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,6 +83,10 @@ public class TriggerInputsTest {
 		testedObject.setTest(null);
 		testedObject.setUserName(null);
 		testedObject.setPipelineName(null);
+		testedObject.setCrRequests(null);
+//		testedObject.setReleaseTransportInfo(null);
+//		testedObject.setUserStory(null);
+//		testedObject.setJiraProjectKey(null);
 
 	}
 
@@ -174,6 +179,24 @@ public class TriggerInputsTest {
 		// No exception thrown
 		
 	}
+	
+	/**
+	 * Test for method getReleaseTransportInfo().
+	 * 
+	 * @throws Throwable Tests may throw any Throwable
+	 *
+	 * @see TriggerInputs#getReleaseTransportInfo()
+	 * 
+	 * 
+	 */
+//	@Test
+//	public void testGetReleaseTransportInfo0() throws Throwable {
+//		TriggerInputs testedObject = new TriggerInputs();
+//		List<ReleaseTransportInfo> result = testedObject.getReleaseTransportInfo();
+//		assertEquals(null, result); 
+//		// No exception thrown
+//		
+//	}
 
 	/**
 	 * Test for method TriggerInputs().
@@ -199,6 +222,10 @@ public class TriggerInputsTest {
 		assertEquals(null, testedObject.getPipelineName()); 
 		assertEquals(null, testedObject.getReleaseNumber()); 
 		assertEquals(null, testedObject.getApplicationName()); 
+		assertNull(testedObject.getCrRequests());
+//		assertNull(testedObject.getReleaseTransportInfo());
+//		assertNull(testedObject.getUserStory());
+//		assertNull(testedObject.getJiraProjectKey());
 		// No exception thrown
 		
 	}
@@ -235,9 +262,8 @@ public class TriggerInputsTest {
 
 		Collections.addAll(set, array);
 		testedObject.setRelaseList(set);
-		/*
-		 * Remove VSTS ALM testedObject.setUserStory("55918");
-		 */
+//		testedObject.setJiraProjectKey("MCAIN");
+//		testedObject.setUserStory("55918");
 		testedObject.setTechnology("Angular");
 		ArrayList<BuildDeployEnv> listBuildDeploy = new ArrayList<>();
 		BuildDeployEnv be = new BuildDeployEnv();
@@ -252,10 +278,8 @@ public class TriggerInputsTest {
 		ArrayList<SlavesDetail> listSlaveDetails = new ArrayList<>();
 		listSlaveDetails.add(slaveDetail);
 		testedObject.setAppSlaves(listSlaveDetails);
-
-//		TriggerDetails trigger=new TriggerDetails();
-//		trigger.setAppId("app1");
-//		trigger.setApplicationName("15Dec");
+		ArrayList<String> crRequests = new ArrayList<>();
+		testedObject.setCrRequests(crRequests);
 
 		ApplicationDetails appDetails = new ApplicationDetails();
 
@@ -263,7 +287,6 @@ public class TriggerInputsTest {
 		listTrigger.add(appDetails);
 		testedObject.setPipelines(listTrigger);
 
-//		assertEquals("MCAIN",testedObject.getJiraProjectKey());
 		assertEquals("tomcat", testedObject.getDeployStep());
 		assertEquals(hashrelease, testedObject.getReleaseBranches());
 		assertEquals("git", testedObject.getScmType());
@@ -277,13 +300,14 @@ public class TriggerInputsTest {
 		assertEquals("dev", testedObject.getEnvironment());
 		assertEquals("ssh", testedObject.getSshAndDependent());
 		assertEquals(set, testedObject.getRelaseList());
-		/*
-		 * Remove VSTS ALM assertEquals("55918",testedObject.getUserStory());
-		 */
 		assertEquals("Angular", testedObject.getTechnology());
 		assertEquals(listBuildDeploy, testedObject.getBuildDeployEnv());
 		assertEquals(listSlaveDetails, testedObject.getAppSlaves());
 		assertEquals(listTrigger, testedObject.getPipelines());
+		assertEquals(crRequests, testedObject.getCrRequests());
+//		assertEquals(releaseTransportInfo, testedObject.getReleaseTransportInfo());
+//		assertEquals("55918",testedObject.getUserStory());
+//		assertEquals("MCAIN",testedObject.getJiraProjectKey());
 
 	}
 

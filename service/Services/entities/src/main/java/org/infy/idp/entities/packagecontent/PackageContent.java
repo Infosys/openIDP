@@ -29,6 +29,40 @@ public class PackageContent {
 	@SerializedName("ant")
 	@Expose
 	private Module ant;
+	
+//	@SerializedName("informatica")
+//	@Expose
+//	private Informatica informatica;
+	
+//	@SerializedName("bigData")
+//	@Expose
+//	private Module bigData;
+//	
+//	@SerializedName("pega")
+//	@Expose
+//	private Pega pega;
+//
+//	@SerializedName("siebel")
+//	 @Expose
+//	 private Siebel siebel;
+//	 
+
+//	 
+//	public Pega getPega() {
+//		return pega;
+//	}
+//
+//	public void setPega(Pega pega) {
+//		this.pega = pega;
+//	}
+//
+//	public Module getBigData() {
+//		return bigData;
+//	}
+//
+//	public void setBigData(Module bigData) {
+//		this.bigData = bigData;
+//	}
 
 	public String getArtifactName() {
 		return artifactName;
@@ -54,4 +88,18 @@ public class PackageContent {
 		this.ant = ant;
 	}
 
+//	public Informatica getInformatica() {
+//		return informatica;
+//	}
+//
+//	public void setInformatica(Informatica informatica) {
+//		this.informatica = informatica;
+//	}
+//	public Siebel getSiebel() {
+//		return siebel;
+//	}
+//
+//	public void setSiebel(Siebel siebel) {
+//		this.siebel = siebel;
+//	}
 }

@@ -137,7 +137,7 @@ doubleDecryptPassword(data): any {
         for (const j in passwordDatalist["code.scm"]) {
         const str = passwordDatalist["code.scm"][j];
         if (this.checkForKey(data["code"]["scm"][i], str)) {
-            eval("data.code.scm[" + i + "]." + str + " = " + "'" + this.decryptAES(eval("data.code.scm[" + i + "]." + str)).replace(/ /g, "") + "'" );
+          eval("data.code.scm[" + i + "]."+ str + " = " + "'" + this.replaceSpecialCharacter(this.decryptAES(eval("data.code.scm[" + i + "]."+ str))) + "'" );
         }
         }
     }
@@ -146,7 +146,7 @@ doubleDecryptPassword(data): any {
     for (const i in passwordDatalist["buildInfo"]) {
         const str = passwordDatalist["buildInfo"][i];
         if (this.checkForKey(data["buildInfo"], str)) {
-            eval("data.buildInfo." + str + " = " + "'" + this.decryptAES(eval("data.buildInfo." + str)).replace(/ /g, "") + "'" );
+          eval("data.buildInfo." + str + " = " + "'" + this.replaceSpecialCharacter(this.decryptAES(eval("data.buildInfo." + str))) + "'" );
                 }
     }
     if (data["buildInfo"].hasOwnProperty("modules")) {
@@ -154,7 +154,7 @@ doubleDecryptPassword(data): any {
         for (const j in passwordDatalist["buildInfo.modules"]) {
             const str = passwordDatalist["buildInfo.modules"][j];
             if (this.checkForKey(data["buildInfo"]["modules"][i], str)) {
-            eval("data.buildInfo.modules[" + i + "]." + str + " = " + "'" + this.decryptAES(eval("data.buildInfo.modules[" + i + "]." + str)).replace(/ /g, "") + "'" );
+            eval("data.buildInfo.modules[" + i + "]." + str + " = " + "'" + this.replaceSpecialCharacter(this.decryptAES(eval("data.buildInfo.modules[" + i + "]." + str))) + "'" );
             }
         }
         }
@@ -169,7 +169,7 @@ doubleDecryptPassword(data): any {
 
                 const str = passwordDatalist["deployInfo.deployEnv.deploySteps"][k];
                 if (this.checkForKey(data["deployInfo"]["deployEnv"][i]["deploySteps"][j], str)) {
-                eval("data.deployInfo.deployEnv" + "[" + i + "]" + ".deploySteps[" + j + "]." +  str + " = " + "'" + this.decryptAES(eval("data.deployInfo.deployEnv[" + i + "].deploySteps[" + j + "]." +  str)).replace(/ /g, "") + "'" );
+                eval("data.deployInfo.deployEnv" + "["+ i + "]"+".deploySteps[" + j + "]." +  str + " = " + "'" + this.replaceSpecialCharacter(this.decryptAES(eval("data.deployInfo.deployEnv[" + i + "].deploySteps[" + j + "]." +  str))) + "'" );
                 }
             }
             }
@@ -183,7 +183,7 @@ doubleDecryptPassword(data): any {
             for (const k in passwordDatalist["testInfo.testEnv.testSteps"]) {
                 const str = passwordDatalist["testInfo.testEnv.testSteps"][k];
                 if (this.checkForKey(data["testInfo"]["testEnv"][i]["testSteps"][j], str)) {
-                eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str + " = " + "'" + this.decryptAES(eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str)).replace(/ /g, "") + "'" );
+                eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str + " = " + "'" + this.replaceSpecialCharacter(this.decryptAES(eval("data.testInfo.testEnv[" + i + "]." + "testSteps[" + j + "]." +  str))) + "'" );
                 }
             }
             }
@@ -205,4 +205,14 @@ while (i < this.arrayString.length) {
 }
 return true;
 }
+
+replaceSpecialCharacter(data: String){
+  data= data.replace(/ /g,'');
+  data= data.replace('\\','\\\\');
+  data= data.replace('\"','\\\"');
+  data= data.replace("\'","\\\'");
+
+  return data;
+}
+  
 }

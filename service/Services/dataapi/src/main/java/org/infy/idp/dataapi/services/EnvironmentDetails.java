@@ -20,7 +20,6 @@ import org.infy.entities.artifact.Artifact;
 import org.infy.entities.artifact.ArtifactDetails;
 import org.infy.idp.dataapi.base.PostGreSqlDbContext;
 import org.infy.idp.entities.packagecontent.PackageContent;
-import org.infy.idp.entities.releasemanagerinfo.PathSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -284,119 +283,7 @@ public class EnvironmentDetails {
 		}
 	}
 
-	/**
-	 * 
-	 * @param releaseId
-	 * @param pathCount
-	 * @return arraylist of arraylist of intger
-	 * @throws SQLException
-	 */
-	public ArrayList<ArrayList<Integer>> getPathSequence(int releaseId, int pathCount) throws SQLException {
-
-		ArrayList<ArrayList<Integer>> pathSequence = new ArrayList<ArrayList<Integer>>();
-
-		StringBuilder queryStatement = new StringBuilder();
-
-		queryStatement.append("SELECT env_id ");
-		queryStatement.append(" FROM trelease_path_config ");
-		queryStatement.append(" WHERE parent_env_id = ? ");
-		queryStatement.append(" AND path_id = ? ");
-		queryStatement.append(" AND release_id = ?");
-		ResultSet rs = null;
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-
-			int count = 0;
-			while (count < pathCount) {
-
-				String pathId = String.valueOf(releaseId) + "_" + String.valueOf(count);
-				ArrayList<Integer> pathList = new ArrayList<Integer>();
-				int previous = 0;
-				while (true) {
-
-					preparedStatement.setInt(1, previous);
-					preparedStatement.setString(2, pathId);
-					preparedStatement.setInt(3, releaseId);
-					rs = preparedStatement.executeQuery();
-
-					if (rs.next()) {
-						int current = rs.getInt(1);
-						pathList.add(current);
-						previous = current;
-					} else
-						break;
-				}
-				pathSequence.add(pathList);
-				count++;
-			}
-
-		} catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching permissions:", e);
-			throw e;
-		} finally {
-			if (rs != null) {
-				rs.close();
-
-			}
-		}
-		return pathSequence;
-
-	}
-
-	/**
-	 * 
-	 * @param envPathArray
-	 * @return list of pathsequence
-	 * @throws SQLException
-	 */
-	public List<PathSequence> getEnvPathSequence(ArrayList<ArrayList<Integer>> envPathArray) throws SQLException {
-
-		StringBuilder queryStatement = new StringBuilder();
-		List<PathSequence> envPathSequence = new ArrayList<>();
-		queryStatement.append(SELECT_CLAUSE);
-		queryStatement.append(" environment_name ");
-		queryStatement.append(FROM_CLAUSE);
-		queryStatement.append(" public.tenvironment_master ");
-		queryStatement.append(WHERE_CLAUSE);
-		queryStatement.append(" env_id = ? ");
-		ResultSet rs = null;
-		try (Connection connection = postGreSqlDbContext.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
-			int envPathArraySize = envPathArray.size();
-			for (int i = 0; i < envPathArraySize; i++) {
-				ArrayList<Integer> pathArray = envPathArray.get(i);
-				PathSequence pathSequence = new PathSequence();
-				List<String> evnNameList = new ArrayList<>();
-				int pathArraySize = pathArray.size();
-				for (int j = 0; j < pathArraySize; j++) {
-					preparedStatement.setInt(1, pathArray.get(j));
-					rs = preparedStatement.executeQuery();
-					if (rs.next()) {
-						String envName = rs.getString("environment_name");
-						evnNameList.add(envName);
-					}
-
-				}
-				if (evnNameList.size() > 1) {
-					pathSequence.setPathList(evnNameList);
-					envPathSequence.add(pathSequence);
-				}
-
-			}
-
-			return envPathSequence;
-
-		} catch (SQLException | NullPointerException e) {
-			logger.error("Postgres Error while fetching permissions:", e);
-			throw e;
-		} finally {
-			if (rs != null) {
-				rs.close();
-
-			}
-		}
-
-	}
+	
 
 	/**
 	 *  Return artifact list

@@ -16,13 +16,13 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteAntPropConfirm()">OK</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                    </div> 
                 </div>
     
             </div>
         </div>
  </div>   
-    <div *ngIf="!((buildInfo.buildtool =='gradle') || (buildInfo.buildtool =='ibmsi') || (buildInfo.buildtool =='dbDeploy')  ||(buildInfo.buildtool =='informatica') || (buildInfo.buildtool =='pega') || ( buildInfo.buildtool =='IBMSterlingOMS' ) || (buildInfo.buildtool =='tibco') || (buildInfo.buildtool =='IBMBPM') || (buildInfo.buildtool =='go') || (buildInfo.buildtool =='iOS(Swift)') ||  (buildInfo.buildtool==='dbDeployDelphix'))">
+    <div>
         <div class="panel panel-default">
             <div class="panel-heading" style="height: 40px">
                 <div class=" field-tip">
@@ -525,7 +525,6 @@
                             <span class="chkright"><b>{{'Staging'|translate}}</b></span>
                         </div>
                         <div class="panel-body" id="accordion" aria-multiselectable="true">
-
                             <div class="container-fluid form-group" style="margin-left:20px">
                                 <div class="col-md-6 checkbox">
                                     <input (change)="checkBoxObject.artifact=$event.target.checked ? 'on' :clearArtifact()" type="checkbox" id="bdpbstch01" [checked]="checkBoxObject.artifact === 'on'" /> &nbsp; {{'Overwrite Artifact Repository Manager'|translate}}
@@ -534,20 +533,22 @@
                             </div>
 
                             <div *ngIf="checkBoxObject.artifact === 'on'">
-                                <div class="row form-group">
-                                    <span class="col-md-3 text-right"> <label
-                        class="control-label"> {{'Artifact Repository Manager'|translate}}<span
+                                <div class="row 
+                                -group">
+                                    <span class="col-md-3 text-right">
+                                        <label class="control-label"> {{'Artifact Repository Manager'|translate}}<span
                           style="color: red">*</span>
                                     </label>
                                     </span>
-                                    <div class="col-md-9 text-left"> <select name="artifactRepoName" [(ngModel)]="buildInfo.artifactToStage.artifactRepoName" id="bdararmsl" class="form-control" style="width: 50%" (change)="naArtifact()" required>
-                            <option value="">--Select--</option>
-  			                    <option value="nexus">Nexus</option>
-  								<option value="jfrog">JFrog Artifactory </option>
-  													<!--<option value="artifactory">Artifactory</option> -->
-  							    <option value="na">NA</option>
+                                    <div class="col-md-9 text-left">
+                                        <select name="artifactRepoName" [(ngModel)]="buildInfo.artifactToStage.artifactRepoName" id="bdararmsl" class="form-control" style="width: 50%" (change)="naArtifact()" required>
+                                            <option value="">--Select--</option>
+                                            <option value="nexus">Nexus</option>
+                                            <option value="jfrog">JFrog Artifactory </option>
+                                                        <!--<option value="artifactory">Artifactory</option> -->
+                                            <option value="na">NA</option>
 
-  											</select>
+  										</select>
 
                                     </div>
                                 </div>
@@ -564,7 +565,7 @@
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL" style="padding-right: 400px" placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
+                                        <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL" placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
                                         <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
                                             <div [hidden]="!nexusURL.errors.required">
                                                 This Field Name is required!
@@ -594,7 +595,7 @@
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11" style="padding-right: 400px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
+                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11"  placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
                                             value="" pattern="[a-zA-Z0-9][_a-zA-Z0-9-./]+" required>
                                         <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
 
@@ -626,7 +627,7 @@
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername" style="padding-right: 400px" placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
+                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername"  placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
                                             pattern="[a-zA-Z0-9][_a-zA-Z0-9-.]+" required>
                                         <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
                                             <div [hidden]="!nexusUserName.errors.required">
@@ -656,7 +657,7 @@
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass" style="padding-right: 400px" placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
+                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass"  placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
                                             minlength="5" maxlength="150" required>
                                         <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
                                             <div [hidden]="!nexusPassword.errors.required">
@@ -695,7 +696,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
     
-                                            <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL" style="padding-right: 400px" placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
+                                            <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL"  placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
                                             <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
                                                 <div [hidden]="!nexusURL.errors.required">
                                                     This Field Name is required!
@@ -725,7 +726,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
     
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11" style="padding-right: 400px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
+                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11"  placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
                                                 value="" pattern="[a-zA-Z0-9][_a-zA-Z0-9-./]+" required>
                                             <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
     
@@ -757,7 +758,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
     
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername" style="padding-right: 400px" placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
+                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername"  placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
                                                 pattern="[a-zA-Z0-9][_a-zA-Z0-9-.]+" required>
                                             <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
                                                 <div [hidden]="!nexusUserName.errors.required">
@@ -787,7 +788,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
     
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass" style="padding-right: 400px" placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
+                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass"  placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
                                                 minlength="5" maxlength="150" required>
                                             <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
                                                 <div [hidden]="!nexusPassword.errors.required">
@@ -816,13 +817,11 @@
                             <div class="row form-group" *ngIf="getArtifactPatterStatus()">
                                 <div class="col-md-3 text-right">
                                     <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                            &nbsp;&nbsp; {{'Artifact Pattern'|translate}}<span
-                            style="color: red">*</span>
-
-                          </label>
+                                        &nbsp;&nbsp; {{'Artifact Pattern'|translate}}<span
+                                        style="color: red">*</span>
+                                    </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-
                                     <textarea class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifact" name="artifact" id="bdaraptf" placeholder="**/*.war|**/*.dll" #artifact="ngModel" type="textarea" minlength="5" maxlength="500" required></textarea>
                                     <span class="tip-content">{{'Artifact to be deployed'|translate}}</span>
                                     <div *ngIf="artifact.errors && (artifact.dirty || artifact.touched)" class="alert alert-danger ">

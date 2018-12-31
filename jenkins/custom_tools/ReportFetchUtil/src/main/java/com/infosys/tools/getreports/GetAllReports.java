@@ -26,6 +26,7 @@ public class GetAllReports {
 	
 
 	public static void main(String[] args) throws IOException {
+		
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
 		logger.info("Report fetch util Frozen");
