@@ -117,6 +117,12 @@
                 <app-python-cntrl formName="forPython"></app-python-cntrl>
             </div>
         </div>
+         <!-- Gradle -->
+        <div [ngSwitch]="buildInfo.buildtool ==='java_gradle'">
+            <div *ngSwitchCase="true">
+                <app-java-gradle-cntrl formName="forJavaGradle"></app-java-gradle-cntrl>
+			</div>
+		</div>
         <!-- Go -->
         <div [ngSwitch]="buildInfo.buildtool ==='go'">
             <div *ngSwitchCase="true">

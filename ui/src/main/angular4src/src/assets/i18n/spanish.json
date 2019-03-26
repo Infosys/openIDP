@@ -122,6 +122,8 @@
   "Root POM Path": "Ruta POM raíz",
   "Relative Path to Root POM": "Ruta relativa a la raíz POM",
   "Global Goals": "Objetivos globales",
+  "Other Tasks": "Tareas personalizadas",
+  "Global Tasks": "Tareas globales",
   "Clean": "limpio",
   "Install": "instalar",
   "Custom Goals": "Objetivos personalizados",

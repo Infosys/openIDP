@@ -14,7 +14,6 @@ import org.infy.entities.artifact.Artifact;
 import org.infy.entities.artifact.ArtifactList;
 import org.infy.idp.businessapi.EmailSender;
 import org.infy.idp.businessapi.EnvironmentBL;
-import org.infy.idp.businessapi.JobsBL;
 import org.infy.idp.businessapi.JobsManagementBL;
 import org.infy.idp.businessapi.ReleaseBL;
 import org.infy.idp.controller.BaseResource;
@@ -46,8 +45,7 @@ public class ReleaseService extends BaseResource {
 	@Autowired
 	private EnvironmentBL environmentBL;
 
-	@Autowired
-	private JobsBL jobsBL;
+
 	@Autowired
 	private JobsManagementBL jobsManagementBL;
 

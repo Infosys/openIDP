@@ -116,6 +116,14 @@ SetcodeCoverage() {
     this.IdpdataService.continuecontrol = true;
     return false;
   }
+  clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+  
+      return "off";
+    }
   codeAnalysisCheckbox(checked) {
     if (checked) {
         this.tempObject.modules[0].codeAnalysis = "on";

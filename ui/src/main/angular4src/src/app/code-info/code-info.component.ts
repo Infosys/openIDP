@@ -75,6 +75,7 @@ export class CodeInfoComponent implements OnInit {
             "Go": "go",
             "JAVA/J2EE(Ant based)": "J2EE/Ant",
             "JAVA/J2EE(Maven based)": "J2EE/Maven",
+            "JAVA/J2EE(Gradle based)": "J2EE/Gradle",
             ".Net(C# based)": "dotNetCsharp",
             "Node JS": "nodeJs",
             "Python": "python",
@@ -554,11 +555,19 @@ export class CodeInfoComponent implements OnInit {
         if (this.codeInfo.technology !== "dotNetCsharp"
         && this.codeInfo.technology !== "dotNetVb"
         && this.codeInfo.technology !== "J2EE/Ant"
-        && this.codeInfo.technology !== "J2EE/Maven") {
+        && this.codeInfo.technology !== "J2EE/Maven"
+        && this.codeInfo.technology !== "J2EE/Gradle") {
         this.buildInfo.buildtool = this.codeInfo.technology;
         this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
         this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
         }
+
+        if (this.codeInfo.technology === "J2EE/Gradle") {
+          this.buildInfo.buildtool = "java_gradle";
+          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
+          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
+          }
+
         if (this.codeInfo.technology === 'androidGradle') {
           this.buildInfo.buildtool = 'gradle';
           this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;

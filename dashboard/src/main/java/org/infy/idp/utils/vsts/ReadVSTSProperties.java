@@ -7,7 +7,6 @@
 ***********************************************************************************************/
 package org.infy.idp.utils.vsts;
 
-import java.io.FileInputStream;
 import java.util.Properties;
 
 import org.slf4j.Logger;

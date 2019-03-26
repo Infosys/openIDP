@@ -1,0 +1,300 @@
+<form [parentFormConnect]="formName">
+    <div class="animate-switch-container">
+        <div class="animate-switch">
+          <div class="panel panel-default">
+            <div class="panel-heading  panelHeadingBackground">
+              <b>Gradle {{'Project Details'|translate}}</b>
+            </div>
+            <div class="panel-body">
+                <div class="row form-group chkright">
+                  <div class="col-md-3 text-right ">
+                    <label class="control-label"> Project Name </label>
+                    <span class="star">*</span>
+                  </div>
+                  <div class="col-md-9 text-left field-tip">
+                    <input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].projectName" name="projectName" type="textbox"
+                      #projectName id="bdboandroidpntf" placeholder="Project1" minlength="1" maxlength="150" required>
+                    <span class="tip-content">Name of the Project</span>
+                    <div *ngIf="projectName.errors && (projectName.dirty || projectName.touched)" class="alert alert-danger ">
+                      <div [hidden]="!projectName.errors.required">
+                        This Field Name is required!
+                      </div>
+                      <div [hidden]="!projectName.errors.minlength">
+                        This Field Name must be at least 3 characters long.
+                      </div>
+                      <div [hidden]="!projectName.errors.pattern">
+                        This Field Name can only consist of alphabetical, number, dot and underscore
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-group chkright">
+                  <div class="col-md-3 text-right ">
+                    <label class="control-label"> Build File Location </label>
+                    <span class="star">*</span>
+                  </div>
+                  <div class="col-md-9 text-left field-tip">
+                    <input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].relativePath" name="relativePath" type="textbox"
+                      #relativePath id="bdboandroidbfltf" placeholder="DemoGradleProject" required>
+                    <span class="tip-content">Please provide the location of build.gradle file.</span>
+                    <div *ngIf="relativePath.errors && (relativePath.dirty || relativePath.touched)" class="alert alert-danger ">
+                      <div [hidden]="!relativePath.errors.required">
+                        This Field Name is required!
+                      </div>
+      
+                    </div>
+      
+      
+                  </div>
+                </div>
+            
+            
+              <!-- <div *ngIf="buildInfo.modules[0].multiModule=='on' && (buildInfo.modules[0].args=='' || buildInfo.modules[0].args==null || buildInfo.modules[0].args==undefined)">
+                      <div ng-init="buildInfo.modules[0].args='site"></div>
+                    </div> -->
+              <div class="form-group chkright">
+                <div class="col-md-3 text-right">
+                  <label class="control-label" style="margin-left: 10px;">
+                    {{'Global Tasks'|translate}}
+                  </label>
+                </div>
+                <div class="col-md-8  " style="margin-left:10px ">
+                  <label class="checkbox-inline" style="margin-right:15px ">
+                    <input type="checkbox" [checked]="buildInfo.modules[0].clean=='on'" name="cleanGoal" id="bdbomvnclch01" (change)="buildInfo.modules[0].clean=$event.target.checked ?'on':'off'"> {{'Clean'|translate}}
+                  </label>
+  
+                  <label class="checkbox-inline">
+                    <input type="checkbox" [checked]="buildInfo.modules[0].install=='on'" name="intallGoal" id="bdbomvninch01" (change)="buildInfo.modules[0].install=$event.target.checked ?'on':'off'"> {{'Build'|translate}}
+                  </label>
+  
+                </div>
+  
+                <!-- <div class="col-md-3 field-tip checkbox">
+  
+  
+                      </div> -->
+  
+              </div>
+  
+              <div class="row form-group chkright">
+                <div class="col-md-3 text-right">
+                  <label class="control-label">{{'Custom Tasks'|translate}}
+                  </label>
+                </div>
+                <div class="col-md-9 field-tip text-left">
+                  <input class="form-control txtbox " name="CustomGoals" #CustomGoals="ngModel" [(ngModel)]="buildInfo.modules[0].customTasks" type="textbox"
+                    id="bdbomvncgtf" placeholder="deploy test task1" minlength="3" maxlength="150">
+                  <div *ngIf="CustomGoals.errors && (CustomGoals.dirty || CustomGoals.touched)" class="alert alert-danger ">
+                    <div [hidden]="!CustomGoals.errors.required">
+                      This Field Name is required!
+                    </div>
+                    <div [hidden]="!CustomGoals.errors.minlength">
+                      This Field Name must be at least 3 characters long.
+                    </div>
+                    <div [hidden]="!CustomGoals.errors.maxlength">
+                      This Field Name cannot be more than 200 characters long.
+                    </div>
+                  </div>
+                  <span class="tip-content">{{'Custom Tasks to execute'|translate}}</span>
+                </div>
+              </div>
+              <div class="row form-group chkright">
+                <div class="col-md-3 text-right">
+                  <label class="control-label">Gradle Project Properties
+                  </label>
+                </div>
+                <div class="col-md-9 field-tip text-left">
+                  <input name="mavenOpts" #mavenOpts="ngModel" class="form-control txtbox textFieldWidth col-md-9 field-tip textFieldContainer text-left"
+                    [(ngModel)]="buildInfo.modules[0].MVNOPTS" type="textbox" id="bdbomvnmotf" placeholder="key1=value1,key2=value2"
+                    value="" minlength="3" maxlength="200">
+                  <div *ngIf="mavenOpts.errors && (mavenOpts.dirty || mavenOpts.touched)" class="alert alert-danger ">
+                    <div [hidden]="!mavenOpts.errors.required">
+                      This Field Name is required!
+                    </div>
+                    <div [hidden]="!mavenOpts.errors.minlength">
+                      This Field Name must be at least 3 characters long.
+                    </div>
+                    <div [hidden]="!mavenOpts.errors.maxlength">
+                      This Field Name cannot be more than 200 characters long.
+                    </div>
+                    <div [hidden]="!mavenOpts.errors.pattern">
+                      This Field Name can only consist of alphabetical, number, dot and underscore
+                    </div>
+                  </div>
+                  <span class="tip-content">Specify custom project properties for gradle</span>
+  
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="animate-switch">
+		<div class="panel panel-default">
+			<div class="panel-heading" >
+				<b>Build Operations</b>
+			</div>
+
+			<div class="panel-body" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
+				<div style="margin-top:20px">
+				
+					<div class="row form-group" >
+						<div class="col-md-12 marginLeft">
+							<label class="checkbox-inline">
+                <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'"
+                (click)="codeAnalysisCheckbox()"  id="bdboandroidcach01"
+                (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? codeAnalysisOn():codeAnalysisOff()" style="width: 15px; height: 15px">
+                &nbsp;&nbsp;&nbsp;Code Analysis
+	            </label>
+						</div>
+					</div>
+					<div class="animate-switch-container" *ngIf="tempObject.modules[0].codeAnalysis=='on'">
+						<div class="container-fluid animate-switch" >
+							<div class="col-md-12 form-group" style="height: 40px;text-transform:capitalize;">
+                    <label class="checkbox-inline ">
+                    <input type="checkbox" id="bdboandroidsoch01" [checked]="buildInfo.modules[0].codeAnalysis[0]==='sonar'"
+                      [disabled]="buildInfo.modules[0].codeAnalysis[0]==='sonar'"
+                     (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? 'sonar':clearSonarqube()"
+										 (click)="codeAnalysisCheck()"
+										 >Sonar
+									</label>
+
+
+              </div>
+              <!-- sonar Authentication code -->
+              <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+                <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-md-2">
+                  <label for="sonarUrl">SonarQube URL</label>
+                  </div>
+                  <div class="col-md-10">
+                  <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
+                    id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+                    
+                     <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
+                
+                      <div [hidden]="!sonarUrl.errors.pattern">
+                        This Field Name can only consist of valid url
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-md-2">
+                  <label for="sonarUsername">UserName / Sonar Security token</label>
+      
+                  </div>
+                  <div class="col-md-10 field-tip">
+                  <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[0].sonarPassword=''"
+                    #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                    <span class="tip-content">Password is required only with username</span>
+                    <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
+                     
+
+
+                    <div [hidden]="!sonarUname.errors.pattern">
+                      This Field Name can only consist of valid username
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                
+                <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-md-2">
+                  <label for="sonarPassword">Password</label>
+      
+                  </div>
+                  <div class="col-md-10">
+                  <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
+                    #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                    encrypt>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-md-2">
+                  <label for="sonarProjectKey">Project Key</label>
+                  </div>
+                  <div class="col-md-10">
+                  <input class="form-control  textFieldWidth" name="SonarProjectKey" 
+                    #sonarProjectKey="ngModel" placeholder="Project Key" id="sonarProjectKey" type="text" [(ngModel)]="buildInfo.modules[0].sonarProjectKey" pattern="[_a-zA-Z0-9.-:]+">
+                    <div *ngIf="sonarProjectKey.errors && (sonarProjectKey.dirty || sonarProjectKey.touched)" class="alert alert-danger ">
+                    <div [hidden]="!sonarProjectKey.errors.pattern">
+                      This Field Name can only consist of valid Projectkey
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                
+               </div>
+              <!-- /sonar Authentication code -->
+              
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12 marginLeft">
+							<label class="checkbox-inline">
+                  <input type="checkbox" id="bdboandroidut" [checked]="buildInfo.modules[0].unitTesting==='on'"
+                  (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? 'on':unitTestInputOff()" style="width: 15px; height: 15px">
+                  &nbsp;&nbsp;&nbsp;Unit Testing
+              </label>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12 ">
+							<label class="checkbox-inline">
+                  <input type="checkbox" id="bdboandroidcc"
+									[checked]="buildInfo.modules[0].codeCoverage==='on'"
+									[disabled]="buildInfo.modules[0].unitTesting!='on'"
+                  (change)="buildInfo.modules[0].codeCoverage=$event.target.checked ? 'on':clearCodeCoverage()" style="width: 15px;
+                  height: 15px">&nbsp;&nbsp;&nbsp;Code Coverage
+              </label>
+						</div>
+					</div>
+
+          <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].codeCoverage=='on'">
+						<div class="container-fluid animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">
+                  <label class="control-label">
+                    JaCoCo {{'Gradle Task Name'|translate}}<span class="star">*</span>
+
+                  </label>
+                </div>
+                <div class="col-md-9 field-tip  text-left">
+                  <input class="form-control txtbox textFieldWidth" name="jacocoGradle"
+                  #jacocoGradle="ngModel" placeholder="testDebugJacoco" id="bdbojgtntf"
+                  type="text" [(ngModel)]="buildInfo.modules[0].args"
+                    required>
+                  <div *ngIf="jacocoGradle.errors && (jacocoGradle.dirty || jacocoGradle.touched)" class="alert alert-danger ">
+                    <div [hidden]="!jacocoGradle.errors.required">
+                      This Field Name is required!
+                    </div>
+                    <div [hidden]="!jacocoGradle.errors.minlength">
+                      This Field Name must be at least 3 characters long.
+                    </div>
+                    <div [hidden]="!jacocoGradle.errors.pattern">
+                      This Field Name can only consist of alphabetical, number, dot and underscore
+                    </div>
+                  </div>
+                  <span class="tip-content">{{'Please provide Task Name for JACOCO Gradle/'|translate}}</span>
+
+                </div>
+              </div>
+						</div>
+					</div>
+				</div>
+				<div style="height:8px"></div>
+
+
+
+			</div>
+			<br>
+		</div>
+
+	</div>
+
+</form>
