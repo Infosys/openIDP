@@ -67,9 +67,6 @@ public class TriggerDetailBL {
 	private static final String DEPLOY = "DEPLOY";
 	private static final String TEST = "TEST";
 	private static final String WORKFLOW = "workflow";
-	private static final String HOTFIX = "HOTFIX";
-	private static final String PREPROD = "PREPROD";
-	private static final String PROD = "PROD";
 	private static final String VALUE = "value";
 	
 	

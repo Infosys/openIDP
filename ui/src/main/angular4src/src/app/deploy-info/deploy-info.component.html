@@ -468,7 +468,7 @@
                                                                                 <input id="dydsaptfb{{envIndex}}{{stepIndex}}"
                                                                                     name="adminPass{{envIndex}}{{stepIndex}}"
                                                                                     #adminPass="ngModel" class="form-control txtbox "
-                                                                                    [(ngModel)]="env.adminPassword"
+                                                                                    [(ngModel)]="env.adminPassword" encrypt
                                                                                     type="password" placeholder="{{'Admin'|translate}}{{'password'|translate}}"
                                                                                     minlength="6" maxlength="150">
                                                                                 <span class="tip-content">
@@ -548,7 +548,7 @@
                                                                                 <input id="dydsaptfc{{envIndex}}{{stepIndex}}"
                                                                                     name="appPass{{envIndex}}{{stepIndex}}"
                                                                                     #appPass="ngModel" class="form-control txtbox"
-                                                                                    [(ngModel)]="env.applicationPassword"
+                                                                                    [(ngModel)]="env.applicationPassword" encrypt
                                                                                     type="password" placeholder="{{'Application'|translate}}{{'password'|translate}}"
                                                                                     minlength="6" maxlength="150">
                                                                                 <span class="tip-content">
@@ -1190,7 +1190,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="animate-switch-container" [ngSwitch]="buildInfo.buildtool=='ant' || buildInfo.buildtool=='maven' || buildInfo.buildtool=='msBuild' ">
+                                                            <div class="animate-switch-container" [ngSwitch]="buildInfo.buildtool=='ant' || buildInfo.buildtool=='maven' ||  buildInfo.buildtool=='java_gradle'|| buildInfo.buildtool=='msBuild' ">
                                                                 <div class="animate-switch" *ngSwitchCase="true">
                                                                     <div class="container-fluid form-group chkright">
                                                                         <label class="checkbox-inline">
@@ -2646,7 +2646,7 @@
 
                                                                 <!-- Start of docker container -->
 
-                                                                <div class="animate-switch-container" [ngSwitch]="buildInfo.buildtool=='maven'">
+                                                                <div class="animate-switch-container" [ngSwitch]="buildInfo.buildtool=='maven'|| buildInfo.buildtool=='java_gradle' ">
                                                                     <div class="animate-switch" *ngSwitchCase="true">
                                                                         <div class="container-fluid form-group chkright">
                                                                             <label class="checkbox-inline">

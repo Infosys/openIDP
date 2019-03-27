@@ -262,7 +262,7 @@
                           <label class="checkbox-inline " style="text-transform:capitalize;">
                               <input type="checkbox"
                               [checked]="module.codeAnalysis[0]===tempCodeAnalysis[0]" name="code1{{i}}" id="bdbodnttcach{{i}}"
-                              (change)="module.codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:'off'">
+                              (change)="module.codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:clearSonarqube()">
                                       {{tempCodeAnalysis[0]}}
 
                           </label>
@@ -274,31 +274,40 @@
 
 <!-- sonar Authentication code -->
 
- <div  *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
-  <div class="row"> 
-  <div class="col-md-2"> <label for="sonarUrl">Sonar URL</label></div>
-  <div class="col-md-10">  <input class="form-control txtbox textFieldWidth"  name="sonarUrl" #sonarUrl="ngModel" placeholder="Sonar Url" id="sonarUrl" 
-    type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" ></div>
-  </div>
-  <div *ngIf="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='') &&((!(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') )|| (!(buildInfo.modules[0].sonarUsername==null || buildInfo.modules[0].sonarUsername=='')))" class="alert alert-danger ">
-    Sonar Url is necessary  with username and password
-  </div>
-  <div class="row">  
-      <div class="col-md-2"> <label for="sonarUsername">Username</label></div>
-      <div class="col-md-10"> <input class="form-control txtbox textFieldWidth" name="SonarUsername" [disabled]="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='')" #sonarUsername="ngModel" placeholder="Username" id="sonarUsername"
-    type="text" [(ngModel)]="buildInfo.modules[0].sonarUsername" ></div>
-  </div>
-  <div *ngIf="(buildInfo.modules[0].sonarUsername==null || buildInfo.modules[0].sonarUsername=='') &&(!(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') )" class="alert alert-danger ">
-    Username Required with Password
-  </div>
-  <div class="row">  
-      <div class="col-md-2"><label for="sonarPassword">Password</label></div>
-      <div class="col-md-10"><input class="form-control txtbox textFieldWidth" name="SonarPassword" type="password" [disabled]="(buildInfo.modules[0].sonarUrl==null || buildInfo.modules[0].sonarUrl=='') || (buildInfo.modules[0].sonarUsername==null || buildInfo.modules[0].sonarUsername=='')" #sonarPassword="ngModel" placeholder="Password" id="sonarPassword"
-    [(ngModel)]="buildInfo.modules[0].sonarPassword" ></div>
+<div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+  <div class="row">
+    <div class="col-md-2">
+      <label for="sonarUrl">Sonar URL</label>
     </div>
-    <div *ngIf="(buildInfo.modules[0].sonarPassword==null || buildInfo.modules[0].sonarPassword=='') && (!(buildInfo.modules[0].sonarUsername==null || buildInfo.modules[0].sonarUsername==''))" class="alert alert-danger ">
-      Password Required 
+    <div class="col-md-10">
+      <input class="form-control txtbox textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="Sonar Url" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
+        id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl">
     </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2">
+      <label for="sonarUsername">Username/ Sonar Security Token</label>
+
+    </div>
+    <div class="col-md-10">
+      <input class="form-control txtbox textFieldWidth" name="SonarUsername" 
+        #sonarUsername="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName">
+    </div>
+  </div>
+ 
+  <div class="row">
+    <div class="col-md-2">
+      <label for="sonarPassword">Password</label>
+
+    </div>
+    <div class="col-md-10">
+      <input class="form-control txtbox textFieldWidth" name="SonarPassword" type="password" 
+        #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+        encrypt>
+    </div>
+  </div>
+  
 </div>
 <!-- /sonar Authentication code -->
 

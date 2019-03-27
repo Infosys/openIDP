@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control txtbox " #pathFileAnt="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" id="bdpbantpsftf" name="antscript" type="text" placeholder="build.xml" pattern="[a-zA-Z0-9\-\_\.\/]+\.xml$" ng-minlength='1' ng-maxlength="150" required>
+                                        <input class="form-control txtbox " #pathFileAnt="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" id="bdpbantpsftf" name="antscript" type="text" placeholder="build.xml" pattern="[a-zA-Z0-9\-\/\\\_\.]+\.xml$" ng-minlength='1' ng-maxlength="150" required>
                                         <span class="tip-content">{{'Path of the script file
     														relative to the checkout path, which needs to be executed
                                                             for testing'|translate}}</span>

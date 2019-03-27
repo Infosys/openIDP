@@ -51,6 +51,7 @@ class Constants {
     static final UNIXOS = "linux"
     static final FILENET = "fileNet"
     static final JAVAMAVENTECH = "J2EE/Maven"
+    static final JAVA_GRADLE_TECH = "J2EE/Gradle"
     static final OATS = "oats"
     static final MONKEYTALK = "monkeyTalk"
     static final JAVAANTTECH = "J2EE/Ant"

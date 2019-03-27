@@ -198,7 +198,11 @@ class Build {
                             case Constants.PYTHON:
                                 PythonBuild.pythonBuildJobCreation(delegate, jsonData, envVar, basepath)
                                 break
-				
+
+                            case Constants.JAVA_GRADLE_TECH:
+                                JavaGradleBuild.javaGradleBuildJobCreation(delegate, jsonData, basepath)
+                                break
+
                             default:
                                 break
                         }

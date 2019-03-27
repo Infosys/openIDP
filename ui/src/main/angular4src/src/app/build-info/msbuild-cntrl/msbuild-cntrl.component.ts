@@ -82,6 +82,15 @@ export class MsbuildCntrlComponent implements OnInit {
     this.buildInfo.modules[0].incrementalScan = "off";
     return false;
   }
+
+  clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+  
+      return "off";
+    }
   setSomeValues2() {
     this.tempObject.modules[0].schdulePeriodicFullScan = "off";
     return false;

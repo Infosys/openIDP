@@ -411,19 +411,29 @@ public class FetchJobDetails {
 				&& (!idp.getBuildInfo().getModules().isEmpty())
 				&& null != idp.getBuildInfo().getModules().get(0).getCodeAnalysis()
 				&& idp.getBuildInfo().getModules().get(0).getCodeAnalysis().contains("sonar")) {
-			if (null == idp.getBuildInfo().getModules().get(0).getSonarUrl()
-					|| idp.getBuildInfo().getModules().get(0).getSonarUrl().isEmpty()) {
+			if ((null == idp.getBuildInfo().getModules().get(0).getSonarUrl()
+					|| idp.getBuildInfo().getModules().get(0).getSonarUrl().isEmpty())&& 
+					//if sonar properties file is not there then use sonar url from bootstrap properties
+					(idp.getBuildInfo().getModules().get(0).getSonarProperties()==null || idp.getBuildInfo().getModules().get(0).getSonarProperties().trim().equals(""))) {
 				idp.getBuildInfo().setSonarUrl(configurationManager.getSonarurl());
+				if(idp.getBuildInfo().getModules().get(0)!=null && idp.getBuildInfo().getModules().get(0).getSonarProjectKey()!=null) {
+					idp.getBuildInfo().setSonarProjectKey(idp.getBuildInfo().getModules().get(0).getSonarProjectKey());
+				}
+
 			} else {
 				idp.getBuildInfo().setSonarUrl(idp.getBuildInfo().getModules().get(0).getSonarUrl());
 				idp.getBuildInfo().setSonarUserName(idp.getBuildInfo().getModules().get(0).getSonarUserName());
 				idp.getBuildInfo().setSonarPassword(idp.getBuildInfo().getModules().get(0).getSonarPassword());
+				idp.getBuildInfo().setSonarProjectKey(idp.getBuildInfo().getModules().get(0).getSonarProjectKey());
+				idp.getBuildInfo().setSonarProperties(idp.getBuildInfo().getModules().get(0).getSonarProperties());
 			}
+			
 
 		}
 
 		return idp;
 
 	}
+
 
 }

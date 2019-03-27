@@ -147,8 +147,9 @@ export class BasicInfoComponent implements OnInit {
         .then(response => {
             try {
             if (response) {
-                  this.Idpdata.devServerURL = response.json().idpresturl;
-                // this.Idpdata.devServerURL = "http://server458747d:8889/idprest";
+                this.Idpdata.devServerURL = response.json().idpresturl;
+                  
+                
                 this.Idpdata.subscriptionServerURL = response.json().idpsubscriptionurl;
                 this.Idpdata.IDPDashboardURL = response.json().idpdashboardurl;
                 this.Idpdata.IDPLink = response.json().IDPLink;

@@ -23,6 +23,7 @@ import { PythonCntrlComponent } from "./python-cntrl/python-cntrl.component";
 import { BuildInfoSubComponent } from "./build-info-sub/build-info-sub.component";
 import { MsbuildCntrlComponent } from "./msbuild-cntrl/msbuild-cntrl.component";
 import { GoCntrlComponent } from "./go-cntrl/go-cntrl.component";
+import { JavaGradleCntrlComponent } from './java-gradle-cntrl/java-gradle-cntrl.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, "assets/i18n", ".json");
@@ -51,6 +52,7 @@ export function createTranslateLoader(http: Http) {
         ParentFormConnectComponent,
         MsbuildCntrlComponent,
         GoCntrlComponent,
+        JavaGradleCntrlComponent,
         NodejsCntrlComponent,
     ]
 })

@@ -75,6 +75,31 @@ public class BuildInfo {
 	@SerializedName("sonarPassword")
 	@Expose
 	private String sonarPassword;
+	
+	@SerializedName("sonarProjectKey")
+	@Expose
+	private String sonarProjectKey;
+	
+	@SerializedName("sonarProperties")
+	@Expose
+	private String sonarProperties;
+
+	public String getSonarProperties() {
+		return sonarProperties;
+	}
+
+	public void setSonarProperties(String sonarProperties) {
+		this.sonarProperties = sonarProperties;
+	}
+
+	public String getSonarProjectKey() {
+		return sonarProjectKey;
+	}
+
+	public void setSonarProjectKey(String sonarProjectKey) {
+		this.sonarProjectKey = sonarProjectKey;
+	}
+
 
 	
 	// Add Jira ALM

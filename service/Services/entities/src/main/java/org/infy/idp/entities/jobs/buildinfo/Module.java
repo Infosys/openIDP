@@ -179,6 +179,9 @@ public class Module {
 	@SerializedName("args")
 	@Expose
 	private String args;
+	@SerializedName("customTasks")
+	@Expose
+	private String customTasks;
 	@SerializedName("compile")
 	@Expose
 	private String compile;
@@ -617,6 +620,31 @@ public class Module {
 	@SerializedName("npmProxyPassword")
 	@Expose
 	private String npmProxyPassword;
+	
+	@SerializedName("sonarProjectKey")
+	@Expose
+	private String sonarProjectKey;
+	
+	@SerializedName("sonarProperties")
+	@Expose
+	private String sonarProperties;
+
+	public String getSonarProperties() {
+		return sonarProperties;
+	}
+
+	public void setSonarProperties(String sonarProperties) {
+		this.sonarProperties = sonarProperties;
+	}
+
+
+	public String getSonarProjectKey() {
+		return sonarProjectKey;
+	}
+
+	public void setSonarProjectKey(String sonarProjectKey) {
+		this.sonarProjectKey = sonarProjectKey;
+	}
 
 	//Add Jira
 //	@SerializedName("raiseJiraBug")
@@ -1267,6 +1295,14 @@ public class Module {
 	public void setExclude(String exclude) {
 		this.exclude = exclude;
 	}
+	public String getCustomTasks() {
+		return customTasks;
+	}
+
+	public void setCustomTasks(String customTasks) {
+		this.customTasks = customTasks;
+	}
+
 
 	public String getIncrementalScan() {
 		return incrementalScan;

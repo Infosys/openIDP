@@ -51,7 +51,7 @@
         <div class="panel-body">
           <div class="container-fluid form-group chkright">
             <div class="col-md-12"> <label class="checkbox-inline">
-                          <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':'off'"> &nbsp;{{'Build'|translate}}
+                          <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':clearBuildOperation()"> &nbsp;{{'Build'|translate}}
                         </label>
                       </div>
           </div>

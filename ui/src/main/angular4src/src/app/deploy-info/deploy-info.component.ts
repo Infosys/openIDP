@@ -280,7 +280,7 @@ this.dataEditorRight=this.dataEditorLeft;
     { "name": "Powershell Script", "value": "powerShell" }, { "name": "SSH Execution", "value": "sshExecution" }];
     this.deploymentList = [{ "name": "Mule Server", "value": "muleServer" }];
     this.envtoolList=[{"name":"Ansible","value":"ansiblescript"}];
-    if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant" || this.buildInfo.buildtool === "catalog") {
+    if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant" || this.buildInfo.buildtool === "java_gradle"|| this.buildInfo.buildtool === "catalog") {
         this.containerList = this.IdprestapiService.getIDPDropdownProperties().containerList;
     }
     if (this.buildInfo.buildtool === "general") {
