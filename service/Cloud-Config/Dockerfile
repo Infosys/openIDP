@@ -1,4 +1,4 @@
-FROM openjdk:8u151-jdk
+FROM openjdk:8u151-jre
 
 LABEL maintainer="idpadmin@domain.com"\
       owner="Infosys Ltd."

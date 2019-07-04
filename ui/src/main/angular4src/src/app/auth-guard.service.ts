@@ -9,17 +9,18 @@ import { Injectable } from "@angular/core";
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { CookieService } from "ngx-cookie";
 import { IdpdataService } from "./idpdata.service";
-import { Adal4Service } from "adal-angular4";
+import { AdalService } from "adal-angular4";
 import { IdprestapiService } from "./idprestapi.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
 @Injectable()
 export class AuthGuardService implements CanActivate {
+    private landingPageRoute = "/previousConfig";
 
   constructor(
     private router: Router,
     private _cookieService: CookieService,
     private restApiService: IdprestapiService,
-    private adalSvc: Adal4Service,
+    private adalSvc: AdalService,
     private idpdataService: IdpdataService,
     private keycloakService: KeycloakService
   ) {
@@ -47,7 +48,7 @@ export class AuthGuardService implements CanActivate {
         }
 
         if (this.idpdataService.authmode === "azureAd"
-            && this.adalSvc.userInfo.username !== "" && !this.authUser(this.adalSvc.userInfo.username)) {
+        && this.adalSvc.userInfo.userName !== "" && !this.authUser(this.adalSvc.userInfo.userName)) {
             console.log("Authentication failure");
             return false;
         }
@@ -61,7 +62,7 @@ export class AuthGuardService implements CanActivate {
         }
         if (this._cookieService.get("access_token")) {
         // logged in so return true
-        this.router.navigate(["/previousConfig"]);
+        this.router.navigate([this.landingPageRoute]);
         return false;
         }
         // not logged in so redirect to login page with the return url
@@ -70,7 +71,7 @@ export class AuthGuardService implements CanActivate {
         if (this._cookieService.get("access_token")) {
         // logged in so return true
         if (this.idpdataService.data.masterJson.basicInfo === undefined) {
-            this.router.navigate(["/previousConfig"]);
+            this.router.navigate([this.landingPageRoute]);
             return false;
         } else {
             return true;
@@ -82,8 +83,8 @@ export class AuthGuardService implements CanActivate {
     } else if (urlChangeTrigger) {
         if (this._cookieService.get("access_token")) {
         // logged in so return true
-        this.router.navigate(["/previousConfig"]);
-        return false;
+        //this.router.navigate([this.landingPageRoute]);
+        return true;
         }
         this.router.navigate(["/login"]);
         // not logged in so redirect to login page with the return url
@@ -91,7 +92,7 @@ export class AuthGuardService implements CanActivate {
     } else if (urlChangeStageviewTrigger) {
         if (this._cookieService.get("access_token")) {
         // logged in so return true
-        this.router.navigate(["/previousConfig"]);
+        this.router.navigate([this.landingPageRoute]);
         return false;
         }
         this.router.navigate(["/login"]);
@@ -100,7 +101,7 @@ export class AuthGuardService implements CanActivate {
     } else if (urlChangeStageviewHistory) {
         if (this._cookieService.get("access_token")) {
         // logged in so return true //console.log("redirectTo config");
-        this.router.navigate(["/previousConfig"]);
+        this.router.navigate([this.landingPageRoute]);
         return false;
         }
         this.router.navigate(["/login"]);
@@ -110,7 +111,7 @@ export class AuthGuardService implements CanActivate {
 
         if (this._cookieService.get("access_token")) {
         // logged in so return true //console.log("redirectTo config");
-        this.router.navigate(["/previousConfig"]);
+        this.router.navigate([this.landingPageRoute]);
         return false;
         }
         this.router.navigate(["/login"]);
@@ -120,7 +121,7 @@ export class AuthGuardService implements CanActivate {
 
         if (this._cookieService.get("access_token")) {
         // logged in so return true //console.log("redirectTo config");
-        this.router.navigate(["/previousConfig"]);
+        this.router.navigate([this.landingPageRoute]);
         return false;
         }
         this.router.navigate(["/login"]);
@@ -164,7 +165,7 @@ export class AuthGuardService implements CanActivate {
             if (!response.json().error) {
             const expireDate = new Date(new Date().getTime() + (1000 * response.json().expires_in));
             this._cookieService.put("access_token", response.json().access_token, { "expires": expireDate });
-            this.router.navigate(["/previousConfig"]);
+            this.router.navigate([this.landingPageRoute]);
             return true;
             } else {
             return false;

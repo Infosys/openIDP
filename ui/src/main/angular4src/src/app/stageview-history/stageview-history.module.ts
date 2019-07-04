@@ -9,27 +9,20 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { StageviewHistoryComponent } from "./stageview-history.component";
 import { stageviewHistoryRouter } from "./stageview-history.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { SafePipeModule } from "../safe-pipe.module";
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 @NgModule({
   imports: [
     CommonModule,
     stageviewHistoryRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
-    SafePipeModule
+    SafePipeModule,
+    TranslateModule
   ],
   declarations: [StageviewHistoryComponent
   ]

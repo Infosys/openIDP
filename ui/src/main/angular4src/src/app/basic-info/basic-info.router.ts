@@ -11,7 +11,10 @@ import { BasicInfoComponent } from "./basic-info.component";
 const BASIC_INFO_ROUTER: Routes = [
     {
         path: "",
-        component: BasicInfoComponent
+        component: BasicInfoComponent,
+        data: {
+            'title': 'Create Pipeline'
+        }
     }
 ];
 

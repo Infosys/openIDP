@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-md-9">
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="conNameSelect">Container Name :&nbsp; </label>
+      
+      <select class="custom-select form-control" name="containerName" id="conNameSelect" [(ngModel)]="containerName" (change)="changeContainerName();getServerUtilizationStats('30Sec')"
+        required >
+        <option value ="" >--Select Container Name--</option>
+        <option *ngFor="let conName of containerList; let i = index" value="{{conName.containerName}}">{{conName.containerName}}</option>
+      </select>
+      
+    </div>
+    <div class="form-group">
+      <label for="instanceSelect"> &nbsp; Instance Name :&nbsp; </label>
+      <select class="custom-select form-control" name="instanceName" id="instanceSelect" [(ngModel)]="instanceName" (change)="getServerUtilizationStats('30Sec')"
+        required>
+        <option value=""> --Select Instance Name--</option>
+        <option *ngFor="let insName of instanceList; let i = index" value="{{insName.instanceNumber}}">{{insName.instanceNumber}}</option>
+      </select>
+    </div>
+    <!-- <div class="form-group">
+      <label for="periodSelect"> &nbsp; Duration :&nbsp; </label>
+      <select class="custom-select form-control" name="period" id="periodoSelect" [(ngModel)]="period" (change)="getServerUtilizationStats('30Sec')"
+        required>
+        <option value=""> --Select Duration--</option>
+        <option *ngFor="let period of periodList; let i = index" value="{{period}}">{{period}}</option>
+      </select>
+    </div> -->
+  </form>
+  <div *ngIf="!(containerName && instanceName && period)">
+    <br>
+    <div class="col-md-8 offset-md-2">
+      <div class="alert alert-info text-center text-uppercase text-muted">
+        <i class="fa fa-info-circle"></i>&nbsp; Please Select Container Name , Instance Name and Duration.
+      </div>
+    </div>  
+  </div>
+  <br>
+  <div *ngIf="containerName && instanceName && period">
+    <div class="animated fadeIn" style="padding-left:15px;padding-right:15px">
+     <!--div class="card-columns cols-2"-->
+        <div class="card">
+          <div class="card-header bg-primary">
+            CPU Utilization 
+          </div>
+    
+        <div class="col-md-10 offset-md-1">
+               <canvas baseChart class="chart" [datasets]="CPUdatasets" [options]="options" (chartClick)="chartClicked($event)"></canvas>
+            
+    
+          </div>
+        </div>
+         <div class="card">
+            
+          <div class="card-header bg-primary">
+            Memory Utilization
+          </div>
+         <div class="col-md-10 offset-md-1">
+              <canvas baseChart class="chart" [datasets]="datasets" [options]="options" (chartClick)="chartClicked($event)"></canvas>
+    
+            </div>
+          
+        </div>
+    </div>
+    
+    
+    </div>
+  
+  </div>
+  <div class="col-md-3">
+      <div>
+        <table class="table table-stripped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" class="bg-danger">Anomalous Notifications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-model="mySel" *ngFor="let val of notifications ; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow" >
+              <td >
+                <i class="fa fa-circle text-danger"></i> &nbsp;
+                <!-- <span>JIRA-49040 &nbsp;</span>Job Hangs when Submit is clicked</td> -->
+                {{val}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="(containerName && instanceName && period) || selected_value">
+      <div  class=" col-md-10 offset-md-1 form-group">
+        <div class="h4 text-muted">Critical Logs: </div>
+        <div *ngIf="anamolyException.length > 0; else noRecord">
+          <table class="table table-stripped">
+            <thead class="thead-dark">
+              <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col">Message</th>
+                <th scope="col">Count</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let exceptionObj of anamolyException | paginate: config ; let i = index">
+                <!-- <th>{{i+1}}</th> -->
+                <td>{{exceptionObj.message}}</td>
+                <td>{{exceptionObj.count}}</td>
+               
+              </tr>
+            </tbody>
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </table>
+        </div>
+        <ng-template #noRecord>
+          <table class="table table-stripped table-border">
+            <thead class="thead-dark">
+              <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col">Title</th>
+                <th scope="col">Typical</th>
+                <th scope="col">Actual</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="text-danger text-center">
+                  <i class="fa fa-exclamation-triangle"></i> &nbsp; No Record Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+    </div>

@@ -9,25 +9,20 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { CreateApplicationComponent } from "./create-application.component";
 import { createAppRouter } from "./create-application.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 @NgModule({
   imports: [
     CommonModule,
     createAppRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
-    FormsModule
+    FormsModule,
+    TranslateModule,
+    CollapseModule
   ],
   declarations: [CreateApplicationComponent]
 })

@@ -11,7 +11,10 @@ import { CreateApplicationComponent } from "./create-application.component";
 const CREATE_APP_ROUTER: Routes = [
     {
         path: "",
-        component: CreateApplicationComponent
+        component: CreateApplicationComponent,
+        data: {
+            'title': 'Manage Applications'
+        }
     }
 ];
 

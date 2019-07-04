@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-header d-flex flex-row justify-content-between">
+    <h2>Applications</h2>
+    <div>
+      <button class="btn bg-transparent" [routerLink]="['/editApp']">
+        <img class="idp-icon" src="assets/img/icon/add_circle.svg" alt="addApplicationBtn"/>
+      </button>
+      <span class="text-center">Create Application</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-row justify-content-end">
+      <div class="input-group col-md-4  mb-3">
+        <div class="input-group-prepend">
+          <i class="fa fa-icon fa-filter input-group-text" ></i>
+        </div>
+        <input class="form-control" id="filterApplicationList" placeholder="Filter by Application name" [(ngModel)]="appNameQuery"/>
+
+      </div>
+    </div>
+    <table *ngIf="applicationList && applicationList.length>0" class="table table-striped table-sm table-hover  p-2">
+      <thead>
+      <tr class="d-flex flex-row">
+        <th style="width:18%" class="text-center" scope="col">Application name</th>
+        <th style="width:27%" class="text-center" scope="col">Developers</th>
+        <th style="width:27%" class="text-center" scope="col">Pipeline admins</th>
+        <th style="width:27%" class="text-center" scope="col">Release managers</th>
+        <th style="width:9%" class="text-center" scope="col">Edit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="d-flex flex-row"
+          *ngFor="let application of applicationList | appListFilter:appNameQuery | paginate: { itemsPerPage: 10, currentPage: currentPage,id:'appListTablePagectrl' } ">
+        <td style="width:18%">{{application.applicationName}}</td>
+        <td style="width:27%">{{application.appJson.developers}}</td>
+        <td style="width:27%">{{application.appJson.pipelineAdmins}}</td>
+        <td style="width:27%">{{application.appJson.releaseManager}}</td>
+        <td style="width:9%">
+          <a [routerLink]="['/editApp']" [queryParams]="{applicationName:application.applicationName, existingApp: true}"
+             class="btn bg-transparent">
+            <img class="idp-icon" src="assets/img/icon/edit.svg" alt="editApplicationBtn"/>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination-controls id="appListTablePagectrl" class="float-right" (pageChange)="currentPage = $event"></pagination-controls>
+
+  </div>
+</div>

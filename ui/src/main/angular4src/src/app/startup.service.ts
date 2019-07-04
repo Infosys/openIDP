@@ -6,7 +6,7 @@
 *
 **/
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, RequestOptions, Headers } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
@@ -20,9 +20,10 @@ export class StartupService {
     load(): Promise<any> {
 
         this._startupData = null;
-
+        let headers = new Headers({'Authorization': 'Basic '+btoa("idpadmin:idpadmin@123")});
+        let options = new RequestOptions({ headers: headers });
         return this.http
-            .get("properties")
+            .get("properties",options)
             .map((res: Response) => res.json())
             .toPromise()
             .then((data: any) => this._startupData = data)

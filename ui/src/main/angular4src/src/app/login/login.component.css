@@ -1,127 +1,26 @@
-#loginPageBg{
-  /* background: url('assets/images/Login_page_BG.png'); */
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-attachment:scroll;
-  height: 620px;
-}
+.app-body { background: url("assets/img/login/login_BG.jpg") no-repeat 0 0; background-size: cover;}
+.spacingBG { background: url("assets/img/login/spacing.jpg") no-repeat 0 0; width: 34px; height: 3px;}
+.card.bg-primary { border: none;}
+h1 { font-size: 48px; line-height: 50px; text-shadow: 1px 1px 5px rgba(0,0,0,0.6); font-family:'MyriadPro-Semibold'; margin-bottom: 5px; }
+h2 { font-size: 32px; line-height: 34px; color: #333333;  font-family:'MyriadPro-Semibold'; margin-bottom: 8px;}
+.f18 {text-shadow: 1px 1px 5px rgba(0,0,0,0.6);}
+.bg-primary { background: rgba(0,124,195,0.8) !important; }
+.btn-primary { -webkit-box-shadow: 0px 0px 8px 0px rgba(0,124,195,0.17); 
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0,124,195,0.17);
+    box-shadow: 0px 0px 8px 0px rgba(0,124,195,0.17); border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border: none; margin-top: 65px; height: 57px; line-height: 46px; font-size: 18px; width: 100%;}
 
+.m-auto.ml-0 { margin-left: 0 !important;}
+.login-right { padding: 0 5px;}
+.login-right img.logo { margin: 0 0 45px;}
+form p { font-size: 16px; line-height: 18px; color: #666666 !important; margin-bottom: 2.5rem;}
+.devTitle {margin-bottom: 30px !important; }
+.Copyright { margin-top: 30px !important; }
+.card { border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;}
+form input { border: none; background: none !important; font-size: 14px; margin: auto !important; font-size: 14px !important; color: #666666 !important;}
+form img { width: auto; max-height: 23px; margin: auto !important;}
 
-#username
-	{
-	margin-top:25px;
-	height: 40px;
-	border-radius: 6px 6px 6px 6px;
-	font-size: 16px;
-	font-family: OpenSans;
-	}
-#password
-	{
-	margin-top:25px;
-	height: 40px;
-	border-radius: 6px 6px 6px 6px;
-	font-size: 16px;
-	font-family: OpenSans;
-	}
-#login
-	{
-	margin-top:25px;
-	height: 40px;
-	}
-#bkgnd
-	{
-	height: 600px;
-	width: 100%;
-	background-repeat: no-repeat;
-	background-size:100%;
-	position: fixed;
-	}
-#lower_box
-	{
-	bottom: 0;
-	height: 220px;
-	width: 100%;
-	opacity: 0.7;
-	background-color: #000000;
-	position: fixed;
-	}
-#lower_title
-	{
-	color:#FFFFFF;
-	text-align:center;
-	font-family: 'Open Sans', sans-serif;
-	font-size:25px;
-	position:fixed;
-	margin-left:25px;
-	border-collapse: separate;
-    border-spacing: 10px 50px;
-	bottom: 35px;
-	}
-.footer {
-    position: fixed;
-    height: 20px;
-    bottom: 0;
-    width: 100%;
-    background-color: #000000;
-	color:#FFFFFF;
-	text-align:center;
-	font-family: 'Open Sans', sans-serif;
-	font-size:12px;
+input:-internal-autofill-previewed, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, 
+select:-internal-autofill-previewed, select:-internal-autofill-selected, #username, input.ng-valid, input.ng-pristine { background-color: #fbfbfc !important;}
 
-}
-table.ex2 {
-    border-collapse: separate;
-    border-spacing: 10px 50px;
-}
-.form-control{
-/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png"); */
-background-repeat: no-repeat;
-/*padding-left:30px;*/
-}
-#username{
-	margin-top:25px;
-/*background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png");*/
-background-repeat: no-repeat;
-/*padding-left:30px;*/
-
-	}
-	/* enable absolute positioning */
-.inner-addon {
-  position: relative;
-}
-
-/* style glyph */
-.inner-addon .glyphicon {
-  position: absolute;
-  padding: 10px;
-  pointer-events: none;
-}
-
-/* #titleStyle{
-            font-size: xx-large;
-              padding-left: 150px;
-              width: 60%;
-              font-family: Sans-serif;
-              color: #1b6bb1;
-              font-weight: 700;
-              position: relative;
-              top: 18px;
-} */
-
-/* align glyph */
-.left-addon .glyphicon  { left:  0px;}
-.right-addon .glyphicon { right: 0px;}
-
-/* add padding  */
-.left-addon input  { padding-left:  30px; }
-.right-addon input { padding-right: 30px; }
-
-
-.fake-input { position: relative; width:240px; }
-.fake-input input { border:none; background:#fff; display:block; width: 100%; box-sizing: border-box }
-.fake-input img { position: absolute; top: 29px; right: 5px }
-
-html {
-	overflow-y: scroll;
-	background-size:100% 100%;
-}
+.input-group-prepend { width: 50px;}
+.input-group { border: 1px solid #d7dae3; height: 46px; background: #fbfbfc;}

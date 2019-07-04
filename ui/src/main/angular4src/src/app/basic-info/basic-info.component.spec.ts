@@ -438,7 +438,7 @@ getApplicationDetails() {
 
   }
   //spyOn(idprestapiServiceStub, 'getData').and.returnValue(Promise.resolve(promisedData));
-
+   
 class  IDPEncryptionStub extends IDPEncryption {
   key = CryptoJS.enc.Hex.parse("000102030405060708090b0c0a0d0f0e");
   iv  = CryptoJS.enc.Hex.parse("0f0e0d0c0b0a09080706050403020100");

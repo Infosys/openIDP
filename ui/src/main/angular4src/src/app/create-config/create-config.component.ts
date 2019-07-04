@@ -6,7 +6,7 @@
 *
 **/
 import { Component, OnInit} from "@angular/core";
-import { TranslateService } from "ng2-translate";
+import { TranslateService } from "@ngx-translate/core";
 import { IdpService } from "../idp-service.service";
 import {IdprestapiService} from "../idprestapi.service";
 import { Router } from "@angular/router";
@@ -31,10 +31,23 @@ export class CreateConfigComponent implements OnInit {
   ) {
     // console.log(this.IdpdataService.language);
     this.IdpService.initMain();
+  //   this.router.routeReuseStrategy.shouldReuseRoute = function() {
+  //     return false;
+  //  };
     // console.log(this.IdpdataService.createAppflag);
   }
 
   ngOnInit() {
+    if(!(this.IdpdataService.operation === 'edit' || this.IdpdataService.operation === 'copy' )){
+      this.IdpdataService.schedulePage = false;
+      this.IdpdataService.data = JSON.parse(JSON.stringify(this.IdpdataService.template));
+      this.IdpdataService.operation = "";
+      this.IdpdataService.appName = "";
+    this.IdpdataService.isRmsApp =false;
+      // workflow remove
+      this.IdpdataService.workflowData = [];
+      this.IdpdataService.workflowDataTemp = [];
+    }
   }
 
   ngAfterContentChecked () {

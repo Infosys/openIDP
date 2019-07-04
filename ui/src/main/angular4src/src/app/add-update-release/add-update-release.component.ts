@@ -5,17 +5,18 @@
 * https://opensource.org/licenses/MIT.”
 *
 **/
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { IdprestapiService } from "../idprestapi.service";
 import { IdpdataService } from "../idpdata.service";
 import { Router } from "@angular/router";
-
+import { TabsetComponent } from 'ngx-bootstrap';
 @Component({
   selector: "app-add-update-release",
   templateUrl: "./add-update-release.component.html",
   styleUrls: ["./add-update-release.component.css"]
 })
 export class AddUpdateReleaseComponent implements OnInit {
+  @ViewChild('releaseTabs') staticTabs: TabsetComponent;
 
   appNames: any;
   activeRelease= true;

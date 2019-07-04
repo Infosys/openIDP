@@ -1,37 +1,37 @@
 <form  [parentFormConnect]="formName">
 
 	<div class="animate-switch">
-		<div class="panel panel-default">
-			<div class="panel-heading" >
+		<div class="card">
+			<div class="card-header" >
 				Build Operations
 			</div>
-			<div class="panel-group" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
+			<div class="" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
 				<!--SQL FIle Package-->
 				<div style="margin-top:20px">
 
-					<div class="row form-group ">
-						<div class="col-md-3 text-right ">
-							<label class="control-label"> Project Name </label> <span class="star">*</span>
+					<div class="form-row form-group ">
+						<div class="col-md-3  ">
+							<label class="col-form-label"> Project Name </label> <span class="star">*</span>
 						</div>
 						<div class="col-md-9 text-left field-tip">
-							<input class="form-control txtbox boxWidth"  [(ngModel)]="buildInfo.modules[0].moduleName" name="moduleName" id="bdboangpntf" type="textbox"
+							<input class="form-control  boxWidth"  [(ngModel)]="buildInfo.modules[0].moduleName" name="moduleName" id="bdboangpntf" type="textbox"
 							placeholder="Project1" minlength="1" maxlength="150" required>
 							<span class="tip-content">Name of the Project</span>
 						</div>
 					</div>
 
-					<div class="row form-group ">
-						<div class="col-md-3 text-right ">
-							<label class="control-label"> Source file path </label> <span class="star">*</span>
+					<div class=" form-row form-group ">
+						<div class="col-md-3  ">
+							<label class="col-form-label"> Source file path </label> <span class="star">*</span>
 						</div>
 						<div class="col-md-9 text-left field-tip">
-							<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].relativePath" id="bdboangpsftf"  name="srcPath" type="textbox" placeholder="source" minlength="1" maxlength="150" required>
+							<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].relativePath" id="bdboangpsftf"  name="srcPath" type="textbox" placeholder="source" minlength="1" maxlength="150" required>
 							<span class="tip-content">Path of source file</span>
 						</div>
 					</div>
 					<!--Start  Dependency Installations -->
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
 						                                <input type="checkbox" [checked]="tempObject.modules[0].compile==='on'" id="bdboangdich01"
@@ -42,23 +42,23 @@
 
 
 					<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].compile=='on'">
-						<div class="panel-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
+						<div class="card-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
-							<div class="row form-group labelIndent1">
-								<div class="col-md-3 text-right labelIndent2">
-									<label class="control-label">Path of directory containing package.json<span class="star">*</span></label>
+							<div class="form-row form-group labelIndent1">
+								<div class="col-md-3  labelIndent2">
+									<label class="col-form-label">Path of directory containing package.json<span class="star">*</span></label>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].jsonPath" id="bdboangjptf" name="jsonPath" type="text" placeholder="web_app" minlength="1" maxlength="150" required>
+									<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].jsonPath" id="bdboangjptf" name="jsonPath" type="text" placeholder="web_app" minlength="1" maxlength="150" required>
 									<span class="tip-content">Path of directory containing package.json</span>
 								</div>
 							</div>
-							<div class="row form-group labelIndent1">
-								<div class="col-md-3 text-right labelIndent2">
-									<label class="control-label">npm Proxy URL</label>
+							<div class="form-row form-group labelIndent1">
+								<div class="col-md-3  labelIndent2">
+									<label class="col-form-label">npm Proxy URL</label>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy" id="bdboangnptf"  type="text" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2" minlength="1" maxlength="150">
+									<input class="form-control  boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy" id="bdboangnptf"  type="text" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2" minlength="1" maxlength="150">
 									<span class="tip-content">URL for Proxy to install npm dependency.</span>
 									<div *ngIf="proxyUrl.errors && (proxyUrl.dirty || proxyUrl.touched)" class="alert alert-danger ">
 
@@ -71,14 +71,14 @@
 									</div>
 								</div>
 							</div>
-							<div class="row form-group labelIndent1">
-								<div class="col-md-3 text-right labelIndent2">
-									<label class="control-label">npm Proxy Username
+							<div class="form-row form-group labelIndent1">
+								<div class="col-md-3  labelIndent2">
+									<label class="col-form-label">npm Proxy Username
 								<span class="star" *ngIf="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''">*</span>
 							</label>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
+									<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
 									#proxyname="ngModel" name="proxyname" [required]="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''"
 									  type="text" placeholder="user1" id="bdboangnputf" minlength="1" maxlength="150">
 									<span class="tip-content">Username Proxy to install npm dependency.</span>
@@ -93,13 +93,13 @@
 									</div>
 								</div>
 							</div>
-							<div class="row form-group labelIndent1">
-								<div class="col-md-3 text-right labelIndent2">
-									<label class="control-label">npm Proxy Password
+							<div class="form-row form-group labelIndent1">
+								<div class="col-md-3  labelIndent2">
+									<label class="col-form-label">npm Proxy Password
 								<span class="star" *ngIf="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''">*</span></label>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" id="bdboangnpptf" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''" name="npmProxyPassword1" type="password" placeholder="**********"
+									<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" id="bdboangnpptf" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''" name="npmProxyPassword1" type="password" placeholder="**********"
 									  minlength="1" maxlength="150" name="npmProxyPassword" #npmProxyPassword="ngModel">
 									<span class="tip-content">Password for Proxy to install npm dependency.</span>
 									<div *ngIf="npmProxyPassword.errors && (npmProxyPassword.dirty || npmProxyPassword.touched)" class="alert alert-danger ">
@@ -129,7 +129,7 @@
 						<div *ngIf="buildOn()"></div>
 					</div>
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
 	                                <input type="checkbox" (click)="checkCompile()" id="bdboangcomch01" [checked]="tempObject.modules[0].build==='on'"
@@ -149,19 +149,19 @@
 					</div>
 
 					<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].build=='on'">
-						<div class="panel-body  " *ngSwitchCase="true" style="margin-bottom:0px;">
-							<div class="row form-group labelIndent1">
-								<div class="col-md-3 text-right labelIndent2">
-									<label class="control-label">Command to compile<span class="star">*</span></label>
+						<div class="card-body  " *ngSwitchCase="true" style="margin-bottom:0px;">
+							<div class="form-row form-group labelIndent1">
+								<div class="col-md-3  labelIndent2">
+									<label class="col-form-label">Command to compile<span class="star">*</span></label>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox boxWidth" id="bdboangcctf" [(ngModel)]="buildInfo.modules[0].angularBuildCommand" name="angularbuildcmd" type="text" placeholder="Command" minlength="1" maxlength="150" required>
+									<input class="form-control  boxWidth" id="bdboangcctf" [(ngModel)]="buildInfo.modules[0].angularBuildCommand" name="angularbuildcmd" type="text" placeholder="Command" minlength="1" maxlength="150" required>
 									<span class="tip-content">Command to compile.</span>
 								</div>
 							</div>
 							<!-- <div class="row" style="margin-left: 10px">
 										<div class="col-md-3 check1 radiotick">
-				                            <div class="form-group">
+				                            <div class="form-row form-group">
 					                            <label class="radio-inline">
 					                                <input type="radio" [(ngModel)]="buildInfo.modules[0].buildValue"
 					                                value="prod" 	(click)="checkCompile()"
@@ -170,7 +170,7 @@
 				                            </div>
 				                         </div>
 				                         <div class="col-md-3 check1 radiotick">
-				                            <div class="form-group">
+				                            <div class="form-row form-group">
 					                            <label class="radio-inline">
 					                                <input type="radio" [(ngModel)]="buildInfo.modules[0].buildValue"
 					                                value="dev" (click)="checkCompile()"
@@ -184,7 +184,7 @@
 					</div>
 
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
 	                                <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'"
@@ -198,7 +198,7 @@
 
 					<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].codeAnalysis=='on'">
 						<div class="container-fluid animate-switch" *ngSwitchCase="true">
-							<div class="col-md-12 form-group" style="height: 40px;text-transform:capitalize;">
+							<div class="col-md-12 form-row form-group" style="height: 40px;text-transform:capitalize;">
 								<label class="checkbox-inline ">
 										<input
 										type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[0]==='tsLint'" id="bdboangtsltf" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ? 'tsLint':'off'"
@@ -213,10 +213,10 @@
 
 
 							<div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].codeAnalysis[0]=='tsLint'">
-								<div class="panel-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
+								<div class="card-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
 
-									<div class="col-md-12 field-tip form-group" style="margin-left:20px;height: 40px;text-transform:capitalize;">
+									<div class="col-md-12 field-tip form-row form-group" style="margin-left:20px;height: 40px;text-transform:capitalize;">
 										<label class="checkbox-inline ">
 												<input
 												type="checkbox" id="bdboanghvch01" [checked]="buildInfo.modules[0].noViolations==='on'"
@@ -238,24 +238,124 @@
 
 							</div>
 
-							<div class="col-md-12 form-group" style="height: 40px;text-transform:capitalize;">
+							<div class="col-md-12 form-row form-group" style="height: 40px;text-transform:capitalize;">
 								<label class="checkbox-inline ">
 										<input
-										type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]==='sonar'" id="bdboangsonch01"  (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? 'sonar':'off'"
+										type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]==='sonar'" id="bdboangsonch01"  (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? 'sonar':clearSonarqube()"
 										 (click)="codeAnalysisCheck()"
-										 >Sonar
+										 >SonarQube
 
 
 									</label>
+								
 
 
 							</div>
+							<!-- sonar Authentication code -->
+							<!-- <div *ngIf="buildInfo.modules[0].codeAnalysis[1]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+								<div class="row" style="margin-bottom: 10px;">
+								  <div class="col-md-2">
+									<label for="sonarUrl">SonarQube URL</label>
+								  </div>
+								  <div class="col-md-10">
+									<input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
+									  id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+
+										 <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
+										 
+											 <div [hidden]="!sonarUrl.errors.pattern">
+											  This Field Name can only consist of valid url
+										  </div>
+									  </div>
+									</div>
+								</div>
+								 
+								<div class="row" style="margin-bottom: 10px;">
+								  <div class="col-md-2">
+									<label for="sonarUsername">UserName / Sonar Security token</label>
+		  
+								  </div>
+								  <div class="col-md-10 field-tip">
+									<input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[0].sonarPassword='' "
+									  #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+									  <span class="tip-content">Password is required only with username</span>
+
+
+									  <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
+										
+									
+
+										<div [hidden]="!sonarUname.errors.pattern">
+											This Field Name can only consist of valid username
+										</div>
+									</div>
+								  </div>
+								</div>
+								
+								<div class="row" style="margin-bottom: 10px;">
+								  <div class="col-md-2">
+									<label for="sonarPassword">Password</label>
+		  
+								  </div>
+								  <div class="col-md-10">
+									<input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
+									  #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+									  encrypt>
+								  </div>
+								</div>
+							
+								<div class="row" style="margin-bottom: 10px;">
+								  <div class="col-md-2">
+									<label for="sonarProjectKey">Project Key</label>
+		  
+								  </div>
+								  <div class="col-md-10">
+									<input class="form-control  textFieldWidth" name="SonarProjectKey" 
+									  #sonarProjectKey="ngModel" placeholder="Project Key" id="sonarProjectKey" type="text" [(ngModel)]="buildInfo.modules[0].sonarProjectKey" pattern="[_a-zA-Z0-9.-:]+">
+									  <div *ngIf="sonarProjectKey.errors && (sonarProjectKey.dirty || sonarProjectKey.touched)" class="alert alert-danger ">
+							
+						
+									
+										<div [hidden]="!sonarProjectKey.errors.pattern">
+											This Field Name can only consist of valid projectkey
+										</div>
+									</div>
+								  </div>
+								</div>
+								<div class="row" style="margin-bottom: 10px;">
+								  <div class="col-md-2">
+									<label for="sonarProperties">Sonar Properties Relative Path</label>
+								  </div>
+								  <div class="col-md-10">
+									<input class="form-control  textFieldWidth" name="sonarProperties" #sonarProperties="ngModel" placeholder="SonarQube Properties relative Path" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
+									  id="sonarProperties" type="text" [(ngModel)]="buildInfo.modules[0].sonarProperties" pattern="[a-zA-Z0-9\-/\\_\.]+">
+									  
+										 <div *ngIf="sonarProperties.errors && (sonarProperties.dirty || sonarProperties.touched)" class="alert alert-danger ">
+										  <div [hidden]="!sonarProperties.errors.required">
+											  This Field Name is required!
+										  </div>
+										  <div [hidden]="!sonarProperties.errors.minlength">
+											  This Field Name must be at least 3 characters long.
+										  </div>
+										  <div [hidden]="!sonarProperties.errors.maxlength">
+											  This Field Name cannot be more than 200 characters long.
+										  </div>
+										  <div [hidden]="!sonarProperties.errors.pattern">
+											  This Field Name can only consist of valid Relative path
+										  </div>
+									  </div>
+									</div>
+								</div>
+								
+							  </div> -->
+							  <!-- /sonar Authentication code -->
 
 
 
 
 
 						</div>
+
 						<div *ngSwitchCase="false">
 							<div *ngIf="codeAnalysisOff()"></div>
 
@@ -279,7 +379,7 @@
 						<div *ngIf="unitTestingOff()"></div>
 					</div>
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
 	                                <input type="checkbox" [checked]="buildInfo.modules[0].unitTesting==='on'" id="bdboangutch01"
@@ -295,7 +395,7 @@
 					<div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">
 						<div class="container-fluid animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
-							<div class="form-group col-md-12" style="text-transform:capitalize;">
+							<div class="form-row form-group col-md-12" style="text-transform:capitalize;">
 								<label class="checkbox-inline ">
 										<input
 										type="checkbox" [checked]="buildInfo.modules[0].unitTestTool[0]==='karma/jasmine'" id="bdboangkjch01" (change)="buildInfo.modules[0].unitTestTool[0]=$event.target.checked ? 'karma/jasmine':'off'"
@@ -313,9 +413,9 @@
 					</div>
 
 					<div [ngSwitch]="buildInfo.modules[0].unitTestTool[0]=='karma/jasmine'">
-						<div class="panel-body animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;margin-top:0px;">
+						<div class="card-body animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;margin-top:0px;">
 
-							<div class="form-group col-md-12 field-tip" style="margin-left:60px;text-transform:capitalize;">
+							<div class="form-row form-group col-md-12 field-tip" style="margin-left:60px;text-transform:capitalize;">
 								<label class="checkbox-inline ">
 												<input
 												type="checkbox" [checked]="buildInfo.modules[0].allUnitTestPass==='on'"  id="bdboanghfch01"
@@ -337,12 +437,12 @@
 						<div class=" animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
 
-							<div class="row form-group ">
-								<div class="col-md-3 text-right ">
-									<label class="control-label"> Test Script Path  </label> <span class="star">*</span>
+							<div class="form-row form-group ">
+								<div class="col-md-3  ">
+									<label class="col-form-label"> Test Script Path  </label> <span class="star">*</span>
 								</div>
 								<div class="col-md-9 text-left field-tip">
-									<input class="form-control txtbox " [(ngModel)]="buildInfo.modules[0].unitTestProjectName"  id="bdboangtsntf" name="unitTestProjectName" type="text" placeholder="test/testfiles/*.js" minlength="1" maxlength="150" required>
+									<input class="form-control  " [(ngModel)]="buildInfo.modules[0].unitTestProjectName"  id="bdboangtsntf" name="unitTestProjectName" type="text" placeholder="test/testfiles/*.js" minlength="1" maxlength="150" required>
 									<span class="tip-content">Test Script Name relative to checkout path</span>
 
 								</div>
@@ -364,7 +464,7 @@
 						<div *ngIf="unitFalse()"></div>
 					</div>
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 ">
 							<label class="checkbox-inline">
 	                                    <input type="checkbox"
@@ -378,7 +478,7 @@
 					<div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].codeCoverage=='on'">
 						<div class="container-fluid  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
-							<div class="col-md-12 form-group" style="height: 40px;text-transform:capitalize;">
+							<div class="col-md-12 form-row form-group" style="height: 40px;text-transform:capitalize;">
 								<label class="checkbox-inline ">
 										<input
 										type="checkbox" class="checkbox-inline" [checked]="buildInfo.modules[0].codeCoverageTool[0]==='istanbul'" id="bdboangistch01" (change)="buildInfo.modules[0].codeCoverageTool[0]=$event.target.checked ? 'istanbul':'off'"

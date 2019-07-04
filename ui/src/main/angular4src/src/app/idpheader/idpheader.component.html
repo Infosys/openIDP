@@ -89,10 +89,10 @@
               <a [routerLink]="['/releaseConfig/release']" id="menu_release" [style.font-size]="getfont()" [style.font-size]="getfont()"
                 [style.cursor]="getCursor()" [ngClass]="hideRelease ? 'disabled'  : ''">Releases</a>
             </li>
-            <!-- <li>
+            <li>
               <a [routerLink]="['/manageEnvironment']" id="menu_environment" [style.font-size]="getfont()" [style.font-size]="getfont()"
                 [style.cursor]="getCursor()">Environments</a>
-            </li> -->
+            </li>
             <li *ngIf=IdpdataService.createOrganisationflag>
               <a [routerLink]="['/previousConfig/createorg']" id="menu_createOrg" [style.font-size]="getfont()" [style.font-size]="getfont()"
                 [style.cursor]="getCursor()">Organization</a>

@@ -1,10 +1,3 @@
-/**
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.”
-*
-**/
 import { Component, OnInit } from '@angular/core';
 import { IdpService } from '../idp-service.service';
 import { IdpdataService } from '../idpdata.service';
@@ -48,7 +41,6 @@ export class DashboardViewComponent implements OnInit {
         try {
           if (response) {
             this.IdpdataService.devServerURL = response.json().idpresturl;
-            //this.IdpdataService.devServerURL = "http://server401189d:8889/idprest";
             this.IdpdataService.subscriptionServerURL= response.json().idpsubscriptionurl;
             this.IdpdataService.IDPDashboardURL = response.json().idpdashboardurl;
             this.IdpdataService.IDPLink = response.json().IDPLink;

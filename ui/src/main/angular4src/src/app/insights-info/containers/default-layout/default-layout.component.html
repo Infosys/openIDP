@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#" (click)="false">Insights</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="nav navbar-nav d-md-down-none">
+     <!-- <li class="nav-item px-3" *ngIf=true>
+      <a  [ngClass]="tabs.diagnose ? 'nav-link':'nav-link'" href="#" [routerLink]="['/insights/home/diagnose']">Continuous Monitoring</a>
+    </li> -->
+    <li class="nav-item px">
+     <a [ngClass]="tabs.insights? 'nav-link':'nav-link'" href="#"  [routerLink]="['/insights/home/insights']">
+          Anomaly Detection
+        </a>
+        <!-- <a class="dropdown-item" href="#" [routerLink]="['/insights/home/agg-logs']">
+          Aggregated Logs
+        </a> -->
+      </li>
+       
+    
+  </ul>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item d-md-down-none">
+      <div class="flex-container">
+      </div>
+    </li>
+  </ul>
+  </div>
+  </nav>
+  
+
+
+    <div>
+      <router-outlet></router-outlet>
+      </div>
+<!-- <app-header>
+  
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#" (click)="false">Insights Platform</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active" >  
+        <a class="nav-link"  [routerLink]="['/insights/home/diagnose']">Continous Monitoring <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Insights
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item"  [routerLink]="['/insights/home/insights']">Anomaly Detection</a>
+          <a class="dropdown-item"  [routerLink]="['/insights/home/agg-logs']">Aggregated Logs</a>
+        </div>
+        </li>
+    </ul>
+    
+  </div>
+</nav>
+</app-header>
+<br><br>
+<div>
+  <router-outlet></router-outlet>
+</div> -->

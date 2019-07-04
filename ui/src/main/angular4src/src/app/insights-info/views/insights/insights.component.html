@@ -1,0 +1,168 @@
+<div *ngIf="true; else notActive">
+  <div class="b"><p><b>Identifying new patterns in log data, such as Anomalous exceptions based on advanced machine learning algorithms</b></p></div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="appNameSelect">Application Name :&nbsp; </label>
+              <select class="custom-select form-control" name="insightsApplicationName" id="appNameSelect" (change)="insightsPipelineName=''" [(ngModel)]="insightsApplicationName"
+                required>
+                <option value=""> --Select Application Name--</option>
+                <option *ngFor="let appObject of applicationList; let i = index" value="{{appObject}}">{{appObject}}</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-left:20px">
+              <label for="pipNameSelect">Pipeline Name :&nbsp; </label>
+              <select class="custom-select form-control" name="insightsPipelineName" id="pipNameSelect" [(ngModel)]="insightsPipelineName" (change)="getExceptionDetails()"
+                required>
+                <option value=""> --Select Pipeline Name--</option>
+                <option *ngFor="let pipObject of pipelineList[insightsApplicationName]; let i = index" value="{{pipObject}}">{{pipObject}}</option>
+              </select>
+            </div>
+          </form>
+          <div *ngIf="insightsApplicationName!=='' && insightsPipelineName!==''">
+            <br>
+            <div class="col-md-8 offset-md-2">
+              <div class="card-body">
+                
+                </div>
+            </div>
+          </div>
+          <br>
+          <div class="container-fluid" *ngIf="insightsApplicationName!=='' && insightsPipelineName!==''">
+            <div class="row justify-content-md-center">
+              <div class="col-md-3">
+                <div class="card text-white bg-info text-center mb-3" style="max-width: 18rem;">
+
+                  <div class="card-body">
+                    <h5 class="card-title display-4 ">{{exceptionCount.totalException}}</h5>
+                    <p class="card-text text-uppercase">Total # of Exceptions</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="card text-white bg-danger text-center mb-3" style="max-width: 18rem;">
+
+                  <div class="card-body">
+                    <h5 class="card-title display-4 ">{{exceptionCount.newException}}</h5>
+                    <p class="card-text text-uppercase"># of New Exceptions</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card text-white bg-warning text-center mb-3" style="max-width: 18rem;">
+
+                  <div class="card-body">
+                    <h5 class="card-title display-4 ">{{exceptionCount.oldException}}</h5>
+                    <p class="card-text text-uppercase">Recurring Exceptions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-10 offset-md-1 form-inline">
+              <label for="insightsTime">Back time: &nbsp; </label>
+              <input type="number" class="form-control" id="hourTime" name="TimeHour" [(ngModel)]="timeHour" (ngModelChange)="setHour()">
+              <label for="hours">hrs &nbsp; </label>
+              <input type="number" class="form-control" id="minuteTime" name="timeMinute" [(ngModel)]="timeMinute" (ngModelChange)="setMinute()">
+              <label for="minute">mnt &nbsp; </label>  
+            </div> -->
+          
+            <div class="col-md-10 offset-md-1">
+              <canvas baseChart [chartType]="'line'" [datasets]="datasets" [options]="options">
+              </canvas>
+            </div>
+            <div *ngIf="anomalyDataResponse">
+              <div  class=" col-md-10 offset-md-1 form-group">
+                <div class="h4 text-muted">Anomaly Detection: </div>
+                <div *ngIf="anamolyException.length > 0; else noRecord">
+                  <table class="table table-stripped" style="table-layout: fixed">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Exception Name</th>
+                        <th scope="col">Class Name</th>
+                        <th scope="col">Method Name</th>
+                        <th scope="col">Line Number</th>
+                        <th scope="col">Processing Time</th>
+                        <th scope="col">Typical</th>
+                        <th scope="col">Actual</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Jira Ticket</th>
+                        <th scope="col">Remove Anomaly</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let exceptionObj of anamolyException | paginate: config ; let i = index">
+                        <td>{{exceptionObj[0]}}</td>
+                        <td>{{exceptionObj[1]}}</td>
+                        <td>{{exceptionObj[2]}}</td>
+                        <td>{{exceptionObj[3]}}</td>
+                        <td>{{exceptionObj[6]}}</td>
+                        <td>{{exceptionObj[5]}}</td>
+                        <td>{{exceptionObj[4]}} </td>
+                        <td>{{exceptionObj[7]}}</td>
+                        <td><input type="checkbox" name="jiraticket"></td>
+                        <td><input type="checkbox" name="removeAnomaly"></td>
+
+                        <td *ngIf="exceptionObj[8] == 'LOW'">
+                          <span class="badge badge-warning"> {{exceptionObj[7]}} </span>
+                        </td>
+                        <td *ngIf="exceptionObj[8] == 'MEDIUM'">
+                          <span class="badge badge-secondary"> {{exceptionObj[7]}} </span>
+                        </td>
+                        <td *ngIf="exceptionObj[8] == 'HIGH'">
+                          <span class="badge badge-danger"> {{exceptionObj[7]}} </span>
+                        </td>
+                        <td *ngIf="exceptionObj[8] == 'SAFE'">  
+                          <span class="badge badge-success"> {{exceptionObj[7]}} </span>
+                        </td>
+                        <td *ngIf="exceptionObj[8] == 'DOWN'">
+                          <span class="badge badge-success"> {{exceptionObj[7]}} </span>
+                        </td>
+                        <td *ngIf="exceptionObj[8] == 'NEW'">
+                          <span class="badge badge-info"> {{exceptionObj[7]}} </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                </div>
+                <ng-template #noRecord>
+                  <table class="table table-stripped table-border">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Typical</th>
+                        <th scope="col">Actual</th>
+                        <th scope="col">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="5" class="text-danger text-center">
+                          <i class="fa fa-exclamation-triangle"></i> &nbsp; No Record Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #notActive>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="alert alert-danger text-center text-uppercase h5">
+        <i class="fa fa-exclamation-triangle"></i> &nbsp; This Service is not active for your organization
+      </div>
+    </div>
+  </div>
+</ng-template>

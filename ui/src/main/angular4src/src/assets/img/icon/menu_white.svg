@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xml:space="preserve"
+   style="enable-background:new 0 0 24 24;"
+   viewBox="0 0 24 24"
+   y="0px"
+   x="0px"
+   id="Layer_1"
+   version="1.1"><metadata
+   id="metadata4659"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs4657" />
+<style
+   id="style4649"
+   type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<line
+   style="fill:none;stroke:#ffffff;stroke-opacity:1"
+   y2="12"
+   x2="20.5"
+   y1="12"
+   x1="3.5"
+   class="st0"
+   id="XMLID_1_" />
+<line
+   style="fill:none;stroke:#ffffff;stroke-opacity:1"
+   y2="5"
+   x2="20.5"
+   y1="5"
+   x1="3.5"
+   class="st0"
+   id="XMLID_29_" />
+<line
+   style="fill:none;stroke:#ffffff;stroke-opacity:1"
+   y2="19"
+   x2="20.5"
+   y1="19"
+   x1="3.5"
+   class="st0"
+   id="XMLID_30_" />
+</svg>

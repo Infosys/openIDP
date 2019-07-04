@@ -9,6 +9,7 @@
 import { Routes, RouterModule } from "@angular/router";
 import { WorkflowInfoComponent } from "./workflow-info.component";
 import { TriggerComponent } from "../triggerPipeline/triggerPipeline.component";
+import {NgModule} from "../../../node_modules/@angular/core";
 
 
 const WORKFLOW_ROUTER: Routes = [
@@ -17,5 +18,8 @@ const WORKFLOW_ROUTER: Routes = [
         component: WorkflowInfoComponent
     },
 ];
-
-export const workflowRouter = RouterModule.forChild(WORKFLOW_ROUTER);
+@NgModule({
+  imports: [RouterModule.forChild(WORKFLOW_ROUTER)],
+  exports: [RouterModule]
+})
+export class WorkflowInfoRouter {}

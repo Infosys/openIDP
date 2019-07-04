@@ -32,6 +32,7 @@ export class MsbuildCntrlComponent implements OnInit {
   msBuildVersion: any = this.IdprestapiService.getIDPDropdownProperties().msBuildVersion;
   tempCodeAnalysis: any;
   distributionList: any = [];
+  solutions:Array<number> = [];
   /* CONSTRUCTOR */
   constructor(
     private IdpdataService: IdpdataService,
@@ -61,6 +62,15 @@ export class MsbuildCntrlComponent implements OnInit {
     this.buildInfo.modules[key].testSettingFilePath = "";
     return "off";
   }
+  clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+    this.buildInfo.modules[0].sonarProperties ="";
+  
+      return "off";
+    }
   setpaFalse() {
     this.IdpdataService.pa = false;
     return false;
@@ -82,15 +92,6 @@ export class MsbuildCntrlComponent implements OnInit {
     this.buildInfo.modules[0].incrementalScan = "off";
     return false;
   }
-
-  clearSonarqube() {
-    this.buildInfo.modules[0].sonarUrl ="";
-    this.buildInfo.modules[0].sonarUserName ="";
-    this.buildInfo.modules[0].sonarPassword ="";
-    this.buildInfo.modules[0].sonarProjectKey ="";
-  
-      return "off";
-    }
   setSomeValues2() {
     this.tempObject.modules[0].schdulePeriodicFullScan = "off";
     return false;

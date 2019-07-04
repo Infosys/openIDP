@@ -8,44 +8,43 @@
 <form [parentFormConnect]="formName">
   <div>
     <div class="animate-switch-container">
-      <div class=" panel-default animate-switch">
-        <div class="panel-heading" style="height:60px">
+      <div class="card animate-switch">
+        <div class="card-header" style="height:60px">
           <span>
             <b>ANT {{'Module Details'|translate}}</b>
           </span>
           <span>
-            <button type="button" class="btn btn-info btn-md" (click)="addItem()" style="float:right" id="btn_txt">{{'Add Module'|translate}}</button>
+            <button type="button" class="btn btn-primary btn-md" (click)="addItem()" style="float:right" id="btn_txt">{{'Add Module'|translate}}</button>
           </span>
         </div>
-        <div>
-          <div class="panel-group" role="tablist" aria-multiselectable="true">
+        <div class="card-body">
+          <div  aria-multiselectable="true">
             <!-- Addition of Ant Module -->
-            <div class="panel panel-default" *ngFor="let module of buildInfo.modules; let i =index" [attr.data-index]="i">
-              <div class="panel-heading" role="tab">
-                <h4 class="panel-title">
+            <div class="card card-with-border" *ngFor="let module of buildInfo.modules; let i =index" [attr.data-index]="i">
+              <div class="card-header" role="tab">
+                <h4 class="card-title">
                   <a data-toggle="collapse" data-target="{{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
                     Module_{{(i+1)}}
                   </a>
                   <span style="float:right">
-                    <a (click)="deleteItem(i)" style="cursor:pointer;font-size:14px !important;">
-                      <span class="glyphicon glyphicon-remove"></span>
+                    <a (click)="deleteItem(i)">
+                        <span class="cui-trash" aria-hidden="true"></span>
                     </a>
                   </span>
                 </h4>
               </div>
-              <div id="{{i+1}}" class="panel-collapse collapse in" role="tabpanel">
-                <div class="panel-body">
-                  <div class="row paddingall form-group">
+                <div class="card-body">
+                  <div>
                     <!--Start  ModuleName -->
-                    <div class="row form-group">
-                      <div class="col-md-3 text-right">
-                        <label class="control-label">
-                          {{'Module Name'|translate}}
-                          <span class="star">*</span>
-                        </label>
-                      </div>
+                    <div class="form-row form-group">
+                      <!-- <div class=" "> -->
+                      <label class="col-md-3 col-form-label">
+                        {{'Module Name'|translate}}
+                        <span class="star">*</span>
+                      </label>
+                      <!-- </div> -->
                       <div class="col-md-9 field-tip  text-left">
-                        <input class="form-control txtbox textFieldWidth" id="bdamdantmntf{{i}}" name="moduleName{{i}}" #moduleName="ngModel" pattern="^[_a-zA-Z0-9.-]+"
+                        <input class="form-control  textFieldWidth" id="bdamdantmntf{{i}}" name="moduleName{{i}}" #moduleName="ngModel" pattern="^[_a-zA-Z0-9.-]+"
                           (change)="javaOptionList();ejbOptionList();warOptionList();" type="text" [(ngModel)]="module.moduleName"
                           (blur)="checkModuleName(i)" minlength="3" required>
                         <div *ngIf="moduleName.errors && (moduleName.dirty || moduleName.touched)" class="alert alert-danger ">
@@ -69,14 +68,14 @@
                   <!--End  ModuleName -->
 
                   <!--Start  Source Code Directory -->
-                  <div class="row form-group">
-                    <div class="col-md-3 text-right">
-                      <label class="control-label">{{'Source Code Directory'|translate}}
+                  <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                      <label class="col-form-label">{{'Source Code Directory'|translate}}
                         <span class="star">*</span>
                       </label>
                     </div>
                     <div class="col-md-9 field-tip textFieldContainer text-left">
-                      <input class="form-control txtbox textFieldWidth" id="bdamdantscdtf{{i}}" name="sourceCode{{i}}" #sourceCode="ngModel" [(ngModel)]="module.relativePath"
+                      <input class="form-control  textFieldWidth" id="bdamdantscdtf{{i}}" name="sourceCode{{i}}" #sourceCode="ngModel" [(ngModel)]="module.relativePath"
                         type="text" placeholder="src" maxlength="150" required>
                       <div *ngIf="sourceCode.errors && (sourceCode.dirty || sourceCode.touched)" class="alert alert-danger ">
                         <div [hidden]="!sourceCode.errors.required">
@@ -98,27 +97,27 @@
                   <div *ngIf="(module.customBuildXml!=='' && module.customBuildXml!==null && module.customBuildXml!==undefined) || (module.args!=='' && module.args!==null && module.args!==undefined) ">
                     <div *ngIf="setcustomBuildXml(i)"></div>
                   </div>
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" id="bdamdantcbch01{{i}}" name="customBuildXml1{{i}}" [checked]="tempObject.modules[i].customBuildXml==='on'"
                           (change)="tempObject.modules[i].customBuildXml=$event.target.checked ?setCustomBuildOn(i):setCustomBuildOff(i)"
-                          id="oss" style="width: 15px; height: 15px" />{{'Custom Build'|translate}} XML
+                          id="oss" style="width: 12px; height: 15px; margin-right: 10px;" />{{'Custom Build'|translate}} XML
                       </label>
                     </div>
                   </div>
                   <div class="animate-switch-container" [ngSwitch]="tempObject.modules[i].customBuildXml==='on'">
                     <div class="animate-switch" *ngSwitchCase="true">
                       <div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label">{{'Build File Path'|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label">{{'Build File Path'|translate}}
                               <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input name="customBuildXml{{i}}" id="bdamdantbfptf{{i}}" #customBuildXml="ngModel" [(ngModel)]="module.customBuildXml" pattern="^[a-zA-Z0-9\-\_\.\/]+\.xml$"
-                              class="form-control txtbox textFieldWidth" type="text" placeholder="JPetStore/build.xml" minlength="1"
+                              class="form-control  textFieldWidth" type="text" placeholder="JPetStore/build.xml" minlength="1"
                               maxlength="150" required>
                             <div *ngIf="customBuildXml.errors && (customBuildXml.dirty || customBuildXml.touched)" class="alert alert-danger ">
                               <div [hidden]="!customBuildXml.errors.required">
@@ -136,13 +135,13 @@
                           </div>
                         </div>
                         <!-- ANT Targets -->
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label"> &nbsp;&nbsp; {{'Targets'|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label"> &nbsp;&nbsp; {{'Targets'|translate}}
                               <span class="star">*</span> : </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
-                            <input [(ngModel)]="module.args" name="antTargets{{i}}" id="bdamdanttartf{{i}}" #antTargets="ngModel" class="form-control txtbox textFieldWidth"
+                            <input [(ngModel)]="module.args" name="antTargets{{i}}" id="bdamdanttartf{{i}}" #antTargets="ngModel" class="form-control  textFieldWidth"
                               type="text" placeholder="{{'Targets'|translate}} 1 ,{{'Targets'|translate}} 2" minlength="1"
                               maxlength="150" required>
                             <div *ngIf="antTargets.errors && (antTargets.dirty || antTargets.touched)" class="alert alert-danger ">
@@ -171,11 +170,11 @@
                   <!--End  CustomBuildXml -->
 
                   <!--Start  Compile -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" (change)="module.compile=$event.target.checked ?'on':setCompileOff(i)" [checked]="module.compile==='on'"
-                          id="bdamdantcomch01{{i}}" name="compileForModule{{i}}" style="width: 15px; height: 15px" [disabled]="tempObject.modules[i].customBuildXml==='on'"
+                          id="bdamdantcomch01{{i}}" name="compileForModule{{i}}" style="width: 12px; height: 15px; margin-right: 10px;" [disabled]="tempObject.modules[i].customBuildXml==='on'"
                         />Compile
                       </label>
                     </div>
@@ -183,76 +182,92 @@
                   <!--End  Compile -->
 
                   <!--Start  CodeAnalysis -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" [checked]="tempObject.modules[i].codeAnalysis==='on'" id="bdamdantcach01{{i}}" name="codeAnalysisForModule{{i}}"
                           (change)="tempObject.modules[i].codeAnalysis=$event.target.checked ?createCodeAnalysis(i):clearCodeAnalysis(i)"
-                          style="width: 15px; height: 15px">{{'Code Analysis'|translate}}
+                          style="width: 12px; height: 15px; margin-right: 10px;">{{'Code Analysis'|translate}}
                       </label>
                     </div>
                   </div>
                   <div *ngIf="checkCodeAnalysisOn(i)"></div>
                   <div class="animate-switch-container" *ngIf="tempObject.modules[i].codeAnalysis=='on'">
-                    <div class="animate-switch container-fluid form-group chkright">
+                    <div class="animate-switch container-fluid form-row form-group chkright">
                       <div class="col-md-12" style="margin-left: 0px;text-transform:capitalize;">
                         <label class="checkbox-inline ">
                           <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[0]!=='off'" id="bdamdanttca0ch01{{i}}" (change)="module.codeAnalysis[0]=$event.target.checked ?tempCodeAnalysis[0]:clearSonarqube()"
-                            name="codeAnalysisForModulezero{{i}}" style="width: 15px; height: 15px">{{tempCodeAnalysis[0]}}
+                            name="codeAnalysisForModulezero{{i}}" style="width: 12px; height: 15px; margin-right: 10px;">SonarQube
 
                         </label>
                         <label class="checkbox-inline ">
                           <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[1]!=='off'" id="bdamdanttca1ch01{{i}}" (change)="module.codeAnalysis[1]=$event.target.checked ?tempCodeAnalysis[1]:'off'"
-                            [disabled]="tempObject.modules[i].customBuildXml==='on'" name="codeAnalysisForModuleone{{i}}" style="width: 15px; height: 15px">{{tempCodeAnalysis[1]}}
+                            [disabled]="tempObject.modules[i].customBuildXml==='on'" name="codeAnalysisForModuleone{{i}}" style="width: 12px; height: 15px; margin-right: 10px;">{{tempCodeAnalysis[1]}}
 
                         </label>
                         <!-- sonar Authentication code -->
                         <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
-                          <div class="row">
+                          <div class="row" style="margin-bottom: 10px;">
                             <div class="col-md-2">
-                              <label for="sonarUrl">Sonar URL</label>
+                            <label for="sonarUrl">SonarQube URL</label>
                             </div>
-                            <div class="col-md-10">
-                              <input class="form-control txtbox textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="Sonar Url" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
-                                id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl">
+                            <div class="col-md-10 field-tip">
+                            <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
+                              id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+                              
+
+                               <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
+                              
+                                <div [hidden]="!sonarUrl.errors.pattern">
+                                  This Field Name can only consist of valid url
+                                </div>
+                              </div>
                             </div>
                           </div>
                           
-                          <div class="row">
+                          <div class="row" style="margin-bottom: 10px;">
                             <div class="col-md-2">
-                              <label for="sonarUsername">Username/ Sonar Security Token</label>
-    
+                            <label for="sonarUsername">UserName / Sonar Security token</label>
+                
                             </div>
-                            <div class="col-md-10">
-                              <input class="form-control txtbox textFieldWidth" name="SonarUsername" 
-                                #sonarUsername="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName">
+                            <div class="col-md-10 field-tip">
+                            <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[0].sonarPassword=''"
+                              #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                              <span class="tip-content">Password is required only with username</span>
+                              <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
+                            
+                              <div [hidden]="!sonarUname.errors.pattern">
+                                This Field Name can only consist of valid username
+                              </div>
                             </div>
-                          </div>
-                         
-                          <div class="row">
-                            <div class="col-md-2">
-                              <label for="sonarPassword">Password</label>
-    
-                            </div>
-                            <div class="col-md-10">
-                              <input class="form-control txtbox textFieldWidth" name="SonarPassword" type="password" 
-                                #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
-                                encrypt>
                             </div>
                           </div>
                           
-                        </div>
+                          <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                            <label for="sonarPassword">Password</label>
+                
+                            </div>
+                            <div class="col-md-10">
+                            <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
+                              #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                              encrypt>
+                            </div>
+                          </div>
+                          
+
+                          </div>
                         <!-- /sonar Authentication code -->
 
                         <label class="checkbox-inline ">
                           <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[2]!=='off'" id="bdamdanttca2ch01{{i}}" (change)="module.codeAnalysis[2]=$event.target.checked ?tempCodeAnalysis[2]:'off'"
-                            [disabled]="tempObject.modules[i].customBuildXml==='on'" name="codeAnalysisForModuletwo{{i}}" style="width: 15px; height: 15px">{{tempCodeAnalysis[2]}}
+                            [disabled]="tempObject.modules[i].customBuildXml==='on'" name="codeAnalysisForModuletwo{{i}}" style="width: 12px; height: 15px; margin-right: 10px;">{{tempCodeAnalysis[2]}}
 
                         </label>
                         <label class="checkbox-inline ">
                           <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[3]!=='off'" id="bdamdanttca3ch01{{i}}" (change)="module.codeAnalysis[3]=$event.target.checked ?tempCodeAnalysis[3]:'off'"
                             name="codeAnalysisForModulethree{{i}}" [disabled]="module.compile!=='on' || tempObject.modules[i].customBuildXml==='on'"
-                            style="width: 15px; height: 15px">{{tempCodeAnalysis[3]}}
+                            style="width: 12px; height: 15px; margin-right: 10px;">{{tempCodeAnalysis[3]}}
 
                         </label>
                         <div *ngIf="module.compile!=='on'">
@@ -264,25 +279,25 @@
                   <!--End  CodeAnalysis -->
 
                   <!--Start  UnitTesting -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" [checked]="module.unitTesting==='on'" name="unitTest{{i}}" id="bdamdantutch01{{i}}" (change)="module.unitTesting=$event.target.checked ?'on':'off'"
-                          style="width: 15px; height: 15px" [disabled]="tempObject.modules[i].customBuildXml==='on'" />{{'Unit Testing'|translate}}
+                        style="width: 12px; height: 15px; margin-right: 10px;" [disabled]="tempObject.modules[i].customBuildXml==='on'" />{{'Unit Testing'|translate}}
                       </label>
                     </div>
                   </div>
                   <div class="animate-switch-container" [ngSwitch]="module.unitTesting==='on'">
                     <div class="container-fluid animate-switch" *ngSwitchCase="true">
-                      <div class="row form-group">
-                        <div>
-                          <label class="col-md-3 control-label">
+                      <div class="form-row form-group">
+                        <!-- <div> -->
+                          <label class="col-md-3 col-form-label">
                             {{'Unit Test Dir Path'|translate}}
                             <span style="color:red">*</span>
                           </label>
-                        </div>
+                        <!-- </div> -->
                         <div class="col-md-9 field-tip">
-                          <input class="form-control txtbox" name="UnitTestDirectoryPath{{i}}" id="bdamdantutdrtf{{i}}" #UnitTestDirectoryPath="ngModel"
+                          <input class="form-control " name="UnitTestDirectoryPath{{i}}" id="bdamdantutdrtf{{i}}" #UnitTestDirectoryPath="ngModel"
                             [(ngModel)]="module.unitTestDir" type="text" placeholder="com/junit" pattern="^[/_a-zA-Z0-9-. ]+"
                             minlength="1" maxlength="150" required/>
                           <div *ngIf="UnitTestDirectoryPath.errors && (UnitTestDirectoryPath.dirty || UnitTestDirectoryPath.touched)" class="alert alert-danger ">
@@ -310,11 +325,11 @@
                   <!--End  UnitTesting -->
 
                   <!--Start  CodeCoverage -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" [checked]="module.codeCoverage==='on'" id="bdamdantccch01{{i}}" (change)="module.codeCoverage=$event.target.checked ?'on':'off'"
-                          style="width: 15px; height: 15px" name="codeCoverageunittest{{i}}" [disabled]="tempObject.modules[i].customBuildXml==='on' || module.unitTesting ==='off' ||module.unitTesting ===undefined"
+                         style="width: 12px; height: 15px; margin-right: 10px;" name="codeCoverageunittest{{i}}" [disabled]="tempObject.modules[i].customBuildXml==='on' || module.unitTesting ==='off' ||module.unitTesting ===undefined"
                         />{{'Code Coverage'|translate}}
                       </label>
                     </div>
@@ -323,23 +338,23 @@
 
 
                   <!--Start  JARPackaging -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" [checked]="tempObject.modules[i].chkjar==='on'" id="bdamdantjpch01{{i}}" name="jarPackaging1{{i}}"
                           class="checkBoxdimension" (change)="tempObject.modules[i].chkjar=$event.target.checked ?'on':'off'"
-                          [disabled]="tempObject.modules[i].customBuildXml==='on'">JAR {{'Packaging'|translate}}
+                          [disabled]="tempObject.modules[i].customBuildXml==='on'" style="width: 12px; height: 15px; margin-right: 10px;">JAR {{'Packaging'|translate}}
                       </label>
                     </div>
                   </div>
                   <div class="animate-switch-container" [ngSwitch]="tempObject.modules[i].chkjar==='on'" style="margin-left:40px">
                     <div class="animate-switch" *ngSwitchCase="true">
-                      <div class="container-fluid form-group chkright">
-                        <div class="col-md-6 radio">
+                      <div class="container-fluid form-row form-group chkright">
+                        <div class="col-md-2 radio">
                           <input type="radio" [(ngModel)]="module.jarPackaging" required value="java" id="bdamdantjmrd{{i}}" name="jarpack{{(i)}}"
                           /> Java {{'Module'|translate}}
                         </div>
-                        <div class="col-md-6 radio">
+                        <div class="col-md-2 radio">
                           <input type="radio" [(ngModel)]="module.jarPackaging" required value="ejb" id="bdamdantemrd{{i}}" name="jarpack{{(i)}}" /> EJB {{'Module'|translate}}
                         </div>
                       </div>
@@ -347,15 +362,15 @@
                       <div class="animate-switch-container" *ngIf="module.jarPackaging==='java'">
                         <div *ngIf="ejbOptionList()"></div>
                         <div *ngIf="setejbejbVal(i)"></div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label text-left ">
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label text-left ">
                               {{'Main-Class'|translate}}:
                               <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
-                            <input [(ngModel)]="module.javaMainClass" (change)="javaOptionList()" class="form-control txtbox textFieldWidth" type="text"
+                            <input [(ngModel)]="module.javaMainClass" (change)="javaOptionList()" class="form-control  textFieldWidth" type="text"
                               id="bdamdantmctf{{i}}" name="jarPackagingMainClass{{i}}" placeholder="com.pack1.MainClass" minlength="1"
                               maxlength="150" required>
                             <span class="tip-content">{{'Main-Class of the Java Module'|translate}}</span>
@@ -366,16 +381,16 @@
                       <div class="animate-switch-container" *ngIf="module.jarPackaging==='ejb'">
                         <div *ngIf="javaOptionList()"></div>
                         <div *ngIf="setjavaMain(i)"></div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label text-left">
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label text-left">
                               EJB {{'Descriptor'|translate}}:
                               <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input [(ngModel)]="module.ejbDescriptor" name="EJBDescriptorXML{{i}}" id="bdamdantjmtf{{i}}" #EJBDescriptorXML="ngModel"
-                              (change)="ejbOptionList()" class="form-control txtbox textFieldWidth" type="text" placeholder="/META-INF/ejb.xml"
+                              (change)="ejbOptionList()" class="form-control  textFieldWidth" type="text" placeholder="/META-INF/ejb.xml"
                               minlength="1" maxlength="150" required>
                             <div *ngIf="EJBDescriptorXML.errors && (EJBDescriptorXML.dirty || EJBDescriptorXML.touched)" class="alert alert-danger ">
                               <div [hidden]="!EJBDescriptorXML.errors.required">
@@ -416,12 +431,12 @@
                   <!--End  JARPackaging -->
 
                   <!--Start  WARPackaging -->
-                  <div class="row form-group chkright" style="padding-left: 20px;">
+                  <div class="form-row form-group chkright" style="padding-left: 20px;">
                     <div class="col-md-12">
                       <label class="checkbox-inline">
                         <input type="checkbox" id="bdamdantpach01{{i}}" class="checkBoxdimension" [checked]="tempObject.modules[i].WARPackaging==='on'"
                           (change)="tempObject.modules[i].WARPackaging=$event.target.checked ?'on':'off'" id="war" name="warPackagingMainClass{{i}}"
-                          [disabled]="tempObject.modules[i].customBuildXml==='on' || module.compile!=='on'">WAR {{'Packaging'|translate}}
+                          [disabled]="tempObject.modules[i].customBuildXml==='on' || module.compile!=='on'" style="width: 12px; height: 15px; margin-right: 10px;">WAR {{'Packaging'|translate}}
                       </label>
                     </div>
                   </div>
@@ -429,13 +444,13 @@
                   <div class="animate-switch-container" [ngSwitch]="tempObject.modules[i].WARPackaging==='on'">
                     <div class="animate-switch" *ngSwitchCase="true">
 
-                      <div class="row form-group chkright">
-                        <div class="col-md-3 text-right">
-                          <label class="control-label">{{'Web XML Path'|translate}}</label>
+                      <div class="form-row form-group chkright">
+                        <div class="col-md-3 ">
+                          <label class="col-form-label">{{'Web XML Path'|translate}}</label>
                           <span class="star">*</span>
                         </div>
                         <div class="col-md-9 field-tip text-left">
-                          <input [(ngModel)]="module.warPackaging" id="bdamdantwxptf{{i}}" name="webXmlPath{{i}}" #webXmlPath="ngModel" class="form-control txtbox textFieldWidth"
+                          <input [(ngModel)]="module.warPackaging" id="bdamdantwxptf{{i}}" name="webXmlPath{{i}}" #webXmlPath="ngModel" class="form-control  textFieldWidth"
                             (change)="warOptionList()" type="text" pattern="[/_a-zA-Z0-9-. ]+.xml" placeholder="JPetStore/WebContent/WEB-INF/web.xml"
                             minlength="5" maxlength="150" required>
                           <div *ngIf="webXmlPath.errors && (webXmlPath.dirty || webXmlPath.touched)" class="alert alert-danger ">
@@ -470,22 +485,93 @@
                   <!--End WARPackaging -->
 
 
-                  
+                  <!-- Start OSS Compliance  -->
+                  <div>
+                    <div class="form-row form-group chkright" style="padding-left:20px">
+                      <div class="col-md-12">
+
+                        <label class="checkbox-inline">
+                            <input type="checkbox" [checked]="tempObject.modules[i].ossCheck=='on'" name="ossCheck{{i}}" id="bdbomvnocsch01{{i}}" (change)="ossCompliance(i,$event.target.checked)" style="width: 12px; height: 15px; margin-right: 10px;"/>{{'Oss Compliance Check'|translate}}
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="tempObject.modules[i].ossCheck==='on'" style="padding: 0 0 0 40px;">
+                    <div class="form-row form-group chkright">
+                      <div class="col-md-3 " style="left:20px;">
+                        <label class="col-form-label">{{'Send Report To '|translate}} </label>
+                        <span class="star">*</span>
+                      </div>
+                      <div class="col-md-6 field-tip text-left">
+                        <input name="ossMailRecipients{{i}}" #ossMailRecipients="ngModel" class="form-control " [(ngModel)]="module.ossMailRecipients"
+                          type="text" id="bdbomvnsrt{{i}}" placeholder="abc@domain.com" minlength="3" maxlength="150" required>
+                        <div *ngIf="ossMailRecipients.errors && (ossMailRecipients.dirty || ossMailRecipients.touched)" class="alert alert-danger ">
+                          <div [hidden]="!ossMailRecipients.errors.required">
+                            This Field Name is required!
+                          </div>
+                          <div [hidden]="!ossMailRecipients.errors.minlength">
+                            This Field Name must be at least 5 characters long.
+                          </div>
+                          <div [hidden]="!ossMailRecipients.errors.maxlength">
+                            This Field Name cannot be more than 150 characters long.
+                          </div>
+                          <div [hidden]="!ossMailRecipients.errors.pattern">
+                            This Field Name can only consist of alphabetical, number, dot and underscore
+                          </div>
+                        </div>
+                        <span class="tip-content">{{'Email id of the person whom you want to send report eg:abc@domain.com '|translate}}</span>
+
+                      </div>
+                    </div>
+                    <div class="form-row form-group">
+                      <div>
+                        <label class="col-form-label" style="left:20px;">
+                          {{'Distribution Type'|translate}}
+                          <span class="star">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-9 text-left">
+                        <select style="width:50%" class="form-control" [(ngModel)]="module.ossDistributionType" name="ossDistributionType{{i}}" id="bibsdd{{i}}"
+                          required>
+                          <option value="">--Select--</option>
+                          <option *ngFor="let os of distributionList" [ngValue]="os.value">{{os.value}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row form-group">
+                      <!-- <div> -->
+                        <label class="col-md-3  col-form-label" style="left:20px;">{{'Analysis Type'|translate}}
+                          <span class="star">*</span>
+                        </label>
+                      <!-- </div> -->
+                      <div class="col-md-9">
+                        <div class="col-md-3 text-left" style="float: left;">
+                          <input id="bdbomvnanlysis" type="radio" [(ngModel)]="module.ossAnalysisType" value="analysis" name="ossAnalysisType{{i}}"
+                          />&nbsp; {{'Analysis'|translate}}
+                        </div>
+                        <div class="col-md-3 " style="float: left;">
+                          <input id="bdbomvnreanlysis" type="radio" [(ngModel)]="module.ossAnalysisType" value="reanalysis" name="ossAnalysisType{{i}}"
+                          />&nbsp; {{'Re-Analysis'|translate}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- End OSS Compliance -->
 
                   <!--Default Module-->
                   <div>
-                    <div class="row form-group" style="padding-left: 20px;">
+                    <div class="form-row form-group" style="padding-left: 20px;">
                       <div class="col-md-12">
                         <label class="checkbox-inline">
                           <input type="checkbox" [checked]="module.defaultModule==='on'" id="bdamdantdmch01{{i}}" name="defaultModule{{i}}" (change)="module.defaultModule=$event.target.checked ?'on':'off'"
-                          />{{'Default Module'|translate}}
+                          style="width: 12px; height: 15px; margin-right: 10px;"/>{{'Default Module'|translate}}
                         </label>
                       </div>
                     </div>
                   </div>
                   <!--End Default Module-->
                 </div>
-              </div>
             </div>
           </div>
         </div>
@@ -493,8 +579,8 @@
     </div>
 
     <!-- EAR Packaging -->
-    <div class="panel panel-default">
-      <div class="panel-heading" style="height: 40px">
+    <div class="card">
+      <div class="card-header" style="height: 40px">
         <div class="field-tip">
           <input type="checkbox" id="bdamdantepch01" [checked]="tempObject.ear==='on'" (change)="tempObject.ear=$event.target.checked ?'on':'off'"
           />
@@ -502,7 +588,7 @@
             &nbsp;{{'Ear Packaging' |translate}}</b>
         </div>
       </div>
-
+      <div class="card-body">
       <div *ngIf="tempObject.ear === 'on'">
         <br>
         <div *ngIf="checkForEarPack()===true" style="padding-left:20px">
@@ -514,14 +600,12 @@
         </div>
         <div class="panel-group">
           <div *ngIf="checkForEarPackJava()===true">
-            <div class="row form-group">
-              <div>
-                <label class="control-label col-md-3 text-right">{{'Java Modules' | translate}}
+            <div class="form-row form-group">
+                <label class="col-form-label col-md-3 ">{{'Java Modules' | translate}}
                   <span class="star">*</span>
                 </label>
-              </div>
               <div class="col-md-6 text-left">
-                <select ts-select-fix class="text-center form-control" id="bdamdantjmsl" name="javaListEJB" [(ngModel)]="buildInfo.javaModules"
+                <select ts-select-fix class=" form-control" id="bdamdantjmsl" name="javaListEJB" [(ngModel)]="buildInfo.javaModules"
                   style="width:50%" required>
                   <option value="">---Select---</option>
                   <option *ngFor="let java of tempObject.javalist" value="{{java+'.jar'}}">{{java+'.jar'}}</option>
@@ -533,15 +617,13 @@
             <div *ngIf="setJavaModules()"></div>
           </div>
           <div *ngIf="checkForEarPackEJB()===true">
-            <div class="row form-group">
-              <div>
-                <label class="control-label col-md-3 text-right">
+            <div class="form-row form-group">
+                <label class="col-form-label col-md-3 ">
                   Ejb Modules
                   <span class="star">*</span>
                 </label>
-              </div>
               <div class="col-md-6 text-left">
-                <select ts-select-fix class="dropdowmWidth3col text-center form-control" id="bdamdantejbsl" name="EJBListEJB" [(ngModel)]="buildInfo.ejbModules"
+                <select ts-select-fix class="dropdowmWidth3col  form-control" id="bdamdantejbsl" name="EJBListEJB" [(ngModel)]="buildInfo.ejbModules"
                   style="width:50%" required>
                   <option value="">---select---</option>
                   <option *ngFor="let ejb of tempObject.ejbList" value="{{ejb+ '.jar'}}">{{ejb + '.jar'}}</option>
@@ -553,14 +635,12 @@
             <div *ngIf="setEjbModules()"></div>
           </div>
           <div *ngIf="checkForEarPackWAR()===true">
-            <div class="row form-group">
-              <div>
-                <label class="control-label col-md-3 text-right">Web Modules
+            <div class="form-row form-group">
+                <label class="col-form-label col-md-3 ">Web Modules
                   <span class="star">*</span>
                 </label>
-              </div>
               <div class="col-md-6 text-left">
-                <select ts-select-fix class="dropdowmWidth3col text-center form-control" id="bdamdantwmsl" name="warListEJB" [(ngModel)]="buildInfo.webModules"
+                <select ts-select-fix class="dropdowmWidth3col  form-control" id="bdamdantwmsl" name="warListEJB" [(ngModel)]="buildInfo.webModules"
                   style="width:50%" required>
                   <option value="">---Select---</option>
                   <option *ngFor="let war of tempObject.warList" value="{{war+ '.war'}}">{{war + '.war'}}</option>
@@ -576,6 +656,7 @@
       <div *ngIf="tempObject.ear === 'off'">
         <div *ngIf="setwebejbjavaModules()">
         </div>
+      </div>
       </div>
     </div>
     <!-- Ear packaging end -->

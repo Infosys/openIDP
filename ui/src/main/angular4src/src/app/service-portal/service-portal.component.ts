@@ -50,7 +50,6 @@ Initialize() {
             if (response) {
 
                 this.IdpdataService.devServerURL = response.json().idpresturl;
-            // this.IdpdataService.devServerURL = "http://localhost:8889/idprest";
         this.IdpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
         // this.IdpdataService.subscriptionServerURL=  "http://localhost:8090/subscription";
 

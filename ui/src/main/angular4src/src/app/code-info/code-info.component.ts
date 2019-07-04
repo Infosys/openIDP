@@ -11,6 +11,8 @@ import { IdpService } from "../idp-service.service";
 import { IdpdataService } from "../idpdata.service";
 import { Router } from "@angular/router";
 import { ViewChild } from "@angular/core";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: "app-code-info",
@@ -19,15 +21,15 @@ import { ViewChild } from "@angular/core";
 })
 
 export class CodeInfoComponent implements OnInit {
-  @ViewChild("modalforAlert") button;
-  @ViewChild("modalforDel") DelScm;
-  @ViewChild("modalforreset") resetCodeInfo;
+  @ViewChild("modalforAlert") modalForAlert;
+  @ViewChild("DelScm") DelScm;
+  @ViewChild("modalForReset") resetCodeInfo;
   @ViewChild("modalforRepos") missRepo;
   @ViewChild("codeInfoForm") codeInfoForm;
   @ViewChild("modalforDelParam") DelJobParam;
   @ViewChild("modalforDelAntPreProperties") DelAntPreProp;
   @ViewChild("modalforDelAntPostProperties") DelAntPostProp;
-  @ViewChild("modalforDotNet") dotNetButton;
+  @ViewChild("modalforDotNet") modalforDotNet;
 
   categoryList: any;
   SCMList: any;
@@ -35,7 +37,7 @@ export class CodeInfoComponent implements OnInit {
   buildConfList: any;
   codeScriptList: any;
   reposValid = false;
-  isRepoSelected = this.IdpdataService.isRepoSelected;
+  // isRepoSelected = this.IdpdataService.isRepoSelected;
   tempObjectcode: any = this.IdpdataService.data.checkboxStatus.codeInfo;
   technologyData: any;
   shellScript: any = [];
@@ -57,29 +59,41 @@ export class CodeInfoComponent implements OnInit {
   operation: any;
   basicInfo: any = this.IdpdataService.data.basicInfo;
   antPropertis: any;
-  panelExpanded: any = [];
-
+  panelExpanded: any = [true];
+  scmDeleteModalRef: BsModalRef;
+  deleteJobParamModalRef: BsModalRef;
+  deleteAntPrePropsModalRef: BsModalRef;
+  resetCodeInfoModalRef: BsModalRef;
+  missingRepoModalRef: BsModalRef;
+  deleteAntPostPropModalRef: any;
+  dotNetModalRef: BsModalRef;
+  alertModalRef: BsModalRef;
   /*constructor start*/
   constructor(
     public IdpdataService: IdpdataService,
     private IdpService: IdpService,
     private IdprestapiService: IdprestapiService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService
   ) {
     this.checkTempObjectCreation();
-    this.codeInfo.category = "Standard";
+    // this.codeInfo.category = "Standard";
     if (this.IdpdataService.data.basicInfo.engine !== "urbanCode") {
         this.technologyData = {
         "Standard": {
             "Angular": "angular",
+          
             "Go": "go",
             "JAVA/J2EE(Ant based)": "J2EE/Ant",
             "JAVA/J2EE(Maven based)": "J2EE/Maven",
             "JAVA/J2EE(Gradle based)": "J2EE/Gradle",
             ".Net(C# based)": "dotNetCsharp",
             "Node JS": "nodeJs",
-            "Python": "python",
-          },
+            "Python":"python",
+           
+        },
+  
+        
         };
     }
     if (this.codeInfo.scm.length === 0) {
@@ -115,13 +129,7 @@ export class CodeInfoComponent implements OnInit {
         || this.formStatusObject.operation === "edit") {
         this.checkCheckBox();
     }
-    if (this.IdpdataService.isSAPApplication) {
-     this.SCMList = [{ "name": "GIT", "value": "git" }];
-     this.categoryList = [{ "name" : "Package", "value" : "Package" }];
-     this.technologyData = {
-       "Package": {"SAP": "SapNonCharm"}
-     };
-   }
+   
     if (this.codeInfo.category !== undefined && this.codeInfo.category !== "") {
         this.setDataKeys();
     }
@@ -171,16 +179,6 @@ export class CodeInfoComponent implements OnInit {
     this.technologyDatakeys = Object.keys(this.technologyData[this.codeInfo.category]);
   }
 
-  repoSelected(i) {
-    if(((this.codeInfo.scm[i].appRepo === "on")
-    || (this.codeInfo.scm[i].deployRepo === "on")
-    || (this.codeInfo.scm[i].testRepo === "on"))) {
-      this.isRepoSelected = true;
-    } else {
-      this.isRepoSelected = false;
-    }
-  }
-
   /* Clearing Tech stack and SCM details */
   clearTech() {
     this.codeInfo.technology = "";
@@ -223,13 +221,14 @@ export class CodeInfoComponent implements OnInit {
         this.tempObjectcode.scm[i] = {};
         }
         if (this.codeInfo.scm[i].type !== undefined && this.codeInfo.scm[i].type !== "") {
-        if (this.codeInfo.scm[i].appRepo === undefined) {
-            this.codeInfo.scm[i].appRepo = "on";
-        }
-        if (this.IdpdataService.isSAPApplication) {
-          this.IdpdataService.SAPScmCheck = "on";
-        }
-        this.isRepoSelected = true;
+          if (this.codeInfo.scm[i].appRepo === undefined) {
+              this.codeInfo.scm[i].appRepo = "on";
+
+          }
+          if (this.IdpdataService.isSAPApplication) {
+            this.IdpdataService.SAPScmCheck = "on";
+          }
+          // this.IdpdataService.isRepoSelected = true;
         }
         if (this.codeInfo.scm[i].exclude !== undefined
         && this.codeInfo.scm[i].exclude !== null
@@ -345,32 +344,35 @@ export class CodeInfoComponent implements OnInit {
 
   /* Deleting Job Pram Details */
   deleteJobParam(index) {
-    this.index = index;
-    this.DelJobParam.nativeElement.click();
+    this.deleteJobParamModalRef = this.modalService.show(this.DelJobParam)
+    this.deleteJobParamModalRef.content = {i:index};
   }
 
-  deleteJobParamConfirm() {
-    this.codeInfo.jobParam.splice(this.index, 1);
+  deleteJobParamConfirm(index) {
+    this.codeInfo.jobParam.splice(index, 1);
+    this.deleteJobParamModalRef.hide();
   }
 
   /* Deleing Ant pre-build */
   deleteAntPreProp(index) {
-    this.index = index;
-    this.DelAntPreProp.nativeElement.click();
-  }
+    this.deleteAntPrePropsModalRef = this.modalService.show(this.DelAntPreProp);
+    this.deleteAntPrePropsModalRef.content = {i:index};
+   }
 
-  deleteAntPrePropConfirm() {
-    this.codeInfo.buildScript[0].antPropertiesArr.splice(this.index, 1);
+  deleteAntPrePropConfirm(index) {
+    this.codeInfo.buildScript[0].antPropertiesArr.splice(index, 1);
+    this.deleteAntPrePropsModalRef.hide();
   }
 
   /* Deleting Ant post build */
   deleteAntPostProp(index) {
-    this.index = index;
-    this.DelAntPostProp.nativeElement.click();
+    this.deleteAntPostPropModalRef = this.modalService.show(this.DelAntPostProp);
+    this.deleteAntPostPropModalRef.content = {i:index};
   }
 
-  deleteAntPostPropConfirm() {
-    this.codeInfo.buildScript[1].antPropertiesArr.splice(this.index, 1);
+  deleteAntPostPropConfirm(index) {
+    this.codeInfo.buildScript[1].antPropertiesArr.splice(index, 1);
+    this.deleteAntPostPropModalRef.hide();
   }
 
   /* Checking for unique Job Param Details */
@@ -509,11 +511,7 @@ export class CodeInfoComponent implements OnInit {
     * setting build tool
     */
   selectedTech() {
-    if (this.codeInfo.technology === "SapNonCharm") {
-      this.IdpdataService.sapNewFlag = true;
-    } else {
-      this.IdpdataService.sapNewFlag = false;
-    }
+    
     this.codeInfo.scm = [{}];
     if (this.codeInfo.technology !== undefined && this.codeInfo.technology !== null) {
         if (this.codeInfo.technology === "dotNetCsharp"
@@ -532,26 +530,17 @@ export class CodeInfoComponent implements OnInit {
         this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
         this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
         }
+        if (this.codeInfo.technology === "J2EE/Gradle") {
+          this.buildInfo.buildtool = "java_gradle";
+          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
+          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
+          }
         if (this.codeInfo.technology === "Go") {
           this.buildInfo.buildtool = "go";
           this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
           this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
         }
-        if (this.codeInfo.technology === "bigData") {
-          this.buildInfo.buildtool = "bigData";
-          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
-          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
-        }
-        if (this.codeInfo.technology === "php") {
-          this.buildInfo.buildtool = "php";
-          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
-          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
-        }
-        if (this.codeInfo.technology === "maximo") {
-          this.buildInfo.buildtool = "maximo";
-          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
-          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
-        }
+       
         if (this.codeInfo.technology !== "dotNetCsharp"
         && this.codeInfo.technology !== "dotNetVb"
         && this.codeInfo.technology !== "J2EE/Ant"
@@ -561,13 +550,6 @@ export class CodeInfoComponent implements OnInit {
         this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
         this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
         }
-
-        if (this.codeInfo.technology === "J2EE/Gradle") {
-          this.buildInfo.buildtool = "java_gradle";
-          this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
-          this.IdpdataService.data.formStatus.buildInfo.buildToolStatus = "1";
-          }
-
         if (this.codeInfo.technology === 'androidGradle') {
           this.buildInfo.buildtool = 'gradle';
           this.IdpdataService.data.buildInfo.buildtool = this.buildInfo.buildtool;
@@ -586,7 +568,7 @@ export class CodeInfoComponent implements OnInit {
         if ((this.codeInfo.technology === "dotNetCsharp"
         || this.codeInfo.technology === "dotNetVb")
         && this.basicInfo.buildServerOS !== "windows") {
-        this.dotNetButton.nativeElement.click();
+        this.dotNetModalRef = this.modalService.show(this.modalforDotNet);
         this.codeInfo.technology = "";
         }
     }
@@ -611,12 +593,13 @@ export class CodeInfoComponent implements OnInit {
     this.tempObjectcode.scm.push({});
   }
   /* Deletion of SCM */
-  deleteItem(index) {
-    this.index = index;
-    this.DelScm.nativeElement.click();
+  deleteSCM(index) {
+    this.scmDeleteModalRef = this.modalService.show(this.DelScm,{initialState:{id:index}});
+    this.scmDeleteModalRef.content = {i:index};
   }
-  deleteItemConfirm() {
-    this.codeInfo.scm.splice(this.index, 1);
+  confirmDeleteScm(index) {
+    this.codeInfo.scm.splice(index, 1);
+    this.scmDeleteModalRef.hide();
   }
   clearViews() {
     this.IdpdataService.data.buildInfo = {
@@ -655,41 +638,53 @@ export class CodeInfoComponent implements OnInit {
     }
     this.IdpdataService.data.code = this.codeInfo;
     this.IdpdataService.data.checkboxStatus.codeInfo = {};
-    this.IdpdataService.isRepoSelected = false;
+    // this.IdpdataService.isRepoSelected = false;
     this.addItem();
     this.tempObjectcode = this.IdpdataService.data.checkboxStatus.codeInfo;
   }
   resetData() {
-    this.resetCodeInfo.nativeElement.click();
+    this.resetCodeInfoModalRef = this.modalService.show(this.resetCodeInfo);
   }
   /* Getting all data
    * and saving in Idpdata and sending it to backend
    */
   go() {
-    if (this.IdpdataService.isSAPApplication) {
-      this.IdpdataService.data.code = this.codeInfo;
-      this.IdpdataService.data.masterJson["code"] = this.codeInfo;
-      this.router.navigate(["/createConfig/buildInfo"]);
-    } else if (this.validateReposCheckBox()) {
-        this.IdpdataService.data.code = this.codeInfo;
-        this.IdpdataService.isRepoSelected = this.isRepoSelected
-        this.IdpdataService.data.masterJson["code"] = this.codeInfo;
-        this.router.navigate(["/createConfig/buildInfo"]);
-    } else {
-        this.missRepo.nativeElement.click();
-    }
+   
+        if (this.validateReposCheckBox()) {
+          this.navigateToBuild();
+        } else {
+          this.missingRepoModalRef = this.modalService.show(this.missRepo);
+        }
+     
   }
+
+  navigateToBuild() {
+    this.IdpdataService.data.code = this.codeInfo;
+    this.IdpdataService.data.masterJson["code"] = this.codeInfo;
+    this.router.navigate(["/createConfig/buildInfo"]);
+  }
+
   ngOnInit() {
     if (this.IdpdataService.data.formStatus.basicInfo.appNameStatus === "0") {
-        this.button.nativeElement.click();
+      this.alertModalRef = this.modalService.show(this.modalForAlert);
     }
+    window.scroll(0,0);
   }
-  redirectToBasicInfo() {
+  redirectToBasicInfo(modalRef) {
+    modalRef.hide();
     this.router.navigate(["/createConfig/basicInfo"]);
   }
 
   setFormStatus(data) {
     this.IdpdataService.allFormStatus.codeInfo = data;
+  }
+  changeLocalName(i){
+    console.log(this.codeInfo.scm[i].moduleName);
+    let remoteName : String = this.codeInfo.scm[i].moduleName;
+    remoteName = remoteName.replace(new RegExp('/' , 'g'),'_');
+    this.codeInfo.scm[i].localName = remoteName + '_' + (i+1);
+    console.log(remoteName);
+
   }
 
   /* Clearing SCM fields */
@@ -733,19 +728,34 @@ export class CodeInfoComponent implements OnInit {
     this.codeInfo.scm[i].testRepo = "";
     this.codeInfo.scm[i].deployRepo = "";
   }
-  initAppCode(i) {
-    this.codeInfo.scm[i].appRepo = "on";
-  }
+  // initAppCode(i) {
+  //   this.codeInfo.scm[i].appRepo = "on";
+  // }
+  
+  // repoSelected(i) {
+  //   if(((this.codeInfo.scm[i].appRepo === "on")
+  //   || (this.codeInfo.scm[i].deployRepo === "on")
+  //   || (this.codeInfo.scm[i].testRepo === "on"))) {
+  //     this.IdpdataService.isRepoSelected = true;
+  //   } else {
+  //     this.IdpdataService.isRepoSelected = false;
+  //  }
+    //}
+
   validateReposCheckBox() {
+
     for (let i = 0; i < this.codeInfo.scm.length; i++) {
+      // this.panelExpanded[i] = 'glyphicon glyphicon-minus';
         if (((this.codeInfo.scm[i].appRepo === "on")
         || (this.codeInfo.scm[i].deployRepo === "on")
         || (this.codeInfo.scm[i].testRepo === "on"))) {
-        this.reposValid = true;
-        this.isRepoSelected = true;
+
+              this.reposValid = true;
+              // this.IdpdataService.isRepoSelected = true;
+            // }
         } else {
         this.reposValid = false;
-        this.isRepoSelected = false;
+        // this.IdpdataService.isRepoSelected = false;
         this.setFormStatus(false);
         return this.reposValid;
         }
@@ -756,5 +766,5 @@ export class CodeInfoComponent implements OnInit {
     this.panelExpanded[index] = !this.panelExpanded[index];
     return true;
   }
-  
+
 }

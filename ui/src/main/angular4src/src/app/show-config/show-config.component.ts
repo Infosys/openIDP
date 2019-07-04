@@ -6,13 +6,17 @@
 *
 **/
 import { Component, OnInit, NgModule, ViewChild } from "@angular/core";
-import { TranslateService } from "ng2-translate";
+import { TranslateService } from "@ngx-translate/core";
 import { IdpService } from "../idp-service.service";
 import { IdprestapiService } from "../idprestapi.service";
 import { Router } from "@angular/router";
 import { IdpdataService } from "../idpdata.service";
 import { CookieService } from "ngx-cookie";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 import { NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, NgTableSortingDirective } from "ng2-table/ng2-table";
+import {DatePipe} from "@angular/common";
 @Component({
   selector: "app-show-config",
   templateUrl: "./show-config.component.html",
@@ -21,7 +25,7 @@ import { NgTableComponent, NgTableFilteringDirective, NgTablePagingDirective, Ng
 
 export class ShowConfigurationsComponent implements OnInit {
   @ViewChild ("modalforAlertconfig") button;
-  @ViewChild ("modalforDelete") buttonDel;
+  @ViewChild ("modalforDelete") modalforDelete;
   @ViewChild ("modalforDeleteAlert") msgAlertDel;
   reqData: any;
   schedule: any;
@@ -41,7 +45,7 @@ export class ShowConfigurationsComponent implements OnInit {
     { title: "Copy", name: "copy", sort: false },
     { title: "Edit", name: "edit", sort: false },
     { title: "Delete", name: "delete", sort: false },
-    // { title: "Approve Artifacts", name: "approve", sort: false }
+
   ];
   public page = 1;
   public itemsPerPage = 10;
@@ -52,18 +56,24 @@ export class ShowConfigurationsComponent implements OnInit {
     paging: true,
     sorting: { columns: this.columns },
     filtering: { filterString: "" },
-    className: ["table-striped", "table-bordered"]
+    className: ["table-striped"]
   };
+  modalforDeleteRef: BsModalRef;
+   modalForSuccessRef: BsModalRef;
   public constructor(
     private idpdataService: IdpdataService,
     private IdpService: IdpService,
     private IdprestapiService: IdprestapiService,
     private router: Router,
-    private _cookieService: CookieService
+    private _cookieService: CookieService,
+    private modalService: BsModalService,
+    private datePipe:DatePipe
   ) {
-    this.idpdataService.schedulePage = false;
+      this.idpdataService.schedulePage = false;
     this.idpdataService.data = JSON.parse(JSON.stringify(this.idpdataService.template));
     this.idpdataService.operation = "";
+    this.idpdataService.appName = "";
+	this.idpdataService.isRmsApp =false;
     // workflow remove
     this.idpdataService.workflowData = [];
     this.idpdataService.workflowDataTemp = [];
@@ -74,8 +84,13 @@ export class ShowConfigurationsComponent implements OnInit {
         .then(response => {
         try {
             if (response) {
-           this.idpdataService.devServerURL = response.json().idpresturl;
+            this.idpdataService.devServerURL = response.json().idpresturl;
+            
             this.idpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
+            this.idpdataService.buildUT = response.json().sapCharmBuildUT; //"In Development,To Be Tested";
+			
+            this.idpdataService.buildCA = response.json().sapCharmBuildCA; //"To Be Tested,Successfully Tested";
+            this.idpdataService.buildCAUT = response.json().sapCharmBuildCAUT; //"In Development,To Be Tested,Successfully Tested";
             this.idpdataService.IDPDashboardURL = response.json().idpdashboardurl;
             this.idpdataService.IDPLink = response.json().IDPLink;
             this.idpdataService.geUrl = response.json().geUrl;
@@ -187,10 +202,10 @@ export class ShowConfigurationsComponent implements OnInit {
 const indexStart = data.row.pipelineName.indexOf(">") + 1;
     const indexEnd = data.row.pipelineName.indexOf("</");
     const pName = data.row.pipelineName.substring(indexStart, indexEnd);
+    let reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
     if (data.column === "pipelineName") {
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
-        this.idpdataService.pipelineName = this.reqData.pipelineName;
-      this.idpdataService.appName = this.reqData.applicationName;
+        this.idpdataService.pipelineName = reqData.pipelineName;
+      this.idpdataService.appName = reqData.applicationName;
       this.stageView();
     }
     if (data.column === "trigger") {
@@ -201,19 +216,17 @@ const indexStart = data.row.pipelineName.indexOf(">") + 1;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
-     this.idpdataService.pipelineName = this.reqData.pipelineName;
-    this.idpdataService.appName = this.reqData.applicationName;
+     this.idpdataService.pipelineName = reqData.pipelineName;
+    this.idpdataService.appName = reqData.applicationName;
     if (data.column === "trigger" && trigger) {
-        this.trigger();
+        this.trigger(reqData);
     }
     }
     if (data.column === "schedule") {
         this.idpdataService.schedulePage = true;
-      this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
-     this.idpdataService.pipelineName = this.reqData.pipelineName;
-      this.idpdataService.appName = this.reqData.applicationName;
-        this.trigger();
+     this.idpdataService.pipelineName = reqData.pipelineName;
+      this.idpdataService.appName = reqData.applicationName;
+        this.trigger(reqData);
     }
     if (data.column === "copy" || data.column === "edit") {
         let copy = true;
@@ -225,11 +238,10 @@ const indexStart = data.row.pipelineName.indexOf(">") + 1;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
         if (data.column === "copy" && copy) {
-        this.copyEdit(data.column);
+        this.copyEdit(data.column,reqData);
         } else if (data.column === "edit" && edit) {
-        this.copyEdit(data.column);
+        this.copyEdit(data.column,reqData);
         }
     }
     if (data.column === "delete") {
@@ -240,9 +252,8 @@ const indexStart = data.row.pipelineName.indexOf(">") + 1;
             break;
         }
         }
-        this.reqData = { "applicationName": data.row.applicationName, "pipelineName": pName, "userName": this.idpdataService.idpUserName };
         if (data.column === "delete" && delete1) {
-        this.deleteAlert();
+        this.deleteAlert(reqData);
         }
     }
 
@@ -268,11 +279,12 @@ stageView() {
         this.router.navigate(["/previousConfig/stageviewHistory"]);
     }
 
-  trigger() {
-    this.trigger1();
+  trigger(reqData) {
+    this.checkApplicationType(reqData);
+    this.trigger1(reqData);
   }
-  trigger1() {
-    this.IdprestapiService.triggerJob(this.reqData)
+  trigger1(reqData) {
+    this.IdprestapiService.triggerJob(reqData)
         .then(response => {
         try {
             if (response) {
@@ -300,16 +312,44 @@ stageView() {
             } else {
                 this.idpdataService.checkPausedBuilds = false;
             }
-            if (this.idpdataService.triggerJobData.applicationName) {
+                if (this.idpdataService.triggerJobData.hasOwnProperty("systemNames")
+                || this.idpdataService.triggerJobData.hasOwnProperty("userStory")) {
+                    this.idpdataService.isSAPApplication = true;
+                    if (this.idpdataService.triggerJobData.systemNames) {
+                        if (this.idpdataService.triggerJobData.systemNames.length !== 0) {
+                            this.idpdataService.checkpollALM = false;
+                        } else {
+                            alert("Failed to get SAP System Names");
+                        }
+                    } else {
+                        this.idpdataService.checkpollALM = true;
+                    }
+                }
+                if (this.idpdataService.triggerJobData.applicationName) {
                 const applicationName = this.idpdataService.triggerJobData.applicationName;
-            }
-            if (this.idpdataService.triggerJobData.releaseNumber !== null
+                    if (this.idpdataService.isSAPApplication) {
+                        this.IdprestapiService.getLandscapesForSap(applicationName).then(response => {
+                            if (response) {
+                                if (response.json().resource !== "{}" && response.json().resource !== null) {
+                                    const temp = response.json().resource;
+                                    this.idpdataService.SAPEnvList = JSON.parse(temp).landscapes;
+                                } else {
+                                    alert("Failed to get landscapes Names");
+                                }
+
+                            } else {
+                                alert("Failed to get landscapes Names");
+                            }
+                        });
+                    }
+                }
+              if (this.idpdataService.triggerJobData.releaseNumber !== null
                  && this.idpdataService.triggerJobData.releaseNumber.length !== 0) {
                 if (this.idpdataService.triggerJobData.technology !== undefined &&
                     this.idpdataService.triggerJobData.technology === "workflow" &&
                     this.idpdataService.triggerJobData.pipelines !== undefined && this.idpdataService.triggerJobData.pipelines.length > 0) {
                       this.idpdataService.workflowTrigger = true;
-                      this.router.navigate(["/previousConfig/workflowInfo"]);
+                      this.router.navigate(["/previousConfig/workflowInfo"],{queryParams:{applicationName:reqData.applicationName,pipelineName:reqData.pipelineName}});
                     } else if (this.idpdataService.checkPausedBuilds === true) {
                 if (this.idpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1
                 && (this.isBuild === true || this.isDeploy === true)) {
@@ -338,9 +378,9 @@ stageView() {
             const x = confirm("Please ensure slave is launched");
             if (x) {
                 if (this.idpdataService.schedulePage === true) {
-                this.router.navigate(["/previousConfig/schedule"]);
+                this.router.navigate(["/previousConfig/schedule"],{queryParams:{applicationName:reqData.applicationName,pipelineName:reqData.pipelineName}});
                 } else {
-                this.router.navigate(["/previousConfig/trigger"]);
+                this.router.navigate(["/previousConfig/trigger"],{queryParams:{applicationName:reqData.applicationName,pipelineName:reqData.pipelineName}});
                 }
             }
             }
@@ -361,26 +401,51 @@ stageView() {
         });
   }
 
-  copyEdit(operation) {
+  copyEdit(operation,reqData) {
     this.idpdataService.operation = operation;
-    localStorage.setItem("appName", this.reqData.applicationName);
-    localStorage.setItem("pipeName", this.reqData.pipelineName);
-    const data = this.reqData.applicationName;
+    localStorage.setItem("appName", reqData.applicationName);
+    localStorage.setItem("pipeName", reqData.pipelineName);
+    const data = reqData.applicationName;
+    this.checkApplicationType(reqData);
     this.router.navigate(["createConfig/basicInfo"]);
+  }
+  checkApplicationType(reqData) {
+    const data = reqData.applicationName;
+    this.IdprestapiService.checkForApplicationType(data).then(response => {
+      try {
+        if (response) {
+          if (response.json().errorMessage === null && response.json().resource !== "") {
+            if (response.json().resource === "true") {
+              this.idpdataService.isSAPApplication = true;
+            } else {
+                this.idpdataService.isSAPApplication = false;
+            }
+          } else {
+            alert("Failed to verify application Type");
+          }
+        }
+      } catch (e) {
+        alert("Failed during verifying the application type");
+      }
+      this.idpdataService.loading = false;
+
+    });
   }
   TriggerAlert() {
     this.button.nativeElement.click();
   }
-  deleteAlert() {
-    this.buttonDel.nativeElement.click();
+  deleteAlert(data) {
+    this.modalforDeleteRef = this.modalService.show(this.modalforDelete);
+    this.modalforDeleteRef.content = data;
   }
 
-  delete() {
-    this.IdprestapiService.deletePipeline(this.reqData)
+  delete(modalRef) {
+    modalRef.hide();
+          this.IdprestapiService.deletePipeline(modalRef.content)
         .then(response => {
         try {
         if (response) {
-            this.msgAlert();
+            this.msgAlert(modalRef.content);
             this.getPipelineData();
         }
         } catch (e) {
@@ -390,8 +455,9 @@ stageView() {
         });
   }
 
-  msgAlert() {
-    this.msgAlertDel.nativeElement.click();
+  msgAlert(data) {
+    this.modalForSuccessRef = this.modalService.show(this.msgAlertDel);
+    this.modalForSuccessRef.content = data;
   }
 
   getPipelineData() {
@@ -406,72 +472,122 @@ stageView() {
                 const maindata = JSON.parse(data).pipelineDetails;
                 if (maindata && maindata.length !== 0) {
                 for (let i = 0; i < maindata.length; i++) {
-                    this.idpdataService.pipelineData.push(maindata[i]);
+                maindata[i].creationDate = maindata[i].creationDate;
+                this.idpdataService.pipelineData.push(maindata[i]);
                       const tempPipeName = maindata[i].pipelineName;
-                      this.idpdataService.pipelineData[i].creationDate = '<div class="text-center field-tip">' + maindata[i].creationDate + "</div>";
                 const permissions = maindata[i].permissions;
                 const triggerPipeline = (permissions.indexOf("BUILD") === -1
                     && permissions.indexOf("DEPLOY") === -1 && permissions.indexOf("TEST") === -1) ? false : true;
                 const copyPipeline = (permissions.indexOf("COPY_PIPELINE") === -1) ? false : true ;
                 const editPipeline = (permissions.indexOf("EDIT_PIPELINE") === -1) ? false : true ;
                 const deletePipeline = (permissions.indexOf("DELETE_PIPELINE") === -1) ? false : true ;
-                const schedulePipeline = (permissions.indexOf("PIPELINE_ADMIN") === -1) ? false : true ;
                 const approveRelease = (this.idpdataService.role.indexOf("ENVIRONMENT_OWNER") === -1 ||
                     maindata[i].buildTool === "SapNonCharm" || maindata[i].buildTool === "workflow") ? false : true ;
-                      this.idpdataService.pipelineData[i].pipelineName = "<a style=\"cursor:pointer\">" + tempPipeName + "</a>";
-                this.idpdataService.pipelineData[i].creationDate =  '<div class="text-center field-tip">' + maindata[i].creationDate + "</div>";
-                this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
-                    "src=\"assets/images/build_now.png\"" +
-                    "id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image'  /></div>";
+                this.idpdataService.pipelineData[i].pipelineName = "<a style=\"cursor:pointer\">" + tempPipeName + "</a>";
+                this.idpdataService.pipelineData[i].trigger = '<div class="text-center field-tip">'+ maindata[i].creationDate +'</div>';
+                this.idpdataService.pipelineData[i].trigger = '<div class="text-center field-tip"><input TYPE="image" src="assets/images/build_now.png" id="TBN" name="TBN"  /></div>';
                 this.idpdataService.pipelineData[i].copyFlag = copyPipeline;
                 this.idpdataService.pipelineData[i].editFlag = editPipeline;
                 this.idpdataService.pipelineData[i].deleteFlag = deletePipeline;
                 this.idpdataService.pipelineData[i].approveFlag = approveRelease;
                 this.idpdataService.pipelineData[i].triggerFlag = triggerPipeline;
-                this.idpdataService.pipelineData[i].schedulePipeline = schedulePipeline;
                 if (copyPipeline) {
-                    this.idpdataService.pipelineData[i].copy = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\"  alt='Copy Pipeline Image' /></div>";
+                    this.idpdataService.pipelineData[i].copy =
+                      `<div class="text-center">
+                          <button class="btn bg-transparent">
+                            <img class="idp-icon" src="assets/img/icon/copy.svg" alt="copyPipelineBtn"/>
+                          </button>
+                       </div>`;
                 } else {
-                this.idpdataService.pipelineData[i].copy = "<div class=\"text-center field-tip\"" +
-                    "style=\"cursor:not-allowed\"><input style=\"cursor:not-allowed;opacity:0.4\" TYPE=\"image\"" +
-                    "readonly [disabled]=\"true\" src=\"assets/images/copy_job.png\" id=\"TBN\" name=\"TBN\" alt='Copy Pipeline Image' />" +
-                    "<span class=\"tip-content hover-tip-content-copy text-center\" style=\"z-index: 1;cursor:not-allowed;width:90%;zoom:85%;\">" +
-                    "Copy pipeline is not available </span></div>";
+                this.idpdataService.pipelineData[i].copy =
+                  `<div class="field-tip" style="cursor:not-allowed">
+                    <button [disabled]="true" class="btn bg-transparent">
+                    <i  class="fa fa-icon fa-2x fa-copy text-secondary"></i>
+                    </button>
+                    <span class="tip-content hover-tip-content-copy text-center" style="z-index: 1;cursor:not-allowed;width:90px;zoom:83%;">
+                        "Copy pipeline is not available </span>
+                    </div>`;
                 }
 
                 if (editPipeline) {
-                    this.idpdataService.pipelineData[i].edit = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\" alt='Edit Pipeline Image' /></div>";
+                    this.idpdataService.pipelineData[i].edit =
+                      `<div class=\"text-center \">
+                            <button class="btn bg-transparent">
+                                <img class="idp-icon" src="assets/img/icon/edit.svg" alt="editPipelineBtn"/>
+                            </button>
+                        </div>`;
                 } else {
-                this.idpdataService.pipelineData[i].edit = "<div class=\"text-center field-tip\"" +
-                    "style=\"cursor:not-allowed\"><input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\"" +
-                    "readonly [disabled]=\"true\"  src=\"assets/images/edit.png\" id=\"TBN\" name=\"TBN\" alt='Edit Pipeline Image' /><span class=\"" +
-                    "tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:82%;zoom:86%;\">" +
-                    "Edit pipeline is not available </span></div>";
+                this.idpdataService.pipelineData[i].edit = `<div class="field-tip" style="cursor:not-allowed">
+                   <button [disabled]="true" class="btn bg-transparent">
+                   <i  class="fa fa-icon fa-2x fa-edit text-secondary"></i>
+                   </button>
+                     <span class="tip-content text-center" style="z-index: 1;cursor:not-allowed;width:70px;zoom:80%;">
+                     Edit pipeline is not available 
+                     </span>
+                   </div>`;
                 }
                 if (deletePipeline) {
-                    this.idpdataService.pipelineData[i].delete = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\" alt='Delete Pipeline Image' /></div>";
+                    this.idpdataService.pipelineData[i].delete =
+                      `<div class="text-center">
+                            <button class="btn bg-transparent">
+                                <img class="idp-icon" src="assets/img/icon/delete.svg" alt="deletePipelineBtn"/>
+                            </button>
+                       </div>`;
                 } else {
-                    this.idpdataService.pipelineData[i].delete = "<div class=\"text-center field-tip\"" +
-                    "style=\"cursor:not-allowed\"><input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\"" +
-                    "readonly [disabled]=\"true\" src=\"assets/images/removeBtn.png\" id=\"TBN\" name=\"TBN\"  alt='Delete Pipeline Image' />" +
-                    "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:82%;zoom:86%;\">" +
-                        "Delete pipeline is not available </span></div>";
+                    this.idpdataService.pipelineData[i].delete =
+                      `<div class=" field-tip" style="cursor:not-allowed">
+                            <button [disabled]="true" class="btn bg-transparent">
+                            <i   class="fa fa-icon fa-2x fa-trash text-secondary"></i>
+                            </button>
+                            <span  class="tip-content text-center" style="z-index: 1;cursor:not-allowed;width:78px;zoom:83%;">
+                                Delete pipeline is not available 
+                            </span>
+                        </div>`;
+                }
+
+                if (approveRelease) {
+                    this.idpdataService.pipelineData[i].approve =
+                      `<div class="text-center">
+                            <button class="btn bg-transparent">
+                            <i class="fa fa-icon fa-2x fa-check-circle text-primary"></i>
+                            </button>
+                        </div>`;
+                } else {
+                    this.idpdataService.pipelineData[i].approve =
+                      `<div class="field-tip text-center" style="cursor:not-allowed">
+                         <button [disabled]="true" class="btn bg-transparent">
+                            <img class="idp-icon" src="assets/img/icon/success_messages.svg" alt="successBtn"/>
+                         </button>
+                          <span  class="tip-content text-center" style="z-index: 1;cursor:not-allowed;width:82%;zoom:86%;">
+                          Approve artifacts is not available 
+                          </span>
+                        </div>`;
                 }
                 if (triggerPipeline) {
-                this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\"><input TYPE=\"image\"" +
-                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image' /></div>";
+                this.idpdataService.pipelineData[i].trigger =
+                  `<div class="text-center field-tip">
+                        <button class="btn bg-transparent">
+                        <img class="idp-icon" src="assets/img/icon/trigger.svg" alt="trigger"/>
+                        </button>
+                    </div>`;
                 } else {
-                    this.idpdataService.pipelineData[i].trigger = "<div class=\"text-center field-tip\" style=\"cursor:not-allowed\" >" +
-                    "<input TYPE=\"image\" style=\"cursor:not-allowed;opacity:0.4\" readonly [disabled]=\"true\"" +
-                    "src=\"assets/images/build_now.png\" id=\"TBN\" name=\"TBN\" alt='Trigger Pipeline Image' />" +
-                        "<span  class=\"tip-content text-center\" style=\"z-index: 1;cursor:not-allowed;width:70%;zoom:92%;\">" +
-                        "Trigger is not allowed for this user.</span></div>";
+                    this.idpdataService.pipelineData[i].trigger =
+                      `<div class="field-tip" style="cursor:not-allowed" >
+                        <button [disabled]="true" class="btn bg-transparent">
+                        <i class="fa fa-icon fa-2x fa-play-circle text-secondary"></i>
+                        </button>
+                        <span  class="tip-content text-center" style="z-index: 1;cursor:not-allowed;width:70px;zoom:80%">
+                        Trigger is not allowed for this user.</span>
+                        </div>`;
                 }
-                this.idpdataService.pipelineData[i].schedule = "<div class=\"text-center \"><input TYPE=\"image\"" +
-                    "src=\"assets/images/schedule.png\" id=\"TBN\" name=\"TBN\" alt='Schedule Pipeline Image' /></div>";
+
+
+        this.idpdataService.pipelineData[i].schedule =
+          `<div class=\"text-center \">
+            <button class="btn bg-transparent">
+                <img class="idp-icon" src="assets/img/icon/schedule.svg" alt="schedulePipelineBtn"/>
+            </button>
+           </div>`;
                 }
                 this.data = this.idpdataService.pipelineData;
                 this.length = this.data.length;

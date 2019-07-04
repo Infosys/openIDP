@@ -5,17 +5,13 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<app-idpheader></app-idpheader>
-<div>
-<div *ngIf="!updateConfigShow() || (updateConfigShow() && IdpdataService.freezeNavBars)">
-  <app-idp-nav-bar ></app-idp-nav-bar>
-</div>
-  
- <div *ngIf="updateConfigShow() && !IdpdataService.freezeNavBars" class="col-md-2" style="margin-top: 150px;">
+<div class="d-flex flex-column" style="margin-top: 130px;">
+  <div class="col-12 well align-self-center" *ngIf="!updateConfigShow() || (updateConfigShow() && IdpdataService.freezeNavBars)" style=" position: fixed; z-index: 9;top: 94px; ">
+    <app-idp-nav-bar></app-idp-nav-bar>
   </div>
-<div class="col-md-8">
-    
-  <router-outlet></router-outlet>
+  <div *ngIf="updateConfigShow() && !IdpdataService.freezeNavBars" class="col-md-2" style="margin-top: 150px;">
+  </div>
+  <div >
+    <router-outlet></router-outlet>
+  </div>
 </div>
-</div>
-

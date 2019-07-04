@@ -9,7 +9,7 @@ while [ "$status" != true ]
  do
   	echo "Waiting for Config Server to start. Sleeping for 5 sec ....."
 	sleep 5	
-	wget -q -O - ${PROTOCOL}://${CONFIG_HOSTNAME}:${CONFIG_PORT}/idpoauth/paas --user=${CONFIG_USERNAME} --password=${CONFIG_PASSWORD} --no-check-certificate
+	wget -q -O - http://${CONFIG_HOSTNAME}:${CONFIG_PORT}/idpoauth/paas --user=${CONFIG_USERNAME} --password=${CONFIG_PASSWORD} --no-check-certificate
 	if [ $? -ne 0 ]
 	then 
 		status="false"
@@ -22,7 +22,7 @@ while [ "$status" != true ]
  do
   	echo "Waiting for Keycloak Server to start. Sleeping for 5 sec ....."
 	sleep 5	
-	wget -q -O - ${PROTOCOL}://${KEYCLOAK_HOSTNAME}:${KEYCLOAK_PORT}/auth --no-check-certificate
+	wget -q -O - ${PROTOCOL}://${KEYCLOAK_HOSTNAME}${KEYCLOAK_PORT}/auth --no-check-certificate
 	if [ $? -ne 0 ]
 	then 
 		status="false"
@@ -57,3 +57,4 @@ else
 	echo "Starting IDP Services in non-secure mode"
 	java -jar -Djava.security.egd=file:/dev/./urandom $(dirname $0)/idpoauth.jar 
 fi
+

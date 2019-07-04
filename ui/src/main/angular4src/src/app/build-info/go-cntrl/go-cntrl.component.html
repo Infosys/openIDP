@@ -1,14 +1,13 @@
 <form [parentFormConnect]="formName">
   <div class="animate-switch-container">
     <div class="animate-switch">
-      <div class="panel panel-default">
-        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white"> <b> {{'Go Project Details'|translate}}</b>
+      <div class="card">
+        <div class="card-header panelHeadingBackground" style=""> <b> {{'Go Project Details'|translate}}</b>
         </div>
-        <div class="panel-body">
-          <div class="row form-group ">
-            <div class="col-md-3 text-right "> <label class="control-label"> Project Name </label> <span class="star">*</span>
-            </div>
-            <div class="col-md-9 text-left field-tip"> <input class="form-control txtbox boxWidth" name="projectNameField" #projectNameField="ngModel" [(ngModel)]="buildInfo.modules[0].moduleName" [ngModelOptions]="{standalone: true}" pattern="^[a-zA-Z0-9\-\_\.]+$" type="text" id="bdbogopntf" placeholder="Project1" minlength="1" maxlength="150" required>
+        <div class="card-body">
+          <div class="form-row form-group ">
+              <label class="col-md-3 col-form-label"> Project Name <span class="star">*</span></label>
+            <div class="col-md-9 text-left field-tip"> <input class="form-control  boxWidth" name="projectNameField" #projectNameField="ngModel" [(ngModel)]="buildInfo.modules[0].moduleName" [ngModelOptions]="{standalone: true}" pattern="^[a-zA-Z0-9\-\_\.]+$" type="text" id="bdbogopntf" placeholder="Project1" minlength="1" maxlength="150" required>
               <div *ngIf="projectNameField.errors && (projectNameField.dirty || projectNameField.touched)" class="alert alert-danger ">
                 <div [hidden]="!projectNameField.errors.required">
                   This Field Name is required!
@@ -23,12 +22,12 @@
               <span class="tip-content">Name of the Project</span>
             </div>
           </div>
-          <div class="row form-group">
-            <div> <label class="col-md-3 control-label">
+          <div class="form-row form-group">
+            <label class="col-md-3 col-form-label">
                               {{'Project path'|translate}} <span style="color:red">*</span>
-                            </label> </div>
+                            </label>
             <div class="col-md-9 field-tip">
-              <input class="form-control txtbox" name="projectPathField" #projectPathField="ngModel" [(ngModel)]="buildInfo.modules[0].relativePath" [ngModelOptions]="{standalone: true}" type="text" id="bdbogopptf" placeholder="Main" minlength="1" maxlength="150" pattern="^[a-zA-Z_.0-9\.-\s\/\\]+$" required />
+              <input class="form-control " name="projectPathField" #projectPathField="ngModel" [(ngModel)]="buildInfo.modules[0].relativePath" [ngModelOptions]="{standalone: true}" type="text" id="bdbogopptf" placeholder="Main" minlength="1" maxlength="150" pattern="^[a-zA-Z_.0-9\.-\s\/\\]+$" required />
               <div *ngIf="projectPathField.errors && (projectPathField.dirty || projectPathField.touched)" class="alert alert-danger ">
                 <div [hidden]="!projectPathField.errors.required">
                   This Field Name is required!
@@ -45,17 +44,18 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white"> <b> {{'Build Operations'|translate}}</b>
+      <div class="card">
+        <div class="card-header panelHeadingBackground" style=""> <b> {{'Build Operations'|translate}}</b>
         </div>
-        <div class="panel-body">
-          <div class="container-fluid form-group chkright">
-            <div class="col-md-12"> <label class="checkbox-inline">
-                          <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':clearBuildOperation()"> &nbsp;{{'Build'|translate}}
-                        </label>
+        <div class="card-body">
+          <div class="container-fluid form-row form-group chkright">
+            <div class="col-md-12">
+              <label class="checkbox-inline">
+                          <input type="checkbox" [checked]="buildInfo.modules[0].compile==='on'" id="bdbogobocch01" (change)="buildInfo.modules[0].compile=$event.target.checked ? 'on':'off'"> &nbsp;{{'Build'|translate}}
+               </label>
                       </div>
           </div>
-          <div class="container-fluid form-group chkright">
+          <div class="container-fluid form-row form-group chkright">
             <div class="col-md-12"> <label class="checkbox-inline">
                           <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'" id="bdbogobocach01" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':codeAnalysisEmpty()"
                           (change)="codeAnalysisCheckbox()"> &nbsp;{{'Code Analysis'|translate}}
@@ -63,20 +63,113 @@
           </div>
           <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].codeAnalysis">
             <div class="container-fluid animate-switch" *ngSwitchCase="'on'">
-              <div class="col-md-12 form-group" style="margin-left:20px;height: 40px;"> <label class="checkbox-inline " style="text-transform:capitalize;">
+              <div class="col-md-12 form-row form-group" style="margin-left:20px;height: 40px;"> <label class="checkbox-inline " style="text-transform:capitalize;">
                             <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[0]===tempCodeAnalysis[0]" id="bdbogobotcach01" (change)="buildInfo.modules[0].codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:'off'"
 
                             >
                             {{tempCodeAnalysis[0]}}
 
                           </label> <label class="checkbox-inline " style="text-transform:capitalize;">
-                            <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]===tempCodeAnalysis[1]" id="bdbogobotca1ch01" (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:'off'"
+                            <input type="checkbox" [checked]="buildInfo.modules[0].codeAnalysis[1]===tempCodeAnalysis[1]" id="bdbogobotca1ch01" (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:clearSonarqube()"
 
-                           
+
                             >
-                            {{tempCodeAnalysis[1]}}
+                           SonarQube
                           </label>
                         </div>
+                          <!-- sonar Authentication code -->
+                          <!-- <div *ngIf="buildInfo.modules[0].codeAnalysis[1]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+                            <div class="row" style="margin-bottom: 10px;">
+                              <div class="col-md-2">
+                              <label for="sonarUrl">SonarQube URL</label>
+                              </div>
+                              <div class="col-md-10">
+                              <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
+                                id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+                                
+                                 <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
+                        
+                                  <div [hidden]="!sonarUrl.errors.pattern">
+                                    This Field Name can only consist of valid url
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                           
+                            <div class="row" style="margin-bottom: 10px;">
+                              <div class="col-md-2">
+                              <label for="sonarUsername">UserName / Sonar Security token</label>
+                  
+                              </div>
+                              <div class="col-md-10 field-tip">
+                              <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[0].sonarPassword='' "
+                                #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                                <span class="tip-content">Password is required only with username</span>
+                                <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
+                                <div [hidden]="!sonarUname.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!sonarUname.errors.minlength">
+                                  This Field Name must be at least 3 characters long.
+                                </div>
+                                <div [hidden]="!sonarUname.errors.maxlength">
+                                  This Field Name cannot be more than 200 characters long.
+                                </div>
+                                <div [hidden]="!sonarUname.errors.pattern">
+                                  This Field Name can only consist of valid username
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                            
+                            <div class="row" style="margin-bottom: 10px;">
+                              <div class="col-md-2">
+                              <label for="sonarPassword">Password</label>
+                  
+                              </div>
+                              <div class="col-md-10">
+                              <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
+                                #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                                encrypt>
+                              </div>
+                            </div>
+                            
+                            <div class="row" style="margin-bottom: 10px;">
+                              <div class="col-md-2">
+                              <label for="sonarProjectKey">Project Key</label>
+                  
+                              </div>
+                              <div class="col-md-10">
+                              <input class="form-control  textFieldWidth" name="SonarProjectKey" 
+                                #sonarProjectKey="ngModel" placeholder="Project Key" id="sonarProjectKey" type="text" [(ngModel)]="buildInfo.modules[0].sonarProjectKey" pattern="[_a-zA-Z0-9.-:]+">
+                                <div *ngIf="sonarProjectKey.errors && (sonarProjectKey.dirty || sonarProjectKey.touched)" class="alert alert-danger ">
+                          
+                        
+                              
+                                <div [hidden]="!sonarProjectKey.errors.pattern">
+                                  This Field Name can only consist of valid projectkey
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                <label for="sonarProperties">Sonar Properties Relative Path</label>
+                                </div>
+                                <div class="col-md-10">
+                                <input class="form-control  textFieldWidth" name="sonarProperties" #sonarProperties="ngModel" placeholder="SonarQube Properties relative Path" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
+                                  id="sonarProperties" type="text" [(ngModel)]="buildInfo.modules[0].sonarProperties" pattern="[a-zA-Z0-9/\\_\.\-]+">
+                                  
+                                   <div *ngIf="sonarProperties.errors && (sonarProperties.dirty || sonarProperties.touched)" class="alert alert-danger ">
+                                  
+                                  <div [hidden]="!sonarProperties.errors.pattern">
+                                    This Field Name can only consist of valid relativePath
+                                  </div>
+                                  </div>
+                                </div>
+                            </div>
+                            </div> -->
+                          <!-- /sonar Authentication code -->
               <div style="color:red;margin-top:5px" *ngIf="tempObject.modules[0].codeAnalysis=='on'
                               && (buildInfo.modules[0].codeAnalysis[0]==null ||buildInfo.modules[0].codeAnalysis[0]=='off' )
                               && (buildInfo.modules[0].codeAnalysis[1]==null || buildInfo.modules[0].codeAnalysis[1]=='off' )
@@ -86,28 +179,24 @@
                             && ( buildInfo.modules[0].codeAnalysis[0]==null || buildInfo.modules[0].codeAnalysis[0]=='off' )
                             && (buildInfo.modules[0].codeAnalysis[1]==null || buildInfo.modules[0].codeAnalysis[1]=='off' )
                             )"><div *ngIf="paTrue()"> </div></div>
-              
+
                   </div>
 
           </div>
           <div [ngSwitch]="buildInfo.modules[0].compile=='on'">
             <div *ngSwitchCase="true">
-              <div class="container-fluid form-group chkright">
+              <div class="container-fluid form-row form-group chkright">
                 <div class="col-md-12"> <label class="checkbox-inline">
-                              <input
-                              type="checkbox" [checked]="buildInfo.modules[0].unitTesting==='on'" id="bdbogoutch01" (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? 'on':codeCoverageOffUnitTestDirEmpty()"
-
-                              >Unit Testing
-
-                            </label> </div>
+                  <input style="margin-right: 10px;" type="checkbox" [checked]="buildInfo.modules[0].unitTesting==='on'" id="bdbogoutch01" (change)="buildInfo.modules[0].unitTesting=$event.target.checked ? 'on':codeCoverageOffUnitTestDirEmpty()"> Unit Testing
+                  </label> </div>
               </div>
               <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">
                 <div class="container-fluid animate-switch" *ngSwitchCase="true">
-                  <div class="row form-group">
-                    <div> <label class="col-md-3 control-label">
+                  <div class="form-row form-group">
+                     <label class="col-md-3 col-form-label">
                                   {{'Unit Test Dir Path'|translate}} <span style="color:red">*</span>
-                                </label> </div>
-                    <div class="col-md-9 field-tip"> <input class="form-control txtbox" name="UnitTestDirPathField" #UnitTestDirPathField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir" id="bdbogoutdrtf" [ngModelOptions]="{standalone: true}" type="text" placeholder="math" minlength="1" maxlength="150" required />
+                                </label>
+                    <div class="col-md-9 field-tip"> <input class="form-control " name="UnitTestDirPathField" #UnitTestDirPathField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir" id="bdbogoutdrtf" [ngModelOptions]="{standalone: true}" type="text" placeholder="math" minlength="1" maxlength="150" required />
                       <div *ngIf="UnitTestDirPathField.errors && (UnitTestDirPathField.dirty || UnitTestDirPathField.touched)" class="alert alert-danger ">
                         <div [hidden]="!UnitTestDirPathField.errors.required">
                           This Field Name is required!
@@ -124,19 +213,19 @@
                   <div *ngIf=""> </div>
                 </div>
               </div>
-              <div class="container-fluid form-group chkright">
+              <div class="container-fluid form-row form-group chkright">
                 <div class="col-md-12"> <label class="checkbox-inline">
                                     <input
-                                      type="checkbox" [checked]="buildInfo.modules[0].codeCoverage==='on'" [disabled]="buildInfo.modules[0].unitTesting!='on'"
+                                      type="checkbox" style="margin-right: 10px;" [checked]="buildInfo.modules[0].codeCoverage==='on'" [disabled]="buildInfo.modules[0].unitTesting!='on'"
                                       id="bdbogoccch01" (change)="buildInfo.modules[0].codeCoverage=$event.target.checked ? 'on':codeCoverageOff()"
                                       >Code Coverage
 
                                   </label> </div>
               </div>
-  			<div class="container-fluid form-group chkright">
+  			<div class="container-fluid form-row form-group chkright">
                 <div class="col-md-12"> <label class="checkbox-inline">
                               <input
-                              type="checkbox" [checked]="tempObject.modules[0].compile==='on'" id="bdbogospch01" (change)="tempObject.modules[0].compile=$event.target.checked ? 'on':clearProxyDetails()" style="width: 15px; height: 15px"
+                              type="checkbox" style="margin-right: 10px;" [checked]="tempObject.modules[0].compile==='on'" id="bdbogospch01" (change)="tempObject.modules[0].compile=$event.target.checked ? 'on':clearProxyDetails()" style="width: 15px; height: 15px"
 
                               >Set Proxy
 
@@ -144,15 +233,13 @@
               </div>
 
   			<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].compile=='on'">
-  						<div class="panel-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
+  						<div class="card-body  animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
 
 
-  							<div class="row form-group labelIndent1">
-  								<div class="col-md-3 text-right labelIndent2">
-  									<label class="control-label">Proxy URL</label>
-  								</div>
+  							<div class="form-row form-group labelIndent1">
+  									<label class="col-md-3 col-form-label">Proxy URL</label>
   								<div class="col-md-9 text-left field-tip">
-  									<input class="form-control txtbox boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy" type="text" id="bdbogoputf" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2" minlength="1" maxlength="150">
+  									<input class="form-control  boxWidth" #proxyUrl="ngModel" name="proxyUrl" [(ngModel)]="buildInfo.modules[0].npmProxy" type="text" id="bdbogoputf" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@]+" placeholder="http://10.12.144.2" minlength="1" maxlength="150">
   									<span class="tip-content">URL for Proxy to install glide dependency.</span>
   									<div *ngIf="proxyUrl.errors && (proxyUrl.dirty || proxyUrl.touched)" class="alert alert-danger ">
 
@@ -165,14 +252,12 @@
   									</div>
   								</div>
   							</div>
-  							<div class="row form-group labelIndent1">
-  								<div class="col-md-3 text-right labelIndent2">
-  									<label class="control-label"> Proxy Username
+                  <div class="form-row form-group labelIndent1">
+  									<label class="col-md-3 col-form-label"> Proxy Username
   								<span class="star" *ngIf="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''">*</span>
   							</label>
-  								</div>
   								<div class="col-md-9 text-left field-tip">
-  									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
+  									<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyUserName" pattern="[_a-zA-Z0-9.]+"
   									#proxyname="ngModel" name="proxyname" id="bdbogopuntf" [required]="buildInfo.modules[0].npmProxyPassword!==undefined && buildInfo.modules[0].npmProxyPassword!==''"
   									  type="text" placeholder="user1" minlength="1" maxlength="150">
   									<span class="tip-content">Username Proxy to install glide dependency.</span>
@@ -187,13 +272,11 @@
   									</div>
   								</div>
   							</div>
-  							<div class="row form-group labelIndent1">
-  								<div class="col-md-3 text-right labelIndent2">
-  									<label class="control-label">Proxy Password
+                  <div class="form-row form-group labelIndent1">
+  									<label class="col-md-3 col-form-label">Proxy Password
   								<span class="star" *ngIf="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''">*</span></label>
-  								</div>
   								<div class="col-md-9 text-left field-tip">
-  									<input class="form-control txtbox boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''" name="npmProxyPassword1" type="password" placeholder="**********"
+  									<input class="form-control  boxWidth" [(ngModel)]="buildInfo.modules[0].npmProxyPassword" encrypt [required]="buildInfo.modules[0].npmProxyUserName!==undefined && buildInfo.modules[0].npmProxyUserName!==''" name="npmProxyPassword1" type="password" placeholder="**********"
   									  minlength="1" maxlength="150" name="npmProxyPassword" id="bdbogopppw" #npmProxyPassword="ngModel">
   									<span class="tip-content">Password for Proxy to install glide dependency.</span>
   									<div *ngIf="npmProxyPassword.errors && (npmProxyPassword.dirty || npmProxyPassword.touched)" class="alert alert-danger ">

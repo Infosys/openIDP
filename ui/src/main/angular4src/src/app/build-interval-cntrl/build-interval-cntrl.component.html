@@ -1,206 +1,150 @@
-	<div>
-	<button #modalforTotalSubmit [hidden]="true" type="button" data-toggle="modal" data-target="#totalSunbmitAlertForthis">Alert Modal</button>
-	<div id="totalSunbmitAlertForthis" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
+  <ng-template #modalForTotalSubmit class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-header">
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to submit?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="totalSubmit(modalForTotalSubmitRef)">OK
+          </button>
+          <button type="button" class="btn btn-default"  (click)="modalForTotalSubmitRef.hide()">Close
+          </button>
+        </div>
+  </ng-template>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="totalSunbmitAlertForthis" (click)="closeModal('totalSunbmitAlertForthis')">&times;</button>
-					<h4 class="modal-title">Alert</h4>
-				</div>
-				<div class="modal-body">
-					<p>Are you sure you want to submit?
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="totalSunbmitAlertForthis" (click)="closeModal('totalSunbmitAlertForthis');totalSubmit()">OK</button>
-					<button type="button" class="btn btn-default" data-dismiss="totalSunbmitAlertForthis" (click)="closeModal('totalSunbmitAlertForthis')">Close</button>
-				</div>
-			</div>
+<ng-template #modalForTriggerDetails id="addDetails">
+      <div class="modal-header bg-info">
+        <h4 class="modal-title">Trigger Details</h4>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body" (ngSubmit)="modalForTriggerDetailsRef.hide()">
+        <app-trigger (onTriggerDetailsSaved)="modalForTriggerDetailsRef.hide()"></app-trigger>
+      </div>
+</ng-template>
 
-		</div>
-	</div>
-</div>	
-
-<div class="panel panel-default " style="margin-left:20px; width:98%">
-            <div class="panel-heading">
-                <div class="text-left">
-                    <b>{{'Schedule Job Portal'|translate}}</b>
-                </div>
-            </div>
-
-<div class="panel-body">
-<div class="col-md-3 col-md-offset-9">
-  <button type="button" class="btn btn-info " id="btn_txt" (click)="addJob()" style="float:right;margin-top:10px" >{{'Add Job'|translate}}</button>
+<div class="card " style="margin-left:20px; width:98%">
+  <div class="card-header">
+    <div class="text-left">
+      <b>{{'Schedule Job Portal'|translate}}</b>
+    </div>
   </div>
-  <form name="IDPDataSwitch.BuildTriggerParamForm" id="paramForm" ngNativeValidate class="form-horizontal" (ngSubmit)="submit()">
-	<div class="panel-group col-md-10 col-md-offset-1" role="tablist" aria-multiselectable="true">
-	
-          <div class="panel panel-default" *ngFor="let interval of IdpdataService.buildIntervalData; let i =index" [attr.data-index]="i" >
-            <div class="panel-heading" role="tab">
-              <h4 class="panel-title">
-                  <a data-toggle="collapse" href="{{i+1}}" data-target="{{'#'+(i+1)}}" href="{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
-                    Job_{{(i+1)}}
-                  </a>
-                  <span style="float:right">
-                  <a (click)="deleteBuildInterval(i)"  style="cursor:pointer;font-size:16px !important;color:black;">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-                  </span>
-              </h4>
-            </div>
-            <div id="{{'#'+(i+1)}}" class="panel-collapse collapse in" role="tabpanel">
-              <div class="panel-body">
-			<!--  <div class="form-group" style="margin-bottom:15px;">
-			 <div class="col-md-1">
-				<label>Name</label>
-				</div>
-				<div class="col-md-6">
-				<input type="text" name="scheduleName" class="form-control" [(ngModel)]="interval.name" placeholder="Name" required/>
-				</div> 
-				</div> -->
-				
-                <div class="col-md-1 field-tip" style="width: 6%;margin-top: 4px; margin-right:5px;">
-                  <span>Every</span>
-                </div>
-                <div class="col-md-2 field-tip">
-                  <select #typeVal="ngModel" [(ngModel)]="interval.type" name="type+{{i}}" class="form-control" required>
-                    <option value="">--Select--</option>
-					<option *ngFor="let typeValue of intervalOptions" [ngValue]="typeValue">{{typeValue}}</option>
 
+  <div class="card-body">
+    <div class="d-flex flex-row justify-content-end">
+      <button type="button" class="btn btn-primary " id="btn_txt" (click)="addJob()">{{'Add Job'|translate}}</button>
+    </div>
+    <form name="IDPDataSwitch.BuildTriggerParamForm" id="paramForm" ngNativeValidate class="form-horizontal"
+          (ngSubmit)="submit()">
+      <div class="col-md-10 col-md-offset-1" role="tablist" aria-multiselectable="true">
+        <div class="card" *ngFor="let interval of IdpdataService.buildIntervalData; let i =index" [attr.data-index]="i">
+          <div class="card-header" role="tab">
+            <div class="card-title">
+              <button  type="button" class="btn bg-transparent" attr.aria-controls="{{'#'+(i+1)}}" (click)="collapse.toggle()"
+                 aria-expanded="true" >
+                Job_{{(i + 1)}}
+              </button>
+              <span style="float:right">
+                  <button type="button" class="btn bg-transparent"  (click)="deleteBuildInterval(i)" style="cursor:pointer;font-size:16px !important;color:black;">
+                    <span class="cui-trash" aria-hidden="true"></span>
+                  </button>
+                  </span>
+            </div>
+          </div>
+          <div id="{{'#'+(i+1)}}" #collapse="bs-collapse" [collapse]="intervalCollapseStatus[i+1]" >
+            <div class="card-body">
+              <div class="d-flex flex-row justify-content-start">
+              <div class="form-row ml-2 form-group">
+                <label class="col-form-label">Every</label>
+                <div class="field-tip">
+                <select #typeVal="ngModel" [(ngModel)]="interval.type" name="type+{{i}}" class="form-control" required>
+                  <option value="">--Select--</option>
+                  <option *ngFor="let typeValue of intervalOptions" [ngValue]="typeValue">{{typeValue}}</option>
+
+                </select>
+                <div *ngIf="typeVal.errors && (typeVal.dirty || typeVal.touched)" class="alert alert-danger ">
+                  <div [hidden]="!typeVal.errors.required">
+                    This Field Name is required!
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="d-flex flex-row ml-2 form-group" *ngIf="interval.type!=='--Select--'">
+                <label class="col-form-label ml-2" style="text-align:center;vertical-align: middle;">at</label>
+                <select [(ngModel)]="interval.time" name="hour+{{i}}" class="form-control ml-2" required>
+                  <option value="">--Select--</option>
+                  <option *ngFor="let hour of hourOptions" [ngValue]="hour">{{hour}}</option>
+                </select>
+                  <label class="col-form-label ml-2">:</label>
+                  <select [(ngModel)]="interval.minute" name="minute+{{i}}" class="form-control ml-2" required>
+                    <option value="">--Select--</option>
+                    <option *ngFor="let minute of minuteOptions" [ngValue]="minute">{{minute}}</option>
                   </select>
-                  <div *ngIf="typeVal.errors && (typeVal.dirty || typeVal.touched)" class="alert alert-danger ">
-                    <div [hidden]="!typeVal.errors.required">
-                      This Field Name is required!
-                    </div>
+              </div>
+              <div class="form-row ml-2 form-group"  *ngIf="interval.type==='Month' || interval.type==='Week'">
+                <label class="col-form-label">on</label>
+              <div  *ngIf="interval.type==='Week'">
+                <select #weekVal="ngModel" [(ngModel)]="interval.week" name="week+{{i}}" class="form-control" multiple
+                        required>
+                  <option *ngFor="let week of weeklyOptions" [ngValue]="week">{{week}}</option>
+                </select>
+                <div *ngIf="weekVal.errors && (weekVal.dirty || weekVal.touched)" class="alert alert-danger ">
+                  <div [hidden]="!weekVal.errors.required">
+                    This Field Name is required!
                   </div>
                 </div>
 
-                <div class="col-md-1" *ngIf="interval.type!=='--Select--'" style="width: 2%;margin-top: 4px; margin-right:2px;">
-
-                  <span style="text-align:center;vertical-align: middle;">at</span>
+              </div>
+              </div>
+              <div class=""  *ngIf="interval.type==='Month'">
+                <select #typeDate="ngModel" [(ngModel)]="interval.date" name="date+{{i}}" class="form-control" multiple
+                        required>
+                  <option *ngFor="let date of dateOptions" [ngValue]="date">{{date}}</option>
+                </select>
+                <div *ngIf="typeDate.errors && (typeDate.dirty || typeDate.touched)" class="alert alert-danger ">
+                  <div [hidden]="!typeDate.errors.required">
+                    This Field Name is required!
+                  </div>
                 </div>
-                <div class="col-md-2">
-                 
-                    <select [(ngModel)]="interval.time" name="hour+{{i}}" class="form-control" required>
-                      <option value="">--Select--</option>
-					  <option *ngFor="let hour of hourOptions" [ngValue]="hour">{{hour}}</option>
-                    </select>
-                  
-                </div>
+              </div>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-success btn-sm" (click)="launchTriggerDetailsModal(i)">Add details
+                </button>
+              </div>
 
 
-                <div class="col-md-1" style="width: 1%;margin-top: 4px;" *ngIf="interval.type!=='--Select--'">
+            </div>
+            <div class="card-footer d-flex flex-row" *ngIf="checkDetailsSingle(i)">
+              <div class="col-md-offset-1 col-md-9 alert alert-success">Release
+                Number: {{interval.details.releaseNumber}}, Slave Name: {{interval.details.slaveName}}
+                <span *ngIf="interval.details.branchOrTag">, {{interval.details.branchOrTag}}</span>
+                <span *ngIf="interval.details.build">, Build</span>
+                <span *ngIf="interval.details.deploy">, Deploy= Env:{{interval.details.envSelected}}</span>
+                <span *ngIf="interval.details.test">, Test</span>
+              </div>
 
-                  <b style="text-align:center; vertical-align:middle;margin-top:30px">:</b>
-                </div>
-                <div class="col-md-2">
-                 
-
-                    <select [(ngModel)]="interval.minute" name="minute+{{i}}" class="form-control" required>
-					  <option value="">--Select--</option>
-                      <option *ngFor="let minute of minuteOptions" [ngValue]="minute">{{minute}}</option>
-                    </select>
-                  
-
-                </div>
-                <div class="col-md-1" style="width: 1%;margin-top: 4px;" *ngIf="interval.type==='Month' || interval.type==='Week'">
-
-                  <span style="text-align:center; vertical-align:middle;margin-top:30px">on</span>
-                </div>
-                <div class="col-md-2" style="height=10px;" *ngIf="interval.type==='Week'">
-                 
-
-                    <select #weekVal="ngModel" [(ngModel)]="interval.week" name="week+{{i}}" class="form-control" multiple required>
-                      <option *ngFor="let week of weeklyOptions" [ngValue]="week">{{week}}</option>
-                    </select>
-                    <div *ngIf="weekVal.errors && (weekVal.dirty || weekVal.touched)" class="alert alert-danger ">
-                      <div [hidden]="!weekVal.errors.required">
-                        This Field Name is required!
-                      </div>
-                    </div>
-                  
-                </div>
-
-                <div class="col-md-2" style="height=10px;" *ngIf="interval.type==='Month'">
-                  
-                    <select #typeDate="ngModel" [(ngModel)]="interval.date" name="date+{{i}}" class="form-control" multiple required>
-                      <option *ngFor="let date of dateOptions" [ngValue]="date">{{date}}</option>
-                    </select>
-                    <div *ngIf="typeDate.errors && (typeDate.dirty || typeDate.touched)" class="alert alert-danger ">
-                      <div [hidden]="!typeDate.errors.required">
-                        This Field Name is required!
-                      </div>
-                    </div>
-                 
-                </div>
-
-               <!--  <div class="col-md-2">
-				<label class="checkbox-inline">
-                <input type="checkbox" [checked]="IdpdataService.statusCheck[i]==='on'"
-                (change)="IdpdataService.statusCheck[i]=$event.target.checked ? 'on':'off'; setIndex(i)" [disabled]="checkOtherCheckBoxes(i)"
-								style="width: 15px; height: 15px">
-                &nbsp;&nbsp;&nbsp;Trigger Details
-	            </label>
-                </div> -->
-				
-				 <div class="col-md-1">
-				 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" (click)="setIndex(i)" data-target="#addDetails">Add details</button>
-				 </div>
-
-              
-			  <br>
-			  
-			  <div class="modal fade" id="addDetails">
-				  <div class="modal-dialog modal-lg">
-					<div class="modal-content">
-
-					  <!-- Modal Header -->
-					  <div class="modal-header">
-						<h4 class="modal-title">Trigger Details</h4>
-						<button type="button" class="close" data-dismiss="addDetails" (click)="closeModal('addDetails')">&times;</button>
-					  </div>
-
-					  <!-- Modal body -->
-					  <div class="modal-body">
-						 <app-trigger></app-trigger>
-					  </div>
-
-					  <!-- Modal footer -->
-					  <!-- <div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Submit</button>
-					  </div> -->
-
-					</div>
-				  </div>
-				</div>
-			  
-							  
-			  </div>
-			  <div class="row " *ngIf="checkDetailsSingle(i)">
-			  <div class="col-md-offset-1 col-md-9 alert alert-success" >Release Number: {{interval.details.releaseNumber}}, Slave Name: {{interval.details.slaveName}}
-			  <span *ngIf="interval.details.branchOrTag">, {{interval.details.branchOrTag}}</span>
-			  <span *ngIf="interval.details.build">, Build</span>
-			  <span *ngIf="interval.details.deploy">, Deploy= Env:{{interval.details.envSelected}}</span>
-			  <span *ngIf="interval.details.test">, Test</span>
-			  </div>
-			  
-			  <div class="col-md-2"><a (click)="deleteDetails(i)"  style="cursor:pointer;font-size:16px !important;color:black;">
-                    <span class="glyphicon glyphicon-remove"></span>
-                  </a></div>
-			  </div>
-			</div>
+              <div class="col-md-2">
+                <button class="btn bg-transparent" (click)="deleteDetails(i)">
+                <span class="cui-trash" aria-hidden="true"></span>
+              </button>
+              </div>
             </div>
           </div>
-          <div class="col-md-6 alert alert-danger" *ngIf="IdpdataService.buildIntervalData===undefined ||IdpdataService.buildIntervalData=== null || IdpdataService.buildIntervalData.length===0">No jobs scheduled.</div>
-		  <div class="col-md-3 btn-container" style="padding-top: 15px">
-			<button type="submit" class="btn btn-success btn-md" [disabled]="IdpdataService.buildIntervalData===undefined" style="float: right;" id="btn_txt">
-				<span > {{'Submit'|translate}} &nbsp;</span>
-					
-				</button>
-			</div>
-											
- </form>
- </div>
- </div>
+        </div>
+      </div>
+      <div class="col-md-6 alert alert-danger"
+           *ngIf="IdpdataService.buildIntervalData===undefined ||IdpdataService.buildIntervalData=== null || IdpdataService.buildIntervalData.length===0">
+        No jobs scheduled.
+      </div>
+      <div class="btn-container" style="padding-top: 15px">
+        <button type="submit" class="btn btn-success btn-md" [disabled]="IdpdataService.buildIntervalData===undefined"
+                style="float: right;" id="btn_txt">
+          <span> {{'Submit'|translate}} &nbsp;</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -9,42 +9,36 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { WorkflowInfoComponent } from "./workflow-info.component";
-import { workflowRouter } from "./workflow-info.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import {WorkflowInfoRouter} from "./workflow-info.router";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule , ReactiveFormsModule} from "@angular/forms";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { DateTimePickerModule } from "ng-pick-datetime";
 import { SlaveLabelFilterModule } from "../custom-filter-pipes/slaveFilterPipe.module";
 import { TreeviewModule } from "ngx-treeview";
 import { TriggerModule } from "../triggerPipeline/triggerPipeline.module";
 import { DynamicComponentDirective } from "../custom-directive/dynamicComponent.directive";
 import { SortablejsModule } from "angular-sortablejs";
-
-
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
     CommonModule,
-    workflowRouter,
-    TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
-    }),
     HttpModule,
     FormsModule,
+    CollapseModule,
+    ModalModule,
     ReactiveFormsModule,
     AngularMultiSelectModule,
     DateTimePickerModule,
     SortablejsModule,
     TreeviewModule.forRoot(),
+    WorkflowInfoRouter,
     SlaveLabelFilterModule,
     TriggerModule,
-    workflowRouter
+    TranslateModule
   ],
   declarations: [
     WorkflowInfoComponent,

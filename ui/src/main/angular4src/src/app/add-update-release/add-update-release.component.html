@@ -6,24 +6,24 @@
 *
 -->
 
-<div class="panel panel-default " style="margin-left:20px; width:98%">
-  <div class="panel-heading">
+<div class="card " style="margin-left:20px; width:98%">
+  <div class="card-header">
     <div class="text-left">
       <b>{{'Release Management Portal'|translate}}</b>
     </div>
   </div>
 
-  <div class="panel-body">
+  <div class="card-body">
     <div class="container-fluid">
-      <div class="well" style="margin-top:40px;margin-left:10px;margin-right:10px;">
-        <div class="text-center">
-          <div class="row form-group">
-            <div class="col-md-offset-1 col-md-3 text-right ">
+      <div class="well" style="margin-left:10px;margin-right:10px;">
+        <div class="">
+          <div class="form-group">
+            <div class="col-md-offset-1 col-md-3  ">
               <label class="control-label ">{{'Application Name'|translate}}
                 <span class="star">*</span>
               </label>
             </div>
-            <div class="col-md-8 field-tip">
+            <div class="col-md-8 field-tip choose-app-name">
               <select style="width:50%" [(ngModel)]="releaseManagerData.applicationName" (change)="getPipelineNames()" class="form-control"
                 id="reandd" [ngModelOptions]="{standalone: true}" required>
                 <option value="">--Select--</option>
@@ -35,46 +35,40 @@
           </div>
         </div>
 
-        <div class="" *ngIf="releaseManagerData.applicationName!==''">
+        <div class="release-tabs" *ngIf="releaseManagerData.applicationName!==''">
 
-          <ul class="nav nav-tabs">
-            <li [ngClass]="activeRelease?'active':''">
-              <a id="reacrstb" href="#menu1" data-toggle="tab" (click)="updateSuccessFalse() ">Active Release</a>
-            </li>
-            <li [ngClass]="addRelease?'active':''">
-              <a id="readrstb" href="#menu2" data-toggle="tab" (click)="addSuccessFalse()">Add Release</a>
-            </li>
-            <li [ngClass]="releaseHistory?'active':''">
-              <a id="rehsrstb" href="#menu3  " data-toggle="tab" (click)="pipelinesEmpty()">Release History</a>
-            </li>
-          </ul>
-
-          <div class="tab-content">
-            <div id="menu1" class="tab-pane fade in active">
-              <div *ngIf="!Idpdata.noPipelines">
-                <app-active-release></app-active-release>
+          <tabset #releaseTabs>
+            <tab heading="Active Release" class="item">
+              <div id="menu1">
+                <div *ngIf="!Idpdata.noPipelines">
+                  <app-active-release></app-active-release>
+                </div>
+                <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
+                  No Pipelines for this Application
+                </div>
               </div>
-              <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
-                No Pipelines for this Application
+            </tab>
+            <tab heading="Add Release" class="item">
+              <div id="menu2" >
+                <div *ngIf="!Idpdata.noPipelines">
+                  <app-add-release></app-add-release>
+                </div>
+                <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
+                  No Pipelines for this Application
+                </div>
               </div>
-            </div>
-            <div id="menu2" class="tab-pane fade ">
-              <div *ngIf="!Idpdata.noPipelines">
-                <app-add-release></app-add-release>
+            </tab>
+            <tab heading="Release History" class="item">
+              <div id="menu3">
+                <div *ngIf="!Idpdata.noPipelines">
+                  <app-release-history></app-release-history>
+                </div>
+                <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
+                  No Pipelines for this Application
+                </div>
               </div>
-              <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
-                No Pipelines for this Application
-              </div>
-            </div>
-            <div id="menu3" class="tab-pane fade ">
-              <div *ngIf="!Idpdata.noPipelines">
-                <app-release-history></app-release-history>
-              </div>
-              <div class="alert alert-danger" *ngIf="Idpdata.noPipelines">
-                No Pipelines for this Application
-              </div>
-            </div>
-          </div>
+            </tab>
+          </tabset>
         </div>
 
       </div>
@@ -83,8 +77,3 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  $(".form_datetime").datetimepicker({
-    format: "dd MM yyyy - hh:ii"
-  });
-</script>

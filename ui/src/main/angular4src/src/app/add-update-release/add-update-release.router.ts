@@ -10,7 +10,10 @@ import { AddUpdateReleaseComponent } from "./add-update-release.component";
 
 const ADD_UPDATE_ROUTER: Routes = [
     { path: "",
-        component: AddUpdateReleaseComponent
+        component: AddUpdateReleaseComponent,
+        data: {
+            'title': 'Manage Releases'
+        }
     }
 ];
 

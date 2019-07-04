@@ -1,36 +1,21 @@
 <div>
-	<button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#TechSelectTest">Alert Modal</button>
 	<!-- Modal -->
-	<div id="TechSelectTest" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="TechSelectTest" (click)="closeModal('TechSelectTest')">&times;</button>
+	<ng-template #modalforAlert>
+				<div class="modal-header bg-info">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
-					<p>Select atleast one of the checkbox options!
+					<p>Please select atleast one of the checkbox options!
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="TechSelectTest" (click)="closeModal('TechSelectTest')">OK</button>
+					<button type="button" class="btn btn-primary"  (click)="alertModalRef.hide()">OK</button>
 				</div>
-			</div>
+	</ng-template>
 
-		</div>
-	</div>
-
-	<button #modalforReqSCMAlert [hidden]="true" type="button" data-toggle="modal" data-target="#SCMSelect">Alert Modal</button>
 	<!-- Modal -->
-	<div id="SCMSelect" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="SCMSelect" (click)="closeModal('SCMSelect')">&times;</button>
+	<ng-template #modalforReqSCMAlert>
+				<div class="modal-header bg-info">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
@@ -38,21 +23,12 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="SCMSelect" (click)="closeModal('SCMSelect')">OK</button>
+					<button type="button" class="btn btn-primary" (click)="missingSCMBranchModalRef.hide()">OK</button>
 				</div>
-			</div>
+	</ng-template>
 
-		</div>
-	</div>
-
-	<button #modalforSave [hidden]="true" type="button" data-toggle="modal" data-target="#saveAlertForthis">Alert Modal</button>
-	<div id="saveAlertForthis" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog modal-sm">
-
-			<!-- Modal content-->
-			<div class="modal-content">
+	<ng-template  #modalforSave>
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="saveAlertForthis" (click)="closeModal('saveAlertForthis')">&times;</button>
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
@@ -60,23 +36,14 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="saveAlertForthis" (click)="(idpdataService.createWorkflowSequenceflag && workflowSequenceIndexI!==undefined)?saveWorkflowData():saveData()">OK</button>
-					<button type="button" class="btn btn-default" data-dismiss="saveAlertForthis" (click)="closeModal('saveAlertForthis')">Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="saveAlertForthis" (click)="(idpdataService.createWorkflowSequenceflag && workflowSequenceIndexI!==undefined)?saveWorkflowData(confirmSaveModalRef):saveData(confirmSaveModalRef)">OK</button>
+					<button type="button" class="btn btn-default" data-dismiss="saveAlertForthis" (click)="confirmSaveModalRef.hide()">Close</button>
 				</div>
-			</div>
+	</ng-template>
 
-		</div>
-	</div>
-
-	<button #modalforAlertDBDep [hidden]="true" type="button" data-toggle="modal" data-target="#dbdepoperations">Alert Modal</button>
 	<!-- Modal -->
-	<div id="dbdepoperations" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="dbdepoperations" (click)="closeModal('dbdepoperations')">&times;</button>
+	<ng-template #modalforAlertDBDep>
+				<div class="modal-header bg-info">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
@@ -84,21 +51,12 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="dbdepoperations" (click)="closeModal('dbdepoperations')">OK</button>
+					<button type="button" class="btn btn-default" data-dismiss="dbdepoperations" (click)="dbDepModalRef.hide()">OK</button>
 				</div>
-			</div>
-
-		</div>
-	</div>
-	<button #modalforArtifactAlert [hidden]="true" type="button" data-toggle="modal" data-target="#listofArtifacts">Alert Modal</button>
+	</ng-template>
 	<!-- Modal -->
-	<div id="listofArtifacts" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="listofArtifacts" (click)="closeModal('listofArtifacts')">&times;</button>
+	<ng-template #modalforArtifactAlert>
+				<div class="modal-header bg-info">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
@@ -106,20 +64,12 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="listofArtifacts" (click)="closeModal('listofArtifacts')">OK</button>
+					<button type="button" class="btn btn-default" data-dismiss="listofArtifacts" (click)="selectArtifactModalRef.hide()">OK</button>
 				</div>
-			</div>
-
-		</div>
-	</div>
+	</ng-template>
 
 
-	<button #modalforSubmitAlert [hidden]="true" type="button" data-toggle="modal" data-target="#submitArtifacts">Alert Modal</button>
-	<div id="submitArtifacts" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
+	<ng-template #modalforSubmitAlert>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="submitArtifacts" (click)="closeModal('submitArtifacts')">&times;</button>
 					<h4 class="modal-title">Alert</h4>
@@ -129,43 +79,12 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="submitArtifacts" (click)="closeModal('submitArtifacts')">OK</button>
+					<button type="button" class="btn btn-default" data-dismiss="submitArtifacts" (click)="submitModalRef.hide()">OK</button>
 				</div>
-			</div>
+	</ng-template>
 
-		</div>
-	</div>
-
-
-	<button #modalforDeployOptionAlert [hidden]="true" type="button" data-toggle="modal" data-target="#submitDeployArtifacts">Alert Modal</button>
-	<div id="submitDeployArtifacts" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="submitDeployArtifacts" (click)="closeModal('submitDeployArtifacts')">&times;</button>
-					<h4 class="modal-title">Alert</h4>
-				</div>
-				<div class="modal-body">
-					<p>Select atleast one of the deploy options!
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="submitDeployArtifacts" (click)="closeModal('submitDeployArtifacts')">OK</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-	<button #modalforTrigger [hidden]="true" type="button" data-toggle="modal" data-target="#triggerAlertForthis">Alert Modal</button>
-	<div id="triggerAlertForthis" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="triggerAlertForthis" (click)="closeModal('triggerAlertForthis')">&times;</button>
+	<ng-template #modalforTrigger>
+				<div class="modal-header bg-info">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
@@ -173,558 +92,403 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="triggerAlertForthis" (click)="triggerData()">OK</button>
-					<button type="button" class="btn btn-default" data-dismiss="triggerAlertForthis" (click)="closeModal('triggerAlertForthis')">Close</button>
+					<button type="button" class="btn btn-primary" data-dismiss="triggerAlertForthis" (click)="triggerData(triggerModalRef)">OK</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="triggerAlertForthis" (click)="triggerModalRef.hide()">Close</button>
 				</div>
-			</div>
-
-		</div>
-	</div>
+	</ng-template>
 
 </div>
 
-
-<div id="parameterView">
-	<div class="container-fluid">
-
-		<div [ngClass]="{'col-md-7 col-md-offset-2':(workflowSequenceIndexI===undefined)}">
-
+<div id="parameterView ">
+	<div class="container-fluid col-md-12 col-lg-10">
+		<div>
 			<form name="IDPDataSwitch.BuildTriggerParamForm" id="paramForm" ngNativeValidate class="form-horizontal" (ngSubmit)="trigger()">
-				<div class="row">
+				<div>
 					<div ng-switch on="true">
 						<div ng-switch-when="true">
-							<div class="panel-group">
-								<div class="panel panel-default">
+							<div class="card">
+								<div class="card-body flex justify-content-center">
+									<div style="padding: 5px 0 0 0px;">
+										<div class="card-header" [ngClass]="{'charm_card_header_padding':IDPParamData.technology==='sapcharm'}">
+													<h4>Trigger pipeline {{IDPParamData.applicationName}} / {{IDPParamData.pipelineName}}</h4>
+										</div>
 
-									<div class="form-group" style="padding-top:20px">
-										<div class="col-md-4 text-right">
-											<label> {{'Application Name'|translate}} : </label>
-										</div>
-										<div class="col-md-4">
-											<textarea id="trtaan" class="form-control" readonly style="height:35px">{{IDPParamData.applicationName}}</textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-4 text-right">
-											<label> {{'Pipeline Name'|translate}} : </label>
-										</div>
-										<div class="col-md-4">
-											<textarea id="trtapn" class="form-control" readonly style="height:35px">{{IDPParamData.pipelineName}}</textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-4 text-right">
-											<label> {{'Release Number'|translate}} : </label>
-										</div>
-										<div ng-switch on="IDPDataSwitch.releaseManager">
-											<div ng-switch-when="true">
-												<div class="col-md-4">
-													<select id="trddrn" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" (change)="fetchReleaseBranches(IDPDataSwitch.releaseNumber);"
-													 class="form-control" required>
-														<option value="">--Select--</option>
-														<option *ngFor="let releaseNo of  IDPDataSwitch.releaseNumberList" value="{{releaseNo}}">{{releaseNo}}</option>
-													</select>
-												</div>
+										<div class="form-row form-group">
+											<div class="col-md-3">
+												<label> {{'Release Number'|translate}} : </label>
 											</div>
-										</div>
-									</div>
-
-									<div class="form-group" *ngIf="!idpdataService.isSAPApplication && IDPDataSwitch.releaseNumber && (scmType==='git' || scmType==='tfs')">
-										<div class="col-md-4 text-right">
-											<label> {{'Branch/Tag'|translate}} : </label>
-										</div>
-										<div class="col-md-8">
-
-
-											<button id="trbubt" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-											 aria-controls="collapseExample" (click)="setBranchOrTag()">
-												Select
-											</button>
-											<div id="collapseExample" class="collapse">
-
-												<div class="card card-body">
-													<div>
-														<input id="trtfansi" class="txtbox form-control" type="text" (input)="searchValue()" [(ngModel)]="IDPParamData.branchOrTagValue"
-														 name="searchInput" placeholder="Search">
-													</div>
-
-													<div style="margin-top:5px">
-														<ul class="nav nav-tabs " style="min-height: 43px;">
-															<li (click)="setBranchTag('branch')" class="active">
-																<a href="#menu1" data-toggle="tab" style="color:black">Branches</a>
-															</li>
-															<li *ngIf="scmType==='git'" (click)="setBranchTag('tag')">
-																<a href="#menu2" data-toggle="tab" style="color:black">Tag</a>
-															</li>
-														</ul>
-														<div class="tab-content">
-															<div id="menu1" class="tab-pane fade in active items">
-																<ul>
-																	<li *ngFor="let x of branchList" style="cursor:pointer" (click)="setValue(x)">
-																		<a>{{x}}</a>
-																	</li>
-																	<li *ngIf="branchList.length===0">No branches available</li>
-																</ul>
-															</div>
-															<div id="menu2" class="tab-pane fade items">
-																<ul>
-																	<li *ngFor="let x of tagList" style="cursor:pointer" (click)="setValue(x)">
-																		<a>{{x}}</a>
-																	</li>
-																	<li *ngIf="tagList.length===0">No tags available</li>
-																</ul>
-															</div>
-														</div>
-													</div>
-
+											<div class="col-md-3" ng-switch on="IDPDataSwitch.releaseManager">
+												<div ng-switch-when="true">
+														<select id="trddrn" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" (change)="fetchReleaseBranches(IDPDataSwitch.releaseNumber);fetchUserStories(IDPDataSwitch.releaseNumber)"
+														class="form-control" required>
+															<option value="">--Select--</option>
+															<option *ngFor="let releaseNo of  IDPDataSwitch.releaseNumberList" value="{{releaseNo}}">{{releaseNo}}</option>
+														</select>
+														<!--	<input type="text" class="form-control" placeholder="1.0.0"  [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPDataSwitch.releaseNumber" style="width:100%" required />-->
 												</div>
 											</div>
 
 										</div>
-									</div>
 
-									<br>
 
-									<div id="row_line " class="row form-group" style="padding-top: 20px; padding-left:90px " *ngIf="!idpdataService.isSAPApplication">
+										<div class="form-row form-group" *ngIf="!idpdataService.isSAPApplication && IDPDataSwitch.releaseNumber && (scmType==='git' || scmType==='tfs')">
+											<div class="col-md-3 col-form-label pb-0">
+												<label>Branch/Tag</label>
+											</div>
+                      <div class="col-md-4 d-flex flex-row">
+                        <input id="trtfansi" class="form-control" type="text" (input)="searchValue()" [(ngModel)]="IDPParamData.branchOrTagValue"
+                               name="searchInput" placeholder="Enter branch/tag or select from the list">
+                        <button id="trbubt" class="btn btn-primary ml-2" type="button"  (click)="isCollapsed = !isCollapsed ; setBranchOrTag()" aria-expanded="false"
+                                aria-controls="collapseExample">
+                          Select
+                        </button>
+                      </div>
 
-										<div [ngSwitch]="IDPDataSwitch.build" *ngIf="!(IDPParamData.technology==='J2EE/Ant' && IDPDataSwitch.modules.length ===0 )">
-											<div *ngSwitchCase="true">
-												<div class="col-md-3">
-													<label> {{'Build'|translate}}: </label>
+										</div>
+                    <div class="col-md-4 offset-md-3 p-0">
+                      <div id="collapseExample" [collapse]="isCollapsed" class="collapse">
+                        <div class="">
+                          <div style="margin-top:5px">
+                            <tabset #staticTabs>
+                              <tab heading="Branches">
+                                <div id="menu1" class="items">
+                                  <ul>
+                                    <li *ngFor="let x of branchList" style="cursor:pointer" (click)="setValue(x)">
+                                      <a>{{x}}</a>
+                                    </li>
+                                    <li *ngIf="branchList.length===0">No branches available</li>
+                                  </ul>
+                                </div>
+                              </tab>
+                              <tab heading="Tags">
+                                <div id="menu2" class="items">
+                                  <ul>
+                                    <li *ngFor="let x of tagList" style="cursor:pointer" (click)="setValue(x)">
+                                      <a>{{x}}</a>
+                                    </li>
+                                    <li *ngIf="tagList.length===0">No tags available</li>
+                                  </ul>
+                                </div>
+                              </tab>
+                            </tabset>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+
+										<br>
+
+										<!-- SAP section starts -->
+										<div class="column" *ngIf="idpdataService.isSAPApplication && IDPParamData.technology==='SapNonCharm' ">
+											<div class="d-flex flex-row justify-content-center">
+						<div class="col-md-2">
+													<label> {{'Reconcile'|translate}}: </label>
 													<span>
-														<input id="trcbbui" type="checkbox" [checked]="IDPDataSwitch.buildSelected==='on'" (change)="IDPDataSwitch.buildSelected=$event.target.checked ? setArtifact1():closeBuild();"
-														 class="checkbox-inline" />
-													</span>
-												</div>
-											</div>
-
-										</div>
-
-										<div [ngSwitch]="IDPDataSwitch.deploy">
-											<div *ngSwitchCase="true">
-												<div class="col-md-3">
-													<label> {{'Deploy'|translate}}: </label>
-													<span>
-														<input id="trcbdep" type="checkbox" (change)="IDPDataSwitch.deploySelected=$event.target.checked ? setArtifact2():closeDeploy();checkEnvToPopulate()"
-														 [checked]="IDPDataSwitch.deploySelected==='on'" [disabled]="((disableflag!==undefined && disableflag===true) || IDPDataSwitch.deployEnv.length===0 && IDPDataSwitch.deployTestEnv.length===0   || (IDPDataSwitch.repoName==='na' && IDPDataSwitch.buildSelected==='off' && IDPParamData.technology !=='J2EE/Ant' && IDPParamData.technology !=='fileNet'))"
-														 class="checkbox-inline" id="deployCheck" />
-													</span>
-												</div>
-											</div>
-										</div>
-
-										<div [ngSwitch]="IDPDataSwitch.test">
-											<div *ngSwitchCase="true">
-												<div class="col-md-3">
-													<label> {{'Test'|translate}}: </label>
-													<span>
-														<input id="trcbtes" type="checkbox" (change)="IDPDataSwitch.testSelected=$event.target.checked ? 'on':closeTest();checkEnvToPopulate()"
-														 [disabled]="this.IDPDataSwitch.testEnv.length===0 && this.IDPDataSwitch.deployTestEnv.length===0" class="checkbox-inline"
+														<input id="trcbrc" type="checkbox" [disabled]="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected === 'on' || IDPDataSwitch.testSelected === 'on'"
+														[checked]="IDPDataSwitch.reconcileSelected==='on'" (change)="setReconcileSelected($event.target.checked)" class="checkbox-inline"
 														/>
 													</span>
 												</div>
-
-											</div>
-										</div>
-
-									</div>
-
-									<div *ngIf="!idpdataService.isSAPApplication">
-										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.buildBranch>0">
-											<div *ngSwitchCase="true">
-												<div class="form-group" style="padding-top: 20px">
-													<div class="col-md-4 text-right">
-														<label> {{'Branch'|translate}}: </label>
-													</div>
-													<div class="col-md-4">
-														<select id="trddbr" ng-options="let branch of IDPDataSwitch.buildBranch" [(ngModel)]="IDPParamData.build.branchSelected"
-														 class="form-control" required>
-															<option value="">--Select--</option>
-														</select>
-													</div>
+												<div class="col-md-2">
+													<label> {{'Build'|translate}}: </label>
+													<span>
+														<input id="trcbbu" type="checkbox" [disabled]="IDPDataSwitch.reconcileSelected==='on'" [checked]="IDPDataSwitch.buildSelected === 'on'"
+														(change)="setbuildLandScapeNames($event.target.checked)" class="checkbox-inline" />
+													</span>
 												</div>
-											</div>
-										</div>
-
-										<!-- Additinal Job parameter  -->
-										
-										<div *ngIf="showJobParamFlag!==undefined && showJobParamFlag==='on'">
-											<div class="panel panel-body ">
-												<div class="row container-fluid form-group ">
-													<label>
-														<b> {{'Additional Pipeline Parameters '|translate}}: </b>
-													</label>
+												<div class="col-md-2">
+													<label> {{'Deploy'|translate}}: </label>
+													<span>
+														<input id="trcbdp" type="checkbox" [disabled]="IDPDataSwitch.reconcileSelected==='on'" [checked]="IDPDataSwitch.deploySelected === 'on'"
+														(change)="setdeployLandScapeNames($event.target.checked)" class="checkbox-inline" />
+													</span>
 												</div>
-												<div *ngFor="let param of jobParamList; let k =index" [attr.data-index]="k">
-													<div *ngIf="param.jobParamSatic != true " class="container-fluid form-group">
-														<label class="col-md-3 text-center control-label">
-															{{param.jobParamName |translate}}
-															<span> : </span>
-														</label>
-
-														<div *ngIf="param.jobType != 'pwd'">
-															<div class="col-md-3 field-tip text-right ">
-																<input id="trtfapp" class="form-control  text-center  " [(ngModel)]="param.jobParamValue" name="jobParamValue+{{k}}" #jobParamValue="ngModel"
-																 placeholder="{{param.jobParamValue}}" type="text" required>
-															</div>
-														</div>
-														<div *ngIf="param.jobType === 'pwd'">
-															<div class="col-md-3 field-tip text-right ">
-																<input id="trowapp" class="form-control  text-center  " [(ngModel)]="param.jobParamValue" name="jobParamValue+{{k}}" #jobParamValue="ngModel"
-																 placeholder="{{param.jobParamValue}}" type="password" required>
-															</div>
-														</div>
-													</div>
-
+												<div class="col-md-2">
+													<label> {{'Test'|translate}}: </label>
+													<span>
+														<input id="trcbte" type="checkbox" [disabled]="IDPDataSwitch.reconcileSelected==='on' || testEnv.length==0" [checked]="IDPDataSwitch.testSelected === 'on'"
+														(change)="settestLandScapeNames($event.target.checked)" class="checkbox-inline" />
+													</span>
 												</div>
+						</div>
+											<div *ngIf="IDPDataSwitch.reconcileSelected==='on'">
+												<div class="form-row form-group">
+													<label class="col-md-3">{{'Reconcile Slave'|translate}} : </label>
+													<select id="trddbds" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.reconcileSlaveName" class="form-control col-md-6"
+													required>
+														<option value="">--Select--</option>
+														<option *ngFor="let slave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
+													</select>
+												</div>
+						<div class="form-row form-group">
+							<div class="col-md-3">
+							<label >{{'Source Landscape'|translate}}:</label>
+							<span class="star">*</span>
+							</div>
+							<select class="form-control col-md-6" id="trddln" ts-select-fix (change)="getObjects()" [(ngModel)]="IDPParamData.rebase.sourceEnvSelected"
+							[ngModelOptions]="{standalone: true}" required>
+								<option value="">--Select--</option>
+								<option *ngFor="let sapEnvironment of idpdataService.SAPEnvList" [ngValue]="sapEnvironment">{{sapEnvironment}}</option>
+							</select>
+						</div>
+						<div class="form-row form-group" *ngIf="IDPParamData.rebase.sourceEnvSelected !== ''">
+							<div class="col-md-3">
+							<label>{{'Object Type'|translate}}:</label>
+							<span class="star">*</span>
+							</div>
+							<div class="col-md-6">
+							<select ts-select-fix class=" form-control" [(ngModel)]="IDPParamData.rebase.transportObjectType" (change)="getObjectNames()"
+							[ngModelOptions]="{standalone: true}">
+								<option value="">---Select---</option>
+								<option *ngFor="let object of objectTypeList" value="{{object}}">{{object}}</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-row form-group" *ngIf="IDPParamData.rebase.sourceEnvSelected !== '' && IDPParamData.rebase.transportObjectType !== ''">
+							<div class="col-md-3">
+							<label>{{'Object Name'|translate}}:</label>
+							<span class="star">*</span>
+							</div>
+							<div class="col-md-6">
+							<select ts-select-fix class=" form-control" [(ngModel)]="IDPParamData.rebase.transportObject" (change)="getTRforObject()"
+							[ngModelOptions]="{standalone: true}">
+								<option value="">---Select---</option>
+								<option *ngFor="let object of objectNameList" value="{{object}}">{{object}}</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-row form-group" *ngIf="IDPParamData.rebase.sourceEnvSelected !== '' && IDPParamData.rebase.transportObject !== '' && IDPParamData.rebase.transportObjectType !== ''">
+							<div class="col-md-3">
+							<label>{{'Target Landscape'|translate}}:</label>
+							<span class="star">*</span>
+							</div>
+							<div class="col-md-6">
+							<select id="trddln" ts-select-fix class=" form-control" [(ngModel)]="IDPParamData.rebase.targetEnvSelected" [ngModelOptions]="{standalone: true}"
+							required>
+								<option value="">--Select--</option>
+								<option *ngFor="let sapEnvironment of devEnvList" [ngValue]="sapEnvironment">{{sapEnvironment}}</option>
+							</select>
+							</div>
+						</div>
 											</div>
+											
+											<div *ngIf="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on'">
+						<div class="form-row form-group">
+							<div class="col-md-3 col-form-label">
+							<label>{{'Build/Deploy Slave'|translate}} : </label>
+							</div>
+							<div class="col-md-6">
+							<select id="trddbds" [ngModelOptions]="{standalone: true}" (change)="getSlaveStatus(IDPParamData.slaveName)" [(ngModel)]="IDPParamData.slaveName"
+							class="form-control" required>
+								<option value="">--Select--</option>
+								<option *ngFor="let slave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
+							</select>
 
-										</div>
-
-										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.modules.length>0 && !idpdataService.isSAPApplication && idpdataService.triggerJobData.technology!='bigData'">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="col-md-4 text-right">
-														<label> {{'Module'|translate}}: </label>
-													</div>
-
-													<div class="col-md-8">
-														<div class="scrollVertical">
-															<div *ngFor="let module of IDPDataSwitch.modules">
-																<div style="max-height:100px; padding-left:15px;">
-																	<div class="form-group">
-																		<input id="trcbmnb" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.moduleName}}"
-																		 [required]="IDPParamData.build.module.length==0" (change)="toggleSelection(module.moduleName)" />
-																		<label> {{module.moduleName}} </label>
-																	</div>
+							</div>
+							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Not Found'">
+							<label class="text-danger">Slave is {{slavestatus}} </label>
+							</div>
+							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Offline'">
+							<label class="text-danger">Slave is {{slavestatus}} </label>
+							</div>
+							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Online'">
+							<label class="text-success">Slave is {{slavestatus}} </label>
+							</div>
+						</div>
+											</div>
+						<div *ngIf="IDPDataSwitch.testSelected==='on' " class="form-row form-group">
+						<div class="col-md-3">
+							<label class="col-form-label">{{'Test Slave'|translate}} : </label>
+						</div>
+						<div class="col-md-4" style="float: left;">
+							<select id="trddts" [ngModelOptions]="{standalone: true}" (change)="getTestSlaveStatus(IDPParamData.testSlaveName)" [(ngModel)]="IDPParamData.testSlaveName"
+							class="form-control" required>
+							<option value="">--Select--</option>
+							<option *ngFor="let tslave of  IDPDataSwitch.slaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
+							</select>
+						</div>
+						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Not Found'">
+							<label class="text-danger">Slave is {{testslavestatus}} </label>
+						</div>
+						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Offline'">
+							<label class="text-danger">Slave is {{testslavestatus}} </label>
+						</div>
+						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Online'">
+							<label class="text-success">Slave is {{testslavestatus}} </label>
+						</div>
+						</div>
+											<div *ngIf="(IDPDataSwitch.buildSelected==='on'||IDPDataSwitch.deploySelected==='on'||IDPDataSwitch.testSelected==='on')">
+												<div *ngIf="(IDPDataSwitch.buildSelected==='on')">
+							<div class="d-flex flex-row justify-content-center">
+							<div class="col-md-3 row"  *ngIf="build.cast==='true'">
+								<label> {{'Cast'|translate}}: </label>
+								<input id="trcbca" type="checkbox" (change)="IDPParamData.build.cast=$event.target.checked ? 'on':unCheckCast(); showTransportReq()" [checked]="IDPParamData.build.cast==='on'"
+								/>
+							</div>
+							<div class="col-md-3 row" *ngIf="build.codeAnalysis==='true'">
+								<label> {{'Code Analysis'|translate}}: </label>
+								<input id="trcbca" type="checkbox" (change)="IDPParamData.build.codeAnalysis=$event.target.checked ? 'on':'off'; showTransportReq()" [checked]="IDPParamData.build.codeAnalysis==='on'"
+								/>
+							</div>
+							<div class="col-md-3 row" *ngIf="build.unitTest==='true'">
+								<label> {{'Unit Testing'|translate}}: </label>
+								<input id="trcbut" type="checkbox" (change)="IDPParamData.build.unitTest=$event.target.checked ? 'on':'off'; showTransportReq()" [checked]="IDPParamData.build.unitTest==='on'"
+								/>
+							</div>
+							</div>
+							<div *ngIf="IDPParamData.build.cast==='on'">
+							<div class="form-row form-group">
+								<div class="col-md-3">
+								<label>{{'Cast Slave'|translate}} : </label>
+								</div>
+								<div class="col-md-6">
+								<select id="trddcs" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.castSlaveName" class="form-control" required>
+									<option value="">--Select--</option>
+									<option *ngFor="let cslave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{cslave}}">{{cslave}}</option>
+								</select>
+								</div>
+							</div>
+							<div class="form-row form-group">
+								<div class="col-md-3 text-right ">
+								<label>{{'Old Version'|translate}}: </label>
+								<span class="star">*</span>
+								</div>
+								<div class="col-md-6 text-left">
+								<input id="trtfov" type="text" [(ngModel)]="IDPParamData.build.oldVersion" class="form-control txtbox textFieldWidth " [ngModelOptions]="{standalone: true}"
+								required />
+								</div>
+							</div>
+							<div class="form-row form-group">
+								<div class="col-md-3 text-right">
+									<label>{{'New Version'|translate}}: </label>
+									<span class="star">*</span>
+								</div>
+								<div class="col-md-6 text-left">
+									<input id="trtfnv" type="text" [(ngModel)]="IDPParamData.build.newVersion" class="form-control txtbox textFieldWidth" [ngModelOptions]="{standalone: true}"
+									required />
+								</div>
+							</div>
+							</div>
+												</div>
+												<div *ngIf="(IDPDataSwitch.buildSelected==='on'||IDPDataSwitch.deploySelected==='on'||IDPDataSwitch.testSelected==='on')">
+														<div  *ngIf="idpdataService.checkpollALM && (IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on')">
+															<div class="form-row form-group " *ngIf="(IDPDataSwitch.buildSelected==='on' && (IDPParamData.build.cast==='on' || IDPParamData.build.codeAnalysis==='on' || IDPParamData.build.unitTest==='on')) || IDPDataSwitch.deploySelected==='on'">
+																<div class="col-md-3">
+																	<label>{{'User Story'|translate}}:
+																		<span class="star">*</span>
+																	</label>
 																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div *ngIf="(IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.subModules.length>0 && !idpdataService.isSAPApplication)">
-											<div class="form-group">
-												<div class="col-md-4 text-right">
-													<label> {{'Module'|translate}}: </label>
-												</div>
-												<div class="col-md-8">
-													<div class="scrollVertical">
-														<div *ngFor="let module of IDPDataSwitch.subModules">
-															<div style="max-height:100px; padding-left:15px;">
-																<div class="form-group">
-
-																	<input id="trcbmnbd" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.defaultModule}}"
-																	 (change)="toggleSelection1(module.moduleName)" />
-																	<label> {{module.moduleName}} </label>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.modules.length>0 && !idpdataService.isSAPApplication && idpdataService.triggerJobData.technology=='bigData'">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="col-md-4 text-right">
-														<label> {{'Module'|translate}}: </label>
-													</div>
-
-													<div class="col-md-8">
-														<div>
-															<div *ngFor="let module of IDPDataSwitch.modules">
-																<div style="max-height:100px; padding-left:15px;">
-																	<div class="form-group">
-																		<input id="trcbbbd" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.moduleName}}"
-																		 [required]="IDPParamData.build.module.length==0" (change)="toggleSelection(module.moduleName)" />
-																		<label> {{module.moduleName}} </label>
-																	</div>
-
-
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-
-
-										<!-- Code changes for slave seperation Start -->
-										<!-- {{IDPDataSwitch.appSlaves}} -->
-										<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on'">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="form-group">
-														<div class="col-md-4 text-right">
-															<label>{{'Build/Deploy Slave'|translate}} : </label>
-														</div>
-														<div class="col-md-4">
-															<select id="trddbds" [ngModelOptions]="{standalone: true}" (change)="getSlaveStatus(IDPParamData.slaveName)" [(ngModel)]="IDPParamData.slaveName"
-															 class="form-control" required>
-																<option value="">--Select--</option>
-																<option *ngFor="let slave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
-															</select>
-														</div>
-														<div class="col-md-4" *ngIf="slavestatus==='Not Found'">
-															<label class="text-danger">Slave is {{slavestatus}} </label>
-														</div>
-														<div class="col-md-4" *ngIf="slavestatus==='Offline'">
-															<label class="text-danger">Slave is {{slavestatus}} </label>
-														</div>
-														<div class="col-md-4" *ngIf="slavestatus==='Online'">
-															<label class="text-success">Slave is {{slavestatus}} </label>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div [ngSwitch]="IDPDataSwitch.testSelected==='on' ">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="form-group">
-														<div class="col-md-4 text-right">
-															<label>{{'Test Slave'|translate}} : </label>
-														</div>
-														<div class="col-md-4">
-															<select id="trddtsl" [ngModelOptions]="{standalone: true}" (change)="getTestSlaveStatus(IDPParamData.testSlaveName)" [(ngModel)]="IDPParamData.testSlaveName"
-															 class="form-control" required>
-																<option value="">--Select--</option>
-																<option *ngFor="let tslave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
-															</select>
-														</div>
-														<div class="col-md-4" *ngIf="testslavestatus==='Not Found'">
-															<label class="text-danger">Slave is {{testslavestatus}} </label>
-														</div>
-														<div class="col-md-4" *ngIf="testslavestatus==='Offline'">
-															<label class="text-danger">Slave is {{testslavestatus}} </label>
-														</div>
-														<div class="col-md-4" *ngIf="testslavestatus==='Online'">
-															<label class="text-success">Slave is {{testslavestatus}} </label>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<!-- Code changes for slave seperation End -->
-
-
-										<div *ngIf="checkEnv()">
-										</div>
-
-
-										<div [ngSwitch]="(Env!==undefined && Env.length!==0) && (IDPDataSwitch.deploySelected==='on' || IDPDataSwitch.testSelected==='on')">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="col-md-4 text-right">
-														<label> {{'Environment'|translate}}: </label>
-													</div>
-													<div class="col-md-4">
-
-														<select id="trddenv" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.envSelected"
-														 (change)="checkrmcheck();getEnvPair()" (click)="getArtifactsRm()" required>
-
-
-															<option value="">--Select--</option>
-															<option *ngFor="let env of Env" value="{{env}}">{{env}}</option>
-														</select>
-
-													</div>
-												</div>
-												<div *ngIf="IDPParamData.pairNames!==undefined && IDPParamData.pairNames.length!==0 && IDPParamData.technology==='fileNet'">
-													<div class="form-group">
-														<div class="col-md-4 text-right">
-															<label> {{'Environment Pairs'|translate}}: </label>
-														</div>
-														<div class="col-md-4">
-
-															<select id="env" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.deploy.pairName"
-															 (change)="checkrmcheck()" (click)="getArtifactsRm()" required>
-
-																<option value="">--Select--</option>
-																<option *ngFor="let env of IDPParamData.pairNames" value="{{env}}">{{env}}</option>
-															</select>
-														</div>
-													</div>
-												</div>
-
-											</div>
-
-											<div [ngSwitch]="(IDPDataSwitch.deploySelected=='on' || IDPDataSwitch.testSelected=='on') && IDPDataSwitch.sshAndDependent=='on'">
-												<div *ngSwitchCase="true">
-													<div class="form-group">
-														<div class="col-md-4 text-right">
-															<label> Use Previous Artifact : </label>
-															<input id="trcbpa" type="checkbox" name="usePreviousArtifact" class="checkbox-inline" [checked]="IDPParamData.usePreviousArtifact==='on'"
-															 (change)="IDPParamData.usePreviousArtifact=$event.target.checked ? 'on':'off'" />
-														</div>
-													</div>
-													<div [ngSwitch]="IDPParamData.usePreviousArtifact=='on'">
-														<div *ngSwitchCase="true">
-															<div class="form-group">
-																<div class="col-md-4 text-right">
-																	<label>{{'Dependent Release number'|translate}} : </label>
-																</div>
-																<div class="col-md-4">
-																	<select id="trsldrn" [(ngModel)]="IDPParamData.buildartifactNumber" [ngModelOptions]="{standalone: true}" class="form-control"
-																	 required>
-
+																<div class="col-md-6">
+																	<angular2-multiselect id="trddus" [ngModelOptions]="{standalone: true}" (change)="getTransportRequestForUserStories()" [data]="userStoryList"
+																	[(ngModel)]="selectedUS" [settings]="userstoryDropdownSettings" (onSelect)="onItemSelectUserStory($event)"
+																	(onDeSelect)="OnItemDeSelectUserStory($event)" (onSelectAll)="onSelectAllUserStory($event)" (onDeSelectAll)="onDeSelectAllUserStory($event)"
+																	required>
+																	</angular2-multiselect>
+																	
+																	<!-- <select id="trddcss" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedUSStr" class="form-control" (change)="onItemSelectUserStory(selectedUSStr)" required>
 																		<option value="">--Select--</option>
-																		{{IDPDataSwitch.relaseList}}
-																		<option *ngFor="let slave of IDPDataSwitch.relaseList" [ngValue]="slave">{{slave}}</option>
-
+																		<option *ngFor="let us of userStoryList" value="{{us.itemName}}">{{us.itemName}}</option>
+																	</select> -->
+																</div>
+															</div>
+														</div>
+														<div  *ngIf="!idpdataService.checkpollALM || (idpdataService.checkpollALM && IDPDataSwitch.deploySelected === 'on' && IDPParamData.userStories !== undefined && IDPParamData.userStories !== null && IDPParamData.userStories !== '') || (idpdataService.checkpollALM && IDPDataSwitch.testSelected === 'on')">
+															<div  class="form-row form-group"*ngIf="checkCheckBoxesOn() && hideLandscape !== true">
+																<div class="col-md-3">
+																	<label>{{'LandScape Name'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-6">
+																	<select id="trddln" ts-select-fix class=" form-control" (change)="getLandscapeType();fetchSteps()" [(ngModel)]="IDPParamData.envSelected"
+																	[ngModelOptions]="{standalone: true}" required>
+																		<option value="">--Select--</option>
+																		<option *ngFor="let sapEnvironment of idpdataService.SAPEnvList" [ngValue]="sapEnvironment">{{sapEnvironment}}</option>
 																	</select>
-
 																</div>
-
-															</div>
-
+														  </div>
 														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div [ngSwitch]="IDPDataSwitch.deploySelected==='on' && checkrm()">
-											<div *ngSwitchCase="true">
-												<div class="form-group">
-													<div class="col-md-4 text-right">
-														<label>{{'Remove Previous Assemblies'|translate}} : </label>
-													</div>
-													<div class="col-md-4">
-														<input id="trcbrpa" type="checkbox" name="removePreviousAssemblies" class="checkbox-inline" [checked]="IDPParamData.removePrevAssem==='on'"
-														 (change)="IDPParamData.removePrevAssem=$event.target.checked ? 'on':'off'" />
-													</div>
-												</div>
-
-												<div [ngSwitch]="IDPParamData.removePrevAssem=='on'">
-													<div *ngSwitchCase="true">
-														<div class="form-group">
-															<div class="col-md-4 text-right">
-																<label>{{'Previous Version'|translate}} : </label>
-															</div>
-															<div class="col-md-4 field-tip text-left">
-																<input id="trtfpv" [(ngModel)]="IDPParamData.rmAssemblies" name="rmAss" #rmAssemblies="ngModel" type="text" pattern="[a-zA-Z0-9\-\.,_]+"
-																 class="form-control txtbox " placeholder="1.0.0,2.0.0" required>
-																<span class="tip-content">{{'Enter Previous Version'|translate}}</span>
-																<div *ngIf="rmAssemblies.errors && (rmAssemblies.dirty || rmAssemblies.touched)" class="alert alert-danger ">
-																	<div [hidden]="!rmAssemblies.errors.required">
-																		This Field Name is required!
+														<div class="d-flex flex-row justify-content-center m-2" *ngIf="IDPDataSwitch.deploySelected==='on' && this.devTrue">
+																	<div class="col-md-2">
+																		<input id="trrbrelease" type="radio" [(ngModel)]="IDPParamData.deploy.deployOperationSelected" (change)="getTransportRequest()"
+																		[ngModelOptions]="{standalone: true}" value="release" />{{'Release'|translate}}
 																	</div>
-																	<div [hidden]="!rmAssemblies.errors.minlength">
-																		This Field Name must be at least 3 characters long.
-																	</div>
-																	<div [hidden]="!rmAssemblies.errors.maxlength">
-																		This Field Name cannot be more than 200 characters long.
-																	</div>
-																	<div [hidden]="!rmAssemblies.errors.pattern">
-																		This Field Name can only consist of alphabets, number, dot and underscore
+																	<div class="col-md-2">
+																		<input id="trrbimport" type="radio" [(ngModel)]="IDPParamData.deploy.deployOperationSelected" (change)="getTransportRequest()"
+																		[ngModelOptions]="{standalone: true}" value="import" />{{'Import'|translate}}
 																	</div>
 																</div>
-
-
+														<div  [hidden]="hideTransportRequests">
+															<div class="form-row form-group" *ngIf="!hideTransportRequest">
+																<div class="col-md-3">
+																	<label>{{'Transport Request'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-6">
+																	<angular2-multiselect id="trmstr" [ngModelOptions]="{standalone: true}" [data]="transportRequests" [(ngModel)]="selectedItems"
+																	[settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+																	(onDeSelectAll)="onDeSelectAll($event)" required>
+																	</angular2-multiselect>
+																</div>
 															</div>
-
 														</div>
-
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- adding for deploying artifacts-->
-										<div *ngIf="IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.repoName!=='na' || (IDPParamData.technology==='J2EE/Ant' && IDPDataSwitch.deploySelected==='on')">
-											<div>
-												<div class="form-group">
-													<div class="col-md-4 text-right">
-														<label> {{'Artifacts to deploy'|translate}}: </label>
-													</div>
-
-													<div class="col-md-4">
-
-
-														<select class="dropDown form-control" [(ngModel)]="IDPParamData.deploy.artifacts" [ngModelOptions]="{standalone: true}" (change)="clearArtifact()"
-														 (click)="getArtifactLatestDetails(IDPParamData.deploy.artifacts)" required>
-
-															<option value="">--Select--</option>
-
-															<option *ngFor="let artifact of artifacts" [ngValue]="artifact">{{artifact.artifactName}}</option>
-
-														</select>
-
-													</div>
-												</div>
-
-											</div>
-
-											<!-- Adding section for specific artifact-->
-											<div *ngIf="IDPParamData.deploy.artifacts">
-												<div [ngSwitch]="IDPDataSwitch.deploySelected=='on' && (IDPDataSwitch.buildSelected=='off' || (IDPDataSwitch.buildSelected=='on' && IDPParamData.technology==='dbDeployDelphix'))
-												 &&  IDPParamData.deploy.artifacts!==undefined && IDPParamData.deploy.artifacts!=='' && !(isLatestArtifact())">
-													<div *ngSwitchCase="true">
-
-
-
-														<div class="panel-group" id="accordion">
-															<div class="panel panel-default">
-																<div class="panel-heading">
-																	<div>
-																		<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
-																		<a href="{{dashboardUrl}}" style="color:white;" target="_blank">{{IDPParamData.deploy.artifacts.artifactName}}</a>
+														<div *ngIf="IDPDataSwitch.deploySelected==='on' && showData !== undefined && showData">
+															<div *ngIf="IDPParamData.deploy.deployOperationSelected==='release'">
+																<div id="row_line " class="form-row form-group">
+																	<div class="col-md-4 " style="padding-left: 10px;">
+																		<label> {{'Release Copies?'|translate}}: </label>
+																		<input id="trcbrc" type="checkbox" (change)="IDPParamData.copyTR=$event.target.checked ? true:false" [checked]="IDPParamData.copyTR===true"
+																		/>
 																	</div>
 																</div>
-
-
-																<div id="collapse1" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
-
-																	<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-																	 cellspacing="0" width="70%">
-																		<thead class="thead-dark">
-																			<tr style="border-color:#2885ae;border-collapse: collapse;">
-																				<th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
-																				<th style="text-align:center;  width:20%;">{{'Environment'|translate}}</th>
-																				<th style="text-align:center;  width:20%;">{{'User'|translate}}</th>
-																				<th style="text-align:center;  width:20%;">{{'Action Time'|translate}}</th>
-																				<th style="text-align:center;  width:20%;">{{'Remark'|translate}}</th>
-																			</tr>
-																		</thead>
-
-																		<tbody>
-																			<tr *ngIf="artifactDetails?.length == 0">
-																				<td colspan="5" style="text-align:center;">No Data Available To Show</td>
-																			</tr>
-																			<tr style="border-color:#2885ae;" *ngFor="let tr of artifactDetails">
-																				<td style="width:20%">{{tr.status}}</td>
-																				<td style="width:20%">{{tr.environment}}</td>
-																				<td style="width:20%">{{tr.owner}}</td>
-																				<td style="width:20%">{{tr.actionTime}}</td>
-																				<td style="width:20%">{{tr.remark}}</td>
-																			</tr>
-																		</tbody>
-
-																	</table>
-
-																</div>
-																<div class="col-md-offset-4 col-md-3" style="text-align:center;">
-																	<a href="{{IDPParamData.deploy.artifacts.downloadURL}}">Download Artifact</a>
-																</div>
-
-																<div>
-																	<div class="col-md-8">
-																		<div *ngIf="idpdataService.triggerJobData.technology=='bigData'">
-																			<div *ngFor="let module of IDPParamData.deploy.artifacts.buildModulesList">
-																				<div style="max-height:100px; padding-left:15px;">
-																					<div class="form-group">
-																						<input type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module}}" [required]="IDPParamData.deploy.deployModule==0"
-																						 (change)="toggleSelectionDeploy(module)" />
-																						<label> {{module}} </label>
+																<div *ngIf="selectedTR!==undefined && selectedTR.length>0">
+																	<div class="card-group" id="accordion">
+																		<div class="card">
+																			<div class="card-header">
+																				<div>
+																					<!--<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">-->
+											<!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+											<!--</a>-->
+																					<span>
+																						<strong>{{'Transport Requests Details'|translate}}</strong>
+																					</span>
+																				</div>
+																			</div>
+																			<div id="collapse1" style="overflow-y:scroll; height:200px;" class="ma-2">
+																				<table  style="border: 2px solid black;" class="table table-bordered table-hover table-responsive"
+																				cellspacing="0">
+																					<thead class="thead-dark">
+																						<tr style="border-color:#2885ae;border-collapse: collapse;">
+																							<th style="text-align:center;  width:25%;">{{'Transport Requests'|translate}}</th>
+																							<th style="text-align:center;  width:25%;">{{'Source Landscape'|translate}}</th>
+																							<th style="text-align:center;  width:25%;">{{'Destination Landscape'|translate}}</th>
+																							<th style="text-align:center;  width:25%;">{{'User'|translate}}</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<tr style="border-color:#2885ae;" *ngFor="let tr of selectedTR">
+																							<td style="width:25%">{{tr.transportReqName}}</td>
+																							<td style="width:25%">{{tr.srcSystem}}</td>
+																							<td style="width:25%">{{tr.destSystem}}</td>
+																							<td style="width:25%">{{tr.user}}</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			<div>
+																				<div class="col-md-8">
+																					<div *ngIf="idpdataService.triggerJobData.technology=='bigData'">
+																						<div *ngFor="let module of IDPParamData.deploy.artifacts.buildModulesList">
+																							<div style="max-height:100px; padding-left:15px;">
+																								<div class="form-row form-group">
+																									<input id="trcbmo" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module}}" [required]="IDPParamData.deploy.deployModule==0"
+																									(change)="toggleSelectionDeploy(module)" />
+																									<label> {{module}} </label>
+																								</div>
+																							</div>
+																						</div>
 																					</div>
-
-
 																				</div>
 																			</div>
 																		</div>
@@ -732,310 +496,1407 @@
 																</div>
 															</div>
 														</div>
-														<ng-container *ngIf="idpdataService.triggerJobData.technology=='informatica'">
-															<div class="panel-group" id="accordion2">
-																<div class="panel panel-default">
-																	<div class="panel-heading">
-																		<div>
-																			<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion2" href="#collapse2"></a>
-																			<span style="color:white;">
-																				<strong>{{"INFORMATICA PACKAGE CONTENT"}}</strong>
-																			</span>
-																		</div>
-																	</div>
-																	<div id="collapse2" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+														<div class="form-row form-group" *ngIf="(IDPParamData.envSelected && IDPDataSwitch.testSelected==='on' )">
+																<div class="col-md-3">
+																	<label>{{'Test Steps'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-9 text-left">
+																	<angular2-multiselect id="trmsts" [data]="dropdownListTest" [(ngModel)]="tempTestSteps" name="testSteps" (onSelect)="onItemSelectTestSteps($event);getTestPlan()"
+																	(onDeSelect)="onItemDeSelectTestSteps($event)" (onSelectAll)="onSelectAllTestSteps($event)" (onDeSelectAll)="onDeSelectAllTestSteps($event)"
+																	[settings]="testMultiselectSettings">
+																	</angular2-multiselect>
+																</div>
+														</div>
+												</div>
+											</div>
+											<!-- <div *ngIf="clearLandscapeAndUserStory()">
+											</div> -->
+										</div>
+										<!-- SAP section ends -->
 
-																		<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-																		 cellspacing="0" width="70%">
-																			<thead class="thead-dark">
-																				<tr style="border-color:#2885ae;border-collapse: collapse;">
-																					<th style="text-align:center;  width:33%;">{{'FolderName'|translate}}</th>
-																					<th style="text-align:center;  width:33%;">{{'ObjectName'|translate}}</th>
-																					<th style="text-align:center;  width:34%;">{{'ObjectType'|translate}}</th>
-																				</tr>
-																			</thead>
+										<!-- SAP charm section starts -->
+										<div *ngIf="idpdataService.isSAPApplication && IDPParamData.technology==='sapcharm' ">
+											<div class="row" style="margin-bottom: 12px;">
+												<div class="col-md-offset-2 col-md-3">
+													<input type="radio" [(ngModel)]="IDPDataSwitch.charmConfigType" (change)="clearCharmConfigType()" value="master" name="'master'"
+													/> Master
+												</div>
+												<div class="col-md-3">
+													<input type="radio" [(ngModel)]="IDPDataSwitch.charmConfigType" (change)="clearCharmConfigType()" value="workflow" name="'workflow'"
+													/> Development
+												</div>
+											</div>
+						<div class="row" style="margin-bottom: 10px;">
+						<div class="col-md-3">
+							<label> {{'Reset'|translate}}: </label>
+							<span>
+							<input id="trcbbuer" type="checkbox" [checked]="IDPDataSwitch.resetSelected === 'on'" [disabled]="IDPDataSwitch.buildSelected === 'on' || IDPDataSwitch.deploySelected === 'on' || IDPDataSwitch.testSelected === 'on' " (change)="setCharmResetLandScapeNames($event.target.checked);"
+							class="checkbox-inline" style="margin-left: 10px;"/>
+							</span>
+						</div>
+						<div class="col-md-3" *ngIf=" IDPDataSwitch.charmConfigType === 'workflow'">
+							<label> {{'Build'|translate}}: </label>
+							<span>
+							<input id="trcbbu" type="checkbox" [disabled]="IDPDataSwitch.resetSelected === 'on'" [checked]="IDPDataSwitch.buildSelected === 'on'" (change)="clearCrData();setCharmbuildLandScapeNames($event.target.checked)"
+							class="checkbox-inline" style="margin-left: 10px;"/>
+							</span>
+						</div>
+						<div class="col-md-3 ">
+							<label> {{'Deploy'|translate}}: </label>
+							<span>
+							<input id="trcbdp" type="checkbox" [disabled]="IDPDataSwitch.resetSelected === 'on'" [checked]="IDPDataSwitch.deploySelected === 'on'" (change)="clearCrData();setCharmDeployLandScapeNames($event.target.checked)"
+							class="checkbox-inline" style="margin-left: 10px;"/>
+							</span>
 
-																			<tbody>
-																				<ng-container *ngIf="informatica != undefined">
-																					<ng-container *ngFor="let folder of informatica">
+						</div>
+						<div class="col-md-3">
+							<label> {{'Test'|translate}}: </label>
+							<span>
+							<input id="trcbte" type="checkbox" [disabled]="IDPDataSwitch.resetSelected === 'on' || testEnv.length==0" [checked]="IDPDataSwitch.testSelected === 'on'" (change)="clearCrData();setCharmTestLandScapeNames($event.target.checked);"
+							class="checkbox-inline" style="margin-left: 10px;" />
+							</span>
 
-																						<tr style="border-color:#2885ae;" *ngFor="let source of folder.sourceDefinition">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{source}}</td>
-																							<td style="width:34%">{{"Source Definition"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let targetDefinition of folder.targetDefinition">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{targetDefinition}}</td>
-																							<td style="width:34%">{{"Target Definition"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let mapping of folder.mapping">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{mapping}}</td>
-																							<td style="width:34%">{{"Mapping"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let sessionconfig of folder.sessionconfig">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{sessionconfig}}</td>
-																							<td style="width:34%">{{"Session Config"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let workflow of folder.workflow">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{workflow}}</td>
-																							<td style="width:34%">{{"Workflow"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let mapplet of folder.mapplet">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{mapplet}}</td>
-																							<td style="width:34%">{{"Mapplet"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let session of folder.session">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{session}}</td>
-																							<td style="width:34%">{{"Session"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let sequence of folder.sequence">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{sequence}}</td>
-																							<td style="width:34%">{{"Sequence"}}</td>
-																						</tr>
-																						<tr style="border-color:#2885ae;" *ngFor="let worklet of folder.worklet">
-																							<td style="width:33%">{{folder.folderName}}</td>
-																							<td style="width:33%">{{worklet}}</td>
-																							<td style="width:34%">{{"Worklet"}}</td>
-																						</tr>
-																					</ng-container>
-																				</ng-container>
+						</div>
+						</div>
+						<div *ngIf="IDPDataSwitch.resetSelected==='on'">
+							<div class="form-row form-group">
+								<label class="col-md-3">{{'Reset Slave'|translate}} : </label>
+								<select id="trddbds" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.slaveName" class="form-control col-md-6"
+								required>
+									<option value="">--Select--</option>
+									<option *ngFor="let slave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
+								</select>
+								<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+									<label class="text-danger">Slave is {{slavestatus}} </label>
+									</div>
+									<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+									<label class="text-danger">Slave is {{slavestatus}} </label>
+									</div>
+									<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+									<label class="text-success">Slave is {{slavestatus}} </label>
+									</div>
+							</div>
+						</div>
+						<div *ngIf="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on'">
+							<div class="form-row form-group">
+							<div class="col-md-3" style="float: left;">
+							<label>{{'Build/Deploy Slave'|translate}} : </label>
+							</div>
+							<div class="col-md-4" style="float: left;margin: -10px 0 0 0;">
+							<select id="trddbds" [ngModelOptions]="{standalone: true}" (change)="getSlaveStatus(IDPParamData.slaveName)" [(ngModel)]="IDPParamData.slaveName"
+							class="form-control" required>
+								<option value="">--Select--</option>
+								<option *ngFor="let slave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
+							</select>
 
-																			</tbody>
-
-																		</table>
-
-																	</div>
-
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+							<label class="text-danger">Slave is {{slavestatus}} </label>
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+							<label class="text-danger">Slave is {{slavestatus}} </label>
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+							<label class="text-success">Slave is {{slavestatus}} </label>
+							</div>
+						</div>
+											</div>
+						<div class="form-row form-group" *ngIf="IDPDataSwitch.testSelected==='on' ">
+							<div class="col-md-3" style="float: left;">
+							<label>{{'Test Slave'|translate}} : </label>
+							</div>
+							<div class="col-md-4" style="float: left;">
+							<select id="trddts" [ngModelOptions]="{standalone: true}" (change)="getTestSlaveStatus(IDPParamData.testSlaveName)" [(ngModel)]="IDPParamData.testSlaveName"
+							class="form-control" required>
+								<option value="">--Select--</option>
+								<option *ngFor="let tslave of  IDPDataSwitch.slaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
+							</select>
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Not Found'">
+							<label class="text-danger">Slave is {{testslavestatus}} </label>
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Offline'">
+							<label class="text-danger">Slave is {{testslavestatus}} </label>
+							</div>
+							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Online'">
+							<label class="text-success">Slave is {{testslavestatus}} </label>
+							</div>
+						</div>
+											<div *ngIf="(IDPDataSwitch.buildSelected==='on'||IDPDataSwitch.deploySelected==='on'||IDPDataSwitch.testSelected==='on'||IDPDataSwitch.resetSelected === 'on')">
+												<div *ngIf="(IDPDataSwitch.buildSelected==='on')">
+							<div class="col-md-8 form-row form-group" style="padding-left: 0;">
+								<div class="col-md-3" *ngIf="build.unitTest==='true'">
+								<label> {{'Unit Testing'|translate}}: </label>
+								<input id="trcbut" type="checkbox" (change)="IDPParamData.build.unitTest=$event.target.checked ? 'on':'off'; trackEnabledForUT();"
+								[checked]="IDPParamData.build.unitTest==='on'" style="margin-left: 10px;"/>
+								</div>
+								<div class="col-md-3 " *ngIf="build.codeAnalysis==='true'" style="margin-left: 14%;">
+								<label> {{'Code Analysis'|translate}}: </label>
+								<input id="trcbca" type="checkbox" (change)="IDPParamData.build.codeAnalysis=$event.target.checked ? 'on':'off'; trackEnabledForUT();"
+								[checked]="IDPParamData.build.codeAnalysis==='on'" style="margin-left: 10px;"/>
+								</div>
+							</div>
+												</div>
+												<div *ngIf="(IDPDataSwitch.buildSelected==='on'||IDPDataSwitch.deploySelected==='on'||IDPDataSwitch.testSelected==='on'||IDPDataSwitch.resetSelected === 'on')">
+														<div  *ngIf="idpdataService.checkpollALM && (IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on')">
+															<div class="form-row form-group " *ngIf="(IDPDataSwitch.buildSelected==='on' && (IDPParamData.build.cast==='on' || IDPParamData.build.codeAnalysis==='on' || IDPParamData.build.unitTest==='on')) || IDPDataSwitch.deploySelected==='on'">
+																<div class="col-md-3">
+																	<label>{{'User Story'|translate}}:
+																		<span class="star">*</span>
+																	</label>
+																</div>
+																<div class="col-md-6">
+																	<angular2-multiselect id="trddus" [ngModelOptions]="{standalone: true}" (change)="getTransportRequestForUserStories()" [data]="userStoryList"
+																	[(ngModel)]="selectedUS" [settings]="userstoryDropdownSettings" (onSelect)="onItemSelectUserStory($event)"
+																	(onDeSelect)="OnItemDeSelectUserStory($event)" (onSelectAll)="onSelectAllUserStory($event)" (onDeSelectAll)="onDeSelectAllUserStory($event)"
+																	required>
+																	</angular2-multiselect>
 																</div>
 															</div>
-														</ng-container>
-														<ng-container *ngIf="idpdataService.triggerJobData.technology=='J2EE/Ant'">
-															<div class="panel-group" id="accordionAnt">
-																<div class="panel panel-default">
-																	<div class="panel-heading">
-																		<div>
-																			<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordionAnt" href="#collapseAnt"></a>
-																			<span style="color:white;">
-																				<strong>{{"ANT PACKAGE CONTENT"}}</strong>
-																			</span>
-																		</div>
-																	</div>
-																	<div id="collapseAnt" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
-
-																		<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-																		 cellspacing="0" width="70%">
-																			<thead class="thead-dark">
-																				<tr style="border-color:#2885ae;border-collapse: collapse;">
-																					<th style="text-align:center;  width:50%;">{{'Module Number'|translate}}</th>
-																					<th style="text-align:center;  width:50%;">{{'Module Name'|translate}}</th>
-																				</tr>
-																			</thead>
-
-																			<tbody>
-																				<ng-container *ngIf="ant != undefined">
-																					<ng-container *ngFor="let antModuleName of ant;let i = index">
-
-																						<tr style="border-color:#2885ae;">
-																							<td style="width:50%">{{i+1}}</td>
-																							<td style="width:50%">{{antModuleName}}</td>
-																						</tr>
-																					</ng-container>
-																				</ng-container>
-
-																			</tbody>
-
-																		</table>
-
-																	</div>
-
+														</div>
+														<div  *ngIf="IDPDataSwitch.resetSelected === 'on' || !idpdataService.checkpollALM || (idpdataService.checkpollALM && IDPDataSwitch.deploySelected === 'on' && IDPDataSwitch.buildSelected !== 'on' && IDPParamData.userStories !== undefined && IDPParamData.userStories !== null && IDPParamData.userStories !== '') || (idpdataService.checkpollALM && IDPDataSwitch.testSelected === 'on'&& IDPDataSwitch.buildSelected !== 'on')">
+															<div class="form-row form-group" *ngIf="checkCheckBoxesOn() && !(IDPDataSwitch.deploySelected !== 'on' && IDPDataSwitch.testSelected !== 'on' && IDPDataSwitch.buildSelected === 'on')">
+																<div class="col-md-3">
+																	<label>{{'LandScape Name'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-6">
+																	<select id="trddln" ts-select-fix class="text-center form-control" (change)="checkIfTrackEnabled();" [(ngModel)]="IDPParamData.envSelected"
+																	[ngModelOptions]="{standalone: true}" required>
+																		<option value="">--Select--</option>
+																		<option *ngFor="let sapEnvironment of idpdataService.SAPEnvList" [ngValue]="sapEnvironment">{{sapEnvironment}}</option>
+																	</select>
 																</div>
 															</div>
-														</ng-container>
-														<ng-container *ngIf="idpdataService.triggerJobData.technology=='dotNetCsharp'">
-															<div class="panel-group" id="accordionDotNet">
-																<div class="panel panel-default">
-																	<div class="panel-heading">
-																		<div>
-																			<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordionDotNet" href="#collapseDotNet"></a>
-																			<span style="color:white;">
-																				<strong>{{"DOTNET PACKAGE CONTENT"}}</strong>
-																			</span>
-																		</div>
-																	</div>
-																	<div id="collapseDotNet" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+														</div>
 
-																		<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-																		 cellspacing="0" width="70%">
-																			<thead class="thead-dark">
-																				<tr style="border-color:#2885ae;border-collapse: collapse;">
-																					<th style="text-align:center;  width:50%;">{{'Module Number'|translate}}</th>
-																					<th style="text-align:center;  width:50%;">{{'Module Name'|translate}}</th>
-																				</tr>
-																			</thead>
-
-																			<tbody>
-																				<ng-container *ngIf="dotNet != undefined">
-																					<ng-container *ngFor="let dotNetModuleName of dotNet;let i = index">
-
-																						<tr style="border-color:#2885ae;">
-																							<td style="width:50%">{{i+1}}</td>
-																							<td style="width:50%">{{dotNetModuleName}}</td>
-																						</tr>
-																					</ng-container>
-																				</ng-container>
-
-																			</tbody>
-
-																		</table>
-
-																	</div>
-
+														<div *ngIf="checkCheckBoxesOn() && IDPDataSwitch.deploySelected === 'on' && selectedLandscapeType === 'PROD'">
+															<div class="form-row form-group">
+																<div class="col-md-3">
+																	<label>{{'Approval Stage'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-6">
+																	<select id="trddln" ts-select-fix class="text-center form-control" (change)="clearCrData();validateForST();" [(ngModel)]="IDPParamData.approvalSelected"
+																	[ngModelOptions]="{standalone: true}" required>
+																		<option value="">--Select--</option>
+																		<option *ngFor="let stageName of approvalStages" [ngValue]="stageName">{{stageName}}</option>
+																	</select>
 																</div>
 															</div>
-														</ng-container>
+														</div>
 														
+														<div *ngIf="(IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on' || IDPDataSwitch.testSelected === 'on' || IDPDataSwitch.resetSelected === 'on')">
+															<div *ngIf="(IDPDataSwitch.buildSelected==='on' && ( IDPParamData.build.codeAnalysis==='on' || IDPParamData.build.unitTest==='on')) || IDPDataSwitch.deploySelected==='on' || IDPDataSwitch.testSelected === 'on' || IDPDataSwitch.resetSelected === 'on'">
+																<div class="form-row form-group" style="margin-bottom: 0;" *ngIf="isEnableTrack === 'on'">
+																	<div class="form-row form-group col-md-6" style="padding: 0 0 0 0;float:left;">
+																		<div class="col-md-3">
+																			<label style="padding-left: 5px;">{{'Track'|translate}}:
+																				<span class="star">*</span>
+																			</label>
+																		</div>
+																		<div class="col-md-6" style="margin-left: 25%;">
+																			<select id="sapTrackInput" ts-select-fix class="text-center form-control" (change)="clearCrCd();fetchSapSubTracks()" [(ngModel)]="charmTriggerData.sapTrackSelected"
+																			[ngModelOptions]="{standalone: true}" required>
+																				<option value="">--Select--</option>
+																				<option *ngFor="let trackInfo of filterTrack(changeRequestDetails.crsBasedOnTrackSubtrack)" [ngValue]="trackInfo.track">{{ trackDisplayedName(trackInfo) }} </option>
+																			</select>
+
+																		</div>
+																	</div>
+																	<div class="form-row form-group col-md-6" *ngIf="charmTriggerData.sapTrackSelected">
+																		<div class="col-md-4">
+																			<label style="padding: 5px 0 0 10px;">{{'Sub-Track'|translate}}:
+																				<span class="star">*</span>
+																			</label>
+																		</div>
+																		<div class="col-md-6">
+																			<select id="sapTrackInput" ts-select-fix class="text-center form-control" (change)="clearCrCd();fetchChangeRequest()" [(ngModel)]="charmTriggerData.sapSubTrackSelected"
+																			[ngModelOptions]="{standalone: true}" required>
+																				<option value="">--Select--</option>
+																				<option *ngFor="let trackInfo of sapSubTrackListTemp" [ngValue]="trackInfo.val">{{trackInfo.description}}</option>
+																			</select>
+	
+																		</div>
+																	</div>
+																</div>
+																<div class="form-row form-group" *ngIf="charmTriggerData.sapSubTrackSelected">
+																	<div class="col-md-3">
+																		<label>{{'Change Request'|translate}}:
+																			<span class="star">*</span>
+																		</label>
+																	</div>
+																	<div class="col-md-6">
+																		<select id="crsaplist" ts-select-fix class="text-center form-control" (change)="fetchChangeDocument();updateCRRole()" [(ngModel)]="charmTriggerData.changeRequest"
+																		[ngModelOptions]="{standalone: true}" required>
+																			<option value="">--Select--</option>
+																			<option *ngFor="let changeRequest of changeRequestListTemp" [ngValue]="changeRequest.val">{{changeRequest.description}}</option>
+																		</select>
+
+																	</div>
+																</div>
+																<div class="form-row form-group" *ngIf="charmTriggerData.changeRequest">
+																	<div class="col-md-3">
+																		<label>{{'Change Document'|translate}}:
+																			<span class="star">*</span>
+																		</label>
+																	</div>
+																	<div class="col-md-6">
+																		<angular2-multiselect id="cdsapid" [ngModelOptions]="{standalone: true}" [data]="changeDocumentListDescDropdown" [(ngModel)]="selectedCD"
+																		[settings]="changeDocumentDropdownSettings" (onSelect)="OnItemSelectChangeDocument($event)" (onDeSelect)="OnItemDeSelectChangeDocument($event)"
+																		(onSelectAll)="onSelectAllChangeDocument($event)" (onDeSelectAll)="onDeSelectAllChangeDocument($event)"
+																		required>
+																		</angular2-multiselect>
+
+
+																	</div>
+																</div>
+																<div *ngIf="cdDetailsList!==undefined && cdDetailsList.length>0">
+																<div class="card">
+									<div class="card-header">
+										<div>
+										<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
+										<span>
+											<strong>{{'Change Request Details : '|translate}}</strong>
+											<strong>{{charmTriggerData.changeRequest}}</strong>
+										</span>
+										</div>
+									</div>
+									<div id="collapse1" style="overflow-y:scroll; height:200px;" class="ma-2">
+										<table id="example" class="table table-bordered table-hover table-responsive p-2"
+										cellspacing="0" >
+										<thead class="thead-dark">
+											<tr style="border-color:#2885ae;border-collapse: collapse;">
+											<th style="text-align:center;  width:20%;">{{'Change Document Number'|translate}}</th>
+											<th style="text-align:center;  width:20%;">{{'Change Document Description'|translate}}</th>
+											<th style="text-align:center;  width:20%;">{{'Change Document Status'|translate}}</th>
+											<th style="text-align:center;  width:20%;">{{'Transport Number'|translate}}</th>
+											<th style="text-align:center;  width:20%;">{{'Transport Description'|translate}}</th>
+											<th style="text-align:center;  width:20%;">{{'Transport Status'|translate}}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr style="border-color:#2885ae;" *ngFor="let cd of cdDetailsList">
+											<td style="width:20%">{{cd.cdNumber}}</td>
+											<td style="width:20%">{{cd.cdDescription}}</td>
+											<td style="width:20%">{{cd.cdStatus}}</td>
+											<td style="width:20%">{{cd.trNumber}}</td>
+											<td style="width:20%">{{cd.trDescription}}</td>
+											<td style="width:20%">{{cd.trStatus}}</td>
+											</tr>
+										</tbody>
+										</table>
+									</div>
+								</div>
+																</div>
+															</div>
+
+														</div>
+														<div class="form-row form-group" *ngIf="(IDPParamData.envSelected && IDPDataSwitch.testSelected==='on' )">
+																<div class="col-md-3">
+																	<label>{{'Test Steps'|translate}}:</label>
+																	<span class="star">*</span>
+																</div>
+																<div class="col-md-9">
+																	<angular2-multiselect id="trmsts" [data]="dropdownListTest" [(ngModel)]="tempTestSteps" name="testSteps" (onSelect)="onItemSelectTestSteps($event);getTestPlan()"
+																	(onDeSelect)="onItemDeSelectTestSteps($event)" (onSelectAll)="onSelectAllTestSteps($event)" (onDeSelectAll)="onDeSelectAllTestSteps($event)"
+																	[settings]="testMultiselectSettings">
+																	</angular2-multiselect>
+																</div>
+															</div>
+												</div>
+											</div>
+
+										</div>
+										<!-- SAP charm section ends -->
+
+					<!-- ALM starts -->
+										<div class="form-row form-group" *ngIf="!idpdataService.isSAPApplication && IDPParamData.technology!=='SAPPI' && IDPParamData.jiraProjectKey === ''">
+
+											<div class="col-md-3">
+												<label> {{'Story/Task Number(s) '|translate}} : </label>
+											</div>
+											<div class="col-md-4">
+												<input id="trtfst" name="workItem" #workItem="ngModel" pattern="[0-9]+(,[0-9]+)*" (input)="clearWorkItemField()" [(ngModel)]="IDPParamData.tfsWorkItem"
+												class="form-control" style="height:35px">
+												<div *ngIf="workItem.errors && (workItem.dirty || workItem.touched)" class="alert alert-danger ">
+
+													<div [hidden]="!workItem.errors.pattern">
+														This Field Name can only consist of numbers (comma seperated work items)!!
+													</div>
+												</div>
+												<div class="alert alert-danger" *ngIf="notFound.length>0">
+													Work item numbers
+													<span *ngFor="let name of notFound;let i=index">
+														{{name.workItem}}
+														<span *ngIf="i!=notFound.length-1">, </span>
+													</span>
+													<span *ngIf="notFound.length>1">do</span>
+													<span *ngIf="notFound.length===1">does</span> not exist.
+												</div>
+												<div class="alert alert-danger" *ngIf="invalid.length>0">
+													Work item number
+													<span *ngIf="invalid.length>1">s</span>
+													<span *ngFor="let name of invalid;let i=index">
+														{{name.workItem}}
+														<span *ngIf="i!=invalid.length-1">, </span>
+													</span>
+													<span *ngIf="invalid.length>1">are</span>
+													<span *ngIf="invalid.length===1">is</span> not Story/Task number
+													<span *ngIf="invalid.length>1">s</span>.
+
+												</div>
+												<div class="alert alert-success" *ngIf="validWorkItems">
+													Work Items have been validated.
+												</div>
+											</div>
+											<div class="col-md-4" *ngIf="IDPParamData.tfsWorkItem">
+												<button id="trbuwi" type="button" name="validate" class="btn btn-primary" (click)="validate()">Validate</button>
+											</div>
+
+										</div>
+										<div class="form-row form-group" *ngIf="IDPParamData.jiraProjectKey !== undefined && IDPParamData.jiraProjectKey !=='' && !idpdataService.isSAPApplication && IDPParamData.technology!=='SAPPI'">
+											<div class="form-row form-group">
+
+												<div class="col-md-4 text-right">
+													<label>{{'UserStories'|translate}}:</label>
+												</div>
+												<div class="col-md-4">
+
+													<input id="trtfus" name="userStory" #userStory="ngModel" type="text" class="form-control txtbox textFieldWidth" [(ngModel)]="IDPParamData.userStoryString"
+													[ngModelOptions]="{standalone: true}" (input)="clearUserStory()" />
+													<div *ngIf="userStory.errors && (userStory.dirty || userStory.touched)" class="alert alert-danger ">
+														<div [hidden]="!userStory.errors.pattern">
+															This Field Name can only consist of numbers (comma seperated user stories)!!
+														</div>
+													</div>
+													<div class="alert alert-danger" *ngIf="IDPParamData.userStoryString!=='' && valideStory==='true' && validateClick==='false'">
+
+														<span>User Stories are not valid</span>
+													</div>
+													<div class="alert alert-success" *ngIf="IDPParamData.userStoryString!=='' && valideStory==='true' && validateClick==='true'">
+
+														<span>User Stories have been validated</span>
+													</div>
+
+												</div>
+												<div *ngIf="IDPParamData.userStoryString!==''" class="col-md-4">
+													<button id="trbuva" type="button" class="btn btn-primary btn-md" (click)="validateStories()" [disabled]="IDPParamData.userStoryString===''">{{'Validate'|translate}}</button>
+												</div>
+											</div>
+
+										</div>
+					<!-- ALM ends -->
+										<div id="row_line " class="row form-row form-group" style="padding-top: 20px;" *ngIf="!idpdataService.isSAPApplication">
+
+											<div [ngSwitch]="IDPDataSwitch.build" style="margin-right: 15%;" *ngIf="!(IDPParamData.technology==='J2EE/Ant' && IDPDataSwitch.modules.length ===0 )">
+												<div *ngSwitchCase="true">
+													<div class="col-md-3">
+														<label> {{'Build'|translate}}: </label>
+														<span>
+															<input id="trcbbui" type="checkbox" [checked]="IDPDataSwitch.buildSelected==='on'" (change)="IDPDataSwitch.buildSelected=$event.target.checked ? setArtifact1():closeBuild();"
+															class="checkbox-inline" />
+														</span>
+													</div>
+												</div>
+
+											</div>
+
+
+											<div [ngSwitch]="IDPDataSwitch.deploy" style="margin-right: 15%;">
+												<div *ngSwitchCase="true">
+													<div class="col-md-3">
+														<label> {{'Deploy'|translate}}: </label>
+														<span>
+															<input id="trcbdep" type="checkbox" (change)="IDPDataSwitch.deploySelected=$event.target.checked ? setArtifact2():closeDeploy();checkEnvToPopulate()"
+															[checked]="IDPDataSwitch.deploySelected==='on'" [disabled]="((disableflag!==undefined && disableflag===true) || IDPDataSwitch.deployEnv.length===0 && IDPDataSwitch.deployTestEnv.length===0   || (IDPDataSwitch.repoName==='na' && IDPDataSwitch.buildSelected==='off' && IDPParamData.technology !=='J2EE/Ant' && IDPParamData.technology !=='fileNet'))"
+															class="checkbox-inline" id="deployCheck" />
+														</span>
 													</div>
 												</div>
 											</div>
-											<!-- Ending section for specific artifact-->
+
+											<div [ngSwitch]="IDPDataSwitch.test" style="margin-right: 15%;">
+												<div *ngSwitchCase="true">
+													<div class="col-md-3">
+														<label> {{'Test'|translate}}: </label>
+														<span>
+															<input id="trcbtes" type="checkbox" (change)="IDPDataSwitch.testSelected=$event.target.checked ? 'on':closeTest();checkEnvToPopulate()"
+															[disabled]="this.IDPDataSwitch.testEnv.length===0 && this.IDPDataSwitch.deployTestEnv.length===0" class="checkbox-inline"
+															/>
+														</span>
+													</div>
+
+												</div>
+											</div>
+
 										</div>
-										<!-- ending deploying artfacts -->
 
-										<div id="row_line " class="row form-group" style="padding-left:90px ">
-											<div *ngIf="IDPDataSwitch.buildSelected=='on' || IDPDataSwitch.testSelected=='on'">
-												<div [ngSwitch]="IDPDataSwitch.gitTagEnable">
-													<div *ngSwitchCase="'on'">
-														<div class="col-md-3">
-															<label> {{'Git Tagging'|translate}}: </label>
-															<input type="checkbox" (change)="IDPParamData.gitTag=$event.target.checked ? 'on':'off'" [checked]="IDPParamData.gitTag==='on'"
-															 class="checkbox-inline" />
+										<!-- Start DBDeploy Section -->
+										<div *ngIf="IDPDataSwitch.deploySelected==='on' && idpdataService.triggerJobData.technology==='dbDeploy'" style="padding-top: 20px; padding-left:10px ">
+											<div class="form-row form-group">
+												<div class="col-md-4 text-right">
+													<span>DBOperation:</span>
+												</div>
+												<div class="col-md-4">
+													<input id="trrbup" type="radio" [(ngModel)]="IDPParamData.deploy.dbDeployOperation" value="update" required name="dbDeployOperation">&nbsp; {{'Update'|translate}}
+													<input id="trrbrb" type="radio" [(ngModel)]="IDPParamData.deploy.dbDeployOperation" required value="rollback" name="dbDeployOperation">&nbsp; {{'RollBack'|translate}}
+												</div>
+											</div>
+										</div>
+										<div [ngSwitch]="IDPDataSwitch.deploySelected==='on' && idpdataService.triggerJobData.technology==='dbDeploy' && IDPParamData.deploy.dbDeployOperation=='rollback'"
+										style="padding-top: 20px;padding-left:10px;">
+											<div *ngSwitchCase="true">
+												<div class="form-row form-group">
+													<div class="col-md-4 text-right">
+														<span>RollBack Strategy:</span>
+													</div>
+													<div class="col-md-4 text-left">
+														<select id="trddrs" ts-select-fix class=" form-control" [(ngModel)]="IDPParamData.deploy.dbDeployRollbackType"
+														[ngModelOptions]="{standalone: true}" (change)="changeDBDeployRollbackValues()" required>
+															<option value="">---Select---</option>
+															<option *ngFor="let rollbackType of dbDeployRollbackTypeList" [ngValue]="rollbackType.value">{{rollbackType.name}}</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-row form-group" *ngIf="IDPParamData.deploy.dbDeployRollbackType!=''">
+													<div class="col-md-4 text-right">
+														<span>RollBack Value:</span>
+													</div>
+													<div *ngIf="IDPParamData.deploy.dbDeployRollbackType==='byTag'" class="col-md-4 text-left">
+														<input id="trtfrvt" type="text" class="form-control" placeholder="Tag" #tagTag="ngModel" name="tagTag" [(ngModel)]="IDPParamData.deploy.dbDeployRollbackValue"
+														style="width:100%" required />
+														<div *ngIf="tagTag.errors && (tagTag.dirty || tagTag.touched)" class="alert alert-danger ">
+															<div [hidden]="!tagTag.errors.required">
+																This Field Name is required!
+															</div>
+														</div>
+													</div>
+													<div *ngIf="IDPParamData.deploy.dbDeployRollbackType==='byChangeSet'" class="col-md-4 text-left">
+														<input id="trtfrvc" type="text" class="form-control" placeholder="ChangeSet" #tagChangeSet="ngModel" name="tagChangeSet"
+														pattern="[0-9]+" [(ngModel)]="IDPParamData.deploy.dbDeployRollbackValue" style="width:100%" required />
+														<div *ngIf="tagChangeSet.errors && (tagChangeSet.dirty || tagChangeSet.touched)" class="alert alert-danger ">
+															<div [hidden]="!tagChangeSet.errors.required">
+																This Field Name is required!
+															</div>
+															<div [hidden]="!tagChangeSet.errors.pattern">
+																This Field Name can only consist of numbers
+															</div>
+														</div>
+													</div>
+													<div *ngIf="IDPParamData.deploy.dbDeployRollbackType==='byDate'" class="col-md-4 text-left">
+														<owl-date-time id="trclrvd" [(ngModel)]="IDPParamData.deploy.dbDeployRollbackValue" [type]="'both'" [dataType]="'string'"
+														name="tagDate" #tagDate="ngModel" [autoClose]=true [dateFormat]="'YYYY-MM-DDTHH:mm:ss'" [showSecondsTimer]="true"
+														[required]=true [placeHolder]="'yyyy-mm-dd'"></owl-date-time>
+														<div *ngIf="tagDate.errors && (tagDate.dirty || tagDate.touched)" class="alert alert-danger ">
+															<div [hidden]="!tagDate.errors.required">
+																This Field Name is required!
+															</div>
+														</div>
 
+													</div>
+													<div *ngIf="IDPParamData.deploy.dbDeployRollbackType==='byHours'" class="col-md-4 text-left">
+														<input id="trtfrvh" type="text" class="form-control" placeholder="Tag" name="tagHours" pattern="[0-9]+" [(ngModel)]="IDPParamData.deploy.dbDeployRollbackValue"
+														#tagHours="ngModel" style="width:100%" required />
+														<div *ngIf="tagHours.errors && (tagHours.dirty || tagHours.touched)" class="alert alert-danger ">
+															<div [hidden]="!tagHours.errors.required">
+																This Field Name is required!
+															</div>
+															<div [hidden]="!tagHours.errors.pattern">
+																This Field Name can only consist of numbers
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
+										<!-- End DBDeploy Section -->
 
-										<div class="row form-group">
-											<div [ngSwitch]="(IDPDataSwitch.deploySelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '') && (idpdataService.triggerJobData.technology !=='fileNet')">
+										<div *ngIf="!idpdataService.isSAPApplication">
+											<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.buildBranch>0">
 												<div *ngSwitchCase="true">
-													<div class="col-md-4 text-right">
-														<label>{{'Deploy Steps'|translate}}:</label>
-													</div>
-													<div class="col-md-5 text-left">
-														<angular2-multiselect id="trmsdst" [data]="dropdownListDeploy" [(ngModel)]="tempDeploySteps" name="deploySteps" (onSelect)="onItemSelectDepSteps($event)"
-														 (onDeSelect)="onItemDeSelectDepSteps($event)" (onSelectAll)="onSelectAllDepSteps($event)" (onDeSelectAll)="onDeSelectAllDepSteps($event)"
-														 [settings]="deployMultiselectSettings" required>
-														</angular2-multiselect>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row form-group">
-											<div [ngSwitch]="(IDPDataSwitch.testSelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '')">
-												<div *ngSwitchCase="true">
-													<div class="col-md-4 text-right">
-														<label>{{'Test Steps'|translate}}:</label>
-													</div>
-
-													<div class="col-md-5 text-left">
-														<angular2-multiselect id="trmstst" [data]="dropdownListTest" [(ngModel)]="tempTestSteps" name="testSteps" (onSelect)="onItemSelectTestSteps($event);getTestPlan()"
-														 (onDeSelect)="onItemDeSelectTestSteps($event)" (onSelectAll)="onSelectAllTestSteps($event);getTestPlan()" (onDeSelectAll)="onDeSelectAllTestSteps($event)"
-														 [settings]="testMultiselectSettings">
-														</angular2-multiselect>
+													<div class="form-row form-group" style="padding-top: 20px">
+														<div class="col-md-4 ">
+															<label> {{'Branch'|translate}}: </label>
+														</div>
+														<div class="col-md-4">
+															<select id="trddbr" ng-options="let branch of IDPDataSwitch.buildBranch" [(ngModel)]="IDPParamData.build.branchSelected"
+															class="form-control" required>
+																<option value="">--Select--</option>
+																<!-- <option ng:repeat="branch in Branch" value="{{branch.name}}">
+															{{branch.name}}</option> -->
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
 
-										</div>
-										<div class="row form-group" *ngIf="testPlansList!==undefined && testPlansList.length>0">
-											<div class="col-md-4 text-right">
-												<label>{{'Test Plan'|translate}}:</label>
-											</div>
-											<div class="col-md-6 text-left">
-												<select id="trsltp" class="form-control" name="testPlans" style="width:50%" (change)="getTestSuits(IDPParamData.testPlanId)"
-												 [(ngModel)]="IDPParamData.testPlanId" required>
-													<option value="">--Select--</option>
-													<option *ngFor="let tests of testPlansList" [ngValue]="tests.testPlanId">{{tests.testPlanName}}</option>
-												</select>
-												{{tests}}
-											</div>
-										</div>
-										<div class="row form-group" *ngIf="testSuitList!==undefined && testSuitList.length>0">
-											<div class="col-md-4 text-right">
-												<label>{{'Test Suits'|translate}}:</label>
-											</div>
-											<div class="col-md-6 text-left">
-												<span *ngFor="let id of testSuitId ">
-													{{id}}
-													<span *ngIf="testSuitId.indexOf(id)!==testSuitId.length-1">,</span>
-												</span>
-												<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
-													<div class="form-inline row-item">
+											<!-- Additinal Job parameter  -->
+											<!--Siebel build Selected-->
+											<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && idpdataService.triggerJobData.technology=='siebel' ">
+												<div *ngSwitchCase="true">
+													<div class="col-md-4 text-right">
+														<label> {{'Build Options'|translate}} : </label>
+													</div>
+													<div class="col-md-8">
 
-														<i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
-														 [class.fa-caret-down]="!item.collapsed"></i>
+														<span>
+															<input id="trcbsi" type="checkbox" [checked]="IDPDataSwitch.sifImport=='on'" (change)="toggleSelectionSiebel('SIFSelected')"
+															class="checkbox-inline" />
+														</span>
+														<label> {{'SIF Import'|translate}} </label>
 
-														<div class="form-check">
-															<input id="trcbit" type="checkbox" class="form-check-input" name="{{item.value}}" [checked]="checkChecked(item.checked)"
-															 (ngModelChange)="onCheckedChange()" [disabled]="item.disabled" (change)="item.checked=addItem($event)" [indeterminate]="item.indeterminate"
-															/>
-															<label class="form-check-label">
-																{{item.text}}
+														<span>
+															&nbsp;&nbsp;&nbsp;&nbsp;
+															<input id="trcbsc" type="checkbox" [checked]="IDPDataSwitch.srfcompile=='on'" (change)="toggleSelectionSiebel('Full_Compile')"
+															class="checkbox-inline" />
+														</span>
+														<label> {{'SRF Compile'|translate}} </label>
+													</div>
+												</div>
+											</div>
+
+											<div *ngIf="showJobParamFlag!==undefined && showJobParamFlag==='on'">
+												<div class="card-body ">
+													<div class="container-fluid form-row form-group ">
+														<label>
+															<b> {{'Additional Pipeline Parameters '|translate}}: </b>
+														</label>
+													</div>
+													<div *ngFor="let param of jobParamList; let k =index" [attr.data-index]="k">
+														<div *ngIf="param.jobParamSatic != true " class="container-fluid form-row form-group">
+															<label class="col-md-3  control-label">
+																{{param.jobParamName |translate}}
+																<span> : </span>
 															</label>
 
+															<div *ngIf="param.jobType != 'pwd'" class="col-md-3 field-tip ">
+																<!-- <div class="col-md-3 field-tip "> -->
+																	<input id="trtfapp" class="form-control" [(ngModel)]="param.jobParamValue" name="jobParamValue+{{k}}" #jobParamValue="ngModel"
+																	placeholder="{{param.jobParamValue}}" type="text" required>
+																<!-- </div> -->
+															</div>
+															<div *ngIf="param.jobType === 'pwd'" class="col-md-3 field-tip">
+																<!-- <div > -->
+																	<input id="trowapp" class="form-control" [(ngModel)]="param.jobParamValue" name="jobParamValue+{{k}}" #jobParamValue="ngModel"
+																	placeholder="{{param.jobParamValue}}" type="password" required>
+																<!-- </div> -->
+															</div>
+														</div>
+
+													</div>
+												</div>
+
+											</div>
+
+											<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.modules.length>0 && !idpdataService.isSAPApplication && idpdataService.triggerJobData.technology!='bigData'">
+												<div *ngSwitchCase="true">
+													<div class="form-row form-group">
+														<div class="col-md-4 ">
+															<label> {{'Module'|translate}}: </label>
+														</div>
+
+														<div class="col-md-8">
+															<div class="scrollVertical">
+																<div *ngFor="let module of IDPDataSwitch.modules">
+																	<div style="max-height:100px; padding-left:15px;">
+																		<div class="form-row form-group">
+																			<input id="trcbmnb" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.moduleName}}"
+																			[required]="IDPParamData.build.module.length==0" (change)="toggleSelection(module.moduleName)" />
+																			<label> {{module.moduleName}} </label>
+																		</div>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
-												</ng-template>
-												<ngx-treeview [config]="config" [items]="testSuitList" [itemTemplate]="itemTemplate" (selectedChange)="onSelectedChange($event)">
-												</ngx-treeview>
-											</div>
-										</div>
-
-										<!--starting database deployment-->
-
-										<!-- End of IBM RQM -->
-
-									</div>
-
-									<div class="row">
-										<div>
-											<div class="alert alert-success notify-trigger" *ngIf="msg=='success'">
-												<strong>{{'The pipeline has been triggered'|translate}}.</strong>
-												<!-- {{'Redirecting to PreviousConfiguration'|translate}}. -->
+												</div>
 											</div>
 
-											<div class="alert alert-danger notify-trigger" *ngIf="msg=='error'">
-												<strong>{{'Error! The pipeline is not triggered. Please contact IDP admin'|translate}}</strong>
+											<div *ngIf="(IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.subModules.length>0 && !idpdataService.isSAPApplication)">
+												<div class="form-row form-group">
+													<div class="col-md-4 ">
+														<label> {{'Module'|translate}}: </label>
+													</div>
+													<div class="col-md-8">
+														<div class="scrollVertical">
+															<div *ngFor="let module of IDPDataSwitch.subModules">
+																<div style="max-height:100px; padding-left:15px;">
+																	<div class="form-row form-group">
+
+																		<input id="trcbmnbd" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.defaultModule}}"
+																		(change)="toggleSelection1(module.moduleName)" />
+																		<label> {{module.moduleName}} </label>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div class="col-md-8"></div>
+											<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' && IDPDataSwitch.modules.length>0 && !idpdataService.isSAPApplication && idpdataService.triggerJobData.technology=='bigData'">
+												<div *ngSwitchCase="true">
+													<div class="form-row form-group">
+														<div class="col-md-4 text-right">
+															<label> {{'Module'|translate}}: </label>
+														</div>
 
-										<div *ngIf="idpdataService.schedulePage!==true && !idpdataService.createWorkflowSequenceflag" class="col-md-4 paddingbottom">
-											<div class="col-md-12 btn-container mg15" style="padding-top: 15px">
-												<!-- <button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')"> -->
-												<button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || disableSubmitBtn || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')">
+														<div class="col-md-8">
+															<div>
+																<div *ngFor="let module of IDPDataSwitch.modules">
+																	<div style="max-height:100px; padding-left:15px;">
+																		<div class="form-row form-group">
+																			<input id="trcbbbd" type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module.moduleName}}"
+																			[required]="IDPParamData.build.module.length==0" (change)="toggleSelection(module.moduleName)" />
+																			<label> {{module.moduleName}} </label>
+																		</div>
 
-													<span [hidden]="parameterloading"> {{'Submit'|translate}} &nbsp;</span>
-													<span [hidden]="!parameterloading">{{'Submitting'|translate}} &nbsp;
-														<i class="fa fa-spinner fa-spin"></i>
+
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Run Checkmarx changes -->
+											<div *ngIf="IDPDataSwitch.buildSelected=='on' && IDPDataSwitch.checkmarxTag === 'on' " id="row_line " class="row form-group" style="padding-left:90px ">
+												<div>
+													<div class="col-md-3">
+														<label> {{'Run Checkmarx'|translate}}: </label>
+														<input type="checkbox" (change)="IDPParamData.build.runCheckmarxInput=$event.target.checked ? 'on':'';updateIncrementalScan()" [checked]="IDPParamData.build.runCheckmarxInput==='on'"
+														class="checkbox-inline" />
+													</div>
+												</div>
+												<!-- Incremental Scan -->
+												<div id="row_line " class="row form-group" style="padding-left:90px " *ngIf="IDPParamData.build.runCheckmarxInput === 'on'">
+													<div>
+														<div class="col-md-3">
+															<label> {{'Incremental Scan'|translate}}: </label>
+															<input type="checkbox" (change)="IDPParamData.build.checkmarxIncremental=$event.target.checked ? 'on':'off'" [checked]="IDPParamData.build.checkmarxIncremental==='on'"
+															class="checkbox-inline" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- {{IDPDataSwitch.appSlaves}} -->
+											<div [ngSwitch]="IDPDataSwitch.buildSelected==='on' || IDPDataSwitch.deploySelected==='on'">
+												<div *ngSwitchCase="true">
+													<div class="form-group">
+														<div class="form-group">
+															<div class="col-md-3 "style="float: left;">
+																<label>{{'Build/Deploy Slave'|translate}} : </label>
+															</div>
+															<div class="col-md-4" style="float: left; margin: -10px 0 0 0;">
+																<select id="trddbds" [ngModelOptions]="{standalone: true}" (change)="getSlaveStatus(IDPParamData.slaveName)" [(ngModel)]="IDPParamData.slaveName"
+																class="form-control" required>
+																	<option value="">--Select--</option>
+																	<option *ngFor="let slave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
+																</select>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+																<label class="text-danger">Slave is {{slavestatus}} </label>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+																<label class="text-danger">Slave is {{slavestatus}} </label>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+																<label class="text-success">Slave is {{slavestatus}} </label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div [ngSwitch]="IDPDataSwitch.testSelected==='on' ">
+												<br/>
+												<div *ngSwitchCase="true">
+													<div class="form-group">
+														<div class="form-group">
+															<div class="col-md-3" style="float: left;">
+																<label>{{'Test Slave'|translate}} : </label>
+															</div>
+															<div class="col-md-4" style="float: left;">
+																<select id="trddtsl" [ngModelOptions]="{standalone: true}" (change)="getTestSlaveStatus(IDPParamData.testSlaveName)" [(ngModel)]="IDPParamData.testSlaveName"
+																class="form-control" required>
+																	<option value="">--Select--</option>
+																	<option *ngFor="let tslave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
+																</select>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Not Found'">
+																<label class="text-danger">Slave is {{testslavestatus}} </label>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Offline'">
+																<label class="text-danger">Slave is {{testslavestatus}} </label>
+															</div>
+															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Online'">
+																<label class="text-success">Slave is {{testslavestatus}} </label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<!-- Code changes for slave seperation End -->
+
+
+											<div *ngIf="checkEnv()">
+											</div>
+
+											<br/>
+											<div [ngSwitch]="(Env!==undefined && Env.length!==0) && (IDPDataSwitch.deploySelected==='on' || IDPDataSwitch.testSelected==='on')">
+												<div *ngSwitchCase="true">
+													<div class="form-group" style="margin-top: 25px;">
+														<div class="col-md-3" style="float: left; margin-top: 5px;">
+															<label> {{'Environment'|translate}}: </label>
+														</div>
+														<div class="col-md-4" style="float: left;">
+
+															<select id="trddenv" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.envSelected"
+															(change)="checkrmcheck();getEnvPair();rmsToken()" (click)="optionalGetArtifactsRm()" required>
+
+
+																<option value="">--Select--</option>
+																<option *ngFor="let env of Env" value="{{env}}">{{env}}</option>
+															</select>
+
+														</div>
+													</div> <br/>
+													<div *ngIf="IDPParamData.pairNames!==undefined && IDPParamData.pairNames.length!==0 && IDPParamData.technology==='fileNet'">
+														<div class="form-group">
+															<div class="col-md-3 " style="float: left; margin-top: 5px;">
+																<label> {{'Environment Pairs'|translate}}: </label>
+															</div>
+															<div class="col-md-4">
+
+																<select id="env" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.deploy.pairName"
+																(change)="checkrmcheck()" (click)="getArtifactsRm()" required>
+
+																	<option value="">--Select--</option>
+																	<option *ngFor="let env of IDPParamData.pairNames" value="{{env}}">{{env}}</option>
+																</select>
+															</div>
+														</div>
+													</div>
+
+												</div>
+
+												<div [ngSwitch]="(IDPDataSwitch.deploySelected=='on' || IDPDataSwitch.testSelected=='on') && IDPDataSwitch.sshAndDependent=='on'">
+													<div *ngSwitchCase="true">
+														<div class="form-row form-group">
+															<div class="col-md-4 ">
+																<label> Use Previous Artifact : </label>
+																<input id="trcbpa" type="checkbox" name="usePreviousArtifact" class="checkbox-inline" [checked]="IDPParamData.usePreviousArtifact==='on'"
+																(change)="IDPParamData.usePreviousArtifact=$event.target.checked ? 'on':'off'" />
+															</div>
+														</div>
+														<div [ngSwitch]="IDPParamData.usePreviousArtifact=='on'">
+															<div *ngSwitchCase="true">
+																<div class="form-row form-group">
+																	<div class="col-md-4 ">
+																		<label class="col-form-label">{{'Dependent Release number'|translate}} : </label>
+																	</div>
+																	<div class="col-md-9">
+																		<select id="trsldrn" [(ngModel)]="IDPParamData.buildartifactNumber" [ngModelOptions]="{standalone: true}" class="form-control"
+																		required>
+
+																			<option value="">--Select--</option>
+																			{{IDPDataSwitch.relaseList}}
+																			<option *ngFor="let slave of IDPDataSwitch.relaseList" [ngValue]="slave">{{slave}}</option>
+
+																		</select>
+
+																	</div>
+
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div [ngSwitch]="IDPDataSwitch.deploySelected==='on' && checkrm()">
+												<div *ngSwitchCase="true">
+													<div class="form-row form-group">
+														<div class="col-md-4 ">
+															<label>{{'Remove Previous Assemblies'|translate}} : </label>
+														</div>
+														<div class="col-md-4">
+															<input id="trcbrpa" type="checkbox" name="removePreviousAssemblies" class="checkbox-inline" [checked]="IDPParamData.removePrevAssem==='on'"
+															(change)="IDPParamData.removePrevAssem=$event.target.checked ? 'on':'off'" />
+
+														</div>
+
+													</div>
+
+
+													<div [ngSwitch]="IDPParamData.removePrevAssem=='on'">
+														<div *ngSwitchCase="true">
+															<div class="form-row form-group">
+																<div class="col-md-4 ">
+																	<label>{{'Previous Version'|translate}} : </label>
+																</div>
+																<div class="col-md-4 field-tip text-left">
+																	<input id="trtfpv" [(ngModel)]="IDPParamData.rmAssemblies" name="rmAss" #rmAssemblies="ngModel" type="text" pattern="[a-zA-Z0-9\-\.,_]+"
+																	class="form-control txtbox " placeholder="1.0.0,2.0.0" required>
+																	<span class="tip-content">{{'Enter Previous Version'|translate}}</span>
+																	<div *ngIf="rmAssemblies.errors && (rmAssemblies.dirty || rmAssemblies.touched)" class="alert alert-danger ">
+																		<div [hidden]="!rmAssemblies.errors.required">
+																			This Field Name is required!
+																		</div>
+																		<div [hidden]="!rmAssemblies.errors.minlength">
+																			This Field Name must be at least 3 characters long.
+																		</div>
+																		<div [hidden]="!rmAssemblies.errors.maxlength">
+																			This Field Name cannot be more than 200 characters long.
+																		</div>
+																		<div [hidden]="!rmAssemblies.errors.pattern">
+																			This Field Name can only consist of alphabets, number, dot and underscore
+																		</div>
+																	</div>
+
+
+																</div>
+
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<br/>
+											<!-- adding for deploying artifacts-->
+											<div *ngIf="IDPDataSwitch.deploySelected==='on' && IDPDataSwitch.repoName!=='na' || (IDPParamData.technology==='J2EE/Ant' && IDPDataSwitch.deploySelected==='on')">
+												<div>
+													<div class="form-group">
+														<div class="col-md-3" style="float: left;">
+															<label> {{'Artifacts to deploy'|translate}}: </label>
+														</div>
+
+														<div class="col-md-4" style="float: left;">
+															<select class="dropDown form-control" [(ngModel)]="IDPParamData.deploy.artifacts" [ngModelOptions]="{standalone: true}" (change)="clearArtifact()"
+															(click)="getArtifactLatestDetails(IDPParamData.deploy.artifacts)" required>
+																<option value="">--Select--</option>
+																<option *ngFor="let artifact of artifacts" [ngValue]="artifact">{{artifact.artifactName}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<br/>
+
+												<!-- Adding section for specific artifact-->
+												<div *ngIf="IDPParamData.deploy.artifacts">
+													<div [ngSwitch]="IDPDataSwitch.deploySelected=='on' && (IDPDataSwitch.buildSelected=='off' || (IDPDataSwitch.buildSelected=='on' && IDPParamData.technology==='dbDeployDelphix'))
+													&&  IDPParamData.deploy.artifacts!==undefined && IDPParamData.deploy.artifacts!=='' && !(isLatestArtifact())">
+														<div *ngSwitchCase="true">
+
+
+
+															<div class="panel-group" id="accordion">
+																<div class="card" style="margin-top: 21px;">
+																	<div class="card-header" style="background-color: #6e8da2f5;">
+																		<div>
+																			<a data-toggle="collapse"  data-parent="#accordion" href="#collapse1">
+										<i class="fa fa-minus" aria-hidden="true" style="margin-right: 10px;"></i>
+										</a>
+																			<a href="{{dashboardUrl}}" style="color:white;" target="_blank">{{IDPParamData.deploy.artifacts.artifactName}}</a>
+																		</div>
+																	</div>
+
+
+																	<div id="collapse1" style="overflow-y:scroll; height:185px; margin-top: 10px;" class="ma-2">
+
+																		<table id="example" style="border: 2px solid black; width: 97%; font-size: 13px; margin: 5px 10px 10px 12px;" class="table table-bordered table-hover table-responsive" 
+																		cellspacing="0">
+																			<thead class="thead-dark">
+																				<tr style="border-color:#2885ae;border-collapse: collapse;">
+																					<th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
+																					<th style="text-align:center;  width:20%;">{{'Environment'|translate}}</th>
+																					<th style="text-align:center;  width:20%;">{{'User'|translate}}</th>
+																					<th style="text-align:center;  width:20%;">{{'Action Time'|translate}}</th>
+																					<th style="text-align:center;  width:20%;">{{'Remark'|translate}}</th>
+																				</tr>
+																			</thead>
+
+																			<tbody>
+																				<tr *ngIf="artifactDetails?.length == 0">
+																					<td colspan="5" style="text-align:center;">No Data Available To Show</td>
+																				</tr>
+																				<tr style="border-color:#2885ae;" *ngFor="let tr of artifactDetails">
+																					<td style="width:20%">{{tr.status}}</td>
+																					<td style="width:20%">{{tr.environment}}</td>
+																					<td style="width:20%">{{tr.owner}}</td>
+																					<td style="width:20%">{{tr.actionTime}}</td>
+																					<td style="width:20%">{{tr.remark}}</td>
+																				</tr>
+																			</tbody>
+
+																		</table>
+
+																	</div>
+																	<div class="col-md-offset-4 col-md-3" style="margin-bottom: 15px;">
+																		<a href="{{IDPParamData.deploy.artifacts.downloadURL}}">Download Artifact</a>
+																	</div>
+
+																	<div>
+																		<div class="col-md-8">
+																			<div *ngIf="idpdataService.triggerJobData.technology=='bigData'">
+																				<div *ngFor="let module of IDPParamData.deploy.artifacts.buildModulesList">
+																					<div style="max-height:100px; padding-left:15px;">
+																						<div class="form-row form-group">
+																							<input type="checkbox" [checked]="module.defaultModule==='on'" class="checkbox-inline" value="{{module}}" [required]="IDPParamData.deploy.deployModule==0"
+																							(change)="toggleSelectionDeploy(module)" />
+																							<label> {{module}} </label>
+																						</div>
+
+
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='informatica'">
+																<div class="panel-group" id="accordion2">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse"  data-parent="#accordion2" href="#collapse2">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</a>
+																				<span style="color:white;">
+																					<strong>{{"INFORMATICA PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapse2" style="overflow-y:scroll; height:200px;" class=" in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:33%;">{{'FolderName'|translate}}</th>
+																						<th style="text-align:center;  width:33%;">{{'ObjectName'|translate}}</th>
+																						<th style="text-align:center;  width:34%;">{{'ObjectType'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="informatica != undefined">
+																						<ng-container *ngFor="let folder of informatica">
+
+																							<tr style="border-color:#2885ae;" *ngFor="let source of folder.sourceDefinition">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{source}}</td>
+																								<td style="width:34%">{{"Source Definition"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let targetDefinition of folder.targetDefinition">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{targetDefinition}}</td>
+																								<td style="width:34%">{{"Target Definition"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let mapping of folder.mapping">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{mapping}}</td>
+																								<td style="width:34%">{{"Mapping"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let sessionconfig of folder.sessionconfig">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{sessionconfig}}</td>
+																								<td style="width:34%">{{"Session Config"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let workflow of folder.workflow">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{workflow}}</td>
+																								<td style="width:34%">{{"Workflow"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let mapplet of folder.mapplet">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{mapplet}}</td>
+																								<td style="width:34%">{{"Mapplet"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let session of folder.session">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{session}}</td>
+																								<td style="width:34%">{{"Session"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let sequence of folder.sequence">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{sequence}}</td>
+																								<td style="width:34%">{{"Sequence"}}</td>
+																							</tr>
+																							<tr style="border-color:#2885ae;" *ngFor="let worklet of folder.worklet">
+																								<td style="width:33%">{{folder.folderName}}</td>
+																								<td style="width:33%">{{worklet}}</td>
+																								<td style="width:34%">{{"Worklet"}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='siebel'">
+																<div class="panel-group" id="accordionSiebel">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse"  data-parent="#accordionSiebel" href="#collapseSiebel">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</a>
+																				<span style="color:white;">
+																					<strong>{{"SIEBEL PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapseSiebel" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:50%;">{{'Object Type'|translate}}</th>
+																						<th style="text-align:center;  width:50%;">{{'Object Name'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="siebel.repoList != undefined">
+																						<ng-container *ngFor="let repoName of siebel.repoList;">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{'REPO' |translate }}</td>
+																								<td style="width:50%">{{repoName}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+																					<ng-container *ngIf="siebel.nonRepoList != undefined">
+																						<ng-container *ngFor="let repoName of siebel.nonRepoList;">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{'NON-REPO' |translate }}</td>
+																								<td style="width:50%">{{repoName}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='J2EE/Ant'">
+																<div class="panel-group" id="accordionAnt">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse"  data-parent="#accordionAnt" href="#collapseAnt">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</a>
+																				<span style="color:white;">
+																					<strong>{{"ANT PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapseAnt" style="overflow-y:scroll; height:200px;" class=" in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:50%;">{{'Module Number'|translate}}</th>
+																						<th style="text-align:center;  width:50%;">{{'Module Name'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="ant != undefined">
+																						<ng-container *ngFor="let antModuleName of ant;let i = index">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{i+1}}</td>
+																								<td style="width:50%">{{antModuleName}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='dotNetCsharp'">
+																<div class="panel-group" id="accordionDotNet">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse"  data-parent="#accordionDotNet" href="#collapseDotNet">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</a>
+																				<span style="color:white;">
+																					<strong>{{"DOTNET PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapseDotNet" style="overflow-y:scroll; height:200px;" class=" in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:50%;">{{'Module Number'|translate}}</th>
+																						<th style="text-align:center;  width:50%;">{{'Module Name'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="dotNet != undefined">
+																						<ng-container *ngFor="let dotNetModuleName of dotNet;let i = index">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{i+1}}</td>
+																								<td style="width:50%">{{dotNetModuleName}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='bigData'">
+																<div class="panel-group" id="accordionBigData">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse"  data-parent="#accordionBigData" href="#collapseBigData">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</a>
+																				<span style="color:white;">
+																					<strong>{{"BIGDATA PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapseBigData" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:50%;">{{'Module Number'|translate}}</th>
+																						<th style="text-align:center;  width:50%;">{{'Module Name'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="bigData != undefined">
+																						<ng-container *ngFor="let bigDataModuleName of bigData;let i = index">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{i+1}}</td>
+																								<td style="width:50%">{{bigDataModuleName}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+															<!-- pega trigger pipeline changes -->
+															<ng-container *ngIf="idpdataService.triggerJobData.technology=='pega'">
+																<div class="panel-group" id="accordionPega">
+																	<div class="card">
+																		<div class="card-header">
+																			<div>
+																				<a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordionPega" href="#collapsePega"></a>
+																				<span style="color:white;">
+																					<strong>{{"PEGA PACKAGE CONTENT"}}</strong>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="collapsePega" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+
+																			<table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
+																			cellspacing="0" width="70%">
+																				<thead class="thead-dark">
+																					<tr style="border-color:#2885ae;border-collapse: collapse;">
+																						<th style="text-align:center;  width:50%;">{{'File Number'|translate}}</th>
+																						<th style="text-align:center;  width:50%;">{{'File Name'|translate}}</th>
+																					</tr>
+																				</thead>
+
+																				<tbody>
+																					<ng-container *ngIf="pega.pegaFileList != undefined">
+																						<ng-container *ngFor="let fileList of pega.pegaFileList;let i = index">
+
+																							<tr style="border-color:#2885ae;">
+																								<td style="width:50%">{{i+1}}</td>
+																								<td style="width:50%">{{fileList}}</td>
+																							</tr>
+																						</ng-container>
+																					</ng-container>
+
+																				</tbody>
+
+																			</table>
+
+																		</div>
+
+																	</div>
+																</div>
+															</ng-container>
+														</div>
+													</div>
+												</div>
+												<!-- Ending section for specific artifact-->
+											</div>
+											<!-- ending deploying artfacts -->
+											<br/>
+
+											<div class="form-row form-group" [ngSwitch]="(IDPDataSwitch.deploySelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '') && (idpdataService.triggerJobData.technology !=='fileNet')">
+													<div class="row col-12" *ngSwitchCase="true">
+													<label class="col-md-3" style="left: 14px;">{{'Deploy Steps'|translate}}:</label>
+														<div class="col-md-8" style=" margin-left: 12px;">
+															<angular2-multiselect id="trmsdst" [data]="dropdownListDeploy" [(ngModel)]="tempDeploySteps" name="deploySteps" (onSelect)="onItemSelectDepSteps($event)"
+															(onDeSelect)="onItemDeSelectDepSteps($event)" (onSelectAll)="onSelectAllDepSteps($event)" (onDeSelectAll)="onDeSelectAllDepSteps($event)"
+															[settings]="deployMultiselectSettings" required>
+															</angular2-multiselect>
+														</div>
+													</div>
+											</div>
+											<div class="form-row form-group" [ngSwitch]="(IDPDataSwitch.testSelected=='on') && (IDPParamData.envSelected != undefined) && (IDPParamData.envSelected != '')">
+												<!-- <div > -->
+													<div class="row col-12" *ngSwitchCase="true">
+														<!-- <div class="col-md-3 "> -->
+															<label class="col-md-3" style="margin-left: 12px;">{{'Test Steps'|translate}}:</label>
+														<!-- </div> -->
+
+														<div class="col-md-8 text-left">
+															<angular2-multiselect id="trmstst" [data]="dropdownListTest" [(ngModel)]="tempTestSteps" name="testSteps" (onSelect)="onItemSelectTestSteps($event);getTestPlan()"
+															(onDeSelect)="onItemDeSelectTestSteps($event)" (onSelectAll)="onSelectAllTestSteps($event);getTestPlan()" (onDeSelectAll)="onDeSelectAllTestSteps($event)"
+															[settings]="testMultiselectSettings">
+															</angular2-multiselect>
+														</div>
+													</div>
+												<!-- </div> -->
+
+											</div>
+											<div class="form-row form-group" *ngIf="testPlansList!==undefined && testPlansList.length>0">
+												<div class="col-md-4 ">
+													<label>{{'Test Plan'|translate}}:</label>
+												</div>
+												<div class="col-md-6 text-left">
+													<select id="trsltp" class="form-control" name="testPlans" style="width:50%" (change)="getTestSuits(IDPParamData.testPlanId)"
+													[(ngModel)]="IDPParamData.testPlanId" required>
+														<option value="">--Select--</option>
+														<option *ngFor="let tests of testPlansList" [ngValue]="tests.testPlanId">{{tests.testPlanName}}</option>
+													</select>
+													{{tests}}
+												</div>
+											</div>
+											<div class="form-row form-group" *ngIf="testSuitList!==undefined && testSuitList.length>0">
+												<div class="col-md-4 ">
+													<label>{{'Test Suits'|translate}}:</label>
+												</div>
+												<div class="col-md-6 text-left">
+													<span *ngFor="let id of testSuitId ">
+														{{id}}
+														<span *ngIf="testSuitId.indexOf(id)!==testSuitId.length-1">,</span>
 													</span>
-												</button>
-											</div>
-										</div>
-										<div *ngIf="idpdataService.schedulePage===true || idpdataService.createWorkflowSequenceflag" class="col-md-4 paddingbottom">
-											<div class="col-md-12 btn-container" style="padding-top: 15px">
-												<button id="trbusa" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt">
-													<span> {{'Save'|translate}} &nbsp;</span>
+													<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+														<div class="form-inline row-item">
 
-												</button>
+															<i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
+															[class.fa-caret-down]="!item.collapsed"></i>
+
+															<div class="form-check">
+																<input id="trcbit" type="checkbox" class="form-check-input" name="{{item.value}}" [checked]="checkChecked(item.checked)"
+																(ngModelChange)="onCheckedChange()" [disabled]="item.disabled" (change)="item.checked=addItem($event)" [indeterminate]="item.indeterminate"
+																/>
+																<label class="form-check-label">
+																	{{item.text}}
+																</label>
+
+															</div>
+														</div>
+													</ng-template>
+													<ngx-treeview [config]="config" [items]="testSuitList" [itemTemplate]="itemTemplate" (selectedChange)="onSelectedChange($event)">
+													</ngx-treeview>
+												</div>
+											</div>
+
+											<!--starting database deployment-->
+
+											<!-- End of IBM RQM -->
+
+										</div>
+
+										<div class="row">
+											<div>
+												<div class="alert alert-success notify-trigger" *ngIf="msg=='success'">
+													<strong>{{'The pipeline has been triggered'|translate}}.</strong>
+													<!-- {{'Redirecting to PreviousConfiguration'|translate}}. -->
+												</div>
+
+												<div class="alert alert-danger notify-trigger" *ngIf="msg=='error'">
+													<strong>{{'Error! The pipeline is not triggered. Please contact IDP admin'|translate}}</strong>
+												</div>
+											</div>
+											<div class="col-md-8"></div>
+
+											<div class="alert alert-danger col-md-12" *ngIf="showPermissionError !== ''" style="text-align: center;">{{showPermissionError}}</div>
+											<div class="alert alert-warning col-md-12" *ngIf="showErrorForST" style="text-align: center;">
+													Please ensure to have the Signed off document uploaded for UAT.
+											</div>
+
+											<div *ngIf="idpdataService.schedulePage!==true && !idpdataService.createWorkflowSequenceflag" class="col-md-12 paddingbottom" style="float: right;">
+												<div class="col-md-12 btn-container mg15" style="padding-top: 15px">
+													<!-- <button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')"> -->
+													<button id="trbusu" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt" [disabled]="isParameterDisabled || disableSubmitBtn || (IDPParamData.tfsWorkItem && !validWorkItems) || (IDPParamData.userStoryString!=='' && validateClick === 'false')">
+
+														<span [hidden]="parameterloading"> {{'Submit'|translate}} &nbsp;</span>
+														<span [hidden]="!parameterloading">{{'Submitting'|translate}} &nbsp;
+															<i class="fa fa-spinner fa-spin"></i>
+														</span>
+													</button>
+												</div>
+											</div>
+											<div *ngIf="idpdataService.schedulePage===true || idpdataService.createWorkflowSequenceflag" class="col-md-12 paddingbottom" style="float: right;">
+												<div class="col-md-12 btn-container" style="padding-top: 15px">
+													<button id="trbusa" type="submit" class="btn btn-success btn-md" style="float: right;" id="btn_txt">
+														<span> {{'Save'|translate}} &nbsp;</span>
+
+													</button>
+												</div>
 											</div>
 										</div>
 									</div>

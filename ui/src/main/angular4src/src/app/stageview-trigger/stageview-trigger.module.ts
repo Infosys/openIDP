@@ -9,27 +9,20 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { StageviewTriggerComponent } from "./stageview-trigger.component";
 import { stageviewTriggerRouter } from "./stageview-trigger.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { SafePipeModule } from "../safe-pipe.module";
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 @NgModule({
   imports: [
     CommonModule,
     stageviewTriggerRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
-    SafePipeModule
+    SafePipeModule,
+    TranslateModule
   ],
   declarations: [StageviewTriggerComponent
   ]

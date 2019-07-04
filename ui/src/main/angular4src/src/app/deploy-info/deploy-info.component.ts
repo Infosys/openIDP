@@ -1,4 +1,4 @@
-/**
+﻿/**
 *
 * Copyright 2018 Infosys Ltd.
 * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
@@ -11,12 +11,16 @@ import { IdpService } from "../idp-service.service";
 import { IdpdataService } from "../idpdata.service";
 import { Router } from "@angular/router";
 import { Validators } from "@angular/forms";
+import { FormControl, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Renderer } from "@angular/core";
 import { ViewChild } from "@angular/core";
 import { IDPEncryption } from "../idpencryption.service";
 import { IdpSubmitService } from "../idpsubmit.service";
-import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { ParentFormConnectComponent } from "../parent-form-connect/parent-form-connect.component";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: "app-deploy-info",
@@ -28,6 +32,7 @@ export class DeployInfoComponent implements OnInit {
   env: any = {};
   envtoolList: any=[];
   scriptList: any = [];
+  buildList: any= [];
   deploymentList: any = [];
   data: any = {};
   testInfo: any = this.IdpdataService.data.testInfo;
@@ -44,11 +49,13 @@ export class DeployInfoComponent implements OnInit {
   tempObject: any = this.IdpdataService.data.checkboxStatus.deployInfo;
   p: boolean;
   dbList: any;
+  dataJson:any;
   geFlag: boolean;
   containerList: any;
   deployToContainer: any = {};
   deployDatabase: any = {};
   formStatusObject = this.IdpdataService.data.formStatus;
+  copyEditOperation=this.IdpdataService.copyEditOperation;
   ssoId: any;
   ssoName: any;
   serverIndex: any;
@@ -58,6 +65,8 @@ export class DeployInfoComponent implements OnInit {
   outerIndex: any;
   innerIndex: any;
   msg: any;
+  insightsFlag=this.IdpdataService.insightsFlag;
+  cloudDeployFlag=this.IdpdataService.cloudDeployFlag;
   loc: any;
   passphrasefrombuild: any;
   Artifactvalue: any;
@@ -93,22 +102,25 @@ export class DeployInfoComponent implements OnInit {
     { "name": "Update DBC", "value": "updateDBC" },
     { "name": "XML Deploy", "value": "xmlDeploy" },
   ];
-  @ViewChild("modalforAlert") button;
-  @ViewChild("modalforAlertDeploy") button1;
-  @ViewChild("modalforDel") DelScm;
-  @ViewChild("modalforDelField") DelField;
-  @ViewChild("modalforDelAllField") DelAllField;
-  @ViewChild("modalforAlertDataMiss") missData;
-  @ViewChild("modalforDelAntProperties") DelAntProp;
-  @ViewChild("modalforDotNet") dotNetButton;
-  @ViewChild("modalformandatoryFieldsDeployAlert") mandatoryFieldsAlert;
-  @ViewChild("modalforconfirmDeployAlert") confirmationAlert;
-  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
-  @ViewChild('modalforMaximo') maximoButton;
-  public editorOptionsLeft: JsonEditorOptions;
-  public editorOptionsRight: JsonEditorOptions;
-  public dataEditorLeft: any;
-  public dataEditorRight:any;
+  deployAemOperations = [
+    { "name": "Upload & Install", "value": "packageUploadInstall" },
+    { "name": "Upload Only", "value": "packageUploadNotInstall" },
+    { "name": "Rebuild", "value": "packageRebuild" },
+    { "name": "Uninstall", "value": "packageUninstall" },
+    { "name": "Delete", "value": "packageDelete" },
+
+  ];
+
+  @ViewChild("modalforAlertDeploy") modalforAlertDeploy;
+  @ViewChild("modalforDelDeployStep") modalforDelDeployStep;
+  @ViewChild("modalforDelField") modalforDelField;
+  @ViewChild("modalforDelAllField") modalforDelAllField;
+  @ViewChild("modalforAlertDataMiss") modalforAlertDataMiss;
+  @ViewChild("modalforDelAntProperties") modalforDelAntProperties;
+  @ViewChild("modalforDotNet") modalforDotNet;
+  @ViewChild("modalformandatoryFieldsDeployAlert") modalformandatoryFieldsDeployAlert;
+  @ViewChild("modalforconfirmDeployAlert") modalforconfirmDeployAlert;
+  @ViewChild('modalforMaximo') modalforMaximo;
 
 
   public rapidPage: any = {
@@ -119,147 +131,38 @@ export class DeployInfoComponent implements OnInit {
         }]
     }], "pageName": "DefaultPage", "pageLayout": "DEFAULT_LAYOUT", "editMode": true
   };
+    alertDeployModalRef: BsModalRef;
+    missingDataModalRef: BsModalRef;
+    dotnetAlertModalRef: BsModalRef;
+    delDeployStepModalRef: BsModalRef;
+    delFiledModalRef: BsModalRef;
+    delAllFieldsModalRef: BsModalRef;
+    delAntPropertyModalRef: BsModalRef;
+    confirmSubmissionModalRef: BsModalRef;
+    mandatoryMissingModalRef: BsModalRef;
+    modalForMaximoRef: BsModalRef;
+    deployStepsCollapseStatus:Array<Array<any>> = [];
   ngOnInit() {
     if (this.IdpdataService.data.formStatus.basicInfo.appNameStatus === "0") {
-        this.msg = "Application Name";
-        this.loc = "/createConfig/basicInfo";
-        this.TriggerAlert();
+        this.TriggerAlert({msg:"Application Name",loc:"/createConfig/basicInfo"});
     } else {
         if (this.IdpdataService.data.formStatus.buildInfo.buildToolStatus === "0") {
         console.log(1);
         this.msg = "Technology Type";
         this.loc = "/createConfig/codeInfo";
         // this.IdpdataService.data.p=true;
-        this.TriggerAlert();
+        this.TriggerAlert({msg:"Technology Type",loc:"/createConfig/codeInfo"});
 
         }
     }
     if (this.buildInfo.buildtool === "maximo" && this.IdpdataService.data.basicInfo.buildServerOS !== "windows") {
-        this.maximoButton.nativeElement.click();
+        this.modalForMaximoRef = this.modalService.show(this.modalforMaximo);
     }
     const applName = this.IdpdataService.data.basicInfo.applicationName;
-    this.dataEditorLeft =
-  {
-"application": applName,
-"id": "cfe00b10-f0f3-41c0-8edb-cee90a45d4ee",
-"index": 2,
-"keepWaitingPipelines": false,
-"lastModifiedBy": "anonymous",
-"limitConcurrent": true,
-"name": "test2",
-"stages": [
-  {
-    "clusters": [
-      {
-        "account": "my-k8s-account",
-        "application": applName,
-        "cloudProvider": "kubernetes",
-        "containers": [
-          {
-            "args": [],
-            "command": [],
-            "envFrom": [],
-            "envVars": [],
-            "imageDescription": {
-              "imageId": "index.docker.io/vishnuag1/spring-server:1.0.8",
-              "registry": "index.docker.io",
-              "repository": "vishnuag1/spring-server",
-              "tag": "1.0.8"
-            },
-            "imagePullPolicy": "IFNOTPRESENT",
-            "name": "vishnuag1-spring-server",
-            "ports": [
-              {
-                "containerPort": 8080,
-                "name": "http",
-                "protocol": "TCP"
-              }
-            ],
-            "volumeMounts": []
-          }
-        ],
-        "dnsPolicy": "ClusterFirst",
-        "events": [],
-        "initContainers": [],
-        "interestingHealthProviderNames": [
-          "KubernetesContainer",
-          "KubernetesPod"
-        ],
-        "loadBalancers": [
-          "flowtest-ft-ft1"
-        ],
-        "namespace": "default",
-        "nodeSelector": {},
-        "podAnnotations": {},
-        "provider": "kubernetes",
-        "region": "default",
-        "replicaSetAnnotations": {
-          "service.spinnaker.io/enabled": "false"
-        },
-        "rollback": {
-          "onFailure": true
-        },
-        "scaleDown": false,
-        "securityGroups": [],
-        "stack": "baseline",
-        "strategy": "redblack",
-        "targetSize": 1,
-        "terminationGracePeriodSeconds": 30,
-        "volumeSources": []
-      }
-    ],
-    "name": "Deploy",
-    "refId": "3",
-    "requisiteStageRefIds": [],
-    "type": "deploy"
+   
+   
   }
-],
-"triggers": [],
-"notifications": [],
-"description": "sda",
-"loadBalancer":false,
-"loadBalancerData":{
-  "job": [
-    {
-      "provider": "kubernetes",
-      "stack": "newnew",
-      "detail": "load",
-      "serviceType": "ClusterIP",
-      "account": "my-k8s-account",
-      "namespace": "default",
-      "ports": [
-        {
-          "protocol": "TCP",
-          "port": 8080,
-          "name": "http",
-          "targetPort": 8092
-        }
-      ],
-      "externalIps": [],
-      "sessionAffinity": "None",
-      "clusterIp": "",
-      "loadBalancerIp": "",
-      "serviceAnnotations": {},
-      "serviceLabels": {},
-"name":applName,
-      "cloudProvider": "kubernetes",
-      "availabilityZones": {
-        "default": [
-          "default"
-        ]
-      },
-      "type": "upsertLoadBalancer",
-      "user": "[anonymous]"
-    }
-  ],
-  "application":applName,
-  "description": "Create Load Balancer: "+applName
-}
-} ;
-this.dataEditorRight=this.dataEditorLeft;
-  }
-
-
+ 
 
   /* Constructor */
   constructor(
@@ -268,9 +171,10 @@ this.dataEditorRight=this.dataEditorLeft;
     private IdpSubmitService: IdpSubmitService,
     private IdprestapiService: IdprestapiService,
     private idpencryption: IDPEncryption,
+    private modalService: BsModalService,
+    private httpClient:HttpClient,
     private router: Router) {
-        this.editorOptionsLeft = new JsonEditorOptions();
-    this.editorOptionsRight= new JsonEditorOptions();
+      
     this.IdpdataService.data.deployInfo = this.deployInfo;
     this.IdpdataService.data.buildInfo = this.buildInfo;
     this.init();
@@ -280,7 +184,7 @@ this.dataEditorRight=this.dataEditorLeft;
     { "name": "Powershell Script", "value": "powerShell" }, { "name": "SSH Execution", "value": "sshExecution" }];
     this.deploymentList = [{ "name": "Mule Server", "value": "muleServer" }];
     this.envtoolList=[{"name":"Ansible","value":"ansiblescript"}];
-    if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant" || this.buildInfo.buildtool === "java_gradle"|| this.buildInfo.buildtool === "catalog") {
+    if (this.buildInfo.buildtool === "maven" || this.buildInfo.buildtool === "ant" || this.buildInfo.buildtool === "java_gradle" || this.buildInfo.buildtool === "catalog") {
         this.containerList = this.IdprestapiService.getIDPDropdownProperties().containerList;
     }
     if (this.buildInfo.buildtool === "general") {
@@ -294,6 +198,10 @@ this.dataEditorRight=this.dataEditorLeft;
         "name": "IIS",
         "value": "iis"
         }];
+    }
+    if (this.buildInfo.buildtool === "iib") {
+        this.buildList = [{ "name": "IIB", "value": "iib" }
+        ];
     }
     if (this.buildInfo.buildtool === 'maximo') {
         this.containerList = [{
@@ -315,6 +223,26 @@ this.dataEditorRight=this.dataEditorLeft;
 
     }
   }
+  uploadForm = new FormGroup ({
+    file1: new FormControl()
+});
+public fileUploader(event,envIndex,stepIndex) {
+    const elem = event.target;
+    if (elem.files.length > 0) {
+        console.log(elem.files[0]);
+        let reader = new FileReader();
+        reader.onload = () => {
+            // this 'text' is the content of the file
+            var text = reader.result;
+            
+            this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].cloudData=JSON.parse(text);
+        }
+        reader.readAsText(elem.files[0]);
+    }
+    
+    // ...
+}
+
   setFormStatus(data) {
     this.IdpdataService.allFormStatus.deployInfo = data;
   }
@@ -330,21 +258,25 @@ this.dataEditorRight=this.dataEditorLeft;
     }
   }
 
-  TriggerAlert() {
-    this.button1.nativeElement.click();
+  TriggerAlert(content) {
+      this.alertDeployModalRef = this.modalService.show(this.modalforAlertDeploy);
+      this.alertDeployModalRef.content  = content;
   }
 
-  redirectTo() {
-    if (this.loc) {
-        this.router.navigate([this.loc]);
+  redirectTo(modalRef) {
+    modalRef.hide();
+    if (modalRef.content.loc) {
+        this.router.navigate([modalRef.content.loc]);
     }
   }
 
-  redirectToBasicInfo() {
+  redirectToBasicInfo(modalRef) {
+    modalRef.hide();
     this.router.navigate(["/createConfig/basicInfo"]);
   }
 
   init() {
+    this.deployInfo.deployEnv.forEach(()=>{this.deployStepsCollapseStatus.push([])});
     this.dbList = [{ 'name': 'MySQL', 'value': 'MySQL' },
     { 'name': 'PostgreSQL', 'value': 'PostgresSQL' },
     { 'name': 'Derby', 'value': 'Derby' },
@@ -405,7 +337,7 @@ this.dataEditorRight=this.dataEditorLeft;
         }
     }
   }
-  
+
   printaa() {
     // if(this.env.runScript.scriptType===''){
     // console.log( this.env);
@@ -498,7 +430,18 @@ this.dataEditorRight=this.dataEditorLeft;
         "pairName": "",
         "srcEnvName": "",
         "userName": "",
-        "password": ""
+        "password": "",
+        "aemPort":"",
+        "aemProxy":"",
+        "deployAemOperations":"",
+        "groupName":"",
+        "contextPath":"",
+        "proxyun":"",
+        "proxypw":"",
+        "appName":""
+
+
+
     };
     this.deployDatabase = {
         "restorusername": "",
@@ -510,11 +453,19 @@ this.dataEditorRight=this.dataEditorLeft;
     this.deployInfo.deployEnv[key].deploySteps.push({
         "deployToContainer": this.deployToContainer,
         "deployDatabase": this.deployDatabase,
+		"insightsFlag":"off",
+		"insightsKafkaUrl":"",
+		"insightsKafkaTopic":"",
         "deploymentOption": "",
         "runScript": {
         "scriptType": "",
         "scriptFilePath": "",
         "targets": ""
+        },
+        "buildScript": {
+            "buildType": "",
+            "targets": "",
+            "buildFilePath": ""
         },
         "cloudDeployment": {
 
@@ -544,9 +495,8 @@ this.dataEditorRight=this.dataEditorLeft;
 
   /* Removal of deploy step */
   removeDeployStep(outerIndex, innerIndex) {
-    this.innerIndex = innerIndex;
-    this.outerIndex = outerIndex;
-    this.DelScm.nativeElement.click();
+    this.delDeployStepModalRef = this.modalService.show(this.modalforDelDeployStep);
+    this.delDeployStepModalRef.content = {innerIndex:innerIndex,outerIndex:outerIndex};
   }
 
   /* Clears environment config */
@@ -587,9 +537,10 @@ this.dataEditorRight=this.dataEditorLeft;
 
     return "on";
   }
-  deleteItemCofirm() {
-    this.deployInfo.deployEnv[this.outerIndex].deploySteps.splice(this.innerIndex, 1);
-    this.tempObject.deployEnv[this.outerIndex].deploySteps.splice(this.innerIndex, 1);
+  confirmDeleteDeployStep(modelRef) {
+    this.deployInfo.deployEnv[modelRef.content.outerIndex].deploySteps.splice(modelRef.content.innerIndex, 1);
+    this.tempObject.deployEnv[modelRef.content.outerIndex].deploySteps.splice(modelRef.content.innerIndex, 1);
+    modelRef.hide();
   }
   checkCheckBox() {
     if (this.IdpdataService.data.buildInfo !== undefined &&
@@ -657,6 +608,7 @@ this.dataEditorRight=this.dataEditorLeft;
                 if (this.deployInfo.deployEnv[i].deploySteps[j].runScript.scriptType === "ant") {
                 if (this.deployInfo.deployEnv[i].deploySteps[j].runScript &&
                     this.deployInfo.deployEnv[i].deploySteps[j].runScript.antPropertiesArr &&
+                    this.deployInfo.deployEnv[i].deploySteps[j].runScript.antPropertiesArr[0] &&
                     this.deployInfo.deployEnv[i].deploySteps[j].runScript.antPropertiesArr[0].antKey !== undefined &&
                     this.deployInfo.deployEnv[i].deploySteps[j].runScript.antPropertiesArr[0].antValue !== undefined) {
                     this.deployInfo.deployEnv[i].deploySteps[j].runScript.antProperty1 = "on";
@@ -681,10 +633,10 @@ this.dataEditorRight=this.dataEditorLeft;
                 if(this.deployInfo.deployEnv[i].deploySteps[j].envProv ===undefined || this.deployInfo.deployEnv[i].deploySteps[j].envProv ==null || this.deployInfo.deployEnv[i].deploySteps[j].envProv.toolType === undefined || this.deployInfo.deployEnv[i].deploySteps[j].envProv.toolType ==="" ){
                     this.tempObject.deployEnv[i].deploySteps[j].envProvFlag="off";
                     this.deployInfo.deployEnv[i].deploySteps[j].envProv = {toolType:"",scriptFilePath:""};
-                }else{ 
+                }else{
                     this.tempObject.deployEnv[i].deploySteps[j].envProvFlag="on";
                 }
-               
+
             }
             else{
                 //this.deployInfo.deployEnv[i].deploySteps[j].envProv = {toolType:"",scriptFilePath:""};
@@ -1036,6 +988,23 @@ this.dataEditorRight=this.dataEditorLeft;
             }
             this.tempObject.deployEnv[i].deploySteps[j].dockerContainerFlag = "off";
             }
+
+            if (this.deployInfo.deployEnv[i].deploySteps[j].applicationPortDR !== undefined &&
+                this.deployInfo.deployEnv[i].deploySteps[j].applicationPortDR !== "") {
+                if (this.tempObject.deployEnv[i].deploySteps[j] === undefined) {
+                    console.log(this.tempObject.deployEnv[i].deploySteps[j]);
+                    this.tempObject.deployEnv[i].deploySteps[j] = {};
+                }
+    
+                this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag = "on";
+    
+                } else {
+                if (this.tempObject.deployEnv[i].deploySteps[j] === undefined) {
+                    console.log(this.tempObject.deployEnv[i].deploySteps[j]);
+                    this.tempObject.deployEnv[i].deploySteps[j] = {};
+                }
+                this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag = "off";
+            }
             if (this.deployInfo.deployEnv[i].deploySteps[j].bizScriptPath !== undefined &&
             this.deployInfo.deployEnv[i].deploySteps[j].bizScriptPath !== "") {
             this.tempObject.deployEnv[i].deploySteps[j].deployBizFlag = "on";
@@ -1178,6 +1147,18 @@ this.dataEditorRight=this.dataEditorLeft;
     }
   }
 
+  addCloudDeployment(outerIndex,innerIndex){
+    if (this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].cloudDeployment === undefined)
+      this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].cloudDeployment = '';
+      //this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].dataright=this.dataEditorLeft;
+      
+    return 'on';
+  }
+  clearCloudDeployment(outerIndex,innerIndex){
+
+    return 'off';
+  }
+
   /* Resets data */
   resetData() {
     const x = confirm("Are you sure to Reset ?");
@@ -1187,7 +1168,6 @@ this.dataEditorRight=this.dataEditorLeft;
         "deployEnv": []
         };
         for (let i = 0; i < val.length; i++) {
-
         this.deployInfo.deployEnv.push({
             "envName": val[i].envName,
             "envFlag": "off",
@@ -1205,9 +1185,9 @@ this.dataEditorRight=this.dataEditorLeft;
   validatePage() {
 
     let f = true;
-    
+
     for (let i = 0; i < this.deployInfo.deployEnv.length; i++) {
-        if(this.deployInfo.deployEnv[i].envFlag === "on" && (this.deployInfo.deployEnv[i].deploySteps === undefined || this.deployInfo.deployEnv[i].deploySteps.length === undefined || this.deployInfo.deployEnv[i].deploySteps.length === 0) ){
+        if(this.deployInfo.deployEnv[i].envFlag === "on" && this.deployInfo.deployEnv[i].deploySteps === undefined){
             f=false;
             break;
         }
@@ -1248,6 +1228,8 @@ this.dataEditorRight=this.dataEditorLeft;
                     this.tempObject.deployEnv[i].deploySteps[j].scriptType === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].dockerContainerFlag === undefined ||
                     this.tempObject.deployEnv[i].deploySteps[j].dockerContainerFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === undefined ||
+                    this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined ||
                     this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === "off")
                 && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined ||
@@ -1268,7 +1250,9 @@ this.dataEditorRight=this.dataEditorLeft;
                 this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined ||
                     this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === "off")
-                && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined ||
+                && (this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === undefined ||
+                    this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === "off")
+		&& (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined ||
                     this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length <= 0)
                 && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined ||
                     this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === "off")
@@ -1286,6 +1270,8 @@ this.dataEditorRight=this.dataEditorLeft;
                 this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag === undefined ||
                     this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === undefined ||
+                    this.tempObject.deployEnv[i].deploySteps[j].dockerRegistryFlag === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].deployBizFlag === undefined ||
                     this.tempObject.deployEnv[i].deploySteps[j].deployBizFlag === "off")
                 && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined ||
@@ -1335,7 +1321,7 @@ this.dataEditorRight=this.dataEditorLeft;
                 && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined ||
                     this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length <= 0)
                     && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
-                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)    
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
                     ) {
                 f = false;
                 break;
@@ -1359,7 +1345,10 @@ this.dataEditorRight=this.dataEditorLeft;
             /* validation of MainFrame Deploy step */
             case "mainframe": {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
-                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")) {
+                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                     f = false;
                     break;
                     }
@@ -1372,6 +1361,8 @@ this.dataEditorRight=this.dataEditorLeft;
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === 'off')
                    && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)
                     && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+                    && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
                 ) {
                   f = false;
                   break;
@@ -1382,7 +1373,10 @@ this.dataEditorRight=this.dataEditorLeft;
             /* validation of FileNet Deploy step */
             case "fileNet": {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
-                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")) {
+                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                     f = false;
                     break;
                     }
@@ -1393,7 +1387,10 @@ this.dataEditorRight=this.dataEditorLeft;
             /* validation of PHP Deploy step */
             case "php": {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
-                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")) {
+                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                     f = false;
                     break;
                     }
@@ -1404,13 +1401,24 @@ this.dataEditorRight=this.dataEditorLeft;
             case 'siebel': {
                 if ((this.deployInfo.deployEnv[i].deploySteps[j].deployOS === undefined || this.deployInfo.deployEnv[i].deploySteps[j].deployOS != 'windows')
                 && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)
-                && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')  ) {
+                && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                   f = false;
                   break;
                 }
                 break;
               }
-
+              /* validation of IIB Deploy step */
+              case "iib": {
+                if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
+                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")) {
+                    f = false;
+                    break;
+                    }
+                    break;
+                }
             /* validation of Pega Deploy step */
             case "pega": {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
@@ -1419,6 +1427,8 @@ this.dataEditorRight=this.dataEditorLeft;
                         this.tempObject.deployEnv[i].deploySteps[j].dataSchema === "off")
                     && (this.tempObject.deployEnv[i].deploySteps[j].tomcatRestart === undefined ||
                         this.tempObject.deployEnv[i].deploySteps[j].tomcatRestart === "off")
+                        && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                        this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
                     ) {
                     f = false;
                     break;
@@ -1440,7 +1450,10 @@ this.dataEditorRight=this.dataEditorLeft;
                   && (this.tempObject.deployEnv[i].deploySteps[j].aolScripts === undefined || this.tempObject.deployEnv[i].deploySteps[j].aolScripts === 'off')
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === 'off')
                   && (this.buildInfo.buildtool !== 'ibmsi' && this.buildInfo.buildtool !== 'informatica' && this.buildInfo.buildtool !== 'general')
-              && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)  && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')) {
+              && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)  && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+              && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+              ) {
                   f = false;
                   break;
                 }
@@ -1451,7 +1464,10 @@ this.dataEditorRight=this.dataEditorLeft;
             case 'muleESB': {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].muleESBDeployFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].muleESBDeployFlag === 'off')
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === 'off')
-              && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0) && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off') ) {
+              && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0) && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+              && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+              ) {
                   f = false;
                   break;
                 }
@@ -1471,7 +1487,10 @@ this.dataEditorRight=this.dataEditorLeft;
             /* validation of Android Deploy step */
             case "Android(Ant based)": {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined ||
-                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")) {
+                this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                     f = false;
                     break;
                     }
@@ -1483,6 +1502,8 @@ this.dataEditorRight=this.dataEditorLeft;
                     this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === "off")
                     && (this.tempObject.deployEnv[i].deploySteps[j].iosDeploy === undefined ||
                         this.tempObject.deployEnv[i].deploySteps[j].iosDeploy === "off")
+                        && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
                     ) {
                     f = false;
                     break;
@@ -1497,7 +1518,10 @@ this.dataEditorRight=this.dataEditorLeft;
                     &&
                     this.tempObject.deployEnv[i].deployOperation==='earDeploy'
                     && (this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag === undefined ||
-                        this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag === "off")) {
+                        this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag === "off")
+                        && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                        this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                        ) {
                     f = false;
                     break;
                     }
@@ -1508,7 +1532,10 @@ this.dataEditorRight=this.dataEditorLeft;
             if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === 'off')
                 && (this.tempObject.deployEnv[i].deploySteps[j].bigDataFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].bigDataFlag === 'off')
                 && (this.tempObject.deployEnv[i].deploySteps[j].pig === undefined || this.tempObject.deployEnv[i].deploySteps[j].pig === 'off') && (this.tempObject.deployEnv[i].deploySteps[j].scala === undefined || this.tempObject.deployEnv[i].deploySteps[j].scala === 'off') && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0) && (this.tempObject.deployEnv[i].deploySteps[j].hive === undefined || this.tempObject.deployEnv[i].deploySteps[j].hive === 'off')
-                && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')) {
+                && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+                && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                ) {
                 f = false;
                 break;
                 }
@@ -1528,18 +1555,24 @@ this.dataEditorRight=this.dataEditorLeft;
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === 'off')
                   && (this.tempObject.deployEnv[i].deploySteps[j].tibcoDeploy === undefined || this.tempObject.deployEnv[i].deploySteps[j].tibcoDeploy === 'off')
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === 'off')
-                  && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0) && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off') ) {
+                  && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0) && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+                  && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                  ) {
                   f = false;
                   break;
                 }
                 break;
             }
-            
+
             case 'dbDeploy': {
                 if ((this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].runScriptFlag === 'off')
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployFlag === 'off')
                   && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)
-                  && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')) {
+                  && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+                  && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                    this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+                  ) {
                     f = false;
                     break;
                   }
@@ -1550,21 +1583,22 @@ this.dataEditorRight=this.dataEditorLeft;
                   && (this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer !== undefined && (this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.containerName === undefined || this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.containerName === ''))
                   && (this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === undefined || this.tempObject.deployEnv[i].deploySteps[j].dbDeployPipelineFlag === 'off')
   && (this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails === undefined || this.deployInfo.deployEnv[i].deploySteps[j].environmentProvDetails.length<=0)
-              && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')  ) {
+              && (this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag === undefined || this.deployInfo.deployEnv[i].deploySteps[j].cloudDeploymentFlag==='off')
+              && (this.tempObject.deployEnv[i].deploySteps[j].envProvFlag==="off"||
+                this.tempObject.deployEnv[i].deploySteps[j].envProvFlag===undefined)
+              ) {
                   f = false;
                   break;
                 }
                 break;
               }
-  
+
             default: {
-            }
+                            }
 
             }
         }
 
-        } else if (this.deployInfo.deployEnv[i].envFlag === "off") {
-        continue;
         } else {
         console.log(i);
         continue;
@@ -1594,27 +1628,28 @@ this.dataEditorRight=this.dataEditorLeft;
             this.IdpdataService.allFormStatus.codeInfo &&
             this.IdpdataService.allFormStatus.buildInfo &&
             this.IdpdataService.allFormStatus.deployInfo) {
-            this.confirmationAlert.nativeElement.click();
+            this.confirmSubmissionModalRef = this.modalService.show(this.modalforconfirmDeployAlert);
         } else {
+            let listToFillFields = [];
             if (!this.IdpdataService.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo") === -1) {
-            this.listToFillFields.push("BasicInfo");
+            listToFillFields.push("BasicInfo");
             }
             if (!this.IdpdataService.allFormStatus.codeInfo && this.listToFillFields.indexOf("CodeInfo") === -1) {
-            this.listToFillFields.push("CodeInfo");
+            listToFillFields.push("CodeInfo");
             }
             if (!this.IdpdataService.allFormStatus.buildInfo && this.listToFillFields.indexOf("BuildInfo") === -1) {
-            this.listToFillFields.push("BuildInfo");
+            listToFillFields.push("BuildInfo");
             }
             if (!this.IdpdataService.allFormStatus.deployInfo && this.listToFillFields.indexOf("DeployInfo") === -1) {
-            this.listToFillFields.push("DeployInfo");
+             listToFillFields.push("DeployInfo");
             }
-            
-            this.mandatoryFieldsAlert.nativeElement.click();
+            this.mandatoryMissingModalRef = this.modalService.show(this.modalformandatoryFieldsDeployAlert);
+            this.mandatoryMissingModalRef.content = {listToFillFields:listToFillFields};
         }
         }
         return true;
     } else {
-        this.missData.nativeElement.click();
+        this.missingDataModalRef = this.modalService.show(this.modalforAlertDataMiss);
     }
   }
   clearDeploySteps(envIndex) {
@@ -1630,7 +1665,11 @@ this.dataEditorRight=this.dataEditorLeft;
     this.deployInfo.deployEnv[envIndex].scriptType = "";
     return false;
   }
-
+  clearFabFlag(i,j){
+    this.deployInfo.deployEnv[i].deploySteps[j].appPackName = '';
+    this.deployInfo.deployEnv[i].deploySteps[j].pubProfName = '';
+    return "off";
+  }
 
   changeRunScript(outerIndex, innerIndex) {
     this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].runScript.scriptFilePath = "";
@@ -1706,7 +1745,13 @@ this.dataEditorRight=this.dataEditorLeft;
     }
     return "on";
   }
-
+  //   Addition of IIB Build
+  addBuildScript(outerIndex, innerIndex) {
+    if (this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].buildScript === undefined) {
+        this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].buildScript = "";
+    }
+    return "on";
+  }
   /* Clearing the values of runscript */
   clearRunScript(outerIndex, innerIndex) {
     this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].runScript.scriptType = "";
@@ -1724,6 +1769,24 @@ this.dataEditorRight=this.dataEditorLeft;
     this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].transferFilesFlag = "off";
     //this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].deployOperation = ""
     //this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].deployContainerFlag = "off";
+    return "off";
+
+  }
+  /* Clearing the values of IIB build */
+  clearBuildScript(outerIndex, innerIndex) {
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.buildType = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.buildFilePath = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.targets = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.host = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.userName = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.password = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.script = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.pathToFiles = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.destinationDir = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.sshKey = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.sshPathToKey = "";
+    this.deployInfo.deployEnv[outerIndex].deploySteps[innerIndex].buildScript.flattenFilePath = "off";
+    this.tempObject.deployEnv[outerIndex].deploySteps[innerIndex].transferFilesFlag = "off";
     return "off";
 
   }
@@ -1848,6 +1911,20 @@ this.dataEditorRight=this.dataEditorLeft;
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].pushToRepo = "off";
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].artifact = "";
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].artifactsToBeDeployed = [];
+
+    return false;
+  }
+
+  dockerRegistryOff(envIndex, stepIndex) {
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].repoNameDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].tagNameDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].userNameDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].passwordDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerRegistryUrlDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerFilePathDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerPortDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].applicationPortDR = "";
+    
 
     return false;
   }
@@ -1977,27 +2054,27 @@ this.dataEditorRight=this.dataEditorLeft;
     }
     this.deployInfo.deployEnv[key1].deploySteps[key2].artifactsToBeDeployed.push("");
   }
+
   removeField(key1, key2, index) {
     this.innerIndex = key2;
     this.outerIndex = key1;
     this.artifactIndex = index;
-    this.DelField.nativeElement.click();
+    this.delFiledModalRef = this.modalService.show(this.modalforDelField);
+    this.delFiledModalRef.content = {innerIndex:key1,outerIndex:key1,artifactIndex:index}
   }
 
-  confirmRemoveField() {
-    this.deployInfo.deployEnv[this.outerIndex].deploySteps[this.innerIndex].artifactsToBeDeployed.splice(this.artifactIndex, 1);
-
+  confirmRemoveField(modelRef) {
+    this.deployInfo.deployEnv[modelRef.content.outerIndex].deploySteps[modelRef.content.innerIndex].artifactsToBeDeployed.splice(modelRef.content.artifactIndex, 1);
+    modelRef.hide();
   }
 
   removeAllFields(key1, key2, index) {
-    this.innerIndex = key2;
-    this.outerIndex = key1;
-    this.artifactIndex = index;
-    this.DelAllField.nativeElement.click();
+    this.delAllFieldsModalRef = this.modalService.show(this.modalforDelAllField);
+    this.delAllFieldsModalRef.content = {innerIndex:key2,outerIndex:key1,artifactIndex:index};
   }
 
-  confirmRemoveAllFields() {
-    this.deployInfo.deployEnv[this.outerIndex].deploySteps[this.innerIndex].artifactsToBeDeployed = [];
+  confirmRemoveAllFields(modalRef) {
+    this.deployInfo.deployEnv[modalRef.content.outerIndex].deploySteps[modalRef.content.innerIndex].artifactsToBeDeployed = [];
   }
 
   trackById(index, field) {
@@ -2098,6 +2175,36 @@ this.dataEditorRight=this.dataEditorLeft;
     }
   }
 
+    /* clearing AEM Details */
+    clearDeployAem(i, j) {
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.hostName = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.aemPort = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.userName = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.password = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.contextPath = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.packageName = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.groupName = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.aemProxy = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.proxyun = "";
+        this.deployInfo.deployEnv[i].deploySteps[j].deployToContainer.proxypw = "";
+        }
+    enableDeployAem(i, j) {
+        if (this.deployInfo.deployEnv[i].deploySteps[j].deployOperation === "deployAemOperations") {
+            if (this.tempObject.deployEnv === undefined) {
+            this.tempObject.deployEnv = [{}];
+            }
+            if (this.tempObject.deployEnv[i] === undefined) {
+            this.tempObject.deployEnv[i] = { "deploySteps": [{}] };
+            }else{
+                this.tempObject.deployEnv[i][j] = { "deploySteps": [this.env.deployToContainer.deployAemOperations] }; 
+            }
+            this.tempObject.deployEnv[i].deploySteps[j].deployContainerFlag = "on";
+            this.tempObject.deployEnv[i].deploySteps[j].maximoDisable = true;
+        }
+    }
+
+
+
   /* Ant java Options */
   openAntPropertiesField(i, j) {
     this.deployInfo.deployEnv[i].deploySteps[j].runScript.antPropertiesArr = [];
@@ -2119,16 +2226,13 @@ this.dataEditorRight=this.dataEditorLeft;
   }
   /* Removal of Ant module */
   deleteAntProp(index, i, j) {
-    this.index = index;
-    this.indexI = i;
-    this.indexJ = j;
-    this.DelAntProp.nativeElement.click();
+    this.delAntPropertyModalRef = this.modalService.show(this.modalforDelAntProperties);
+    this.delAntPropertyModalRef.content = {indexI:i,indexJ:j,index:index};
   }
 
-  deleteAntPropConfirm() {
-    this.deployInfo.deployEnv[this.indexI].deploySteps[this.indexJ].runScript.antPropertiesArr.splice(this.index, 1);
-    this.indexI = -1;
-    this.indexJ = -1;
+  deleteAntPropConfirm(modalRef) {
+    this.deployInfo.deployEnv[modalRef.content.indexI].deploySteps[modalRef.content.indexJ].runScript.antPropertiesArr.splice(modalRef.content.index, 1);
+    modalRef.hide();
   }
 
   resetProxyFields(envIndex, stepIndex) {
@@ -2142,8 +2246,9 @@ this.dataEditorRight=this.dataEditorLeft;
     return "false";
   }
 
-  submitData() {
+  submitData(modalRef) {
     this.IdpSubmitService.submitData();
+    modalRef.hide();
   }
 
   checkMsgSuccess() {

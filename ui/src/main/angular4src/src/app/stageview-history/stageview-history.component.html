@@ -5,11 +5,14 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<div class="col-md-12 ">
-
-	<div id="stageView1" style="border: 1px solid rgb(201, 0, 1); overflow: hidden;  width:1000px;  ">
-		<iframe id="srcLink" [src]="jobUrl | safePipe" style=" overflow-x: hidden;
-							border: 0px none; height: 480px;  width: 100%;margin-top:-80px;">
-		</iframe>
+<div class="card">
+	<div class="card-body">
+		<div class="col-md-12 ">
+			<div id="stageView1" style="border: 1px solid rgb(201, 0, 1); overflow: hidden;  width:1000px; margin-top: 15px; ">
+				<iframe id="srcLink" [src]="jobUrl | safePipe" style=" overflow-x: hidden;
+									border: 0px none; height: 480px;  width: 100%;margin-top:-80px;">
+				</iframe>
+			</div>
+		</div>
 	</div>
 </div>

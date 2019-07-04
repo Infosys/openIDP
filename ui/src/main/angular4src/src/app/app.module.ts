@@ -9,10 +9,13 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CookieModule, CookieService } from "ngx-cookie";
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule, Http } from "@angular/http";
 import { DateTimePickerModule } from "ng-pick-datetime";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { AppComponent } from "./app.component";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+
 import { FormsModule } from "@angular/forms";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { AppRoutingModule } from "./app-routing.module";
@@ -34,11 +37,11 @@ import { TriggerServiceComponent } from "./trigger-service/trigger-service.compo
 import { MailSuccessComponent } from "./mail-success/mail-success.component";
 import { CommonModule } from "@angular/common";
 import { IDPEncryption } from "./idpencryption.service";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { ServicePortalComponent } from "./service-portal/service-portal.component";
 import { TriggerModule } from "./triggerPipeline/triggerPipeline.module";
 import { SortablejsModule } from "angular-sortablejs";
-import { Adal4Service, Adal4HTTPService } from "adal-angular4";
+import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
 import { StartupService } from "./startup.service";
 import { ReleaseConfigsComponent } from "./release-configs/release-configs.component";
 import { LoginKcService } from "./login-kc.service";
@@ -46,23 +49,52 @@ import { SubscriptionService } from "./subscription.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
 import { RequestOptions, XHRBackend } from "@angular/http";
 import { KeycloakHttp, keycloakHttpFactory } from "./keycloak/keycloak.http";
-// import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
+import { ManageEnvironmentComponent } from "./manage-environment/manage-environment.component";
 import { CreateLicenseComponent } from "./create-license/create-license.component";
 import { CreateOrganizationComponent } from "./create-organization/create-organization.component";
 import { NotificationInfoComponent } from "./notification-info/notification-info.component";
 // import { DynamicComponentDirective } from "./custom-directive/dynamicComponent.directive";
 // import { WorkflowInfoComponent } from "./workflow-info/workflow-info.component";
-export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, "assets/i18n", ".json");
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { MomentModule } from 'ngx-moment';
+import {
+    AppAsideModule,
+    AppBreadcrumbModule,
+    AppHeaderModule,
+    AppFooterModule,
+    AppSidebarModule,
+} from '@coreui/angular';
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+    suppressScrollX: true
+};
+import { DefaultLayoutComponent } from './default-layout';
+import { WidgetsModule } from "./widgets/widgets.module";
+import {BuildIntervalModule} from "./build-interval-cntrl/build-interval-cntrl.module";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 export function startupServiceFactory(startupService: StartupService): Function {
     return () => startupService.load();
 }
-
+const APP_CONTAINERS = [
+    DefaultLayoutComponent
+];
 @NgModule({
     declarations: [
         AppComponent,
+        ...APP_CONTAINERS,
         LoginComponent,
         KeycloakComponent,
         IdpheaderComponent,
@@ -74,7 +106,7 @@ export function startupServiceFactory(startupService: StartupService): Function 
         MailSuccessComponent,
         ReleaseConfigsComponent,
         ServicePortalComponent,
-        // ManageEnvironmentComponent,
+        ManageEnvironmentComponent,
         CreateLicenseComponent,
         NotificationInfoComponent,
         CreateOrganizationComponent,
@@ -83,35 +115,51 @@ export function startupServiceFactory(startupService: StartupService): Function 
         BrowserModule,
         BrowserAnimationsModule,
         DateTimePickerModule,
+        AppAsideModule,
+        AppBreadcrumbModule.forRoot(),
+        AppFooterModule,
+        AppHeaderModule,
+        AppSidebarModule,
+        PerfectScrollbarModule,
         CookieModule.forRoot(),
         HttpModule,
         Ng2TableModule,
         AngularMultiSelectModule,
         FormsModule,
         CommonModule,
+        MomentModule,
         PaginationModule.forRoot(),
-        TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
-        }),
+        TranslateModule.forRoot(
+            {
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: (createTranslateLoader),
+                    deps: [HttpClient]
+                }
+            }),
         FormsModule,
         CommonModule,
-        AppRoutingModule,
+        NgxPaginationModule,
+        BsDropdownModule.forRoot(),
+        CollapseModule.forRoot(),
+        ModalModule.forRoot(),
+        TabsModule.forRoot(),
+
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.rectangleBounce
         }),
+        AppRoutingModule,
         TriggerModule,
-        SortablejsModule.forRoot({ animation: 150 })
+        SortablejsModule.forRoot({ animation: 150 }),
+        WidgetsModule,
+        NgxSpinnerModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     providers: [IdpService, IdpSubmitService, SubscriptionService, IdprestapiService, IdpdataService,
-        AuthGuardService, CookieService, IDPEncryption, Adal4Service,
-        {
-            provide: Adal4HTTPService,
-            useFactory: Adal4HTTPService.factory,
-            deps: [Http, Adal4Service]
-        },
+        AuthGuardService, CookieService, IDPEncryption, AdalService,
+        AdalGuard,
+        // { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
+
         StartupService,
         {
             provide: APP_INITIALIZER,

@@ -3,14 +3,14 @@
 			
 		<form name="buildTriggerParamForm" ngNativeValidate class="form-horizontal" (ngSubmit)="submitAppr()">
 		
-				<div class="container-fluid text-center form-group" >
+				<div class="container-fluid  form-row form-group" >
 						<h3>A build is waiting for the Approval. Kindly take necessary actions.</h3>					
 					</div>
 		<br>
 		
-		<div class="row form-group">
+		<div class="form-row form-group">
 			<div class="col-md-5 text-right">
-				<label class="control-label">
+				<label class="col-form-label">
 					Application Name
 				</label>
 			</div>
@@ -20,9 +20,9 @@
 			</div>
 		</div>
 
-		<div class="row form-group text-right">
+		<div class="form-row form-group text-right">
 			<div class="col-md-5">
-				<label class="control-label">
+				<label class="col-form-label">
 					Pipeline Name
 				</label>
 			</div>
@@ -32,9 +32,9 @@
 			</div>
 		</div>
 
-		<div *ngIf="buildBuild && buildDeploy" class="row form-group">
+		<div *ngIf="buildBuild && buildDeploy" class="form-row form-group">
 			<div class="col-md-5 text-right">
-				<label class="control-label">
+				<label class="col-form-label">
 					Job Type<span class="star">*</span>
 				</label>
 			</div>
@@ -49,9 +49,9 @@
 			</div>
 		</div>
 
-		<div class="row form-group" *ngIf="IDPApproveData.jobType">
+		<div class="form-row form-group" *ngIf="IDPApproveData.jobType">
 			<div class="col-md-5 text-right">
-				<label class="control-label">
+				<label class="col-form-label">
 					Build No<span class="star">*</span>
 				</label>
 			</div>
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row form-group" *ngIf="IDPApproveData.obj!==undefined && IDPApproveData.obj!==''">
+		<div class="form-row form-group" *ngIf="IDPApproveData.obj!==undefined && IDPApproveData.obj!==''">
 			<table style="border: 1px solid black; border-collapse: collapse;width:100%">
 				<tr style="border: 1px solid black; border-collapse: collapse;">
 					<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width:200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Build No</th>
@@ -90,7 +90,7 @@
 		</div>	
 		<br>		
 
-		<div class="row form-group">
+		<div class="form-row form-group">
 			<div class="col-md-5 text-right">
 				<label > {{'Approval Status'|translate}}
 					<span class="star">*</span>
@@ -105,7 +105,7 @@
 		</div>
 
 
-		<div class="row form-group">
+		<div class="form-row form-group">
 			<div class="col-md-5 text-right">
 				<label> {{'Comments'|translate}}
 					<span class="star">*</span>
@@ -117,11 +117,11 @@
 			</div>
 
 		</div>
-		<div class="row text-center alert-success" *ngIf="msg==='success'"  style="padding:10px">			 
+		<div class="row  alert-success" *ngIf="msg==='success'"  style="padding:10px">
 			<span *ngIf="IDPApproveData.approve==='approved'">Build approved successfully.</span>
 			<span *ngIf="IDPApproveData.approve==='rejected'">Build rejected successfully.</span>
 		</div>
-		<div class="row text-center alert-danger" *ngIf="msg==='error'"  style="padding:10px">
+		<div class="row  alert-danger" *ngIf="msg==='error'"  style="padding:10px">
 			<span *ngIf="IDPApproveData.approve==='approved'">There was an error in build approval . Please contact IDP Admin.</span>
 			<span *ngIf="IDPApproveData.approve==='rejected'">There was an error in build rejection. Please contact IDP Admin.</span>
 			

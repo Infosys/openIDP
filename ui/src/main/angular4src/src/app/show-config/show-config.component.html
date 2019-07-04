@@ -1,74 +1,64 @@
 <div >
- <br/>
+	<br/>
   <!-- Delete Modal -->
-  <button #modalforDelete [hidden]="true" type="button" data-toggle="modal" data-target="#deleteMod">Alert Modal</button>
 	<!-- Modal -->
-	<div id="deleteMod" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
+	<ng-template #modalforDelete>
+				<div class="modal-header bg-warning">
+					<h4 class="modal-title">Delete pipeline</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete pipeline {{modalforDeleteRef.content.pipelineName}} ?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal" (click)="delete(modalforDeleteRef)">Yes</button>
+          <button type="button" class="btn btn-primary" (click)="modalforDeleteRef.hide()">No</button>
+				</div>
+	</ng-template>
 
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
+
+	<!-- Modal -->
+	<ng-template #modalforDeleteAlert>
+				<div class="modal-header bg-success">
 					<h4 class="modal-title">Alert</h4>
 				</div>
 				<div class="modal-body">
-					<p>Are you sure you want to delete pipeline <span *ngIf="reqData">{{reqData.pipelineName}}</span> ?
+					<p>The Pipeline {{modalForSuccessRef.content.pipelineName}} has been deleted.
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" (click)="delete()">Yes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-
-  <button #modalforDeleteAlert [hidden]="true" type="button" data-toggle="modal" data-target="#deleteModMsg">Alert Modal</button>
-	<!-- Modal -->
-	<div id="deleteModMsg" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Alert</h4>
-				</div>
-				<div class="modal-body">
-					<p>The Pipeline <span *ngIf="reqData">{{reqData.pipelineName}}</span>  has been deleted.
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+					<button type="button" class="btn btn-primary" (click)="modalForSuccessRef.hide()">OK</button>
 
 				</div>
-			</div>
-
-		</div>
-	</div>
+	</ng-template>
 </div>
 
 
-<div *ngIf="accessCheck()">
-<div class="container-fluid">
-  <div class="row">
+<div *ngIf="accessCheck()" class="card">
+<div class="container-fluid" class="card-body">
+  <div class="d-flex flex-row justify-content-between">
     <div class="col-md-4">
-        <h4>Pipeline List</h4>
+        <h4 class="card-title">Pipeline List</h4>
     </div>
-    <div class="col-md-offset-4 col-md-4">
+  </div>
+  <div class="d-flex flex-row justify-content-end">
+    <div class="input-group col-md-4  mb-3">
+      <div class="input-group-prepend">
+        <i class="fa fa-icon fa-filter input-group-text" ></i>
+      </div>
       <input id="filterallcolumns" *ngIf="config.filtering" placeholder="Filter all columns"
              [ngTableFiltering]="config.filtering"
              class="form-control"
              (tableChanged)="onChangeTable(config)"/>
     </div>
+
   </div>
-  <br>
+  <div class="table-responsive">
   <ng-table class="showConfig" [config]="config"
             (tableChanged)="onChangeTable(config)"
             (cellClicked)="onCellClick($event)"
             [rows]="rows" [columns]="columns">
   </ng-table>
+  </div>
   <pagination *ngIf="config.paging"
               class="pagination-sm"
               [(ngModel)]="page"

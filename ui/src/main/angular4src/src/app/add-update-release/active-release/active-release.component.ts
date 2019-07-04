@@ -23,10 +23,9 @@ export class ActiveReleaseComponent implements OnInit {
     envList = [];
     names = [];
     scmBranches=[];
-    maxEndDate: any;
-
     str = "";
     scmType = "";
+    maxEndDate: any;
 
     constructor(public Idpdata: IdpdataService,
 
@@ -164,16 +163,19 @@ export class ActiveReleaseComponent implements OnInit {
             };
             
             this.Idpdata.loading = true;
-                this.Idprestapi.updateReleases(releaseManagerData).then(response => {
+            // if (stat === "on") {
+              this.Idprestapi.updateReleases(releaseManagerData).then(response => {
                     const resp = response.json();
                     if (resp.resource === "Successfully Updated") {
                         this.Idpdata.releaseUpdateSuccess = true;
                         this.Idpdata.releasePipelineName = "";
+                        this.showReleases();
                     } else {
                         alert("Update Failed!!!");
                     }
                     this.Idpdata.loading = false;
-            });
+                });
+            // }
         }
     }
 }

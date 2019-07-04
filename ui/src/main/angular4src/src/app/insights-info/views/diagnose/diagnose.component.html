@@ -1,0 +1,68 @@
+<div *ngIf="true">
+  <div class="b"><p><b>Ability to quickly isolate CPU and Memory related issues, and provide a quick code level and module level recommendation</b></p></div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="appNameSelect">Application Name :&nbsp; </label>
+            <select class="custom-select form-control" name="appName" id="appNameSelect" [(ngModel)]="appName" (change)="getDiagnosisUrl();getContainerList();getNotifications()"
+              required>
+              <option value=""> --Select Application Name--</option>
+              <option *ngFor="let appObject of applicationList; let i = index" value="{{appObject}}">{{appObject}}</option>
+            </select>
+          </div>
+          <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="large" color="#fff" type="timer"></ngx-spinner>
+        </form>
+        
+        <div *ngIf="!appName">
+          <br>
+          <div class="col-md-8 offset-md-2">
+            <div class="card-body">
+
+              </div>
+          </div>
+        </div>
+
+        <br>
+      <div class="row" *ngIf="diagnoseUrl" style="overflow: hidden;">
+          
+          <div class="col-md-12">
+            <div class="animated fadeIn">
+              <div class="row">
+                <div class="col-md-12 mb-4">
+                  <!-- Nav tabs -->
+                      <app-trends [trendsAppName]="appName" [containerList]="containerList"></app-trends>                     
+
+                </div>
+              </div>
+            </div>            
+          </div>
+          
+        </div>
+        <div *ngIf="invalidUrl">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <div class="alert alert-danger text-center text-uppercase h5">
+                <i class="fa fa-exclamation-triangle"></i> &nbsp; Invalid Url. Hostname/Ip Not Found
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+<ng-template >
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="alert alert-danger text-center text-uppercase h5">
+      <i class="fa fa-exclamation-triangle"></i> &nbsp; This Service is not active for your organization
+    </div>
+  </div>
+</div>
+</ng-template>

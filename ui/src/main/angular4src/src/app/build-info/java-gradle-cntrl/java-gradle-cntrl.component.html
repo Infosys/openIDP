@@ -1,12 +1,12 @@
 <form [parentFormConnect]="formName">
     <div class="animate-switch-container">
         <div class="animate-switch">
-          <div class="panel panel-default">
-            <div class="panel-heading  panelHeadingBackground">
+          <div class="card">
+            <div class="card-header panelHeadingBackground">
               <b>Gradle {{'Project Details'|translate}}</b>
             </div>
-            <div class="panel-body">
-                <div class="row form-group chkright">
+            <div class="card-body">
+                <div class="form-row form-group chkright">
                   <div class="col-md-3 text-right ">
                     <label class="control-label"> Project Name </label>
                     <span class="star">*</span>
@@ -28,7 +28,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row form-group chkright">
+                <div class="form-row form-group chkright">
                   <div class="col-md-3 text-right ">
                     <label class="control-label"> Build File Location </label>
                     <span class="star">*</span>
@@ -52,7 +52,7 @@
               <!-- <div *ngIf="buildInfo.modules[0].multiModule=='on' && (buildInfo.modules[0].args=='' || buildInfo.modules[0].args==null || buildInfo.modules[0].args==undefined)">
                       <div ng-init="buildInfo.modules[0].args='site"></div>
                     </div> -->
-              <div class="form-group chkright">
+              <div class="form-row form-group chkright">
                 <div class="col-md-3 text-right">
                   <label class="control-label" style="margin-left: 10px;">
                     {{'Global Tasks'|translate}}
@@ -76,7 +76,7 @@
   
               </div>
   
-              <div class="row form-group chkright">
+              <div class="form-row form-group chkright">
                 <div class="col-md-3 text-right">
                   <label class="control-label">{{'Custom Tasks'|translate}}
                   </label>
@@ -98,7 +98,7 @@
                   <span class="tip-content">{{'Custom Tasks to execute'|translate}}</span>
                 </div>
               </div>
-              <div class="row form-group chkright">
+              <div class="form-row form-group chkright">
                 <div class="col-md-3 text-right">
                   <label class="control-label">Gradle Project Properties
                   </label>
@@ -131,15 +131,15 @@
         </div>
       </div>
   <div class="animate-switch">
-		<div class="panel panel-default">
-			<div class="panel-heading" >
+		<div class="card panel-default">
+			<div class="card-header" >
 				<b>Build Operations</b>
 			</div>
 
-			<div class="panel-body" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
+			<div class="card-body" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
 				<div style="margin-top:20px">
 				
-					<div class="row form-group" >
+					<div class="form-row form-group" >
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
                 <input type="checkbox" [checked]="tempObject.modules[0].codeAnalysis==='on'"
@@ -157,12 +157,13 @@
                       [disabled]="buildInfo.modules[0].codeAnalysis[0]==='sonar'"
                      (change)="buildInfo.modules[0].codeAnalysis[1]=$event.target.checked ? 'sonar':clearSonarqube()"
 										 (click)="codeAnalysisCheck()"
-										 >Sonar
+										 >SonarQube
 									</label>
 
 
               </div>
               <!-- sonar Authentication code -->
+              
               <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
                 <div class="row" style="margin-bottom: 10px;">
                   <div class="col-md-2">
@@ -213,27 +214,13 @@
                   </div>
                 </div>
 
-                <div class="row" style="margin-bottom: 10px;">
-                  <div class="col-md-2">
-                  <label for="sonarProjectKey">Project Key</label>
-                  </div>
-                  <div class="col-md-10">
-                  <input class="form-control  textFieldWidth" name="SonarProjectKey" 
-                    #sonarProjectKey="ngModel" placeholder="Project Key" id="sonarProjectKey" type="text" [(ngModel)]="buildInfo.modules[0].sonarProjectKey" pattern="[_a-zA-Z0-9.-:]+">
-                    <div *ngIf="sonarProjectKey.errors && (sonarProjectKey.dirty || sonarProjectKey.touched)" class="alert alert-danger ">
-                    <div [hidden]="!sonarProjectKey.errors.pattern">
-                      This Field Name can only consist of valid Projectkey
-                    </div>
-                  </div>
-                  </div>
-                </div>
                 
                </div>
               <!-- /sonar Authentication code -->
               
 						</div>
 					</div>
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 marginLeft">
 							<label class="checkbox-inline">
                   <input type="checkbox" id="bdboandroidut" [checked]="buildInfo.modules[0].unitTesting==='on'"
@@ -243,7 +230,7 @@
 						</div>
 					</div>
 
-					<div class="row form-group">
+					<div class="form-row form-group">
 						<div class="col-md-12 ">
 							<label class="checkbox-inline">
                   <input type="checkbox" id="bdboandroidcc"
@@ -257,7 +244,7 @@
 
           <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].codeCoverage=='on'">
 						<div class="container-fluid animate-switch" *ngSwitchCase="true" style="margin-bottom:0px;">
-              <div class="row form-group">
+              <div class="form-row form-group">
                 <div class="col-md-3 text-right">
                   <label class="control-label">
                     JaCoCo {{'Gradle Task Name'|translate}}<span class="star">*</span>

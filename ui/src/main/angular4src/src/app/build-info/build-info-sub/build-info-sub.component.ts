@@ -10,7 +10,10 @@ import { IdprestapiService } from "../../idprestapi.service";
 import { IdpdataService } from "../../idpdata.service";
 import { Router } from "@angular/router";
 import { ViewChild } from "@angular/core";
+import { IDPEncryption } from "../../idpencryption.service";
 import { ParentFormConnectComponent } from "../../parent-form-connect/parent-form-connect.component";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: "app-build-info-sub",
@@ -23,25 +26,36 @@ export class BuildInfoSubComponent implements OnInit {
 
   @Input()
   public formName: string;
+    deleteAntPropModalRef: BsModalRef;
+  responseData: any;
+  public showCheckmarx: boolean = false;
+//   presetNames: any = [];
+  presetList: any = [];
+  teamList: any = [];
 
   constructor(
 
     public IdpdataService: IdpdataService,
     private IdprestapiService: IdprestapiService,
-    private router: Router
+    private idpencryption: IDPEncryption,
+    private router: Router,
+    private modalService:BsModalService
   ) {
-    console.log(  this.checkBoxObject.artifact);
-
     this.IdpdataService.showConfig = false;
     this.IdpdataService.pa = true;
     this.IdpdataService.continuecontrol = true;
+
+    if(this.IdpdataService.application && this.IdpdataService.application.checkMarxDetails && this.IdpdataService.application.checkMarxDetails.checkmarxUrl &&  this.IdpdataService.application.checkMarxDetails.checkmarxUrl!==''){
+        this.showCheckmarx = true;
+        if ( this.buildInfo.securityAnalysisTool === "checkmarx") {
+            this.getCheckmarxDetails();
+        }
+    }
     if (this.formStatusObject.operation === "copy" || this.formStatusObject.operation === "edit") {
         this.checkCheckBox();
     }
-
     if (this.codeInfo.buildScript[2] !== undefined && this.codeInfo.buildScript[2].type === "xml") {
         this.buildInfo.artifactToStage = {};
-
     }
     if (this.buildInfo.artifactToStage.artifactRepoName === undefined) {
         this.buildInfo.artifactToStage.artifactRepoName = "";
@@ -50,6 +64,8 @@ export class BuildInfoSubComponent implements OnInit {
     if (this.buildInfo.artifactToStage.artifactRepo === undefined ) {
         this.buildInfo.artifactToStage.artifactRepo = {};
     }
+  //  this.buildInfo.artifactToStage.artifactRepo.nexusProtocol = "HTTP";
+    
     this.checkCheckBox();
   }
 
@@ -64,6 +80,33 @@ export class BuildInfoSubComponent implements OnInit {
   // artifactAppVariable:any=false;
   // appName=this.IdpdataService.data.basicInfo.applicationName;
 
+  /* checkmarx method */
+  getCheckmarxDetails() {
+    this.IdprestapiService.getCheckmarxData(this.IdpdataService.application.checkMarxDetails).then(response => {
+      try {
+
+        const dropdownNames = JSON.parse(response.json().resource);
+
+        //Populate the preset list
+        for(let pname of dropdownNames.preset){
+            this.presetList.push(pname.name);
+        }
+        //Populate the team list
+        for(let team of dropdownNames.teams){
+            let name = team.fullName.replace(/\\\\/g,'\\');
+            name = name.substring(1);
+            this.teamList.push(name);
+        }
+        if(this.teamList == null || this.teamList.length ==0 ){
+            alert("Could not fetch team names!")
+        }
+    } catch (e) {
+        this.showCheckmarx = false;
+        alert("Could not fetch team names!")
+        console.log(e);
+      }
+    });
+  }
 
   getApplicationDetails(appName) {
     this.IdprestapiService.getApplicationDetails(appName)
@@ -114,12 +157,75 @@ detailsApplication() {
 
     return "on";
   }
+openSADropdown() {
+
+    this.buildInfo.checkmarxAnalysis = {"scanTag": "off",
+                                        "excludeFiles": "",
+                                        "sastHigh": "",
+                                        "sastMedium": "",
+                                        "sastLow": "",
+                                        "enableOSA": "",
+                                        "excludeFileso": "",
+                                        "team": "",
+                                        "preset": ""
+                                        };
+    this.buildInfo.securityAnalysisTool="";
+}
+
+  closeSADropdown() {
+
+    this.buildInfo.checkmarxAnalysis = {"scanTag": "off",
+                                        "tool": "",
+                                        "excludeFiles": "",
+                                        "sastHigh": "",
+                                        "sastMedium": "",
+                                        "sastLow": "",
+                                        "enableOSA": "off",
+                                        "excludeFileso": "",
+                                        "team": "",
+                                        "preset": ""
+                                        };
+    this.buildInfo.securityAnalysisTool=null;
+  }
+
+  updateSecurityAnalysis() {
+      if(this.buildInfo.securityAnalysisTool === 'checkmarx'){
+        this.buildInfo.checkmarxAnalysis.scanTag = "on"
+        if (this.IdpdataService.application.checkMarxDetails && this.IdpdataService.application.checkMarxDetails.checkmarxUrl !== "") {
+            this.getCheckmarxDetails();
+        }
+      }else{
+        this.buildInfo.checkmarxAnalysis.scanTag = "off"
+      }
+  }
+
+  openOSACheck() {
+    this.buildInfo.checkmarxAnalysis.enableOSA = {
+                                        //"enableOSA": "on",
+                                        "excludeFileso": ""
+                                    };
+
+    return "on";
+  }
 
   clearBuild() {
     // console.log(this.buildInfo.postBuildScript.tool);
     this.buildInfo.postBuildScript.scriptFilePath = "";
     this.buildInfo.postBuildScript.targets = "";
   }
+
+  clearAnalysis() {
+    // console.log(this.buildInfo.postBuildScript.tool);
+    this.buildInfo.checkmarxAnalysis.excludeFiles = "";
+    this.buildInfo.checkmarxAnalysis.targets = "";
+  }
+
+  clearOSAAnalysis() {
+    // console.log(this.buildInfo.postBuildScript.tool);
+    this.buildInfo.checkmarxAnalysis.excludeFileso = "";
+    this.buildInfo.checkmarxAnalysis.targets = "";
+  }
+
   clearArtifact() {
     this.buildInfo.artifactToStage.artifactRepoName = "";
     this.buildInfo.artifactToStage.artifactRepo = {};
@@ -175,6 +281,24 @@ detailsApplication() {
             this.clearTransferFilesFlag();
     return "off";
   }
+  clearCheck() {
+    this.clearAnalysis();
+    this.buildInfo.checkmarxAnalysis.tools= "";
+    this.buildInfo.checkmarxAnalysis.excludeFiles = "";
+    this.buildInfo.checkmarxAnalysis.excludeFileso = "";
+    this.buildInfo.checkmarxAnalysis.enableOSA = "off";
+    this.buildInfo.checkmarxAnalysis.sastHigh = "";
+    this.buildInfo.checkmarxAnalysis.sastMedium = "";
+    this.buildInfo.checkmarxAnalysis.sastLow = "";
+    this.buildInfo.checkmarxAnalysis.scanTag = "off";
+    return "off";
+  }
+
+  clearOSACheck() {
+    this.buildInfo.checkmarxAnalysis.excludeFileso = "";
+    //this.buildInfo.checkMarxAction.enableOSA = "off";
+    return "off";
+  }
 
 
   clearTransferFilesFlag() {
@@ -192,6 +316,8 @@ detailsApplication() {
         "buildtool": this.buildtool,
         "castAnalysis": {},
         "artifactToStage": {},
+        "checkmarxAnalysis": {},
+        "securityAnalysisTool": "",
         "modules": []
         };
     }
@@ -213,13 +339,42 @@ detailsApplication() {
     return false;
     }
     deleteAntProp(index) {
-        this.index = index;
-        this.DelAntProp.nativeElement.click();
+        this.deleteAntPropModalRef = this.modalService.show(this.DelAntProp.nativeElement);
+        this.deleteAntPropModalRef.content = {id:index};
     }
     deleteAntPropConfirm() {
         this.buildInfo.postBuildScript.antPropertiesArr.splice(this.index, 1);
     }
   checkCheckBox() {
+      if (this.buildInfo.checkmarxAnalysis === undefined){
+        this.buildInfo.checkmarxAnalysis = {};
+        this.buildInfo.checkmarxAnalysis.scanTag = "off";
+      }
+      if ((this.buildInfo.checkmarxAnalysis.excludeFiles !== undefined &&
+        this.buildInfo.checkmarxAnalysis.excludeFiles !== null &&
+        this.buildInfo.checkmarxAnalysis.excludeFiles !== "") || (this.buildInfo.checkmarxAnalysis.excludeFileso !== undefined &&
+        this.buildInfo.checkmarxAnalysis.excludeFileso !== null &&
+        this.buildInfo.checkmarxAnalysis.excludeFileso !== "") || (this.buildInfo.checkmarxAnalysis.sastHigh !== undefined &&
+        this.buildInfo.checkmarxAnalysis.sastHigh !== null &&
+        this.buildInfo.checkmarxAnalysis.sastHigh !== "") || (this.buildInfo.checkmarxAnalysis.sastMedium !== undefined &&
+        this.buildInfo.checkmarxAnalysis.sastMedium !== null &&
+        this.buildInfo.checkmarxAnalysis.sastMedium !== "") || (this.buildInfo.checkmarxAnalysis.sastLow !== undefined &&
+        this.buildInfo.checkmarxAnalysis.sastLow !== null &&
+        this.buildInfo.checkmarxAnalysis.sastLow !== "")) {
+        this.buildInfo.checkmarxAnalysis.checkmarxAnalysis = "on";
+        // console.log(this.buildInfo.checkmarxAnalysis.scanTag);
+        this.buildInfo.checkmarxAnalysis.scanTag = "on";
+        // this.checkBoxObject.checkMarxAction = "on";
+    }
+    if ((this.buildInfo.checkmarxAnalysis.excludeFileso !== undefined &&
+        this.buildInfo.checkmarxAnalysis.excludeFileso !== null &&
+        this.buildInfo.checkmarxAnalysis.excludeFileso !== "")){
+        if(this.buildInfo.checkmarxAnalysis.enableOSA === "on"){
+            this.buildInfo.checkmarxAnalysis.enableOSA = "on";
+        } else {
+            this.buildInfo.checkmarxAnalysis.enableOSA = "off";
+        }
+        }
     if (this.buildInfo.postBuildScript === undefined) {
         this.buildInfo.postBuildScript = {};
 
@@ -230,6 +385,7 @@ detailsApplication() {
         this.buildInfo.postBuildScript.archiveLogs !== null &&
         this.buildInfo.postBuildScript.archiveLogs !== "")) {
         this.checkBoxObject.postBuildAction = "on";
+        // this.checkBoxObject.checkMarxAction = "on";
     }
     if (this.buildInfo.postBuildScript.tool !== undefined &&
         this.buildInfo.postBuildScript.tool !== null &&
@@ -248,7 +404,11 @@ detailsApplication() {
         this.checkBoxObject.artifact = "off";
         this.buildInfo.artifactToStage.artifactRepoName = "";
     }
-
+	//select checkbox for docker
+	if(this.buildInfo.artifactToStage.artifactRepo !== undefined && this.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR !== undefined && this.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR !== ""){
+		this.checkBoxObject.artifact = "on";
+		this.buildInfo.artifactToStage.artifactRepoName = "docker";
+	}
         if (this.buildInfo.artifactToStage.artifact !== undefined ||
         this.buildInfo.artifactToStage.artifact !== null ||
         this.buildInfo.artifactToStage.artifact !== "") {
@@ -312,10 +472,18 @@ detailsApplication() {
         return (this.buildInfo.artifactToStage.artifactRepoName === "nexus" || this.buildInfo.artifactToStage.artifactRepoName === "jfrog");
     } else if (this.checkBoxObject.artifact === "off") {
         if (this.IdpdataService.artifactAppVariable) {
-        return true;
+			if(this.IdpdataService.isDockerRegistry===false)
+				return true;
         }
     }
 
     return false;
+  }
+  checkTechnologyAndPackage() {
+      if ((this.buildInfo.buildtool ==='bigData') || (this.buildInfo.buildtool ==='mainframe') || (this.buildInfo.buildtool ==='general') || (this.codeInfo.category === 'Package')) {
+        return false;
+      } else {
+        return true;
+      }
   }
 }

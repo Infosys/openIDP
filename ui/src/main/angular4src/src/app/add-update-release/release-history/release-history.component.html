@@ -6,14 +6,14 @@
 *
 -->
 <form name="basicInfoForm" #basicInfoForm="ngForm" ngNativeValidate (ngSubmit)="update()">
-  <div class="col-md-offset-1" style="margin-top:20px">
-    <div class="row form-group">
-      <div class="col-md-offset-1 col-md-3 text-right ">
+  <div class="col-md-offset-1 release-main-container">
+    <div class="form-group">
+      <div class="col-md-offset-1 col-md-3 pipeline-list">
         <label class="control-label ">{{'Pipeline List'|translate}}
           <span class="star">*</span>
         </label>
       </div>
-      <div class="col-md-8 field-tip">
+      <div class="col-md-8 field-tip release-pipeline-name">
         <select style="width:50%" [(ngModel)]="idpdata.releasePipelineName" class="form-control" [ngModelOptions]="{standalone: true}"
           (click)="showReleases()" required>
           <option value="">--Select--</option>
@@ -24,7 +24,7 @@
     </div>
   </div>
   <!--Release History start -->
-  <div class="" *ngIf="idpdata.releasePipelineName!=='' && release.length!==0">
+  <div class="release-table" *ngIf="idpdata.releasePipelineName!=='' && release.length!==0">
     <table readonly id="example" style="border-color:#2885ae" class="table table-bordered table-hover table-responsive" cellspacing="0"
       width="100%">
       <thead class="thead-dark">

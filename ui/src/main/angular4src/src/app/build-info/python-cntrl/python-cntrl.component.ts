@@ -97,6 +97,8 @@ export class PythonCntrlComponent implements OnInit {
         }
         }
 
+
+
 codeAnalysisSonar() {
   this.buildInfo.modules[0].codeAnalysis[0] = "sonar";
   return false;
@@ -117,6 +119,16 @@ codeAnalysisEmptyPaTrue() {
   this.IdpdataService.pa = true;
   return false;
 }
+
+clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+    this.buildInfo.modules[0].sonarProperties ="";
+  
+      return "off";
+    }
 
 
 unitTestingOn() {
