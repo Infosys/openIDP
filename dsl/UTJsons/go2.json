@@ -25,7 +25,7 @@
         "type": "git",
         "url": "http://infygit.domain.com/ambica.mehrotra/GoApp.git",
         "userName": "userName",
-        "password": "password",
+        "password": "pwddummy",
         "repositoryBrowser": "gitLab",
         "browserUrl": "http://infygit.domain.com/",
         "projectName": "",
@@ -89,7 +89,7 @@
         "unitTestDir": "math",
         "npmProxy": "http://10.74.91.103:80",
         "npmProxyUserName": "userName",
-        "npmProxyPassword": "password"
+        "npmProxyPassword": "pwddummy"
       }
     ],
     "postBuildScript": {},

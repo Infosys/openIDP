@@ -29,7 +29,7 @@
 <security-realm name="UndertowRealm">
     <server-identities>
         <ssl>
-            <keystore path="/certs/idp.jks"  keystore-password="password" />
+            <keystore path="/certs/idp.jks"  keystore-password="pwddummy" />
         </ssl>
     </server-identities>
 </security-realm>

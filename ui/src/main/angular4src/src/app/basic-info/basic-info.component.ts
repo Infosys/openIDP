@@ -300,18 +300,18 @@ export class BasicInfoComponent implements OnInit {
         try {
             console.log("string"+JSON.stringify(response))
             if (response) {
-                console.log('kdkdkdkdkdkd 1');
+                
                 console.log(response);
             const appDetails = JSON.parse(response.json().resource);
            // this.appNames = appDetails.applicationNames;
             this.appNames = appDetails.applicationNames;
             
-            console.log('kdkdkdkdkdkd 2');
+            
             //Populate the names in a array of strings for dropdown
             this.appNamesDropdown=[];
             for(let app of this.appNames){
                 this.appNamesDropdown.push(app);
-                console.log('kdkdkdkdkdkd 3');
+               
                 
             }
              console.log('fine');
@@ -320,7 +320,7 @@ export class BasicInfoComponent implements OnInit {
             }
         } catch (e) {
             console.log(e);
-            console.log('kdkdkdkdkdkd');
+            
             alert("Failed while getting applications names");
         }
         });

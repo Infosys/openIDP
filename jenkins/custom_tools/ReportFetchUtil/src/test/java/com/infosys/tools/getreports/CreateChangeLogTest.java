@@ -135,7 +135,7 @@ public class CreateChangeLogTest {
 			// "CustomerPortal_Android_Gradle_App/CustomerPortal_Android_Gradle_App_Build",
 			// "destpath", "time", "CustomerPortal");
 
-			String temp = createChangeLog.createChangeLog("http://server411214d:8085", "userName", "password",
+			String temp = createChangeLog.createChangeLog("http://server411214d:8085", "userName", "pwddummy",
 					"CustomerPortal_Android_Gradle_App/CustomerPortal_Android_Gradle_App_Build", "D://", "time",
 					"CustomerPortal");
 			assertEquals("test", temp);

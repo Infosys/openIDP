@@ -23,11 +23,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
-        "userName": "userName",
-        "password": "password",
+        "url": "http://gitserver/JPetStore_Maven.git",
+        "userName": "uname",
+        "password": pwd",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com/",
+        "browserUrl": "http://gitserver",
         "projectName": "",
         "branch": "master",
         "projPath": "",

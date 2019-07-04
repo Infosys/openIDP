@@ -26,7 +26,7 @@ public class AppContext {
 		configurationManager.setBatchSize("1");
 		configurationManager.setUrl("jdbc:postgresql://idptestServerHost:5432/i2p");
 		configurationManager.setJenkinsID("userName");
-		configurationManager.setJenkinsPassword("password");
+		configurationManager.setJenkinsPassword("pwddummy");
 		configurationManager.setJenkinsURL("https://idptestServerHost:8085/jenkins");
 		return configurationManager;
 	}

@@ -18,7 +18,7 @@ public class AppContext {
 		configurationManager.setPostgresqlinitialsize("5");
 		configurationManager.setUrl("jdbc:postgresql://localhost:5432/IDP");
 		configurationManager.setJenkinsurl("http://server411214d:8085/jenkins");
-		configurationManager.setJenkinspassword("password");
+		configurationManager.setJenkinspassword("pwddummy");
 		configurationManager.setJenkinsuserid("userName");
 		
 		

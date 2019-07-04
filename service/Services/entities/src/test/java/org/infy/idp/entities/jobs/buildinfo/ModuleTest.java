@@ -200,7 +200,7 @@ public class ModuleTest {
 		testedObject.setToolsCfg("cfg");
 		testedObject.setDataSource("source");
 		testedObject.setSiebelUserName("userName");
-		testedObject.setSiebelPassword("dummy4+");
+		testedObject.setSiebelPassword("pwddummy");
 		testedObject.setSiebelRepo("repo");
 		testedObject.setSifImport("import");
 		testedObject.setSibcompile("compile");
@@ -229,7 +229,7 @@ public class ModuleTest {
 		testedObject.setIpcUserName("admin");
 		testedObject.setLogFilePath("log");
 		testedObject.setSourceUsername("userName");
-		testedObject.setSourcePassword("dummy4+");
+		testedObject.setSourcePassword("pwddummy");
 		testedObject.setSourceUrl("url");
 		testedObject.setTimeout("timeout");
 //		testedObject.setRaiseJiraBug("raiseJiraBug");
@@ -271,7 +271,7 @@ public class ModuleTest {
 		assertEquals("machine", testedObject.getServMachine());
 
 		assertEquals("userName", testedObject.getSiebelUserName());
-		assertEquals("dummy4+", testedObject.getSiebelPassword());
+		assertEquals("pwddummy", testedObject.getSiebelPassword());
 		assertEquals("repo", testedObject.getSiebelRepo());
 		assertEquals("import", testedObject.getSifImport());
 		assertEquals("compile", testedObject.getSibcompile());
@@ -301,7 +301,7 @@ public class ModuleTest {
 		assertEquals("admin", testedObject.getIpcUserName());
 		assertEquals("log", testedObject.getLogFilePath());
 		assertEquals("userName", testedObject.getSourceUsername());
-		assertEquals("dummy4+", testedObject.getSourcePassword());
+		assertEquals("pwddummy", testedObject.getSourcePassword());
 		assertEquals("url", testedObject.getSourceUrl());
 		assertEquals("timeout", testedObject.getTimeout());
 

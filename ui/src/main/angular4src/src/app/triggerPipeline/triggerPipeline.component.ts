@@ -113,7 +113,7 @@ export class TriggerComponent implements OnInit {
   dropdownListDeploy: any = [];
   rmsComponentName:any;
   rmsArtifacts: any = [];
-  trial = [{"id":"1", "itemName":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}];
+  
   trialArr=[];
   deployMultiselectSettings = {
     singleSelection: false,
