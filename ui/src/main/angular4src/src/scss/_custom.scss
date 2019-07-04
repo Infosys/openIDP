@@ -1,0 +1,201 @@
+// Here you can add other styles
+.app-header {
+  background-color: $primary;
+  color: $light !important;
+
+}
+
+.app-header .navbar-brand {
+  justify-content: left !important;
+  margin-left: 20px !important;
+}
+
+@font-face {
+  font-family: 'MyriadPro-Regular';
+  src: url('../assets/fonts/MyriadPro-Regular.eot');
+  src: url('../assets/fonts/MyriadPro-Regular.eot') format('embedded-opentype'),
+  url('../assets/fonts/MyriadPro-Regular.woff2') format('woff2'),
+  url('../assets/fonts/MyriadPro-Regular.woff') format('woff'),
+  url('../assets/fonts/MyriadPro-Regular.ttf') format('truetype'),
+  url('../assets/fonts/MyriadPro-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyriadPro-Semibold';
+  src: url('../assets/fonts/MyriadPro-Semibold.eot');
+  src: url('../assets/fonts/MyriadPro-Semibold.eot') format('embedded-opentype'),
+  url('../assets/fonts/MyriadPro-Semibold.woff2') format('woff2'),
+  url('../assets/fonts/MyriadPro-Semibold.woff') format('woff'),
+  url('../assets/fonts/MyriadPro-Semibold.ttf') format('truetype'),
+  url('../assets/fonts/MyriadPro-Semibold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyriadPro-Bold';
+  src: url('../assets/fonts/MyriadPro-Bold.eot');
+  src: url('../assets/fonts/MyriadPro-Bold.eot') format('embedded-opentype'),
+  url('../assets/fonts/MyriadPro-Bold.woff2') format('woff2'),
+  url('../assets/fonts/MyriadPro-Bold.woff') format('woff'),
+  url('../assets/fonts/MyriadPro-Bold.ttf') format('truetype'),
+  url('../assets/fonts/MyriadPro-Bold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'MyriadPro-Semibold';
+}
+
+.f18 {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.f14 {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.table thead th {
+  font-family: 'MyriadPro-Semibold';
+  font-size: 16px;
+  border-top: none;
+  border-bottom: 2px solid #edeef2;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+}
+
+.table th, .table td {
+  border-bottom: 1px solid #edeef2;
+  border-top: none;
+}
+
+.idp-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.small_icon {
+  width: 14px;
+}
+
+body {
+  background-color: #EDEEF2;
+}
+
+.ngx-pagination{
+
+  a:hover, button:hover {
+    background: none !important;
+  }
+  
+  .pagination-previous, .pagination-previous:hover {
+    background: url("assets/img/icon_custom/Prev.png") no-repeat center center;
+  }
+  
+  .pagination-previous.disabled,  .pagination-previous.disabled:hover {
+    background: url("assets/img/icon_custom/Prev-disabled.png") no-repeat center center;
+  }
+  
+  .pagination-previous span,  .pagination-next span {
+    display: none;
+  }
+  
+  .pagination-next, .pagination-next:hover {
+    background: url("assets/img/icon_custom/Next.png") no-repeat center center;
+  }
+  
+  .pagination-next.disabled, .pagination-next.disabled:hover {
+    background: url("assets/img/icon_custom/Next-disabled.png") no-repeat center center;
+  }
+  
+  a:after {
+    content: '';
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  .pagination-next a:after,.pagination-next.disabled:after, .pagination-previous a::before, .pagination-previous.disabled::before {
+    content: '';
+    display: inline-block;
+    font-size: 0;
+  }
+  
+  .pagination-previous a {
+    font-size: 0;
+    vertical-align: top;
+    width: 41px;
+    height: 26px;
+  }
+
+  .pagination-next a {
+    font-size: 0;
+    vertical-align: top;
+    width: 41px;
+    height: 26px;
+  }
+  
+  li {
+    vertical-align: top;
+    padding-left: 0;
+    padding-right: 0;
+    width: 37px;
+    border: 1px solid transparent;
+    border-bottom: 4px solid transparent;
+    text-align: center;
+  }
+  
+  .current {
+    padding-left: 0;
+    padding-right: 0;
+    background: #fff !important;
+    border-color: #c5cbd2;
+    border-bottom-color: #0086cd;
+    color: #0086cd !important;
+    height: 33px !important;
+  }
+}
+
+
+.card {
+  border: none;
+  margin-bottom: 10px;
+
+  .card-header {
+    font-size: 18px;
+    padding: 5px 5px 5px 5px;
+    background-color: #ffffff;
+    border-bottom: none;
+  }
+
+}
+
+.col-form-label {
+  font-size: 14px;
+}
+
+.form-control{
+  border-radius: 0px;
+}
+
+.well {
+  border-radius: 5px !important;
+}
+
+.card-with-border{
+	border:1px solid rgba(0, 0, 0, 0.125);
+	.card-header{
+		background-color: #f0f3f5;
+		border-bottom: 1px solid #c8ced3;
+	}
+}
+.app-footer{
+  background-color:#1B1E27;
+  color:#999999;
+}

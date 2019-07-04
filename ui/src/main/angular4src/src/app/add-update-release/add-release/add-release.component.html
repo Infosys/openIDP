@@ -1,25 +1,25 @@
 <form name="basicInfoForm"  #basicInfoForm="ngForm" (ngSubmit)="submit()" ngNativeValidate>
 <div *ngIf="!Idpdata.releaseAddSuccess">
-<div class="col-md-offset-1" style="margin-top:20px">
-  <div class="row form-group" >
-    <div class="col-md-offset-1 col-md-3 text-right ">
-      <label class="control-label ">{{'Pipeline List'|translate}}
+<div class="" style="margin-top:20px">
+  <div class="form-row form-group" >
+    <div class=" col-md-3  ">
+      <label class="col-form-label ">{{'Pipeline List'|translate}}
         <span class="star">*</span>
       </label>
     </div>
-    <div class="col-md-8 field-tip">
+    <div class="col-md-9 field-tip">
       <select id="rearslpl" style="width:50%" [(ngModel)]="pipelineList" class="form-control"
        [ngModelOptions]="{standalone: true}" multiple required >
 		    <option *ngFor="let name of Idpdata.pipelineNames" [ngValue]="name">{{name}}</option>
         </select>
         
-      <span class="tip-content">{{'Select one or more pipeline(s) by pressing \'ctrl\' button'|translate}}</span>
+      <span class="tip-content" style="right: 160px; zoom: 97%;">{{'Select one or more pipeline(s) by pressing \'ctrl\' button'|translate}}</span>
     </div>
 
   </div>
 
-  <div class="row form-group">
-    <div class="col-md-4 text-right">
+  <div class="form-row form-group">
+    <div class="col-md-3 ">
       <label> {{'Release Number'|translate}} <span class="star">*</span> </label>
     </div>
     <div class="col-md-6 field-tip">
@@ -35,13 +35,13 @@
                           </div>
                          
                         </div>
-	   <span class="tip-content" >{{'Enter release number'|translate}}</span>
+	   <span class="tip-content" style="right: 72px; zoom: 97%; margin-top: 5px;">{{'Enter release number'|translate}}</span>
         
 		<div *ngIf="invalidReleaseNo" class="alert alert-danger">Release number already present in the following pipelines: {{invalidReleaseNoPipeline}}.</div>
     </div>
   </div>
-  <div class="row form-group">
-    <div class="col-md-4 text-right">
+  <div class="form-row form-group">
+    <div class="col-md-3 ">
       <label> {{'Parent Release Name'|translate}} <span class="star">*</span> </label>
     </div>
     <div class="col-md-6 field-tip">
@@ -57,12 +57,12 @@
                           </div>
                          
                         </div>
-        <span class="tip-content" >{{'Enter Parent release name'|translate}}</span>
+        <span class="tip-content" style="right: 70px; zoom: 97%;">{{'Enter Parent release name'|translate}}</span>
     </div>
   </div>
  
-  <div class="row form-group">
-    <div class="col-md-4 text-right">
+  <div class="form-row form-group">
+    <div class="col-md-3 ">
       <label> {{'Expected Start Date'|translate}} <span class="star">*</span> </label>
     </div>
     <div class="col-md-6 field-tip" >
@@ -75,14 +75,14 @@
 
     
 
-    <span class="tip-content" >{{'Select expected start date for this release'|translate}}</span>
+    <span class="tip-content" style="right: 83px; zoom: 97%;">{{'Select expected start date for this release'|translate}}</span>
 
     </div>
     
   </div>
 
-  <div class="row form-group">
-    <div class="col-md-4 text-right">
+  <div class="form-row form-group">
+    <div class="col-md-3 ">
       <label> {{'Expected End Date'|translate}} <span class="star">*</span> </label>
     </div>
     <div class="col-md-6 field-tip">
@@ -93,52 +93,48 @@
 
       </div>
      
-      <span class="tip-content">{{'Select expected end date for this release'|translate}}</span>
+      <span class="tip-content" style="right: 78px; zoom: 97%;">{{'Select expected end date for this release'|translate}}</span>
        
     </div>
 
   </div>
 
 
-  <div class="row form-group">
-    <div class="col-md-4 text-right field-tip">
+  <div class="form-row form-group">
+    <div class="col-md-3  field-tip">
       <label> {{'Remarks for Release'|translate}} </label>
     </div>
     <div id="reartarr" class="col-md-6 field-tip ">
         <textarea type="textbox" class="form-control" placeholder="Remarks for Release" [ngModelOptions]="{standalone: true}"
         [(ngModel)]="releaseManagerData.remarks" style="width:70%"  ></textarea>
        
-        <span class="tip-content" >{{'Remarks/Comments'|translate}}</span>
+        <span class="tip-content" style="right: 70px; zoom: 97%; margin-top: 12px;">{{'Remarks/Comments'|translate}}</span>
     </div>
   </div>
 
-  <div class="row form-group">
-    <div class="col-md-4 text-right">
+  <div class="form-row form-group">
+    <div class="col-md-3 ">
       <label> {{'Send Notification'|translate}} </label>
     </div>
-    <div class="col-md-3 text-left">
-      <div>
-      <label class="col-md-9 text-left control-label">
+    <div class="col-md-4 row text-left">
+      <label class="col-md-6 text-left col-form-label">
         {{'Application Team '|translate}}
       </label>
-      </div>
-      <div class="col-md-3 text-left field-tip textFieldContainer">
+      <div class="text-left field-tip textFieldContainer" style="margin-left: 18%;">
         <input id="rearcbat" type="checkbox" [checked]="releaseManagerData.additionalMailRecipients.applicationTeam==='on'"
         (change)="releaseManagerData.additionalMailRecipients.applicationTeam=$event.target.checked ? 'on':'off'"
         class="Mail_Recipients_style">
-        
+
       </div>
     </div>
     <div class="col-md-5"></div>
     <div class="row"></div>
-    <div class="col-md-offset-4 col-md-8">
-      <div>
-        <label class=" col-md-3  text-left control-label">{{'Additional  Email Ids'|translate}}</label>
-      </div>
-      <div id="reartfaei"class="col-md-9 text-left field-tip">
+    <div class="col-md-6 row text-left" style="margin-left: 23%;">
+        <label class=" col-md-5  text-left col-form-label">{{'Additional  Email Ids'|translate}}</label>
+      <div id="reartfaei"class="col-md-7 text-left field-tip">
         <input type="text" class="form-control" placeholder="William_Jones,Jerry_Gonzalez" [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="releaseManagerData.additionalMailRecipients.emailIds" style="width:70%" />
-        <span class="tip-content">{{'Additional Emailds on which emails will be sent'|translate}}</span>
+        [(ngModel)]="releaseManagerData.additionalMailRecipients.emailIds" />
+        <span class="tip-content" style="right: -49px; zoom: 98%;">{{'Additional Emailds on which emails will be sent'|translate}}</span>
         
 
 
@@ -146,8 +142,8 @@
     </div>
   </div>
 
-  <div class="row col-md-offset-5" >
-    <button type="submit" [disabled]="Idpdata.loading" class="btn btn-info btn-sm text-center" id="btn_txt">{{'Add Release'|translate}}</button>
+  <div class="row offset-md-3" >
+    <button type="submit" [disabled]="Idpdata.loading" class="btn btn-info btn-sm" id="btn_txt">{{'Add Release'|translate}}</button>
   </div>
 
 

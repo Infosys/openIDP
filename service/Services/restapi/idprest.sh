@@ -9,7 +9,7 @@ while [ "$status" != true ]
  do
   	echo "Waiting for Config Server to start. Sleeping for 5 sec ....."
 	sleep 5
-	wget -q -O - ${PROTOCOL}://${CONFIG_HOSTNAME}:${CONFIG_PORT}/idprest/paas --user=${CONFIG_USERNAME} --password=${CONFIG_PASSWORD} --no-check-certificate
+	wget -q -O - http://${CONFIG_HOSTNAME}:${CONFIG_PORT}/idprest/paas --user=${CONFIG_USERNAME} --password=${CONFIG_PASSWORD} --no-check-certificate
 	if [ $? -ne 0 ]
 	then 
 		status="false"
@@ -37,10 +37,11 @@ then
 	then
 		java -jar -Djava.security.egd=file:/dev/./urandom $(dirname $0)/idprest.jar
 	else
-		java -jar -Djavax.net.ssl.trustStore=${SSL_CA_LOC} -Djavax.net.ssl.keyStorePassword=${SSL_CA_PASS} -Djava.security.egd=file:/dev/./urandom  $(dirname $0)/idprest.jar
+		java -jar -Djavax.net.ssl.trustStore=${SSL_CA_LOC} -Djavax.net.ssl.keyStorePassword=${SSL_CA_PASS} -Djava.security.egd=file:/dev/./urandom -Djava.library.path="/idprest/jco:${PATH}" $(dirname $0)/idprest.jar
 	fi   
 else
 	export SSL_ENABLED=false
 	echo "Starting IDP Services in non-secure mode"
-	java -jar -Djava.security.egd=file:/dev/./urandom  $(dirname $0)/idprest.jar 
+	java -jar -Djava.security.egd=file:/dev/./urandom -Djava.library.path=/idprest/jco:${PATH} $(dirname $0)/idprest.jar 
 fi
+

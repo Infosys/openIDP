@@ -1,17 +1,17 @@
 <form [parentFormConnect]="formName">
   <div class="animate-switch-container">
     <div class="animate-switch">
-      <div class="panel panel-default">
-        <div class="panel-heading panelHeadingBackground" >
+      <div class="card">
+        <div class="card-header panelHeadingBackground" >
            <b>Python {{'Project Details'|translate}}</b>
         </div>
-        <div class="panel-body" >
-          <div class="row form-group chkright">
-            <div class="col-md-3 text-right">
-              <label class="control-label">{{'Root Directory'|translate}} </label> <span class="star">*</span>
+        <div class="card-body" >
+          <div class="form-row form-group chkright">
+            <div class="col-md-3 ">
+              <label class="col-form-label">{{'Root Directory'|translate}} </label> <span class="star">*</span>
             </div>
             <div class="col-md-9 field-tip text-left">
-              <input id="bdbordf" class="form-control txtbox" name="rootDirectoryField" #rootDirectoryField="ngModel"
+              <input id="bdbordf" class="form-control " name="rootDirectoryField" #rootDirectoryField="ngModel"
               [(ngModel)]="buildInfo.modules[0].relativePath" type="text" placeholder="rootDirectory"
              minlength="1" maxlength="150" required>
 
@@ -38,11 +38,11 @@
     </div>
   </div>
 
-  <div class="row animate-switch-container" >
+  <div class="animate-switch-container" >
     <div class="col-md-12">
       <div class="animate-switch">
-        <div class="panel panel-default">
-          <div class="panel-heading" >
+        <div class="card">
+          <div class="card-header" >
              <span><b>{{'Build Operations'|translate}}</b></span>
           </div>
 
@@ -52,11 +52,11 @@
 
         <!-- Start CodeAnalysis-->
           <div>
-            <div class="row form-group chkright" style="padding-left:20px">
+            <div class="form-row form-group chkright" style="padding-left:20px">
               <div class="col-md-12">
                 <label class="checkbox-inline">
                   <input id="bdcacacb" type="checkbox" [required]="buildInfo.modules[0].unitTesting==='off'" name="codeAnalysis"
-                   [checked]="tempObject.modules[0].codeAnalysis==='on'" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':'off'"
+                   [checked]="tempObject.modules[0].codeAnalysis==='on'" (change)="tempObject.modules[0].codeAnalysis=$event.target.checked ? 'on':clearSonarqube()"
                    (change)="codeAnalysisCheckbox()"
                    >{{'Code Analysis'|translate}}
                 </label>
@@ -77,7 +77,7 @@
                           [disabled]="tempObject.modules[0].codeAnalysis !=='off' || tempObject.modules[0].codeAnalysis !==undefined"
 
                           style="width: 15px; height: 15px"
-                          >{{tempCodeAnalysis[0]}}
+                          >SonarQube
 
                         </label>
 
@@ -92,6 +92,7 @@
                     )" ><div *ngIf="paTrue()"></div>
                   </div>
                 </div>
+           
               </div>
               <div *ngSwitchCase="'off'">
                 <div *ngIf="codeAnalysisEmptyPaTrue()"></div>
@@ -103,7 +104,7 @@
 
               <!-- Start UnitTesting-->
           <div>
-            <div class="row form-group chkright" style="padding-left:20px">
+            <div class="form-row form-group chkright" style="padding-left:20px">
               <div class="col-md-12">
                 <label class="checkbox-inline">
                   <input id="bdututcb" type="checkbox"   [checked]="buildInfo.modules[0].unitTesting==='on'"
@@ -123,15 +124,15 @@
                     <div class="animate-switch"
                       *ngSwitchCase="true">
                       <div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                          <label class="control-label">{{'Unit Test Directory  '|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 " style="left: 10px;">
+                          <label class="col-form-label">{{'Unit Test Directory  '|translate}}
                                <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdututdftb" name="unitTestDirectoryField" #unitTestDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].unitTestDir"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                               type="text" placeholder="Test_cases"
                               minlength="1" maxlength="150" required>
                               <div *ngIf="unitTestDirectoryField.errors && (unitTestDirectoryField.dirty || unitTestDirectoryField.touched)" class="alert alert-danger ">
@@ -152,16 +153,16 @@
                             </span>
                           </div>
                         </div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label"> &nbsp;&nbsp;
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label"> &nbsp;&nbsp;
                             {{'Unit Test Report Directory '|translate}}
                              <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdututrdftb" name="unitTestReportDirectoryField" #unitTestReportDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].report"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                             type="text" placeholder="test-reports"
                               minlength="1" maxlength="150" required>
                               <div *ngIf="unitTestReportDirectoryField.errors && (unitTestReportDirectoryField.dirty || unitTestReportDirectoryField.touched)" class="alert alert-danger ">
@@ -199,25 +200,25 @@
   <!--Start Target Environmental Details -->
 
   <!--  <div class="animate-switch-container" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">-->
-  <div class="row animate-switch-container" >
+  <div class="animate-switch-container" >
     <div class="col-md-12">
       <div class="animate-switch" [ngSwitch]="buildInfo.modules[0].unitTesting=='on'">
-        <div class="panel panel-default" *ngSwitchCase="true">
-          <div class="panel-heading" >
+        <div class="card" *ngSwitchCase="true">
+          <div class="card-header" >
              <span><b>{{'Target Environment Details'|translate}}</b></span>
           </div>
 
 
                       <div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                          <label class="control-label">{{'Target Host Name '|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 " style="left: 9px;">
+                          <label class="col-form-label">{{'Target Host Name '|translate}}
                                <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdthnftb" name="targetHostNameField" #targetHostNameField="ngModel" [(ngModel)]="buildInfo.modules[0].hostName"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                               type="text" placeholder="137.185.234.237"
                               minlength="1" maxlength="150" required>
                               <div *ngIf="targetHostNameField.errors && (targetHostNameField.dirty || targetHostNameField.touched)" class="alert alert-danger ">
@@ -238,16 +239,16 @@
                             </span>
                           </div>
                         </div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label"> &nbsp;&nbsp;
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label"> &nbsp;&nbsp;
                             {{' User Name '|translate}}
                              <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdunftb" name="userNameField" #userNameField="ngModel" [(ngModel)]="buildInfo.modules[0].userName"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                             type="text" placeholder="admin"
                               minlength="1" maxlength="150" required>
                               <div *ngIf="userNameField.errors && (userNameField.dirty || userNameField.touched)" class="alert alert-danger ">
@@ -268,15 +269,15 @@
                               class="tip-content">{{'Target Server UserName '|translate}}</span>
                           </div>
                         </div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                          <label class="control-label">{{' Private Key Path '|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3" style="left: 10px;">
+                          <label class="col-form-label">{{' Private Key Path '|translate}}
                                <span class="star">*</span>
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdpkpftb" name="privateKeyPathField" #privateKeyPathField="ngModel" [(ngModel)]="buildInfo.modules[0].privateKey"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                               type="text" placeholder="D:\PNG\am-rtdc-emr-ec2-key-linux.ppk "
                               minlength="1" maxlength="150" required>
                               <div *ngIf="privateKeyPathField.errors && (privateKeyPathField.dirty || privateKeyPathField.touched)" class="alert alert-danger ">
@@ -297,15 +298,15 @@
                             </span>
                           </div>
                         </div>
-                        <div class="row form-group chkright">
-                          <div class="col-md-3 text-right">
-                          <label class="control-label">{{'  Remote Directory '|translate}}
+                        <div class="form-row form-group chkright">
+                          <div class="col-md-3 " style="left: 10px;">
+                          <label class="col-form-label">{{'  Remote Directory '|translate}}
 
                             </label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdrdftb" name="remoteDirectoryField" #remoteDirectoryField="ngModel" [(ngModel)]="buildInfo.modules[0].remoteDir"
-                              class="form-control txtbox textFieldWidth"
+                              class="form-control  textFieldWidth"
                               type="text" placeholder="remoteDirectory"
                               minlength="1" maxlength="150" >
                               <div *ngIf="remoteDirectoryField.errors && (remoteDirectoryField.dirty || remoteDirectoryField.touched)" class="alert alert-danger ">

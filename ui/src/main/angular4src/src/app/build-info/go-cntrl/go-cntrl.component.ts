@@ -123,17 +123,6 @@ export class GoCntrlComponent implements OnInit {
     this.buildInfo.modules[0].codeCoverage = "off";
     return "off";
   }
-  clearBuildOperation()
-  {
-    this.buildInfo.modules[0].unitTesting="off"
-    this.buildInfo.modules[0].unitTestDir = "";
-    this.buildInfo.modules[0].codeCoverage = "off";
-    this.tempObject.modules[0].compile="off"
-    this.buildInfo.modules[0].npmProxy = "";
-    this.buildInfo.modules[0].npmProxyUserName = "";
-    this.buildInfo.modules[0].npmProxyPassword = "";
-    return "off";
-  }
 
   /**
   *
@@ -157,4 +146,14 @@ export class GoCntrlComponent implements OnInit {
     this.buildInfo.modules[0].unitTesting = "off";
     return "off";
   }
+  clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+    this.buildInfo.modules[0].sonarProperties ="";
+  
+  
+      return "off";
+    }
 }

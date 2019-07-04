@@ -1,0 +1,8 @@
+version: "3.2"
+
+services:
+    proxy:
+        ports:
+            - ${CUSTOM_PORT}:${CUSTOM_PORT}
+        volumes:
+            - ${MOUNT_DIR}/proxy/nonssl.conf:/protocol_config/protocol.conf

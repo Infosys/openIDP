@@ -1,5 +1,5 @@
 <div class="container">
-  <h2 class="text-center">Subscription Portal</h2>
+  <h2 class="">Subscription Portal</h2>
   <div class="row">
     <div class="col-md-4">
       <div class="row">
@@ -34,14 +34,6 @@
        
       </div>
       <div class="row">
-        <div class="col-md-4" style="margin-left:-25px;margin-top:-75px;">
-
-          <div>
-            <div>
-              <img src="assets/images/InsightsNew.png" alt="Smiley face" height="120" width="105">
-            </div>
-          </div>
-        </div>
         <div>
           <div class="col-md-4" style="margin-left:-35px;margin-top:10px;">
             <div >
@@ -80,8 +72,8 @@
         </div>
         <div *ngIf="activeServices.length!=0">
           <div *ngFor="let sub of activeServices; let i = index" class="col-md-4" style="padding-top:20px;">
-            <div class="panel panel-default">
-              <div class="panel-heading blue">
+            <div class="card">
+              <div class="card-header blue">
                 <h3 class="panel-title">
                   <span>{{services[sub]}}</span>
                     <span style="float: right;"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title={{activeServicesInfo[i]}} (click)="getLicenseDetails(i)" ></i>
@@ -89,7 +81,7 @@
                 </h3>
                            
               </div>
-              <div class="panel-body setHeight">
+              <div class="card-body setHeight">
                 <div *ngIf="tools && sub && tools[sub]">
                   <ul *ngFor="let key1 of GetKeys(tools[sub])">
                     <li>{{key1}}</li>
@@ -172,7 +164,7 @@
 
 
 
-              <div class="text-center">
+              <div class="">
               </div>
             </form>
           </div>
@@ -187,7 +179,7 @@
 
       </div>
     </div>
-    <div class="text-center">
+    <div class="">
       <button id="applyButton" class="btn blue white-text" data-toggle="modal" data-target="#applyLicense">Apply License</button>
       <button id="detailsButton" class="btn blue white-text" class="hide" data-toggle="modal" data-target="#licenseDetails">License Details</button>
     </div>

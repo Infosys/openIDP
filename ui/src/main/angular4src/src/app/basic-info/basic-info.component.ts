@@ -29,6 +29,7 @@ export class BasicInfoComponent implements OnInit {
   formStatusObject: any = this.Idpdata.data.formStatus;
   operation: any;
   appNames: any = [];
+  appNamesDropdown: any = [];
   groupIds = [];
   applicationName = "";
   pipelineName = "";
@@ -66,6 +67,13 @@ export class BasicInfoComponent implements OnInit {
   customAdminMsgs: any;
   pipeLineAdminNames: any;
   isCustomadmin: any;
+  isRmsApp: any;
+  rmsAppName: any;
+  services: String[]=['service1','service'];
+  batchJobs: String[]=['Release1','Harmony'];
+  applicat: String[]=['App1','App2', 'App3', 'App4','App5'];
+  pipeLineNamesRms: any;
+  rmsOperation:any;
   ngOnInit() {
   }
 
@@ -83,6 +91,7 @@ export class BasicInfoComponent implements OnInit {
 
   // Constructor to initialize with empty json
   constructorFunction() {
+    this.Idpdata.freezeNavBars = false;
     if (this.testInfo.testEnv === undefined) {
         this.testInfo.testEnv = [];
     }
@@ -133,13 +142,17 @@ export class BasicInfoComponent implements OnInit {
         "username": this.Idpdata.idpUserName
     };
         this.tempObject.isCustomadmin = false;
+        //this.Idpdata.isRmsApp = false;
         this.Idpdata.PagePersmission.basic = false;
         this.Idpdata.PagePersmission.code = false;
         this.Idpdata.PagePersmission.build = false;
         this.Idpdata.PagePersmission.deploy = false;
         this.Idpdata.PagePersmission.test = false;
     this.operation = this.Idpdata.operation;
+	this.rmsOperation = this.Idpdata.operation;
     // console.log(this.operation);
+
+    this.selectedPipeType(this.basicInfo.pipelineType);
     if (this.Idpdata.devServerURL !== "") {
         this.getApplicationName(data);
     } else {
@@ -147,9 +160,9 @@ export class BasicInfoComponent implements OnInit {
         .then(response => {
             try {
             if (response) {
-                this.Idpdata.devServerURL = response.json().idpresturl;
-                  
+                this.Idpdata.devServerURL = "http://localhost:8889/idprest";
                 
+               // this.Idpdata.devServerURL = "http://localhost:8889/idprest";
                 this.Idpdata.subscriptionServerURL = response.json().idpsubscriptionurl;
                 this.Idpdata.IDPDashboardURL = response.json().idpdashboardurl;
                 this.Idpdata.IDPLink = response.json().IDPLink;
@@ -221,6 +234,11 @@ export class BasicInfoComponent implements OnInit {
                 || application.artifactToStage.artifactRepoName === "")) {
                 this.Idpdata.artifactVariable = true;
                 this.Idpdata.artifactAppVariable = true;
+				if(application.artifactToStage.artifactRepoName==="docker"){
+					this.Idpdata.isDockerRegistry=true;
+				}else{
+					this.Idpdata.isDockerRegistry=false;
+				}
                 } else {
                 this.Idpdata.artifactVariable = false;
                 this.Idpdata.artifactAppVariable = false;
@@ -280,12 +298,29 @@ export class BasicInfoComponent implements OnInit {
         this.IdprestapiService.checkApplicationNames(data, oprMethod)
         .then(response => {
         try {
+            console.log("string"+JSON.stringify(response))
             if (response) {
+                
+                console.log(response);
             const appDetails = JSON.parse(response.json().resource);
+           // this.appNames = appDetails.applicationNames;
             this.appNames = appDetails.applicationNames;
+            
+            
+            //Populate the names in a array of strings for dropdown
+            this.appNamesDropdown=[];
+            for(let app of this.appNames){
+                this.appNamesDropdown.push(app);
+               
+                
+            }
+             console.log('fine');
+			
+			
             }
         } catch (e) {
             console.log(e);
+            
             alert("Failed while getting applications names");
         }
         });
@@ -293,9 +328,9 @@ export class BasicInfoComponent implements OnInit {
         console.log(typeof (Storage));
         this.operation = this.Idpdata.operation;
         if (this.operation === "copy" || this.operation === "edit") {
-            const data = localStorage.getItem("appName");
-            this.Idpdata.appName = data;
-            this.copyEditOperation();
+            // const data = localStorage.getItem("appName");
+            // this.Idpdata.appName = data;
+            // this.Idpdata.isRepoSelected = true;
             // this.IdprestapiService.checkForApplicationType(data).then(response => {
             //     try {
             //         if (response) {
@@ -316,7 +351,12 @@ export class BasicInfoComponent implements OnInit {
             //         alert("Failed to verify application type");
             //     }
             // });
+            const data = localStorage.getItem("appName");
+            this.Idpdata.appName = data;
+            this.copyEditOperation();
+
         } else {
+        this.Idpdata.isRepoSelected = false;
         console.log(localStorage);
         localStorage.clear();
         this.operation = "off";
@@ -435,16 +475,16 @@ export class BasicInfoComponent implements OnInit {
             this.formStatusObject.operation = "off";
             }
             // for setting landscapeName
-            // if (this.Idpdata.isSAPApplication) {
-            //     if (this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== ""
-            //     || this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== "") {
-            //         this.Idpdata.landscapeName = this.Idpdata.data.buildInfo.castAnalysis.landscapeName;
-            //         // this.getLandscapeNamesForSap();
-            //         // this.getVariantsForSap();
-            //     } else {
-            //         this.Idpdata.landscapeName = "";
-            //     }
-            // }
+            if (this.Idpdata.isSAPApplication) {
+                if (this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== ""
+                || this.Idpdata.data.buildInfo.castAnalysis.landscapeName !== "") {
+                    this.Idpdata.landscapeName = this.Idpdata.data.buildInfo.castAnalysis.landscapeName;
+                    this.getLandscapeNamesForSap();
+                    this.getVariantsForSap();
+                } else {
+                    this.Idpdata.landscapeName = "";
+                }
+            }
             // Fetched Artifact details required in build info
             if (this.Idpdata.data.buildInfo.artifactToStage !== undefined
             && this.Idpdata.data.buildInfo.artifactToStage.artifact
@@ -533,74 +573,124 @@ export class BasicInfoComponent implements OnInit {
   }
 
     // fetch variants for SAP application
-    // getVariantsForSap() {
-    //     const data = {
-    //         "landscape_name": this.Idpdata.landscapeName,
-    //         "application_name": this.Idpdata.data.basicInfo.applicationName
-    //     };
+    getVariantsForSap() {
+        const data = {
+            "landscape_name": this.Idpdata.landscapeName,
+            "application_name": this.Idpdata.data.basicInfo.applicationName
+        };
 
-    //     if (data.landscape_name !== "") {
+        if (data.landscape_name !== "") {
 
-    //         this.IdprestapiService.getVariantNamesForSap(data).then(response => {
-    //             try {
-    //                 if (response) {
-    //                     if (response.json().resource !== "{}" && response.json().resource !== null) {
-    //                         const temp = response.json().resource;
-    //                         this.Idpdata.VariantNameList = [];
-    //                         if (JSON.parse(temp).names.length !== 0) {
-    //                             this.Idpdata.VariantNameList = JSON.parse(temp).names;
-    //                         } else {
-    //                             alert("Variants are not available for application " + data.application_name);
-    //                         }
-    //                     } else {
-    //                         alert("failed to get variant Names");
-    //                     }
-    //                 } else {
-    //                     alert("failed to get variant Names");
-    //                 }
+            this.IdprestapiService.getVariantNamesForSap(data).then(response => {
+                try {
+                    if (response) {
+                        if (response.json().resource !== "{}" && response.json().resource !== null) {
+                            const temp = response.json().resource;
+                            this.Idpdata.VariantNameList = [];
+                            if (JSON.parse(temp).names.length !== 0) {
+                                this.Idpdata.VariantNameList = JSON.parse(temp).names;
+                            } else {
+                                alert("Variants are not available for application " + data.application_name);
+                            }
+                        } else {
+                            alert("failed to get variant Names");
+                        }
+                    } else {
+                        alert("failed to get variant Names");
+                    }
 
-    //             } catch (e) {
-    //                 console.log(e);
-    //                 alert("failed while getting varianst");
-    //             }
-    //         });
-    //     }
-    // }
+                } catch (e) {
+                    console.log(e);
+                    alert("failed while getting varianst");
+                }
+            });
+        }
+    }
 
     // fetch SAP landcape names for the application
-    // getLandscapeNamesForSap() {
-    //     const applicationName = this.Idpdata.data.basicInfo.applicationName;
-    //     this.IdprestapiService.getLandscapesForSap(applicationName).then(response => {
-    //         try {
-    //             if (response) {
-    //                 if (response.json().resource !== "{}" && response.json().resource !== null) {
-    //                     const temp = response.json().resource;
-    //                     const operation = this.Idpdata.operation;
-    //                     if (operation === "copy" || operation === "edit") {
-    //                         // for copy or edit pipeline
-    //                         const landscapeName = this.Idpdata.landscapeName;
-    //                         this.Idpdata.SAPEnvList = [];
-    //                         const test = JSON.parse(temp).landscapes;
-    //                         for (let i = 0; i < test.length; i++) {
-    //                             this.Idpdata.SAPEnvList.push(test[i]);
-    //                         }
-    //                         this.Idpdata.landscapeName = landscapeName;
-    //                     } else {
-    //                         this.Idpdata.SAPEnvList = JSON.parse(temp).landscapes;
-    //                     }
-    //                 } else {
-    //                     alert("failed to get landscapes Names");
-    //                 }
-    //             } else {
-    //                 alert("failed to get landscapes Names");
-    //             }
-    //         } catch (e) {
-    //             console.log(e);
-    //             alert("failed while getting landscapes Names");
-    //         }
-    //     });
-    // }
+    getLandscapeNamesForSap() {
+        const applicationName = this.Idpdata.data.basicInfo.applicationName;
+        this.IdprestapiService.getLandscapesForSap(applicationName).then(response => {
+            try {
+                if (response) {
+                    if (response.json().resource !== "{}" && response.json().resource !== null) {
+                        const temp = response.json().resource;
+                        const operation = this.Idpdata.operation;
+                        if (operation === "copy" || operation === "edit") {
+                            // for copy or edit pipeline
+                            const landscapeName = this.Idpdata.landscapeName;
+                            this.Idpdata.SAPEnvList = [];
+                            const test = JSON.parse(temp).landscapes;
+                            for (let i = 0; i < test.length; i++) {
+                                this.Idpdata.SAPEnvList.push(test[i]);
+                            }
+                            this.Idpdata.landscapeName = landscapeName;
+                        } else {
+                            this.Idpdata.SAPEnvList = JSON.parse(temp).landscapes;
+                        }
+                    } else {
+                        alert("failed to get landscapes Names");
+                    }
+                } else {
+                    alert("failed to get landscapes Names");
+                }
+            } catch (e) {
+                console.log(e);
+                alert("failed while getting landscapes Names");
+            }
+        });
+    }
 
+	getAppmartDetails(){
+      //Fetches details from appmart
+	  if(this.Idpdata.isRmsApp === true){
+		  //alert(this.applicationName)
+		  if(this.basicInfo.applicationName === ""){
+			  this.basicInfo.applicationName=this.applicationName;
+		  }
+		this.IdprestapiService.getRmsApplicationName(this.basicInfo.applicationName).then(response => {
+			try {
+                if (response) {
+					this.rmsAppName= response.json().resource;
+				}
+			else {
+                        alert("failed to get rms application name");
+                    }
+                
+            } catch (e) {
+                alert("failed to get rms application name");
+            }
+            
+        });
+		this.IdprestapiService.getAppmartDetails(this.Idpdata.idpUserName).then(response => {
+			try {
+                if (response) {
+                    if (response.json().errorMessage === null && response.json().resource !== "") {
+                        console.log(JSON.stringify(response.json().resource));
+						const appmartdetails = JSON.parse(response.json().resource);
+						this.Idpdata.dependencies= [];
+						
+						for(let obj of appmartdetails){
+							console.log(obj);
+							console.log(this.basicInfo.applicationName);
+							if(obj.applicationName === this.rmsAppName){
+								this.Idpdata.dependencies = obj.dependencies;
+								this.selectedPipeType(this.basicInfo.pipelineType);
+								break;
+							}
+						}
+						
+                    } else {
+                        alert("failed to verify application Type");
+                    }
+                }
+            } catch (e) {
+                alert("failed during verifying the application type");
+            }
+            
+        });
+		}
+  }
   // Gives the app selected by the user
   selectedApp1() {
     const data = this.basicInfo.applicationName;
@@ -608,30 +698,36 @@ export class BasicInfoComponent implements OnInit {
     this.Idpdata.loading = true;
     this.selectedApp();
     this.getApplicationDetails(data);
-        // this.IdprestapiService.checkForApplicationType(data).then(response => {
-        //     try {
-        //         if (response) {
-        //             if (response.json().errorMessage === null && response.json().resource !== "") {
-        //                 if (response.json().resource === "true") {
-        //                     this.Idpdata.isSAPApplication = true;
-        //                     this.selectedApp();
-        //                     // this.getLandscapeNamesForSap();
-        //                 } else {
-        //                     this.Idpdata.isSAPApplication = false;
-        //                     this.selectedApp();
-        //                     this.getApplicationDetails(data);
-        //                 }
-        //             } else {
-        //                 alert("failed to verify application Type");
-        //             }
-        //         }
-        //     } catch (e) {
-        //         alert("failed during verifying the application type");
-        //     }
-        //     this.Idpdata.loading = false;
-        // });
+
+
     }
 
+ 
+  selectedPipeType(pipelineType){
+      //Populate pipeline names for RMS based on type of pipeline chosen
+if(pipelineType==='Application'){
+	for(let obj of this.Idpdata.dependencies){
+		if(obj.pipelineType === "App"){
+		this.pipeLineNamesRms=obj.pipelineList;
+		break;
+		}
+	}
+}else if(pipelineType === 'Services'){
+    for(let obj of this.Idpdata.dependencies){
+		if(obj.pipelineType === "Service"){
+		this.pipeLineNamesRms=obj.pipelineList;
+		break;
+		}
+	}
+}else if(pipelineType === 'BatchJob'){
+    for(let obj of this.Idpdata.dependencies){
+		if(obj.pipelineType === "Batch"){
+		this.pipeLineNamesRms=obj.pipelineList;
+		break;
+		}
+	}
+}
+  }
   // Fetches the pipeline details for the application selected by user
   selectedApp() {
     const applicationName = this.basicInfo.applicationName;
@@ -646,18 +742,18 @@ export class BasicInfoComponent implements OnInit {
     if (this.basicInfo.applicationName) {
         console.log("getting pipeline names");
         this.getPipelineNames(this.basicInfo.applicationName);
-            // if (this.Idpdata.isSAPApplication) {
-            //     if (this.Idpdata.setSAPdata()) {
-            //         this.testInfo = this.Idpdata.data.testInfo;
-            //         this.deployInfo = this.Idpdata.data.deployInfo;
-            //         this.basicInfo = this.Idpdata.data.basicInfo;
-            //         this.tempObject = this.Idpdata.data.checkboxStatus.basicInfo;
-            //         this.formStatusObject = this.Idpdata.data.formStatus;
-            //         this.basicInfo.applicationName = applicationName;
-            //         this.constructorFunction();
-            //         this.getPipelineNames(this.basicInfo.applicationName);
-            //     }
-            // }
+            if (this.Idpdata.isSAPApplication) {
+                if (this.Idpdata.setSAPdata()) {
+                    this.testInfo = this.Idpdata.data.testInfo;
+                    this.deployInfo = this.Idpdata.data.deployInfo;
+                    this.basicInfo = this.Idpdata.data.basicInfo;
+                    this.tempObject = this.Idpdata.data.checkboxStatus.basicInfo;
+                    this.formStatusObject = this.Idpdata.data.formStatus;
+                    this.basicInfo.applicationName = applicationName;
+                    this.constructorFunction();
+                    this.getPipelineNames(this.basicInfo.applicationName);
+                }
+            }
         this.getEnvironmentNames();
     }
 

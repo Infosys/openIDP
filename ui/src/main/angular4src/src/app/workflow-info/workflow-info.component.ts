@@ -7,7 +7,7 @@
 **/
 
 import { Component, AfterViewInit, ViewChild, DoCheck, Input, ComponentFactoryResolver, OnDestroy } from "@angular/core";
-import { TranslateService } from "ng2-translate";
+import { TranslateService } from "@ngx-translate/core";
 import { IdpService } from "../idp-service.service";
 import { IdprestapiService } from "../idprestapi.service";
 import { Router } from "@angular/router";
@@ -18,6 +18,7 @@ import { DynamicComponentDirective } from "../custom-directive/dynamicComponent.
 import { TriggerComponent } from "../triggerPipeline/triggerPipeline.component";
 
 import {IDPEncryption} from "../idpencryption.service";
+import {BsModalService, BsModalRef} from "../../../node_modules/ngx-bootstrap";
 
 
 declare var jQuery: any;
@@ -28,12 +29,12 @@ declare var jQuery: any;
 })
 export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild("modalforAlert") button;
-  @ViewChild("modalforAlertDataMiss") missData;
-  @ViewChild("modalformandatoryFieldsAlert") mandatoryFieldsAlert;
-  @ViewChild("modalforconfirmAlert") confirmationAlert;
-  @ViewChild("modalforTrigger") triggerButton;
-
+  @ViewChild("modalforAlert") modalforAlert;
+  @ViewChild("modalforAlertDataMiss") modalforAlertDataMiss;
+  @ViewChild("modalformandatoryFieldsAlert") modalformandatoryFieldsAlert;
+  @ViewChild("modalforconfirmAlert") modalforconfirmAlert;
+  @ViewChild("modalforTrigger") modalforTrigger;
+  @ViewChild("modalForTriggerDetails") modalForTriggerDetails;
   workflowData: any = this.Idpdata.workflowData;
   IDPWorkflowParamData: any= {};
   newOrEditWorkflow: string;
@@ -41,6 +42,7 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
   listToFillFields: any = [];
   formStatusObject = this.Idpdata.data.formStatus;
   appPipeNamesAvailable = false;
+  isReleaseAvailable = true;
   loader: any = "off";
   message: any;
   errorMessage: any;
@@ -56,14 +58,22 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
     selectAllText: "Select All",
     unSelectAllText: "UnSelect All"
   };
-
+  seqCollapseStatus:Array<any> = [];
   @ViewChild(DynamicComponentDirective) dynamicComponent: DynamicComponentDirective;
+   modalforAlertRef: BsModalRef;
+   modalforAlertDataMissRef: BsModalRef;
+   modalformandatoryFieldsAlertRef: BsModalRef;
+   modalforconfirmAlertRef: BsModalRef;
+   modalforTriggerRef: BsModalRef;
+   modalForTriggerDetailsRef: BsModalRef;
   constructor(public Idpdata: IdpdataService,
     private Idprestapi: IdprestapiService,
     private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     public IdpService : IdpService,
-    private idpencryption: IDPEncryption
+    private idpencryption: IDPEncryption,
+     private modalService: BsModalService
+
   ) {
   
 
@@ -89,7 +99,7 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
     const url: string = this.router.url;
       if (url.includes("createConfig") &&
        !this.Idpdata.workflowTrigger && this.Idpdata.data.formStatus.basicInfo.appNameStatus === "0") {
-        this.button.nativeElement.click();
+        this.modalforAlertRef = this.modalService.show(this.modalforAlert);
       } else if ( url.includes("previousConfig") && this.Idpdata.triggerJobData === undefined) {
         this.redirectToShowConfiguration();
       }
@@ -384,9 +394,9 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
    this.workflowData.workflowSequence[i].applicationDetails[j].applicationName;
  }
 }
-  fetchPipelineTriggerDetails(reqData, i, j, k) {
+  fetchPipelineTriggerDetails(reqData, i, j, k):Promise<any> {
     this.appPipeNamesAvailable = false;
-    this.Idprestapi.triggerJob(reqData)
+    return this.Idprestapi.triggerJob(reqData)
     .then(response => {
       try {
         if (response) {
@@ -395,14 +405,19 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
           if (result !== "{}" && result !== null) {
             this.Idpdata.triggerJobData = JSON.parse(result);
             if (this.Idpdata.triggerJobData.releaseNumber !== null && this.Idpdata.triggerJobData.releaseNumber.length !== 0) {
+              this.Idpdata.appName = reqData.applicationName;
+              this.Idpdata.pipelineName = reqData.pipelineName;
               this.getComponentToLoad(i, j, k);
               } else if (this.Idpdata.triggerJobData.roles.indexOf("RELEASE_MANAGER") === -1) {
+                this.isReleaseAvailable = false;
                 alert("No active releases for this pipeline. Please add releases before adding in workflow sequence");
               } else {
+                this.isReleaseAvailable = false;
                 alert("No active releases for this pipeline. Please contact the release manager.");
               }
 
             } else {
+              this.isReleaseAvailable = false;
               alert("Failed  to get the Trigger Job Details");
             }
           }
@@ -429,10 +444,13 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
       componentRef.instance.workflowSequenceIndexK = k;
       componentRef.instance.workflowSequence = this.workflowData.workflowSequence;
       componentRef.instance.getJobParamDetails();
+      componentRef.instance.onTriggerDetailsSaved.subscribe((event)=>{
+        this.modalForTriggerDetails.hide();
+      })
       this.appPipeNamesAvailable = true;
   }
 
-  setIndex(i, j, k) {
+  launchTriggerDetailsModal(i, j, k) {
     if (this.workflowData.workflowSequence[i].applicationDetails[j].pipelineDetails[k].releaseNumber !== undefined) {
       alert("You are going to update the saved details; if you fill details and save it?");
     }
@@ -445,7 +463,12 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
     const reqData = { "applicationName": this.workflowData.workflowSequence[i].applicationDetails[j].applicationName,
                     "pipelineName": this.workflowData.workflowSequence[i].applicationDetails[j].pipelineDetails[k].pipelineName,
                     "userName": this.Idpdata.idpUserName };
-    this.fetchPipelineTriggerDetails(reqData, i, j, k);
+    this.fetchPipelineTriggerDetails(reqData, i, j, k).then(()=>{
+      if( this.isReleaseAvailable){
+        this.modalForTriggerDetails.show();
+     }
+     this.isReleaseAvailable = true;
+    });
   }
 
   deleteSequenceDetails(i, j) {
@@ -498,13 +521,13 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
     console.log(this.workflowData);
     console.log(JSON.stringify(this.workflowData));
     if (this.Idpdata.workflowTrigger) {
-      this.triggerButton.nativeElement.click();
+      this.modalforTriggerRef = this.modalService.show(this.modalforTrigger);
     } else if (this.validate()) {
 
       if (this.Idpdata.allFormStatus.basicInfo &&
         this.Idpdata.allFormStatus.workflowInfo ) {
 
-          this.confirmationAlert.nativeElement.click();
+          this.modalforconfirmAlertRef = this.modalService.show(this.modalforconfirmAlert);
 
       } else {
         if (!this.Idpdata.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo" ) === -1 ) {
@@ -515,15 +538,16 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
         }
 
 
-        this.mandatoryFieldsAlert.nativeElement.click();
+        this.modalformandatoryFieldsAlertRef = this.modalService.show(this.modalformandatoryFieldsAlert);
       }
 
     } else {
-      this.missData.nativeElement.click();
+      this.modalforAlertDataMissRef = this.modalService.show(this.modalforAlertDataMiss);
       }
   }
 
-  submitData() {
+  submitData(modalforconfirmAlertRef) {
+    modalforconfirmAlertRef.hide();
     this.loader = "on";
     this.Idpdata.freezeNavBars = true;
     this.Idpdata.data.masterJson["basicInfo"] = this.Idpdata.data.basicInfo;
@@ -560,7 +584,7 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
                 };
                 this.Idprestapi.sendPipeMail(actiondata);
               }
-              this.getAppDetails();
+              this.redirectTo();
             } else {
                this.Idpdata.freezeNavBars = false;
                 this.message = "error";
@@ -600,7 +624,7 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
 
   }
   redirectTo() {
-    setTimeout(() => { this.router.navigate(["/success"]); }, 3000);
+    setTimeout(() => { this.router.navigate(["/createPipeline/success"]); }, 3000);
 
   }
   resetData() {
@@ -614,8 +638,8 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
 
   }
 
-  triggerData() {
-    jQuery("#triggerAlertForthis").modal("hide");
+  triggerData(modalRef) {
+     modalRef.hide();
       this.loader = "on";
           const requestData = this.IDPWorkflowParamData;
           console.log(requestData);
@@ -645,10 +669,6 @@ export class WorkflowInfoComponent implements AfterViewInit, OnDestroy {
             });
       }
 
-      closeModal(id) {
-
-        jQuery("#" + id).modal("hide");
-      }
   onItemSelect(item: any, i, j) {
     console.log(item);
     if (!this.workflowData.workflowSequence[i].applicationDetails[j].pipelineDetails) {

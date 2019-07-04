@@ -9,9 +9,12 @@ import { Component, OnInit } from "@angular/core";
 import { IdprestapiService } from "../idprestapi.service";
 import { IdpService } from "../idp-service.service";
 import { IdpdataService } from "../idpdata.service";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { ViewChild } from "@angular/core";
 import { IdpSubmitService } from "../idpsubmit.service";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 @Component({
   selector: "app-create-application",
   templateUrl: "./create-application.component.html",
@@ -20,12 +23,13 @@ import { IdpSubmitService } from "../idpsubmit.service";
 
 export class CreateApplicationComponent implements OnInit {
   @ViewChild("modalforAlert") button;
-  @ViewChild("modalforDel") DelEnv;
-  @ViewChild("modalforDelProv") DelEnvProv;
+  @ViewChild("modalforDelEnvOwner") modalforDelEnvOwner;
+  @ViewChild("modalforDelProv") modalforDelProv;
   @ViewChild("modalforreset") resetCodeInfo;
-  @ViewChild("modalforslave") DelSlave;
-  @ViewChild("modalforSuccessAlert") success;
-  @ViewChild("modalforSlaveStageSelection") slaveStageAlert;
+  @ViewChild("modalforRemoveSlave") modalforRemoveSlave;
+  @ViewChild("modalforcheck") DelCM;
+  @ViewChild("modalforSuccessAlert") modalforSuccessAlert;
+  @ViewChild("modalforSlaveStageSelection") modalforSlaveStageSelection;
   /*constructor start*/
   flag4: any = true;
   appNames: any = [];
@@ -37,26 +41,38 @@ export class CreateApplicationComponent implements OnInit {
   valueSubmitting: any;
   index: any;
   indexToDisable: any;
+  indexToDisForCheck: any;
   indexToDisForSlave: any;
   grantAccess: any = this.IdpdataService.data.grantAccess;
   tempObjectApp: any = this.IdpService.copy(this.grantAccess);
   addEditmsg: any;
   slaveIndex: any;
   envIndex: any;
+  checkIndex: any;
+
   oslist: any = this.IdprestapiService.getIDPDropdownProperties().osList;
   messageEnvName: any = "";
   messageSlvName: any = "";
+  messageUname: any = "";
   message: any = "";
   grantloading: any;
   testPanelExpand = true;
   envProvPanelExpand = false;
-
+    delEnvProvModalRef: any;
+    delEnvOwnerModalRef: BsModalRef;
+    successModalRef: BsModalRef;
+    slaveStageModalRef: BsModalRef;
+  envCollpaseStatus:Array<any> = [];
+  slavesCollapseStatus:Array<any> = [];
+   modelForRemoveSlaveRef: BsModalRef;
   constructor(
     public IdpdataService: IdpdataService,
     private IdpService: IdpService,
     private IdpSubmitService: IdpSubmitService,
     private IdprestapiService: IdprestapiService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService,
+    private route:ActivatedRoute
   ) {
 
     this.IdpSubmitService.message = "";
@@ -67,11 +83,19 @@ export class CreateApplicationComponent implements OnInit {
     if (this.grantAccess.artifactToStage.artifactRepo === undefined) {
         this.grantAccess.artifactToStage.artifactRepo = {};
     }
+
     this.getSubscriptionPermission();
 
   }
   /*constructor end*/
 
+
+  clearRmsdata(){
+	  this.grantAccess.applicationNameRMS = "";
+	  for(let obj of this.grantAccess.environmentOwnerDetails){
+		  obj.rms='off';
+	  }
+  }
   createNewApp() {
     this.flagNew = true;
     this.FlagEdit = false;
@@ -80,12 +104,19 @@ export class CreateApplicationComponent implements OnInit {
     this.flagp = false;
     this.flagpi = false;
     this.indexToDisable = null;
+    this.indexToDisForCheck = null;
     this.indexToDisForSlave = null;
     this.grantAccess = {
         "applicationName": "",
         "developers": "",
         "pipelineAdmins": "",
         "releaseManager": "",
+        "checkMarxDetails": {
+            "checkmarxBtn": "",
+            "checkmarxUrl": "",
+            "checkmarxUname": "",
+            "checkmarxPwd": ""
+        },
         "artifactToStage": { "artifactRepoName": "", "artifactRepo": {} },
         "sapApplication": "off",
         "applicationType": "",
@@ -109,9 +140,13 @@ export class CreateApplicationComponent implements OnInit {
   }
   /* Application Type Support - General */
   setAppType(appType) {
-    this.grantAccess.applicationType = "General";
-    this.grantAccess.sapApplication = "off";
-    this.grantAccess.environmentOwnerDetails = [{}];
+    if (appType === "SAP") {
+      this.setSAPgrantAccessDetails();
+    } else {
+        this.grantAccess.applicationType = "General";
+        this.grantAccess.sapApplication = "off";
+        this.grantAccess.environmentOwnerDetails = [{}];
+    }
   }
 
   /* Subscription Permission
@@ -145,6 +180,21 @@ export class CreateApplicationComponent implements OnInit {
       const applicationName = this.grantAccess.applicationName;
       this.grantAccess.applicationType = "SAP";
       this.grantAccess.sapApplication = "on";
+      this.grantAccess.sapCharm = "off";
+      this.grantAccess.enableSapTrack = "off";
+      this.grantAccess.charmDetails = {
+        "client": "",
+        "dBOwners": "",
+        "environmentName": "",
+        "environmentOwners": "",
+        "hostName": "",
+        "instanceNumber": "",
+        "systemId": "",
+        "landscapeType": "",
+        "language": "",
+        "password": "",
+        "userName": ""
+    }
       this.grantAccess.environmentOwnerDetails = [
         {
             "client": "",
@@ -157,7 +207,11 @@ export class CreateApplicationComponent implements OnInit {
             "landscapeType": "",
             "language": "",
             "password": "",
-            "userName": ""
+            "userName": "",
+            "masterSourceCdStatus" : "",
+            "masterTargetCdStatus" : "",
+            "workbenchSourceCdStatus" : "",
+            "workbenchTargetCdStatus" : ""
           }
       ];
       this.tempObjectApp = this.IdpService.copy(this.grantAccess);
@@ -170,6 +224,7 @@ export class CreateApplicationComponent implements OnInit {
     this.flagNew = false;
     this.appNames = [];
     this.grantAccess.applicationName = "";
+    // this.grantAccess.checkMarxDetails = "";
     this.IdprestapiService.getOrganizationWiseApplicationNames()
         .then(response => {
         try {
@@ -215,16 +270,17 @@ export class CreateApplicationComponent implements OnInit {
   /* Removal of Env owner details
    * while creating application
    */
-  removeEnvOwner(envindex) {
-    this.envIndex = envindex;
-    this.DelEnv.nativeElement.click();
+  removeEnvOwner(envIndex) {
+    this.delEnvOwnerModalRef = this.modalService.show(this.modalforDelEnvOwner);
+    this.delEnvOwnerModalRef.content = {envIndex};
   }
   /* Removal of Env owner details,
    * getting confirmation, before removing
    */
-  removeEnvOwnerConfirm() {
-    this.grantAccess.environmentOwnerDetails.splice(this.envIndex, 1);
-    this.tempObjectApp.environmentOwnerDetails.splice(this.envIndex, 1);
+  removeEnvOwnerConfirm(modalRef) {
+    this.grantAccess.environmentOwnerDetails.splice(modalRef.content.envIndex, 1);
+    this.tempObjectApp.environmentOwnerDetails.splice(modalRef.content.envIndex, 1);
+    modalRef.hide();
   }
   /* Adding Env Provisioning details for Ansible
    * while creating application
@@ -235,13 +291,14 @@ export class CreateApplicationComponent implements OnInit {
         "messageEnvName": ""
     });
   }
-  removeEnvProv(envindex) {
-    this.envIndex = envindex;
-    this.DelEnvProv.nativeElement.click();
+  removeEnvProv(envIndex) {
+    this.delEnvProvModalRef = this.modalService.show(this.modalforDelProv);
+    this.delEnvProvModalRef.content = {envIndex};
   }
-  removeEnvProvConfirm() {
-    this.grantAccess.environmentProvDetails.splice(this.envIndex, 1);
-    this.tempObjectApp.environmentProvDetails.splice(this.envIndex, 1);
+  removeEnvProvConfirm(modalRef) {
+    this.grantAccess.environmentProvDetails.splice(modalRef.content.envIndex, 1);
+    this.tempObjectApp.environmentProvDetails.splice(modalRef.content.envIndex, 1);
+    modalRef.hide();
   }
   /* Adding Slave details
    * while creating application
@@ -282,12 +339,44 @@ export class CreateApplicationComponent implements OnInit {
    */
   removeSlave(index) {
     this.slaveIndex = index;
-    this.DelSlave.nativeElement.click();
+    this.modelForRemoveSlaveRef = this.modalService.show(this.modalforRemoveSlave);
+    this.modelForRemoveSlaveRef.content = {index};
   }
-  removeSlaveConfirm() {
-    this.grantAccess.slavesDetails.splice(this.slaveIndex, 1);
-    this.tempObjectApp.slavesDetails.splice(this.slaveIndex, 1);
+  removeSlaveConfirm(modalRef) {
+    modalRef.hide();
+    this.grantAccess.slavesDetails.splice(modalRef.content.index, 1);
+    this.tempObjectApp.slavesDetails.splice(modalRef.content.index, 1);
   }
+
+
+  /* Adding Checkmarx details
+   */
+//   addCM() {
+//     //   alert(this.grantAccess);
+//     this.grantAccess.checkMarxDetails.push(
+//         {
+//             "cmUrl": "",
+//             "cmUname": "",
+//             "cmPassword": ""
+//         }
+//     );
+//     this.tempObjectApp.checkMarxDetails.push(
+//         {
+//             "cmUrl": "",
+//             "cmUname": "",
+//             "cmPassword": "",
+//             "messageUname": ""
+//         }
+//     );
+//   }
+  /* Removal of Checkmarx
+   *
+   */
+  removeServer(index) {
+    this.checkIndex = index;
+    this.DelCM.nativeElement.click();
+  }
+
   /* Checking for duplication of Env names
    * while creating application
    */
@@ -335,6 +424,21 @@ export class CreateApplicationComponent implements OnInit {
         }
     }
   }
+  /* Checking for duplication of username names
+   * while creating application
+   */
+//   checkUserName(index) {
+//     for (let i = 0; i < this.grantAccess.checkMarxDetails.length; i++) {
+//         if (i !== index && this.grantAccess.checkMarxDetails[i].cmUname !== undefined &&
+//         this.grantAccess.checkMarxDetails[index].cmUname !== undefined &&
+//         this.grantAccess.checkMarxDetails[i].cmUname.toLowerCase() === this.grantAccess.checkMarxDetails[index].cmUname.toLowerCase()) {
+//         this.tempObjectApp.checkMarxDetails[index].messageUname = "Field is empty/Username already exists";
+//         break;
+//         } else {
+//         this.tempObjectApp.checkMarxDetails[index].messageUname = "";
+//         }
+//     }
+//   }
   /* To check if atleast a stage is selected in slave
    * while creating application
    */
@@ -379,6 +483,14 @@ export class CreateApplicationComponent implements OnInit {
             if (!(this.grantAccess.hasOwnProperty("sapApplication"))) {
                 this.grantAccess.sapApplication = "off";
             }
+            if(this.grantAccess.checkMarxDetails === undefined ||this.grantAccess.checkMarxDetails === null){
+                this.grantAccess.checkMarxDetails= {
+                    "checkmarxBtn": "",
+                    "checkmarxUrl": "",
+                    "checkmarxUname": "",
+                    "checkmarxPwd": ""
+                };
+            }
             if (this.FlagEdit && this.grantAccess.environmentProvDetails !== undefined
             && this.grantAccess.environmentProvDetails.length >= 0) {
             this.envProvPanelExpand = true;
@@ -390,6 +502,9 @@ export class CreateApplicationComponent implements OnInit {
             }
             this.tempObjectApp = this.IdpService.copy(responseData);
             this.indexToDisable = this.grantAccess.environmentOwnerDetails.length;
+            // if (this.grantAccess.checkMarxDetails) {
+            // this.indexToDisForCheck = this.grantAccess.checkMarxDetails.length;
+            // }
             if (this.grantAccess.slavesDetails) {
             this.indexToDisForSlave = this.grantAccess.slavesDetails.length;
             }
@@ -450,6 +565,7 @@ export class CreateApplicationComponent implements OnInit {
    */
   go() {
     this.grantloading = true;
+    this.FlagEdit = this.route.snapshot.queryParams.existingApp ? true : false
     if (this.FlagEdit === true) {
         // check slave stage check box
         if (this.checkSlaveStageOnGo()) {
@@ -462,14 +578,13 @@ export class CreateApplicationComponent implements OnInit {
             } else {
                 if (response.status === 200 && response.statusText === "OK") {
                 this.grantloading = false;
-                this.addEditmsg = "edited";
                 const actiondata = {
                     "applicationName": this.grantAccess.applicationName,
                     "method": "edit",
                     "userName": this.IdpdataService.idpUserName
                 };
                 this.IdprestapiService.sendAppMail(actiondata);
-                this.successAdd();
+                this.successAdd("edited");
                 } else {
                 document.getElementById("dbresponse").innerHTML = "Some error occured.";
                 }
@@ -480,12 +595,14 @@ export class CreateApplicationComponent implements OnInit {
             }
         });
         } else {
-        this.slaveStageAlert.nativeElement.click();
+        this.slaveStageModalRef = this.modalService.show(this.modalforSlaveStageSelection);
         this.grantloading = false;
         }
     } else {
         if (this.flagNew === true) {
         if (this.checkSlaveStageOnGo()) {
+            console.log("creating application info");
+            console.log(this.grantAccess);
             this.IdprestapiService.createApplication(this.grantAccess).then(response => {
             try {
                 this.grantloading = false;
@@ -501,8 +618,7 @@ export class CreateApplicationComponent implements OnInit {
                     "userName": this.IdpdataService.idpUserName
                     };
                     this.IdprestapiService.sendAppMail(actiondata);
-                    this.successAdd();
-                    this.addEditmsg = "added";
+                    this.successAdd("added");
                     this.IdprestapiService.getUserName().then(response => {
                     try {
                         if (response) {
@@ -541,7 +657,7 @@ export class CreateApplicationComponent implements OnInit {
             }
             });
         } else {
-            this.slaveStageAlert.nativeElement.click();
+            this.slaveStageModalRef = this.modalService.show(this.modalforSlaveStageSelection);
             this.grantloading = false;
         }
         }
@@ -558,17 +674,31 @@ export class CreateApplicationComponent implements OnInit {
     this.FlagEdit = false;
     this.flagNew = false;
     this.flagp = false;
+    this.router.navigate(["/applications"]);
   }
-  successAdd() {
-    console.log("successAdd");
-    this.success.nativeElement.click();
+  successAdd(message) {
+    this.successModalRef = this.modalService.show(this.modalforSuccessAlert);
+    this.successModalRef.content = {message};
   }
   ngOnInit() {
-    if (this.IdpdataService.data.formStatus.basicInfo.appNameStatus === "0") {
+    let appName = this.route.snapshot.queryParams.applicationName;
+    if(appName){
+      this.grantAccess.applicationName = appName;
+      this.getApplicationDetailedInfo(appName);
+    }else{
+      this.createNewApp();
     }
   }
   clearWorkspacePath(slvIndex) {
     this.grantAccess.slavesDetails[slvIndex].workspacePath = "";
+    return "off";
+  }
+  clearCheckPath(checkIndex) {
+    this.grantAccess.checkMarxDetails[checkIndex].workspacePath = "";
+    return "off";
+  }
+  clearCheckmarxDetails(){
+    this.grantAccess.checkMarxDetails = {"checkmarxUrl": "", "checkmarxUname": "", "checkmarxPwd": ""};
     return "off";
   }
   redirectToBasicInfo() {

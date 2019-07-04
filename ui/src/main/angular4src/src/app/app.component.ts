@@ -8,17 +8,25 @@
 import { Component, OnInit } from "@angular/core";
 import { IdprestapiService } from "./idprestapi.service";
 import { IdpdataService } from "./idpdata.service";
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
-  selector: "app-root",
+  selector: "body",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
   title = "test";
   profile: any;
-  constructor(private idprestapiService: IdprestapiService, private idpdataService: IdpdataService) { }
+  constructor(private idprestapiService: IdprestapiService, private idpdataService: IdpdataService,
+              translate:TranslateService) {
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
+  }
   getProfile() {
     this.idprestapiService.getData()
         .then(response => {

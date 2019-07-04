@@ -128,6 +128,7 @@
   "Install": "instalar",
   "Custom Goals": "Objetivos personalizados",
   "Custom Goals to execute": "Objetivos personalizados para ejecutar",
+  "Custom Tasks to execute": "Tareas personalizados para ejecutar",
   "deploy test": "desplegar prueba",
   "Specify JVM options needed when launching Maven as an external process": "Especificar opciones de JVM necesarias Al poner en marcha Maven como un proceso externo",
   "Build Operations": "construir operaciones",

@@ -1,13 +1,13 @@
 <form id="createLicenseForm" name="createLicenseForm" #createLicenseForm="ngForm" (ngSubmit)="submit()" ngNativeValidate >
-  <div class="panel panel-default " style="margin-left:250px; width:70%">
-    <div class="panel-heading">
+  <div class="card " style="margin-left:250px; width:70%">
+    <div class="card-header">
       <div class="text-left">
         <b>{{'Create License'|translate}}</b>
       </div>
     </div>
   
-    <div class="panel-body">      
-        <div class = "row form-group">
+    <div class="card-body">
+        <div class = "form-group">
           <div class="form-group">
               <div class="col-md-4 text-right">
                 <label>{{'License Type'|translate}} : </label>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="row form-group">
+        <div class="form-group">
           <div class="form-group">
             <div class="col-md-4 text-right">
               <label>{{'Expiry Date'|translate}} : </label>
@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <div class="row form-group">
+        <div class="form-group">
           <div class="form-group">
             <div class="col-md-4 text-right">
               <label>{{'Email ID'|translate}} : </label>
@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <div class="row form-group">
+        <div class="form-group">
           <div class="form-group">
             <div class="col-md-4 text-right">
               <label>{{'Services'|translate}} : </label>
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="row col-md-offset-5" >
-          <button type="submit" [disabled]="IdpdataService.loading" class="btn btn-info btn-sm text-center" id="btn_txt">{{'Create'|translate}}</button>
+          <button type="submit" [disabled]="IdpdataService.loading" class="btn btn-info btn-sm " id="btn_txt">{{'Create'|translate}}</button>
         </div>
       
       <div class="row" style="padding-top: 20px">

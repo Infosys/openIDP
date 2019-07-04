@@ -1,32 +1,8 @@
 <!-- Modal/Alert Message  -->
 <div>
-    <!--for remove SCM  alert-->
-    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModal">Alert Modal</button>
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" (click)="redirectToBasicInfo()">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Some text in the modal.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectToBasicInfo()">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- For Environ Provisioning Start-->
-    <button #modalforDelProv [hidden]="true" type="button" data-toggle="modal" data-target="#DelEnvProv">Del Modal</button>
-    <div id="DelEnvProv" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
+    <ng-template #modalforDelProv>
+                <div class="modal-header bg-warning">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
@@ -34,90 +10,61 @@
                     <p>Are you sure want to remove the Environment Provisioning Configuration ?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeEnvProvConfirm()">OK</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="removeEnvProvConfirm(delEnvProvModalRef)">OK</button>
+                    <button type="button" class="btn btn-secondary" (click)="delEnvProvModalRef.hide();">Close</button>
                 </div>
-            </div>
-        </div>
-    </div>
+    </ng-template>
     <!-- For Environment Provisioning End -->
     <!--for remove ENV OWNER  alert-->
-    <button #modalforDel [hidden]="true" type="button" data-toggle="modal" data-target="#DelEnv">Del Modal</button>
-    <div id="DelEnv" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
+    <ng-template #modalforDelEnvOwner>
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure want to remove the Environment Owner ?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeEnvOwnerConfirm()">OK</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="removeEnvOwnerConfirm(delEnvOwnerModalRef)">OK</button>
+                    <button type="button" class="btn btn-secondary" (click)="delEnvOwnerModalRef.hide()">Close</button>
                 </div>
-            </div>
-        </div>
+    </ng-template>
     </div>
-
-</div>
 <!-- Modal/Alert Message  -->
 
 <!-- Modal/Alert Message  -->
 <div>
     <!--for remove SLAVE  alert-->
-    <button #modalforslave [hidden]="true" type="button" data-toggle="modal" data-target="#DelSlave">Del Modal</button>
-    <div id="DelSlave" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <ng-template #modalforRemoveSlave>
+                <div class="modal-header bg-warning">
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure want to remove the Slave ?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeSlaveConfirm()">OK</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="removeSlaveConfirm(modelForRemoveSlaveRef)">OK</button>
+                    <button type="button" class="btn btn-default" (click)="modelForRemoveSlaveRef.hide()">Close</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
+    </ng-template>
     <!--for app added successfully  alert-->
-    <button #modalforSuccessAlert [hidden]="true" type="button" data-toggle="modal" data-target="#myModalSuccess">Alert Modal</button>
-    <div id="myModalSuccess" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" (click)="reload()">&times;</button>
+    <ng-template #modalforSuccessAlert>
+                <div class="modal-header bg-success">
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
                 <div class="modal-body">
-                    <p *ngIf="addEditmsg">Application {{addEditmsg}} Successfully</p>
+                    <p>Application {{successModalRef.content.message}} Successfully</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="reload()">Close</button>
+                    <button type="button" class="btn btn-primary"(click)="successModalRef.hide();reload()">Close</button>
                 </div>
-            </div>
-        </div>
-    </div>
+    </ng-template>
 </div>
 <!-- Modal/Alert Message  -->
 
 <!--for SlaveStageSelection added successfully  alert-->
 <div>
-    <button #modalforSlaveStageSelection [hidden]="true" type="button" data-toggle="modal" data-target="#myModalSlaveStage">Alert Modal</button>
-    <div id="myModalSlaveStage" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
+    <ng-template  #modalforSlaveStageSelection>
+                <div class="modal-header bg-info">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
@@ -126,59 +73,30 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
-            </div>
-        </div>
-    </div>
+    </ng-template>
 </div>
 <!-- Modal/Alert Message  -->
 
 <!-- form name="codeForm"  id="codeForm" class="form-horizontal" novalidate="novalidate" ng-submit="basicInfo.onSubmit()" -->
-<div style="margin-top:150px">
+<div >
     <form (ngSubmit)="go()" name="createAppForm" #createAppForm class="form-horizontal" ngNativeValidate>
-        <div class="panel panel-default">
-            <div class="text-center panel-heading" style="height: 40px">
-                <h4 style="margin-top: 2px;">{{'Grant Access'|translate}}</h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-6 text-center">
-                        <button id="cabucna" type="button" class="btn btn-info " (click)="createNewApp()">&nbsp; {{'Create New Application'|translate}} &nbsp;</button>
-                    </div>
-                    <div class="col-md-6 text-center">
-                        <button id="cabueea" type="button" class="btn btn-info " (click)="getAppInfo()">&nbsp; {{'Edit Existing Application'|translate}} &nbsp;</button>
-                    </div>
-                </div>
-                <div style="height:30px"></div>
+        <div class="card">
+            <div class="card-body">
+              <h5>{{'Application Details'|translate}}</h5>
                 <fieldset>
-                    <div *ngIf="FlagEdit">
-                        <div class="row form-group">
-                            <div>
-                                <label class="col-md-3 text-right control-label ">{{'All Applications'|translate}}
-                                    <span class="star">*</span>
-                                </label>
-                            </div>
-                            <div class="col-md-9 field-tip">
-                                <select id="caddaa" style="width:50%" [(ngModel)]="grantAccess.applicationName" [ngModelOptions]="{standalone: true}" class="form-control"
-                                    (change)="getApplicationDetailedInfo(grantAccess.applicationName)">
-                                    <option value="">--Select--</option>
-                                    <option *ngFor="let app of appNames" value="{{app}}">{{app}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div *ngIf="flagNew || flagp">
                         <div class="well">
-                            <div class="row form-group">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Application Name'|translate}}
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label">{{'Application Name'|translate}}
                                         <span class="star">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-                                    <input id="catfan" #appName="ngModel" name="appName" [(ngModel)]="grantAccess.applicationName" [ngModelOptions]="{standalone: true}"
-                                        pattern="[-a-zA-Z0-9_.]+" (blur)="getAllApplications()" [disabled]="flagp" class="form-control txtbox textFieldWidth"
+                                    <input id="catfan" #appName="ngModel" name="appName" [(ngModel)]="grantAccess.applicationName" [ngModel]="appName"
+                                        pattern="[-a-zA-Z0-9_.]+" (keyup)="getAllApplications()" [disabled]="flagp" class="form-control txtbox textFieldWidth"
                                         type="text" placeholder="Application Name" required />
                                     <span class="tip-content">{{'Application Name'|translate}}</span>
                                     <div *ngIf="appName.errors && (appName.dirty || appName.touched)" class="alert alert-danger ">
@@ -195,9 +113,11 @@
                                     <span id="appname" style="text-align: right; color: #8c1919; face: 'Calibri'"></span>
                                 </div>
                             </div>
+
+                            
                             <!-- Start Appl Type-->
                             <div class="row form-group">
-                                <span class="col-md-3 text-right">
+                                <span class="col-md-3 ">
                                     <label class="control-label"> {{'Application Type'|translate}}
                                         <span style="color: red">*</span>
                                     </label>
@@ -215,15 +135,15 @@
                             <!-- End App Type-->
 
                             <!-- Developer Name Start -->
-                            <div class="row form-group">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Developers'|translate}}
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label">{{'Developers'|translate}}
                                         <span class="star">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
                                     <input id="catfde" #title="ngModel" name="title" [(ngModel)]="grantAccess.developers" [ngModelOptions]="{standalone: true}"
-                                        class="form-control txtbox textFieldWidth" type="text" placeholder="userName,idpuser1"
+                                        class="form-control  " type="text" placeholder="userName,idpuser1"
                                         required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
                                     <span class="tip-content">{{'Please mention Ids for Developers List'|translate}}({{'Comma Separated'|translate}})
                                     </span>
@@ -241,14 +161,14 @@
                             <!-- Developer Names End -->
 
                             <!-- Pipeline admin, Release Manager Names Start -->
-                            <div class="row form-group">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Pipeline Admin'|translate}}
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label">{{'Pipeline Admin'|translate}}
                                         <span class="star">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-                                    <input id="catfpa" [(ngModel)]="grantAccess.pipelineAdmins" #title1="ngModel" name="title1" class="form-control txtbox textFieldWidth"
+                                    <input id="catfpa" [(ngModel)]="grantAccess.pipelineAdmins" #title1="ngModel" name="title1" class="form-control  "
                                         type="text" placeholder="idpadmin,idpuser1" required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
                                     <span class="tip-content">{{'Please mention Pipeline Admins List'|translate}}({{'Comma Separated'|translate}})</span>
                                     <div *ngIf="title1.errors && (title1.dirty || title1.touched)" class="alert alert-danger ">
@@ -262,14 +182,14 @@
                                 </div>
                             </div>
 
-                            <div class="row form-group" *ngIf="grantAccess.applicationType==='General'">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Release Manager'|translate}}
+                            <div class="form-row form-group" *ngIf="grantAccess.applicationType==='General'">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label">{{'Release Manager'|translate}}
                                         <span class="star">*</span>
                                     </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-                                    <input id="catfrm" [(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control txtbox textFieldWidth"
+                                    <input id="catfrm" [(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control  "
                                         type="text" placeholder="idpadmin,idpuser1" required #title2="ngModel" name="title2"
                                         pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
                                     <span class="tip-content">{{'Please mention Release Managers List'|translate}}({{'Comma Separated'|translate}})</span>
@@ -285,48 +205,53 @@
                             </div>
                             <!-- Pipeline admin, Release manager Names End -->
                             <!-- Module Lead Name Start -->
-                            <div class="row form-group" *ngIf="grantAccess.applicationType==='SAP'">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Module Lead'|translate}}<span class="star">*</span>  </label>
+                            <div class="form-row form-group" *ngIf="grantAccess.applicationType==='SAP'">
+                                <div class="col-md-3">
+                                    <label class="col-form-label">{{'Module Lead'|translate}}<span class="star">*</span>  </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-                                    <input id="catfml" [(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control txtbox textFieldWidth" type="text" placeholder="userName,idpuser1" pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$" required>
+                                    <input id="catfml" #moduleLead="ngModel"[(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control  " type="text" placeholder="userName,idpuser1" pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$" required>
                                     <span class="tip-content">{{'Please mention  Module Lead List'|translate}}({{'Comma Separated'|translate}})</span>
-                                </div>
+                                    <div *ngIf="moduleLead.errors && (moduleLead.dirty || moduleLead.touched)" class="alert alert-danger ">
+                                            <div [hidden]="!moduleLead.errors.required">
+                                                This Field Name is required!
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <!-- Module Lead Name Start -->
                             <!-- Artifact Repository Manager -->
                             <div *ngIf="grantAccess.applicationType==='General'">
-                                <div class="row form-group">
-                                    <span class="col-md-3 text-right">
-                                        <label class="control-label"> {{'Artifact Repository Manager'|translate}}
+                                <div class="form-row form-group">
+                                    <span class="col-md-3 ">
+                                        <label class="col-form-label"> {{'Artifact Repository Manager'|translate}}
                                             <span style="color: red">*</span>
                                         </label>
                                     </span>
 
-                                    <div class="col-md-9 text-left">
-                                        <select id="caddarm" [ngModelOptions]="{standalone: true}" [(ngModel)]="grantAccess.artifactToStage.artifactRepoName" class="form-control"
-                                            style="width: 50%" [disabled]="FlagEdit" required>
-                                            <option value="">--Select--</option>
-                                            <option value="nexus">Nexus</option>
-                                            <option value="jfrog">JFrog Artifactory </option>
-                                            <option value="na">NA</option>
-                                        </select>
+                                        <div class="col-md-9 text-left">
+                                            <select id="caddarm" [ngModelOptions]="{standalone: true}" [(ngModel)]="grantAccess.artifactToStage.artifactRepoName"
+                                                class="form-control" style="width: 50%" [disabled]="FlagEdit" required>
+                                                <option value="">--Select--</option>
+                                                <option value="nexus">Nexus</option>
+                                                <option value="jfrog">JFrog Artifactory </option>
+                                                <option value="na">NA</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
                                 <!-- Nexus Details Start -->
                                 <div *ngIf="grantAccess.artifactToStage.artifactRepoName==='nexus'">
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Nexus Server'|translate}}
                                                 <span style="color: red">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfns" class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
-                                                pattern="[a-zA-Z0-9\_\-\.\:\/\@]+$" style="padding-right: 200px" placeholder="dummyNexus:8081"
+                                            <input id="catfns" class="form-control " name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
+                                                style="padding-right: 200px" placeholder="dummyNexus:8081"
                                                 type="text" minlength="5" maxlength="500" required>
                                             <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
                                                 <div [hidden]="!nexusURL.errors.required">
@@ -345,15 +270,15 @@
                                             <span class="tip-content">{{'URL of hosted Nexus repository'|translate}}</span>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Nexus Repository'|translate}}
                                                 <span style="color: red">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfnr" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
+                                            <input id="catfnr" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
                                                 style="padding-right: 200px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel"
                                                 type="text" minlength="1" maxlength="150" value="" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                 required>
@@ -374,9 +299,9 @@
                                             <span class="tip-content">{{'Repository Name in which the user wants to stage the artifacts.'|translate}}</span>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Username'|translate}}
                                                 <span style="color: red">*</span>
 
@@ -384,7 +309,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
 
-                                            <input id="catfun" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
+                                            <input id="catfun" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
                                                 style="padding-right: 200px" placeholder="admin" name="nexusUserName" #nexusUserName="ngModel"
                                                 type="text" minlength="5" maxlength="150" value="username" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                 required>
@@ -405,9 +330,9 @@
                                             <span class="tip-content">{{'Username for hosted Nexus repository'|translate}}</span>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Password'|translate}}
                                                 <span style="color: red">*</span>
 
@@ -415,7 +340,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
 
-                                            <input id="capwpa" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
+                                            <input id="capwpa" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
                                                 [ngModelOptions]="{standalone: true}" style="padding-right: 200px" placeholder="RepoPassword"
                                                 type="password" name="nexusPassword" #nexusPassword="ngModel" minlength="5" maxlength="150"
                                                 required>
@@ -442,9 +367,9 @@
                                 <!-- JFrog Details Start -->
                                 <div *ngIf="grantAccess.artifactToStage.artifactRepoName==='jfrog'">
 
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Artifactory Server'|translate}}
                                                 <span style="color: red">*</span>
 
@@ -452,7 +377,7 @@
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
 
-                                            <input id="catfns" class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
+                                            <input id="catfns" class="form-control " name="nexusURL" #nexusURL="ngModel" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoURL"
                                                 pattern="[a-zA-Z0-9\_\-\.\:\/\@]+$" style="padding-right: 200px" placeholder="dummyNexus:8081"
                                                 type="text" minlength="5" maxlength="500" required>
                                             <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
@@ -472,15 +397,15 @@
                                             <span class="tip-content">{{'URL of hosted Artifactory repository'|translate}}</span>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Artifact Repository'|translate}}
                                                 <span style="color: red">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfnr" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
+                                            <input id="catfnr" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoName" [ngModelOptions]="{standalone: true}"
                                                 style="padding-right: 200px" placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel"
                                                 type="text" minlength="1" maxlength="150" value="" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                 required>
@@ -503,15 +428,15 @@
                                         </div>
 
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Username'|translate}}
                                                 <span style="color: red">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfun" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
+                                            <input id="catfun" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoUsername"
                                                 style="padding-right: 200px" placeholder="admin" name="nexusUserName" #nexusUserName="ngModel"
                                                 type="text" minlength="5" maxlength="150" value="username" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                 required>
@@ -532,15 +457,15 @@
                                             <span class="tip-content">{{'Username for hosted Artifactory repository which is case sensitive'|translate}}</span>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                 &nbsp;&nbsp; {{'Password'|translate}}
                                                 <span style="color: red">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="capwpa" class="form-control textFieldWidth" [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
+                                            <input id="capwpa" class="form-control " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoPassword"
                                                 [ngModelOptions]="{standalone: true}" style="padding-right: 200px" placeholder="RepoPassword"
                                                 type="password" name="nexusPassword" #nexusPassword="ngModel" minlength="5" maxlength="150"
                                                 required>
@@ -563,14 +488,16 @@
                                     </div>
                                 </div>
                                 <!-- JFrog End -->
+
+								 
                             </div>
                             <!-- Artifact Details End -->
                         </div>
                         <!--Environment Provisioning Start 
                         <div class="panel-group " role="tablist" *ngIf="grantAccess.applicationType==='General'">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <div class="panel-title" (click)="toggleEnvProvPanel()">
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <div class="card-title" (click)="toggleEnvProvPanel()">
                                         <a data-target="{{'#'+'envProvConfig'}}" style="cursor:pointer;font-size:14px !important;">
                                             <span class="glyphicon glyphicon-triangle-right" *ngIf="envProvPanelExpand===undefined || !envProvPanelExpand">
                                             </span>
@@ -580,18 +507,18 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div id="{{'envProvConfig'}}" class="panel-body panel-collapse " role="tabpanel" [ngClass]="(envProvPanelExpand=== undefined || !envProvPanelExpand )?'collapse':'collapse in'">
+                                <div id="{{'envProvConfig'}}" class="card-body panel-collapse " role="tabpanel" [ngClass]="(envProvPanelExpand=== undefined || !envProvPanelExpand )?'collapse':'collapse in'">
                                     
                                     <div *ngIf="grantAccess.applicationType==='General'">
-                                        <div class="container-fluid form-group">
-                                            <div class="col-md-offset-3 col-md-6 text-right">
+                                        <div class="container-fluid form-row form-group">
+                                            <div class="col-md-offset-3 col-md-6 ">
                                                 <button id="cabuaec" type="button" class="btn btn-info" style="margin-bottom:15px" (click)="addEnvProv()">&nbsp; {{'Add Env Prov Config'|translate}} &nbsp;</button>
                                             </div>
                                         </div>
                                         <div *ngFor="let environmentProv of grantAccess.environmentProvDetails;let envIndex=index" [attr.data-index]="envIndex" style="padding-bottom: 10px">
-                                            <div class="container-fluid form-group">
+                                            <div class="container-fluid form-row form-group">
                                                 <div class="col-md-3 text-left">
-                                                    <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                         &nbsp;&nbsp; {{'Env Config Name'|translate}}
                                                         <span style="color: red">*</span>
 
@@ -623,10 +550,10 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="panel-body">
-                                                <div class="row form-group">
-                                                    <div class="col-md-3 text-right">
-                                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                            <div class="card-body">
+                                                <div class="form-row form-group">
+                                                    <div class="col-md-3 ">
+                                                        <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                             &nbsp;&nbsp; {{'Environment Configuration Tool'|translate}}
                                                             <span style="color: red">*</span>
 
@@ -643,15 +570,15 @@
                                                 </div>
                                                 
                                                 <div *ngIf="environmentProv.toolName==='ansible'">
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'Ansible server IP/Host name'|translate}}
                                                                 <span style="color: red">*</span>
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input id="cfgServ{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.serverName" style="padding-right: 200px"
+                                                            <input id="cfgServ{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.serverName" style="padding-right: 200px"
                                                                 placeholder="10.82.33.203" name="serverName{{envIndex}}" #serverName="ngModel"
                                                                 type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                                 required />
@@ -672,15 +599,15 @@
                                                             <span class="tip-content">{{'Machine name where Ansible is installed'|translate}}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'User Name'|translate}}
                                                                 <span style="color: red">*</span>
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input id="cfguname{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.ansUserName" style="padding-right: 200px"
+                                                            <input id="cfguname{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.ansUserName" style="padding-right: 200px"
                                                                 placeholder="root" name="ansUserName{{envIndex}}" #ansUserName="ngModel"
                                                                 type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                                 required />
@@ -702,16 +629,16 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'Password'|translate}}
                                                                 <span style="color: red">*</span>
 
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input id="cfgpwd{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.ansPassword" style="padding-right: 200px"
+                                                            <input id="cfgpwd{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.ansPassword" style="padding-right: 200px"
                                                                 placeholder="password" name="ansPassword{{envIndex}}" #ansPassword="ngModel"
                                                                 type="password" minlength="2" maxlength="150" required />
                                                             <div *ngIf="ansPassword.errors && (ansPassword.dirty || ansPassword.touched)" class="alert alert-danger ">
@@ -731,16 +658,16 @@
                                                             <span class="tip-content">{{'Machine password where Ansible is installed'|translate}}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'Playbook Path'|translate}}
                                                                 <span style="color: red">*</span>
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
 
-                                                            <input id="playPath{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.playPath" style="padding-right: 200px"
+                                                            <input id="playPath{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.playPath" style="padding-right: 200px"
                                                                 placeholder="root/user/" name="playPath{{envIndex}}" #playPath="ngModel"
                                                                 type="text" minlength="2" maxlength="150" required />
                                                             <div *ngIf="playPath.errors && (playPath.dirty || playPath.touched)" class="alert alert-danger ">
@@ -760,9 +687,9 @@
                                                             <span class="tip-content">{{'Path of the playbook'|translate}}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'Play Name'|translate}}
                                                                 <span style="color: red">*</span>
 
@@ -770,7 +697,7 @@
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
 
-                                                            <input id="playName{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.playName" style="padding-right: 200px"
+                                                            <input id="playName{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.playName" style="padding-right: 200px"
                                                                 placeholder="site.yml" name="playName{{envIndex}}" #playName="ngModel"
                                                                 type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                                 required />
@@ -791,9 +718,9 @@
                                                             <span class="tip-content">{{'Playbook Name which will execute'|translate}}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-3 text-right">
-                                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-3 ">
+                                                            <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                                                 &nbsp;&nbsp; {{'Inventory File name'|translate}}
                                                                 <span style="color: red">*</span>
 
@@ -801,7 +728,7 @@
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
 
-                                                            <input id="invFile{{envIndex}}" class="form-control txtbox textFieldWidth" [(ngModel)]="environmentProv.invName" style="padding-right: 200px"
+                                                            <input id="invFile{{envIndex}}" class="form-control  " [(ngModel)]="environmentProv.invName" style="padding-right: 200px"
                                                                 placeholder="root" name="invName{{envIndex}}" #invName="ngModel"
                                                                 type="text" minlength="2" maxlength="150" pattern="[a-zA-Z0-9][a-zA-Z0-9_.-]+"
                                                                 required />
@@ -835,33 +762,36 @@
 
                         <!-- environment Section Start -->
                         <div class="well" *ngIf="grantAccess.applicationType==='General'">
-                            <div class="row form-group">
+                            <div class="form-row form-group">
                                 <div class="col-md-3 ">
-                                    <label class="control-label">{{'Environment Owners'|translate}}:
+                                    <label class="col-form-label">{{'Environment Owners'|translate}}:
                                         <span class="star">*</span>
                                     </label>
                                 </div>
-                                <div class="col-md-offset-3 col-md-6 text-right">
-                                    <button id="cabuae" type="button" class="btn btn-info" (click)="addEnvOwner()">&nbsp; {{'Add Env'|translate}} &nbsp;</button>
+                                <div class="col-md-offset-3 col-md-6 ">
+                                    <button id="cabuae" type="button" class="btn btn-primary" (click)="addEnvOwner()">&nbsp; {{'Add Env'|translate}} &nbsp;</button>
                                 </div>
                             </div>
 
-                            <div class="container-fluid">
-                                <div class="col-md-4 text-center">
+                            <div class="d-flex flex-row align-items-left">
+                                <div class="col-md-3">
                                     <label>Environment Name</label>
                                 </div>
-                                <div class="col-md-4 text-center">
+                                <div class="col-md-3">
                                     <label>Deploy & Test Owners</label>
                                 </div>
-                                <div class="col-md-4 text-center">
+                                <div class="col-md-3">
                                     <label>QA Owners</label>
+                                </div>
+                                <div class="col-md-3" *ngIf="grantAccess.rmsApplication === 'on'">
+                                    <label>RMS</label>
                                 </div>
                             </div>
 
-                            <div class="container-fluid form-group" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
+                            <div class="d-flex flex-row align-items-left form-row form-group" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
                                 [attr.data-index]="envIndex" style="padding-bottom: 10px">
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input id="catfenv" class="form-control " (blur)="checkEnvName(envIndex)" [ngModelOptions]="{standalone: true}" #env="ngModel"
                                         name="env" [(ngModel)]="environmentOwner.environmentName" type="text" pattern="[_a-zA-Z0-9-+]+"
                                         [disabled]="envIndex<indexToDisable" placeholder="{{'dev'|translate}}" required>
@@ -877,7 +807,7 @@
                                     <div class="text-danger" *ngIf="tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== '' && tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== undefined "
                                         id="messageEnvName">{{tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName}}</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input id="catfeo" class="form-control " type="text" [(ngModel)]="environmentOwner.environmentOwners" #title3="ngModel" name="title3"
                                         [ngModelOptions]="{standalone: true}" type="text" placeholder="idpadmin,idpuser1" required
                                         pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
@@ -890,7 +820,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input id="catfqa" class="form-control " type="text" [(ngModel)]="environmentOwner.qa" #title4="ngModel" name="title4" [ngModelOptions]="{standalone: true}"
                                         type="text" placeholder="idpadmin,idpuser1" pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
                                     <div *ngIf="title4.errors && (title4.dirty || title4.touched)" class="alert alert-danger ">
@@ -903,10 +833,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-2" *ngIf="grantAccess.rmsApplication === 'on'">
+                                    <input  id="cacbbsrms" type="checkbox" [checked]="environmentOwner.rms ==='on'"
+                                        (change)="environmentOwner.rms = $event.target.checked ? 'on' : 'off';">
+                                </div>
                                 <div class="col-md-1">
-                                    <span style="float:right" [hidden]="(grantAccess.environmentOwnerDetails.length==1) ||envIndex<indexToDisable">
+                                    <span  [hidden]="(grantAccess.environmentOwnerDetails.length==1) ||envIndex<indexToDisable">
                                         <a (click)="removeEnvOwner(envIndex)" style="cursor:pointer;font-size:14px !important;color:black">
-                                            <span class="glyphicon glyphicon-remove"></span>
+                                            <span class="cui-trash" aria-hidden="true"></span>
                                         </a>
                                     </span>
                                 </div>
@@ -915,54 +849,315 @@
                         </div>
                         <!-- enviroment Section end -->
 
-                        <!-- SAP Landscape Details Start -->
                         <div *ngIf="grantAccess.applicationType==='SAP'">
                             <div class="well">
-                        
                                 <div class="row form-group">
-                                    <div class="col-md-6 " style="padding-left:10px">
-                                        <label class="control-label">{{'SAP System Details'|translate}}:<span class="star">*</span></label>
+                                    <div class="col-md-3 pl-3">
+                                        <label class="control-label">{{'SAP-CHARM Type'|translate}}</label>
                                     </div>
-                                    <div class="col-md-6 text-right">
-                                        <button id="cabuaesap" type="button" class="btn btn-info" (click)="addEnvOwner()">&nbsp;
-                                            {{'Add System'|translate}} &nbsp;</button>
+                                    <div class="col-md-6 pl-2">
+                                        <input id="sapCharmCheck" type="checkbox" [disabled]="FlagEdit" [checked]="grantAccess.sapCharm === 'on'"   
+                                        (change)="($event.target.checked) ? grantAccess.sapCharm = 'on' : grantAccess.sapCharm ='off'">
                                     </div>
                                 </div>
-                        
-                        
-                        
-                                <div class="panel panel-default" class="container-fluid form-group" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
+                                <div class="row form-group">
+                                    <div class="col-md-3 pl-3">
+                                        <label class="control-label">{{'Enable Track/Sub-track'|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 pl-2">
+                                        <input id="enableSapTrackCheck" type="checkbox" [disabled]="FlagEdit" [checked]="grantAccess.enableSapTrack === 'on'"
+                                        (change)="($event.target.checked) ? grantAccess.enableSapTrack = 'on' : grantAccess.enableSapTrack ='off'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SAP CHARM System Details Start -->
+                        <div *ngIf="grantAccess.sapCharm === 'on'">
+                                <div class="well">
+
+                                    <div class="row form-group">
+                                        <div class="col-md-6 " style="padding-left:10px">
+                                            <label class="control-label">{{'SOLMAN CHARM System Details'|translate}}:<span class="star">*</span></label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card" class="container-fluid form-group"
+                                        style="padding-bottom: 10px">
+
+                                        <br>
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">LandScape Name<span class="star">*</span></label>
+                                            </div>
+
+                                            <div class="col-md-9 field-tip text-left">
+                                                <input id="catfln" class="form-control  "
+                                                    [ngModelOptions]="{standalone: true}" #envName="ngModel" [(ngModel)]="grantAccess.charmDetails.environmentName" type="text"
+                                                     placeholder="{{'Environment Name'|translate}}" required>
+                                                <span class="tip-content">Environment Name</span>
+                                                <div *ngIf="envName.errors && (envName.dirty || envName.touched)" class="alert alert-danger ">
+                                                        <div [hidden]="!envName.errors.required">
+                                                            This Field Name is required!
+                                                        </div>              
+                                            
+                                                    </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp; Landscape Type<span class="star">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <select id="caddltsap" style="width:50%" class="form-control" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="grantAccess.charmDetails.landscapeType" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="DEV">Dev</option>
+                                                    <option value="QA">QA</option>
+                                                    <option value="HOTFIX">HotFix</option>
+                                                    <option value="PREPROD">Pre-Production</option>
+                                                    <option value="PROD">Production</option>
+                                                </select>
+                                                <span class="tip-content">Landscape Type</span>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">Application Server<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <input id="catfassap" class="form-control  " name="AppServer" #AppServer="ngModel"
+                                                    [(ngModel)]="grantAccess.charmDetails.hostName" [ngModelOptions]="{standalone: true}" type="text"
+                                                    maxlength="30" placeholder="Host Name" required>
+                                                <div *ngIf="AppServer.errors && (AppServer.dirty || AppServer.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!AppServer.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!AppServer.errors.maxlength">
+                                                        This Field Name cannot be more than 30 characters long.
+                                                    </div>
+                                                </div>
+                                                <span class="tip-content">Host name</span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">Instance Number<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+
+                                                <input id="catfinsap" class="form-control  " name="InstanceNumber"
+                                                    #InstanceNumber="ngModel" [(ngModel)]="grantAccess.charmDetails.instanceNumber" [ngModelOptions]="{standalone: true}"
+                                                    type="text" minlength="2" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$" maxlength="2" placeholder="00"
+                                                    required>
+                                                <div *ngIf="InstanceNumber.errors && (InstanceNumber.dirty || InstanceNumber.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!InstanceNumber.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!InstanceNumber.errors.minlength">
+                                                        This Field Name must be at least 2 characters long.
+                                                    </div>
+                                                    <div [hidden]="!InstanceNumber.errors.maxlength">
+                                                        This Field Name cannot be more than 2 characters long.
+                                                    </div>
+                                                    <div [hidden]="!InstanceNumber.errors.pattern">
+                                                        This Field Name can only consist of digits.
+                                                    </div>
+                                                </div>
+
+                                                <span class="tip-content">Instance Number</span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">System ID<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+
+                                                <input id="catfsisap" class="form-control  " name="SID" #SID="ngModel"
+                                                    [(ngModel)]="grantAccess.charmDetails.systemId" [ngModelOptions]="{standalone: true}" type="text"
+                                                    minlength="3" pattern="[a-zA-Z0-9]+" maxlength="3" placeholder="EP1" required>
+                                                <div *ngIf="SID.errors && (SID.dirty || SID.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!SID.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!SID.errors.minlength">
+                                                        This Field Name must be at least 3 characters long.
+                                                    </div>
+                                                    <div [hidden]="!SID.errors.maxlength">
+                                                        This Field Name cannot be more than 3 characters long.
+                                                    </div>
+                                                    <div [hidden]="!SID.errors.pattern">
+                                                        This Field Name can only consist of alphabets and digits.
+                                                    </div>
+                                                </div>
+
+                                                <span class="tip-content">System ID (SID)</span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">Client<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <input id="catfclsap" class="form-control  " name="Client" #Client="ngModel"
+                                                    [(ngModel)]="grantAccess.charmDetails.client" [ngModelOptions]="{standalone: true}" type="text" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$"
+                                                    minlength="3" maxlength="3" placeholder="100" required>
+                                                <div *ngIf="Client.errors && (Client.dirty || Client.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!Client.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!Client.errors.minlength">
+                                                        This Field Name must be at least 3 characters long.
+                                                    </div>
+                                                    <div [hidden]="!Client.errors.maxlength">
+                                                        This Field Name cannot be more than 3 characters long.
+                                                    </div>
+                                                    <div [hidden]="!Client.errors.pattern">
+                                                        This Field Name can only consist of digits.
+                                                    </div>
+                                                </div>
+                                                <span class="tip-content">Client number</span>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">Username<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <input id="catfunsap" class="form-control  " name="UsernameSAP" #UsernameSAP="ngModel"
+                                                    [(ngModel)]="grantAccess.charmDetails.userName" [ngModelOptions]="{standalone: true}" type="text"
+                                                    pattern="[A-Za-z0-9]+(?:[ ._-][A-Za-z0-9]+)*" maxlength="12" placeholder="INFDEV1" required>
+                                                <span class="tip-content">Username to connect to SAP System</span>
+                                                <div *ngIf="UsernameSAP.errors && (UsernameSAP.dirty || UsernameSAP.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!UsernameSAP.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!UsernameSAP.errors.maxlength">
+                                                        This Field Name cannot be more than 12 characters long.
+                                                    </div>
+                                                    <div [hidden]="!UsernameSAP.errors.pattern">
+                                                        This Field Name can only consist of alphabetical, number, dot and underscore
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;">Password<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <input id="capwpasap" class="form-control  " name="PasswordSAP" #PasswordSAP="ngModel"
+                                                    [(ngModel)]="grantAccess.charmDetails.password" [ngModelOptions]="{standalone: true}" type="password"
+                                                    maxlength="40" placeholder="Password" required>
+                                                <span class="tip-content">Password to connect to SAP System</span>
+                                                <div *ngIf="PasswordSAP.errors && (PasswordSAP.dirty || PasswordSAP.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!PasswordSAP.errors.required">
+                                                        This Field Name is required!
+                                                    </div>
+                                                    <div [hidden]="!PasswordSAP.errors.maxlength">
+                                                        This Field Name cannot be more than 40 characters long.
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row form-group">
+                                            <div class="col-md-3 text-right">
+                                                <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp;
+                                                    Language<span class="star">*</span></label>
+                                            </div>
+                                            <div class="col-md-9 field-tip text-left">
+                                                <select id="caddlasap" style="width:50%" class="form-control" [(ngModel)]="grantAccess.charmDetails.language"
+                                                    [ngModelOptions]="{standalone: true}" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="EN">English</option>
+                                                    <option value="GR">German</option>
+                                                </select>
+                                                <span class="tip-content">Language</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        <!-- SAP CHARM System Details End -->
+
+
+                        <!-- SAP Landscape Details Start -->
+                        <div *ngIf="grantAccess.applicationType==='SAP'">
+                            <div class="card">
+                                <div class="card-header d-flex flex-row justify-content-between">
+                                        <label class="col-form-label">{{'SAP System Details'|translate}}:<span class="star">*</span></label>
+                                        <button id="cabuaesap" type="button" class="btn btn-primary" (click)="addEnvOwner()">&nbsp;
+                                            {{'Add System'|translate}} &nbsp;</button>
+                                </div>
+                                <div class="card-body">
+                                  <div  class="card card-with-header" *ngFor="let environmentOwner of grantAccess.environmentOwnerDetails;let envIndex=index"
                                     [attr.data-index]="envIndex" style="padding-bottom: 10px">
-                                    <div class="panel-heading">
-                                        Environment_{{envIndex+1}}
-                        
+                                    <div class="card-header">
+                                        <span attr.aria-controls="#Environment_{{envIndex+1}}" (click)="collapse.toggle()">Environment_{{envIndex+1}}</span>
                                         <span style="float:right" [hidden]="(grantAccess.environmentOwnerDetails.length==1) ||envIndex<indexToDisable">
                                             <a id="caburesap" (click)="removeEnvOwner(envIndex)" style="cursor:pointer;font-size:14px !important;color:black">
-                                                <span class="glyphicon glyphicon-remove"></span>
+                                                <span class="cui-trash" aria-hidden="true"></span>
                                             </a>
                                         </span>
                                     </div>
-                                    <br>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">LandScape Name<span class="star">*</span></label>
+                                    <div id="Environment_{{envIndex+1}}" #collapse="bs-collapse" [collapse]="envCollpaseStatus[envIndex+1]" class="card-body">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">LandScape Name<span class="star">*</span></label>
                                         </div>
                         
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfln" class="form-control txtbox textFieldWidth" (blur)="checkEnvName(envIndex)"
+                                            <input id="catfln" class="form-control  " #LSName="ngModel" (blur)="checkEnvName(envIndex)"
                                                 [ngModelOptions]="{standalone: true}" [(ngModel)]="environmentOwner.environmentName" type="text"
                                                 [disabled]="envIndex<indexToDisable" placeholder="{{'Environment Name'|translate}}" required>
                                             <div class="text-danger" *ngIf="tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== '' && tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName !== undefined "
                                                 id="messageEnvName">{{tempObjectApp.environmentOwnerDetails[envIndex].messageEnvName}}</div>
                                             <span class="tip-content">Environment Name</span>
+                                            <div *ngIf="LSName.errors && (LSName.dirty || LSName.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!LSName.errors.required">
+                                                        This Field Name is required!
+                                                    </div>              
+                                        
+                                                </div>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp; Landscape Type<span class="star">*</span>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;"> &nbsp;&nbsp; Landscape Type<span class="star">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
@@ -978,14 +1173,12 @@
                                             <span class="tip-content">Landscape Type</span>
                                         </div>
                                     </div>
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Owners List<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Owners List<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="cabtfolsap" class="form-control txtbox textFieldWidth" name="OwnersList" #OwnersList="ngModel"
+                                            <input id="cabtfolsap" class="form-control  " name="OwnersList" #OwnersList="ngModel"
                                                 type="text" [(ngModel)]="environmentOwner.environmentOwners" [ngModelOptions]="{standalone: true}"
                                                 type="text" placeholder="{{'Owners List'|translate}}" required pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$">
                                             <div *ngIf="OwnersList.errors && (OwnersList.dirty || OwnersList.touched)" class="alert alert-danger ">
@@ -1005,15 +1198,12 @@
                                             <span class="tip-content">Release Owners for this Landscape</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Application Server<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Application Server<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfassap" class="form-control txtbox textFieldWidth" name="AppServer" #AppServer="ngModel"
+                                            <input id="catfassap" class="form-control  " name="AppServer" #AppServer="ngModel"
                                                 [(ngModel)]="environmentOwner.hostName" [ngModelOptions]="{standalone: true}" type="text"
                                                 maxlength="30" placeholder="Host Name" required>
                                             <div *ngIf="AppServer.errors && (AppServer.dirty || AppServer.touched)" class="alert alert-danger ">
@@ -1027,16 +1217,13 @@
                                             <span class="tip-content">Host name</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Instance Number<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Instance Number<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
                         
-                                            <input id="catfinsap" class="form-control txtbox textFieldWidth" name="InstanceNumber"
+                                            <input id="catfinsap" class="form-control  " name="InstanceNumber"
                                                 #InstanceNumber="ngModel" [(ngModel)]="environmentOwner.instanceNumber" [ngModelOptions]="{standalone: true}"
                                                 type="text" minlength="2" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$" maxlength="2" placeholder="00"
                                                 required>
@@ -1058,16 +1245,13 @@
                                             <span class="tip-content">Instance Number</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">System ID<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">System ID<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
                         
-                                            <input id="catfsisap" class="form-control txtbox textFieldWidth" name="SID" #SID="ngModel"
+                                            <input id="catfsisap" class="form-control  " name="SID" #SID="ngModel"
                                                 [(ngModel)]="environmentOwner.systemId" [ngModelOptions]="{standalone: true}" type="text"
                                                 minlength="3" pattern="[a-zA-Z0-9]+" maxlength="3" placeholder="EP1" required>
                                             <div *ngIf="SID.errors && (SID.dirty || SID.touched)" class="alert alert-danger ">
@@ -1088,15 +1272,12 @@
                                             <span class="tip-content">System ID (SID)</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Client<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Client<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfclsap" class="form-control txtbox textFieldWidth" name="Client" #Client="ngModel"
+                                            <input id="catfclsap" class="form-control  " name="Client" #Client="ngModel"
                                                 [(ngModel)]="environmentOwner.client" [ngModelOptions]="{standalone: true}" type="text" pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]$"
                                                 minlength="3" maxlength="3" placeholder="100" required>
                                             <div *ngIf="Client.errors && (Client.dirty || Client.touched)" class="alert alert-danger ">
@@ -1116,16 +1297,12 @@
                                             <span class="tip-content">Client number</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Username<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Username<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfunsap" class="form-control txtbox textFieldWidth" name="UsernameSAP" #UsernameSAP="ngModel"
+                                            <input id="catfunsap" class="form-control  " name="UsernameSAP" #UsernameSAP="ngModel"
                                                 [(ngModel)]="environmentOwner.userName" [ngModelOptions]="{standalone: true}" type="text"
                                                 pattern="[A-Za-z0-9]+(?:[ ._-][A-Za-z0-9]+)*" maxlength="12" placeholder="INFDEV1" required>
                                             <span class="tip-content">Username to connect to SAP System</span>
@@ -1143,15 +1320,12 @@
                         
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;">Password<span class="star">*</span></label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;">Password<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="capwpasap" class="form-control txtbox textFieldWidth" name="PasswordSAP" #PasswordSAP="ngModel"
+                                            <input id="capwpasap" class="form-control  " name="PasswordSAP" #PasswordSAP="ngModel"
                                                 [(ngModel)]="environmentOwner.password" [ngModelOptions]="{standalone: true}" type="password"
                                                 maxlength="40" placeholder="Password" required>
                                             <span class="tip-content">Password to connect to SAP System</span>
@@ -1166,12 +1340,9 @@
                         
                                         </div>
                                     </div>
-                        
-                        
-                        
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="padding-top:5px;"> &nbsp;&nbsp;
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label" style="padding-top:5px;"> &nbsp;&nbsp;
                                                 Language<span class="star">*</span></label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
@@ -1184,9 +1355,86 @@
                                             <span class="tip-content">Language</span>
                                         </div>
                                     </div>
-                        
-                        
-                        
+
+                                    <div *ngIf="grantAccess.sapCharm === 'on'">
+                                            <div class="row form-group">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="control-label" style="padding-top:5px;">Change Document Source State (Master)<span class="star">*</span></label>
+                                                    </div>
+                                                    <div class="col-md-9 field-tip text-left">
+                                                        <input id="catfunsap" class="form-control  " name="MasterCdSourceState" #MasterCdSourceState="ngModel"
+                                                            [(ngModel)]="environmentOwner.masterSourceCdStatus" [ngModelOptions]="{standalone: true}" type="text"
+                                                             placeholder="CODE REVIEW COMPLETED" required>
+                                                        <span class="tip-content">Source State of Master Change Document</span>
+                                                        <div *ngIf="MasterCdSourceState.errors && (MasterCdSourceState.dirty || MasterCdSourceState.touched)" class="alert alert-danger ">
+                                                            <div [hidden]="!MasterCdSourceState.errors.required">
+                                                                This Field Name is required!
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="control-label" style="padding-top:5px;">Change Document Target State (Master)<span class="star">*</span></label>
+                                                    </div>
+                                                    <div class="col-md-9 field-tip text-left">
+                                                        <input id="catfunsap" class="form-control  " name="MasterCdTargetState" #MasterCdTargetState="ngModel"
+                                                            [(ngModel)]="environmentOwner.masterTargetCdStatus" [ngModelOptions]="{standalone: true}" type="text"
+                                                             placeholder="READY TO QA" required>
+                                                        <span class="tip-content">Target State of Master Change Document</span>
+                                                        <div *ngIf="MasterCdTargetState.errors && (MasterCdTargetState.dirty || MasterCdTargetState.touched)" class="alert alert-danger ">
+                                                            <div [hidden]="!MasterCdTargetState.errors.required">
+                                                                This Field Name is required!
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="control-label" style="padding-top:5px;">Change Document Source State (Workbench)<span class="star">*</span></label>
+                                                    </div>
+                                                    <div class="col-md-9 field-tip text-left">
+                                                        <input id="catfunsap" class="form-control  " name="WorkbenchCdSourceState" #WorkbenchCdSourceState="ngModel"
+                                                            [(ngModel)]="environmentOwner.workbenchSourceCdStatus" [ngModelOptions]="{standalone: true}" type="text"
+                                                             placeholder="CODE REVIEW COMPLETED" required>
+                                                        <span class="tip-content">Source State of Workbench Change Document</span>
+                                                        <div *ngIf="WorkbenchCdSourceState.errors && (WorkbenchCdSourceState.dirty || WorkbenchCdSourceState.touched)" class="alert alert-danger ">
+                                                            <div [hidden]="!WorkbenchCdSourceState.errors.required">
+                                                                This Field Name is required!
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="control-label" style="padding-top:5px;">Change Document Target State (Workbench)<span class="star">*</span></label>
+                                                    </div>
+                                                    <div class="col-md-9 field-tip text-left">
+                                                        <input id="catfunsap" class="form-control  " name="WorkbenchCdTargetState" #WorkbenchCdTargetState="ngModel"
+                                                            [(ngModel)]="environmentOwner.workbenchTargetCdStatus" [ngModelOptions]="{standalone: true}" type="text"
+                                                             placeholder="READY TO QA" required>
+                                                        <span class="tip-content">Target State of Workbench Change Document</span>
+                                                        <div *ngIf="WorkbenchCdTargetState.errors && (WorkbenchCdTargetState.dirty || WorkbenchCdTargetState.touched)" class="alert alert-danger ">
+                                                            <div [hidden]="!WorkbenchCdTargetState.errors.required">
+                                                                This Field Name is required!
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                    </div>
+
+
+
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -1194,46 +1442,52 @@
 
                         <div class="well">
                             <div class="row">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label">{{'Slave Details'|translate}}:</label>
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label">{{'Slave Details'|translate}}:</label>
                                 </div>
-                                <div class="col-md-9 text-right">
+                                <div class="col-md-9 ">
                                     <a>
-                                        <button id="cabusd" type="button" class="btn btn-info" (click)="addSlave()">&nbsp; {{'Add Slave'|translate}}&nbsp;</button>
+                                        <button id="cabusd" type="button" class="btn btn-primary" (click)="addSlave()">&nbsp; {{'Add Slave'|translate}}&nbsp;</button>
                                     </a>
                                 </div>
                             </div>
                             <br>
 
-                            <div class="panel panel-default" *ngFor="let slave of grantAccess.slavesDetails;let slvIndex=index" [attr.data-index]="slvIndex">
-                                <div class="panel-heading">
-                                    Slave_{{slvIndex+1}}
+                            <div class="card card-with-border" *ngFor="let slave of grantAccess.slavesDetails;let slvIndex=index" [attr.data-index]="slvIndex">
+                                <div class="card-header">
+                                    <span (click)="collapse.toggle()" attr.aria-controls="#Slave_{{slvIndex+1}}">Slave_{{slvIndex+1}}</span>
                                     <span style="float:right" [hidden]="(grantAccess.slavesDetails.length===1) || (slvIndex < indexToDisForSlave)">
                                         <a (click)="removeSlave(slvIndex)" style="cursor:pointer;font-size:14px !important;color:black">
-                                            <span class="glyphicon glyphicon-remove"></span>
+                                             <span class="cui-trash" aria-hidden="true"></span>
                                         </a>
                                     </span>
                                 </div>
-                                <div class="panel-body" style="padding-bottom: 10px">
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label">{{'Slave Name'|translate}}
+                                <div id="Slave_{{slvIndex+1}}" #collapse="bs-collapse" [collapse]="slavesCollapseStatus[slvIndex+1]" class="card-body" style="padding-bottom: 10px">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label">{{'Slave Name'|translate}}
                                                 <span class="star">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input id="catfsn" [(ngModel)]="slave.slaveName" [disabled]="slvIndex<indexToDisForSlave" [ngModelOptions]="{standalone: true}"
-                                                class="form-control txtbox textFieldWidth" type="text" (blur)="checkSlaveName(slvIndex)"
+                                            <input id="catfsn" #slaveName="ngModel" [(ngModel)]="slave.slaveName" [disabled]="slvIndex<indexToDisForSlave" [ngModelOptions]="{standalone: true}"
+                                                class="form-control  " type="text" (blur)="checkSlaveName(slvIndex)"
                                                 placeholder="{{'Slave Name'|translate}}" required>
                                             <span class="tip-content">{{'Slave Name'|translate}}</span>
+                                            <div *ngIf="slaveName.errors && (slaveName.dirty || slaveName.touched)" class="alert alert-danger ">
+                                                    <div [hidden]="!slaveName.errors.required">
+                                                        This  Field  is required!
+                                                    </div>
+                                                    
+                                                </div>
                                             <div class="text-danger" *ngIf="tempObjectApp.slavesDetails[slvIndex].messageSlvName !== '' && tempObjectApp.slavesDetails[slvIndex].messageSlvName !== undefined ">{{tempObjectApp.slavesDetails[slvIndex].messageSlvName}}</div>
                                         </div>
                                     </div>
 
 
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label">{{'Build Server OS'|translate}}
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label">{{'Build Server OS'|translate}}
                                                 <span class="star">*</span>
                                             </label>
                                         </div>
@@ -1248,13 +1502,13 @@
 
                                     <!-- Slave usage matrix start -->
 
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label">{{'Slave usage'|translate}}
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label">{{'Slave usage'|translate}}
                                                 <span class="star">*</span>
                                             </label>
                                         </div>
-                                        <div class="col-md-9 field-tip text-left">
+                                        <div class="col-md-9 row field-tip text-left">
 
                                             <div class="col-md-4 field-tip text-left">
                                                 <label class="checkbox-inline">
@@ -1274,8 +1528,8 @@
                                     </div>
                                     <!-- Slave usage matrix stop -->
 
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
                                             <label class="checkbox-inline">
@@ -1287,15 +1541,15 @@
                                     <!-- Creation of new Slave Start, giving workspace -->
                                     <div *ngIf="slave.createNewSlave==='on'">
                                         <div>
-                                            <div class="row form-group">
-                                                <div class="col-md-3 text-right">
-                                                    <label class="control-label">{{'Workspace Path'|translate}}
+                                            <div class="form-row form-group">
+                                                <div class="col-md-3 ">
+                                                    <label class="col-form-label">{{'Workspace Path'|translate}}
                                                         <span class="star">*</span>
                                                     </label>
                                                 </div>
                                                 <div class="col-md-9 field-tip text-left">
                                                     <input id="catfwp" [(ngModel)]="slave.workspacePath" [ngModelOptions]="{standalone: true}" [disabled]="slvIndex<indexToDisForSlave"
-                                                        class="form-control txtbox textFieldWidth" type="text" placeholder="{{'Workspace Path'|translate}}"
+                                                        class="form-control  " type="text" placeholder="{{'Workspace Path'|translate}}"
                                                         required>
                                                     <span class="tip-content">{{'Workspace Path'|translate}}</span>
                                                 </div>
@@ -1304,16 +1558,16 @@
                                     </div>
                                     <!-- Creation of new Slave Start, giving workspace -->
 
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label">{{'Labels'|translate}}
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label">{{'Labels'|translate}}
                                                 <span class="star">*</span>
                                             </label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
                                             <input id="catfla" #slaveLabels="ngModel" name="slaveLabels" [(ngModel)]="slave.labels" [ngModelOptions]="{standalone: true}"
                                                 pattern="[a-zA-Z0-9_.-]+([, ][a-zA-Z0-9_.-]+)*" [disabled]="slvIndex<indexToDisForSlave"
-                                                class="form-control txtbox textFieldWidth" type="text" placeholder="AntJob JavaAnt"
+                                                class="form-control  " type="text" placeholder="AntJob JavaAnt"
                                                 required />
                                             <span class="tip-content">{{'Labels comma or space separated'|translate}}</span>
                                             <div *ngIf="slaveLabels.errors && (slaveLabels.dirty || slaveLabels.touched)" class="alert alert-danger ">
@@ -1326,13 +1580,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label">{{'SSH Key Path'|translate}}</label>
+                                    <div class="form-row form-group">
+                                        <div class="col-md-3 ">
+                                            <label class="col-form-label">{{'SSH Key Path'|translate}}</label>
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
                                             <input id="catfskp" [(ngModel)]="slave.sshKeyPath" [ngModelOptions]="{standalone: true}" [disabled]="slvIndex<indexToDisForSlave"
-                                                class="form-control txtbox textFieldWidth" type="text" placeholder="D:/source/SSHKeyPath">
+                                                class="form-control  " type="text" placeholder="D:/source/SSHKeyPath">
                                             <span class="tip-content">{{'SSH Key Path'|translate}}</span>
                                         </div>
                                     </div>
@@ -1354,11 +1608,11 @@
                                 <br>
                             </div>
                             <div>
-                                <span id="dbresponse" class="text-danger text-center" style="margin-left:300px;face: 'Calibri'"></span>
+                                <span id="dbresponse" class="text-danger " style="margin-left:300px;face: 'Calibri'"></span>
                             </div>
                         </div>
                         <!-- Submit creation of Application End -->
-                        <div class="alert alert-danger text-center " *ngIf="message!=null && message!='' && message!=undefined">
+                        <div class="alert alert-danger  " *ngIf="message!=null && message!='' && message!=undefined">
                         </div>
                     </div>
                 </fieldset>

@@ -1,0 +1,119 @@
+<app-header
+  [fixed]="true"
+  [navbarBrandFull]="{style:'margin-left:20px;justify-content:left;',src: 'assets/img/idp_logo_white.svg', width: 89, alt: 'Infosys'}"
+  [navbarBrandMinimized]="{src: 'assets/img/idp_logo_white.svg', width: 89,alt: 'Infosys'}"
+  [sidebarToggler]="false"
+  [asideMenuToggler]="false">
+
+  <div class="d-flex flex-row flex-fill">
+  <ul class="nav navbar-nav ml-auto ">
+     <li id="profilePicture" class="nav-item d-md-down-none">
+       <img class="idp-icon" src="assets/img/icon/user_circle_white.svg" alt="User Name"/>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right" class="mr-2">
+      <button id="menu_userDropDown" class="btn bg-transparent dropdown-toggle text-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <small style="font-size:14px;" class="text-light">{{idpDataService.idpUserName}}</small>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="cursor: pointer;">
+      <a id="menu_changePassword" class="dropdown-item" (click)="changePasswordKC()" id="menu_changePassword" role="button"><i class="fa fa-key"></i>Change password</a>
+      <a id="menu_logout" class="dropdown-item" (click)="logout()" id="menu_logout" role="button"><i class="fa fa-sign-out"></i>Logout</a>
+      </div>
+    </li>
+  </ul>
+  </div>
+</app-header>
+<div class="app-body">
+  <div class="sidebar ">
+    <li  class="nav-item sidebar-toggle">
+      <a class="nav-link" appSidebarMinimizer>
+        <i class="nav-icon"><img class="idp-icon" src="assets/img/icon/menu_purple.svg" /></i>
+        <span class="menu-label">Menu</span>
+      </a>
+    </li>
+    <nav class="sidebar-nav">
+      <ul class="nav">
+       
+        <li class="nav-item">
+          <a id="grafanaDashboardMenu" class="nav-link" [routerLink]="'/dashboardView'" routerLinkActive="active">
+            <i class="nav-icon"><img class="icon-sidebar" src="assets/img/icon/dashboard_purple.svg"/></i>
+            <span class="menu-label">Dashboard</span>
+          </a>
+        </li>
+        <li appNavDropdown class="nav-item nav-dropdown" >
+          <a id="pipelinesDropdownToggle" appNavDropdownToggle class="nav-link nav-dropdown-toggle" routerLinkActive="active">
+            <i class="nav-icon"><img class="icon-sidebar" src="assets/img/icon/pipelines_purple.svg"/></i>
+            <span class="menu-label">Pipelines</span>
+          </a>
+          <ul class="nav-dropdown-items" >
+            <li class="nav-item">
+              <a id="viewPipelinesMenu" class="nav-link" [routerLink]="'/previousConfig'" routerLinkActive="active">
+                <span class="menu-label">View</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="idpDataService.createPipelineflag === true">
+              <a id="createPipelineMenu" class="nav-link" [routerLink]="'/createConfig'" routerLinkActive="active">
+                <span class="menu-label">Create</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li appNavDropdown class="nav-item nav-dropdown" >
+          <a id="manageMenuDropdown" appNavDropdownToggle class="nav-link nav-dropdown-toggle" routerLinkActive="active">
+            <i class="nav-icon"><img class="icon-sidebar" src="assets/img/icon/manage_purple.svg"/></i>
+            <span class="menu-label">Manage</span>
+          </a>
+          <ul class="nav-dropdown-items" >
+            <li class="nav-item" *ngIf="this.idpDataService.createAppflag === true">
+              <a id="viewApplicationsMenu" class="nav-link" [routerLink]="'/applications'" routerLinkActive="active">
+                <span class="menu-label">Applications</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="this.idpDataService.showRelease === true">
+              <a id="releasesMenu" class="nav-link" [routerLink]="'/releaseConfig/release'" routerLinkActive="active">
+                <span class="menu-label"> Releases</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <li class="nav-item">
+          <a id="notificationsMenu" class="nav-link" [routerLink]="'/notificationPage'" routerLinkActive="active">
+            <i class="nav-icon"><img class="icon-sidebar" src="assets/img/icon/notifications_purple.svg" /></i>
+            <span class="menu-label">Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a id="aboutIDPMenu" class="nav-link" [routerLink]="'/aboutView'" routerLinkActive="active">
+            <i class="nav-icon"><img class="icon-sidebar" src="assets/img/icon/about_purple.svg" /></i>
+            <span class="menu-label">About IDP</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb col-12" style=" position: fixed; z-index: 10;" >
+      <app-breadcrumb></app-breadcrumb>
+      
+      <li class="breadcrumb-menu d-md-down-none">
+        <!--<div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
+          <!--<a class="btn" href="#"><i class="icon-speech"></i></a>-->
+          <!--<a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>-->
+          <!--<a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>-->
+        <!--</div>-->
+      </li>
+    </ol>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+ 
+</div>
+<app-footer>
+  <div class="d-flex flex-row flex-fill justify-content-center">
+    <small>Copyright © {{idpBuildInfo.buildYear}} <a href="https://www.infosys.com/">Infosys </a> &nbsp; | 1.3.0</small>
+    <small style="padding-left:10px;">{{idpBuildInfo.name}} {{idpBuildInfo.version}}</small>
+  </div>
+</app-footer>

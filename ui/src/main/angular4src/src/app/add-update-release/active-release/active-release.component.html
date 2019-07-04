@@ -6,16 +6,16 @@
 *
 -->
 <form name="basicInfoForm" #basicInfoForm="ngForm" ngNativeValidate (ngSubmit)="update()">
-  <div *ngIf="!Idpdata.releaseUpdateSuccess">
-    <div class="col-md-offset-1" style="margin-top:20px;">
-      <div class="row form-group">
-        <div class="col-md-offset-1 col-md-3 text-right ">
+  <div>
+    <div class="col-md-offset-1 release-main-container">
+      <div class="form-group">
+        <div class="col-md-offset-1 col-md-3 pipeline-list">
           <label class="control-label ">{{'Pipeline List'|translate}}
             <span class="star">*</span>
           </label>
         </div>
         <!-- Active RElease -->
-        <div class="col-md-8 field-tip">
+        <div class="col-md-8 field-tip release-pipeline-name">
           <select id="reacrslpl" style="width:50%" [(ngModel)]="Idpdata.activeReleasePipelineName" class="form-control" (change)="showReleases()"
             [ngModelOptions]="{standalone: true}" required>
             <option value="">--Select--</option>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- List of pipeline with Release Details-->
-    <div class="" *ngIf="Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length!==0">
+    <div class="release-table" *ngIf="Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length!==0">
       <table id="example" style="border-color:#2885ae; height:100px; overflow:scroll; font-size:80%" class="table table-bordered table-hover"
         cellspacing="0" width="100%">
         <thead class="thead-dark">
@@ -43,31 +43,26 @@
         <tbody>
           <tr *ngFor="let rel of release; let i = index" style="border-color:#2885ae;">
             <td style="width:120px; height:100px;padding:4px">
-              <table style="width:120px;padding:0px">
-                <tr>
-                  <td>
-                    Parent Release Name:
-                    <input id="reacrtfprn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.vstsReleaseName"
-                      style="width:100%" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Release Number:
-                    <input id="reacrtfrn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.releaseNumber"
-                      style="width:100%" readonly />
-                  </td>
-                </tr>
-              </table>
+              <div class="p-2">
+                <div class="form-group">
+                  <label class="col-form-label">Parent Release Name:</label>
+                  <input id="reacrtfprn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.vstsReleaseName"
+                         style="width:100%; font-size: 11px;" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Release Number:</label>
+                  <input id="reacrtfrn" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.releaseNumber"
+                         style="width:100%; font-size: 11px;" readonly />
+                </div>
+              </div>
             </td>
-            <td style="width:200px; height:100px;padding:4px;overflow-x:scroll;overflow-y:scroll" *ngIf="scmType!==undefined && scmType==='git'">
+            <td style="height:100px;padding:4px;overflow-x:scroll;overflow-y:scroll" *ngIf="scmType!==undefined && scmType==='git'">
               <!-- <div style=" height:100%" > -->
               <div style="height:100px;width:100px;">
                 <div *ngFor="let branch of scmBranches;let j = index" style="margin-bottom: 0px;position:relative;width:200px" class="form-group">
 
                   <input id="reacrcbbr" type="checkbox" name="branch{{i}}{{j}}" (change)="toggleSelection(i,branch)" [checked]="rel.branchList.indexOf(branch)!==-1"
                   />{{branch}}
-
 
                 </div>
 
@@ -80,19 +75,19 @@
               <table>
                 <tr>
                   Start Date:
-                  <input id="reacrtfsd" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedStartDate"
+                  <input id="reacrtfsd" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedStartDate" style="font-size: 11px;"
                     readonly/>
 
                 </tr>
                 <tr>
                   End Date:
-                  <input id="reacrtfed" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedEndDate"
+                  <input id="reacrtfed" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}" [(ngModel)]="rel.expectedEndDate" style="font-size: 11px;"
                     readonly />
 
                 </tr>
               </table>
             </td>
-            <td style="width:80px; height:100px">
+            <td style="width:140px; height:100px">
               <table>
                 <tr>
                   Start Date:
@@ -102,16 +97,16 @@
 
                 </tr>
                 <tr>
-                  End Date :
+                  End Date:
                   <owl-date-time id="reacrcled" [(ngModel)]="rel.actualEndDate" [ngModelOptions]="{standalone: true}" [type]="'calendar'" [min]="rel.actualStartDate"
-                  [max]="maxEndDate" [dataType]="'string'" [inputStyleClass]="form-control" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true
+                    [max]="maxEndDate" [dataType]="'string'" [inputStyleClass]="form-control" [autoClose]=true [dateFormat]="'YYYY-MM-DD'" [required]=true
                     [placeHolder]="'yyyy-mm-dd'" (onClear)="clearEnd(i)" [disabled]="rel.actualStartDate==='' || rel.actualStartDate===undefined"></owl-date-time>
 
 
                 </tr>
               </table>
             </td>
-            
+
             <td style="width:100px; height:100px">
               <div style="margin-top:30px" class="field-tip">
 
@@ -125,13 +120,13 @@
 
       </table>
       <div class="row" style="margin-left:0px">
-        <button type="submit" class="btn btn-info btn-sm text-center" [disabled]="Idpdata.loading" id="btn_txt">{{'Update Release(s)'|translate}}</button>
+        <button type="submit" class="btn btn-info btn-sm " [disabled]="Idpdata.loading" id="btn_txt">{{'Update Release(s)'|translate}}</button>
       </div>
     </div>
     <!-- List of pipelines with release Deails End -->
-    <div class="alert alert-danger" *ngIf="(Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length===0)">
+    <div class="alert alert-danger h4" *ngIf="(Idpdata.activeReleasePipelineName!=='' && release!==undefined && release.length===0)">
       No Releases for this pipeline.
     </div>
   </div>
-  <div class="alert alert-success" *ngIf="Idpdata.releaseUpdateSuccess">Release details updated successfully.</div>
+  <div class="alert alert-success h3 m-2" *ngIf="Idpdata.releaseUpdateSuccess">Release details updated successfully.</div>
 </form>

@@ -1,39 +1,42 @@
 <form [parentFormConnect]="formName">
   <div class="animate-switch-container">
-    <div class="panel panel-default animate-switch">
-      <div class="panel-heading" style="height:60px">
+    <div class="card animate-switch">
+      <div class="card-header" style="height:60px">
         <span> <b>MS{{'Build Details'|translate}}</b>	</span>
         <span>
-            <button type="button" class="btn btn-info btn-md" (click)="addItem()" style="float:right" id="btn_txt">{{'Add .NET Solution'|translate}}</button>
+            <button type="button" class="btn btn-info btn-md" (click)="addItem()" style="float:right"
+                    id="btn_txt">{{'Add .NET Solution'|translate}}</button>
           </span>
       </div>
 
-      <div class="panel-body">
-        <div class="panel-group" role="tablist" aria-multiselectable="true">
-          <div class="panel panel-default" *ngFor="let module of buildInfo.modules; let i =index" [attr.data-index]="i">
-            <div class="panel-heading" role="tab" >
-              <h4 class="panel-title">
-  							<a data-toggle="collapse" data-target="{{'#'+(i+1)}}"	aria-expanded="true" id="bdbodntsollk" style="cursor:pointer;font-size:14px !important;">	Sol_{{(i+1)}}</a>
-  											<span style="float:right" *ngIf="buildInfo.modules.length !== 1">
-  												<a (click)="deleteItem(i)" id="bdbodntdilk" style="cursor:pointer;font-size:14px !important;" >
-  													<span class="glyphicon glyphicon-remove"></span>
-  												</a>
+      <div class="card-body">
+        <div aria-multiselectable="true">
+          <div class="card card-with-border" *ngFor="let module of buildInfo.modules; let i =index" [attr.data-index]="i">
+            <div class="card-header" role="tab">
+              <h4 class="card-title">
+                <a  attr.aria-controls="{{i+1}}" (click)="collapse.toggle()" data-target="{{'#'+(i+1)}}" aria-expanded="true" id="bdbodntsollk"
+                   style="cursor:pointer;font-size:14px !important;"> Sol_{{(i + 1)}}</a>
+                <span style="float:right" *ngIf="buildInfo.modules.length !== 1">
+  												<button class="btn bg-transparent" (click)="deleteItem(i)" id="bdbodntdilk">
+  													<span class="cui-trash" aria-hidden="true"></span>
+  												</button>
   											</span>
-  											</h4>
+              </h4>
             </div>
-            <div id="{{i+1}}" class="panel-collapse collapse in" role="tabpanel">
-              <div class="panel-body">
-                <div class="row paddingall form-group">
+            <div id="{{i+1}}" #collapse="bs-collapse" [collapse]="solutions[i+1]" role="tabpanel">
+              <div class="card-body">
+                <div class="paddingall">
                   <!--Start  SolutionName -->
-                  <div class="row form-group">
-                    <div class="col-md-3 text-right">
-                      <label class="control-label">
-  															{{'Solution Name'|translate}} <span class="star">*</span>
-  															</label>
+                  <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                      <label class="col-form-label">
+                        {{'Solution Name'|translate}} <span class="star">*</span>
+                      </label>
                     </div>
                     <div class="col-md-9 field-tip  text-left">
-                      <input class="form-control txtbox " name="'SoluName'+{{i}}" #SoluName="ngModel" type="text" id="bdbodntsntf" [(ngModel)]="module.moduleName"
-                      minlength="3" required />
+                      <input class="form-control  " name="'SoluName'+{{i}}" #SoluName="ngModel" type="text"
+                             id="bdbodntsntf" [(ngModel)]="module.moduleName"
+                             minlength="3" required/>
                       <div *ngIf="SoluName.errors && (SoluName.dirty || SoluName.touched)" class="alert alert-danger ">
                         <div [hidden]="!SoluName.errors.required">
                           This Field Name is required!
@@ -47,25 +50,33 @@
                   </div>
                   <!--End  SolutionName -->
 
-                  <div class="row form-group">
-                    <div class="col-md-3 text-right">
-                      <label class="control-label">MS {{'Build Version'|translate}}:</label> <span class="star">*</span>
+                  <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                      <label class="col-form-label">MS {{'Build Version'|translate}}:</label> <span
+                      class="star">*</span>
                     </div>
                     <div class="col-md-9 text-left">
 
-                      <select class="form-control" [(ngModel)]="module.version" style="width:50%" required name="buildVersion" id="bdbodntbvsl">
-  												<option value="">--Select--</option>
-                          <option *ngFor="let msBuildVersion of msBuildVersion" value="{{msBuildVersion.value}}">{{msBuildVersion.name}}</option>
-  											</select>
+                      <select class="form-control" [(ngModel)]="module.version" style="width:50%" required
+                              name="buildVersion" id="bdbodntbvsl">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let msBuildVersion of msBuildVersion"
+                                value="{{msBuildVersion.value}}">{{msBuildVersion.name}}</option>
+                      </select>
                     </div>
                   </div>
-                  <div class="row form-group">
-                    <div class="col-md-3 text-right">
-                      <label class="control-label">{{'Solution Relative Path'|translate}}:</label> <span class="star">*</span>
+                  <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                      <label class="col-form-label">{{'Solution Relative Path'|translate}}:</label> <span
+                      class="star">*</span>
                     </div>
                     <div class="col-md-9 field-tip text-left">
-                      <input [(ngModel)]="module.relativePath" name="'SoluRePath'+{{i}}" #SoluRePath="ngModel" class="form-control txtbox" type="text" id="bdbodntsrptf" placeholder="{{'Solution Name'|translate}}/Solution1.sln" minlength="5" maxlength="150" required/>
-                      <div *ngIf="SoluRePath.errors && (SoluRePath.dirty || SoluRePath.touched)" class="alert alert-danger ">
+                      <input [(ngModel)]="module.relativePath" name="'SoluRePath'+{{i}}" #SoluRePath="ngModel"
+                             class="form-control " type="text" id="bdbodntsrptf"
+                             placeholder="{{'Solution Name'|translate}}/Solution1.sln" minlength="5" maxlength="150"
+                             required/>
+                      <div *ngIf="SoluRePath.errors && (SoluRePath.dirty || SoluRePath.touched)"
+                           class="alert alert-danger ">
                         <div [hidden]="!SoluRePath.errors.required">
                           This Field Name is required!
                         </div>
@@ -82,15 +93,18 @@
                   </div>
 
 
-                  <div class="row form-group">
-                    <div class="col-md-3 text-right">
-                      <label class="control-label">{{'MS Build Arguments'|translate}}:</label>
+                  <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                      <label class="col-form-label">{{'MS Build Arguments'|translate}}:</label>
                     </div>
                     <div class="col-md-9 field-tip text-left">
-                      <input name="'msBuildArgs'+{{i}}" #msBuildArgs="ngModel" [(ngModel)]="module.args" class="form-control txtbox" type="text"
-                      id="bdbodntmbatf" placeholder="Debug,DeployOnBuild,configuration" minlength="5" maxlength="500"  />
+                      <input name="'msBuildArgs'+{{i}}" #msBuildArgs="ngModel" [(ngModel)]="module.args"
+                             class="form-control " type="text"
+                             id="bdbodntmbatf" placeholder="Debug,DeployOnBuild,configuration" minlength="5"
+                             maxlength="500"/>
                       <span class="tip-content">{{'Provide MsBuild Arguments'|translate}}</span>
-                      <div *ngIf="msBuildArgs.errors && (msBuildArgs.dirty || msBuildArgs.touched)" class="alert alert-danger ">
+                      <div *ngIf="msBuildArgs.errors && (msBuildArgs.dirty || msBuildArgs.touched)"
+                           class="alert alert-danger ">
                         <div [hidden]="!msBuildArgs.errors.required">
                           This Field Name is required!
                         </div>
@@ -104,213 +118,170 @@
                     </div>
                   </div>
 
-                  <!--Start  CodeAnalysis -->
-                  <!-- <div>
-                    <div class="row form-group" style="padding-left: 20px;">
-
-                     <div class="col-md-12">
-                       <label class="checkbox-inline">
-                          <input	type="checkbox" [checked]="tempObject.modules[i].dbObject==='on'" name="dbObject{{i}}" id="bdbodntdboch{{i}}"
-                          (change)="dbObject(i,$event.target.checked)" />{{'DB Object Project'|translate}}
-                       </label>
-                     </div>
-                   </div>
-                 </div> -->
-
-<!-- <div *ngIf="tempObject.modules[i].dbObject==='on'">
-  <div class="panel panel-default">
-  <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white">
-           <b> {{'DB Object Operations'|translate}}</b>
-    </div>
-    <div class="panel-group" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
-      <div style="margin-top:20px">
-        <div class="row form-group">
-            <div>
-                <label class="col-md-3 text-right control-label">
-{{'Project Path '|translate}}<span style="color:red">*</span>
-</label>
-            </div>
-            <div class="col-md-9 field-tip text-left">
-                <input class="form-control txtbox"  #projPath="ngModel" id="bdbobddnpptf" [(ngModel)]="buildInfo.modules[0].projPath" type="text" name="projPath"  placeholder="FabricService\SampleDBProject\SampleDBProject\SampleDBProject" maxlength="150"
-                    required>
-                <span class="tip-content">{{'Path of project relative to root folder'|translate}}</span>
-                <div *ngIf="projPath.errors && (projPath.dirty || projPath.touched)" class="alert alert-danger ">
-                    <div [hidden]="!projPath.errors.required">
-                        This Field Name is required!
-                    </div>
-                    <div [hidden]="!projPath.errors.maxlength">
-                        This Field Name cannot be more than 150 characters long.
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="row form-group">
-            <div>
-                <label class="col-md-3 text-right control-label">
-{{'Source Schema Name '|translate}}<span style="color:red">*</span>
-</label>
-            </div>
-            <div class="col-md-9 field-tip text-left">
-                <input class="form-control txtbox"  #srcSchName="ngModel" id="bdbobddnssntf" [(ngModel)]="buildInfo.modules[0].srcSchName" type="text" name="srcSchName" pattern="^[\_\\a-zA-Z0-9.-]+" placeholder="dbo" maxlength="150"
-                    required>
-                <span class="tip-content">{{'Name of the schema which needs to be change in Model.xml'|translate}}</span>
-                <div *ngIf="srcSchName.errors && (srcSchName.dirty || srcSchName.touched)" class="alert alert-danger ">
-                    <div [hidden]="!srcSchName.errors.required">
-                        This Field Name is required!
-                    </div>
-                    <div [hidden]="!srcSchName.errors.maxlength">
-                        This Field Name cannot be more than 150 characters long.
-                    </div>
-                    <div [hidden]="!srcSchName.errors.pattern">
-                        This Field Name can only consist of alphabetical, number, dot and underscore and must end with .git
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row form-group">
-            <div>
-                <label class="col-md-3 text-right control-label">
-{{'Target Schema Name '|translate}}<span style="color:red">*</span>
-</label>
-            </div>
-            <div class="col-md-9 field-tip text-left">
-                <input class="form-control txtbox"  #tarSchName="ngModel" id="bdbobddntsntf" [(ngModel)]="buildInfo.modules[0].tarSchName" type="text" name="tarSchName" pattern="^[\_\\a-zA-Z0-9.-]+" placeholder="vatuser" maxlength="150"
-                    required>
-                <span class="tip-content">{{'Name of the schema which replace the existing  in Model.xml'|translate}}</span>
-                <div *ngIf="tarSchName.errors && (tarSchName.dirty || tarSchName.touched)" class="alert alert-danger ">
-                    <div [hidden]="!tarSchName.errors.required">
-                        This Field Name is required!
-                    </div>
-                    <div [hidden]="!tarSchName.errors.maxlength">
-                        This Field Name cannot be more than 150 characters long.
-                    </div>
-                    <div [hidden]="!tarSchName.errors.pattern">
-                        This Field Name can only consist of alphabetical, number, dot and underscore and must end with .git
-                    </div>
-                </div>
-            </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-                  <!--Start  CodeAnalysis -->
+                 
                   <div>
-                    <div class="row form-group" style="padding-left: 20px;">
-
-    <div class="col-md-12">
-      <label class="checkbox-inline">
-         <input	type="checkbox" [checked]="tempObject.modules[i].nUnit==='on'" name="nUnit{{i}}" id="bdbodntdnunitch{{i}}"
-         (change)="nUnit(i,$event.target.checked)" />{{'NUnit'|translate}}
-      </label>
-    </div>
-  </div>
-</div>
-<div *ngIf="tempObject.modules[i].nUnit==='on'">
-  <div class="panel panel-default">
-  <div class="panel-heading panelHeadingBackground" style="background-color:#2885ae;color:white">
-           <b> {{'NUnit'|translate}}</b>
-    </div>
-    <div class="panel-group" style="margin-bottom:0px;margin-left:13px" id="accordion" aria-multiselectable="true">
-      <div style="margin-top:20px">
-        <div class="row form-group">
-            <div>
-                <label class="col-md-3 text-right control-label">
-{{'NUnit Project Path '|translate}}<span style="color:red">*</span>
-</label>
-            </div>
-            <div class="col-md-9 field-tip text-left">
-                <input class="form-control txtbox"  #nUnitprojPath="ngModel" id="bdbobddnupptf" [(ngModel)]="buildInfo.modules[0].nUnitprojPath" type="text" name="projPath"  placeholder="FabricService\SampleDBProject\SampleDBProject\SampleDBProject" maxlength="150"
-                    required>
-                <span class="tip-content">{{'Path of project for NUnit relative to root folder'|translate}}</span>
-                <div *ngIf="nUnitprojPath.errors && (nUnitprojPath.dirty || nUnitprojPath.touched)" class="alert alert-danger ">
-                    <div [hidden]="!nUnitprojPath.errors.required">
-                        This Field Name is required!
-                    </div>
-                    <div [hidden]="!nUnitprojPath.errors.maxlength">
-                        This Field Name cannot be more than 150 characters long.
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--Nunit Ends -->
-                  <!--Start  CodeAnalysis -->
-                  <div>
-                    <div class="row form-group" style="padding-left: 20px;">
+                    <div class="form-row form-group" style="padding-left: 20px;">
 
                       <div class="col-md-12">
                         <label class="checkbox-inline">
-                           <input	type="checkbox" [checked]="tempObject.modules[i].codeAnalysis==='on'" name="codeAnalysis{{i}}" id="bdbodntcach{{i}}"
-                           (change)="codeAnalysisCheckbox(i,$event.target.checked)" />{{'Code Analysis'|translate}}
-  											</label>
+                          <input type="checkbox" [checked]="tempObject.modules[i].nUnit==='on'" name="nUnit{{i}}"
+                                 id="bdbodntdnunitch{{i}}"
+                                 (change)="nUnit(i,$event.target.checked)"/>{{'NUnit'|translate}}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="tempObject.modules[i].nUnit==='on'">
+                    <div class="card">
+                      <div class="card-header panelHeadingBackground" style="">
+                        <b> {{'NUnit'|translate}}</b>
+                      </div>
+                      <div class="card-body" style="margin-bottom:0px;margin-left:13px" id="accordion"
+                           aria-multiselectable="true">
+                        <div style="margin-top:20px">
+                          <div class="form-row form-group">
+                            <label class="col-md-3  col-form-label">
+                              {{'NUnit Project Path '|translate}}<span style="color:red">*</span>
+                            </label>
+                            <div class="col-md-9 field-tip text-left">
+                              <input class="form-control " #nUnitprojPath="ngModel" id="bdbobddnupptf"
+                                     [(ngModel)]="buildInfo.modules[0].nUnitprojPath" type="text" name="projPath"
+                                     placeholder="FabricService\SampleDBProject\SampleDBProject\SampleDBProject"
+                                     maxlength="150"
+                                     required>
+                              <span
+                                class="tip-content">{{'Path of project for NUnit relative to root folder'|translate}}</span>
+                              <div *ngIf="nUnitprojPath.errors && (nUnitprojPath.dirty || nUnitprojPath.touched)"
+                                   class="alert alert-danger ">
+                                <div [hidden]="!nUnitprojPath.errors.required">
+                                  This Field Name is required!
+                                </div>
+                                <div [hidden]="!nUnitprojPath.errors.maxlength">
+                                  This Field Name cannot be more than 150 characters long.
+                                </div>
+
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Nunit Ends -->
+                  <!--Start  CodeAnalysis -->
+                  <div>
+                    <div class="form-row form-group" style="padding-left: 20px;">
+
+                      <div class="col-md-12">
+                        <label class="checkbox-inline">
+                          <input type="checkbox" [checked]="tempObject.modules[i].codeAnalysis==='on'"
+                                 name="codeAnalysis{{i}}" id="bdbodntcach{{i}}"
+                                 (change)="codeAnalysisCheckbox(i,$event.target.checked)"/>{{'Code Analysis'|translate}}
+                        </label>
                       </div>
                     </div>
                     <div class="animate-switch-container" [ngSwitch]="tempObject.modules[i].codeAnalysis">
                       <div class="container-fluid animate-switch" *ngSwitchCase="'on'">
-                        <div class="col-md-12 form-group" style="margin-left:20px;height: 40px;">
+                        <div class="col-md-12 form-row form-group" style="margin-left:20px;height: 40px;">
                           <label class="checkbox-inline " style="text-transform:capitalize;">
-                              <input type="checkbox"
-                              [checked]="module.codeAnalysis[0]===tempCodeAnalysis[0]" name="code1{{i}}" id="bdbodnttcach{{i}}"
-                              (change)="module.codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:clearSonarqube()">
-                                      {{tempCodeAnalysis[0]}}
+                            <input type="checkbox"
+                                   [checked]="module.codeAnalysis[0]===tempCodeAnalysis[0]" name="code1{{i}}"
+                                   id="bdbodnttcach{{i}}"
+                                   (change)="module.codeAnalysis[0]=$event.target.checked ? tempCodeAnalysis[0]:clearSonarqube()">
+                                SonarQube
 
                           </label>
                           <label class="checkbox-inline " style="text-transform:capitalize;">
-                            <input type="checkbox" [checked]="module.codeAnalysis[1]===tempCodeAnalysis[1]" name="code2{{i}}" id="bdbodnttca1ch{{i}}"
-                            (change)="module.codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:'off'">
+                            <input type="checkbox" [checked]="module.codeAnalysis[1]===tempCodeAnalysis[1]"
+                                   name="code2{{i}}" id="bdbodnttca1ch{{i}}"
+                                   (change)="module.codeAnalysis[1]=$event.target.checked ? tempCodeAnalysis[1]:'off'">
                             {{tempCodeAnalysis[1]}}
-                          </label> </div>
+                          </label>
+                        </div>
 
-<!-- sonar Authentication code -->
-
-<div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
-  <div class="row">
-    <div class="col-md-2">
-      <label for="sonarUrl">Sonar URL</label>
-    </div>
-    <div class="col-md-10">
-      <input class="form-control txtbox textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="Sonar Url" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
-        id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl">
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-2">
-      <label for="sonarUsername">Username/ Sonar Security Token</label>
-
-    </div>
-    <div class="col-md-10">
-      <input class="form-control txtbox textFieldWidth" name="SonarUsername" 
-        #sonarUsername="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName">
-    </div>
-  </div>
- 
-  <div class="row">
-    <div class="col-md-2">
-      <label for="sonarPassword">Password</label>
-
-    </div>
-    <div class="col-md-10">
-      <input class="form-control txtbox textFieldWidth" name="SonarPassword" type="password" 
-        #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
-        encrypt>
-    </div>
-  </div>
-  
-</div>
-<!-- /sonar Authentication code -->
-
+                            <!-- sonar Authentication code -->
+                            <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+                              <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                <label for="sonarUrl">SonarQube URL</label>
+                                </div>
+                                <div class="col-md-10">
+                                <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url"
+                                  id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+                                  
+                                   <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!sonarUrl.errors.pattern">
+                                      This Field Name can only consist of valid url
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                               
+                              <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                <label for="sonarUsername">UserName / Sonar Security token</label>
+                    
+                                </div>
+                                <div class="col-md-10 field-tip">
+                                <input class="form-control  textFieldWidth" name="SonarUsername"  (change)="buildInfo.modules[0].sonarPassword=''"
+                                  #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                                  <span class="tip-content">Password is required only with username</span>
+                                  <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
+                                  <div [hidden]="!sonarUname.errors.required">
+                                    This Field Name is required!
+                                  </div>
+                                  <div [hidden]="!sonarUname.errors.minlength">
+                                    This Field Name must be at least 3 characters long.
+                                  </div>
+                                  <div [hidden]="!sonarUname.errors.maxlength">
+                                    This Field Name cannot be more than 200 characters long.
+                                  </div>
+                                  <div [hidden]="!sonarUname.errors.pattern">
+                                    This Field Name can only consist of valid username
+                                  </div>
+                                </div>
+                                </div>
+                              </div>
+                              
+                              <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                <label for="sonarPassword">Password</label>
+                    
+                                </div>
+                                <div class="col-md-10">
+                                <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
+                                  #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                                  encrypt>
+                                </div>
+                              </div>
+                              
+                              <div class="row" style="margin-bottom: 10px;">
+                                  <div class="col-md-2">
+                                  <label for="sonarProperties">Sonar Properties Relative Path</label>
+                                  </div>
+                                  <div class="col-md-10">
+                                  <input class="form-control  textFieldWidth" name="sonarProperties" #sonarProperties="ngModel" placeholder="SonarQube Properties relative Path" (change)="buildInfo.modules[0].sonarPassword='';buildInfo.modules[0].sonarUserName='' "
+                                    id="sonarProperties" type="text" [(ngModel)]="buildInfo.modules[0].sonarProperties" pattern="[a-zA-Z0-9/\\_\.\-]+">
+                                    
+                                     <div *ngIf="sonarProperties.errors && (sonarProperties.dirty || sonarProperties.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!sonarProperties.errors.required">
+                                      This Field Name is required!
+                                    </div>
+                                    <div [hidden]="!sonarProperties.errors.minlength">
+                                      This Field Name must be at least 3 characters long.
+                                    </div>
+                                    <div [hidden]="!sonarProperties.errors.maxlength">
+                                      This Field Name cannot be more than 200 characters long.
+                                    </div>
+                                    <div [hidden]="!sonarProperties.errors.pattern">
+                                      This Field Name can only consist of valid relativePath
+                                    </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                            <!-- /sonar Authentication code -->
                       </div>
 
                     </div>
@@ -323,7 +294,7 @@
                   <!--Start  SecurityAnalysis -->
                   <!-- <div>
                     <div>
-                      <div class="row form-group chkright" style="padding-left: 20px">
+                      <div class="form-row form-group chkright" style="padding-left: 20px">
                         <div class="col-md-12">
                           <label class="checkbox-inline">
                                <input	type="checkbox"   (change)="tempObject.modules[0].securityAnalysis=$event.target.checked ?'on':'off'"
@@ -343,9 +314,9 @@
                           </div>
 
                           <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].Checkmarx==='Checkmarx'">
-                            <div class="panel-body form-group animate-switch" *ngSwitchCase="true"> -->
+                            <div class="card-body form-row form-group animate-switch" *ngSwitchCase="true"> -->
                   <!-- code for the exclude folder -->
-                  <!-- <div class="row form-group chkright" style="padding-left: 20px">
+                  <!-- <div class="form-row form-group chkright" style="padding-left: 20px">
                                 <div class="col-md-12">
                                   <label class="checkbox-inline">&nbsp;&nbsp;
                               <input		type="checkbox" (change)="tempObject.modules[0].excludeFolder=$event.target.checked ?'on':'off'"/>
@@ -367,13 +338,13 @@
                   <!-- Code for Directories -->
                   <!-- <div [ngSwitch]="tempObject.modules[0].excludeFolder==='on'">
                                 <div *ngSwitchCase="true">
-                                  <div class=" row form-group">
-                                    <div class="col-md-3 text-right">
-                                      <label class="control-label">{{'Directories'|translate}}
+                                  <div class=" form-row form-group">
+                                    <div class="col-md-3 ">
+                                      <label class="col-form-label">{{'Directories'|translate}}
                                       <span	class="star">*</span></label>
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
-                                      <input class="form-control txtbox textFieldWidth" name="Directories" #Directories="ngModel" [(ngModel)]="buildInfo.modules[0].exclude" type="text" placeholder="{{'dir'|translate}} 1 , {{'dir'|translate}} 2"
+                                      <input class="form-control  textFieldWidth" name="Directories" #Directories="ngModel" [(ngModel)]="buildInfo.modules[0].exclude" type="text" placeholder="{{'dir'|translate}} 1 , {{'dir'|translate}} 2"
                                     minlength="1"
                                         maxlength="150" required/>
                                       <div *ngIf="Directories.errors && (Directories.dirty || Directories.touched)" class="alert alert-danger ">
@@ -408,7 +379,7 @@
                   <!-- Code end for the Exclude folder -->
 
                   <!-- Code for Incremental scan -->
-                  <!-- <div class="row form-group chkright" style="padding-left: 20px">
+                  <!-- <div class="form-row form-group chkright" style="padding-left: 20px">
                                 <div class="col-md-12">
                                   <label class="checkbox-inline">&nbsp;&nbsp; <input
   														type="checkbox" (change)="buildInfo.modules[0].incrementalScan=$event.target.checked ?'on':'off'"/>{{'IncrementalScan'|translate}}
@@ -419,7 +390,7 @@
                   <!-- code for the schedule periodic Full scan -->
                   <!-- <div [ngSwitch]="buildInfo.modules[0].incrementalScan==='on'">
                                 <div *ngSwitchCase="true">
-                                  <div class="row form-group chkright" style="padding-left: 20px">
+                                  <div class="form-row form-group chkright" style="padding-left: 20px">
                                     <div class="col-md-12">
                                       <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   																<input type="checkbox" (change)="tempObject.modules[0].schdulePeriodicFullScan=$event.target.checked ?'on':'off'"/>
@@ -432,13 +403,13 @@
                   <!-- code end for the schedule periodic Full scan -->
                   <!-- <div [ngSwitch]="tempObject.modules[0].schdulePeriodicFullScan==='on'">
                                 <div *ngSwitchCase="true">
-                                  <div class=" row form-group">
-                                    <div class="col-md-3 text-right">
-                                      <label class="control-label">{{'Interval for Full	Scans'|translate}}<span class="star">*</span>
+                                  <div class=" form-row form-group">
+                                    <div class="col-md-3 ">
+                                      <label class="col-form-label">{{'Interval for Full	Scans'|translate}}<span class="star">*</span>
   															</label>
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
-                                      <input class="form-control txtbox textFieldWidth" name="IntFullScan" #IntFullScan="ngModel" [(ngModel)]="buildInfo.modules[0].interval" type="number" placeholder="Enter the value between 0 and 99" minlength="1" maxlength="100" required />
+                                      <input class="form-control  textFieldWidth" name="IntFullScan" #IntFullScan="ngModel" [(ngModel)]="buildInfo.modules[0].interval" type="number" placeholder="Enter the value between 0 and 99" minlength="1" maxlength="100" required />
                                       <div *ngIf="IntFullScan.errors && (IntFullScan.dirty || IntFullScan.touched)" class="alert alert-danger ">
                                         <div [hidden]="!IntFullScan.errors.required">
                                           This Field Name is required!
@@ -466,13 +437,12 @@
                   <!-- Code end for incremental scan -->
 
 
-
                   <!-- </div>
                           </div>
 
                           <div [ngSwitch]="tempObject.modules[0].Checkmarx==='AppScan'">
                             <div *ngSwitchCase="true">
-                              <div class="row form-group chkright" style="padding-left: 20px;">
+                              <div class="form-row form-group chkright" style="padding-left: 20px;">
                                 <div class="col-md-12">
                                   <label class="checkbox-inline">
                                  <input	type="checkbox"	(change)="tempObject.modules[0].securityAnalysis=$event.target.checked ?'on':'off'"
@@ -483,12 +453,12 @@
                               </div>
                               <div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].securityAnalysis==='on'">
                                 <div *ngSwitchCase="true">
-                                  <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                      <label class="control-label"> {{'Username' |translate}} </label> <span class="star">*</span>
+                                  <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                      <label class="col-form-label"> {{'Username' |translate}} </label> <span class="star">*</span>
                                     </div>
                                     <div class="col-md-9 text-left field-tip">
-                                      <input class="form-control txtbox boxWidth" name="userNamemsBuild" #userNamemsBuild="ngModel" [(ngModel)]="module.userName" type="text" placeholder="Username" minlength="1" maxlength="150" required/>
+                                      <input class="form-control  boxWidth" name="userNamemsBuild" #userNamemsBuild="ngModel" [(ngModel)]="module.userName" type="text" placeholder="Username" minlength="1" maxlength="150" required/>
                                       <div *ngIf="userNamemsBuild.errors && (userNamemsBuild.dirty || userNamemsBuild.touched)" class="alert alert-danger ">
                                         <div [hidden]="!userNamemsBuild.errors.required">
                                           This Field Name is required!
@@ -502,12 +472,12 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                      <label class="control-label"> {{'Password' | translate}}</label> <span class="star">*</span>
+                                  <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                      <label class="col-form-label"> {{'Password' | translate}}</label> <span class="star">*</span>
                                     </div>
                                     <div class="col-md-9 text-left field-tip">
-                                      <input class="form-control txtbox boxWidth" name="password" #password="ngModel" [(ngModel)]="module.password" type="password" placeholder="Password" minlength="1" maxlength="150" required/>
+                                      <input class="form-control  boxWidth" name="password" #password="ngModel" [(ngModel)]="module.password" type="password" placeholder="Password" minlength="1" maxlength="150" required/>
                                       <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger ">
                                         <div [hidden]="!password.errors.required">
                                           This Field Name is required!
@@ -521,12 +491,12 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class=" row form-group chkright">
-                                    <div class="col-md-3 text-right">
-                                      <label class="control-label">{{'Server Machine'|translate}}</label> <span class="star">*</span>
+                                  <div class=" form-row form-group chkright">
+                                    <div class="col-md-3 ">
+                                      <label class="col-form-label">{{'Server Machine'|translate}}</label> <span class="star">*</span>
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
-                                      <input class="form-control txtbox textFieldWidth" name="ServerMachine" #ServerMachine="ngModel" [(ngModel)]="module.serverMachine" type="textbox" placeholder="{{'Server Host Name'|translate}}" minlength="1" maxlength="150" required/>
+                                      <input class="form-control  textFieldWidth" name="ServerMachine" #ServerMachine="ngModel" [(ngModel)]="module.serverMachine" type="textbox" placeholder="{{'Server Host Name'|translate}}" minlength="1" maxlength="150" required/>
                                       <div *ngIf="ServerMachine.errors && (ServerMachine.dirty || ServerMachine.touched)" class="alert alert-danger ">
                                         <div [hidden]="!ServerMachine.errors.required">
                                           This Field Name is required!
@@ -558,26 +528,31 @@
                   </div> -->
                   <!--Start  UnitTesting -->
                   <div>
-                    <div class="row form-group" style="padding-left: 20px;">
+                    <div class="form-row form-group" style="padding-left: 20px;">
                       <div class="col-md-12">
                         <label class="checkbox-inline"> <input
-  																type="checkbox" [checked]="module.unitTesting==='on'" name="unittest{{i}}" id="bdbodnttutch{{i}}"
-                                  (change)="module.unitTesting=$event.target.checked ?'on':clearUnitTest(i)"
-                                  />
-                                  {{'Unit Testing'|translate}}
-  															</label>
+                          type="checkbox" [checked]="module.unitTesting==='on'" name="unittest{{i}}"
+                          id="bdbodnttutch{{i}}"
+                          (change)="module.unitTesting=$event.target.checked ?'on':clearUnitTest(i)"
+                        />
+                          {{'Unit Testing'|translate}}
+                        </label>
                       </div>
                     </div>
                     <div class="animate-switch-container" *ngIf="module.unitTesting==='on'">
-                      <div class="panel-body animate-switch">
+                      <div class="card-body animate-switch">
 
-                        <div class="row form-group">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label">{{'Unit Test Project Name'|translate}}</label> <span class="star">*</span>
+                        <div class="form-row form-group">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label">{{'Unit Test Project Name'|translate}}</label> <span
+                            class="star">*</span>
                           </div>
                           <div class="col-md-9 field-tip text-left">
-                            <input class="form-control txtbox textFieldWidth" name="UnitTestPN{{i}}" id="bdbodntutpnch{{i}}" #UnitTestPN="ngModel" [(ngModel)]="module.unitTestProjectName" type="text" placeholder="{{'TestProject'|translate}}" minlength="1" maxlength="150" required/>
-                            <div *ngIf="UnitTestPN.errors && (UnitTestPN.dirty || UnitTestPN.touched)" class="alert alert-danger ">
+                            <input class="form-control  textFieldWidth" name="UnitTestPN{{i}}" id="bdbodntutpnch{{i}}"
+                                   #UnitTestPN="ngModel" [(ngModel)]="module.unitTestProjectName" type="text"
+                                   placeholder="{{'TestProject'|translate}}" minlength="1" maxlength="150" required/>
+                            <div *ngIf="UnitTestPN.errors && (UnitTestPN.dirty || UnitTestPN.touched)"
+                                 class="alert alert-danger ">
                               <div [hidden]="!UnitTestPN.errors.required">
                                 This Field Name is required!
                               </div>
@@ -588,17 +563,22 @@
                                 This Field Name cannot be more than 150 characters long.
                               </div>
                             </div>
-                            <span class="tip-content">{{'Name of Visual Studio Unit Test Project Name'|translate}}</span>
+                            <span
+                              class="tip-content">{{'Name of Visual Studio Unit Test Project Name'|translate}}</span>
                           </div>
 
                         </div>
-                        <div class="row form-group">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label">{{'Unit Test Category'|translate}}</label>
+                        <div class="form-row form-group">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label">{{'Unit Test Category'|translate}}</label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
-                            <input class="form-control txtbox textFieldWidth" name="UnitTestCategory{{i}}" id="bdbodnttutcch{{i}}"  #UnitTestCategory="ngModel" [(ngModel)]="module.unitTestCategory" type="text" placeholder="{{'Unit Test Category'|translate}}" />
-                            <div *ngIf="UnitTestCategory.errors && (UnitTestCategory.dirty || UnitTestCategory.touched)" class="alert alert-danger ">
+                            <input class="form-control  textFieldWidth" name="UnitTestCategory{{i}}"
+                                   id="bdbodnttutcch{{i}}" #UnitTestCategory="ngModel"
+                                   [(ngModel)]="module.unitTestCategory" type="text"
+                                   placeholder="{{'Unit Test Category'|translate}}"/>
+                            <div *ngIf="UnitTestCategory.errors && (UnitTestCategory.dirty || UnitTestCategory.touched)"
+                                 class="alert alert-danger ">
                               <div [hidden]="!UnitTestCategory.errors.required">
                                 This Field Name is required!
                               </div>
@@ -613,8 +593,8 @@
                   </div>
                   <!--End  UnitTesting -->
 
-                 
-                  <!-- <div class="row form-group" style="padding-left: 20px;">
+
+                  <!-- <div class="form-row form-group" style="padding-left: 20px;">
   														<div class="col-md-12">
   															<label class="checkbox-inline"> <input
   																type="checkbox" ng-true-value="'on'"
@@ -626,11 +606,11 @@
   													</div>
   													<div class="animate-switch-container" [ngSwitch]="tempObject.modules[0].obfuscation">
       <div class="animate-switch" *ngSwitchCase="on">
-          <div class="panel-body">
+          <div class="card-body">
 
-              <div class="row form-group ">
+              <div class="form-row form-group ">
                  <div>
-                      <label class="col-md-3 text-right control-label ">{{'Renaming'|translate}}   <span class="star">*</span></label>
+                      <label class="col-md-3  col-form-label ">{{'Renaming'|translate}}   <span class="star">*</span></label>
                   </div>
                   <div class="col-md-9 text-left">
                       <select  class="dropDown"[(ngModel)]="module.renaming" >
@@ -640,9 +620,9 @@
                       </select>
                   </div>
               </div>
-              <div class="row form-group ">
+              <div class="form-row form-group ">
 
-                      <label class="control-label col-md-3 text-right">{{'Control Flow'|translate}}<span class="star">*</span></label>
+                      <label class="col-form-label col-md-3 ">{{'Control Flow'|translate}}<span class="star">*</span></label>
 
                   <div class="col-md-9 text-left">
                       <select  class="dropDown"[(ngModel)]="module.controlFlow" >
@@ -652,9 +632,9 @@
                       </select>
                   </div>
               </div>
-              <div class="row form-group ">
+              <div class="form-row form-group ">
 
-                      <label class="control-label col-md-3 text-right">{{'String encryption'|translate}}<span class="star">*</span></label>
+                      <label class="col-form-label col-md-3 ">{{'String encryption'|translate}}<span class="star">*</span></label>
 
                   <div class="col-md-9 text-left">
                       <select class="dropDown"[(ngModel)]="module.encryption" >
@@ -671,27 +651,29 @@
                   <!-- End Obfuscation -->
                   <!--Start  CodeCoverage -->
                   <div>
-                    <div class="row form-group" style="padding-left: 20px;">
+                    <div class="form-row form-group" style="padding-left: 20px;">
                       <div class="col-md-12">
                         <label class="checkbox-inline">
-                                 <input	type="checkbox" id="bdbodntcccb{{i}}" [checked]="module.codeCoverage==='on'" name="codeCoverage1"
+                          <input type="checkbox" id="bdbodntcccb{{i}}" [checked]="module.codeCoverage==='on'"
+                                 name="codeCoverage1"
                                  (change)="module.codeCoverage=$event.target.checked ?'on':clearCodeCoverage(i)"
-  																[disabled]="module.unitTesting ==='off' || module.unitTesting === undefined"/>{{'Code Coverage'|translate}}
-  															</label>
+                                 [disabled]="module.unitTesting ==='off' || module.unitTesting === undefined"/>{{'Code Coverage'|translate}}
+                        </label>
                       </div>
                     </div>
                     <div class="animate-switch-container" *ngIf="module.codeCoverage==='on'">
-                      <div class="panel-body animate-switch">
-                        <div class="row form-group">
-                          <div class="col-md-3 text-right">
-                            <label class="control-label">{{'Test settings file name with relative path'|translate}}
-                                   <span class="star">*</span></label>
+                      <div class="card-body animate-switch">
+                        <div class="form-row form-group">
+                          <div class="col-md-3 ">
+                            <label class="col-form-label">{{'Test settings file name with relative path'|translate}}
+                              <span class="star">*</span></label>
                           </div>
                           <div class="col-md-9 field-tip text-left">
-                            <input class="form-control txtbox textFieldWidth" name="testSettings{{i}}" id="bdbodnttsftf{{i}}"
-                             #testSettings="ngModel" [(ngModel)]="module.testSettingFilePath" type="text"
-                              placeholder="ReservationSystem\Local.testsettings" required />
-                            <div *ngIf="testSettings.errors && (testSettings.dirty || testSettings.touched)" class="alert alert-danger ">
+                            <input class="form-control  textFieldWidth" name="testSettings{{i}}" id="bdbodnttsftf{{i}}"
+                                   #testSettings="ngModel" [(ngModel)]="module.testSettingFilePath" type="text"
+                                   placeholder="ReservationSystem\Local.testsettings" required/>
+                            <div *ngIf="testSettings.errors && (testSettings.dirty || testSettings.touched)"
+                                 class="alert alert-danger ">
                               <div [hidden]="!testSettings.errors.required">
                                 This Field Name is required!
                               </div>
@@ -706,19 +688,24 @@
                   <!--End  CodeCoverage -->
 
                   <!--Default Module-->
+
                   <div>
-                    <div class="row form-group" style="padding-left: 20px;">
+                    <div class="form-row form-group" style="padding-left: 20px;">
                       <div class="col-md-12">
                         <label class="checkbox-inline">
-                                 <input	type="checkbox"  [checked]="module.defaultModule==='on'" name="defaultModule{{i}}" id="bdbodntdmch{{i}}"
+                          <input type="checkbox" [checked]="module.defaultModule==='on'" name="defaultModule{{i}}"
+                                 id="bdbodntdmch{{i}}"
                                  (change)="module.defaultModule=$event.target.checked ?'on':'off'"
-  																/>{{'Default Module'|translate}}
-  															</label>
+                          />{{'Default Module'|translate}}
+                        </label>
                       </div>
                     </div>
+
                   </div>
 
+
                   <!--End Default Module-->
+
                 </div>
               </div>
             </div>

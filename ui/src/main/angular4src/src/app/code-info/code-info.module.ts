@@ -9,27 +9,20 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { CodeInfoComponent } from "./code-info.component";
 import { codeInfoRouter } from "./code-info.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import {IdpEncryptionModule } from "../idpEncryption.module";
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 @NgModule({
   imports: [
     CommonModule,
     codeInfoRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
-    IdpEncryptionModule
+    IdpEncryptionModule,
+    TranslateModule
   ],
   declarations: [CodeInfoComponent]
 })

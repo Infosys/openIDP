@@ -72,6 +72,9 @@ background-repeat: no-repeat;
   width:auto;
 }
 
+.showConfig .table tbody > tr > td  > a{
+  color: #337ab7;
+}
 
 .showConfig .table thead th {
   text-align: center;/*change that parameter to left/right*/
@@ -80,7 +83,6 @@ background-repeat: no-repeat;
 .showConfig .dateclass1{
   text-align: center;
 }
-
 
 .showConfig .field-tip {
     position:relative;
@@ -185,10 +187,6 @@ a:hover{
 
 
 
-.panel-default>.panel-heading{
-  background-color:#2885ae;
-  color:white;
-}
 
 
 #below_header {
@@ -264,6 +262,25 @@ li a.navactive {
 }
 
 /* -- Login Page-- */
+/* .app_name_login::before{
+  content: '';
+  visibility: hidden;
+
+}
+.app_name_login::after{
+  content:'Infosys DevOps Platform';
+  visibility: visible;
+  text-align: center;
+  font-size: xx-large;
+  padding-left: 500px;
+  width: 60%;
+  font-family: Sans-serif;
+   color: #1b6bb1; 
+  /* color: whitesmoke; */
+  /* font-weight: 700;
+  position: relative;
+  top: 18px;
+} */
 .app_name_login::before{
   content: '';
   visibility: hidden;
@@ -276,14 +293,16 @@ li a.navactive {
   font-size: 35px;
   width: 60%;
   font-family: Sans-serif;
-  color: #1b6bb1; 
-  font-weight: 700; 
+   color: #1b6bb1;
+  /* color: whitesmoke; */
+  font-weight: 700;
   top: 30px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
 
+  position: absolute;
+
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
 .logo_login {
   background: url("assets/images/Automation_BlueLogo2.png") no-repeat; 
   visibility: visible;
@@ -301,21 +320,31 @@ li a.navactive {
 	background-color: white;
 	box-shadow: 2px 2px 2px #d0d0d0;
   }
-.bgwrapper {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
-  background: url('assets/images/Login_page_BG.png') no-repeat center;
-  
-}
-.logo_login {
-  background: url("assets/images/Automation_BlueLogo2.png") no-repeat; 
-  visibility: visible;
-  margin-left:100px;
-  margin-top:18px;
-  width: 250px !important;
-  height: 100px !important;
-}
+
+  .bgwrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Preserve aspet ratio */
+    min-width: 100%;
+    min-height: 100%;
+    background: url('assets/images/Login_page_BG.png') no-repeat center;
+
+  }
+  .logo_login {
+    background: url("assets/images/Automation_BlueLogo2.png") no-repeat;
+    visibility: visible;
+    margin-left:100px;
+    margin-top:18px;
+    width: 250px !important;
+    height: 100px !important;
+  }
+  .mg20  { margin-left: 20% !important; }
+  .btn-info { color: white !important; }
+  .release-main-container { margin-top: 20px; padding-bottom: 50px; }
+  .pipeline-list { float: left; }
+  .release-pipeline-name { float: right; margin: -4% 20% 0% 0 !important; }
+  .release-table { margin-top: 30px; }
+  .nav-tabs .nav-link:hover { background-color: #eee !important; }
+  .owl-dateTime-dialog { width: 284px !important; }
+  .table th, .table td { vertical-align: middle;}

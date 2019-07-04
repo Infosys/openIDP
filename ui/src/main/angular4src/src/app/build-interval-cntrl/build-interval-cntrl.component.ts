@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { TranslateService } from "ng2-translate";
+import { TranslateService } from "@ngx-translate/core";
 import { IdpService } from "../idp-service.service";
 import { IdprestapiService } from "../idprestapi.service";
 import { Router } from "@angular/router";
@@ -7,6 +7,9 @@ import { IdpdataService } from "../idpdata.service";
 import { DataTable, DataTableResource } from "angular-2-data-table";
 import { ActivatedRoute } from "@angular/router";
 import { IDPEncryption } from "../idpencryption.service";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 declare var jQuery: any;
 @Component({
   selector: "app-build-interval-cntrl",
@@ -28,7 +31,11 @@ export class BuildIntervalCntrlComponent implements OnInit {
   dropdownListTest: any = [];
   dropdownListDeploy: any = [];
   initialNotZero = false;
-@ViewChild("modalforTotalSubmit") submitButton;
+  intervalCollapseStatus:Array<any> = [];
+  modalForTriggerDetailsRef: BsModalRef;
+  modalForTotalSubmitRef: BsModalRef;
+  @ViewChild("modalForTotalSubmit") modalForTotalSubmit;
+  @ViewChild("modalForTriggerDetails") modalForTriggerDetails;
     ngOnInit() {
   }
 
@@ -37,6 +44,7 @@ export class BuildIntervalCntrlComponent implements OnInit {
   private IdprestapiService: IdprestapiService,
   private router: Router,
   private idpencryption: IDPEncryption,
+  private modalService: BsModalService,
   public IdpService: IdpService) {
     const data = {
         "applicationName": this.IdpdataService.triggerJobData.applicationName,
@@ -44,10 +52,9 @@ export class BuildIntervalCntrlComponent implements OnInit {
         "userName": this.IdpdataService.idpUserName
     };
     this.IdpdataService.loading = true;
-    this.IdpdataService.buildIntervalData = [];
-   this.IdprestapiService.getPipelineDetails(data)
+    this.IdpdataService.buildIntervalData =  [];
+    this.IdprestapiService.getPipelineDetails(data)
         .then(response => {
-        console.log(new Date().toUTCString(), "Pipeline details retrieved");
         try {
             const responseData = this.idpencryption.decryptAES(response.json().resource);
             let resp = JSON.parse(responseData);
@@ -66,12 +73,13 @@ export class BuildIntervalCntrlComponent implements OnInit {
   submit() {
     const x = this.checkDetailsFilled();
     if (x) {
-        this.submitButton.nativeElement.click();
+        this.modalForTotalSubmitRef = this.modalService.show(this.modalForTotalSubmit);
     } else {
         alert("Details not added for all jobs!!");
     }
     }
-    totalSubmit() {
+    totalSubmit(modalRef:BsModalRef) {
+      modalRef.hide();
     this.IdpdataService.loading = true;
     for (const i in this.IdpdataService.buildIntervalData) {
         this.IdpdataService.buildIntervalData[i].details.schedule = true;
@@ -85,7 +93,7 @@ export class BuildIntervalCntrlComponent implements OnInit {
                 this.IdpdataService.loading = false;
                 alert("Successfully submitted details!!");
               this.IdpdataService.schedulePage = false;
-              setTimeout(() => { location.reload(); }, 5);
+              setTimeout(() => { this.router.navigate(['/previousConfig']) }, 5);
             } else {
                 this.IdpdataService.loading = false;
               alert("Error! Couldn\"t submit. Please try again.");
@@ -102,11 +110,11 @@ export class BuildIntervalCntrlComponent implements OnInit {
 
   }
 
-setIndex(i) {
-    this.IdpdataService.index = i;
+launchTriggerDetailsModal(i) {
+  this.IdpdataService.index = i;
+  this.modalForTriggerDetailsRef = this.modalService.show(this.modalForTriggerDetails,{class:'modal-lg'});
 }
   checkDetailsSingle(i ) {
-      console.log(this.IdpdataService.buildIntervalData);
       if (this.IdpdataService.buildIntervalData[i] !== undefined) {
       if (Object.getOwnPropertyNames(this.IdpdataService.buildIntervalData[i].details).length === 0) {
           return false;

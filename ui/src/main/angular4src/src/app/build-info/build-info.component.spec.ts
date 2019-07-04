@@ -15,7 +15,7 @@ import { IdprestapiService } from "../idprestapi.service";
 import { Router, NavigationExtras } from "@angular/router";
 import {  HttpModule,  XHRBackend,  ResponseOptions,  Response,  RequestMethod} from "@angular/http";
 import { ParentFormConnectComponent } from "../parent-form-connect/parent-form-connect.component";
-import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "ng2-translate";
+import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "@ngx-translate/core";
 import { NO_ERRORS_SCHEMA}  from "@angular/core";
 import { IDPEncryption } from "../idpencryption.service";
 import { IdpSubmitService } from "../idpsubmit.service";

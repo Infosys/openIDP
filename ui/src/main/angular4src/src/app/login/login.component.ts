@@ -7,7 +7,7 @@
 **/
 import { Component, OnInit } from "@angular/core";
 import { CookieService } from "ngx-cookie";
-import { TranslateService } from "ng2-translate";
+import { TranslateService } from "@ngx-translate/core";
 import { IdprestapiService } from "../idprestapi.service";
 import { IdpService } from "../idp-service.service";
 import { IdpdataService } from "../idpdata.service";
@@ -32,6 +32,8 @@ export class LoginComponent implements OnInit {
   password = "";
   pipelineData: any;
   ErrorMsg: any;
+  isLoading: boolean;
+  idpBuildInfo:any = {}
 
   /* Constructor */
   constructor(
@@ -54,6 +56,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.restApiService.getIdpBuildInfo().then((response)=>{
+      this.idpBuildInfo = response || {};
+    });
     this.idpservice.initMain();
   }
 
@@ -84,14 +89,20 @@ export class LoginComponent implements OnInit {
         password: password,
         client_id: "idpclient"
         };
-        this.obtainAccessToken(this.loginData);
+        this.isLoading = true;
+        this.ErrorMsg = null;
+        this.obtainAccessToken(this.loginData).then(()=>{
+          this.isLoading = false;
+        }).catch(()=>{
+          this.isLoading = false;
+        });
     } else {
         this.ErrorMsg = "username or password should not be empty";
     }
   }
 
-  obtainAccessToken(params: any) {
-    this.restApiService.obtainAccessToken(params)
+  obtainAccessToken(params: any):Promise<any> {
+    return this.restApiService.obtainAccessToken(params)
         .then(response => {
         try {
             if (response) {

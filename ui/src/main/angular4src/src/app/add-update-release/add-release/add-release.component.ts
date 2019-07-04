@@ -162,32 +162,32 @@ export class AddReleaseComponent implements OnInit {
     /* Initialization of Date */
     ngOnInit() {
         const todayDate = new Date();
-        $(document).ready(function () {
-            const date_input = $("input[name=\"date\"]");
-            const container = $(".bootstrap-iso form").length > 0 ? $(".bootstrap-iso form").parent() : "body";
-            const options = {
-                format: "yyyy-mm-dd",
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-                todayBtn: "linked",
-                clearBtn: true,
-            };
-            date_input.datepicker(options);
-        });
-        $(document).ready(function () {
-            const date_input = $("input[name=\"date1\"]");
-            const container = $(".bootstrap-iso form").length > 0 ? $(".bootstrap-iso form").parent() : "body";
-            const options = {
-                startDate: "today",
-                todayBtn: "linked",
-                clearBtn: true,
-                autoclose: true,
-                todayHighlight: true,
-                format: "yyyy-mm-dd",
-                container: container
-            };
-            date_input.datepicker(options);
-        });
+        // $(document).ready(function () {
+        //     const date_input = $("input[name=\"date\"]");
+        //     const container = $(".bootstrap-iso form").length > 0 ? $(".bootstrap-iso form").parent() : "body";
+        //     const options = {
+        //         format: "yyyy-mm-dd",
+        //         container: container,
+        //         todayHighlight: true,
+        //         autoclose: true,
+        //         todayBtn: "linked",
+        //         clearBtn: true,
+        //     };
+        //     date_input.datepicker(options);
+        // });
+        // $(document).ready(function () {
+        //     const date_input = $("input[name=\"date1\"]");
+        //     const container = $(".bootstrap-iso form").length > 0 ? $(".bootstrap-iso form").parent() : "body";
+        //     const options = {
+        //         startDate: "today",
+        //         todayBtn: "linked",
+        //         clearBtn: true,
+        //         autoclose: true,
+        //         todayHighlight: true,
+        //         format: "yyyy-mm-dd",
+        //         container: container
+        //     };
+        //     date_input.datepicker(options);
+        // });
     }
 }

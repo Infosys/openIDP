@@ -5,67 +5,66 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<div style="margin-top: 150px;">
-	<div class="col-md-3" style="position: relative;">
-		<section id="sidebar" class="navbar" ng-if="showSidebar()">
-			<div id="MainMenu" style="background-color: black;">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mybar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				<div style="background-color: #282828; margin-top: -5; margin-left: -5; margin-right: -3; color:#FFF; font-size: 14px; padding-left: 24px; padding-right: 5px; padding-top: 15px; padding-bottom: 12px;" >
-					Application: {{this.IdpdataService.appName}} 
-				</div>
+<div class="d-flex flex-row justify-content-center" >
+  <ul class="nav nav-pills nav-wizard row" >
+    <ng-container>
+    <li class="d-flex flex-row justify-content-center">
+      <button [ngClass]="basicInfo ? ' active' : ' '" class="btn " [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/basicInfo']"
+         [style.cursor]="getCursor()"
+         id="menu_basic" >
+         <img class="small_icon" src="assets/img/icon/basic_info.svg" alt="basicinfo"/>
+        {{'Basic Info'|translate}}</button>
+         <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
+     </li>
+    </ng-container>
+    <ng-container class="row" *ngIf="!IdpdataService.createWorkflowSequenceflag">
+    <li class="d-flex flex-row justify-content-center" >
+      <button [ngClass]="codeInfo ? ' active' : ' '" class="btn" [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/codeInfo']"
+         [style.cursor]="getCursor()"
+         id="menu_code"
+         >
+         <img class="small_icon" src="assets/img/icon/code.svg" alt="codeimg"/>
+        {{'Code'|translate}}</button>
+        <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
+    </li>
+    <li class="d-flex flex-row justify-content-center" >
+      <button [ngClass]="buildInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.buildSubscription===true"
+         [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/buildInfo']"
+         [style.cursor]="getCursor()" id="menu_build"
 
-				<div class="collapse navbar-collapse" id="mybar" style="background-color: #000000">
-					<div class="list-group panel" style="border: none;">
-						<!-- <span class="list-group-item" data-toggle="collapse" data-parent="#MainMenu" style="color: white;">{{'Steps'}}</span> -->
-						<div ng-switch on="createPipelineflag">
-							<div ng-switch-when='true'>
+         >
+         <img class="small_icon" src="assets/img/icon/build.svg" alt="buildimg"/>
+        {{'Build'|translate}}</button>
+        <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
+    </li>
+    <li class="d-flex flex-row justify-content-center" >
+      <button [ngClass]="deployInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.deploySubscription===true"
+         [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/deployInfo']"
+         [style.cursor]="getCursor()" id="menudeploy"
 
+         >
+         <img class="small_icon" src="assets/img/icon/deploy.svg" alt="deployimg"/>
+        {{'Deploy'|translate}}</button>
+        <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
+    </li>
+    <li class="d-flex flex-row justify-content-center" >
+      <button [ngClass]="testInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.testSubscription===true"
+         [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/testInfo']"
+         [style.cursor]="getCursor()" id="menu_test">
+         <img class="small_icon" src="assets/img/icon/test.svg" alt="testimg"/>
+        {{'Test'|translate}}</button>
+    </li>
+    </ng-container>
+    <ng-container class="row" *ngIf="IdpdataService.createWorkflowSequenceflag" >
+      <li class="d-flex flex-row justify-content-center" >
+      <button class="btn" [ngClass]="(workflowInfo && IdpdataService.createWorkflowSequenceflag) ? ' active'  : ' '"
+        [routerLink]="IdpdataService.freezeNavBars?['/createConfig/workflowInfo']:['/createConfig/workflowInfo']"
+        id="menu_grant"
+        [style.cursor]="getCursor()"
 
-								<a [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/basicInfo']" [style.cursor]="getCursor()"
-								 id="menu_basic" [ngClass]="(basicInfo) ? 'list-group-item marked'  : 'list-group-item '" style="color: white;">
-									<span class="glyphicon glyphicon-info-sign" id="glyph_style"></span>
-									{{'Basic Info'|translate}}</a>
-								<div *ngIf="!IdpdataService.createWorkflowSequenceflag">
-									<a [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/codeInfo']" [style.cursor]="getCursor()"
-									 id="menu_code" [ngClass]="codeInfo ? 'list-group-item marked' : 'list-group-item '" style="color: white;">
-										<span class="glyphicon glyphicon-folder-close" id="glyph_style"></span>
-										{{'Code'|translate}}</a>
-									<a *ngIf="IdpdataService.buildSubscription===true" [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/buildInfo']"
-									 [style.cursor]="getCursor()" id="menu_build" [ngClass]="buildInfo ? 'list-group-item marked' : 'list-group-item '"
-									 style="color: white;">
-										<span class="glyphicon glyphicon-wrench" id="glyph_style"></span>
-										{{'Build'|translate}}</a>
-									<a *ngIf="IdpdataService.deploySubscription===true" [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/deployInfo']"
-									 [style.cursor]="getCursor()" id="menudeploy" [ngClass]="deployInfo ? 'list-group-item marked ' : 'list-group-item '"
-									 style="color: white;">
-										<span class="glyphicon glyphicon-plane" id="glyph_style"></span>
-										{{'Deploy'|translate}}</a>
-									<a *ngIf="IdpdataService.testSubscription===true" [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/testInfo']"
-									 [style.cursor]="getCursor()" id="menu_test" [ngClass]="testInfo ? 'list-group-item marked' : 'list-group-item '"
-									 style="color: white;">
-										<span class="glyphicon glyphicon-file" id="glyph_style"></span>
-										{{'Test'|translate}}</a>
-								</div>
-
-								<div *ngIf="IdpdataService.createWorkflowSequenceflag">
-
-									<a [routerLink]="IdpdataService.freezeNavBars?['/createConfig/workflowInfo']:['/createConfig/workflowInfo']" id="menu_grant"
-											[style.cursor]="getCursor()"
-											[ngClass]="(workflowInfo && IdpdataService.createWorkflowSequenceflag) ? 'list-group-item marked'  : 'list-group-item '" style="color: white;">
-						<span class="glyphicon glyphicon-tasks" id="glyph_style" ></span>
-						{{'Workflow of Pipelines'|translate}}</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
+        >
+        {{'Workflow of Pipelines'|translate}}</button>
+      </li>
+    </ng-container>
+  </ul>
 </div>

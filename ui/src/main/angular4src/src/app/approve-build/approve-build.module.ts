@@ -9,27 +9,19 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ApproveBuildComponent } from "./approve-build.component";
 import { approvebuildRouter } from "./approve-build.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
-
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
   imports: [
     CommonModule,
     approvebuildRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    TranslateModule
   ],
   declarations: [ApproveBuildComponent]
 })

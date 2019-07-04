@@ -7,60 +7,37 @@
 -->
 <!-- Modal/Alert Message  -->
 <div>
-    <!--for remove SCM  alert-->
-    <button #modalforAlert [hidden]="true" type="button" data-toggle="modal" data-target="#TechSelect">Alert Modal</button>
+    <!--for remove missing info alert-->
     <!-- Modal -->
-    <div id="TechSelect" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" (click)="redirectTo()">&times;</button>
-                    <h4 class="modal-title">Alert</h4>
+    <ng-template #modalforAlert id="TechSelect" class="modal fade" data-backdrop="static" data-keyboard="false" >
+                <div class="modal-header bg-info d-flex justify-content-left">
+                    <h4 class="modal-title">Alert</h4> 
                 </div>
                 <div class="modal-body">
-                    <p>Please Choose {{msg}}
+                    <p>Please choose {{alertModalRef.content.msg}}
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="redirectTo()">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="redirectTo(alertModalRef.content.loc)">Close</button>
                 </div>
-            </div>
+    </ng-template>
 
-        </div>
-    </div>
-
-    <button #modalforconfirmBuildAlert [hidden]="true" type="button" data-toggle="modal" data-target="#modalforconfirmBuildAlert">Del Modal</button>
-    <div id="modalforconfirmBuildAlert" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <ng-template #modalforconfirmBuildAlert>
+                <div class="modal-header bg-alert">
                     <h4 class="modal-title">Alert Message</h4>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to submit?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="submitData()">OK</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="submitData()">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="confirmAlertModalRef.hide()">Close</button>
                 </div>
-            </div>
+    </ng-template>
 
-        </div>
-    </div>
-
-    <button #modalformandatoryFieldsBuildAlert [hidden]="true" type="button" data-toggle="modal" data-target="#modalformandatoryFieldsBuildAlert">Del Modal</button>
-    <div id="modalformandatoryFieldsBuildAlert" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Alert Message</h4>
+    <ng-template #modalformandatoryFieldsBuildAlert>
+                <div class="modal-header bg-warning">
+                    <h4 class="modal-title">Form incomplete</h4>
                 </div>
                 <div class="modal-body">
                     Please fill all the mandatory fields on
@@ -70,12 +47,9 @@
                     </span> Page.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="mandatoryModalRef.hide()">OK</button>
                 </div>
-            </div>
-        </div>
-    </div>
+            </ng-template>
 </div>
 
 
@@ -105,6 +79,12 @@
                 <app-nodejs-cntrl formName="forNodeJs"></app-nodejs-cntrl>
             </div>
         </div>
+        <!-- Go -->
+        <div [ngSwitch]="buildInfo.buildtool ==='go'">
+            <div *ngSwitchCase="true">
+                <app-go-cntrl formName="forGo"></app-go-cntrl>
+            </div>
+        </div>
         <!-- Angular -->
         <div [ngSwitch]="buildInfo.buildtool ==='angular'">
             <div *ngSwitchCase="true">
@@ -117,19 +97,23 @@
                 <app-python-cntrl formName="forPython"></app-python-cntrl>
             </div>
         </div>
-         <!-- Gradle -->
+       
+        
+    
+
+        
+        
         <div [ngSwitch]="buildInfo.buildtool ==='java_gradle'">
             <div *ngSwitchCase="true">
                 <app-java-gradle-cntrl formName="forJavaGradle"></app-java-gradle-cntrl>
 			</div>
 		</div>
-        <!-- Go -->
-        <div [ngSwitch]="buildInfo.buildtool ==='go'">
-            <div *ngSwitchCase="true">
-                <app-go-cntrl formName="forGo"></app-go-cntrl>
-            </div>
-        </div>
-        <app-build-info-sub formName="forBuilInFoSub" [hidden]="buildInfo.buildtool ==='SapNonCharm' || buildInfo.buildtool ==='SAPPI'"></app-build-info-sub>
+		
+        
+        
+      
+        
+        <app-build-info-sub formName="forBuilInFoSub" [hidden]="buildInfo.buildtool ==='SapNonCharm' || buildInfo.buildtool ==='sapcharm' || buildInfo.buildtool ==='SAPPI'"></app-build-info-sub>
         <br />
         <br />
         

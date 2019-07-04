@@ -9,29 +9,24 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AddUpdateReleaseComponent } from "./add-update-release.component";
 import { addUpdateReleaseRouter } from "./add-update-release.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { ActiveReleaseComponent } from "./active-release/active-release.component";
 import { AddReleaseComponent } from "./add-release/add-release.component";
 import { ReleaseHistoryComponent } from "./release-history/release-history.component";
 import { DateTimePickerModule } from "ng-pick-datetime";
+import { TranslateModule } from "@ngx-translate/core";
+import { TabsModule } from 'ngx-bootstrap';
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 @NgModule({
   imports: [
     CommonModule,
     addUpdateReleaseRouter,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
   FormsModule,
+  TranslateModule,
+    TabsModule,
   DateTimePickerModule],
   declarations: [AddUpdateReleaseComponent,
             ActiveReleaseComponent,

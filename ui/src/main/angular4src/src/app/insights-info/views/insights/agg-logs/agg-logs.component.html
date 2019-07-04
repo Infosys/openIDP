@@ -1,0 +1,94 @@
+<div *ngIf="true; else notActive">
+  <div class="b"><p><b>Provides quick investigative or snapshot view of logs by clustering logs based on string and pattern similarity</b></p></div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="appNameSelect">Application Name :&nbsp; </label>
+              <select class="custom-select form-control" name="appName" id="appNameSelect" [(ngModel)]="appName" (change)="getExceptionDetails()"
+                required>
+                <option value=""> --Select Application Name--</option>
+                <option *ngFor="let appObject of applicationList; let i = index" value="{{appObject}}">{{appObject}}</option>
+              </select>
+            </div>
+          </form>
+          <div *ngIf="!appName">
+            <br>
+            <div class="col-md-8 offset-md-2">
+              <div class="card-body">
+                </div>
+            </div>
+          </div>
+          <br>
+          <div class="container-fluid" *ngIf="appName">
+            <div>
+              <div class="form-group">
+                <div class="h4 text-muted">Aggregated Logs: </div>
+                <div *ngIf="aggregateLogs.length > 0; else noRecord">
+                  <table class="table table-stripped">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Event Message</th>
+                        <th scope="col">Processing Time</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr *ngFor="let aggregatelog of aggregateLogs | paginate: config ; let i = index">
+                 
+                            <td style="font-family: Roboto Mono,Courier New,monospace;font-size: 11px;line-height: 15px;">
+                                <input type="checkbox" class="read-more-state" id="{{ 'object-' + i }}" />
+                                <p class="read-more-wrap">{{aggregatelog.aggregatedLogsPrimaryId.eventMessage | slice:0:130}}
+                                  <span class="read-more-target" >{{aggregatelog.aggregatedLogsPrimaryId.eventMessage | slice:130}}</span>
+                                </p>
+                                <label *ngIf="aggregatelog.aggregatedLogsPrimaryId.eventMessage.length > 130;" for = "{{ 'object-' + i }}" class="read-more-trigger"></label>
+                              </td>
+
+                          <td style="font-family: Roboto Mono,Courier New,monospace;font-size: 11px;line-height: 15px;">{{aggregatelog.aggregatedLogsPrimaryId.processingTime}}</td>
+                          <td style="font-family: Roboto Mono,Courier New,monospace;font-size: 11px;line-height: 15px;">{{aggregatelog.logCount}}</td>
+                       
+                        </tr>
+
+                    </tbody>
+                    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                  </table>
+                </div>
+                <ng-template #noRecord>
+                  <table class="table table-stripped table-border">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Event Message</th>
+                        <th scope="col">Processing Time</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="3" class="text-danger text-center">
+                          <i class="fa fa-exclamation-triangle"></i> &nbsp; No Record Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #notActive>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="alert alert-danger text-center text-uppercase h5">
+        <i class="fa fa-exclamation-triangle"></i> &nbsp; This Service is not active for your organization
+      </div>
+    </div>
+  </div>
+</ng-template>

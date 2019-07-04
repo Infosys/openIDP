@@ -2159,7 +2159,7 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 				//String webPage = "http://" + jenkinsServer + "/job/" + jobName + "/job/" + jobName + "_Pipeline/" + pipelineId + "/api/json?pretty=true";
 				String webPage=jenkinsURL+"/job/"+jobName+"/job/"+jobName+"_Pipeline/"+pipelineNo+"/api/json?pretty=true";
 				String authString = configurationManager.getJenkinsID() + ":" + configurationManager.getJenkinsPassword();
-				//String authString="userName:password";
+				
 				byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 				String authStringEnc = new String(authEncBytes);
 				System.out.println(webPage);
@@ -2228,10 +2228,10 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 					
 					
 					//String webPage = "http://" + jenkinsServer + "/job/" + jobName + "/job/" + jobName + "_Pipeline/" + pipelineId + "/api/json?pretty=true";
-					//String webPage="http://10.82.13.202:8085/jenkins/job/TestApp14thMar_Maximo_23rdMar/job/TestApp14thMar_Maximo_23rdMar_Deploy_"+envSelected+"/job/TestApp14thMar_Maximo_23rdMar_Deploy_"+envSelected+"_"+deployStepName+"/config.xml";
+					
 					String webPage=jenkinsURL+"/job/"+jobName+"/job/"+jobName+"_Deploy_"+envSelected+"/job/"+jobName+"_Deploy_"+envSelected+"_"+deployStepName+"/config.xml";
 					String authString = configurationManager.getJenkinsID() + ":" + configurationManager.getJenkinsPassword();
-					//String authString="userName:password";
+					
 					byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 					String authStringEnc = new String(authEncBytes);
 					System.out.println(webPage);
@@ -2357,7 +2357,7 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 					//String webPage = "http://" + jenkinsServer + "/job/" + jobName + "/job/" + jobName + "_Pipeline/" + pipelineId + "/api/json?pretty=true";
 					String webPage=jenkinsURL+"/job/"+jobName+"/job/"+jobName+"_Deploy_"+envSelected+"/job/"+jobName+"_Deploy_"+envSelected+"_"+deployStepName+"/"+buildid+"/api/json?pretty=true";
 					String authString = jenkinsID + ":" + jenkinsPassword;
-					//String authString="userName:password";
+					
 					byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 					String authStringEnc = new String(authEncBytes);
 

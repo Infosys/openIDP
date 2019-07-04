@@ -13,6 +13,7 @@ import { CookieService } from "ngx-cookie";
 
 @Injectable()
 export class IdpService {
+  private landingPageRoute: string = '/dashboard';
   constructor(
     private idprestapiService: IdprestapiService,
     private router: Router,
@@ -27,16 +28,13 @@ export class IdpService {
   }
 
   initMain() {
+    //   this.idpdataService.permissions=[];
     this.idprestapiService.getData()
         .then(response => {
         try {
             if (response) {
             this.idpdataService.devServerURL = response.json().idpresturl;
-            // this.idpdataService.devServerURL = "http://localhost:8889/idprest";
-            // this.idpdataService.devServerURL = "https://idplinv02:8889/idprest";
-           // this.idpdataService.devServerURL = "http://server324895d:8889/idprest";
             this.idpdataService.subscriptionServerURL = response.json().idpsubscriptionurl;
-            // this.idpdataService.subscriptionServerURL = "https://idptestServerHost:8090/subscription";
             this.idpdataService.IDPDashboardURL = response.json().idpdashboardurl;
             this.idpdataService.IDPLink = response.json().IDPLink;
             this.idpdataService.geUrl = response.json().geUrl;
@@ -75,7 +73,7 @@ export class IdpService {
                 this.idpdataService.flag = true;
                 this.idpdataService.noAccessNavBars = false;
                 this.idpdataService.noAccess = false;
-                this.router.navigate(["/previousConfig"]);
+                this.router.navigate([this.landingPageRoute]);
                 return;
                 }
             }
@@ -84,11 +82,11 @@ export class IdpService {
                 if (this.idpdataService.showService) {// user is Pipeline admin
                 this.idpdataService.noAccessNavBars = true;
                 this.idpdataService.noAccess = false;
-                this.router.navigate(["/previousConfig/servicePortal"]);
+                this.router.navigate([this.landingPageRoute]);
                 } else {
                 this.idpdataService.noAccessNavBars = true;
                 this.idpdataService.noAccess = true;
-                this.router.navigate(["/previousConfig"]);
+                this.router.navigate([this.landingPageRoute]);
                 }
             }
             }

@@ -116,14 +116,6 @@ SetcodeCoverage() {
     this.IdpdataService.continuecontrol = true;
     return false;
   }
-  clearSonarqube() {
-    this.buildInfo.modules[0].sonarUrl ="";
-    this.buildInfo.modules[0].sonarUserName ="";
-    this.buildInfo.modules[0].sonarPassword ="";
-    this.buildInfo.modules[0].sonarProjectKey ="";
-  
-      return "off";
-    }
   codeAnalysisCheckbox(checked) {
     if (checked) {
         this.tempObject.modules[0].codeAnalysis = "on";
@@ -224,5 +216,13 @@ SetcodeCoverage() {
       this.buildInfo.modules[index].ossDistributionType = "";
       this.buildInfo.modules[index].ossAnalysisType = "";
     }
+  }
+  clearSonarqube() {
+    this.buildInfo.modules[0].sonarUrl ="";
+    this.buildInfo.modules[0].sonarUserName ="";
+    this.buildInfo.modules[0].sonarPassword ="";
+    this.buildInfo.modules[0].sonarProjectKey ="";
+    this.buildInfo.modules[0].sonarProperties ="";
+      return "off";
   }
 }

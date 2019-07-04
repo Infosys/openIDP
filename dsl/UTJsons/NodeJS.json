@@ -33,7 +33,7 @@
         "type": "tfs",
         "url": "http://tfs2013-farm01.domain.com:8080/tfs/QTOOLS",
         "userName": "dummy",
-        "password": "password",
+        "password": "pwddummy",
         "repositoryBrowser": "",
         "browserUrl": "",
         "projectName": "",

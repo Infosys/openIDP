@@ -5,30 +5,19 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<div>
-     <div>
-    <app-idpheader></app-idpheader>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
+<div class="card container-fluid">
+    <div class="card-body">
         <ng-table class="showConfig" [config]="config"
             (tableChanged)="onChangeTable(config)"
             (cellClicked)="onCellClick($event)"
             [rows]="rows" [columns]="columns">
   </ng-table>
   <pagination *ngIf="config.paging"
-              class="pagination-sm"
+              class="pagination justify-content-center"
               [(ngModel)]="page"
               [totalItems]="length"
               [itemsPerPage]="itemsPerPage"
-              [maxSize]="maxSize"
+              [maxSize]="12"
               [boundaryLinks]="true"
               [rotate]="false"
               (pageChanged)="onChangeTable(config, $event)"
@@ -36,5 +25,4 @@
   </pagination>
     </div>
 </div>
-  
   

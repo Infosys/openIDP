@@ -13,6 +13,9 @@ import { Router } from "@angular/router";
 import { ViewChild, ElementRef } from "@angular/core";
 import { ParentFormConnectComponent } from "../parent-form-connect/parent-form-connect.component";
 import { IdpSubmitService } from "../idpsubmit.service";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 
 @Component({
   selector: "app-build-info",
@@ -20,10 +23,13 @@ import { IdpSubmitService } from "../idpsubmit.service";
   styleUrls: ["./build-info.component.css"]
 })
 export class BuildInfoComponent implements OnInit {
-  @ViewChild("modalforAlert") private button: ElementRef;
+  @ViewChild("modalforAlert") private modalforAlert: ElementRef;
   @ViewChild("modalforDotNet") dotNetButton;
   @ViewChild("modalformandatoryFieldsBuildAlert") mandatoryFieldsAlert;
   @ViewChild("modalforconfirmBuildAlert") confirmationAlert;
+  private alertModalRef: BsModalRef;
+  private  confirmAlertModalRef: BsModalRef;
+  private mandatoryModalRef: BsModalRef;
 
   /*constructor start*/
   constructor(
@@ -32,6 +38,7 @@ export class BuildInfoComponent implements OnInit {
     private IdpSubmitService: IdpSubmitService,
     private router: Router,
     private IdpService: IdpService,
+    private modalService: BsModalService
   ) {
     this.IdpSubmitService.message = "";
   }
@@ -40,14 +47,15 @@ export class BuildInfoComponent implements OnInit {
   msg: any;
   loc: any;
   listToFillFields: any = [];
-  TriggerAlert() {
-    this.button.nativeElement.click();
-
+  TriggerAlert(config) {
+      this.alertModalRef = this.modalService.show(this.modalforAlert);
+      this.alertModalRef.content = config;
   }
 
-  redirectTo() {
-    if (this.loc) {
-        this.router.navigate([this.loc]);
+  redirectTo(loc) {
+    this.alertModalRef.hide();
+    if (loc) {
+        this.router.navigate([loc]);
     }
   }
 
@@ -71,8 +79,10 @@ export class BuildInfoComponent implements OnInit {
                 }
                 if ((this.buildInfo.artifactToStage.artifact === undefined || this.buildInfo.artifactToStage.artifact === "")
                     && this.buildInfo.artifactToStage.artifactRepoName !== "na" && this.IdpdataService.artifactAppVariable === true) {
+						if(this.IdpdataService.isDockerRegistry===false){
                     alert("Artifact Repository manager selected at application level.Either give repository at pipeline level or fill the artifact pattern.");
                     return;
+		    }
                 }
 
                 this.IdpdataService.data.buildInfo = this.buildInfo;
@@ -84,7 +94,7 @@ export class BuildInfoComponent implements OnInit {
                     if (this.IdpdataService.allFormStatus.basicInfo &&
                         this.IdpdataService.allFormStatus.codeInfo &&
                         this.IdpdataService.allFormStatus.buildInfo) {
-                        this.confirmationAlert.nativeElement.click();
+            this.confirmAlertModalRef = this.modalService.show(this.confirmationAlert);
                     } else {
                         if (!this.IdpdataService.allFormStatus.basicInfo && this.listToFillFields.indexOf("BasicInfo") === -1) {
                             this.listToFillFields.push("BasicInfo");
@@ -95,7 +105,7 @@ export class BuildInfoComponent implements OnInit {
                         if (!this.IdpdataService.allFormStatus.buildInfo && this.listToFillFields.indexOf("BuildInfo") === -1) {
                             this.listToFillFields.push("BuildInfo");
                         }
-                        this.mandatoryFieldsAlert.nativeElement.click();
+            this.mandatoryModalRef = this.modalService.show(this.mandatoryFieldsAlert);
                     }
 
                 }
@@ -108,22 +118,15 @@ export class BuildInfoComponent implements OnInit {
   // ngOnInit starts
   ngOnInit() {
     if (this.IdpdataService.data.formStatus.basicInfo.appNameStatus === "0") {
-        this.msg = "Application Name";
-        this.loc = "/createConfig/basicInfo";
-        this.TriggerAlert();
+        this.TriggerAlert({loc:"/createConfig/basicInfo",msg:"Application Name"});
     } else if (this.IdpdataService.data.formStatus.buildInfo.buildToolStatus === "0") {
-
-        this.msg = "Technology Type";
-        this.loc = "/createConfig/codeInfo";
-        // this.IdpdataService.data.p=true;
-        this.TriggerAlert();
-
+        this.TriggerAlert({loc:"/createConfig/codeInfo",msg:"Technology Type"});
     }
     if (this.buildInfo.buildtool === "msBuild" && this.IdpdataService.data.basicInfo.buildServerOS !== "windows") {
         this.dotNetButton.nativeElement.click();
 
     }
-
+    window.scroll(0,0);
   }
 
 
@@ -140,7 +143,8 @@ export class BuildInfoComponent implements OnInit {
         "castAnalysis": {},
         "artifactToStage": {},
         "modules": [],
-        "dependentPipelineList": []
+        "dependentPipelineList": [],
+        "securityAnalysisTool":"",
         };
     }
 

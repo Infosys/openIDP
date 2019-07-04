@@ -1,154 +1,157 @@
 <form [parentFormConnect]="formName">
-<div>
-        <button #modalforDelAntProperties [hidden]="true" type="button" data-toggle="modal" data-target="#DelAntProp">Del Modal</button>
-        <div id="DelAntProp" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
-            <div class="modal-dialog">
-    
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Alert Message</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure want to remove the antPropertis ?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteAntPropConfirm()">OK</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div> 
+    <ng-template #modalforDelAntProperties>
+                <div class="modal-header bg-warning">
+                    <h4 class="modal-title">Remove ANT property</h4>
                 </div>
-    
+                <div class="modal-body">
+                    <p>Are you sure want to remove the ANT property?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deleteAntPropConfirm(deleteAntPropModalRef.content.id)">OK</button>
+                    <button type="button" class="btn btn-secondary" (click)="deleteAntPropModalRef.hide()">Close</button>
+                </div>
+    </ng-template>
+
+
+<div>
+    <div class="card">
+        <div class="card-header" style="height: 40px">
+            <div class=" field-tip">
+                <input type="checkbox" [checked]="checkBoxObject.postBuildAction==='on'" id="bdpbpmch01" (change)="checkBoxObject.postBuildAction=$event.target.checked ? openPostBuild() :clearPostbuild()">
+                <span class="tip-content" style="z-index: 1;">{{'This step will be executed irrespective of the result of the above
+                                  mentioned build steps'|translate}}</span> <b>{{'
+                                  Post Build Module'|translate}}</b>
             </div>
         </div>
- </div>   
-    <div>
-        <div class="panel panel-default">
-            <div class="panel-heading" style="height: 40px">
-                <div class=" field-tip">
-                    <input type="checkbox" [checked]="checkBoxObject.postBuildAction==='on'" id="bdpbpmch01" (change)="checkBoxObject.postBuildAction=$event.target.checked ? openPostBuild() :clearPostbuild()">
-                    <span class="tip-content" style="z-index: 1;">{{'This step will be executed irrespective of the result of the above
-  									mentioned build steps'|translate}}</span> <b>{{'
-  									Post Build Module'|translate}}</b>
-                </div>
-            </div>
 
-            <div *ngIf="checkBoxObject.postBuildAction==='on'">
-                <div class="panel-body">
-                    <div class="container-fluid form-group" style="margin-left:20px">
-                        <div class="col-md-3 checkbox">
-                            <input (change)="checkBoxObject.postBuildRunScript=$event.target.checked ? 'on' :clearRunScripts()" type="checkbox" id="bdpstch01" [checked]="checkBoxObject.postBuildRunScript === 'on'" /> &nbsp; {{'Run Scripts'|translate}}
+        <div *ngIf="checkBoxObject.postBuildAction==='on'">
+            <div class="card-body">
+                <div class="container-fluid form-row form-group" style="margin-left:20px">
+                    <div class="col-md-3 checkbox">
+                        <input (change)="checkBoxObject.postBuildRunScript=$event.target.checked ? 'on' :clearRunScripts()" type="checkbox" id="bdpstch01" [checked]="checkBoxObject.postBuildRunScript === 'on'" /> &nbsp; {{'Run Scripts'|translate}}
+                    </div>
+
+                </div>
+                <div *ngIf="checkBoxObject.postBuildRunScript === 'on'">
+                    <div>
+                        <div class="form-row form-group" style="padding: 0 0 0 12%;">
+                            <span class="col-md-3 "> <label
+                                              class="col-form-label"> {{'Script type'|translate}}<span
+                                                  style="color: red">*</span>
+                            </label>
+                            </span>
+                            <div class="col-md-9 text-left">
+                                <select name="scriptSelect" [(ngModel)]="buildInfo.postBuildScript.tool" id="bdpstsl" (change)="clearBuild()" class="form-control" style="width: 50%" required>
+                                                  <option value="">--Select--</option>
+                                                  <option value="ant">ANT Script</option>
+                                                  <option value="shell">Shell Script</option>
+                                                  <option value="batch">Batch Script</option>
+                                                  <option value="power">PowerShell Script</option>
+                                                  <!-- <option value="sshExecution">SSH Execution</option> -->
+
+                                          </select>
+
+                            </div>
                         </div>
 
-                    </div>
-                    <div *ngIf="checkBoxObject.postBuildRunScript === 'on'">
-                        <div>
-                            <div class="row form-group" style="padding-bottom: 20px;">
-                                <span class="col-md-3 text-right"> <label
-  												class="control-label"> {{'Script type'|translate}}<span
-  													style="color: red">*</span>
-                                </label>
-                                </span>
-                                <div class="col-md-9 text-left">
-                                    <select name="scriptSelect" [(ngModel)]="buildInfo.postBuildScript.tool" id="bdpstsl" (change)="clearBuild()" class="form-control" style="width: 50%" required>
-  													<option value="">--Select--</option>
-  													<option value="ant">ANT Script</option>
-  													<option value="shell">Shell Script</option>
-  													<option value="batch">Batch Script</option>
-                                                      <option value="power">PowerShell Script</option>
-                                                      <!-- <option value="sshExecution">SSH Execution</option> -->
+                        <!-- <div *ngIf="buildInfo.postBuildScript.tool"> -->
 
-  											</select>
+                        <div *ngIf="buildInfo.postBuildScript.tool==='ant'" style="padding: 0 0 0 95px;">
+                            <div class="form-row form-group">
+                                <div class="col-md-3   ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                                        &nbsp;&nbsp; {{'Path of Script File'|translate}}<span
+                                                        style="color: red">*</span>
+
+                                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control  " #pathFileAnt="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" id="bdpbantpsftf" name="antscript" type="text" placeholder="build.xml" pattern="[a-zA-Z0-9\-\_\.\/]+\.xml$" ng-minlength='1' ng-maxlength="150" required>
+                                    <span class="tip-content">{{'Path of the script file
+                                                        relative to the checkout path, which needs to be executed
+                                                        for testing'|translate}}</span>
+
+                                    <div *ngIf="pathFileAnt.errors && (pathFileAnt.dirty || pathFileAnt.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!pathFileAnt.errors.required">
+                                            This Field is required!
+                                        </div>
+                                        <div [hidden]="!pathFileAnt.errors.minlength">
+                                            This Field must be at least 3 characters long.
+                                        </div>
+                                        <div [hidden]="!pathFileAnt.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!pathFileAnt.errors.pattern">
+                                            This Field can only consist of alphabets, numbers, hyphen, dot and underscore and should end in ".xml"
+                                        </div>
+                                    </div>
 
                                 </div>
+
                             </div>
 
-                            <!-- <div *ngIf="buildInfo.postBuildScript.tool"> -->
 
-                            <div *ngIf="buildInfo.postBuildScript.tool==='ant'">
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right  ">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-    														&nbsp;&nbsp; {{'Path of Script File'|translate}}<span
-    														style="color: red">*</span>
 
-    													</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-
-                                        <input class="form-control txtbox " #pathFileAnt="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" id="bdpbantpsftf" name="antscript" type="text" placeholder="build.xml" pattern="[a-zA-Z0-9\-\/\\\_\.]+\.xml$" ng-minlength='1' ng-maxlength="150" required>
-                                        <span class="tip-content">{{'Path of the script file
-    														relative to the checkout path, which needs to be executed
-                                                            for testing'|translate}}</span>
-
-                                        <div *ngIf="pathFileAnt.errors && (pathFileAnt.dirty || pathFileAnt.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!pathFileAnt.errors.required">
-                                                This Field is required!
-                                            </div>
-                                            <div [hidden]="!pathFileAnt.errors.minlength">
-                                                This Field must be at least 3 characters long.
-                                            </div>
-                                            <div [hidden]="!pathFileAnt.errors.maxlength">
-                                                This Field cannot be more than 150 characters long.
-                                            </div>
-                                            <div [hidden]="!pathFileAnt.errors.pattern">
-                                                This Field can only consist of alphabets, numbers, hyphen, dot and underscore and should end in ".xml"
-                                            </div>
-                                        </div>
-
-                                    </div>
-
+                            <div class="form-row form-group" style="padding-bottom: 0px;">
+                                <div class="col-md-3 " style="padding-right: 7px;">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                            &nbsp;&nbsp; {{'Targets'|translate}}<span
+                            style="color: red">*</span>
+                          </label>
                                 </div>
+                                <div class="col-md-9 field-tip text-left">
 
-
-
-                                <div class="row form-group" style="padding-bottom: 0px;">
-                                    <div class="col-md-3 text-right" style="padding-right: 7px;">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                &nbsp;&nbsp; {{'Targets'|translate}}<span
-                                style="color: red">*</span>
-                              </label>
+                                    <input class="form-control  boxWidth" name="anttarget" #anttarget="ngModel" id="bdpbanttartf" [(ngModel)]="buildInfo.postBuildScript.targets" type="text" placeholder="{{'Targets'|translate}} 1 {{'Targets'|translate}} 2" ng-minlength='1' ng-maxlength="150" required>
+                                    <span class="tip-content">{{'ANT Targets separated by
+                            spaces'|translate}}</span>
+                            <div *ngIf="anttarget.errors && (anttarget.dirty || anttarget.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!anttarget.errors.required">
+                                        This Field Name is required!
                                     </div>
-                                    <div class="col-md-9 field-tip text-left">
+                                    <div [hidden]="!anttarget.errors.minlength">
+                                        This Field Name must be at least 1 characters long.
+                                    </div>
+                                    <div [hidden]="!anttarget.errors.maxlength">
+                                        This Field Name cannot be more than 150 characters long.
+                                    </div>
 
-                                        <input class="form-control txtbox boxWidth" name="anttarget" id="bdpbanttartf" [(ngModel)]="buildInfo.postBuildScript.targets" type="text" placeholder="{{'Targets'|translate}} 1 {{'Targets'|translate}} 2" ng-minlength='1' ng-maxlength="150" required>
-                                        <span class="tip-content">{{'ANT Targets separated by
-                                spaces'|translate}}</span>
+                                    <div [hidden]="!anttarget.errors.pattern">
+                                        This Field Name can only consist of alphabetical, number, dot and underscore
                                     </div>
                                 </div>
-                                <!-- Ant Custom Properties for PostBuild Module Start-->
-                                <div class="row form-group">
-                                        <div class="col-md-9 col-md-offset-3 field-tip" *ngIf="buildInfo.postBuildScript!==undefined && buildInfo.postBuildScript.tool !== undefined && buildInfo.postBuildScript.tool==='ant'">
-                                            <input type="checkbox" [checked]="buildInfo.postBuildScript.antProperty1==='on'" class="checkbox-inline" id="bdpbantpropcb" (change)="buildInfo.postBuildScript.antProperty1=$event.target.checked ? openAntPropertiesField():clearAntPropertisField()"> {{'Properties'|translate}} &nbsp; &nbsp;
-                                            <input type="checkbox" [checked]="buildInfo.postBuildScript.antJavaOption1=='on'" class="checkbox-inline" id="bdpbantjoptcb" (change)="buildInfo.postBuildScript.antJavaOption1=$event.target.checked ?'on':'off'"> {{'Java Options'|translate}}
-                                        </div>
+                                </div>
+                            </div>
+                            <!-- Ant Custom Properties for PostBuild Module Start-->
+                            <div class="form-row form-group">
+                                    <div class="col-md-9 col-md-offset-3 field-tip" style="margin-left: 25%;" *ngIf="buildInfo.postBuildScript!==undefined && buildInfo.postBuildScript.tool !== undefined && buildInfo.postBuildScript.tool==='ant'">
+                                        <input type="checkbox" [checked]="buildInfo.postBuildScript.antProperty1==='on'" class="checkbox-inline" id="bdpbantpropcb" (change)="buildInfo.postBuildScript.antProperty1=$event.target.checked ? openAntPropertiesField():clearAntPropertisField()"> {{'Properties'|translate}} &nbsp; &nbsp;
+                                        <input type="checkbox" [checked]="buildInfo.postBuildScript.antJavaOption1=='on'" class="checkbox-inline" id="bdpbantjoptcb" (change)="buildInfo.postBuildScript.antJavaOption1=$event.target.checked ?'on':'off'"> {{'Java Options'|translate}}
                                     </div>
-                                    <div class="animate-switch-container">
-                                        <div class="col-md-12 animate-switch">
-                                        <div class="panel panel-default" *ngIf="buildInfo.postBuildScript!==undefined && buildInfo.postBuildScript.tool !== undefined && buildInfo.postBuildScript.tool==='ant'&& buildInfo.postBuildScript.antProperty1==='on' ">
-                                            
-                                            <div class="panel-heading" style="height:50px">
-                                               
-                                                       <b> {{'Properties'|translate}}</b>
-                        
-                                                
-                                                <button type="button" class="btn btn-info"  id="btn_txt" (click)="addAntProperties()" style="float:right; height: 30px">{{'Add Properties '|translate}}</button>
-                                            </div>
-                                            <div *ngFor="let property of buildInfo.postBuildScript.antPropertiesArr; let j =index" [attr.data-index]="j">
-                                                <div class="panel-body ">
-    
-                                                    <div>
-                                                        <div class="col-md-2 text-right">
-                                                        <label class="text-center control-label">
-                                                            {{'Key'|translate}}
-                                                            <span style="color:red">*</span>
-                                                        </label>
-                                                        </div>
-                                                        <div class="col-md-3 text-left">
-                                                        <input class="form-control txtbox" name="antKey+{{j}}" #antKey="ngModel" id="bdpbantkeytf{{j}}" [(ngModel)]="property.antKey" type="text" placeholder="{{'var'|translate}}"
+                                </div>
+                                <div class="animate-switch-container">
+                                    <div class="col-md-12 animate-switch">
+                                    <div class="card" *ngIf="buildInfo.postBuildScript!==undefined && buildInfo.postBuildScript.tool !== undefined && buildInfo.postBuildScript.tool==='ant'&& buildInfo.postBuildScript.antProperty1==='on' ">
+                                        
+                                        <div class="card-header d-flex justify-content-between">
+                                                   <b> {{'Properties'|translate}}</b>
+                                            <button type="button" class="btn btn-primary"  id="btn_txt" (click)="addAntProperties()" >{{'Add Properties '|translate}}</button>
+                                        </div>
+                                        <div class="card-body m-0 p-1">
+                                        <div class="card mb-1"  *ngFor="let property of buildInfo.postBuildScript.antPropertiesArr; let j =index" [attr.data-index]="j">
+                                            <div class="card-body row p-1 m-0">
+                                                 <div class="col-5">
+                                                    <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text" id="">
+                                                                  {{'Key'|translate}}
+                                                                    <span style="color:red">*</span>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control " name="antKey+{{j}}" #antKey="ngModel" id="bdpbantkeytf{{j}}" [(ngModel)]="property.antKey" type="text" placeholder="{{'var'|translate}}"
                                                             pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
-                                                        
-                                                         <div  *ngIf=" antKey!==undefined  && antKey.errors && (antKey.dirty || antKey.touched)" class="alert alert-danger ">
+                                                    </div>
+                                                    <div  *ngIf=" antKey!==undefined  && antKey.errors && (antKey.dirty || antKey.touched)" class="alert alert-danger ">
                                                             <label [hidden]="!antKey.errors.required">
                                                                 This Field Name is required!
                                                             </label>
@@ -158,25 +161,25 @@
                                                             <label [hidden]="!antKey.errors.maxlength">
                                                                 This Field Name cannot be more than 150 characters long.
                                                             </label>
-    
+
                                                             <label [hidden]="!antKey.errors.pattern">
                                                                 This Field Name can only consist of alphabetical, number, dot and underscore
                                                             </label>
                                                         </div>
-                                                    </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="col-md-2 text-right">
-                                                        <label class=" control-label">
-                                                            {{'Value'|translate}}
-                                                            <span style="color:red">*</span>
-                                                        </label>
+
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                    {{'Value'|translate}}
+                                                                    <span style="color:red">*</span>
+                                                            </span>
                                                         </div>
-                                                        <div class="col-md-3 text-left">
-                                                        <input class="form-control txtbox" name="antValue+{{j}}" #antKey="ngModel" id="bdpbantvaluetf{{j}}"[(ngModel)]="property.antValue" type="text" placeholder="{{'value'|translate}}"
-                                                            pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
-                                                        
-                                                        <div  *ngIf="antValue!==undefined  && antValue.errors && (antValue.dirty || antValue.touched)" class="alert alert-danger ">
+                                                        <input class="form-control " name="antValue+{{j}}" #antValue="ngModel" id="bdpbantvaluetf{{j}}"[(ngModel)]="property.antValue" type="text" placeholder="{{'value'|translate}}"
+                                                        pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
+                                                    </div>
+                                                    <div  *ngIf="antValue!==undefined  && antValue.errors && (antValue.dirty || antValue.touched)" class="alert alert-danger m-0 p-1">
                                                             <label [hidden]="!antValue.errors.required">
                                                                 This Field Name is required!
                                                             </label>
@@ -186,386 +189,551 @@
                                                             <label [hidden]="!antValue.errors.maxlength">
                                                                 This Field Name cannot be more than 150 characters long.
                                                             </label>
-    
+
                                                             <label [hidden]="!antValue.errors.pattern">
                                                                 This Field Name can only consist of alphabetical, number, dot and underscore
                                                             </label>
                                                         </div>
-                                                        </div>
-                                                    </div>
-                                            
-                                                    <div class="col-md-1 field-tip text-center ">
-                                                            <span style="float:right" *ngIf="buildInfo.postBuildScript.antPropertiesArr.length !== 1">
-                                                                <a (click)="deleteAntProp(j)" style="cursor:pointer;font-size:16px !important;color:black;">
-                                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                                </a>
-                                                            </span>
-                                                    </div>
+
+                                                </div>
+                                        
+                                                <div class="col-2 ">
+                                                        <span  *ngIf="buildInfo.postBuildScript.antPropertiesArr.length !== 1">
+                                                            <a (click)="deleteAntProp(j)" >
+                                                                    <span class="cui-trash" aria-hidden="true"></span>
+                                                            </a>
+                                                        </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row form-group" *ngIf="buildInfo.postBuildScript.antJavaOption1=='on'">
-                                               
-                                                <label class="col-md-3  control-label">
-                                                        {{'Java Options'|translate}}
-                                                        <span style="color:red">*</span>
-                                                    </label>
-                                            
-                                            <div class="col-md-3 ">
-                                                <input class="form-control txtbox" name="antJavaOption1" #antJavaOption1="ngModel" id="bdpbantjopttf" [(ngModel)]="buildInfo.postBuildScript.javaOptions" type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
-                                                   pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
-                                            </div>
-                                            </div>   
                                         </div>
-                                        
                                     </div>
-                                <!-- Ant Custom Properties for PostBuild Module end-->
+                                    <div class="form-row form-group" *ngIf="buildInfo.postBuildScript.antJavaOption1=='on'">
+                                           
+                                            <label class="col-md-3  col-form-label">
+                                                    {{'Java Options'|translate}}
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                        
+                                        <div>
+                                            <input class="form-control " name="antJavaOption1" #antJavaOption1="ngModel" id="bdpbantjopttf" [(ngModel)]="buildInfo.postBuildScript.javaOptions" type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
+                                               pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
+                                               <div *ngIf="antJavaOption1!==undefined  && antJavaOption1.errors && (antJavaOption1.dirty || antJavaOption1.touched)"
+                                               class="alert alert-danger ">
+                                                <label [hidden]="!antJavaOption1.errors.required">
+                                                    This Field Name
+                                                    is required!
+                                                </label>
+                                                <label [hidden]="!antJavaOption1.errors.minlength">
+                                                    This Field Name
+                                                    is required!
+                                                </label>
+                                                <label [hidden]="!antJavaOption1.errors.pattern">
+                                                    This Field Name
+                                                    is required!
+                                                </label>
+                                       </div>
+                                        </div>
+                                        </div>   
+                                    </div>
+                                    
+                                </div>
+                            <!-- Ant Custom Properties for PostBuild Module end-->
+
+                        </div>
+                        <div *ngIf="buildInfo.postBuildScript.tool==='shell'">
+
+                            <div class="form-row form-group" style="padding: 0 0 0 95px;">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                                        &nbsp;&nbsp; {{'Path of Script File'|translate}}<span
+                                                        style="color: red">*</span>
+
+                                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <textarea class="form-control textFieldWidth" #scriptPath="ngModel" id="bdpbshpsftf" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="scScript" type="textarea" pattern="^[\/a-zA-Z_.0-9\.-\s]+\.sh$" style="padding-right: 400px" placeholder="sc.sh" ng-minlength="1"
+                                        ng-maxlength="500" value="" required></textarea>
+
+
+                                    <span class="tip-content">{{'Path of the script file
+                                                        relative to the checkout path, which needs to be executed
+                                                        for testing'|translate}}</span>
+
+                                    <div *ngIf="scriptPath.errors && (scriptPath.dirty || scriptPath.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!scriptPath.errors.required">
+                                            This Field is required!
+                                        </div>
+                                        <div [hidden]="!scriptPath.errors.minlength">
+                                            This Field must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!scriptPath.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!scriptPath.errors.pattern">
+                                            This Field can only consist of alphabets, number, dot,underscore and should end in ".sh"
+                                        </div>
+                                    </div>
+
+
+                                </div>
 
                             </div>
-                            <div *ngIf="buildInfo.postBuildScript.tool==='shell'">
 
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-    														&nbsp;&nbsp; {{'Path of Script File'|translate}}<span
-    														style="color: red">*</span>
+                        </div>
+                        <div *ngIf="buildInfo.postBuildScript.tool==='batch'">
 
-    													</label>
+                            <div class="form-row form-group" style="padding: 0 0 0 95px;">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                                        &nbsp;&nbsp; {{'Path of Script File'|translate}}<span
+                                                        style="color: red">*</span>
+
+                                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <textarea class="form-control textFieldWidth" #batchFile="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="batScript" id="bdpbbtpsftf" type="text" pattern="^[a-zA-Z0-9\-\_\.\/]+\.(cmd|bat)$" placeholder="sc.bat | sc.cmd" ng-minlength='1' ng-maxlength="150"
+                                        required></textarea>
+                                    <span class="tip-content">{{'Path of the script file
+                                                        relative to the checkout path, which needs to be executed
+                                                        for testing'|translate}}</span>
+
+                                    <div *ngIf="batchFile.errors && (batchFile.dirty || batchFile.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!batchFile.errors.required">
+                                            This Field is required!
+                                        </div>
+                                        <div [hidden]="!batchFile.errors.minlength">
+                                            This Field must be at least 1 characters long.
+                                        </div>
+                                        <div [hidden]="!batchFile.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!batchFile.errors.pattern">
+                                            This Field can only consist of alphabets, number, hyphen, dot and underscore and should end in ".bat"
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div *ngIf="buildInfo.postBuildScript.tool==='power'">
+                            <div class="form-row form-group" style="padding: 0 0 0 95px;">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                                        &nbsp;&nbsp; {{'Path of Script File'|translate}}<span
+                                                        style="color: red">*</span>
+
+                                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <textarea class="form-control textFieldWidth" #powerFile="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="powerScript" id="bdpbpwpsftf" type="text" placeholder="powershell.psm1" pattern="^[a-zA-Z0-9\-\_\.\/]+\.(psm1|ps1|ps2)$" ng-minlength='1' ng-maxlength="150"
+                                        required></textarea>
+                                    <span class="tip-content">{{'Path of the script file
+                                                        relative to the checkout path, which needs to be executed
+                                                        for testing'|translate}}</span>
+
+                                    <div *ngIf="powerFile.errors && (powerFile.dirty || powerFile.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!powerFile.errors.required">
+                                            This Field is required!
+                                        </div>
+                                        <div [hidden]="!powerFile.errors.minlength">
+                                            This Field must be at least 1 characters long.
+                                        </div>
+                                        <div [hidden]="!powerFile.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!powerFile.errors.pattern">
+                                            This Field can only consist of alphabets, number, hyphen, dot and underscore and should end in ".psm1"or"ps1"or"ps2"
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <!--SSH Execution Postmodule maven properties start Apurva-->
+                        <div class="animate-switch-container">
+                             <div class="col-md-12 animate-switch" *ngIf="buildInfo.postBuildScript.tool==='sshExecution'">
+                                <div class="form-row form-group">
+                                    <div>
+                                        <label class=" col-md-3  col-form-label">{{'Host'|translate}}
+                                            <span class="star">*</span> 
+                                        </label>
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
-
-                                        <textarea class="form-control textFieldWidth" #scriptPath="ngModel" id="bdpbshpsftf" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="scScript" type="textarea" pattern="^[\/a-zA-Z_.0-9\.-\s]+\.sh$" style="padding-right: 400px" placeholder="sc.sh" ng-minlength="1"
-                                            ng-maxlength="500" value="" required></textarea>
-
-
-                                        <span class="tip-content">{{'Path of the script file
-    														relative to the checkout path, which needs to be executed
-    														for testing'|translate}}</span>
-
-                                        <div *ngIf="scriptPath.errors && (scriptPath.dirty || scriptPath.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!scriptPath.errors.required">
+                                        <input name="sshFile" #sshFile="ngModel" class="form-control  " id="bdpbsshhosttf" [(ngModel)]="buildInfo.postBuildScript.host" type="text" placeholder="10.234.13.12" minlength="5" maxlength="150" value="" required>
+                                        <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
+                                        <div *ngIf="sshFile.errors && (sshFile.dirty || sshFile.touched)" class="alert alert-danger ">
+                                            <div [hidden]="!sshFile.errors.required">
                                                 This Field is required!
                                             </div>
-                                            <div [hidden]="!scriptPath.errors.minlength">
+                                            <div [hidden]="!sshFile.errors.minlength">
                                                 This Field must be at least 5 characters long.
                                             </div>
-                                            <div [hidden]="!scriptPath.errors.maxlength">
+                                            <div [hidden]="!sshFile.errors.maxlength">
                                                 This Field cannot be more than 150 characters long.
                                             </div>
-                                            <div [hidden]="!scriptPath.errors.pattern">
-                                                This Field can only consist of alphabets, number, dot,underscore and should end in ".sh"
+                                            <div [hidden]="!sshFile.errors.pattern">
+                                                This Field can only consist of numbers, dots
                                             </div>
                                         </div>
 
-
-                                    </div>
-
                                 </div>
-
                             </div>
-                            <div *ngIf="buildInfo.postBuildScript.tool==='batch'">
-
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-    														&nbsp;&nbsp; {{'Path of Script File'|translate}}<span
-    														style="color: red">*</span>
-
-    													</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-
-                                        <textarea class="form-control textFieldWidth" #batchFile="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="batScript" id="bdpbbtpsftf" type="text" pattern="^[a-zA-Z0-9\-\_\.\/]+\.(cmd|bat)$" placeholder="sc.bat | sc.cmd" ng-minlength='1' ng-maxlength="150"
-                                            required></textarea>
-                                        <span class="tip-content">{{'Path of the script file
-    														relative to the checkout path, which needs to be executed
-                                                            for testing'|translate}}</span>
-
-                                        <div *ngIf="batchFile.errors && (batchFile.dirty || batchFile.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!batchFile.errors.required">
-                                                This Field is required!
-                                            </div>
-                                            <div [hidden]="!batchFile.errors.minlength">
-                                                This Field must be at least 1 characters long.
-                                            </div>
-                                            <div [hidden]="!batchFile.errors.maxlength">
-                                                This Field cannot be more than 150 characters long.
-                                            </div>
-                                            <div [hidden]="!batchFile.errors.pattern">
-                                                This Field can only consist of alphabets, number, hyphen, dot and underscore and should end in ".bat"
-                                            </div>
+                            <div class="form-row form-group">
+                                <div>
+                                    <label class=" col-md-3  col-form-label">{{'Username'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input name="username" #username="ngModel" class="form-control  " id="bdpbsshuntf" [(ngModel)]="buildInfo.postBuildScript.userName" type="text" placeholder="{{'username'|translate}}" minlength="1" maxlength="150" required>
+                                    <span class="tip-content">{{'Please provide valid username for logging into host'|translate}}</span>
+                                    <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!username.errors.required">
+                                            This Field is required!
                                         </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div *ngIf="buildInfo.postBuildScript.tool==='power'">
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-    														&nbsp;&nbsp; {{'Path of Script File'|translate}}<span
-    														style="color: red">*</span>
-
-    													</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-
-                                        <textarea class="form-control textFieldWidth" #powerFile="ngModel" [(ngModel)]="buildInfo.postBuildScript.scriptFilePath" name="powerScript" id="bdpbpwpsftf" type="text" placeholder="powershell.psm1" pattern="^[a-zA-Z0-9\-\_\.\/]+\.(psm1|ps1|ps2)$" ng-minlength='1' ng-maxlength="150"
-                                            required></textarea>
-                                        <span class="tip-content">{{'Path of the script file
-    														relative to the checkout path, which needs to be executed
-                                                            for testing'|translate}}</span>
-
-                                        <div *ngIf="powerFile.errors && (powerFile.dirty || powerFile.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!powerFile.errors.required">
-                                                This Field is required!
-                                            </div>
-                                            <div [hidden]="!powerFile.errors.minlength">
-                                                This Field must be at least 1 characters long.
-                                            </div>
-                                            <div [hidden]="!powerFile.errors.maxlength">
-                                                This Field cannot be more than 150 characters long.
-                                            </div>
-                                            <div [hidden]="!powerFile.errors.pattern">
-                                                This Field can only consist of alphabets, number, hyphen, dot and underscore and should end in ".psm1"or"ps1"or"ps2"
-                                            </div>
+                                        <div [hidden]="!username.errors.minlength">
+                                            This Field must be at least 1 characters long.
+                                        </div>
+                                        <div [hidden]="!username.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!username.errors.pattern">
+                                            This Field can only consist of alphabets, number, dot and underscore
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                             <!--SSH Execution Postmodule maven properties start Apurva-->
-                            <div class="animate-switch-container">
-                                 <div class="col-md-12 animate-switch" *ngIf="buildInfo.postBuildScript.tool==='sshExecution'">
-                                    <div class="row form-group">
-                                        <div>
-                                            <label class=" col-md-3 text-right control-label">{{'Host'|translate}}
-                                                <span class="star">*</span> 
-                                            </label>
+                            <div class="form-row form-group">
+                                <div>
+                                    <label class=" col-md-3  col-form-label">{{'Password'|translate}}</label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input name="password" #password="ngModel" class="form-control  " id="bdpbsshpwdpw" [(ngModel)]="buildInfo.postBuildScript.password" encrypt type="password" placeholder="{{'password'|translate}}" minlength="6">
+                                    <span class="tip-content">{{'Please provide valid password for logging into host'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div>
+                                    <label class=" col-md-3  col-form-label">SSH {{'Key'|translate}}</label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input name="sshkey" #sshkey="ngModel" class="form-control  " id="bdpbsshkeytb" [(ngModel)]="buildInfo.postBuildScript.sshKey" type="text" placeholder="sshKey">
+                                    <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div>
+                                    <label class=" col-md-3  col-form-label">SSH {{'Path To Key'|translate}}</label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <input name="sshkeypath" #sshkeypath="ngModel" class="form-control  " id="bdpbsshpktb" [(ngModel)]="buildInfo.postBuildScript.sshPathToKey" type="text" placeholder="sshkeypath">
+                                    <span class="tip-content">{{'Please provide'|translate}} SSH {{'path to key'|translate}}.</span>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div> 
+                                    <label class=" col-md-3  col-form-label">{{'Script'|translate}}
+                                        <span class="star">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+                                    <textarea name="scriptPath" #scriptPath="ngModel" class="form-control " id="bdpbsshscriptta" [(ngModel)]="buildInfo.postBuildScript.script" type="text" placeholder="opt/IBM/Deploy/install.sh" minlength="5" maxlength="500" value="" required></textarea>
+                                    <span class="tip-content">{{'Please provide path of script to be executed'|translate}}</span>
+                                    <div *ngIf="scriptPath.errors && (scriptPath.dirty || scriptPath.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!scriptPath.errors.required">
+                                            This Field is required!
+                                        </div>
+                                        <div [hidden]="!scriptPath.errors.minlength">
+                                            This Field must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!scriptPath.errors.maxlength">
+                                            This Field cannot be more than 150 characters long.
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-12 animate-switch" style="margin-left:40px">
+                                <div class="form-row form-group chkright">
+                                      <input type="checkbox" [checked]="checkBoxObject.transferFilesFlag==='on'"
+                                    name="transferover" id="bdpbsshtfocb"
+                                        (change)="checkBoxObject.transferFilesFlag=$event.target.checked?'on':clearTransferFilesFlag()" >  
+
+                                     <!-- <input type="checkbox" [checked]="on"
+                                    name="transferover}"
+                                        (change)="on" >  -->
+          
+                                    &nbsp;<label>{{'Transfer Files Over'|translate}} SSH </label>
+                                </div>
+                            </div>
+                             
+                             <!-- <div class="animate-switch-container" [ngSwitch]="on">  -->
+                             <div class="animate-switch-container" *ngIf="checkBoxObject.transferFilesFlag==='on'"> 
+                               
+                                <div class="card-body animate-switch" >
+                                <!-- <div class="card-body animate-switch" *ngSwitchCase="true"> -->
+          <!-- <div>  -->        
+                                    <div class="form-row form-group">
+                                        <div> <label class=" col-md-3  col-form-label">
+                                            {{'Path of file to transfer'|translate}}
+                                            <span class="star">*</span>
+                                            </label> 
                                         </div>
                                         <div class="col-md-9 field-tip text-left">
-                                            <input name="sshFile" #sshFile="ngModel" class="form-control txtbox " id="bdpbsshhosttf" [(ngModel)]="buildInfo.postBuildScript.host" type="text" placeholder="10.234.13.12" minlength="5" maxlength="150" value="" required>
-                                            <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
-                                            <div *ngIf="sshFile.errors && (sshFile.dirty || sshFile.touched)" class="alert alert-danger ">
-                                                <div [hidden]="!sshFile.errors.required">
-                                                    This Field is required!
-                                                </div>
-                                                <div [hidden]="!sshFile.errors.minlength">
-                                                    This Field must be at least 5 characters long.
-                                                </div>
-                                                <div [hidden]="!sshFile.errors.maxlength">
-                                                    This Field cannot be more than 150 characters long.
-                                                </div>
-                                                <div [hidden]="!sshFile.errors.pattern">
-                                                    This Field can only consist of numbers, dots
-                                                </div>
-                                            </div>
+                                            <input class="form-control  " [(ngModel)]="buildInfo.postBuildScript.pathToFiles" id="bdpbsshpfttf" name="'transferfile" type="text" placeholder="**/*.tar.gz" name="TxtSSHDeploySourceFile" minlength="5" maxlength="150" value="" required>
+                                            <span class="tip-content">{{'Please provide path of file to be transfered'|translate}}</span>
+                                        </div>
+                                    </div> 
+                                    <div class="form-row form-group">
+                                        <div> <label class=" col-md-3  col-form-label">{{'Destination directory'|translate}}
+                                          <span class="star">*</span> </label>
+                                        </div>
+                                        <div class="col-md-9 field-tip text-left"> <input class="form-control  " id="bdpbsshddtf" [(ngModel)]="buildInfo.postBuildScript.destinationDir" type="text" placeholder="opt/IBM/Deploy/pending" name="destnDire"
+                                                minlength="5" maxlength="150" value="" required>
+                                            <span class="tip-content">{{'Please provide path of destination directory, where the file will be placed'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row form-group">
+                                        <label class=" col-md-3  checkbox-inline">
+                                        
+                                         <input type="checkbox" id="bdpbsshffscb" [checked]="buildInfo.postBuildScript.flattenFilePath==='on'" name="flatten"
+                                            (change)="buildInfo.postBuildScript.flattenFilePath = $event.target.checked ? 'on':'off'" > 
+                                            {{'Flatten file structure'|translate}}
+                                            </label>
 
                                     </div>
                                 </div>
-                                <div class="row form-group">
-                                    <div>
-                                        <label class=" col-md-3 text-right control-label">{{'Username'|translate}}
-                                            <span class="star">*</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-                                        <input name="username" #username="ngModel" class="form-control txtbox " id="bdpbsshuntf" [(ngModel)]="buildInfo.postBuildScript.userName" type="text" placeholder="{{'username'|translate}}" minlength="1" maxlength="150" required>
-                                        <span class="tip-content">{{'Please provide valid username for logging into host'|translate}}</span>
-                                        <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!username.errors.required">
-                                                This Field is required!
-                                            </div>
-                                            <div [hidden]="!username.errors.minlength">
-                                                This Field must be at least 1 characters long.
-                                            </div>
-                                            <div [hidden]="!username.errors.maxlength">
-                                                This Field cannot be more than 150 characters long.
-                                            </div>
-                                            <div [hidden]="!username.errors.pattern">
-                                                This Field can only consist of alphabets, number, dot and underscore
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div>
-                                        <label class=" col-md-3 text-right control-label">{{'Password'|translate}}</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-                                        <input name="password" #password="ngModel" class="form-control txtbox " id="bdpbsshpwdpw" [(ngModel)]="buildInfo.postBuildScript.password" encrypt type="password" placeholder="{{'password'|translate}}" minlength="6">
-                                        <span class="tip-content">{{'Please provide valid password for logging into host'|translate}}</span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div>
-                                        <label class=" col-md-3 text-right control-label">SSH {{'Key'|translate}}</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-                                        <input name="sshkey" #sshkey="ngModel" class="form-control txtbox " id="bdpbsshkeytb" [(ngModel)]="buildInfo.postBuildScript.sshKey" type="text" placeholder="sshKey">
-                                        <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div>
-                                        <label class=" col-md-3 text-right control-label">SSH {{'Path To Key'|translate}}</label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-                                        <input name="sshkeypath" #sshkeypath="ngModel" class="form-control txtbox " id="bdpbsshpktb" [(ngModel)]="buildInfo.postBuildScript.sshPathToKey" type="text" placeholder="sshkeypath">
-                                        <span class="tip-content">{{'Please provide'|translate}} SSH {{'path to key'|translate}}.</span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div> 
-                                        <label class=" col-md-3 text-right control-label">{{'Script'|translate}}
-                                            <span class="star">*</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-                                        <textarea name="scriptPath" #scriptPath="ngModel" class="form-control " id="bdpbsshscriptta" [(ngModel)]="buildInfo.postBuildScript.script" type="text" placeholder="opt/IBM/Deploy/install.sh" minlength="5" maxlength="500" value="" required></textarea>
-                                        <span class="tip-content">{{'Please provide path of script to be executed'|translate}}</span>
-                                        <div *ngIf="scriptPath.errors && (scriptPath.dirty || scriptPath.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!scriptPath.errors.required">
-                                                This Field is required!
-                                            </div>
-                                            <div [hidden]="!scriptPath.errors.minlength">
-                                                This Field must be at least 5 characters long.
-                                            </div>
-                                            <div [hidden]="!scriptPath.errors.maxlength">
-                                                This Field cannot be more than 150 characters long.
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="col-md-12 animate-switch" style="margin-left:40px">
-                                    <div class="row form-group chkright">
-                                          <input type="checkbox" [checked]="checkBoxObject.transferFilesFlag==='on'"
-                                        name="transferover" id="bdpbsshtfocb"
-                                            (change)="checkBoxObject.transferFilesFlag=$event.target.checked?'on':clearTransferFilesFlag()" >  
-
-                                         <!-- <input type="checkbox" [checked]="on"
-                                        name="transferover}"
-                                            (change)="on" >  -->
-              
-                                        &nbsp;<label>{{'Transfer Files Over'|translate}} SSH </label>
-                                    </div>
-                                </div>
-                                 
-                                 <!-- <div class="animate-switch-container" [ngSwitch]="on">  -->
-                                 <div class="animate-switch-container" *ngIf="checkBoxObject.transferFilesFlag==='on'"> 
-                                   
-                                    <div class="panel-body animate-switch" >
-                                    <!-- <div class="panel-body animate-switch" *ngSwitchCase="true"> -->
-              <!-- <div>  -->        
-                                        <div class="row form-group">
-                                            <div> <label class=" col-md-3 text-right control-label">
-                                                {{'Path of file to transfer'|translate}}
-                                                <span class="star">*</span>
-                                                </label> 
-                                            </div>
-                                            <div class="col-md-9 field-tip text-left">
-                                                <input class="form-control txtbox " [(ngModel)]="buildInfo.postBuildScript.pathToFiles" id="bdpbsshpfttf" name="'transferfile" type="text" placeholder="**/*.tar.gz" name="TxtSSHDeploySourceFile" minlength="5" maxlength="150" value="" required>
-                                                <span class="tip-content">{{'Please provide path of file to be transfered'|translate}}</span>
-                                            </div>
-                                        </div> 
-                                        <div class="row form-group">
-                                            <div> <label class=" col-md-3 text-right control-label">{{'Destination directory'|translate}}
-                                              <span class="star">*</span> </label>
-                                            </div>
-                                            <div class="col-md-9 field-tip text-left"> <input class="form-control txtbox " id="bdpbsshddtf" [(ngModel)]="buildInfo.postBuildScript.destinationDir" type="text" placeholder="opt/IBM/Deploy/pending" name="destnDire"
-                                                    minlength="5" maxlength="150" value="" required>
-                                                <span class="tip-content">{{'Please provide path of destination directory, where the file will be placed'|translate}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="row form-group">
-                                            <label class=" col-md-3 text-right checkbox-inline">
-                                            
-                                             <input type="checkbox" id="bdpbsshffscb" [checked]="buildInfo.postBuildScript.flattenFilePath==='on'" name="flatten"
-                                                (change)="buildInfo.postBuildScript.flattenFilePath = $event.target.checked ? 'on':'off'" > 
-                                                {{'Flatten file structure'|translate}}
-                                                </label>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                </div> 
+                            </div>
                             </div> 
-                             <!-- </div>     -->
-                            <!-- SSH Execution postpbuild modue end Apurva -->
+                        </div> 
+                         <!-- </div>     -->
+                        <!-- SSH Execution postpbuild modue end Apurva -->
 
-                            <!-- </div> -->
-                        </div>
-
+                        <!-- </div> -->
                     </div>
-                    <div class="row form-group">
-                        <div class="col-md-3 text-right">
-                            <label class="control-label"> &nbsp;&nbsp; {{'Archive
-  											Logs'|translate}}</label>
-                        </div>
-                        <div class="col-md-9 field-tip text-left">
 
-                            <input class="form-control txtbox boxWidth" name="archiveLogs" id="bdpbaltf" [(ngModel)]="buildInfo.postBuildScript.archiveLogs" type="text" id="bdpbaltf" placeholder="path" ng-minlength='1' ng-maxlength="500">
-                            <span class="tip-content">{{'Path of the logs generated
-  											by jobs or script'|translate}}</span>
-                        </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-md-3 ">
+                        <label class="col-form-label"> &nbsp;&nbsp; {{'Archive
+                                          Logs'|translate}}</label>
+                    </div>
+                    <div class="col-md-9 field-tip text-left">
+
+                        <input class="form-control  boxWidth" name="archiveLogs" id="bdpbaltf" [(ngModel)]="buildInfo.postBuildScript.archiveLogs" type="text" id="bdpbaltf" placeholder="path" ng-minlength='1' ng-maxlength="500">
+                        <span class="tip-content">{{'Path of the logs generated
+                                          by jobs or script'|translate}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div *ngIf="!((buildInfo.buildtool === 'SapNonCharm') || (buildInfo.buildtool === 'dbDeployDelphix') )">
+</div>
+<div *ngIf="!((buildInfo.buildtool === 'SapNonCharm') || (buildInfo.buildtool === 'dbDeployDelphix') )">
+            <div class="animate-switch">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="chkright"><b>{{'Staging'|translate}}</b></span>
+                    </div>
+                    <div class="card-body" id="accordion" aria-multiselectable="true">
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="animate-switch">
-                    <div class="panel panel-default">
-                        <div class="panel-heading panelHeadingBackground">
-                            <span class="chkright"><b>{{'Staging'|translate}}</b></span>
+                        <div class="container-fluid form-row form-group" style="margin-left:20px">
+                            <div class="col-md-6 checkbox">
+                                <input (change)="checkBoxObject.artifact=$event.target.checked ? 'on' :clearArtifact()" type="checkbox" id="bdpbstch01" [checked]="checkBoxObject.artifact === 'on'" /> &nbsp; {{'Overwrite Artifact Repository Manager'|translate}}
+                            </div>
+
                         </div>
-                        <div class="panel-body" id="accordion" aria-multiselectable="true">
-                            <div class="container-fluid form-group" style="margin-left:20px">
-                                <div class="col-md-6 checkbox">
-                                    <input (change)="checkBoxObject.artifact=$event.target.checked ? 'on' :clearArtifact()" type="checkbox" id="bdpbstch01" [checked]="checkBoxObject.artifact === 'on'" /> &nbsp; {{'Overwrite Artifact Repository Manager'|translate}}
+
+                        <div *ngIf="checkBoxObject.artifact === 'on'">
+                            <div class="form-row form-group">
+                                <span class="col-md-3 ">
+                                    <label class="col-form-label"> {{'Artifact Repository Manager'|translate}}<span
+                      style="color: red">*</span>
+                                </label>
+                                </span>
+                                <div class="col-md-9 text-left">
+                                    <select name="artifactRepoName" [(ngModel)]="buildInfo.artifactToStage.artifactRepoName" id="bdararmsl" class="form-control" style="width: 50%" (change)="naArtifact()" required>
+                                        <option value="">--Select--</option>
+                                        <option value="nexus">Nexus</option>
+                                        <option value="jfrog">JFrog Artifactory </option>
+ 
+                                                    <!--<option value="artifactory">Artifactory</option> -->
+                                        <option value="na">NA</option>
+
+                                      </select>
+
                                 </div>
-
                             </div>
+                        </div>
+                        <div *ngIf="buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
+                            <div class="form-row form-group">
+                                <!-- <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                        &nbsp;&nbsp; {{'Protocol'|translate}}<span
+                                        style="color: red">*</span>
 
-                            <div *ngIf="checkBoxObject.artifact === 'on'">
-                                <div class="row 
-                                -group">
-                                    <span class="col-md-3 text-right">
-                                        <label class="control-label"> {{'Artifact Repository Manager'|translate}}<span
-                          style="color: red">*</span>
                                     </label>
-                                    </span>
-                                    <div class="col-md-9 text-left">
-                                        <select name="artifactRepoName" [(ngModel)]="buildInfo.artifactToStage.artifactRepoName" id="bdararmsl" class="form-control" style="width: 50%" (change)="naArtifact()" required>
-                                            <option value="">--Select--</option>
-                                            <option value="nexus">Nexus</option>
-                                            <option value="jfrog">JFrog Artifactory </option>
-                                                        <!--<option value="artifactory">Artifactory</option> -->
-                                            <option value="na">NA</option>
+                                </div> -->
+                                <!-- <div class="col-md-9 field-tip text-left">
 
-  										</select>
+                                    <select  name="nexusProtocol" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.nexusProtocol" id="bdararmsl" class="form-control" style="width: 50%" required>
+                                        <option value="">--Select--</option>
+                                        <option value="HTTP" name="HTTP">HTTP</option>
+                                        <option value="HTTPS" name="HTTPS">HTTPS</option>
+                                      </select>
 
-                                    </div>
-                                </div>
+                                    <span class="tip-content">{{'Nexus Protocol'|translate}}</span>
+                                </div> -->
+
                             </div>
-                            <div *ngIf="buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
 
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                &nbsp;&nbsp; {{'Nexus Server'|translate}}<span
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                        &nbsp;&nbsp; {{'Nexus Server'|translate}}<span
+                                        style="color: red">*</span>
+
+                                    </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL" placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
+                                    <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!nexusURL.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nexusURL.errors.minlength">
+                                            This Field Name must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusURL.errors.maxlength">
+                                            This Field Name cannot be more than 500 characters long.
+                                        </div>
+                                        <!-- <div [hidden]="!nexusURL.errors.pattern">
+                                          This Field Name can only consist of http , alphabetical, number, dot and underscore
+                                        </div> -->
+                                    </div>
+
+                                    <span class="tip-content">{{'URL of hosted Nexus repository'|translate}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                            &nbsp;&nbsp; {{'Nexus Repository'|translate}}<span
+                            style="color: red">*</span>
+
+                          </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11"  placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
+                                        value="" pattern="[a-zA-Z0-9][_a-zA-Z0-9-./]+" required>
+                                    <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
+
+                                        <div [hidden]="!nexusRepoName.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nexusRepoName.errors.minlength">
+                                            This Field Name must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusRepoName.errors.maxlength">
+                                            This Field Name cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusRepoName.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot ,hiphen and underscore
+                                        </div>
+                                    </div>
+
+                                    <span class="tip-content">{{'Repository Name in which the user wants to stage the artifacts.'|translate}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                            &nbsp;&nbsp; {{'Username'|translate}}<span
+                            style="color: red">*</span>
+
+                          </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername"  placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
+                                        pattern="[a-zA-Z0-9][_a-zA-Z0-9-.]+" required>
+                                    <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!nexusUserName.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nexusUserName.errors.minlength">
+                                            This Field Name must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusUserName.errors.maxlength">
+                                            This Field Name cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusUserName.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                        </div>
+                                    </div>
+                                    <span class="tip-content">{{'Username for hosted Nexus repository'|translate}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                            &nbsp;&nbsp; {{'Password'|translate}}<span
+                            style="color: red">*</span>
+
+                          </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass"  placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
+                                        minlength="5" maxlength="150" required>
+                                    <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!nexusPassword.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nexusPassword.errors.minlength">
+                                            This Field Name must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusPassword.errors.maxlength">
+                                            This Field Name cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!nexusPassword.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot and underscore
+                                        </div>
+                                    </div>
+                                    <span class="tip-content">{{'Password for the hosted Nexus repository'|translate}}</span>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                        <!-- Artifctory Start -->
+                        <div *ngIf="buildInfo.artifactToStage.artifactRepoName==='jfrog' && checkBoxObject.artifact === 'on'">
+
+                                <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                        <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                &nbsp;&nbsp; {{'Artifactory Server'|translate}}<span
                                 style="color: red">*</span>
 
                               </label>
                                     </div>
                                     <div class="col-md-9 field-tip text-left">
 
-                                        <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL" placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
+                                        <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL"  placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
                                         <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
                                             <div [hidden]="!nexusURL.errors.required">
                                                 This Field Name is required!
@@ -581,14 +749,14 @@
                                             </div> -->
                                         </div>
 
-                                        <span class="tip-content">{{'URL of hosted Nexus repository'|translate}}</span>
+                                        <span class="tip-content">{{'URL of hosted Artifactory repository'|translate}}</span>
                                     </div>
 
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                &nbsp;&nbsp; {{'Nexus Repository'|translate}}<span
+                                <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                        <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                &nbsp;&nbsp; {{'Artifactory Repository'|translate}}<span
                                 style="color: red">*</span>
 
                               </label>
@@ -617,9 +785,9 @@
                                     </div>
 
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                        <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                 &nbsp;&nbsp; {{'Username'|translate}}<span
                                 style="color: red">*</span>
 
@@ -643,13 +811,13 @@
                                                 This Field Name can only consist of alphabetical, number, dot and underscore
                                             </div>
                                         </div>
-                                        <span class="tip-content">{{'Username for hosted Nexus repository'|translate}}</span>
+                                        <span class="tip-content">{{'Username for hosted Artifactory repository which is case sensitive'|translate}}</span>
                                     </div>
 
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
+                                <div class="form-row form-group">
+                                    <div class="col-md-3 ">
+                                        <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
                                 &nbsp;&nbsp; {{'Password'|translate}}<span
                                 style="color: red">*</span>
 
@@ -673,255 +841,233 @@
                                                 This Field Name can only consist of alphabetical, number, dot and underscore
                                             </div>
                                         </div>
-                                        <span class="tip-content">{{'Password for the hosted Nexus repository'|translate}}</span>
+                                        <span class="tip-content">{{'Password for the hosted Artifactory repository'|translate}}</span>
                                     </div>
 
                                 </div>
 
 
 
-
-                            </div>
-
-                            <!-- Artifctory Start -->
-                            <div *ngIf="buildInfo.artifactToStage.artifactRepoName==='jfrog' && checkBoxObject.artifact === 'on'">
-
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                    &nbsp;&nbsp; {{'Artifactory Server'|translate}}<span
-                                    style="color: red">*</span>
-    
-                                  </label>
-                                        </div>
-                                        <div class="col-md-9 field-tip text-left">
-    
-                                            <input class="form-control textFieldWidth" name="nexusURL" #nexusURL="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoURL"  placeholder="dummyNexus:8081" type="text" id="bdarnstf" minlength="5" maxlength="500" required>
-                                            <div *ngIf="nexusURL.errors && (nexusURL.dirty || nexusURL.touched)" class="alert alert-danger ">
-                                                <div [hidden]="!nexusURL.errors.required">
-                                                    This Field Name is required!
-                                                </div>
-                                                <div [hidden]="!nexusURL.errors.minlength">
-                                                    This Field Name must be at least 5 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusURL.errors.maxlength">
-                                                    This Field Name cannot be more than 500 characters long.
-                                                </div>
-                                                <!-- <div [hidden]="!nexusURL.errors.pattern">
-                                                  This Field Name can only consist of http , alphabetical, number, dot and underscore
-                                                </div> -->
-                                            </div>
-    
-                                            <span class="tip-content">{{'URL of hosted Artifactory repository'|translate}}</span>
-                                        </div>
-    
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                    &nbsp;&nbsp; {{'Artifactory Repository'|translate}}<span
-                                    style="color: red">*</span>
-    
-                                  </label>
-                                        </div>
-                                        <div class="col-md-9 field-tip text-left">
-    
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoName" name="repoName11"  placeholder="tg_hosted" name="nexusRepoName" #nexusRepoName="ngModel" type="text" id="bdarnntf" minlength="1" maxlength="150"
-                                                value="" pattern="[a-zA-Z0-9][_a-zA-Z0-9-./]+" required>
-                                            <div *ngIf="nexusRepoName.errors && (nexusRepoName.dirty || nexusRepoName.touched)" class="alert alert-danger ">
-    
-                                                <div [hidden]="!nexusRepoName.errors.required">
-                                                    This Field Name is required!
-                                                </div>
-                                                <div [hidden]="!nexusRepoName.errors.minlength">
-                                                    This Field Name must be at least 5 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusRepoName.errors.maxlength">
-                                                    This Field Name cannot be more than 150 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusRepoName.errors.pattern">
-                                                    This Field Name can only consist of alphabetical, number, dot ,hiphen and underscore
-                                                </div>
-                                            </div>
-    
-                                            <span class="tip-content">{{'Repository Name in which the user wants to stage the artifacts.'|translate}}</span>
-                                        </div>
-    
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                    &nbsp;&nbsp; {{'Username'|translate}}<span
-                                    style="color: red">*</span>
-    
-                                  </label>
-                                        </div>
-                                        <div class="col-md-9 field-tip text-left">
-    
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoUsername"  placeholder="admin" name="nexusUserName" id="bdarnuntf" #nexusUserName="ngModel" type="text" minlength="5" maxlength="150" value="username"
-                                                pattern="[a-zA-Z0-9][_a-zA-Z0-9-.]+" required>
-                                            <div *ngIf="nexusUserName.errors && (nexusUserName.dirty || nexusUserName.touched)" class="alert alert-danger ">
-                                                <div [hidden]="!nexusUserName.errors.required">
-                                                    This Field Name is required!
-                                                </div>
-                                                <div [hidden]="!nexusUserName.errors.minlength">
-                                                    This Field Name must be at least 5 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusUserName.errors.maxlength">
-                                                    This Field Name cannot be more than 150 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusUserName.errors.pattern">
-                                                    This Field Name can only consist of alphabetical, number, dot and underscore
-                                                </div>
-                                            </div>
-                                            <span class="tip-content">{{'Username for hosted Artifactory repository which is case sensitive'|translate}}</span>
-                                        </div>
-    
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-3 text-right">
-                                            <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                    &nbsp;&nbsp; {{'Password'|translate}}<span
-                                    style="color: red">*</span>
-    
-                                  </label>
-                                        </div>
-                                        <div class="col-md-9 field-tip text-left">
-    
-                                            <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoPassword" encrypt name="repoPass"  placeholder="RepoPassword" type="password" name="nexusPassword" id="bdarnppw" #nexusPassword="ngModel"
-                                                minlength="5" maxlength="150" required>
-                                            <div *ngIf="nexusPassword.errors && (nexusPassword.dirty || nexusPassword.touched)" class="alert alert-danger ">
-                                                <div [hidden]="!nexusPassword.errors.required">
-                                                    This Field Name is required!
-                                                </div>
-                                                <div [hidden]="!nexusPassword.errors.minlength">
-                                                    This Field Name must be at least 5 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusPassword.errors.maxlength">
-                                                    This Field Name cannot be more than 150 characters long.
-                                                </div>
-                                                <div [hidden]="!nexusPassword.errors.pattern">
-                                                    This Field Name can only consist of alphabetical, number, dot and underscore
-                                                </div>
-                                            </div>
-                                            <span class="tip-content">{{'Password for the hosted Artifactory repository'|translate}}</span>
-                                        </div>
-    
-                                    </div>
-    
-    
-    
-    
-                                </div>
-                            <!--Artifctory end -->
-                            <div class="row form-group" *ngIf="getArtifactPatterStatus()">
-                                <div class="col-md-3 text-right">
-                                    <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                        &nbsp;&nbsp; {{'Artifact Pattern'|translate}}<span
-                                        style="color: red">*</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-9 field-tip text-left">
-                                    <textarea class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifact" name="artifact" id="bdaraptf" placeholder="**/*.war|**/*.dll" #artifact="ngModel" type="textarea" minlength="5" maxlength="500" required></textarea>
-                                    <span class="tip-content">{{'Artifact to be deployed'|translate}}</span>
-                                    <div *ngIf="artifact.errors && (artifact.dirty || artifact.touched)" class="alert alert-danger ">
-                                        <div [hidden]="!artifact.errors.required">
-                                            This Field Name is required!
-                                        </div>
-                                        <div [hidden]="!artifact.errors.minlength">
-                                                This Field must be at least 5 characters long.
-                                            </div>
-                                            <div [hidden]="!artifact.errors.maxlength">
-                                                This Field Name cannot be more than 500 characters long.
-                                            </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="container-fluid form-group" style="margin-left:20px" [hidden]="buildInfo.artifactToStage.artifact ===undefined ||buildInfo.artifactToStage.artifact ===''">
-                                <div class="col-md-6 checkbox">
-                                    <input (change)="buildInfo.artifactToStage.flattenFileStructure=$event.target.checked?'on':'off'" name="flattenFileStructure" id="bdarffsch01" name="flattenFile" [disabled]="buildInfo.buildtool =='oracleEBS'" [checked]="checkBoxObject.flattenFileStructure ==='on'" type="checkbox"
-                                    /> &nbsp; {{'Flatten file Structure'|translate}}
-                                </div>
-                            </div>
-
-
-                             <div *ngIf="buildInfo.buildtool ==='msBuild' && buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
-
-                                <div class="container-fluid form-group" style="margin-left:20px">
-                                    <div class="col-md-6 checkbox">
-                                        <input (change)="checkBoxObject.nugetPackage=$event.target.checked?'on':clearNugetDetails()" name="nugetPackage" id="bdarnugch01" [checked]="checkBoxObject.nugetPackage ==='on'" type="checkbox"
-                                        /> &nbsp; {{'NuGet Packaging'|translate}}
-                                    </div>
-                                </div>
-
-                            </div>
-                               <div *ngIf="checkBoxObject.nugetPackage === 'on' && buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
-
-
-                                  <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-                                &nbsp;&nbsp; {{'Path of NuSpec file'|translate}}<span
-                                style="color: red">*</span>
-
-                              </label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-
-                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.nuspecFilePath" placeholder="tobeUploaded/IDP_NUSPEC.nuspec" name="nuspecFilePath" id="bdnugnfpch01" #nuspecFilePath="ngModel" type="text" minlength="1" maxlength="150"
-                                            pattern="[a-zA-Z0-9\-\_\.\/]+.(nuspec|NUSPEC)" required>
-                                        <div *ngIf="nuspecFilePath.errors && (nuspecFilePath.dirty || nuspecFilePath.touched)" class="alert alert-danger ">
-
-                                            <div [hidden]="!nuspecFilePath.errors.required">
-                                                This Field Name is required!
-                                            </div>
-                                            <div [hidden]="!nuspecFilePath.errors.minlength">
-                                                This Field must be at least 1 characters long.
-                                            </div>
-                                            <div [hidden]="!nuspecFilePath.errors.maxlength">
-                                                This Field Name cannot be more than 150 characters long.
-                                            </div>
-                                            <div [hidden]="!nuspecFilePath.errors.pattern">
-                                                This Field Name can only consist of alphabetical, number, dot, hiphen,slash and underscore and should end with .nuspec or .NUSPEC!
-                                            </div>
-                                        </div>
-
-                                        <span class="tip-content">{{'Relative path of NuSpec File'|translate}}</span>
-                                    </div>
-                                  </div>
-
-                                  <div class="row form-group">
-                                    <div class="col-md-3 text-right">
-                                        <label class="control-label" style="margin-left: 0px; padding-left: 27px; padding-top: 5px;">
-
-                                &nbsp;&nbsp; {{'Nuget API Key'|translate}}<span
-
-                                style="color: red">*</span>
-
-                              </label>
-                                    </div>
-                                    <div class="col-md-9 field-tip text-left">
-
-                                        <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.nexusAPIKey" placeholder="A23-24G-34JFV" name="nexusAPIKey" id="bdnugnaktf" #nexusAPIKey="ngModel" type="text"
-                                             pattern="^[a-zA-Z0-9]+(?:[a-zA-Z0-9-]*[a-zA-Z0-9-]+)*$" required>
-                                        <div *ngIf="nexusAPIKey.errors && (nexusAPIKey.dirty || nexusAPIKey.touched)" class="alert alert-danger ">
-
-                                            <div [hidden]="!nexusAPIKey.errors.required">
-                                                This Field Name is required!
-                                            </div>
-                                            <div [hidden]="!nexusAPIKey.errors.pattern">
-                                                This Field Name can only consist of alphabetical, number and hyphen!
-                                            </div>
-                                        </div>
-
-                                        <span class="tip-content">{{'API Key to access nexus repository'|translate}}</span>
-                                    </div>
-                                  </div>
-
-
-                                </div>
 
                         </div>
+                        <!--Artifctory end -->
+
+                        <!--Docker Registry start-->
+                        <div *ngIf="buildInfo.artifactToStage.artifactRepoName==='docker' && checkBoxObject.artifact === 'on'">
+                        <div class="form-row form-group">
+                            <!-- <div> -->
+                            <label class="col-md-3 text-right control-label " style="padding-right: 18px;">Docker
+                                {{'File Path'|translate}}
+                                <span class="star">*</span>
+                            </label>
+                            <!-- </div> -->
+                            <div class="col-md-8 field-tip textFieldContainer text-left">
+                                <input class="form-control textFieldWidth"  #dockerFilepath="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.dockerFilePathDR"
+                                    id="dydsdfptfdrd{{envIndex}}{{stepIndex}}" name="dockFilPathdr{{envIndex}}{{stepIndex}}"
+                                    type="text" placeholder="src/docker/files" maxlength="150" required>
+                                <span class="tip-content">{{'Relative
+                                    workspace path'|translate}}</span>
+                                    <div *ngIf="dockerFilepath.errors && (dockerFilepath.dirty || dockerFilepath.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!dockerFilepath.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="form-row form-group">
+                            <!-- <div> -->
+                                <label class="col-md-3 text-right control-label " style="padding-right: 18px;">Docker
+                                    {{'Registry URL'|translate}}
+                                    <span class="star">*</span>
+                                </label>
+                            <!-- </div> -->
+                            <div class="col-md-8 field-tip textFieldContainer text-left">
+                                <input class="form-control textFieldWidth" #dockerRegistryUrl="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR"
+                                    id="dydsdptfdrdd{{envIndex}}{{stepIndex}}" name="dockPortdr{{envIndex}}{{stepIndex}}"
+                                    type="text" placeholder="dockersrv02.domain.com" maxlength="150" required>
+                                <span class="tip-content">Docker Registry URL</span>
+                                <div *ngIf="dockerRegistryUrl.errors && (dockerRegistryUrl.dirty || dockerRegistryUrl.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!dockerRegistryUrl.errors.required">
+                                        This Field Name is required!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-row form-group">
+                            <!-- <div> -->
+                            <label class="col-md-3 text-right control-label " style="padding-right: 45px;">{{'Repo
+                                Name'|translate}}
+                                <span class="star">*</span>
+                            </label>
+                            <!-- </div> -->
+                            <div class="col-md-8 field-tip textFieldContainer text-left">
+                                <input class="form-control textFieldWidth" #repoName="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.repoNameDR"
+                                    id="dydsrntfdrd{{envIndex}}{{stepIndex}}" name="reponamedr{{envIndex}}{{stepIndex}}"
+                                    type="text" placeholder="account_name/reponame" maxlength="150"
+                                    required>
+                                <span class="tip-content">{{'Docker
+                                    Repo name'|translate}}</span>
+                                    <div *ngIf="repoName.errors && (repoName.dirty || repoName.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!repoName.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row form-group">
+                            <!-- <div> -->
+                            <label class="col-md-3 text-right control-label ">Docker
+                                {{'Username'|translate}}
+                                <span class="star">*</span>
+                            </label>
+                            <!-- </div> -->
+                            <div class="col-md-8 field-tip textFieldContainer text-left">
+                                <input class="form-control textFieldWidth" #dockerUsername="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.userNameDR"
+                                    id="dydsduntfdr{{envIndex}}{{stepIndex}}" name="dockerUsernmedr{{envIndex}}{{stepIndex}}"
+                                    type="text" placeholder="admin" maxlength="150" required>
+                                <span class="tip-content">{{'Username
+                                    for '|translate}} Docker URL</span>
+                                    <div *ngIf="dockerUsername.errors && (dockerUsername.dirty || dockerUsername.touched)" class="alert alert-danger ">
+                                        <div [hidden]="!dockerUsername.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-row form-group">
+                            <!-- <div> -->
+                            <label class="col-md-3 text-right control-label " style="padding-right: 18px;">Docker
+                                {{'Password'|translate}}
+                            </label>
+                            <!-- </div> -->
+                            <div class="col-md-8 field-tip textFieldContainer text-left">
+                                <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.passwordDR"
+                                    encrypt id="dydspwdtfdrd{{envIndex}}{{stepIndex}}" name="passWordDockerdr{{envIndex}}{{stepIndex}}"
+                                    type="password" placeholder="password" maxlength="150">
+                                <span class="tip-content">{{'Password
+                                    for '|translate}} Docker URL</span>
+                            </div>
+                        </div>
+                        </div>
+                        <!--Docker Registry end-->
+
+                        <div class="form-row form-group" *ngIf="getArtifactPatterStatus()">
+                            <div class="col-md-3 ">
+                                <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                                    &nbsp;&nbsp; {{'Artifact Pattern'|translate}}<span
+                                    style="color: red">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9 field-tip text-left">
+                                <textarea class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifact" name="artifact" id="bdaraptf" placeholder="**/*.war|**/*.dll" #artifact="ngModel" type="textarea" minlength="5" maxlength="500" required></textarea>
+                                <span class="tip-content">{{'Artifact to be deployed'|translate}}</span>
+                                <div *ngIf="artifact.errors && (artifact.dirty || artifact.touched)" class="alert alert-danger ">
+                                    <div [hidden]="!artifact.errors.required">
+                                        This Field Name is required!
+                                    </div>
+                                    <div [hidden]="!artifact.errors.minlength">
+                                            This Field must be at least 5 characters long.
+                                        </div>
+                                        <div [hidden]="!artifact.errors.maxlength">
+                                            This Field Name cannot be more than 500 characters long.
+                                        </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="container-fluid form-row form-group" style="margin-left:20px" [hidden]="buildInfo.artifactToStage.artifact ===undefined ||buildInfo.artifactToStage.artifact ===''">
+                            <div class="col-md-6 checkbox">
+                                <input (change)="buildInfo.artifactToStage.flattenFileStructure=$event.target.checked?'on':'off'" name="flattenFileStructure" id="bdarffsch01" name="flattenFile" [disabled]="buildInfo.buildtool =='oracleEBS'" [checked]="checkBoxObject.flattenFileStructure ==='on'" type="checkbox"
+                                /> &nbsp; {{'Flatten file Structure'|translate}}
+                            </div>
+                        </div>
+
+
+                         <div *ngIf="buildInfo.buildtool ==='msBuild' && buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
+
+                            <div class="container-fluid form-row form-group" style="margin-left:20px">
+                                <div class="col-md-6 checkbox">
+                                    <input (change)="checkBoxObject.nugetPackage=$event.target.checked?'on':clearNugetDetails()" name="nugetPackage" id="bdarnugch01" [checked]="checkBoxObject.nugetPackage ==='on'" type="checkbox"
+                                    /> &nbsp; {{'NuGet Packaging'|translate}}
+                                </div>
+                            </div>
+
+                        </div>
+                           <div *ngIf="checkBoxObject.nugetPackage === 'on' && buildInfo.artifactToStage.artifactRepoName==='nexus' && checkBoxObject.artifact === 'on'">
+
+
+                              <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+                            &nbsp;&nbsp; {{'Path of NuSpec file'|translate}}<span
+                            style="color: red">*</span>
+
+                          </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.nuspecFilePath" placeholder="tobeUploaded/IDP_NUSPEC.nuspec" name="nuspecFilePath" id="bdnugnfpch01" #nuspecFilePath="ngModel" type="text" minlength="1" maxlength="150"
+                                        pattern="[a-zA-Z0-9\-\_\.\/]+.(nuspec|NUSPEC)" required>
+                                    <div *ngIf="nuspecFilePath.errors && (nuspecFilePath.dirty || nuspecFilePath.touched)" class="alert alert-danger ">
+
+                                        <div [hidden]="!nuspecFilePath.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nuspecFilePath.errors.minlength">
+                                            This Field must be at least 1 characters long.
+                                        </div>
+                                        <div [hidden]="!nuspecFilePath.errors.maxlength">
+                                            This Field Name cannot be more than 150 characters long.
+                                        </div>
+                                        <div [hidden]="!nuspecFilePath.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number, dot, hiphen,slash and underscore and should end with .nuspec or .NUSPEC!
+                                        </div>
+                                    </div>
+
+                                    <span class="tip-content">{{'Relative path of NuSpec File'|translate}}</span>
+                                </div>
+                              </div>
+
+                              <div class="form-row form-group">
+                                <div class="col-md-3 ">
+                                    <label class="col-form-label" style="margin-left: 0px;  padding-top: 5px;">
+
+                            &nbsp;&nbsp; {{'Nuget API Key'|translate}}<span
+
+                            style="color: red">*</span>
+
+                          </label>
+                                </div>
+                                <div class="col-md-9 field-tip text-left">
+
+                                    <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.nexusAPIKey" placeholder="A23-24G-34JFV" name="nexusAPIKey" id="bdnugnaktf" #nexusAPIKey="ngModel" type="text"
+                                         pattern="^[a-zA-Z0-9]+(?:[a-zA-Z0-9-]*[a-zA-Z0-9-]+)*$" required>
+                                    <div *ngIf="nexusAPIKey.errors && (nexusAPIKey.dirty || nexusAPIKey.touched)" class="alert alert-danger ">
+
+                                        <div [hidden]="!nexusAPIKey.errors.required">
+                                            This Field Name is required!
+                                        </div>
+                                        <div [hidden]="!nexusAPIKey.errors.pattern">
+                                            This Field Name can only consist of alphabetical, number and hyphen!
+                                        </div>
+                                    </div>
+
+                                    <span class="tip-content">{{'API Key to access nexus repository'|translate}}</span>
+                                </div>
+                              </div>
+
+
+                            </div>
+
                     </div>
+                </div>
+            </div>
+</div>
+</form>

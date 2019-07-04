@@ -9,18 +9,16 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DeployInfoComponent } from "./deploy-info.component";
 import { deployInfoRouter } from "./deploy-info.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import { TranslateModule,  TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { DateTimePickerModule } from "ng-pick-datetime";
 import {IdpEncryptionModule } from "../idpEncryption.module";
 import {NgJsonEditorModule} from 'ang-jsoneditor';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
 
 
 @NgModule({
@@ -28,16 +26,13 @@ export function createTranslateLoader(http: Http) {
     CommonModule,
     deployInfoRouter,
     NgJsonEditorModule,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
     AngularMultiSelectModule,
     DateTimePickerModule,
-    IdpEncryptionModule
+    IdpEncryptionModule,
+    TranslateModule,
+    CollapseModule
   ],
   declarations: [DeployInfoComponent]
 })

@@ -3,7 +3,7 @@
     "Application Name": "Application Name",
     "Pipeline Name": "Pipeline Name",
   "Release Number": "Release Number",
- 
+  "Environment Planning": "Environment Planning",
   "Test": "Test",
   "username": "Username",
   "password": "Password",
@@ -127,6 +127,7 @@
   "Install": "Install",
   "Custom Goals": "Custom Goals",
   "Custom Goals to execute": "Custom Goals to execute",
+  "Custom Tasks to execute": "Custom Tasks to execute",
   "deploy test": "deploy test",
   "Specify JVM options needed when launching Maven as an external process": "Specify JVM options needed when launching Maven as an external process",
   "Build Operations": "Build Operations",

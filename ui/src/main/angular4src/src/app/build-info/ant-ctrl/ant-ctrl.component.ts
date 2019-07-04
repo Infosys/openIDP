@@ -52,6 +52,7 @@ export class AntCtrlComponent implements OnInit {
     if (this.formStatusObject.operation === "copy" || this.formStatusObject.operation === "edit") {
         this.checkCheckBox();
     }
+    
     this.checkBoxObject = "on";
     this.javaOptionList();
     this.ejbOptionList();
@@ -97,6 +98,16 @@ export class AntCtrlComponent implements OnInit {
     this.buildInfo.modules[i].codeAnalysis = [];
     return "off";
   }
+  clearSonarqube() {
+    console.log(this.buildInfo.modules[0]);
+   this.buildInfo.modules[0].sonarUrl ="";
+  this.buildInfo.modules[0].sonarUserName ="";
+  this.buildInfo.modules[0].sonarPassword ="";
+  this.buildInfo.modules[0].sonarProjectKey ="";
+  this.buildInfo.modules[0].sonarProperties ="";
+
+    return "off";
+  }
 
   /* Default Code Analysis, security Analysis status */
   createCodeAnalysis(i) {
@@ -125,14 +136,6 @@ export class AntCtrlComponent implements OnInit {
     this.setWarPack(i);
     return "off";
   }
-  clearSonarqube() {
-    this.buildInfo.modules[0].sonarUrl ="";
-    this.buildInfo.modules[0].sonarUserName ="";
-    this.buildInfo.modules[0].sonarPassword ="";
-    this.buildInfo.modules[0].sonarProjectKey ="";
-  
-      return "off";
-    }
   setCustomBuildOn(i) {
     this.buildInfo.modules[i].javaMainClass = "";
     this.buildInfo.modules[i].ejbDescriptor = "";

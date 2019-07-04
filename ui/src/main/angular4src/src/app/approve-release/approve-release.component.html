@@ -1,23 +1,23 @@
 <form id="approveForm" name="approveForm" #approveForm="ngForm" ngNativeValidate >
-  <div class="panel panel-default " style="margin-left:250px; width:70%">
-    <div class="panel-heading">
+  <div class="card " style="margin-left: 2%; width: 95%;">
+    <div class="card-header">
       <div class="text-left">
         <b>{{'Approve/Disapprove Artifacts'|translate}}</b>
       </div>
     </div>
   
-    <div class="panel-body">
-      <div *ngIf="!update">
+    <div class="card-body">
+      <div *ngIf="!update" style="padding: 5px 0 0 90px;">
         <div>
-          <div class="row form-group">
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{'Application Name:'|translate}}
+          <div class="form-row form-group">
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{'Application Name:'|translate}}
   
   
               </label>
             </div>
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{idpdataService.appName|translate}}
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{idpdataService.appName|translate}}
   
               </label>
             </div>
@@ -25,23 +25,23 @@
         </div>
   
         <div>
-          <div class="row form-group">
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{'Pipeline Name:'|translate}}
+          <div class="form-row form-group">
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{'Pipeline Name:'|translate}}
   
               </label>
             </div>
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{idpdataService.pipelineName|translate}}
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{idpdataService.pipelineName|translate}}
   
               </label>
             </div>
           </div>
         </div>
         <div>
-          <div class="row form-group">
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{'Release Number'|translate}}
+          <div class="form-row form-group">
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{'Release Number'|translate}}
                 <span class="star">*</span>
               </label>
             </div>
@@ -57,9 +57,9 @@
           </div>
         </div>
         <div class="text-align">
-          <div class="row form-group">
-            <div class="col-md-4 text-right ">
-              <label class="control-label ">{{'Environment Name'|translate}}
+          <div class="form-row form-group">
+            <div class="col-md-4  ">
+              <label class="col-form-label ">{{'Environment Name'|translate}}
                 <span class="star">*</span>
               </label>
             </div>
@@ -75,7 +75,7 @@
           </div>
         </div>
   
-        <div class="row">
+        <div class="row" style="margin-left: 32%;">
   
           <div class="col-md-offset-4 col-md-3  ">
             <input type="radio" [(ngModel)]="approve" (change)="getReleaseNamesApprovePortal();clearArtifact()" required value="approve" name="'approve'"
@@ -87,7 +87,7 @@
           </div>
   
         </div>
-        <div *ngIf="approve==='approve'" class="col-md-12" style="padding-top:20px">
+        <div *ngIf="approve==='approve'" class="col-md-9" style="padding-top:20px; margin-left: 30%;">
           <div class="col-md-offset-4 col-md-4" style="width:70%">
             <angular2-multiselect [data]="importedList" [(ngModel)]="data.importedArtifact" name="dependentPipelinename" (onSelect)="onItemSelect($event)"
               (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
@@ -95,7 +95,7 @@
           </div>
         </div>
   
-        <div *ngIf="approve==='disapprove'" class="col-md-12" style="padding-top:20px">
+        <div *ngIf="approve==='disapprove'" class="col-md-9" style="padding-top:20px; margin-left: 30%;">
           <div class="col-md-offset-4 col-md-4" style="width:70%">
             <angular2-multiselect [data]="approvedList" [(ngModel)]="data.approvedArtifact" name="dependentPipelinename" (onSelect)="onItemSelectDisapprove($event)"
               (onDeSelect)="OnItemDeSelectDisapprove($event)" (onSelectAll)="onSelectAllDisapprove($event)" (onDeSelectAll)="onDeSelectAllDisapprove($event)"
@@ -103,22 +103,24 @@
           </div>
         </div>
   
-        <div class="col-md-4" style="width:100%">
+        <div style="width:100%">
           <div *ngIf="approve==='approve' && importedSelected!==undefined && importedSelected.length>0">
             <div class="panel-group" id="accordion" *ngFor="let artifact of importedSelected ; let count = index">
-              <div class="panel panel-default">
-                <div class="panel-heading">
+              <div class="card" style="margin-top: 21px;">
+                <div class="card-header" style="background-color: #6e8da2f5;">
                   <div>
-                    <a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
+                    <a data-toggle="collapse"  data-parent="#accordion" href="#collapse1" style="margin-right: 10px;">
+                      <i class="fa fa-minus" aria-hidden="true"></i>
+                    </a>
                     <span style="color:white;">
                       <strong>{{artifact.artifactName}}</strong>
                     </span>
                   </div>
                 </div>
-                <div id="collapse1" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+                <div id="collapse1" style="overflow-y:scroll; height:185px; margin-top: 10px;" class="ma-2">
   
-                  <table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-                    cellspacing="0" width="70%">
+                  <table id="example" style="border: 2px solid black; width: 96%; font-size: 13px; margin: 5px 10px 10px 15px;" class="table table-bordered table-hover table-responsive"
+                    cellspacing="0">
                     <thead class="thead-dark">
                       <tr style="border-color:#2885ae;border-collapse: collapse;">
                         <th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
@@ -149,9 +151,9 @@
   
               </div>
             </div>
-            <div class="row form-group">
-              <div class="col-md-3 text-right">
-                <label class="control-label">{{'Remarks'|translate}}
+            <div class="form-row form-group">
+              <div class="col-md-3 ">
+                <label class="col-form-label">{{'Remarks'|translate}}
                   <span class="star">*</span>
                 </label>
               </div>
@@ -174,22 +176,24 @@
         </div>
   
   
-        <div class="col-md-4" style="width:100%">
+        <div style="width:100%">
           <div *ngIf="approve==='disapprove' && approveSelected!==undefined && approveSelected.length>0">
             <div class="panel-group" id="accordion" *ngFor="let artifact of approveSelected ; let count = index ;">
-              <div class="panel panel-default">
-                <div class="panel-heading">
+              <div class="card" style="margin-top: 21px;">
+                <div class="card-header" style="background-color: #6e8da2f5;">
                   <div>
-                    <a data-toggle="collapse" class="glyphicon glyphicon-minus" data-parent="#accordion" href="#collapse1"></a>
+                    <a data-toggle="collapse"  data-parent="#accordion" href="#collapse1" style="margin-right: 10px;">
+                      <i class="fa fa-minus" aria-hidden="true"></i>
+                    </a>
                     <span style="color:white;">
                       <strong>{{artifact.artifactName}}</strong>
                     </span>
                   </div>
                 </div>
-                <div id="collapse1" style="overflow-y:scroll; height:200px;" class="panel-collapse collapse in ma-2">
+                <div id="collapse1" style="overflow-y:scroll; height:185px; margin-top: 10px;" class="panel-collapse collapse in ma-2">
   
-                  <table id="example" style="border: 2px solid black;" class="table table-bordered table-hover table-responsive col-md-3" style="width:100%"
-                    cellspacing="0" width="70%">
+                  <table id="example" style="border: 2px solid black; width: 97%; font-size: 13px; margin: 5px 10px 10px 15px;" class="table table-bordered table-hover table-responsive"
+                    cellspacing="0">
                     <thead class="thead-dark">
                       <tr style="border-color:#2885ae;border-collapse: collapse;">
                         <th style="text-align:center;  width:20%;">{{'Action'|translate}}</th>
@@ -218,9 +222,9 @@
   
               </div>
             </div>
-            <div class="row form-group">
-              <div class="col-md-3 text-right">
-                <label class="control-label">{{'Remarks'|translate}}
+            <div class="form-row form-group">
+              <div class="col-md-3 ">
+                <label class="col-form-label">{{'Remarks'|translate}}
                   <span class="star">*</span>
                 </label>
               </div>
@@ -241,8 +245,8 @@
             </div>
           </div>
         </div>
-        <div>
-          <button type="button" (click)="updateArtifacts()" [disabled]="approveForm.form.invalid" class="btn btn-info btn-sm text-center">{{'Submit'|translate}}</button>
+        <div style="margin-top: 30px;">
+          <button type="button" (click)="updateArtifacts()" [disabled]="approveForm.form.invalid" class="btn btn-info btn-sm ">{{'Submit'|translate}}</button>
         </div>
       </div>
       <br>

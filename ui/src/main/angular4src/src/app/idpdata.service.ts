@@ -1,4 +1,4 @@
-/**
+﻿/**
 *
 * Copyright 2018 Infosys Ltd.
 * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
@@ -20,6 +20,12 @@ export class IdpdataService {
       "developers": [],
       "pipelineAdmins": [],
       "releaseManager": [],
+      "checkMarxDetails": {
+        "checkmarxBtn": "",
+        "checkmarxUrl": "",
+        "checkmarxUname": "",
+        "checkmarxPwd": ""
+      },
       "artifactToStage": {},
       "environmentOwnerDetails": [{
         "environmentName": "",
@@ -59,6 +65,8 @@ export class IdpdataService {
       "buildServerOS": "",
       "engine": "",
       "pipelineName": "",
+      "pipelineType": "",
+	  "rmsComponentName": "",
       "customPipelineAdmins": [
       ]
     },
@@ -74,6 +82,19 @@ export class IdpdataService {
       "buildtool": "",
       "castAnalysis": {},
       "artifactToStage": {},
+      "securityAnalysisTool":"",
+      "checkmarxAnalysis":{
+        "excludeFiles": "",
+        "excludeFileso": "",
+        "sastHigh": "",
+        "sastMedium": "",
+        "sastLow": "",
+        "enableOSA": "off",
+        "scanTag": "off",
+        "team": "",
+        "preset": ""
+    },
+    // "checkMarxAction":{"excludeFileso": ""},
       "modules": []
     },
     "deployInfo": {
@@ -143,17 +164,17 @@ releaseManagerTemplate: any  = {
   passwordEncryptionList: any = {
     "code.scm": ["password", "PSpassword"],
     "code.buildScript": ["password"],
-    "buildInfo": ["password", "artifactToStage.artifactRepo.repoPassword", "postBuildScript.password"],
-    "buildInfo.modules": ["npmProxyPassword", "sonarPassword", "password", "pegaPassword", "pegaDBPwd", "destPassword", "siebelPassword", "ipcPassword",
-        "servPass", "publishForms.password", "publishForms.dbPassword",
+    "buildInfo": ["password", "artifactToStage.artifactRepo.repoPassword", "artifactToStage.artifactRepo.passwordDR", "postBuildScript.password"],
+    "buildInfo.modules": ["npmProxyPassword", "password", "pegaPassword", "pegaDBPwd", "destPassword", "siebelPassword", "ipcPassword",
+        "servPass", "publishForms.password", "publishForms.dbPassword","sonarPassword",
     "workFlowPublish.password", "workFlowPublish.dbPassword", "proxy.password", "sourcePassword"],
 
     "deployInfo.deployEnv.deploySteps": ["password", "ipcPassword", "dbPassword", "dbpassword", "dbpasswordOTM",
     "dbPasswordOTM", "dbOwnerPassword", "bizPassword", "formsDbPass", "databasePassword", "ddltmpPassword",
     "datExportPassword", "workFlowDbPass", "deployPassword", "scalaPassword", "pigPassword", "hivePassword", "dbPwd", "staticPassword",
-    "srfPassword", "admPassword", "adminPassword","applicationPassword" ,"dbOwnerPassword", "appsPass", "tomPwd",
+    "srfPassword", "admPassword", "adminPassword", "dbOwnerPassword", "appsPass", "tomPwd",
     "runScript.password", "deployToContainer.password", "deployToContainer.adminPassword",
-    "deployToContainer.sshPassword", "deployToContainer.dbOwnerPassword",
+    "deployToContainer.sshPassword", "deployToContainer.proxypw","deployToContainer.dbOwnerPassword",
     "deployToContainer.staticFiles.password", "deployDatabase.restorpassword",
     "deployDatabase.dbpassword", "targetPassword", "proxy.password"],
 
@@ -173,15 +194,17 @@ releaseManagerTemplate: any  = {
   idpUserName = "";
   roles = [];
   azureadflag= false;
+  isRepoSelected= false;
   expireTime: any;
   access_token: any;
   permissions = [];
   createAppflag = false;
-  isRepoSelected= false;
   createOrganisationflag = false;
   createLicenseflag = false;
   createPipelineflag = false;
   copyPipelineflag = false;
+  insightsFlag=false;
+  cloudDeployFlag=false;
   editPipelineflag = false;
   deletePipelineflag = false;
   test = false;
@@ -230,8 +253,8 @@ releaseManagerTemplate: any  = {
   pass: any= "";
   code: any;
   serverUrl= "";
-
-
+  copyEditOperation=false;
+  checkMarxData: any;
   authorization= "";
   unitTest: any= false;
   artifactVariable: any= false;
@@ -261,6 +284,12 @@ releaseManagerTemplate: any  = {
   SAPdata: any = {
     "grantAccess": {
       "applicationName": "",
+      "checkMarxDetails": {
+        "checkmarxBtn": "",
+        "checkmarxUrl": "",
+        "checkmarxUname": "",
+        "checkmarxPwd": ""
+      },
       "developers": [],
       "pipelineAdmins": [],
       "releaseManager": [],
@@ -327,6 +356,18 @@ releaseManagerTemplate: any  = {
     },
     "buildInfo": {
       "buildtool": "",
+      "checkmarxAnalysis":{
+        "excludeFiles": "",
+        "excludeFileso": "",
+        "sastHigh": "",
+        "sastMedium": "",
+        "sastLow": "",
+        "enableOSA": "off",
+        "scanTag": "off",
+        "team": "",
+        "preset": ""
+        },
+      // "checkMarxAction":{"excludeFileso": ""},
       "castAnalysis": {
         "applicationName": "",
         "srcPath": "",
@@ -335,6 +376,7 @@ releaseManagerTemplate: any  = {
         "landscapeName": ""
       },
       "artifactToStage": {},
+      "securityAnalysisTool":"",
       "modules": [
         {
           "codeAnalysis": [
@@ -446,8 +488,13 @@ releaseManagerTemplate: any  = {
   keycloakUrl: any;
   keycloakRealm: any;
   keycloakClientId: any;
-
+  isRmsApp: any;
+  isDockerRegistry: any;
+  buildUT = "";
+  buildCA = "";
+  buildCAUT = "";
   hideApp= false;
+  dependencies = [];
 
   PagePersmission: any= {
     "basic" : false,

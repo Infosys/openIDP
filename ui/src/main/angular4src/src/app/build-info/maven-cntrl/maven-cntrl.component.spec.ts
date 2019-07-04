@@ -15,7 +15,7 @@ import { IdpService } from "../../idp-service.service";
 import { IdpdataService } from "../../idpdata.service";
 import { IdprestapiService } from "../../idprestapi.service";
 import { Router, NavigationExtras } from "@angular/router";
-import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "ng2-translate";
+import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "@ngx-translate/core";
 
 describe("MavenCntrlComponent", () => {
   let component: MavenCntrlComponent;

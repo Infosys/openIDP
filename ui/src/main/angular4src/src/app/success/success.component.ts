@@ -57,7 +57,14 @@ export class SuccessComponent implements OnInit {
         i++;
       }
     }
-
+    this.IdpdataService.schedulePage = false;
+    this.IdpdataService.data = JSON.parse(JSON.stringify(this.IdpdataService.template));
+    this.IdpdataService.operation = "";
+    this.IdpdataService.appName = "";
+	this.IdpdataService.isRmsApp =false;
+    // workflow remove
+    this.IdpdataService.workflowData = [];
+    this.IdpdataService.workflowDataTemp = [];
   }
 
 

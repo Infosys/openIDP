@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: nenashev
+Build-Jdk: 1.7.0_75
+Extension-Name: role-strategy
+Specification-Title: The Jenkins Plugins Parent POM Project
+Implementation-Title: role-strategy
+Implementation-Version: 2.3.2
+Group-Id: org.jenkins-ci.plugins
+Short-Name: role-strategy
+Long-Name: Role-based Authorization Strategy
+Url: http://wiki.jenkins-ci.org/display/JENKINS/Role+Strategy+Plugin
+Plugin-Version: 2.3.2
+Hudson-Version: 1.532.3
+Jenkins-Version: 1.532.3
+Plugin-Developers: Thomas Maurel:tmaurel:,Romain Seguy:rseguy:,Oleg Ne
+ nashev:oleg_nenashev:o.v.nenashev@gmail.com
+

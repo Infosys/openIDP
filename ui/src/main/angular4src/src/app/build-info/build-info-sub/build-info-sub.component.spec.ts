@@ -13,8 +13,8 @@ import { IdpService } from "../../idp-service.service";
 import { IdpdataService } from "../../idpdata.service";
 import { IdprestapiService } from "../../idprestapi.service";
 import { Router, NavigationExtras } from "@angular/router";
-import { ParentFormConnectComponent } from "../../parent-form-connect/parent-form-connect.component";
-import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "ng2-translate";
+import { ParentFormConnectComponent } from "../parent-form-connect/parent-form-connect.component";
+import { TranslateModule , TranslateService, TranslateLoader, TranslateParser} from "@ngx-translate/core";
 import { NO_ERRORS_SCHEMA}  from "@angular/core";
 import { IDPEncryption } from "../../idpencryption.service";
 import { IdpSubmitService } from "../../idpsubmit.service";
@@ -391,84 +391,84 @@ class  IDPEncryptionStub {
   /*  xit('should run #getApplicationDetails()', async(() => {
     const result = component.getApplicationDetails('appName');
   }));  */
-        
+
   /* it('should run #detailsApplication()', async(() => {
     const result = component.detailsApplication();
   })); */
-        
+
   it('should run #openPostBuild()', async(() => {
     const result = component.openPostBuild();
 	expect(result).toBe("on");
   }));
-        
+
   it('should run #clearBuild()', async(() => {
     const result = component.clearBuild();
   }));
-        
+
   it('should run #clearArtifact()', async(() => {
     const result = component.clearArtifact();
 	expect(result).toBe("off");
   }));
-        
+
   it('should run #clearArtifactOnSelect()', async(() => {
     const result = component.clearArtifactOnSelect();
   }));
-        
+
   it('should run #naArtifact()', async(() => {
     const result = component.naArtifact();
   }));
-        
+
   it('should run #clearRunScripts()', async(() => {
     const result = component.clearRunScripts();
   }));
-        
+
   it('should run #clearPostbuild()', async(() => {
     const result = component.clearPostbuild();
   }));
-        
+
   it('should run #clearTransferFilesFlag()', async(() => {
     const result = component.clearTransferFilesFlag();
   }));
-        
+
   it('should run #resetData()', async(() => {
     const result = component.resetData();
   }));
-        
+
   it('should run #openAntPropertiesField()', async(() => {
     const result = component.openAntPropertiesField();
   }));
-        
+
   it('should run #addAntProperties()', async(() => {
     const result = component.addAntProperties();
   }));
-        
+
   it('should run #clearAntPropertisField()', async(() => {
     const result = component.clearAntPropertisField();
   }));
-        
+
   it('should run #deleteAntProp()', async(() => {
     const result = component.deleteAntProp(1);
   }));
-        
+
   it('should run #deleteAntPropConfirm()', async(() => {
     const result = component.deleteAntPropConfirm();
   }));
-        
+
   it('should run #checkCheckBox()', async(() => {
     const result = component.checkCheckBox();
   }));
-        
+
   it('should run #ngOnInit()', async(() => {
     const result = component.ngOnInit();
   }));
-        
+
   it('should run #clearNugetDetails()', async(() => {
     const result = component.clearNugetDetails();
   }));
-        
+
   it('should run #getArtifactPatterStatus()', async(() => {
     const result = component.getArtifactPatterStatus();
   }));
-  
+
 
 });

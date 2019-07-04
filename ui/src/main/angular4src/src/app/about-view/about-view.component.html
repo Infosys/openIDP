@@ -1,114 +1,119 @@
-<div style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-  <div id="archi" class="container" style="padding-left: 35px; padding-right: 35px; width: 100% ">
-    <h2>IDP Architecture:</h2>
-    <img src="https://camo.githubusercontent.com/0bf52e27648ee715bdef8e057727ad1f8a9ea5ee/68747470733a2f2f6170692e636f646163792e636f6d2f70726f6a6563742f62616467652f47726164652f3364336431663464353139343435653838623663313666316333646463356332" alt="Codacy Badge" data-canonical-src="https://api.codacy.com/project/badge/Grade/3d3d1f4d519445e88b6c16f1c3ddc5c2" style="max-width:100%; height: 30px; ">
+<div class="card container-fluid">
+  <div class="card-body">
+    <div style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+      <div id="archi" class="container" style="padding-left: 35px; padding-right: 35px; width: 100% ">
+        <h2>IDP Architecture:</h2>
+        <img src="https://camo.githubusercontent.com/0bf52e27648ee715bdef8e057727ad1f8a9ea5ee/68747470733a2f2f6170692e636f646163792e636f6d2f70726f6a6563742f62616467652f47726164652f3364336431663464353139343435653838623663313666316333646463356332" alt="Codacy Badge" data-canonical-src="https://api.codacy.com/project/badge/Grade/3d3d1f4d519445e88b6c16f1c3ddc5c2" style="max-width:100%; height: 30px; ">
+      </div>
+      <br/><br/>
+      <div id="githubUrl" style="padding-left: 35px; text-align: left; font-size: 18px">
+        Infosys DevOps Platform(IDP) is built on an extensible microservices architecture. It leverages the orchestration
+        capabilities of the widely popular Jenkins and provides a layer of abstraction over it through Angular 5 based
+        responsive web front end and Spring Boot based RESTful services.
+      </div><br><br>
+      <div class="arch-image">
+        <p style="text-align: center; ">
+          <img src="assets/images/idp_architecture.png" alt="" style="width: 60%">
+        </p>
+      </div>
+    <br/>
+      <div>
+        <table class="table table-striped" style=" border: 1px solid #dddddd; width:80%; margin-left:15%; margin-right:15%; font-size:18px; text-align:center; padding: 2px;">
+          <tr >
+            <th style="border-right: 1px solid #dddddd;">Module/File</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">UI</td>
+            <td style="text-align: left">This component is built on Angular 5 and TypeScript and supports seamless rendering in Mobile devices and
+              tablets.
+              All external API calls are routed through Zuul Filter from Netflix. Through Pre/Route/Post, Zuul will make
+              sure
+              only authenticated users are allowed to make API calls and for OAuth2 token renewal</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Cloud Config Service</td>
+            <td style="text-align: left">This component maintains all the config entries of IDP Components. This way, all configurations are
+              externalized.
+              Config files can be configured per environment and per client which gives greater flexibility When a service
+              is
+              booting up, it fetches the appropriate config files from this Service</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Discovery Service</td>
+            <td style="text-align: left">Eureka from Netflix is used. Services get registered following Self-Registration Pattern. The service
+              registry provides
+              a management API and a query API for registering/de-registering.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Auth Service</td>
+            <td style="text-align: left">Auth Service's purpose is to authenticate users and manage OAuth2 tokens. Access token is generally short
+              lived and
+              refresh token would be valid for a long time. This supports Token Renewal and protects from MITM attacks.
+              JSON
+              Web Token(JWT) ensures the user’s session is handled in a stateless scalable way</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">IDP Rest</td>
+            <td style="text-align: left">This service responsible for Application, Pipeline, User and Dashboard Management. It uses Swagger for API
+              Documentation.
+              Resources are protected using OAuth2 API First approach and Entities are defined using Google’s GSON. Uses
+              Spring-boot
+              for automating and simplifying and bootstrapping boiler plate.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">DSL</td>
+            <td style="text-align: left">DSLs are the core for automating the Jenkins Job Creation. This is a hybrid approach for creating Jenkins
+              jobs using
+              Groovy. Seed Job gets created through REST service and this job in turn creates the child Jobs (SCM, Build,
+              Deploy
+              etc) . When the Seed Job is re-run, DSL is intelligent enough to identify the differences in configuration
+              and
+              would automatically create/update/delete job/configurations</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Scheduler</td>
+            <td style="text-align: left">This Java based component is for timed execution of pipelines.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Metrics Dashboard</td>
+            <td style="text-align: left">Grafana is used for visualising the data collected by dashboard utilities (Java utilities that are invoked
+              at the
+              end of every job in the pipeline) through the dashboard "put" services. The "get" type of dashboard services
+              query
+              this data and offer it to Grafana for rendering and visualisation.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Message Queue</td>
+            <td style="text-align: left">Apache Kafka is used for asynchronous communication between services</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Continuous deployment</td>
+            <td style="text-align: left">This components provides seamless ability to do cloud deployments. This is not yet part of the repository
+              and will
+              soon be released.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Subscription</td>
+            <td style="text-align: left">This component maintains the license information for the platform and to enable subscription based access.
+              This is not yet part of the repository and will soon be released.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Tracing</td>
+            <td style="text-align: left">This component maintains the license information for the platform and to enable subscription based access.
+              This is not yet part of the repository and will soon be released.</td>
+          </tr>
+          <tr>
+            <td style="border-right: 1px solid #dddddd;">Monitoring</td>
+            <td style="text-align: left">IDP components' monitoring is done using Prometheus. The Prometheus agent extracts logs and pushes to
+              Elastic Search from which data is data is propagated to Grafana. This is not yet part of the repository and
+              will soon be released.</td>
+          </tr>
+        </table>
+    
+      </div>
+    
+    </div>
   </div>
-  <br/><br/>
-  <div id="githubUrl" style="padding-left: 35px; text-align: left; font-size: 18px">
-    Infosys DevOps Platform(IDP) is built on an extensible microservices architecture. It leverages the orchestration
-    capabilities of the widely popular Jenkins and provides a layer of abstraction over it through Angular 5 based
-    responsive web front end and Spring Boot based RESTful services.
-  </div><br><br>
-  <div class="arch-image">
-    <p style="text-align: center; ">
-      <img src="assets/images/idp_architecture.png" alt="" style="width: 60%">
-    </p>
-  </div>
-<br/>
-  <div>
-    <table class="table table-striped" style=" border: 1px solid #dddddd; width:80%; margin-left:15%; margin-right:15%; font-size:18px; text-align:center; padding: 2px;">
-      <tr >
-        <th style="border-right: 1px solid #dddddd;">Module/File</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">UI</td>
-        <td style="text-align: left">This component is built on Angular 5 and TypeScript and supports seamless rendering in Mobile devices and
-          tablets.
-          All external API calls are routed through Zuul Filter from Netflix. Through Pre/Route/Post, Zuul will make
-          sure
-          only authenticated users are allowed to make API calls and for OAuth2 token renewal</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Cloud Config Service</td>
-        <td style="text-align: left">This component maintains all the config entries of IDP Components. This way, all configurations are
-          externalized.
-          Config files can be configured per environment and per client which gives greater flexibility When a service
-          is
-          booting up, it fetches the appropriate config files from this Service</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Discovery Service</td>
-        <td style="text-align: left">Eureka from Netflix is used. Services get registered following Self-Registration Pattern. The service
-          registry provides
-          a management API and a query API for registering/de-registering.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Auth Service</td>
-        <td style="text-align: left">Auth Service's purpose is to authenticate users and manage OAuth2 tokens. Access token is generally short
-          lived and
-          refresh token would be valid for a long time. This supports Token Renewal and protects from MITM attacks.
-          JSON
-          Web Token(JWT) ensures the user’s session is handled in a stateless scalable way</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">IDP Rest</td>
-        <td style="text-align: left">This service responsible for Application, Pipeline, User and Dashboard Management. It uses Swagger for API
-          Documentation.
-          Resources are protected using OAuth2 API First approach and Entities are defined using Google’s GSON. Uses
-          Spring-boot
-          for automating and simplifying and bootstrapping boiler plate.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">DSL</td>
-        <td style="text-align: left">DSLs are the core for automating the Jenkins Job Creation. This is a hybrid approach for creating Jenkins
-          jobs using
-          Groovy. Seed Job gets created through REST service and this job in turn creates the child Jobs (SCM, Build,
-          Deploy
-          etc) . When the Seed Job is re-run, DSL is intelligent enough to identify the differences in configuration
-          and
-          would automatically create/update/delete job/configurations</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Scheduler</td>
-        <td style="text-align: left">This Java based component is for timed execution of pipelines.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Metrics Dashboard</td>
-        <td style="text-align: left">Grafana is used for visualising the data collected by dashboard utilities (Java utilities that are invoked
-          at the
-          end of every job in the pipeline) through the dashboard "put" services. The "get" type of dashboard services
-          query
-          this data and offer it to Grafana for rendering and visualisation.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Message Queue</td>
-        <td style="text-align: left">Apache Kafka is used for asynchronous communication between services</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Continuous deployment</td>
-        <td style="text-align: left">This components provides seamless ability to do cloud deployments. This is not yet part of the repository
-          and will
-          soon be released.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Subscription</td>
-        <td style="text-align: left">This component maintains the license information for the platform and to enable subscription based access.
-          This is not yet part of the repository and will soon be released.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Tracing</td>
-        <td style="text-align: left">This component maintains the license information for the platform and to enable subscription based access.
-          This is not yet part of the repository and will soon be released.</td>
-      </tr>
-      <tr>
-        <td style="border-right: 1px solid #dddddd;">Monitoring</td>
-        <td style="text-align: left">IDP components' monitoring is done using Prometheus. The Prometheus agent extracts logs and pushes to
-          Elastic Search from which data is data is propagated to Grafana. This is not yet part of the repository and
-          will soon be released.</td>
-      </tr>
-    </table>
-
-  </div>
-
 </div>
+

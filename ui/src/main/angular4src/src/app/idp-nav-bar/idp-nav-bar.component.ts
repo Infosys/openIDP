@@ -15,7 +15,7 @@ import { IdprestapiService } from "../idprestapi.service";
 @Component({
   selector: "app-idp-nav-bar",
   templateUrl: "./idp-nav-bar.component.html",
-  styleUrls: ["./idp-nav-bar.component.css"]
+  styleUrls: ["./idp-nav-bar.component.scss"]
 })
 export class IdpNavBarComponent implements OnInit {
 
@@ -25,8 +25,7 @@ export class IdpNavBarComponent implements OnInit {
   buildInfo: any;
   deployInfo: any;
   testInfo: any;
-  // OSS REMOVAL
-  // workflowInfo: any ;
+  workflowInfo: any ;
   createApp: any;
 
   constructor(
@@ -36,13 +35,14 @@ export class IdpNavBarComponent implements OnInit {
     private IdprestapiService: IdprestapiService,
     public IdpdataService: IdpdataService
   ) {
+    this.basicInfo = true;
     this.router.events.subscribe((val: any) => {
         this.buildInfo = false;
         this.codeInfo = false;
         this.deployInfo = false;
         this.testInfo = false;
         this.createApp = false;
-        this.basicInfo = false;
+        // this.basicInfo = false;
         // OSS REMOVAL
         // this.workflowInfo = false;
 
@@ -56,10 +56,12 @@ export class IdpNavBarComponent implements OnInit {
             this.createApp = false;
             this.basicInfo = true;
         }
+        this.basicInfo = url.includes('basicInfo') ? true : false;
         this.buildInfo = url.includes("buildInfo") ? true : false;
         this.codeInfo = url.includes("codeInfo") ? true : false;
         this.deployInfo = url.includes("deployInfo") ? true : false;
         this.testInfo = url.includes("testInfo") ? true : false;
+        this.workflowInfo = url.includes("workflowInfo") ? true : false;
         }
     });
   }

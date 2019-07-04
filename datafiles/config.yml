@@ -4,12 +4,17 @@
   vars:
     PROTOCOL: "{{ lookup('env','PROTOCOL') }}"
     HOSTNAME: "{{ lookup('env','HOSTNAME') }}"
-    JENKINS_PORT: "{{ lookup('env','JENKINS_PORT') }}"
-    DASHBOARD_PORT: "{{ lookup('env','DASHBOARD_PORT') }}"
+    PORT: "{{ lookup('env','PORT') }}"
     KEYCLOAK_PORT: "{{ lookup('env','KEYCLOAK_PORT') }}"
-    IDPAPP_PORT: "{{ lookup('env','IDPAPP_PORT') }}"
+    DASHBOARD_PORT: "{{ lookup('env','DASHBOARD_PORT') }}"
+    
+    GRAFANA_PORT: "{{ lookup('env','GRAFANA_PORT') }}"
+    JENKINS_PORT: "{{ lookup('env','JENKINS_PORT') }}"
     JENKINS_USERNAME: "{{ lookup('env','JENKINS_USERNAME') }}"
     JENKINS_PASSWORD: "{{ lookup('env','JENKINS_PASSWORD') }}"
+    JENKINS_SLAVE_PORT: "{{ lookup('env','JENKINS_SLAVE_PORT') }}"
+    SSL_ENABLED: "{{ lookup('env','SSL_ENABLED') }}"
+    BUILD_NAME: "{{ lookup('env','BUILD_NAME') }}"
   tasks:
     - name : Variable Checking...
       fail:
@@ -17,95 +22,123 @@
       when: lookup('env','PROTOCOL') == ""
     - name: Setting Jenkins Location Details (Admin Email ID).......
       xml:
-        path: "/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
+        path: "/datafiles/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
         xpath: /jenkins.model.JenkinsLocationConfiguration/adminAddress
-        value: idpadmin01@domain.com
+        value: idpadmin@domain.com
     - name: Setting Jenkins Location Details (Jenkins  Url).......
       xml:
-        path: "/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
+        path: "/datafiles/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
         xpath: /jenkins.model.JenkinsLocationConfiguration/jenkinsUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ JENKINS_PORT }}/jenkins"
     - name: Setting X-Frame Details .......
       xml:
-        path: "/jenkinsdata/org.jenkins.ci.plugins.xframe_filter.XFrameFilterPageDecorator.xml"
+        path: "/datafiles/jenkinsdata/org.jenkins.ci.plugins.xframe_filter.XFrameFilterPageDecorator.xml"
         xpath: /org.jenkins.ci.plugins.xframe__filter.XFrameFilterPageDecorator/options
-        value: "ALLOW-FROM {{ PROTOCOL }}://{{ HOSTNAME }}:{{ IDPAPP_PORT }}/idpapp"
+        value: "ALLOW-FROM *"
     - name: Setting KeyCloak Token Url.........
       xml:
-        path: "/jenkinsdata/config.xml"
+        path: "/datafiles/jenkinsdata/config.xml"
         xpath: /hudson/securityRealm/tokenServerUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/token"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/token"
     - name: Setting KeyCloak Auth Url.........
       xml:
-        path: "/jenkinsdata/config.xml"
+        path: "/datafiles/jenkinsdata/config.xml"
         xpath: /hudson/securityRealm/authorizationServerUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/auth"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/auth"
     - name: Setting KeyCloak UserInfo Url.........
       xml:
-        path: "/jenkinsdata/config.xml"
+        path: "/datafiles/jenkinsdata/config.xml"
         xpath: /hudson/securityRealm/userInfoServerUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/userinfo"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/userinfo"
     - name: Setting KeyCloak End Session Url.........
       xml:
-        path: "/jenkinsdata/config.xml"
+        path: "/datafiles/jenkinsdata/config.xml"
         xpath: /hudson/securityRealm/endSessionUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/logout"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ KEYCLOAK_PORT }}/auth/realms/master/protocol/openid-connect/logout"
     - name: Setting KeyCloak Logout Url.........
       xml:
-        path: "/jenkinsdata/config.xml"
+        path: "/datafiles/jenkinsdata/config.xml"
         xpath: /hudson/securityRealm/postLogoutRedirectUrl
-        value: "{{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+        value: "{{ PROTOCOL }}://{{ HOSTNAME }}{{ JENKINS_PORT }}"
+    - name: Setting Jenkins slave port.........
+      xml:
+        path: "/datafiles/jenkinsdata/config.xml"
+        xpath: /hudson/slaveAgentPort
+        value: "{{ JENKINS_SLAVE_PORT }}"
+    - name: Setting Version in Theme Footer
+      lineinfile:
+        dest: "/datafiles/keycloak/login.ftl"
+        regexp: '^(.*)IDP v(.*)$'
+        line: "style=\"float: right; padding-right: 30px\">IDP v{{ BUILD_NAME }}</font>"
+        backrefs: yes
     - name: DSL set Dashboard Service Url
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)IDP_DASHBOARD_SERVICEURL(.*)$'
-        line: "IDP_DASHBOARD_SERVICEURL={{ PROTOCOL }}://{{ HOSTNAME }}:{{ DASHBOARD_PORT }}/idpdashboard/"
+        line: "IDP_DASHBOARD_SERVICEURL={{ PROTOCOL }}://{{ HOSTNAME }}{{ DASHBOARD_PORT }}/idpdashboard/"
         backrefs: yes
     - name: DSL set Jenkins Url
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)JENKINS_URL(.*)$'
-        line: "JENKINS_URL={{ PROTOCOL }}://{{ HOSTNAME }}:{{ JENKINS_PORT }}/jenkins"
+        line: "JENKINS_URL={{ PROTOCOL }}://{{ HOSTNAME }}{{ JENKINS_PORT }}/jenkins"
         backrefs: yes
     - name: DSL set Jenkins host
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)JENKINS_HOSTNAME(.*)$'
         line: "JENKINS_HOSTNAME={{ HOSTNAME }}"
         backrefs: yes
     - name: DSL set Jenkins Port
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)JENKINS_PORT(.*)$'
-        line: "JENKINS_PORT={{ JENKINS_PORT }}"
+        line: "JENKINS_PORT={{ PORT }}"
         backrefs: yes
     - name: DSL set Jenkins username
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)JENKINS_USERNAME(.*)$'
         line: "JENKINS_USERNAME={{ JENKINS_USERNAME }}"
         backrefs: yes
     - name: DSL set Jenkins password
       lineinfile:
-        dest: "/dsldata/src/main/groovy/Config.properties"
+        dest: "/datafiles/dsldata/src/main/groovy/Config.properties"
         regexp: '^(.*)JENKINS_PASSWORD(.*)$'
         line: "JENKINS_PASSWORD={{ JENKINS_PASSWORD }}"
         backrefs: yes
+    - name: Set SSL Port for Proxy
+      lineinfile:
+        dest: "/datafiles/proxy/ssl.conf"
+        regexp: '^listen(.*)$'
+        line: "listen {{ PORT }} default_server ssl; listen [::]:{{ PORT }} ssl;"
+        backrefs: yes
+      when: lookup('env','SSL_ENABLED') == "true"
+    - name: Set Non-SSL Port for Proxy
+      lineinfile:
+        dest: "/datafiles/proxy/nonssl.conf"
+        regexp: '^listen(.*)$'
+        line: "listen {{ PORT }}; listen [::]:{{ PORT }};"
+        backrefs: yes
+      when: lookup('env','SSL_ENABLED') == "false"
     - name: Grafana set Datasource Hostname 
       lineinfile:
-        dest: "/grafanadata/provisioning/datasources/idp.yml"
+        dest: "/datafiles/grafanadata/provisioning/datasources/idp.yml"
         regexp: '^(.*)url(.*)$'
-        line: "  url: {{ PROTOCOL }}://{{ HOSTNAME }}:8184/idpdashboard/"
+        line: "  url: {{ PROTOCOL }}://{{ HOSTNAME }}{{ DASHBOARD_PORT }}/idpdashboard/"
         backrefs: yes
     - name: Grafana Environment Dashboard set drill down links
       lineinfile:
         dest: "/datafiles/grafanadata/data/dashboards/Environment Dashboard.json"
         regexp: '^(.*)linkUrl(.*)$'
-        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}:3000/d/004/environment_application?orgId=1&var-Application=$__cell_0&var-Environment=$__cell&var-ReleaseNo=$Release",'
+        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}{{ GRAFANA_PORT }}/grafana/d/004/environment_application?orgId=1&var-Application=$__cell_0&var-Environment=$__cell&var-ReleaseNo=$Release",'
         backrefs: yes
     - name: Grafana Environment_Application set drill down links
       lineinfile:
         dest: "/datafiles/grafanadata/data/dashboards/Environment_Application.json"
         regexp: '^(.*)linkUrl(.*)$'
-        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}:3000/d/005/artifactsdashboard?orgId=1&var-Application=$Application&var-Environment=$Environment&var-Pipeline=$__cell_0",'
+        line: '          "linkUrl": "{{ PROTOCOL }}://{{ HOSTNAME }}{{ GRAFANA_PORT }}/grafana/d/005/artifactsdashboard?orgId=1&var-Application=$Application&var-Environment=$Environment&var-Pipeline=$__cell_0",'
         backrefs: yes
+    
+    
+

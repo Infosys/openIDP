@@ -1,4 +1,4 @@
-FROM openjdk:8u151-jdk
+FROM openjdk:8u151-jre
 
 LABEL maintainer="idpadmin@domain.com"\
       owner="Infosys Ltd."
@@ -9,4 +9,4 @@ COPY target/idpscheduler.jar /idpscheduler/idpscheduler.jar
 COPY idpscheduler.sh /idpscheduler/idpscheduler.sh
 RUN chmod +x /idpscheduler/idpscheduler.sh
 
-ENTRYPOINT /idpscheduler/idpscheduler.sh
+ENTRYPOINT sh /idpscheduler/idpscheduler.sh

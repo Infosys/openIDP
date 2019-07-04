@@ -5,421 +5,414 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<div>
-	<app-idpheader></app-idpheader>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="container-fluid col-md-offset-3">
-	<div>
+<div class="card">
+  <div class="card-body">
+    <div class="container-fluid col-md-offset-3">
+    <div>
 
-		<div class="row">
-			<strong>Dear
-				<span style="text-transform: capitalize">{{pipelineAdminName}}</span>,</strong>
-		</div>
-		<div class="row">Thank you for choosing to use Infosys DevOps Platform.</div>
-		<div class="row">Your request has been submitted. The
-			<span *ngIf="pipelineDetails.basicInfo.masterSequence=== 'workflow'"> master </span>
-			pipeline
-			<strong>{{pipelineName}} </strong> will be {{message}} in some time:</div>
-		<br>
-		<div class="row">
+      <div >
+        <strong>Dear
+          <span style="text-transform: capitalize">{{pipelineAdminName}}</span>,</strong>
+      </div>
+      <div >Thank you for choosing to use Infosys DevOps Platform.</div>
+      <div >Your request has been submitted. The
+        <span *ngIf="pipelineDetails.basicInfo.masterSequence=== 'workflow'"> master </span>
+        pipeline
+        <strong>{{pipelineName}} </strong> will be {{message}} in some time:</div>
+      <br>
+      <div >
 
-			<div *ngIf="pipelineDetails.basicInfo.masterSequence!== 'workflow'">
-				<strong>
-					<u>Build Details:</u>
-				</strong>
-				<br>
-				<br>
+        <div *ngIf="pipelineDetails.basicInfo.masterSequence!== 'workflow'">
+          <strong>
+            <u>Build Details:</u>
+          </strong>
+          <br>
+          <br>
 
-				<div *ngFor="let module of pipelineDetails.buildInfo.modules" class="form-group">
-					<div [hidden]="!((module.moduleName===undefined  || module.moduleName===null   || module.moduleName==='') &&
-										(module.version===undefined  || module.version===null   || module.version==='') &&
-										(module.codeCoverage===undefined  || module.codeCoverage===null   || module.codeCoverage==='') &&
-										(module.paffFilePath===undefined  || module.paffFilePath===null   || module.paffFilePath==='') &&
-										(module.unitTesting===undefined  || module.unitTesting===null   || module.unitTesting==='') &&
-										(module.codeAnalysis===undefined  || !module.codeAnalysis.length)
-										 )">
-						<b>Not Applicable</b>
-					</div>
-					<table style="border: 1px solid black; border-collapse: collapse;width=100%" class="form-group">
-						<tr style="border: 1px solid black; border-collapse: collapse; " [hidden]="module.moduleName===undefined || module.moduleName===null || module.moduleName===''">
-							<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width=200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Module Name</th>
-							<td style="min-width=100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.moduleName}}</td>
-						</tr>
-						<!-- <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.version===null ||  module.version===''">
-				<th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width=200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Build Version</th>
-				<td style="min-width=100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px; text-align:center;text-transform: capitalize">{{module.version}}</td>
-			</tr> -->
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.pigProjectName===undefined || module.pigProjectName===null || module.pigProjectName===''">
-							<th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Pig Operation</th>
-							<td style="min-width = 100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Pig Selected</td>
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.hiveProjectPath===undefined || module.hiveProjectPath===null || module.hiveProjectPath===''">
-							<th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Hive Operation</th>
-							<td style="min-width = 100%;padding-left: 10px; padding-top: 10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Hive Selected</td>
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.scalaProjectName===undefined || module.scalaProjectName===null || module.scalaProjectName===''">
-							<th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Scala Operation</th>
-							<td style="min-width = 100%;padding-left: 10px; padding-top: 10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Scala Selected</td>
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.codeCoverage===undefined || module.codeCoverage===null || module.codeCoverage==='' || module.codeCoverage==='off'">
-							<th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Code Coverage</th>
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.codeCoverage}}</td>
-						</tr>
+          <div *ngFor="let module of pipelineDetails.buildInfo.modules" class="form-group">
+            <div [hidden]="!((module.moduleName===undefined  || module.moduleName===null   || module.moduleName==='') &&
+                      (module.version===undefined  || module.version===null   || module.version==='') &&
+                      (module.codeCoverage===undefined  || module.codeCoverage===null   || module.codeCoverage==='') &&
+                      (module.paffFilePath===undefined  || module.paffFilePath===null   || module.paffFilePath==='') &&
+                      (module.unitTesting===undefined  || module.unitTesting===null   || module.unitTesting==='') &&
+                      (module.codeAnalysis===undefined  || !module.codeAnalysis.length)
+                       )">
+              <b>Not Applicable</b>
+            </div>
+            <table style="border: 1px solid black; border-collapse: collapse;width=100%" class="form-group">
+              <tr style="border: 1px solid black; border-collapse: collapse; " [hidden]="module.moduleName===undefined || module.moduleName===null || module.moduleName===''">
+                <th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width=200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Module Name</th>
+                <td style="min-width=100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.moduleName}}</td>
+              </tr>
+              <!-- <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.version===null ||  module.version===''">
+          <th style="border: 1px solid black; border-collapse: collapse;text-align:center;  width=200px;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Build Version</th>
+          <td style="min-width=100%; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px; text-align:center;text-transform: capitalize">{{module.version}}</td>
+        </tr> -->
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.pigProjectName===undefined || module.pigProjectName===null || module.pigProjectName===''">
+                <th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Pig Operation</th>
+                <td style="min-width = 100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Pig Selected</td>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.hiveProjectPath===undefined || module.hiveProjectPath===null || module.hiveProjectPath===''">
+                <th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Hive Operation</th>
+                <td style="min-width = 100%;padding-left: 10px; padding-top: 10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Hive Selected</td>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.scalaProjectName===undefined || module.scalaProjectName===null || module.scalaProjectName===''">
+                <th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Scala Operation</th>
+                <td style="min-width = 100%;padding-left: 10px; padding-top: 10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">Scala Selected</td>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.codeCoverage===undefined || module.codeCoverage===null || module.codeCoverage==='' || module.codeCoverage==='off'">
+                <th style="border: 1px solid black; border-collapse: collapse;text-align:center;width=200px; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Code Coverage</th>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.codeCoverage}}</td>
+              </tr>
 
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="!( module.team!=='' && module.team!==null && module.team!==undefined)">
-							<th style="border: 1px solid black; border-collapse: collapse;width=200px;text-align:center; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Security Analysis</th>
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">on</td>
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="(module.unitTesting===undefined || module.unitTesting===null || module.unitTesting==='' || module.unitTesting==='off')">
-							<th style="border: 1px solid black; border-collapse: collapse; width=200px;color:#007dc3; text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Unit Testing</th>
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.unitTesting}}</td>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="!( module.team!=='' && module.team!==null && module.team!==undefined)">
+                <th style="border: 1px solid black; border-collapse: collapse;width=200px;text-align:center; color:#007dc3 ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Security Analysis</th>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">on</td>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="(module.unitTesting===undefined || module.unitTesting===null || module.unitTesting==='' || module.unitTesting==='off')">
+                <th style="border: 1px solid black; border-collapse: collapse; width=200px;color:#007dc3; text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Unit Testing</th>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">{{module.unitTesting}}</td>
 
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.codeAnalysis===undefined || !module.codeAnalysis.length">
-							<th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Code Analysis</th>
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
-								<span *ngFor="let tool of module.codeAnalysis">
-									<span *ngIf="tool!=='off'">{{tool}} &nbsp;</span>
-								</span>
-							</td>
-						</tr>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.codeAnalysis===undefined || !module.codeAnalysis.length">
+                <th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Code Analysis</th>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
+                  <span *ngFor="let tool of module.codeAnalysis">
+                    <span *ngIf="tool!=='off'">{{tool}} &nbsp;</span>
+                  </span>
+                </td>
+              </tr>
 
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="pipelineDetails.buildInfo.castAnalysis===undefined || pipelineDetails.buildInfo.castAnalysis.applicationName===undefined">
-							<th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Cast Analysis</th>
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
-								<span *ngIf="pipelineDetails.buildInfo.castAnalysis!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName===''">off &nbsp;</span>
-								<span *ngIf="pipelineDetails.buildInfo.castAnalysis!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==''">on &nbsp;</span>
-							</td>
-						</tr>
-						<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.pafFilePath===undefined || module.pafFilePath===''">
-							<th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Security Analysis</th>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="pipelineDetails.buildInfo.castAnalysis===undefined || pipelineDetails.buildInfo.castAnalysis.applicationName===undefined">
+                <th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Cast Analysis</th>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
+                  <span *ngIf="pipelineDetails.buildInfo.castAnalysis!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName===''">off &nbsp;</span>
+                  <span *ngIf="pipelineDetails.buildInfo.castAnalysis!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==undefined && pipelineDetails.buildInfo.castAnalysis.applicationName!==''">on &nbsp;</span>
+                </td>
+              </tr>
+              <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="module.pafFilePath===undefined || module.pafFilePath===''">
+                <th style="border: 1px solid black; border-collapse: collapse; width=200px; color:#007dc3;text-align:center;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;">Security Analysis</th>
 
-							<td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
-								<span>Appscan Source &nbsp;</span>
-							</td>
-						</tr>
-					</table>
-				</div>
+                <td style="min-width=100%;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize">
+                  <span>Appscan Source &nbsp;</span>
+                </td>
+              </tr>
+            </table>
+          </div>
 
-				<div *ngIf="application.artifactToStage!== undefined">
-					<div *ngIf="pipelineDetails.buildInfo.artifactToStage.artifact==='' || (pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='na' && application.artifactToStage.artifactRepoName==='na') || pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='na'">
-						<b>No Artifact Repository Manager selected.</b>
-					</div>
-					<div *ngIf="pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='nexus'">
-						<strong>
-							<u>Stagging Details:</u>
-						</strong>
-						<br>
-						<br>
-						<table>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center;">
-									<strong>Artifact Pattern</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifact}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Artifact Repository Manager</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepoName}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Hosted Server</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepo.repoURL}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Repository</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepo.repoName}}</td>
-							</tr>
-						</table>
-					</div>
-					<div *ngIf="application.artifactToStage.artifactRepoName=='nexus' && pipelineDetails.buildInfo.artifactToStage.artifactRepoName=='' && pipelineDetails.buildInfo.artifactToStage.arifact!==''">
-						<strong>
-							<u>Stagging Details:</u>
-						</strong>
-						<br>
-						<br>
-						<table>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center;">
-									<strong>Artifact Pattern</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifact}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Artifact Repository Manager</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepoName}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Hosted Server</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepo.repoURL}}</td>
-							</tr>
-							<tr style="border: 1px solid black; border-collapse: collapse;">
-								<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
-									<strong>Repository</strong>
-								</th>
-								<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepo.repoName}}</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<br>
-				<br>
-				<strong>
-					<u>Deploy Details:</u>
-				</strong>
-				<br>
-				<br>
+          <div *ngIf="application.artifactToStage!== undefined">
+            <div *ngIf="pipelineDetails.buildInfo.artifactToStage.artifact==='' || (pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='na' && application.artifactToStage.artifactRepoName==='na') || pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='na'">
+              <b>No Artifact Repository Manager selected.</b>
+            </div>
+            <div *ngIf="pipelineDetails.buildInfo.artifactToStage.artifactRepoName==='nexus'">
+              <strong>
+                <u>Staging Details:</u>
+              </strong>
+              <br>
+              <br>
+              <table>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center;">
+                    <strong>Artifact Pattern</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifact}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Artifact Repository Manager</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepoName}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Hosted Server</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepo.repoURL}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Repository</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifactRepo.repoName}}</td>
+                </tr>
+              </table>
+            </div>
+            <div *ngIf="application.artifactToStage.artifactRepoName=='nexus' && pipelineDetails.buildInfo.artifactToStage.artifactRepoName=='' && pipelineDetails.buildInfo.artifactToStage.arifact!==''">
+              <strong>
+                <u>Staging Details:</u>
+              </strong>
+              <br>
+              <br>
+              <table>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center;">
+                    <strong>Artifact Pattern</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{pipelineDetails.buildInfo.artifactToStage.artifact}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Artifact Repository Manager</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepoName}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Hosted Server</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepo.repoURL}}</td>
+                </tr>
+                <tr style="border: 1px solid black; border-collapse: collapse;">
+                  <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center;">
+                    <strong>Repository</strong>
+                  </th>
+                  <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{application.artifactToStage.artifactRepo.repoName}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <br>
+          <br>
+          <strong>
+            <u>Deploy Details:</u>
+          </strong>
+          <br>
+          <br>
 
-				<div *ngIf="pipelineDetails.deployInfo.deployEnv.length===0">
-					<b>There are no Deploy Environments. </b>
-				</div>
+          <div *ngIf="pipelineDetails.deployInfo.deployEnv.length===0">
+            <b>There are no Deploy Environments. </b>
+          </div>
 
-				<div *ngFor="let depInfo of pipelineDetails.deployInfo.deployEnv">
-					<div *ngFor="let env of application.environmentOwnerDetails">
-						<div [hidden]="!(depInfo.envName===env.environmentName)">
-							<strong style="color:#007dc3;text-transform: capitalize">Env Name: {{depInfo.envName}}</strong>
-							<br>
-							<br>
-							<table>
-								<tr style="border: 1px solid black; border-collapse: collapse;">
-									<th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
-										<strong>Env Owner Details</strong>
-									</th>
-									<td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{env.environmentOwners}}</td>
-								</tr>
-								<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="env.dBOwners!==null && env.dBOwners!=='' && env.dBOwners!==undefined">
-									<th style="border: 1px black solid;padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center; border-collapse: collapse; width=200px ; margin:10px">
-										<strong>DB Owner Details</strong>
-									</th>
-									<td style="margin:10px ; padding-left:10px; padding-top:10px; padding-bottom:10px; width=200px ;padding-right:10px;text-align:center;">{{env.dBOwners}}</td>
-								</tr>
-								<tr style="border-collapse: collapse;" *ngFor="let deploy of depInfo.deploySteps">
-									<td style="width=200px ;padding-top:10px; padding-bottom:10px; padding-right:10px;border-collapse: collapse; margin:10px">
+          <div *ngFor="let depInfo of pipelineDetails.deployInfo.deployEnv">
+            <div *ngFor="let env of application.environmentOwnerDetails">
+              <div [hidden]="!(depInfo.envName===env.environmentName)">
+                <strong style="color:#007dc3;text-transform: capitalize">Env Name: {{depInfo.envName}}</strong>
+                <br>
+                <br>
+                <table>
+                  <tr style="border: 1px solid black; border-collapse: collapse;">
+                    <th style="border: 1px black solid;border-collapse: collapse; width=200px ;margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
+                      <strong>Env Owner Details</strong>
+                    </th>
+                    <td style="margin:10px; padding-left:10px; padding-top:10px; width=200px ;padding-bottom:10px; padding-right:10px;text-align:center;">{{env.environmentOwners}}</td>
+                  </tr>
+                  <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="env.dBOwners!==null && env.dBOwners!=='' && env.dBOwners!==undefined">
+                    <th style="border: 1px black solid;padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center; border-collapse: collapse; width=200px ; margin:10px">
+                      <strong>DB Owner Details</strong>
+                    </th>
+                    <td style="margin:10px ; padding-left:10px; padding-top:10px; padding-bottom:10px; width=200px ;padding-right:10px;text-align:center;">{{env.dBOwners}}</td>
+                  </tr>
+                  <tr style="border-collapse: collapse;" *ngFor="let deploy of depInfo.deploySteps">
+                    <td style="width=200px ;padding-top:10px; padding-bottom:10px; padding-right:10px;border-collapse: collapse; margin:10px">
 
-										<table style="border: 1px solid black; border-collapse: collapse;margin-top:10px;margin-bottom: 10px">
-											<tr style="border: 1px solid black; border-collapse: collapse;">
-												<th style="border: 1px black solid; border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Step Name</th>
-												<td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.stepName}}</td>
-											</tr>
+                      <table style="border: 1px solid black; border-collapse: collapse;margin-top:10px;margin-bottom: 10px">
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                          <th style="border: 1px black solid; border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Step Name</th>
+                          <td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.stepName}}</td>
+                        </tr>
 
-											<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="!(deploy.deployToContainer===undefined ||
-	          deploy.deployToContainer===null || deploy.deployToContainer ==='' || deploy.deployToContainer.containerName===undefined || deploy.deployToContainer.containerName==='' || deploy.deployToContainer.containerName===null)">
-												<th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Deployment through Container</th>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="!(deploy.deployToContainer===undefined ||
+              deploy.deployToContainer===null || deploy.deployToContainer ==='' || deploy.deployToContainer.containerName===undefined || deploy.deployToContainer.containerName==='' || deploy.deployToContainer.containerName===null)">
+                          <th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Deployment through Container</th>
 
-												<td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
-							 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.deployToContainer.containerName}}</td>
+                          <td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
+                 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.deployToContainer.containerName}}</td>
 
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(deploy.pigUsername!==undefined &&
-	          deploy.pigUsername!==null && deploy.pigUsername !=='' ) || (deploy.hiveServerName!==undefined &&
-	          deploy.hiveServerName!==null && deploy.hiveServerName !=='' ) ||(deploy.scalaServerName!==undefined &&
-	          deploy.scalaServerName!==null && deploy.scalaServerName !=='')">
-												<th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
-													Deploy BigData Component</th>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(deploy.pigUsername!==undefined &&
+              deploy.pigUsername!==null && deploy.pigUsername !=='' ) || (deploy.hiveServerName!==undefined &&
+              deploy.hiveServerName!==null && deploy.hiveServerName !=='' ) ||(deploy.scalaServerName!==undefined &&
+              deploy.scalaServerName!==null && deploy.scalaServerName !=='')">
+                          <th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
+                            Deploy BigData Component</th>
 
-												<td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
-							 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">
-													<span *ngIf="(deploy.pigUsername!==undefined &&
- 		          deploy.pigUsername!==null && deploy.pigUsername !=='' )">Pig </span>
-													<span *ngIf="(deploy.hiveServerName!==undefined &&
-						 deploy.hiveServerName!==null && deploy.hiveServerName !=='' )">Hive </span>
-													<span *ngIf="(deploy.scalaServerName!==undefined &&
-						deploy.scalaServerName!==null && deploy.scalaServerName !=='' )">Scala</span>
-												</td>
+                          <td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
+                 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">
+                            <span *ngIf="(deploy.pigUsername!==undefined &&
+                deploy.pigUsername!==null && deploy.pigUsername !=='' )">Pig </span>
+                            <span *ngIf="(deploy.hiveServerName!==undefined &&
+               deploy.hiveServerName!==null && deploy.hiveServerName !=='' )">Hive </span>
+                            <span *ngIf="(deploy.scalaServerName!==undefined &&
+              deploy.scalaServerName!==null && deploy.scalaServerName !=='' )">Scala</span>
+                          </td>
 
 
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(deploy.deployOperation!==undefined &&
-	          deploy.deployOperation!==null && deploy.deployOperation !=='' )">
-												<th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
-													Deploy Siebel Component</th>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(deploy.deployOperation!==undefined &&
+              deploy.deployOperation!==null && deploy.deployOperation !=='' )">
+                          <th style="border: 1px black solid;border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">
+                            Deploy Siebel Component</th>
 
-												<td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
-							 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.deployOperation}}</td>
-
-
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="!(deploy.runScript.scriptType===undefined || deploy.runScript.scriptType===null || deploy.runScript.scriptType==='')">
-												<th style="border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Run Scripts</th>
-												<td style="margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.runScript.scriptType}}</td>
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(pipelineDetails.buildInfo.buildtool==='ant' || pipelineDetails.buildInfo.buildtool==='maven') && !(deploy.pathToFiles===undefined|| deploy.pathToFiles===null || deploy.pathToFiles==='')">
-												<th style="border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Deployment through Spring boot</th>
-												<td style="margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{'Yes' | translate}}</td>
-											</tr>
-
-										</table>
-									</td>
-
-								</tr>
-
-							</table>
-							<div style="margin-top:10px" *ngIf="depInfo.deploySteps===undefined || depInfo.deploySteps===null
-		 || depInfo.deploySteps.length===0">
-								<strong>No deployment step has been selected.</strong>
-							</div>
-							<br>
-						</div>
-					</div>
-				</div>
-				<br>
-				<strong>
-					<u>Test Details:</u>
-				</strong>
-				<br>
-				<br>
-
-				<div *ngIf=" pipelineDetails.testInfo.testEnv.length===0">
-					<b>There are no Test Environments. </b>
-				</div>
-
-				<div *ngFor="let testInfo of pipelineDetails.testInfo.testEnv">
-
-					<div *ngFor="let env of application.environmentOwnerDetails">
-
-						<div *ngIf="testInfo.envName===env.environmentName">
-							<strong style="color:#007dc3;text-transform: capitalize">Env Name: {{testInfo.envName}}</strong>
-							<table>
-
-								<tr *ngFor="let test1 of testInfo.testSteps">
-									<td>
-										<table style="border: 1px solid black; border-collapse: collapse;margin-top:10px;margin-bottom: 10px">
-											<tr style="border: 1px solid black; border-collapse: collapse;">
-												<th style=" border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Step Name</th>
-												<td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.stepName}}</td>
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="test1.runScript.scriptType===undefined|| test1.runScript.scriptType===null || test1.runScript.scriptType===''">
-												<th style=" border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Run Scripts</th>
-												<td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.runScript.scriptType}}</td>
-											</tr>
-											<tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="test1.test.testCategory===undefined || test1.test.testCategory===null || test1.test.testCategory===''">
-												<th style="border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Test Tool</th>
-												<td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.test.testCategory}}
-													<span [hidden]="test1.test.testTypeName===null">Testing By </span> {{test1.test.testTypeName}}</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-
-								<tr style="border-collapse: collapse;" *ngIf="testInfo.testSteps===undefined || testInfo.testSteps===null || testInfo.testSteps.length===0">
-									<td style="width=200px ;padding-top:10px; padding-bottom:10px; padding-right:10px;border-collapse: collapse; margin:10px">
-										<strong>No test step has been selected.</strong>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-			<div *ngIf="pipelineDetails.basicInfo.masterSequence=== 'workflow'">
-				<strong>
-					<u>Workflow Details:</u>
-					
-					
-				</strong>
-				<br>
-				<br>
-				<table>
-					<thead>
-						<tr style="border: 1px solid black; border-collapse: collapse;">
-							<th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center">
-								<strong>Step No. #</strong>
-							</th>
-							<th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center">
-								<strong>Application Name</strong>
-							</th>
-							<th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
-								<strong>Pipeline Name</strong>
-							</th>
-							<th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
-								<strong>Release No.</strong>
-							</th>
-						</tr>
-					</thead>
-					<tbody *ngFor="let pipe of pipelineDetails.pipelinesSuccess; let i =index ">
-						<tr style="border: 1px solid black; border-collapse: collapse;">
-							<td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">Step No_{{pipe.stepNo}}</td>
-							<td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.applicationName}}</td>
-							<td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.pipelineName}}</td>
-							<td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.releaseNumber}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+                          <td style="margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px;
+                 padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.deployOperation}}</td>
 
 
-			<br>
-			<br>
-			<strong>You can execute pipeline using Trigger pipeline option in History Page of DevOps Platform Portal:</strong>
-			<div></div>
-			<br>
-			<br>
-			<table style="border: 1px solid black; border-collapse: collapse;">
-				<tr style="border: 1px solid black; border-collapse: collapse;">
-					<th style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Pipeline Admins</th>
-					<td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.pipelineAdmins}}</td>
-				</tr>
-				<tr style="border: 1px solid black; border-collapse: collapse;">
-					<th *ngIf="!IdpdataService.isSAPApplication" style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Release Managers</th>
-					<th *ngIf="IdpdataService.isSAPApplication" style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Module Lead</th>
-					<td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.releaseManager}}</td>
-				</tr>
-				<tr style="border: 1px solid black; border-collapse: collapse;">
-					<th style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Developers</th>
-					<td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.developers}}</td>
-				</tr>
-			</table>
-			<br>
-			<br>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="!(deploy.runScript.scriptType===undefined || deploy.runScript.scriptType===null || deploy.runScript.scriptType==='')">
+                          <th style="border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Run Scripts</th>
+                          <td style="margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{deploy.runScript.scriptType}}</td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" *ngIf="(pipelineDetails.buildInfo.buildtool==='ant' || pipelineDetails.buildInfo.buildtool==='maven') && !(deploy.pathToFiles===undefined|| deploy.pathToFiles===null || deploy.pathToFiles==='')">
+                          <th style="border: 1px solid black; border-collapse: collapse; color:#007dc3;margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Deployment through Spring boot</th>
+                          <td style="margin:10px;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{'Yes' | translate}}</td>
+                        </tr>
 
-			<strong>
-				<u>Slave Label Details:</u>
-			</strong>
-			<br>
-			<br>
-			<table style="border: 1px solid black; border-collapse: collapse;">
-				<tr style="border: 1px solid black; border-collapse: collapse;">
+                      </table>
+                    </td>
 
-					<th style="border: 1px solid black; border-collapse: collapse; width=300px; color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Build & Deploy</th>
-					<td *ngFor="let slave of application.slavesDetails">
-						<div [hidden]="slave.slaveUsage==='test'" style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{slave.labels}}&nbsp;&nbsp;</div>
-					</td>
-				</tr>
-				<tr style="border: 1px solid black; border-collapse: collapse;">
-					<th style="border: 1px solid black; border-collapse: collapse; width=300px; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Test</th>
-					<td *ngFor="let slave of application.slavesDetails">
-						<div [hidden]="slave.slaveUsage==='build'" style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{slave.labels}}&nbsp;&nbsp;</div>
-					</td>
-				</tr>
-			</table>
-			<br>
-			<br>
-			<div>Have a good day!!!</div>
-			<br>
-		</div>
-		<div class="row">Regards,</div>
-		<div class="row">DevOps Platform Team</div>
-		<div style="height:50px"></div>
+                  </tr>
 
-	</div>
+                </table>
+                <div style="margin-top:10px" *ngIf="depInfo.deploySteps===undefined || depInfo.deploySteps===null
+       || depInfo.deploySteps.length===0">
+                  <strong>No deployment step has been selected.</strong>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+          <br>
+          <strong>
+            <u>Test Details:</u>
+          </strong>
+          <br>
+          <br>
+
+          <div *ngIf=" pipelineDetails.testInfo.testEnv.length===0">
+            <b>There are no Test Environments. </b>
+          </div>
+
+          <div *ngFor="let testInfo of pipelineDetails.testInfo.testEnv">
+
+            <div *ngFor="let env of application.environmentOwnerDetails">
+
+              <div *ngIf="testInfo.envName===env.environmentName">
+                <strong style="color:#007dc3;text-transform: capitalize">Env Name: {{testInfo.envName}}</strong>
+                <table>
+
+                  <tr *ngFor="let test1 of testInfo.testSteps">
+                    <td>
+                      <table style="border: 1px solid black; border-collapse: collapse;margin-top:10px;margin-bottom: 10px">
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                          <th style=" border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Step Name</th>
+                          <td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.stepName}}</td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="test1.runScript.scriptType===undefined|| test1.runScript.scriptType===null || test1.runScript.scriptType===''">
+                          <th style=" border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Run Scripts</th>
+                          <td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.runScript.scriptType}}</td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;" [hidden]="test1.test.testCategory===undefined || test1.test.testCategory===null || test1.test.testCategory===''">
+                          <th style="border: 1px solid black; border-collapse: collapse;color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Test Tool</th>
+                          <td style="margin:10px ;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;text-transform: capitalize; width=300px">{{test1.test.testCategory}}
+                            <span [hidden]="test1.test.testTypeName===null">Testing By </span> {{test1.test.testTypeName}}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <tr style="border-collapse: collapse;" *ngIf="testInfo.testSteps===undefined || testInfo.testSteps===null || testInfo.testSteps.length===0">
+                    <td style="width=200px ;padding-top:10px; padding-bottom:10px; padding-right:10px;border-collapse: collapse; margin:10px">
+                      <strong>No test step has been selected.</strong>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="pipelineDetails.basicInfo.masterSequence=== 'workflow'">
+          <strong>
+            <u>Workflow Details:</u>
+
+
+          </strong>
+          <br>
+          <br>
+          <table>
+            <thead>
+              <tr style="border: 1px solid black; border-collapse: collapse;">
+                <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; padding-right:10px;color:#007dc3;text-align:center">
+                  <strong>Step No. #</strong>
+                </th>
+                <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px; color:#007dc3; padding-right:10px;text-align:center">
+                  <strong>Application Name</strong>
+                </th>
+                <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                  <strong>Pipeline Name</strong>
+                </th>
+                <th style="border: 1px black solid;border-collapse: collapse; margin:10px ; padding-top:10px; padding-bottom:10px;color:#007dc3; padding-right:10px;text-align:center">
+                  <strong>Release No.</strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let pipe of pipelineDetails.pipelinesSuccess; let i =index ">
+              <tr style="border: 1px solid black; border-collapse: collapse;">
+                <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">Step No_{{pipe.stepNo}}</td>
+                <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.applicationName}}</td>
+                <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.pipelineName}}</td>
+                <td style="border: 1px black solid;margin:10px; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center ">{{pipe.releaseNumber}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <br>
+        <br>
+        <strong>You can execute pipeline using Trigger pipeline option in History Page of DevOps Platform Portal:</strong>
+        <div></div>
+        <br>
+        <br>
+        <table style="border: 1px solid black; border-collapse: collapse;">
+          <tr style="border: 1px solid black; border-collapse: collapse;">
+            <th style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Pipeline Admins</th>
+            <td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.pipelineAdmins}}</td>
+          </tr>
+          <tr style="border: 1px solid black; border-collapse: collapse;">
+            <th *ngIf="!IdpdataService.isSAPApplication" style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Release Managers</th>
+            <th *ngIf="IdpdataService.isSAPApplication" style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Module Lead</th>
+            <td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.releaseManager}}</td>
+          </tr>
+          <tr style="border: 1px solid black; border-collapse: collapse;">
+            <th style="border: 1px solid black; border-collapse: collapse; width=100%; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Developers</th>
+            <td style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{application.developers}}</td>
+          </tr>
+        </table>
+        <br>
+        <br>
+
+        <strong>
+          <u>Slave Label Details:</u>
+        </strong>
+        <br>
+        <br>
+        <table class="table-responsive" style="border-collapse: collapse;">
+          <tr style="border: 1px solid black; border-collapse: collapse;">
+
+            <th style="border: 1px solid black; border-collapse: collapse; width=300px; color:#007dc3;padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Build & Deploy</th>
+            <td *ngFor="let slave of application.slavesDetails">
+              <div [hidden]="slave.slaveUsage==='test'" style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{slave.labels}}&nbsp;&nbsp;</div>
+            </td>
+          </tr>
+          <tr style="border: 1px solid black; border-collapse: collapse;">
+            <th style="border: 1px solid black; border-collapse: collapse; width=300px; color:#007dc3; padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">Test</th>
+            <td *ngFor="let slave of application.slavesDetails">
+              <div [hidden]="slave.slaveUsage==='build'" style="padding-left:10px; padding-top:10px; padding-bottom:10px; padding-right:10px;text-align:center;">{{slave.labels}}&nbsp;&nbsp;</div>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <br>
+        <div>Have a good day!!!</div>
+        <br>
+      </div>
+      <div >Regards,</div>
+      <div >DevOps Platform Team</div>
+      <div style="height:50px"></div>
+
+    </div>
+  </div>
+  </div>
 </div>

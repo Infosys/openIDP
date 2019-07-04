@@ -1,28 +1,33 @@
 version: "3.2"
 
 services:
-    zookeeper:
-        image: ${DOCKER_REG}zookeeper:3.5
+    proxy:
+        image: ${IDP_PROXY_IMAGE}
         environment:
           TZ: Asia/Kolkata
-        ports:
-            - ${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}
+        volumes:
+            - ${MOUNT_DIR}/proxy/idp.conf:/etc/nginx/conf.d/default.conf
+            - ${MOUNT_DIR}/proxy/nginx.conf:/etc/nginx/nginx.conf
+            - ${MOUNT_DIR}/proxy/addon_config/:/addon_config/
+        deploy:
+          mode: replicated
+          replicas: 1
+
+    zookeeper:
+        image: ${IDP_ZOOKEEPER_IMAGE}
+        environment:
+          TZ: Asia/Kolkata
         deploy:
           mode: replicated
           replicas: 1
     kafka:
-        image: ${DOCKER_REG}wurstmeister/kafka:0.11.0.1
-        ports:
-         - target: ${KAFKA_PORT}
-           published: ${KAFKA_PORT}
-           protocol: tcp
-           mode: host
+        image: ${IDP_KAFKA_IMAGE}
         environment:
           TZ: Asia/Kolkata
           KAFKA_BROKER_ID: 1001
           KAFKA_RESERVED_BROKER_MAX_ID: 1001
           HOSTNAME_COMMAND: "echo ${KAFKA_HOSTNAME}"      
-          KAFKA_ZOOKEEPER_CONNECT: "${ZOOKEEPER_HOSTNAME}:${ZOOKEEPER_PORT}"
+          KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
           KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
           KAFKA_ADVERTISED_PROTOCOL_NAME: OUTSIDE
           KAFKA_ADVERTISED_PORT: ${KAFKA_PORT}
@@ -32,9 +37,7 @@ services:
           mode: replicated
           replicas: 1
     postgres:
-        image: ${DOCKER_REG}postgres:9.6.1
-        ports:
-            - ${POSTGRES_PORT}:5432
+        image: ${IDP_POSTGRES_IMAGE}
         environment:
             POSTGRES_DB: ${POSTGRES_DEFAULT}
             POSTGRES_USER: ${POSTGRES_USER}
@@ -47,9 +50,7 @@ services:
           mode: replicated
           replicas: 1
     keycloak:
-        image: ${DOCKER_REG}jboss/keycloak:4.0.0.Beta1
-        ports:
-            - ${KEYCLOAK_PORT}:8080
+        image: ${IDP_KEYCLOAK_IMAGE}
         environment:
           TZ: Asia/Kolkata
           KEYCLOAK_USER: ${KEYCLOAK_USER}
@@ -59,35 +60,32 @@ services:
           POSTGRES_PORT: ${POSTGRES_PORT} 
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          PROXY_ADDRESS_FORWARDING: "true"
         deploy:
           mode: replicated
           replicas: 1
     grafana:
-        image: ${DOCKER_REG}grafana/grafana:5.2.1
-        ports:
-            - ${GRAFANA_PORT}:3000
+        image: ${IDP_GRAFANA_IMAGE}
         environment:
           TZ: Asia/Kolkata
-          DASHBOARD_PROTOCOL: "${PROTOCOL}"
+          GRAFANA_PROTOCOL: "${PROTOCOL}"
           ADMIN_PASSWORD: idp@123
-          KEYCLOAK_URL: "${PROTOCOL}://${KEYCLOAK_HOSTNAME}:${KEYCLOAK_PORT}"
+          KEYCLOAK_URL: "${PROTOCOL}://${KEYCLOAK_HOSTNAME}${KEYCLOAK_PORT}"
           KEYCLOAK_REALM: master
-          DASHBOARD_HOSTNAME: ${GRAFANA_HOSTNAME}
-          GF_INSTALL_PLUGINS: grafana-simple-json-datasource,michaeldmoore-annunciator-panel,briangann-gauge-panel,savantly-heatmap-panel,briangann-datatable-panel
-          HTTP_PROXY: ${HTTP_PROXY}
-          HTTPS_PROXY: ${HTTPS_PROXY}
-          NO_PROXY: "${GRAFANA_HOSTNAME},${KEYCLOAK_HOSTNAME},${DASHBOARD_HOSTNAME}" 
+          GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
+          GRAFANA_PORT: ${GRAFANA_PORT}
         volumes:
             - ${MOUNT_DIR}/grafanadata/grafana.ini:/etc/grafana/grafana.ini
-            - ${MOUNT_DIR}/grafanadata/data/:/var/lib/grafana/
+            - ${MOUNT_DIR}/grafanadata/data/plugins:/var/lib/grafana/plugins
+            - ${MOUNT_DIR}/grafanadata/data/dashboards:/var/lib/grafana/dashboards
             - ${MOUNT_DIR}/grafanadata/provisioning/:/etc/grafana/provisioning/
         deploy:
           mode: replicated
           replicas: 1
+
     jenkins:
-        image: ${DOCKER_REG}idp/jenkins
+        image: ${IDP_JENKINS_IMAGE}
         ports:
-            - ${JENKINS_PORT}:8080
             - ${JENKINS_SLAVE_PORT}:${JENKINS_SLAVE_PORT}
         environment:
           TZ: Asia/Kolkata
@@ -100,79 +98,51 @@ services:
           mode: replicated
           replicas: 1
     config:
-        image: ${DOCKER_REG}idp/idpconfig
-        ports:
-            - ${CONFIG_PORT}:${CONFIG_PORT}
+        image: ${IDP_CONFIG_IMAGE}
         environment:
           TZ: Asia/Kolkata
           CONFIG_USERNAME: ${CONFIG_USERNAME}
           CONFIG_PASSWORD: ${CONFIG_PASSWORD}
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     eureka:
-        image: ${DOCKER_REG}idp/idpeureka
-        ports:
-            - ${EUREKA_PORT}:8761
+        image: ${IDP_EUREKA_IMAGE}
         environment:
           TZ: Asia/Kolkata
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     oauth:
-        image: ${DOCKER_REG}idp/idpoauth
-        ports:
-            - ${OAUTH_PORT}:${OAUTH_PORT}
+        image: ${IDP_OAUTH_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
-          GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
-          GRAFANA_PORT: ${GRAFANA_PORT}
-          ZOOKEEPER_HOSTNAME: ${ZOOKEEPER_HOSTNAME}
-          ZOOKEEPER_PORT: ${ZOOKEEPER_PORT}
           KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
           KAFKA_PORT: ${KAFKA_PORT}
           CONFIG_HOSTNAME: ${CONFIG_HOSTNAME}
           CONFIG_PORT: ${CONFIG_PORT}
           CONFIG_USERNAME: ${CONFIG_USERNAME}
           CONFIG_PASSWORD: ${CONFIG_PASSWORD}
-          EUREKA_HOSTNAME: ${EUREKA_HOSTNAME}
-          EUREKA_PORT: ${EUREKA_PORT}
-          SCHEDULER_HOSTNAME: ${SCHEDULER_HOSTNAME}
-          SCHEDULER_PORT: ${SCHEDULER_PORT}
           POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
           POSTGRES_PORT: ${POSTGRES_PORT}
-          POSTGRES_DEFAULT: ${POSTGRES_DEFAULT}
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
           KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
           KEYCLOAK_PORT: ${KEYCLOAK_PORT}
           KEYCLOAK_USER: ${KEYCLOAK_USER}
           KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-          JENKINS_HOSTNAME: ${JENKINS_HOSTNAME}
-          JENKINS_PORT: ${JENKINS_PORT}
-          JENKINS_USERNAME: ${JENKINS_USERNAME}
-          JENKINS_PASSWORD: ${JENKINS_PASSWORD}
-          OAUTH_HOSTNAME: ${OAUTH_HOSTNAME}
-          OAUTH_PORT: ${OAUTH_PORT}
-          DASHBOARD_HOSTNAME: ${DASHBOARD_HOSTNAME}
-          DASHBOARD_PORT: ${DASHBOARD_PORT}
-          IDPAPP_HOSTNAME: ${IDPAPP_HOSTNAME}
-          IDPAPP_PORT: ${IDPAPP_PORT}
-          SUBSCRIPTION_HOSTNAME: ${SUBSCRIPTION_HOSTNAME}
-          SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
-          SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
-          SERVICES_PORT: ${SERVICES_PORT}
-          SSL_ENABLED: "false"
+          AUTH_PROVIDER: ${AUTH_PROVIDER}
+          LDAP_URL: ${LDAP_URL}
+          SMTP_DOMAIN: ${SMTP_DOMAIN}          
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     services:
-        image: ${DOCKER_REG}idp/idpservices
-        ports:
-            - ${SERVICES_PORT}:${SERVICES_PORT}
+        image: ${IDP_SERVICES_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
@@ -213,92 +183,47 @@ services:
           SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
           SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
           SERVICES_PORT: ${SERVICES_PORT}
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     dashboard:
-        image: ${DOCKER_REG}idp/idpdashboard
-        ports:
-            - ${DASHBOARD_PORT}:${DASHBOARD_PORT}
+        image: ${IDP_DASHBOARD_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
-          GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
-          GRAFANA_PORT: ${GRAFANA_PORT}
-          ZOOKEEPER_HOSTNAME: ${ZOOKEEPER_HOSTNAME}
-          ZOOKEEPER_PORT: ${ZOOKEEPER_PORT}
           KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
           KAFKA_PORT: ${KAFKA_PORT}
+          SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
+          SERVICES_PORT: ${SERVICES_PORT}
           CONFIG_HOSTNAME: ${CONFIG_HOSTNAME}
           CONFIG_PORT: ${CONFIG_PORT}
           CONFIG_USERNAME: ${CONFIG_USERNAME}
           CONFIG_PASSWORD: ${CONFIG_PASSWORD}
-          EUREKA_HOSTNAME: ${EUREKA_HOSTNAME}
-          EUREKA_PORT: ${EUREKA_PORT}
-          SCHEDULER_HOSTNAME: ${SCHEDULER_HOSTNAME}
-          SCHEDULER_PORT: ${SCHEDULER_PORT}
           POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
           POSTGRES_PORT: ${POSTGRES_PORT}
           POSTGRES_DEFAULT: ${POSTGRES_DEFAULT}
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
-          KEYCLOAK_PORT: ${KEYCLOAK_PORT}
-          KEYCLOAK_USER: ${KEYCLOAK_USER}
-          KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
           JENKINS_HOSTNAME: ${JENKINS_HOSTNAME}
           JENKINS_PORT: ${JENKINS_PORT}
           JENKINS_USERNAME: ${JENKINS_USERNAME}
           JENKINS_PASSWORD: ${JENKINS_PASSWORD}
-          OAUTH_HOSTNAME: ${OAUTH_HOSTNAME}
-          OAUTH_PORT: ${OAUTH_PORT}
-          DASHBOARD_HOSTNAME: ${DASHBOARD_HOSTNAME}
-          DASHBOARD_PORT: ${DASHBOARD_PORT}
-          IDPAPP_HOSTNAME: ${IDPAPP_HOSTNAME}
-          IDPAPP_PORT: ${IDPAPP_PORT}
-          SUBSCRIPTION_HOSTNAME: ${SUBSCRIPTION_HOSTNAME}
-          SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
-          SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
-          SERVICES_PORT: ${SERVICES_PORT}
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     app:
-        image: ${DOCKER_REG}idp/idpapp
-        ports:
-            - ${IDPAPP_PORT}:${IDPAPP_PORT}
+        image: ${IDP_UI_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
           GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
           GRAFANA_PORT: ${GRAFANA_PORT}
-          ZOOKEEPER_HOSTNAME: ${ZOOKEEPER_HOSTNAME}
-          ZOOKEEPER_PORT: ${ZOOKEEPER_PORT}
-          KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
-          KAFKA_PORT: ${KAFKA_PORT}
           CONFIG_HOSTNAME: ${CONFIG_HOSTNAME}
           CONFIG_PORT: ${CONFIG_PORT}
           CONFIG_USERNAME: ${CONFIG_USERNAME}
           CONFIG_PASSWORD: ${CONFIG_PASSWORD}
-          EUREKA_HOSTNAME: ${EUREKA_HOSTNAME}
-          EUREKA_PORT: ${EUREKA_PORT}
-          SCHEDULER_HOSTNAME: ${SCHEDULER_HOSTNAME}
-          SCHEDULER_PORT: ${SCHEDULER_PORT}
-          POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
-          POSTGRES_PORT: ${POSTGRES_PORT}
-          POSTGRES_DEFAULT: ${POSTGRES_DEFAULT}
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
-          KEYCLOAK_PORT: ${KEYCLOAK_PORT}
-          KEYCLOAK_USER: ${KEYCLOAK_USER}
-          KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-          JENKINS_HOSTNAME: ${JENKINS_HOSTNAME}
-          JENKINS_PORT: ${JENKINS_PORT}
-          JENKINS_USERNAME: ${JENKINS_USERNAME}
-          JENKINS_PASSWORD: ${JENKINS_PASSWORD}
           OAUTH_HOSTNAME: ${OAUTH_HOSTNAME}
           OAUTH_PORT: ${OAUTH_PORT}
           DASHBOARD_HOSTNAME: ${DASHBOARD_HOSTNAME}
@@ -309,22 +234,22 @@ services:
           SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
           SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
           SERVICES_PORT: ${SERVICES_PORT}
-          KEYCLOAK_URL: "${PROTOCOL}://${KEYCLOAK_HOSTNAME}:8989/auth"
-          SSL_ENABLED: "false"
+          KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+          KEYCLOAK_PORT: ${KEYCLOAK_PORT}
+          
+          CLOUD_DEPLOY_FLAG: ${CLOUD_DEPLOY_FLAG}
+          HIDE_JSON_CONVERT: ${HIDE_JSON_CONVERT}
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     subscription:
-        image: ${DOCKER_REG}idp/idpsubscription
-        ports:
-            - ${SUBSCRIPTION_PORT}:${SUBSCRIPTION_PORT}
+        image: ${IDP_SUBSCRIPTION_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
           GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
           GRAFANA_PORT: ${GRAFANA_PORT}
-          ZOOKEEPER_HOSTNAME: ${ZOOKEEPER_HOSTNAME}
-          ZOOKEEPER_PORT: ${ZOOKEEPER_PORT}
           KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
           KAFKA_PORT: ${KAFKA_PORT}
           CONFIG_HOSTNAME: ${CONFIG_HOSTNAME}
@@ -358,14 +283,12 @@ services:
           SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
           SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
           SERVICES_PORT: ${SERVICES_PORT}
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
     scheduler:
-        image: ${DOCKER_REG}idp/idpscheduler
-        ports:
-            - ${SCHEDULER_PORT}:${SCHEDULER_PORT}
+        image: ${IDP_SCHEDULER_IMAGE}
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
@@ -406,7 +329,9 @@ services:
           SUBSCRIPTION_PORT: ${SUBSCRIPTION_PORT}
           SERVICES_HOSTNAME: ${SERVICES_HOSTNAME}
           SERVICES_PORT: ${SERVICES_PORT}
-          SSL_ENABLED: "false"
+          SSL_ENABLED: ${SSL_ENABLED}
         deploy:
           mode: replicated
           replicas: 1
+
+    

@@ -43,6 +43,9 @@ export class IDPEncryption {
   }
 
   encryptAES(plnTxt): any {
+    if(plnTxt==undefined || plnTxt==""){
+        return "";
+    }
     const padMsg = this.padString(plnTxt);
     const encrypted = CryptoJS.AES.encrypt(padMsg, this.key, { iv: this.iv, padding: CryptoJS.pad.NoPadding, mode: CryptoJS.mode.CBC});
     return encrypted.toString();

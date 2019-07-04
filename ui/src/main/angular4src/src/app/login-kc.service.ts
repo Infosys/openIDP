@@ -17,6 +17,7 @@ import {KeycloakService} from "./keycloak/keycloak.service";
 @Injectable()
 export class LoginKcService {
 private _startupData: any;
+private landingPageRoute:string = '/dashboard';
   constructor(
   private IdpdataService: IdpdataService,
     private _cookieService: CookieService,
@@ -89,7 +90,7 @@ private _startupData: any;
                       this.IdpdataService.flag = true;
                       this.IdpdataService.noAccessNavBars = false;
                       this.IdpdataService.noAccess = false;
-                      this.router.navigate(["/previousConfig"]);
+                      this.router.navigate([this.landingPageRoute]);
                       return;
                   }
               }
@@ -97,11 +98,11 @@ private _startupData: any;
                     if (this.IdpdataService.showService) {// user is Pipeline admin
                         this.IdpdataService.noAccessNavBars = true;
                         this.IdpdataService.noAccess = false;
-                        this.router.navigate(["/previousConfig/servicePortal"]);
+                        this.router.navigate([this.landingPageRoute]);
                     } else {
                         this.IdpdataService.noAccessNavBars = true;
                         this.IdpdataService.noAccess = true;
-                        this.router.navigate(["/previousConfig"]);
+                        this.router.navigate([this.landingPageRoute]);
                     }
               }
         }

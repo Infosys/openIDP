@@ -1,11 +1,16 @@
 {
 "/idp-oauth/*":{
-		"target":"http://10.82.108.52:8080/idpapp",
+		"target":"http://10.177.168.60/idpapp",
 		"secure":false,
 		"logLevel":"debug"
 	},
 	"/properties":{
-		"target":"http://10.82.108.52:8080/idpapp",
+		"target":"http://10.177.168.60/idpapp",
+	    "secure":false,
+		"logLevel":"debug"
+	},
+	"/idpdashboard":{
+		"target":"http://localhost:8080/",
 	    "secure":false,
 		"logLevel":"debug"
 	}

@@ -1,0 +1,14 @@
+<!--
+Copyright 2018 Infosys Ltd.
+Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+https://opensource.org/licenses/MIT
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.infosys.idp</groupId>
+    <artifactId>openidp</artifactId>
+    <name>openidp</name>
+    <packaging>pom</packaging>
+    <version>1</version>
+</project>
+

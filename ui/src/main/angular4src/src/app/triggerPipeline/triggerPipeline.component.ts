@@ -1,17 +1,22 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { TranslateService } from "ng2-translate";
+import { Component, OnInit, ViewChild, Input,Output, EventEmitter } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 import { IdpService } from "../idp-service.service";
 import { IdprestapiService } from "../idprestapi.service";
 import { Router } from "@angular/router";
 import { IdpdataService } from "../idpdata.service";
 import { DataTable, DataTableResource } from "angular-2-data-table";
 import { ActivatedRoute } from "@angular/router";
+import { TabsetComponent } from 'ngx-bootstrap';
+import * as _ from 'lodash'
 import {
   TreeviewModule, TreeviewConfig, TreeviewItem, TreeviewHelper, DownlineTreeviewItem, TreeviewI18n, TreeviewComponent,
   TreeviewEventParser, OrderDownlineTreeviewEventParser
 } from "ngx-treeview";
-import * as _ from "lodash";
 import { IDPEncryption } from "../idpencryption.service";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Item } from "angular2-multiselect-dropdown";
+
 declare var jQuery: any;
 @Component({
   selector: "app-trigger",
@@ -23,21 +28,28 @@ declare var jQuery: any;
 })
 export class TriggerComponent implements OnInit {
   @ViewChild(TreeviewComponent) treeviewComponent: TreeviewComponent;
-  @ViewChild("modalforAlert") button;
-  @ViewChild("modalforArtifactAlert") buttonArtifact;
-  @ViewChild("modalforSubmitAlert") buttonSubmitArtifact;
-  @ViewChild("modalforTrigger") triggerButton;
-  @ViewChild("modalforAlertDBDep") dbButton;
-  @ViewChild("modalforReqSCMAlert") triggerButtonRqdSCM;
+  @ViewChild("modalforAlert") modalforAlert;
+  @ViewChild("modalforArtifactAlert") modalforArtifactAlert;
+  @ViewChild("modalforSubmitAlert") modalforSubmitAlert;
+  @ViewChild("modalforTrigger") modalforTrigger;
+  @ViewChild("modalforAlertDBDep") modalforAlertDBDep;
+  @ViewChild("modalforReqSCMAlert") modalforReqSCMAlert;
+  @ViewChild('staticTabs') staticTabs: TabsetComponent;
   // save button both for schedule and workflow (master pipeline) feature
-  @ViewChild("modalforSave") saveButton;
+  @ViewChild("modalforSave") modalforSave;
   @Input() workflowSequenceIndexI: number;
   @Input() workflowSequenceIndexJ: number;
   @Input() workflowSequenceIndexK: number;
-
+  @Output() onTriggerDetailsSaved = new EventEmitter<boolean>();
   isParameterDisabled = false;
+  applicationName:any="";
+  pipelineName:any="";
   data = { "applicationName": "", "pipelineName": "", "userName": "" };
+  paramData = { "applicationName": "", "pipelineName": "", "userName": "" };
+  approvalStages = [];
+
   SAPEnvList: any = [];
+  crApprover: any = "";
   deployEnvList: any;
   error: any = "";
   devEnvList: any = [];
@@ -94,10 +106,15 @@ export class TriggerComponent implements OnInit {
   tagTemp: any;
   tagList: any;
   branchOrTag: any;
+  isCollapsed:boolean=true;
   scmType: any;
   dropdownListTest: any = [];
   testSuitList: any = [];
   dropdownListDeploy: any = [];
+  rmsComponentName:any;
+  rmsArtifacts: any = [];
+  
+  trialArr=[];
   deployMultiselectSettings = {
     singleSelection: false,
     text: "Select Deploy Steps",
@@ -133,7 +150,10 @@ export class TriggerComponent implements OnInit {
     selectAllText: "Select All",
     unSelectAllText: "UnSelect All"
   };
+  isBuild: any = false;
+  isDeploy: any = false;
   testSuitId: any = [];
+  resetSelect = "off";
   deploySteps: any = [];
   testSteps: any = [];
   tempDeploySteps: any = [];
@@ -154,6 +174,8 @@ export class TriggerComponent implements OnInit {
   artifactDetails: any;
   packageContent: any;
   informatica: any;
+  grantAccess: any = this.IdpdataService.data.grantAccess;
+  isEnableTrack: string;
   config = TreeviewConfig.create({
     hasAllCheckBox: false,
     hasFilter: false,
@@ -187,30 +209,172 @@ export class TriggerComponent implements OnInit {
   requiredSCM: any = false;
   branchListReqTemp: any = [];
   branchOrTagValue = "";
+  rmsEnv:any;
+    alertModalRef: BsModalRef;
+    missingSCMBranchModalRef: BsModalRef;
+    confirmSaveModalRef: BsModalRef;
+    dbDepModalRef: BsModalRef;
+    selectArtifactModalRef: BsModalRef;
+    submitModalRef: BsModalRef;
+    triggerModalRef: BsModalRef;
   disableSubmitBtn: boolean = false;
   tempTrArrayDeploy: any = [];
   tempTrArrayJira:  any = [];
   userstoryDropdownSettings: any = {};
+  changeDocumentDropdownSettings : any = {}
   userStoryList: any;
   selectedUS: any;
+  selectedUSStr: any;
   selectedUSData: any;
+  selectedCD : any;
+  selectedCDData : any;
+  cdListWithDescription : any =[];
+  cdListWithStatus : any =[];
+  changeRequestDetails = {
+    "buildCaCr": [],
+    "buildUtCr": [],
+    "buildCr": [],
+    "changeDocumentMapping": [
+      {
+        "changeDocument": "",
+        "changeDocumentData": [
+          {
+            "crNumber": "",
+            "crDescription": "",
+            "cdNumber": "",
+            "cdDescription": "",
+            "cdStatus": "",
+            "cdType": "",
+            "trNumber": "",
+            "trDescription": "",
+            "trStatus": "",
+            "track": "",
+            "trackDescription": "",
+            "subTrack": "",
+            "subTrackDescription": "",
+
+          }
+        ],
+        "developer":"",
+        "technicalReviewer":"",
+        "functionalReviewer":"",
+        "functionalTester":"",
+        "CC":"",
+        "PFA":"",
+        "DM":""
+      }
+    ],
+    "crcdRelationList": [
+      {
+        "changeRequest": "",
+        "changeDocumentList": []
+      }
+    ],
+    "deployEnvCrList": [
+      {
+        "environmentName": "",
+        "changeRequestList": []
+      }
+    ],
+    "deployEnvCdList": [
+      {
+        "environmentName": "",
+        "changeDocumentList": []
+      }
+    ],
+    "listOfStatus": [],
+    "crAndDescription" : [],
+    "crsBasedOnStatusOfCD": [
+      {
+        "statusOfCD": "",
+        "crAndDescriptionList": []
+      }
+    ],
+    "crsBasedOnTrackSubtrack": [
+      {
+        "track": "",
+        "trackDescription": "",
+        "subTrack": "",
+        "subTrackDescription": "",
+        "crAndDescriptionList": [],
+        "trackRolesMapping": []
+      }
+    ]
+  };
+
+  charmTriggerData = {
+    "changeRequest" : "",
+    "changeDocument" : [],
+    "sapTrackSelected": "",
+    "sapSubTrackSelected": ""
+  }
+  changeRequestList : any = [];
+  changeRequestListTemp : any = [];
+  changeDocumentList : any = [];
+  changeDocumentListTemp : any = [];
+  sapTrackListTemp : any = [];
+  sapSubTrackListTemp : any = [];
+  hideChangeDocument : boolean = false;
+  hideChangeRequest : boolean = false;
+  hideTrackDetails : boolean = false;
+  isAllowed : boolean = false;
+  showErrorForST : boolean = false;
+  cdDetailsList : any = [];
+  hideLandscape : any = "";
+  changeDocumentListDescDropdown=[];
+  rmsApprovedArtifact : any;
+  showPermissionError: any = "";
+  selectedLandscapeType: string = "";
+
+  // [
+  //   {
+  //     "crNumber": "",
+  //     "crDescription": "",
+  //     "cdDescription": "",
+  //     "cdStatus": "",
+  //     "cdType": "",
+  //     "trNumber": "",
+  //     "trDescription": "",
+  //     "trStatus": "",
+  //     "cdNumber": ""
+  //   }
+  // ]
 
   ngOnInit() {
+    this.getapptype(this.idpdataService.appName);
+    this.triggerDataInitialization();
     this.getJobParamDetails();
+    if(this.IDPParamData.technology==='sapcharm'){
+      this.getChangeRequest();
+    }
   }
 
   constructor(
     public idpdataService: IdpdataService,
     private idprestapiService: IdprestapiService,
     private router: Router,
+    private route:ActivatedRoute,
     public idpService: IdpService,
-    private idpencryption: IDPEncryption
+    private idpencryption: IDPEncryption,
+    private modalService:BsModalService,
+    private IdprestapiService: IdprestapiService,
+    private IdpdataService: IdpdataService,
+
+
+
   ) {
+    this.route.queryParams.subscribe(params => {
+      if(params['applicationName'] && params['pipelineName'] ) {
+        this.idpdataService.appName = params['applicationName'];
+        this.idpdataService.pipelineName = params['pipelineName'];
+      }
+    });
+
     this.buildIntervalData = this.idpdataService.buildIntervalData;
     if (this.idpdataService.buildIntervalData === undefined) {
         this.idpdataService.buildIntervalData = [];
     }
-    this.initialize();
+    
   }
 
   populateDBDeployRollBackTypeList() {
@@ -220,9 +384,36 @@ export class TriggerComponent implements OnInit {
     { 'name': 'byDate', 'value': 'byDate' }
     ];
   }
+  
+   getapptype(appName){
+	    this.IdprestapiService.checkForApplicationType(appName).then(response => {
+      try {
+        if (response) {
+          if (response.json().errorMessage === null && response.json().resource !== "") {
+            if (response.json().resource === "true") {
+				//alert("true")
+              this.idpdataService.isSAPApplication = true;
+            } else {
+                this.idpdataService.isSAPApplication = false;
+            }
+          } else {
+            alert("Failed to verify application Type");
+          }
+        }
+      } catch (e) {
+        alert("Failed during verifying the application type");
+      }
+      this.idpdataService.loading = false;
+
+    });
+  }
 
   changeDBDeployRollbackValues() {
     this.IDPParamData.deploy.dbDeployRollbackValue = "";
+  }
+
+  selectTab(tabId: number) {
+    this.staticTabs.tabs[tabId].active = true;
   }
 
   fetchReleaseBranches(data) {
@@ -237,12 +428,78 @@ export class TriggerComponent implements OnInit {
         this.requiredSCM = false;
         }
     }
+    // SAP filter to fetch landscape names
+    if (this.idpdataService.isSAPApplication) {
+     this.setLandscapeNames();
+    }
+  }
+
+  // Fetch userstory details from Jira as per the release number selected
+  fetchUserStories(releaseNumber) {
+    this.userStoryArray = [];
+    // this.IDPParamData.userStories = [];
+    this.selectedUS = [];
+    this.userStoryList = [];
+    this.selectedUSData = [];
+    const data = {
+      "application_name": this.IDPParamData.applicationName,
+      "pipeline_name": this.IDPParamData.pipelineName,
+      "release": this.IDPDataSwitch.releaseNumber
+    };
+
+    try {
+      if (this.idpdataService.checkpollALM) {
+        this.idpdataService.loading = true;
+          this.idprestapiService.getUserStoriesSAP(data).then(response => {
+            if (response) {
+              this.idpdataService.loading = false;
+              if (response.json().resource !== null && response.json().resource !== "[]" && response.json().resource !== "{}") {
+                if(JSON.parse(response.json().resource).UserStoryInfo !== undefined){
+				const userStoryArray = JSON.parse(response.json().resource).UserStoryInfo;
+                const temp = [];
+                for (let i = 0; i < userStoryArray.length; i++) {
+                  if (userStoryArray[i].Transport) {
+                    if (userStoryArray[i].Transport.length !== 0) {
+                      temp.push({
+                        "Userstory": userStoryArray[i].Userstory,
+                        "Transport": userStoryArray[i].Transport
+                      });
+                    }
+                  }
+                }
+                this.userStoryArray = temp;
+              }
+			  }
+              if (this.userStoryArray.length > 0) {
+                for (let i = 0; i < this.userStoryArray.length; i++) {
+                  this.userStoryList.push({"id": i, "itemName": this.userStoryArray[i].Userstory});
+                }
+              }
+            }
+          });
+        }
+    } catch (e) {
+        alert("Failed in getting User Stories data");
+      }
+  }
+
+  fetchSapSubTracks() {
+    this.sapSubTrackListTemp = [];
+    const trackList = this.changeRequestDetails.crsBasedOnTrackSubtrack;
+    for( let i = 0 ; i< trackList.length ; i++){
+      let localTrackList = trackList[i].track;
+      if(this.charmTriggerData.sapTrackSelected === localTrackList){
+        this.sapSubTrackListTemp.push({"val": trackList[i].subTrack, "description": trackList[i].subTrack+ " --> "+
+        trackList[i].subTrackDescription});
+      }
+
+    }
   }
 
   addArtifact() {
     const temp = this.idpdataService.triggerJobData.artifactList;
     this.artifacts = [];
-  this.allArtifactlist = [];
+    this.allArtifactlist = [];
   if (this.IDPDataSwitch.deploySelected === "on" && this.IDPDataSwitch.buildSelected === "on") {
         const tempLatestArtifact = [{
         "artifactName": "",
@@ -278,6 +535,9 @@ export class TriggerComponent implements OnInit {
         if (y === list.length - 1) {
           x = false;
         }
+
+
+        console.log(list[y]);
         const data = list[y];
         this.idpdataService.loading = true;
         this.idprestapiService.getWorkItems(data)
@@ -296,6 +556,7 @@ export class TriggerComponent implements OnInit {
                 mainList.push(obj);
               }
               if (mainList.length === list.length) {
+                console.log(mainList.length);
                 this.checkValidity(mainList);
               }
             }
@@ -303,6 +564,7 @@ export class TriggerComponent implements OnInit {
           })
           .catch(error => {
             this.idpdataService.loading = false;
+            console.log(error);
           });
       }
     }
@@ -429,8 +691,9 @@ export class TriggerComponent implements OnInit {
             if (this.deployEnvList.indexOf(i) !== -1) {
             tempEnv.push(i);
             }
+            this.Env = tempEnv;
         }
-        this.Env = tempEnv;
+        
         if (this.Env.length === 0) {
             alert("You can not deploy this application now. Please trigger it at planned time");
             const currentTime = new Date();
@@ -567,7 +830,106 @@ export class TriggerComponent implements OnInit {
     }
   }
 
+  triggerDataInitialization() {
+    this.IdpdataService.isSAPApplication = false;
+    this.paramData.applicationName = this.idpdataService.appName;
+    this.paramData.pipelineName=this.idpdataService.pipelineName;
+    this.idprestapiService.getUserName().then(response=>{
+        try{
+            if(response)
+            {
+                const result=response.json().resource;
+                console.log(JSON.parse(result));
+               this.idpdataService.idpUserName=JSON.parse(result).user_id;
+                console.log(response);
+                this.paramData.userName=this.idpdataService.idpUserName;
+                console.log("data",this.paramData);
+
+                this.IdprestapiService.triggerJob(this.paramData)
+        .then(response => {
+            if (response) {
+            const result = response.json().resource;
+            if (result !== "{}" && result !== null) {
+                this.IdpdataService.triggerJobData = JSON.parse(result);
+                const temp = JSON.parse(result);
+                const checkInBuild = this.IdpdataService.triggerJobData.hasOwnProperty("build")
+                && this.IdpdataService.triggerJobData.build.approveBuild !== undefined
+                && this.IdpdataService.triggerJobData.build.approveBuild !== null
+                    && this.IdpdataService.triggerJobData.build.approveBuild.length !== 0;
+                const checkInDeploy = this.IdpdataService.triggerJobData.hasOwnProperty("deploy")
+                && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList !== undefined
+                && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList !== null
+                    && Object.keys(this.IdpdataService.triggerJobData.deploy.workEnvApprovalList).length !== 0
+                    && this.IdpdataService.triggerJobData.deploy.workEnvApprovalList.constructor === Object;
+                if (checkInBuild || checkInDeploy) {
+                this.IdpdataService.checkPausedBuilds = true;
+                if (checkInBuild) {
+                    this.isBuild = true;
+                }
+                if (checkInDeploy) {
+                this.isDeploy = true;
+                }
+            } else {
+                            this.IdpdataService.checkPausedBuilds = false;
+                    }
+                if (this.IdpdataService.triggerJobData.applicationName) {
+                const applicationName = this.IdpdataService.triggerJobData.applicationName;
+                }
+              if (this.IdpdataService.triggerJobData.releaseNumber !== null && this.IdpdataService.triggerJobData.releaseNumber.length !== 0) {
+            if (this.IdpdataService.checkPausedBuilds === true) {
+                if (this.IdpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1
+                && (this.isBuild === true || this.isDeploy === true)) {
+                const forBuild = this.isBuild && this.IdpdataService.approveBuildFlag;
+                const forDeploy = this.isDeploy && this.IdpdataService.approveDeployFlag;
+                if (forBuild && forDeploy) {
+                    this.router.navigate(["/previousConfig/approveBuild"]);
+                }
+
+                if (forBuild) {
+                    if ((this.IdpdataService.approveDeployFlag !== true)) {
+                    alert("You do no thave permission to approve build for Deploy Stage");
+                    }
+                    this.router.navigate(["/previousConfig/approveBuild"]);
+                }
+                if (forDeploy) {
+                    if ((this.IdpdataService.approveBuildFlag !== true)) {
+                    alert("You do no thave permission to approve build for Build Stage");
+                    }
+                    this.router.navigate(["/previousConfig/approveBuild"]);
+                }
+                } else {
+                alert("A build is waiting approval. Kindly contact your release manager.");
+                }
+              } 
+            } else if (this.IdpdataService.triggerJobData.roles.indexOf("RELEASE_MANAGER") !== -1) {
+                  alert("No active releases for this pipeline. Please add releases.");
+                  this.router.navigate(["/releaseConfig/release"]);
+              } else {
+                  alert("No active releases for this pipeline. Please contact the release manager.");
+              }
+        } else {
+                alert("Failed  to get the Trigger Job Details");
+            }
+  this.initialize();
+
+            }
+
+        });
+            }
+        }
+        catch (e) {
+            alert("Failed to get trigger details");
+            console.log(e);
+        }
+    })
+
+
+
+  }
+
+
   initialize() {
+
     if (!this.idpdataService.isSAPApplication) {
         this.dbDeployRollbackTypeList = [{ 'name': 'byTag', 'value': 'byTag' },
         { 'name': 'byChangeSet', 'value': 'byChangeSet' },
@@ -588,7 +950,10 @@ export class TriggerComponent implements OnInit {
         "jiraProjectKey": "",
         "build": {
             "branchSelected": "",
-            "module": []
+            "module": [],
+            "checkmarxTag": this.idpdataService.triggerJobData.build.checkmarxTag ,
+            "checkmarxIncremental" : "",
+            "runCheckmarxInput": "",
         },
         "deploy": {
             "deployArtifact": {},
@@ -604,9 +969,11 @@ export class TriggerComponent implements OnInit {
         "env": [],
         "charmRequests": [],
         "envSelected": "",
+        "approvalSelected": "",
         "pipelineName": "",
         "releaseNumber": "",
         "jobBuildId": "",
+        "userTeam":"",
         "slaveName": "",
         "testSlaveName": "",
         "branchOrTag": "",
@@ -627,6 +994,7 @@ export class TriggerComponent implements OnInit {
         "testStep": [],
         "userName": this.idpdataService.idpUserName,
         "gitTag": "",
+        "scanTag": this.idpdataService.triggerJobData.build.scanTag ,
         "buildartifactNumber": "",
         };
         this.IDPDataSwitch = {
@@ -657,6 +1025,7 @@ export class TriggerComponent implements OnInit {
         "buildDeployEnv": [],
         "deployEnv": [],
         "gitTagEnable": "",
+        "checkmarxTag": "",
         "sshAndDependent": "",
         "relaseList": [],
         "releaseNumberList": [],
@@ -680,6 +1049,8 @@ export class TriggerComponent implements OnInit {
                 ? this.idpdataService.triggerJobData.build.gitBranches : [];
             this.IDPDataSwitch.gitTagEnable = this.idpdataService.triggerJobData.build.hasOwnProperty("gitTag")
                 ? this.idpdataService.triggerJobData.build.gitTag : [];
+            this.IDPDataSwitch.checkmarxTag = this.idpdataService.triggerJobData.build.hasOwnProperty("checkmarxTag")
+                ? this.idpdataService.triggerJobData.build.checkmarxTag : "off";
             this.IDPDataSwitch.sshAndDependent = this.idpdataService.triggerJobData.hasOwnProperty("sshAndDependent")
                 ? this.idpdataService.triggerJobData.sshAndDependent : [];
             this.IDPDataSwitch.relaseList = this.idpdataService.triggerJobData.hasOwnProperty("relaseList")
@@ -701,6 +1072,11 @@ export class TriggerComponent implements OnInit {
             this.IDPDataSwitch.testEnv = this.idpdataService.triggerJobData.test.hasOwnProperty("testEnv")
                 ? this.idpdataService.triggerJobData.test.testEnv : [];
             }
+			if (this.idpdataService.triggerJobData.hasOwnProperty("rmsComponentName")){
+				this.rmsComponentName = this.idpdataService.triggerJobData.rmsComponentName;
+			}else{ 
+			this.rmsComponentName = "";
+			}
             if (this.idpdataService.triggerJobData.hasOwnProperty("deploy")) {
             this.IDPDataSwitch.deploy = true;
             this.IDPDataSwitch.buildDeployEnv = this.idpdataService.triggerJobData.hasOwnProperty("buildDeployEnv")
@@ -710,6 +1086,8 @@ export class TriggerComponent implements OnInit {
             this.IDPDataSwitch.deploybizEnv = this.idpdataService.triggerJobData.deploy.hasOwnProperty("bizobj")
                 ? this.idpdataService.triggerJobData.deploy.bizobj : [];
             this.IDPParamData.env = this.IDPDataSwitch.deployEnv;
+            this.rmsEnv = this.idpdataService.triggerJobData.deploy.hasOwnProperty("deployEnvRms")
+            ? this.idpdataService.triggerJobData.deploy.deployEnvRms : [];
             }
             if (this.idpdataService.triggerJobData.hasOwnProperty("deployTestEnv")) {
             this.IDPDataSwitch.deploy = true;
@@ -767,6 +1145,14 @@ export class TriggerComponent implements OnInit {
         enableSearchFilter: true,
         classes: "myclass custom-class"
       };
+      this.changeDocumentDropdownSettings = {
+        singleSelection: false,
+        text: "Select change document(s)",
+        selectAllText: "Select All",
+        unSelectAllText: "UnSelect All",
+        enableSearchFilter: true,
+        classes: "myclass custom-class"
+      };
         this.dropdownSettings = {
         singleSelection: false,
         text: "Select Transport Requests",
@@ -776,18 +1162,20 @@ export class TriggerComponent implements OnInit {
         classes: "myclass custom-class"
         };
         this.IDPParamData = {
-        "applicationName": "appName",
+        "applicationName": this.paramData.applicationName,
         "pipelineName": "pipName",
         "releaseNumber": "",
         "ibmRQMTestSuiteId": "",
         "userName": this.idpdataService.idpUserName,
         "landscapesDetails": [],
         "subApplicationName": "",
+        "userTeam": "",
         "slaveName": "",
         "testSlaveName": "",
         "castSlaveName": "",
         "reconcileSlaveName": "",
         "envSelected": "",
+        "approvalSelected": "",
         "systemName": "",
         "SapsystemNames": "",
         "instance": "",
@@ -814,6 +1202,7 @@ export class TriggerComponent implements OnInit {
             "targetEnvSelected": "",
             "bugFixTR": ""
         },
+		    "resetSelected":"",
         "build":
         {
             "branchSelected": "",
@@ -848,6 +1237,7 @@ export class TriggerComponent implements OnInit {
         "buildSelected": "off",
         "deploySelected": "off",
         "testSelected": "off",
+        "charmConfigType" : "master",
         "reconcileSelected": "off",
         "slaves": [],
         "modules": [],
@@ -858,6 +1248,8 @@ export class TriggerComponent implements OnInit {
         "releaseNumberList": [],
         "releaseNumber": ""
         };
+		 if(this.IDPParamData.technology==='sapcharm')
+			this.getChangeRequest(); 
         try {
         if (this.idpdataService.triggerJobData) {
             if (this.idpdataService.triggerJobData.hasOwnProperty("build")) {
@@ -945,6 +1337,7 @@ export class TriggerComponent implements OnInit {
             this.idprestapiService.getApplicationInfo(this.IDPParamData.applicationName).then(response => {
             if (response) {
                 const app = JSON.parse(response.json().resource);
+                this.isEnableTrack = app.enableSapTrack;
                     if (this.idpdataService.isSAPApplication) {
                         this.IDPParamData.landscapesDetails = app.environmentOwnerDetails;
                         const details = this.IDPParamData.landscapesDetails;
@@ -994,6 +1387,8 @@ export class TriggerComponent implements OnInit {
 
   closeBuild() {
     this.IDPParamData.build.module = [];
+    this.IDPParamData.build.checkmarxIncremental = "off";
+    this.IDPParamData.build.runCheckmarxInput = "";
     this.IDPDataSwitch.buildSelected = "off";
     this.IDPParamData.slaveName = "";
     this.slavestatus="";
@@ -1016,7 +1411,7 @@ export class TriggerComponent implements OnInit {
     this.IDPParamData.deploy.deployStep = [];
     this.IDPParamData.deploy.subModule = [];
     this.operation = [];
-    
+
     this.addArtifact();
     this.closeDBDeploy();
     return "off";
@@ -1092,32 +1487,786 @@ export class TriggerComponent implements OnInit {
   }
 
   triggerAlert() {
-    this.button.nativeElement.click();
+    this.alertModalRef = this.modalService.show(this.modalforAlert);
   }
 
   triggerAlertDBDep() {
-    this.dbButton.nativeElement.click();
+    this.dbDepModalRef = this.modalService.show(this.modalforAlertDBDep);
   }
 
   triggerAlertArtifact() {
-    this.buttonArtifact.nativeElement.click();
+    this.selectArtifactModalRef = this.modalService.show(this.modalforArtifactAlert);
   }
 
   triggerSubmitArtifactAlert() {
-    this.buttonSubmitArtifact.nativeElement.click();
+      this.submitModalRef = this.modalService.show(this.modalforSubmitAlert);
   }
 
-  // Checks conditions to show Landscape dropdown
-  checkCheckBoxesOn() {
-      if (this.IDPDataSwitch.buildSelected === "on" && (this.IDPParamData.build.cast === "on"
-      || this.IDPParamData.build.codeAnalysis === "on" || this.IDPParamData.build.unitTest === "on")) {
-          return true;
-      } else if (this.IDPDataSwitch.buildSelected !== "on"
-      && (this.IDPDataSwitch.deploySelected === "on" || this.IDPDataSwitch.testSelected === "on")) {
-          return true;
-      } else {
-          return false;
+    getLandscapeType() {
+        if (this.IDPDataSwitch.deploySelected === "on") {
+            this.hideTransportRequest = false;
+            this.selectedItems = [];
+            this.selectedTR = [];
+            const details = this.IDPParamData.landscapesDetails;
+            this.devTrue = false;
+            this.IDPParamData.deploy.deployOperationSelected = "";
+            let landscapeType = "";
+            for (let i = 0; i < details.length; i++) {
+                if (this.IDPParamData.envSelected === details[i].environmentName) {
+                    landscapeType = details[i].landscapeType;
+                    break;
+                }
+            }
+            if (landscapeType === "DEV") {
+                this.devTrue = true;
+            } else {
+                this.getTransportRequest();
+            }
+        } else {
+            this.getTransportRequest();
+        }
+    }
+    // Fetch transport request for SAP
+    getTransportRequest() {
+        this.transportRequests = [];
+        this.selectedItems = [];
+        this.selectedTR = [];
+        this.showData = false;
+        this.IDPParamData.copyTR = false;
+	let data;
+if(this.buildSelect==='on' && this.deploySelect==='on'){// BD, BDT fetch tr from dev even when QA or prod selected
+		data = {
+            "application_name": this.IDPParamData.applicationName,
+            "landscapeName": this.buildEnv,
+            "deployOperation": this.IDPParamData.deploy.deployOperationSelected
+        };
+		}else{
+		data = {
+            "application_name": this.IDPParamData.applicationName,
+            "landscapeName": this.IDPParamData.envSelected,
+            "deployOperation": this.IDPParamData.deploy.deployOperationSelected
+        };
+		}
+
+		
+		console.log(data)
+		
+        this.idpdataService.loading = true;                        
+								this.hideTransportRequests = false;
+        try {
+            if (data.application_name !== "" && data.landscapeName !== "") {
+                this.idpdataService.loading = true;
+                this.idprestapiService.getTransportRequest(data).then(response => {
+                    this.idpdataService.loading = false;
+					if (response) {
+                        if (response.json().resource !== null && response.json().resource !== "[]" && response.json().resource !== "{}") {
+                            const tData = JSON.parse(response.json().resource);
+                            const transportData = tData.transportRequests;
+                            this.showData = tData.show;
+                            this.unselectedTRs = transportData;
+                            this.selectedTR = [];
+                            if (transportData.length !== 0) {
+                                this.IDPParamData.transportRequest = [];
+                                this.transportRequests = [];
+
+                                let c = 1;
+                                let transportList = null;
+                                if (this.IDPDataSwitch.deploySelected === "on"
+                                && this.IDPParamData.deploy.deployOperationSelected !== "release"
+                                && !this.idpdataService.checkpollALM) {
+                                    transportList = null;
+
+                                    // Filtering transport based on release number
+                                    if (this.IDPDataSwitch.releaseNumber !== ""
+                                    && this.idpdataService.triggerJobData.releaseTransportInfo.length !== 0) {
+                                        for (const relTransportInfo of this.idpdataService.triggerJobData.releaseTransportInfo) {
+                                            if (relTransportInfo.releaseNumber === this.IDPDataSwitch.releaseNumber) {
+                                                transportList = relTransportInfo.transportList;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (transportList != null && transportList.length > 0) {
+                                        for (const i of transportData) {
+                                            if (transportList.includes(i.transportReqName)) {
+                                                this.transportRequests.push({ "id": c, "itemName": i.transportReqName });
+                                                c = c + 1;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    for (const i of transportData) {
+                                        this.transportRequests.push({ "id": c, "itemName": i.transportReqName });
+                                        c = c + 1;
+                                    }
+                                }
+
+                                if (this.idpdataService.checkpollALM) {
+                                    this.tempTrArrayDeploy = [];
+                                    const tempTrList = [];
+
+                                    for (const i of this.transportRequests) {
+                                        tempTrList.push(i.itemName);
+                                    }
+
+                                    this.transportRequests = [];
+                                    this.tempTrArrayDeploy = Array.from(new Set(tempTrList));
+                                    let c = 1;
+                                    if (this.tempTrArrayDeploy !== null && this.tempTrArrayDeploy.length > 0) {
+                                        for (let i = 0; i < this.tempTrArrayDeploy.length; i++) {
+                                            if (this.tempTrArrayJira.includes(this.tempTrArrayDeploy[i])) {
+                                                this.transportRequests.push({ "id": c, "itemName": this.tempTrArrayDeploy[i] });
+                                                c = c + 1;
+                                            }
+                                        }
+                                    }
+                                }
+								
+                            } else {
+                                alert("No Transport Request available for SAP System : " + data.landscapeName);
+                            }
+                        } else {
+                            alert("Failed to get Transport Request for  SAP System : " + data.landscapeName);
+                        }
+                    } else {
+                        alert("Failed to get Transport Request for  SAP System : " + data.landscapeName);
+                    }
+                    this.idpdataService.loading = false;
+                });
+            } else {
+                this.hideTransportRequest = false;
+            }
+        } catch (e) {
+            alert("Failed in getting Transport Request");
+        }
+    }
+
+    clearLandscapeAndUserStory() {
+        if (this.IDPDataSwitch.buildSelected === "on" && this.IDPParamData.build.cast !== "on"
+        && this.IDPParamData.build.codeAnalysis !== "on" && this.IDPParamData.build.unitTest !== "on") {
+            this.IDPParamData.envSelected = "";
+      this.selectedUS = [];
+            this.hideTransportRequest = true;
+            this.selectedItems = [];
+        }
+    }
+
+    // Checks conditions to show Landscape dropdown
+    checkCheckBoxesOn() {
+        if (this.IDPDataSwitch.buildSelected === "on" && (this.IDPParamData.build.cast === "on"
+        || this.IDPParamData.build.codeAnalysis === "on" || this.IDPParamData.build.unitTest === "on")) {
+            return true;
+        } else if (this.IDPDataSwitch.buildSelected !== "on"
+        && (this.IDPDataSwitch.deploySelected === "on" || this.IDPDataSwitch.testSelected === "on")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    setReconcileSelected(selected) {
+        if (selected) {
+            this.IDPDataSwitch.reconcileSelected = "on";
+            this.reconcileSelect = "on";
+            this.setbuildLandScapeNames(false);
+            this.setdeployLandScapeNames(false);
+            this.settestLandScapeNames(false);
+        } else {
+            this.IDPDataSwitch.reconcileSelected = "off";
+            this.reconcileSelect = "off";
+            this.IDPParamData.reconcileSlaveName = "";
+            this.reconcilationChange();
+        }
+  }
+
+  setbuildLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.buildSelected = "on";
+      this.buildSelect = "on";
+      this.setReconcileSelected(false);
+    } else {
+      this.IDPDataSwitch.buildSelected = "off";
+      this.buildSelect = "off";
+      this.IDPParamData.slaveName = "";
+      this.IDPParamData.build.codeAnalysis = "off";
+      this.IDPParamData.build.cast = "off";
+      this.IDPParamData.build.unitTest = "off";
+      if (this.idpdataService.checkpollALM) {
+        this.selectedUS = [];
+        this.hideTransportRequest = false;
       }
+    }
+    this.setLandscapeNames();
+  }
+
+  setCharmResetLandScapeNames(selected) {
+	  
+    if (selected) {
+      this.IDPDataSwitch.resetSelected = "on";
+      this.resetSelect = "on";
+    } else {
+      this.IDPDataSwitch.resetSelected = "off";
+      this.resetSelect = "off";
+      this.IDPParamData.slaveName = "";
+      this.IDPParamData.build.codeAnalysis = "off";
+      this.IDPParamData.build.unitTest = "off";
+    }
+    this.setCharmLandscapeNames();
+    
+  }
+  setCharmbuildLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.buildSelected = "on";
+      this.buildSelect = "on";
+    } else {
+      this.IDPDataSwitch.buildSelected = "off";
+      this.buildSelect = "off";
+      this.IDPParamData.slaveName = "";
+      this.IDPParamData.build.codeAnalysis = "off";
+      this.IDPParamData.build.unitTest = "off";
+    }
+    this.setCharmLandscapeNames();
+
+  }
+
+  setCharmDeployLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.deploySelected = "on";
+      this.deploySelect = "on";
+    } else {
+      this.IDPDataSwitch.deploySelected = "off";
+      this.deploySelect = "off";
+      this.IDPParamData.slaveName = "";
+      this.IDPParamData.deploy.deployOperationSelected = "";
+
+    }
+    this.IDPParamData.build.codeAnalysis = "off";
+      this.IDPParamData.build.unitTest = "off";
+    if (this.idpdataService.checkpollALM) {
+      this.selectedUS = [];
+    }
+    this.setCharmLandscapeNames();
+  }
+
+  setCharmTestLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.testSelected = "on";
+      this.testSelect = "on";
+    } else {
+      this.IDPDataSwitch.testSelected = "off";
+      this.testSelect = "off";
+      this.closeTest();
+    }
+    this.setCharmLandscapeNames();
+  }
+
+
+  setdeployLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.deploySelected = "on";
+      this.deploySelect = "on";
+      this.setReconcileSelected(false);
+    } else {
+      this.IDPDataSwitch.deploySelected = "off";
+      this.deploySelect = "off";
+      this.IDPParamData.slaveName = "";
+      this.IDPParamData.deploy.deployOperationSelected = "";
+    }
+    if (this.idpdataService.checkpollALM) {
+      this.selectedUS = [];
+    }
+    this.setLandscapeNames();
+  }
+
+  settestLandScapeNames(selected) {
+    if (selected) {
+      this.IDPDataSwitch.testSelected = "on";
+      this.testSelect = "on";
+      this.setReconcileSelected(false);
+    } else {
+      this.IDPDataSwitch.testSelected = "off";
+      this.testSelect = "off";
+      this.closeTest();
+    }
+    this.setLandscapeNames();
+  }
+
+  getChangeRequest(){
+
+    try {
+          this.idpdataService.loading = true;
+          this.idprestapiService.getChangeRequestDetails(this.IDPParamData.applicationName , this.IDPDataSwitch.charmConfigType).then(response => {
+              if (response) {
+                  if (response.json().resource !== null && response.json().resource !== "[]" && response.json().resource !== "{}") {
+                      const tData = JSON.parse(response.json().resource);
+                      this.changeRequestDetails = tData;
+                      if (this.IDPDataSwitch.charmConfigType === 'master') {
+                        this.approvalStages = ["Successfully Tested", "Authorized for Production", "Imported into Production", "Confirmed", "Completed"];
+                      } else if (this.IDPDataSwitch.charmConfigType === 'workflow') {
+                        this.approvalStages = ["Successfully Tested", "Ready for Production Import", "PFA Approved", "DM Approved", "Imported into Production", "Confirmed", "Completed"];
+                      }
+                  } else {
+                      alert("Failed to get Change Request for  SAP System : " );
+                  }
+              } else {
+                  alert("Failed to get Change Request for  SAP System : " );
+              }
+              this.idpdataService.loading = false;
+          });
+
+  } catch (e) {
+      alert("Failed in getting Change Request");
+  }
+
+
+  }
+
+  fetchChangeRequest(){
+    this.changeRequestListTemp = [];
+    this.changeRequestList = [];
+    this.showPermissionError = "";
+
+    this.hideChangeRequest = false;
+
+    if(this.IDPDataSwitch.buildSelected === 'on'){
+
+      if(this.IDPParamData.build.codeAnalysis === 'on' && this.IDPParamData.build.unitTest === 'on'){
+        this.changeRequestList = this.changeRequestDetails.buildCr;
+      }
+      else if(this.IDPParamData.build.codeAnalysis === 'on'){
+        this.changeRequestList = this.changeRequestDetails.buildCaCr;
+      }
+      else if(this.IDPParamData.build.unitTest === 'on'){
+        this.changeRequestList = this.changeRequestDetails.buildUtCr;
+      }
+    }
+
+
+    if(this.IDPDataSwitch.deploySelected === 'on'){
+
+      let envCrList = this.changeRequestDetails.deployEnvCrList;
+
+      for( let i = 0 ; i< envCrList.length ; i++){
+
+        if(this.IDPParamData.envSelected === envCrList[i].environmentName){
+
+          let localChangeRequestList = envCrList[i].changeRequestList;
+          for(let i=0 ;i < localChangeRequestList.length ; i++){
+            if( !(this.changeRequestList.includes(localChangeRequestList[i]))){
+              this.changeRequestList.push(localChangeRequestList[i]);
+            }
+          }
+          break;
+        }
+
+      }
+
+    }
+
+    if(this.IDPDataSwitch.testSelected === 'on'){
+      let crStatusList= this.changeRequestDetails.crsBasedOnStatusOfCD.filter (x => (x.statusOfCD === 'Unit Testing Completed'));
+
+      for( let i = 0 ; i< crStatusList.length ; i++){
+        let localChangeRequestList = crStatusList[i].crAndDescriptionList;
+        for(let i=0 ;i < localChangeRequestList.length ; i++){
+          if( !(this.changeRequestList.includes(localChangeRequestList[i]))){
+            this.changeRequestList.push(localChangeRequestList[i]);
+          }
+        }
+        break;
+      }
+    }
+
+    if(this.isEnableTrack === 'on') {
+      this.changeRequestListTemp = [];
+      let changeRequestArr = [];
+      let approvalStageArr = [];
+
+        if(this.charmTriggerData.sapTrackSelected!==undefined && this.charmTriggerData.sapTrackSelected!==null && this.charmTriggerData.sapSubTrackSelected !==undefined && this.charmTriggerData.sapSubTrackSelected!=null)
+        {
+          let trackCrList = this.changeRequestDetails.crsBasedOnTrackSubtrack;
+          if (this.IDPParamData.approvalSelected) {
+            for(let k = 0; k < this.changeRequestDetails.crsBasedOnStatusOfCD.length; k++){
+              let currentStatus = this.changeRequestDetails.crsBasedOnStatusOfCD[k];
+              if( (currentStatus.statusOfCD === this.IDPParamData.approvalSelected ) ) {
+                approvalStageArr.push(currentStatus.crAndDescriptionList);
+              }
+            }
+          }
+          for( let i = 0 ; i< trackCrList.length ; i++){
+            if(this.charmTriggerData.sapSubTrackSelected === trackCrList[i].subTrack){
+              let localChangeRequestList = trackCrList[i].crAndDescriptionList;
+              for(let i=0 ;i < localChangeRequestList.length ; i++){
+                if( !(this.changeRequestList.includes(localChangeRequestList[i]))){
+                  changeRequestArr.push(localChangeRequestList[i]);
+                }
+              }
+              break;
+            }
+          }
+          for(let j = 0; j < changeRequestArr.length; j++){
+            if(this.IDPParamData.approvalSelected){
+              if(approvalStageArr.length > 0) {
+                let cr = approvalStageArr[0].filter (x => (changeRequestArr[j].crNumber === x.crNumber));
+                if(cr !== null && cr.length > 0) {
+                  this.showPermissionError = "";
+                  this.changeRequestListTemp.push({"val": changeRequestArr[j].crNumber, "description": changeRequestArr[j].crNumber+ " --> "+
+                  changeRequestArr[j].crDescription,"role": changeRequestArr[j].crApprover});
+                } else if(cr==null || cr.length == 0) {
+                  if(this.changeRequestListTemp.length === 0) {
+                    this.showPermissionError = "No data available for this request."
+                  }
+                }
+              } else {
+                this.showPermissionError = "No data available for this request."
+              }
+            } else {
+              this.changeRequestListTemp.push({"val": changeRequestArr[j].crNumber, "description": changeRequestArr[j].crNumber+ " --> "+
+              changeRequestArr[j].crDescription,"role": changeRequestArr[j].crApprover});
+            }
+          }
+        }
+    }
+    else {
+      this.changeRequestListTemp = [];
+      for(let k = 0; k < this.changeRequestList.length; k++){
+        let cr= this.changeRequestDetails.crAndDescription.filter (x => (this.changeRequestList[k] === x.crNumber));
+        if(cr==null || cr.length==0) {
+          this.changeRequestListTemp.push({"val": this.changeRequestList[k], "description": this.changeRequestList[k]});
+        } else {
+            if(cr[0].crDescription) {
+              this.changeRequestListTemp.push({"val": this.changeRequestList[k], "description": this.changeRequestList[k]+ " --> "+
+              cr[0].crDescription});
+            } else {
+              this.changeRequestListTemp.push({"val": this.changeRequestList[k], "description": this.changeRequestList[k]});
+            }
+          }
+      }
+    }
+  }
+
+  updateCRRole() {
+    let crRole,currentCR;
+    for(let k = 0; k < this.changeRequestDetails.crsBasedOnTrackSubtrack.length; k++){
+      currentCR = this.changeRequestDetails.crsBasedOnTrackSubtrack[k];
+      let cr= currentCR.crAndDescriptionList.filter (x => (this.charmTriggerData.changeRequest === x.crNumber));
+      if(cr !==null && cr.length !==0) {
+        crRole = cr[0].crApprover;
+      } 
+    }
+    this.crApprover = crRole;
+  }
+
+  checkIfTrackEnabled() {
+    if(this.isEnableTrack === 'on') {
+      let currentLandscape = this.IDPParamData.landscapesDetails.filter (x => (this.IDPParamData.envSelected === x.environmentName));
+      this.selectedLandscapeType = currentLandscape[0].landscapeType;
+      this.IDPParamData.approvalSelected = '';
+      this.clearCrData();
+      this.fetchSteps();
+    } else {
+      this.clearCrData();
+      this.fetchChangeRequest();
+      this.fetchSteps();
+    }
+  }
+
+  trackEnabledForUT() {
+    this.isEnableTrack === 'on' ? this.clearCrData() : this.clearCrData();this.fetchChangeRequest();
+  }
+
+  filterTrack(itemList) {
+    let mySet: Set<string> = new Set<string>();
+    let result = [] ;
+    if(itemList !== undefined) {
+      for(let i=0;i<itemList.length; i++){
+        if(!mySet.has(itemList[i].track)){
+          result.push(itemList[i])
+        }
+        mySet.add(itemList[i].track)
+  
+      }
+    }
+    return result;
+  }
+
+  fetchChangeDocument(){
+    this.changeDocumentListDescDropdown = [];
+    this.hideChangeDocument=false;
+    let changeRequest : String = this.charmTriggerData.changeRequest;
+    this.changeDocumentList=[];
+    this.selectedCDData = [];
+    this.selectedCD = [];
+     this.transportRequests = [];
+    this.cdDetailsList = [];
+	  this.changeDocumentListTemp = [];
+	  this.cdListWithStatus = [];
+  //Prepare CD list with description
+  
+	for(let cd of this.changeRequestDetails.changeDocumentMapping){
+		this.cdListWithDescription.push({"cdNum":cd.changeDocument,"cdDescription":cd.changeDocumentData[0].cdDescription});
+		
+	}
+	for(let cd of this.changeRequestDetails.changeDocumentMapping){
+		this.cdListWithStatus.push({"cdNum":cd.changeDocument,"cdStatus":cd.changeDocumentData[0].cdStatus,"cdDescription":cd.changeDocumentData[0].cdDescription});
+		
+  }
+    for(let i=0 ;i<this.changeRequestDetails.crcdRelationList.length ; i++){
+      let cdmap = this.changeRequestDetails.crcdRelationList[i];
+      if(this.IDPDataSwitch.testSelected === 'on') {
+        for(let k = 0; k < this.cdListWithStatus.length; k++){
+          if( (changeRequest === cdmap.changeRequest) && cdmap.changeDocumentList.includes(this.cdListWithStatus[k].cdNum) && (this.cdListWithStatus[k].cdStatus === 'Ready for QA') ) {
+            this.changeDocumentListDescDropdown.push({"id": this.cdListWithStatus[k].cdNum, "itemName": this.cdListWithStatus[k].cdNum + " --> "+this.cdListWithStatus[k].cdDescription});
+          }
+          
+        }
+      }
+
+      if(changeRequest === cdmap.changeRequest){
+        for(let j=0; j<cdmap.changeDocumentList.length ; j++){
+			//Don't add all the CD's; first filter based on status
+			
+			if(this.IDPDataSwitch.deploySelected === 'on'){
+				
+				for(let cdList of this.changeRequestDetails.deployEnvCdList){
+					if(cdList.environmentName === this.IDPParamData.envSelected){
+						for(let cd of cdList.changeDocumentList){
+							if(cdmap.changeDocumentList.includes(cd)){
+								if(!this.changeDocumentListTemp.includes(cd)){
+									this.changeDocumentListTemp.push(cd);
+						
+							}
+					}
+					
+				}
+			}
+				}
+      }
+      
+			if(this.IDPDataSwitch.buildSelected === 'on'){ //B
+				if(this.IDPParamData.build.unitTest==='on' && this.IDPParamData.build.codeAnalysis==='on'){ //UT & CA
+					let status = this.idpdataService.buildCAUT.split(",");
+					let currentCDstatus = this.cdListWithStatus.filter(obj => {
+					  //console.log(obj.cdNum);
+					  //console.log(cdmap.changeDocumentList[j]);
+					  return obj.cdNum === cdmap.changeDocumentList[j]
+					});
+					console.log(currentCDstatus);
+					console.log(status.includes(currentCDstatus[0].cdStatus));
+					if(status.includes(currentCDstatus[0].cdStatus)){
+						if(!this.changeDocumentListTemp.includes(cdmap.changeDocumentList[j]))
+							this.changeDocumentListTemp.push(cdmap.changeDocumentList[j]);
+						//this.changeDocumentList.push({"id": j, "itemName": cdmap.changeDocumentList[j]});
+					}
+					console.log(status);
+				}else if(this.IDPParamData.build.unitTest==='on'){ //only UT
+					let status = this.idpdataService.buildUT.split(",");
+					let currentCDstatus = this.cdListWithStatus.filter(obj => {
+					  return obj.cdNum === cdmap.changeDocumentList[j]
+					});
+					if(status.includes(currentCDstatus[0].cdStatus)){
+						if(!this.changeDocumentListTemp.includes(cdmap.changeDocumentList[j]))
+							this.changeDocumentListTemp.push(cdmap.changeDocumentList[j]);
+					}
+					console.log(status);
+				}else if(this.IDPParamData.build.codeAnalysis==='on'){ //only CA
+					let status = this.idpdataService.buildCA.split(",");
+					let currentCDstatus = this.cdListWithStatus.filter(obj => {
+					  return obj.cdNum === cdmap.changeDocumentList[j]
+					});
+					if(status.includes(currentCDstatus[0].cdStatus)){
+						if(!this.changeDocumentListTemp.includes(cdmap.changeDocumentList[j]))
+							this.changeDocumentListTemp.push(cdmap.changeDocumentList[j]);
+					}
+					console.log(status);
+				}
+			}
+
+      //this.changeDocumentList.push({"id": j, "itemName": cdmap.changeDocumentList[j]});
+      if(this.IDPDataSwitch.testSelected !== 'on') {
+        for(let k = 0; k < this.cdListWithDescription.length; k++){
+            if(cdmap.changeDocumentList[j] === this.cdListWithDescription[k].cdNum){
+              this.changeDocumentListDescDropdown.push({"id": this.cdListWithDescription[k].cdNum, "itemName": this.cdListWithDescription[k].cdNum+" --> "+this.cdListWithDescription[k].cdDescription});
+            }
+        }
+      }
+      // break;
+        }
+      }
+    }
+	
+	for(let k = 0; k < this.changeDocumentListTemp.length; k++) {
+    this.changeDocumentList.push({"id": k, "itemName": this.changeDocumentListTemp[k]});
+  }
+
+  }
+
+  setLandscapeNames() {
+    this.idpdataService.SAPEnvList = [];
+    this.IDPParamData.envSelected = "";
+    this.devTrue = false;
+    this.showData = false;
+    this.transportRequest = "";
+	this.hideTransportRequests = false;
+    this.hideTransportRequest = false;
+    if (this.IDPParamData.envSelected === "") {
+      this.hideTransportRequest = false;
+    }
+    /* if (this.reconcileSelect === "on") {
+      this.idpdataService.SAPEnvList = this.allEnv;
+    } else if (this.deploySelect === "on" && this.buildSelect === "on") {// B || B+D
+      this.idpdataService.SAPEnvList = this.deployEnv;
+	  
+	  
+    } else if (this.deploySelect === "on" && this.buildSelect !== "on" && this.testSelect !== "on") {// D
+      this.idpdataService.SAPEnvList = this.allEnv;
+	  
+    } else if (this.testSelect === "on" || (this.deploySelect === "on" && this.testSelect === "on")) {// T || D+T
+      this.idpdataService.SAPEnvList = this.testEnv;
+	  
+    } else if (this.buildSelect === "on" && this.testSelect === "on") {// B +T
+      //this.idpdataService.SAPEnvList = this.buildTestEnv;
+	  this.idpdataService.SAPEnvList = this.buildEnv;
+	  
+    } else if (this.buildSelect === "on" && this.testSelect === "on" && this.deploySelect === "on") { // B +T+D
+      this.idpdataService.SAPEnvList = this.buildTestEnv;
+	  
+    }  else {
+      this.hideTransportRequests = false;
+      this.hideTransportRequest = false;
+    } */
+	this.hideLandscape = false;
+	if (this.reconcileSelect === "on") {
+      this.idpdataService.SAPEnvList = this.allEnv;
+    } else if (this.testSelect === "on") {// BDT || DT || T || BT
+      
+	  this.idpdataService.SAPEnvList = this.testEnv;
+	  
+	  if(this.deploySelect !== "on" && this.buildSelect === "on"){ //BT
+		  this.hideLandscape = true;
+		  console.log(this.buildEnv);
+		 // if(!this.idpdataService.checkpollALM){
+			  this.hideTransportRequest=true;
+		  this.IDPParamData.envSelected = this.buildEnv; 
+		  
+		  
+		  //}
+		 // this.getTransportRequest();
+	  }
+	  
+    } else if (this.deploySelect === "on" ) {// D, BD
+      this.idpdataService.SAPEnvList = this.deployEnv;
+	  
+    } else if (this.buildSelect === "on" ) {// B
+	  //alert("in build")
+	  console.log(this.buildEnv);
+	  
+	  this.IDPParamData.envSelected = this.buildEnv; 
+      this.hideLandscape = true;
+	  //this.getTransportRequest();
+	  if(this.idpdataService.checkpollALM){
+		  
+	  }
+	  
+    } 
+  }
+
+  showTransportReq(){
+	  this.hideTransportRequest = false;
+  }
+  
+  setCharmLandscapeNames() {
+    this.idpdataService.SAPEnvList = [];
+    this.IDPParamData.envSelected = "";
+    this.devTrue = false;
+    this.showData = false;
+    this.transportRequest = "";
+
+    if (this.IDPParamData.envSelected === "") {
+      this.hideTransportRequest = false;
+    }
+    if (this.buildSelect === "on" || (this.deploySelect === "on" && this.buildSelect === "on")) {// B || B+D
+      this.idpdataService.SAPEnvList = this.buildEnv;
+    } else if (this.deploySelect === "on" && this.buildSelect !== "on" && this.testSelect !== "on") {// D
+      this.idpdataService.SAPEnvList = this.allEnv;
+      this.hideTransportRequest = false;
+    } else if (this.testSelect === "on" || (this.deploySelect === "on" && this.testSelect === "on")) {// T || D+T
+      this.idpdataService.SAPEnvList = this.testEnv;
+      this.hideTransportRequest = false;
+      if (this.deploySelect !== "on") {
+        this.hideTransportRequests = true;
+      } else {
+        this.hideTransportRequests = false;
+      }
+    } else if (this.buildSelect === "on" && this.testSelect === "on") {// B +T
+      this.idpdataService.SAPEnvList = this.buildTestEnv;
+    } else if (this.buildSelect === "on" && this.testSelect === "on" && this.deploySelect === "on") { // B +T+D
+      this.idpdataService.SAPEnvList = this.buildTestEnv;
+    } else if(this.resetSelect === "on"){			//R
+		this.idpdataService.SAPEnvList = this.buildEnv;
+		this.hideTransportRequest = false;
+	}else if (this.testSelect === "on" && this.buildSelect === "off" && this.deploySelect === "off") {
+      this.hideTransportRequests = true;
+    } else {
+      this.hideTransportRequests = false;
+      this.hideTransportRequest = false;
+    }
+  }
+
+  reconcilationChange() {
+    this.IDPParamData.rebase.sourceEnvSelected = "";
+    this.IDPParamData.rebase.transportObjectType = "";
+    this.IDPParamData.rebase.transportObject = "";
+    this.IDPParamData.rebase.targetEnvSelected = "";
+    this.IDPParamData.rebase.bugFixTR = "";
+  }
+
+getObjects() {
+    this.IDPParamData.rebase.transportObjectType = "";
+    this.IDPParamData.rebase.transportObject = "";
+    this.IDPParamData.rebase.targetEnvSelected = "";
+    this.IDPParamData.rebase.bugFixTR = "";
+    this.idpdataService.loading = true;
+    this.idprestapiService.getTRObjects(this.IDPParamData.applicationName, this.IDPParamData.rebase.sourceEnvSelected).then(response => {
+      if (response) {
+        this.idpdataService.loading = false;
+        if (response.json().resource !== null && response.json().resource !== "[]" && response.json().resource !== "{}") {
+         this.objectData = JSON.parse(response.json().resource);
+          if (this.objectData.length !== 0) {
+            const tempObjList = [];
+            for (let i = 0 ; i < this.objectData.length ; i++) {
+              tempObjList.push(this.objectData[i].objectType);
+            }
+            this.objectTypeList =  Array.from(new Set(tempObjList));
+          }
+        }
+      }
+    });
+  }
+  getObjectNames() {
+    this.IDPParamData.rebase.transportObject = "";
+    this.IDPParamData.rebase.targetEnvSelected = "";
+    this.IDPParamData.rebase.bugFixTR = "";
+    const tempObjectName = [];
+    for (let i = 0; i < this.objectData.length; i++) {
+        if (this.objectData[i].objectType === this.IDPParamData.rebase.transportObjectType) {
+        tempObjectName.push(this.objectData[i].objectName);
+        }
+    }
+    this.objectNameList = Array.from(new Set(tempObjectName));
+  }
+
+  getTRforObject() {
+    this.IDPParamData.rebase.targetEnvSelected = "";
+    this.IDPParamData.rebase.bugFixTR = "";
+
+    for (let i = 0 ; i < this.objectData.length ; i++) {
+      if (this.objectData[i].objectType === this.IDPParamData.rebase.transportObjectType
+        && this.objectData[i].objectName === this.IDPParamData.rebase.transportObject) {
+        this.IDPParamData.rebase.bugFixTR = this.objectData[i].transportRequest;
+      }
+    }
   }
 
   intersectionValues() {
@@ -1141,6 +2290,87 @@ export class TriggerComponent implements OnInit {
         }
     }
   }
+
+   getTransportRequestForUserStories(operation, userStory) {
+    this.idpdataService.loading = true;
+	const temp1 = [];
+    let temp2 = "";
+    const temp = this.userStoryArray;
+    let count;
+    if (operation === "onDeselectAll") {
+      this.selectedItems = [];
+      this.transportRequests = [];
+    } else if (operation === "onSelectAll") {
+      this.selectedItems = [];
+      this.transportRequests = [];
+      for (let j = 0; j < temp.length; j++) {
+        for (let i = 0; i < temp[j].Transport.length; i++) {
+          temp1.push(temp[j].Transport[i]);
+        }
+      }
+    } else if (operation === "onSelect") {
+      this.selectedItems = [];
+      for (let j = 0; j < temp.length; j++) {
+        if (userStory === temp[j].Userstory) {
+          for (let i = 0; i < temp[j].Transport.length; i++) {
+            temp1.push(temp[j].Transport[i]);
+          }
+        }
+      }
+    } else if (operation === "onDeselect") {
+      this.selectedItems = [];
+      let index;
+      for (let j = 0; j < temp.length; j++) {
+        if (userStory === temp[j].Userstory) {
+          temp2 = temp[j].Transport[0];
+          count = temp[j].Transport.length;
+          break;
+        }
+      }
+      for (let i = 0; i < this.transportRequests.length; i++) {
+        if (temp2 === this.transportRequests[i].itemName) {
+          index = i;
+          break;
+        }
+      }
+      this.transportRequests.splice(index, count);
+    }
+      
+           this.hideTransportRequest = false;
+		   if(this.deploySelect==='on'){
+           this.IDPParamData.envSelected = "";
+           this.devTrue = false;
+           this.showData = false;
+           
+           this.IDPParamData.deploy.deployOperationSelected = "";
+		   }
+		   this.transportRequests = [];
+           this.selectedTR = [];
+           if (temp1.length > 0) {
+               for (const element of temp1) {
+                   this.tempTrArrayJira.push(element);
+               }
+           } else {
+               if (temp2.length > 0) {
+                   let index;
+                   for (let i = 0; i < this.tempTrArrayJira.length; i++) {
+                       if (temp2 === this.tempTrArrayJira[i].itemName) {
+                           index = i;
+                           break;
+                       }
+                   }
+                   this.tempTrArrayJira.splice(index, count);
+               } else {
+                   this.tempTrArrayJira = [];
+               }
+           }
+       
+		this.idpdataService.loading = true;
+		
+		if(this.buildSelect==='on' && this.deploySelect!=='on'){
+			this.getTransportRequest();
+		}
+    }
 
   onItemSelect(item: any) {
     for (let j = 0; j < this.unselectedTRs.length; j++) {
@@ -1167,9 +2397,10 @@ export class TriggerComponent implements OnInit {
     this.selectedTR = [];
   }
   trigger() {
+    this.showPermissionError = "";
     if (this.requiredSCM === true
         && (this.IDPParamData.branchOrTagValue === undefined || this.IDPParamData.branchOrTagValue === "")) {
-        this.triggerButtonRqdSCM.nativeElement.click();
+        this.missingSCMBranchModalRef = this.modalService.show(this.modalforReqSCMAlert);
     } else if (((this.IDPDataSwitch.buildSelected === "off"
     || this.IDPDataSwitch.buildSelected === null
     || this.IDPDataSwitch.buildSelected === undefined) &&
@@ -1178,20 +2409,32 @@ export class TriggerComponent implements OnInit {
     || this.IDPDataSwitch.testSelected === undefined) &&
     (this.IDPDataSwitch.deploySelected === "off"
     || this.IDPDataSwitch.deploySelected === null
-    || this.IDPDataSwitch.deploySelected === undefined))) {
+    || this.IDPDataSwitch.deploySelected === undefined) &&
+    (this.IDPDataSwitch.resetSelected === "off"
+    || this.IDPDataSwitch.resetSelected === null
+    || this.IDPDataSwitch.resetSelected === undefined))) {
     this.idpdataService.loading = false;
     this.triggerAlert();
     } else {
-        if (this.idpdataService.schedulePage === true || this.idpdataService.createWorkflowSequenceflag) {
-        this.saveButton.nativeElement.click();
-        } else {
-        this.triggerButton.nativeElement.click();
+      if(this.IDPParamData.technology==='sapcharm'){
+        this.checkPermissions();
+        this.validateApprovalStage();
+      }
+      if(!this.showPermissionError) {
+        if (this.IDPParamData.build.runCheckmarxInput === ''){
+          this.IDPParamData.build.checkmarxIncremental = "NA";
         }
+        if (this.idpdataService.schedulePage === true || this.idpdataService.createWorkflowSequenceflag) {
+        this.confirmSaveModalRef = this.modalService.show(this.modalforSave);
+        } else {
+        this.triggerModalRef = this.modalService.show(this.modalforTrigger);
+        }
+      }
     }
   }
-  saveData() {
-    jQuery("#saveAlertForthis").modal("hide");
-
+  saveData(modalRef) {
+    modalRef.hide();
+    this.onTriggerDetailsSaved.emit(true);
     this.idpdataService.loading = true;
     this.IDPParamData.releaseNumber = this.IDPDataSwitch.releaseNumber;
     if (this.IDPDataSwitch.repoName === "na") {
@@ -1255,6 +2498,7 @@ export class TriggerComponent implements OnInit {
       }
       // this.parameterloading = false;
     } else {
+      
       if (this.tempDeploySteps.length !== 0 && this.tempDeploySteps.length !== undefined) {
         for (let i = 0; i < this.deployArr.length; i++) {
           const step = this.deployArr[i];
@@ -1293,6 +2537,13 @@ export class TriggerComponent implements OnInit {
        || this.IDPDataSwitch.deploySelected === null || this.IDPDataSwitch.deploySelected === undefined) {
         requestData.deploy = null;
       }
+	  if (this.IDPDataSwitch.resetSelected !== "on"
+       || this.IDPDataSwitch.resetSelected === null || this.IDPDataSwitch.resetSelected === undefined) {
+        requestData.resetStatus = null;
+		requestData.resetSelected="off";
+      }else{
+		  requestData.resetSelected="on";
+	  }
       if (this.IDPDataSwitch.testSelected === "off"
        || this.IDPDataSwitch.testSelected === null || this.IDPDataSwitch.testSelected === undefined) {
         if (this.idpdataService.isSAPApplication) {
@@ -1303,6 +2554,12 @@ export class TriggerComponent implements OnInit {
         }
       } else if (this.IDPDataSwitch.testSelected === "on") {
         requestData.testSelected = "on";
+      }
+
+      if (this.IDPDataSwitch.resetSelected === "on") {
+        requestData.resetSelected = "on";
+      } else {
+        requestData.resetSelected = "off";
       }
 
       if (this.IDPDataSwitch.reconcileSelected === undefined
@@ -1324,17 +2581,14 @@ export class TriggerComponent implements OnInit {
       this.idpdataService.statusCheck[this.idpdataService.index] = "off";
       console.log(this.idpdataService.buildIntervalData);
       this.idpdataService.loading = false;
-      console.log(this.idpdataService.triggerJobData);
-      jQuery("#addDetails").modal("hide");
-
     }
 
     console.log(this.idpdataService.triggerJobData);
     this.initialize();
   }
 
-  triggerData() {
-    jQuery("#triggerAlertForthis").modal("hide");
+  triggerData(modalRef) {
+    modalRef.hide();
     this.idpdataService.loading = true;
     const requestData = this.getRequestData();
     if (requestData === undefined) {
@@ -1370,7 +2624,9 @@ export class TriggerComponent implements OnInit {
     let deployUncheck = false;
     let testUncheck = false;
     let reconcileUncheck = false;
+    let resetUncheck = false;
     this.IDPParamData.releaseNumber = this.IDPDataSwitch.releaseNumber;
+    this.IDPParamData.resetSelected = (this.IDPDataSwitch.resetSelected === 'on') ? 'on' : 'off';
     let requestData;
     if (this.IDPDataSwitch.repoName === "na") {
         this.IDPParamData.deploy.deployArtifact = {};
@@ -1382,9 +2638,12 @@ export class TriggerComponent implements OnInit {
         if (this.IDPParamData.userStories === undefined) {
           this.IDPParamData.userStories = [];
         }
+
+        else{
         for (const i of this.selectedUS) {
           this.IDPParamData.userStories.push(i.itemName);
         }
+      }
       }
       for (const i of this.selectedItems) {
         this.IDPParamData.transportRequest.push(i.itemName);
@@ -1410,6 +2669,18 @@ export class TriggerComponent implements OnInit {
           }
         }
       }
+      if(this.IDPParamData.technology==='sapcharm'){
+        this.IDPParamData.transportRequest = this.transportRequests;
+	/*	let onlyCDNosList = [];
+		for (let cd of this.selectedCDData ){
+			onlyCDNosList.push(cd.split(",")[0]);
+		}
+        this.IDPParamData.changeDocumentList = onlyCDNosList;*/
+        this.IDPParamData.changeDocumentList = this.selectedCDData;
+        this.IDPParamData.charmConfigType = this.IDPDataSwitch.charmConfigType;
+        this.IDPParamData.changeDocumentDetialsList = this.changeRequestDetails.changeDocumentMapping;
+        
+      }
     }
     if (this.IDPDataSwitch.buildSelected === "off"
         || this.IDPDataSwitch.buildSelected === null
@@ -1433,9 +2704,14 @@ export class TriggerComponent implements OnInit {
         || this.IDPDataSwitch.reconcileSelected === undefined) {
         reconcileUncheck = true;
     }
+	if (this.IDPDataSwitch.resetSelected === "off"
+        || this.IDPDataSwitch.resetSelected === null
+        || this.IDPDataSwitch.resetSelected === undefined) {
+        resetUncheck = true;
+    }
 
     if ((!this.idpdataService.isSAPApplication && buildUncheck && testUncheck && deployUncheck) ||
-        (this.idpdataService.isSAPApplication && buildUncheck && testUncheck && deployUncheck && reconcileUncheck) ||
+        (this.idpdataService.isSAPApplication && buildUncheck && testUncheck && deployUncheck && reconcileUncheck && resetUncheck) ||
         (this.idpdataService.triggerJobData.technology === "dbDeployDelphix"
         && this.IDPParamData.deployDB === "on"
         && this.IDPParamData.dbOperations !== undefined
@@ -1450,10 +2726,12 @@ export class TriggerComponent implements OnInit {
         this.triggerAlert();
         }
     } else {
+
         if (this.tempDeploySteps.length !== 0 && this.tempDeploySteps.length !== undefined) {
         for (let i = 0; i < this.deployArr.length; i++) {
             const step = this.deployArr[i];
             if (this.deployArr[i] !== null) {
+              console.log(this.deployArr[i]);
             this.IDPParamData.deploy.deployStep.push(step);
             }
         }
@@ -1482,7 +2760,7 @@ export class TriggerComponent implements OnInit {
         requestData = this.IDPParamData;
 
         if (this.idpdataService.isSAPApplication) {
-            if (this.IDPDataSwitch.buildSelected === "on" && this.idpdataService.checkpollALM) {
+            if (this.IDPDataSwitch.buildSelected === "on" && this.IDPDataSwitch.deploySelected !== "on" && ( this.idpdataService.checkpollALM || this.IDPParamData.technology==='sapcharm')) {
                 if (this.buildEnv[0]) {
                     requestData.envSelected = this.buildEnv[0];
                 }
@@ -1498,6 +2776,13 @@ export class TriggerComponent implements OnInit {
         || this.IDPDataSwitch.deploySelected === undefined) {
         requestData.deploy = null;
         }
+
+        if (this.IDPDataSwitch.resetSelected !== "on"
+        || this.IDPDataSwitch.resetSelected === null
+        || this.IDPDataSwitch.resetSelected === undefined) {
+        requestData.resetStatus = null;
+        }
+		
         if (this.IDPDataSwitch.testSelected === "off"
         || this.IDPDataSwitch.testSelected === null
         || this.IDPDataSwitch.testSelected === undefined) {
@@ -1525,12 +2810,132 @@ export class TriggerComponent implements OnInit {
         }
         }
         requestData.testSuitId = ids;
+        if(this.IDPParamData.build !== undefined && this.IDPParamData.build !== null && this.IDPParamData.build.checkmarxIncremental!==undefined){
+          requestData.build.checkmarxIncremental= this.IDPParamData.build.checkmarxIncremental;
+        }
+        if(this.IDPParamData.build !== undefined && this.IDPParamData.build !== null && this.IDPParamData.build.checkmarxTag!==undefined &&  this.IDPParamData.build.checkmarxTag === 'on' && this.IDPParamData.build.checkmarxIncremental === ''){
+          requestData.build.checkmarxIncremental= "off";
+        }
+        if(this.IDPParamData.build !== undefined && this.IDPParamData.build !== null && this.IDPParamData.build.runCheckmarxInput === ''){
+          requestData.build.runCheckmarxInput= "off";
+        }
+        if(this.idpdataService.triggerJobData.build!=null && this.idpdataService.triggerJobData.build.checkMarxDetails!==undefined && this.idpdataService.triggerJobData.build.checkMarxDetails!=null){
+          requestData.build.checkMarxDetails= this.idpdataService.triggerJobData.build.checkMarxDetails;
+        }
     }
     return requestData;
   }
 
-  saveWorkflowData() {
-    jQuery("#saveAlertForthis").modal("hide");
+  checkPermissions(){
+    this.showPermissionError = "";
+    if(this.idpdataService.idpUserName.toLowerCase() === this.crApprover.toLowerCase()) { // checking CR Approver permissions
+      if (this.IDPDataSwitch.charmConfigType === 'master') {
+        if (this.IDPParamData.envSelected === "DEV") {
+          this.showPermissionError = "CR Approver cannot be developer.";
+        }
+      }
+      else if( (this.IDPParamData.build.unitTest === "on") || (this.IDPParamData.build.codeAnalysis === "on")) {
+        this.showPermissionError = "CR Approver cannot be developer.";
+      }
+      else if(this.IDPParamData.envSelected === "PROD") {
+        this.showPermissionError = "CR Approver cannot be CC.";
+      }
+    } 
+    if(this.showPermissionError == "") { // checking CD related permissions
+        for(let k = 0; k < this.changeRequestDetails.changeDocumentMapping.length; k++){
+          let currentCD = this.changeRequestDetails.changeDocumentMapping[k];
+          
+          if( this.selectedCDData.indexOf(currentCD.changeDocument)!== -1) {
+            if (this.idpdataService.idpUserName.toLowerCase() === currentCD.developer.toLowerCase()) {
+              if( (this.IDPParamData.envSelected === "QA") || (this.IDPParamData.envSelected === "PROD")) {
+                this.showPermissionError = "Developer/Technical Reviewer cannot be Functional Reviewer.";
+              }
+            }
+            else if (this.idpdataService.idpUserName.toLowerCase() === currentCD.functionalReviewer.toLowerCase()) {
+              if( (this.IDPParamData.build.unitTest === "on") || (this.IDPParamData.build.codeAnalysis === "on")) {
+                this.showPermissionError = "Functional Reviewer cannot be Developer/Technical Reviewer.";
+              }
+            }
+            else if (this.idpdataService.idpUserName.toLowerCase() === currentCD.technicalReviewer.toLowerCase()) {
+              if( (this.IDPParamData.envSelected === "QA") || (this.IDPParamData.envSelected === "PROD")) {
+                this.showPermissionError = "Technical Reviewer cannot be Functional Reviewer/CC.";
+              } else if (this.IDPParamData.envSelected && this.IDPDataSwitch.testSelected === 'on') {
+                this.showPermissionError =  "Technical Reviewer cannot be Functional Tester.";
+              }
+            }
+            else if (this.idpdataService.idpUserName.toLowerCase() === currentCD.CC.toLowerCase()) {
+              if( (this.IDPParamData.build.unitTest === "on") || (this.IDPParamData.build.codeAnalysis === "on")) {
+                this.showPermissionError = "CC cannot be Developer/Technical Reviewer.";
+              }
+            }
+            else if ( (this.IDPParamData.approvalSelected === 'Successfully Tested') || (this.IDPParamData.approvalSelected === 'DM Approved') ) {
+              let trackSelected = this.changeRequestDetails.crsBasedOnTrackSubtrack.filter(x=> (this.charmTriggerData.sapTrackSelected === x.track));
+              if (trackSelected[0].trackRolesMapping.includes("CC")){
+                if (this.idpdataService.idpUserName.toLowerCase() === currentCD.developer.toLowerCase()) {
+                  this.showPermissionError = "CC cannot be Developer/Technical Reviewer.";
+                }
+              }
+            }
+          }
+        }
+    }
+    
+  }
+
+  validateApprovalStage() {
+    this.isAllowed = false;
+    if (!this.showPermissionError) {
+      let currentApproverStage = this.IDPParamData.approvalSelected;
+      let trackSelected = this.changeRequestDetails.crsBasedOnTrackSubtrack.filter(x=> (this.charmTriggerData.sapTrackSelected === x.track));
+      
+      switch(currentApproverStage) {
+        case 'Successfully Tested' : {
+          if (trackSelected[0].trackRolesMapping.includes("CC")){
+            this.isAllowed = true;
+          } else {
+            this.showPermissionError = "You are not authorized for this request.";
+          }
+          break;
+        }
+        case 'Authorized for Production' : {
+          if (trackSelected[0].trackRolesMapping.includes("DM")){
+            this.isAllowed = true;
+          } else {
+            this.showPermissionError = "You are not authorized for this request.";
+          }
+          break;
+        }
+        case 'Ready for Production Import' : {
+          if (trackSelected[0].trackRolesMapping.includes("PF")){
+            this.isAllowed = true;
+          } else {
+            this.showPermissionError = "You are not authorized for this request.";
+          }
+          break;
+        }
+        case 'PFA Approved' : {
+          if (trackSelected[0].trackRolesMapping.includes("DM")){
+            this.isAllowed = true;
+          } else {
+            this.showPermissionError = "You are not authorized for this request.";
+          }
+          break;
+        }
+        case 'DM Approved' : {
+          if (trackSelected[0].trackRolesMapping.includes("CC")){
+            this.isAllowed = true;
+          } else {
+            this.showPermissionError = "You are not authorized for this request.";
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  saveWorkflowData(modalRef) {
+    modalRef.hide();
+    this.onTriggerDetailsSaved.emit(true);
     this.idpdataService.loading = true;
     const requestData = this.getRequestData();
 
@@ -1552,7 +2957,6 @@ export class TriggerComponent implements OnInit {
       }
     }
     this.idpdataService.loading = false;
-    jQuery("#addPipelineDetails").modal("hide");
   }
 
   redirectTo() {
@@ -1572,6 +2976,9 @@ export class TriggerComponent implements OnInit {
             }
         }
         }
+        else{
+          this.slavestatus="";
+        }
     });
   }
 
@@ -1589,9 +2996,17 @@ export class TriggerComponent implements OnInit {
         }
 
         }
+        else{
+          this.testslavestatus="";
+        }
     });
   }
 
+  optionalGetArtifactsRm(){
+	  if(this.rmsEnv === undefined || (this.rmsEnv.indexOf(this.IDPParamData.envSelected) === -1)){
+		this.getArtifactsRm();
+	  }
+  }
   getArtifactsRm() {
     if (this.IDPDataSwitch.repoName !== "na") {
         if (this.IDPDataSwitch.deploySelected === "on"
@@ -1618,26 +3033,44 @@ export class TriggerComponent implements OnInit {
                     "repoName": "", "version": "", "buildModules": "",
                     "enviromment": "", "userInfo": "", "timestamp": "", "downloadURL": ""
                 }];
-				                                
+
 				this.filterArtifacts();
+				if(this.rmsEnv.indexOf(this.IDPParamData.envSelected) !== -1){
+					this.filterArtifactsRms();
+				}
 				const artifactSize=this.artifacts.length;
                 tempLatestArtifact[0].artifactName = this.idpdataService.triggerJobData.applicationName + "_" +
                     this.idpdataService.triggerJobData.pipelineName + "_latestArtifact";
-				alert("version" + this.artifacts[artifactSize-1].version); 
+				//alert("version" + this.artifacts[artifactSize-1].version);
                 tempLatestArtifact[0].groupId = this.idpdataService.triggerJobData.applicationName;
                 tempLatestArtifact[0].artifactID = this.idpdataService.triggerJobData.pipelineName;
                 tempLatestArtifact[0].nexusURL = this.idpdataService.triggerJobData.nexusURL;
                 tempLatestArtifact[0].repoName = this.idpdataService.triggerJobData.repoName;
 				tempLatestArtifact[0].downloadURL="http://"+tempLatestArtifact[0].nexusURL + "/repository/" + tempLatestArtifact[0].repoName+"/"+this.IDPParamData.applicationName+"/"+this.IDPParamData.pipelineName+"/"+this.artifacts[artifactSize-1].version+"/"+this.IDPParamData.pipelineName+"-"+this.artifacts[artifactSize-1].version+".zip";
+				if(this.rmsEnv.indexOf(this.IDPParamData.envSelected) === -1)
 				this.artifacts.push(tempLatestArtifact[0]);
 				}
             }
             this.idpdataService.loading = false;
             });
-			
+
         }
         }
     }
+  }
+
+  filterArtifactsRms() {
+      this.rmsArtifacts = [];
+      for (let i = 0; i < this.artifacts.length; i++) {
+        if (_.includes(this.artifacts[i].artifactName, this.rmsApprovedArtifact) !== false) {
+            this.rmsArtifacts.push(this.artifacts[i]);
+        }
+
+      }
+      if (this.rmsArtifacts.length === 0) {
+            alert("Please select both build and deploy as no approved artifacts are present");
+      }
+	  this.artifacts = this.rmsArtifacts; 
   }
   
   filterArtifacts() {
@@ -1681,7 +3114,7 @@ export class TriggerComponent implements OnInit {
                 console.log("Failed to get JobparamDetails Details");
             }
             } catch (e) {
-            alert("Failed to get JobparamDetails Details");
+            //alert("Failed to get JobparamDetails Details");
             console.log(e);
             }
         }
@@ -1771,6 +3204,7 @@ export class TriggerComponent implements OnInit {
                     "itemName": resp.deploySteps[i]
                     };
                     this.dropdownListDeploy.push(step);
+                    console.log(this.dropdownListDeploy);
                     this.deployArr[i] = null;
                 }
                 }
@@ -1921,7 +3355,17 @@ export class TriggerComponent implements OnInit {
   // <----- Deploy Steps Multi-select Dropdown functions---->
 
   onItemSelectDepSteps(item: any) {
-    this.deployArr[item.id] = item.itemName;
+    this.deployArr.push(item.itemName);
+  }
+  trOnItemSelect(item: any) {
+    this.trialArr[item.id] = item.itemName;
+  }
+  
+  trOnItemSelectDe(item: any) {
+    const i = this.trialArr.indexOf(item.itemName);
+    if (i !== -1) {
+        this.trialArr[i] = null;
+    }
   }
   onItemDeSelectDepSteps(item: any) {
     const i = this.deployArr.indexOf(item.itemName);
@@ -1939,7 +3383,7 @@ export class TriggerComponent implements OnInit {
   }
   // <----- Test Steps Multi-select Dropdown functions---->
   onItemSelectTestSteps(item: any) {
-    this.testArr[item.id] = item.itemName;
+    this.testArr.push(item.itemName);
 
   }
   onItemDeSelectTestSteps(item: any) {
@@ -2023,13 +3467,11 @@ export class TriggerComponent implements OnInit {
     this.idpdataService.buildIntervalData.push({ "type": "", "minute": "", "time": "", "details": {} });
   }
 
-  closeModal(id) {
-    jQuery("#" + id).modal("hide");
-  }
 
   getArtifactLatestDetails(artifacts) {
     console.log(artifacts.artifactName);
     const dashboardURL: String = this.idpdataService.IDPDashboardURL;
+    console.log("dashboard url: " + dashboardURL)
     const hostName: String = dashboardURL.split(":")[1].substr(2);
     this.dashboardUrl = "https://" + hostName +
         ":3000/dashboard/db/artifact-view?orgId=1&var-Application=" + this.IDPParamData.applicationName;
@@ -2060,9 +3502,10 @@ export class TriggerComponent implements OnInit {
             if(this.packageContent !== undefined && this.packageContent.pega !== undefined){
                 this.pega = this.packageContent.pega;
             }
-			      if(this.packageContent !== undefined && this.packageContent.siebel !== undefined){
+			if(this.packageContent !== undefined && this.packageContent.siebel !== undefined){
               this.siebel = this.packageContent.siebel;
-            }
+              console.log(" Siebel DataContent " +this.siebel);
+          }
         }
 
         }
@@ -2082,6 +3525,201 @@ export class TriggerComponent implements OnInit {
 
   isLatestArtifact() {
     return (this.IDPParamData.deploy.artifacts.artifactName as String).endsWith("_latestArtifact");
+  }
+
+  onItemSelectUserStory(item: any) {
+    for (let j = 0; j < this.userStoryArray.length; j++) {
+      if (item.itemName === this.userStoryArray[j].Userstory) {
+        this.selectedUSData.push(this.userStoryArray[j]);
+        break;
+      }
+    }
+    console.log(this.selectedUSData);
+    this.getTransportRequestForUserStories("onSelect", item.itemName);
+  }
+  OnItemDeSelectUserStory(item: any) {
+    let index;
+    for (let j = 0; j < this.selectedUSData.length; j++) {
+      if (item.itemName === this.selectedUSData[j].Userstory) {
+        index = j;
+        break;
+      }
+    }
+    this.selectedUSData.splice(index, 1);
+    this.getTransportRequestForUserStories("onDeselect", item.itemName);
+  }
+  onSelectAllUserStory(items: any) {
+    this.selectedUSData = this.userStoryArray;
+    this.getTransportRequestForUserStories("onSelectAll", "");
+  }
+  onDeSelectAllUserStory(items: any) {
+    this.selectedUSData = [];
+    this.getTransportRequestForUserStories("onDeselectAll", "");
+  }
+  rmsToken(){
+     if (this.IDPDataSwitch.repoName !== "na") {
+        if (this.IDPDataSwitch.deploySelected === "on"
+        && (this.IDPDataSwitch.buildSelected !== "on"
+            || this.IDPParamData.technology === "dbDeployDelphix")) {
+        if (this.IDPParamData.envSelected !== "") {
+            
+            
+			if(this.rmsEnv.indexOf(this.IDPParamData.envSelected) !== -1){
+          if(this.rmsComponentName===""){
+			  alert("No Rms Component Name present. Please edit the pipeline.");
+		  }
+		  this.idprestapiService.getRmsToken(this.rmsComponentName)
+        .then(response => {
+        
+        try {
+			alert("Successfully retrieved RMS token!!");
+            console.log(response.json().resource);
+			const str = response.json().resource;
+			
+			this.rmsApprovedArtifact=str.substr(1).slice(0, -1);
+			//alert("after token call")
+			this.getArtifactsRm();
+       
+        } catch (e) {
+            console.log("Failed to get Rms token");
+            console.log(e);
+        }
+        });
+      }
+		}
+			}
+	 }
+  }
+
+   OnItemSelectChangeDocument(item: any) {
+    this.selectedCDData.push(item.itemName.split(" -->")[0]);
+    this.getCharmTransportData();
+
+  }
+  OnItemDeSelectChangeDocument(item: any) {
+    let index;
+    for (let j = 0; j < this.selectedCDData.length; j++) {
+      if (item.itemName.split(" -->")[0] === this.selectedCDData[j]) {
+        index = j;
+        break;
+      }
+    }
+    this.selectedCDData.splice(index, 1);
+    this.getCharmTransportData();
+  }
+  onSelectAllChangeDocument(items: any) {
+	  for(let cd of this.changeDocumentList) {
+      this.selectedCDData.push(cd.itemName);
+      console.log(this.selectedCDData);
+    }
+    this.getCharmTransportData();
+
+  }
+  onDeSelectAllChangeDocument(items: any) {
+    this.selectedCDData = [];
+    console.log(this.selectedCDData);
+    this.getCharmTransportData();
+  }
+
+
+  getCharmTransportData(){
+
+    let cdDetails = this.changeRequestDetails.changeDocumentMapping;
+    this.transportRequests = [];
+    this.cdDetailsList = [];
+
+    for(let i=0 ; i < cdDetails.length; i++){
+      for(let j=0 ; j< this.selectedCDData.length ; j++){
+        console.log( " selected Cd data :" + this.selectedCDData[j]);
+       // console.log(" change Document : " + cdDetails[i].changeDocument);
+        if(this.selectedCDData[j] === cdDetails[i].changeDocument){
+          console.log("true inside func");
+          let cdDataList = cdDetails[i].changeDocumentData;
+          for(let k=0 ; k < cdDataList.length ; k++){
+           // console.log(cdDetails[i].changeDocumentData[k].trNumber);
+            this.cdDetailsList.push(cdDetails[i].changeDocumentData[k]);
+			if(cdDetails[i].changeDocumentData[k].trStatus!=="Released"){
+				this.transportRequests.push(cdDetails[i].changeDocumentData[k].trNumber);
+			}
+          }
+
+        }
+      }
+    }
+  }
+
+  trackDisplayedName(trackInfo) {
+    if (trackInfo.track) {
+      return trackInfo.track + "-->" + trackInfo.trackDescription ;
+    }
+  }
+
+  clearCrData(){
+    // this.hideChangeDocument=true;
+    // this.hideChangeRequest=true;
+    this.changeRequestList = [];
+    this.changeRequestListTemp = [];
+    this.changeDocumentList = [];
+    this.sapSubTrackListTemp = [];
+    this.IDPParamData.resetSlave = "";
+    this.showPermissionError = "";
+    // this.IDPParamData.resetStatus.fromState = "";
+    this.selectedCDData = [];
+    this.selectedCD = [];
+    this.charmTriggerData.changeRequest = "";
+    this.charmTriggerData.sapTrackSelected = "";
+    this.charmTriggerData.sapSubTrackSelected = "";
+    this.transportRequests = [];
+    this.cdDetailsList = [];
+    this.showErrorForST = false;
+    // this.IDPParamData.approvalSelected = "";
+    // this.IDPParamData.slaveName = "";
+    // this.slavestatus = "";
+  }
+  clearCrCd(){
+    this.changeRequestList = [];
+    this.changeRequestListTemp = [];
+    this.changeDocumentList = [];
+    this.changeDocumentListTemp = [];
+    this.changeDocumentListDescDropdown = [];
+    this.selectedCDData = [];
+    this.selectedCD = [];
+    this.charmTriggerData.changeRequest = "";
+    this.transportRequests = [];
+    this.cdDetailsList = [];
+    this.showPermissionError = "";
+    this.showErrorForST = false;
+  }
+
+  validateForST() {
+    if ( (this.IDPParamData.approvalSelected === 'Successfully Tested') && this.selectedLandscapeType === 'PROD' ){
+      this.showErrorForST = true;
+    }
+  }
+
+  clearCharmConfigType(){
+    this.clearCrCd();
+    this.IDPDataSwitch.buildSelected="off";
+    this.IDPDataSwitch.deploySelected="off";
+    this.IDPDataSwitch.testSelected="off";
+    this.showPermissionError = "";
+    this.IDPParamData.slaveName = "";
+    this.slavestatus = "";
+    this.IDPParamData.approvalSelected = "";
+    this.selectedLandscapeType = "";
+    if(this.IDPParamData.technology==='sapcharm')
+    this.getChangeRequest();
+  }
+  updateIncrementalScan() {
+    if ((this.IDPParamData.build.runCheckmarxInput==="on")){
+      if(this.IDPParamData.build.checkmarxIncremental === "on") {
+        this.IDPParamData.build.checkmarxIncremental = "on";
+      } else {
+        this.IDPParamData.build.checkmarxIncremental = "off";
+      }
+    } else {
+      this.IDPParamData.build.checkmarxIncremental = "NA";
+    }
   }
 
 }

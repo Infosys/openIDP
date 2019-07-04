@@ -5,50 +5,35 @@
 * https://opensource.org/licenses/MIT.”
 *
 -->
-<div>
-  <app-idpheader></app-idpheader>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="panel panel-default " style="margin-left:20px; width:98%">
-  <div class="panel-heading">
+<div class="card ">
+  <div class="card-header">
     <div class="text-left">
       <b>{{'Environment Planning'|translate}}</b>
     </div>
   </div>
-
-  <div class="panel-body">
-    <div class="container-fluid">
-      <div class="well" style="margin-top:40px;margin-left:10px;margin-right:10px;">
-        <div class="text-center">
-          <div class="row form-group">
-            <div *ngIf="appNames!==undefined && appNames.length!==0">
-              <div class="col-md-offset-1 col-md-3 text-right ">
-                <label class="control-label ">{{'Application Name'|translate}}
+  <div class="card-body">
+          <div >
+            <div *ngIf="appNames!==undefined && appNames.length!==0" class="form-row form-group">
+              <div class="col-md-3  ">
+                <label class="col-form-label ">{{'Application Name'|translate}}
                   <span class="star">*</span>
                 </label>
               </div>
-              <div class="col-md-5 field-tip">
-                <select style="width:50%" [(ngModel)]="envPlannigData.applicationName" (change)="getEnvironmentNames();getReleaseNumber(envPlannigData.applicationName);envPlannigData.env='';envPlannigData.releaseNumber='';envSlots=[]"
+              <div class="col-md-4 field-tip">
+                <select  [(ngModel)]="envPlannigData.applicationName" (change)="getEnvironmentNames();getReleaseNumber(envPlannigData.applicationName);envPlannigData.env='';envPlannigData.releaseNumber='';envSlots=[]"
                   class="form-control" [ngModelOptions]="{standalone: true}" required>
                   <option value="">--Select--</option>
                   <option *ngFor="let name of appNames" [ngValue]="name">{{name}}</option>
                 </select>
-                <span class="tip-content">{{'Name of the application under which Planning has to be done'|translate}}</span>
+                <span class="tip-content tooltip-space">{{'Name of the application under which Planning has to be done'|translate}}</span>
               </div>
             </div>
           </div>
 
           <div *ngIf="envPlannigData.envNames!==undefined && envPlannigData.envNames.length>0">
-            <div class="row form-group">
-              <div class="col-md-offset-1 col-md-3 text-right ">
-                <label class="control-label ">{{'Environment Name'|translate}}
+            <div class="form-row form-group">
+              <div class="col-md-3  ">
+                <label class="col-form-label ">{{'Environment Name'|translate}}
                   <span class="star">*</span>
                 </label>
               </div>
@@ -63,103 +48,85 @@
           </div>
 
           <div *ngIf="envSlots!==undefined && envSlots.length!==0">
-            <div class="panel panel-default " style="margin-left:20px; width:98%">
-              <div class="panel-heading">
+            <div class="card card-with-border" style="margin-left:20px; width:98%">
+              <div class="card-header">
                 <div class="text-left">
                   <b>{{'Existing Slots for the Environment'|translate}}</b>
                 </div>
               </div>
-
-              <div class="panel-body">
+              <div class="card-body">
                 <div class="container-fluid">
-                  <div class="row form-group">
                     <div class="text-center">
-                      <form name="IDPDataSwitch.BuildTriggerParamForm1" id="paramForm" ngNativeValidate class="form-horizontal">
-                        <div class="panel-group col-md-10 col-md-offset-1" role="tablist" aria-multiselectable="true">
-
-                          <div class="panel panel-default" *ngFor="let interval of envSlots; let i =index" [attr.data-index]="i">
-                            <div class="panel-heading" role="tab">
-                              <h4 class="panel-title">
+                      <form name="IDPDataSwitch.BuildTriggerParamForm1" id="paramForm" ngNativeValidate >
+                        <div class="" role="tablist" aria-multiselectable="true">
+                          <div class="card" *ngFor="let interval of envSlots; let i =index" [attr.data-index]="i">
+                            <div class="card-header" role="tab">
+                              <span class="panel-title">
                                 {{'Release Number: '|translate}}{{interval.releaseNumber}}
-                              </h4>
+                              </span>
                             </div>
-                            <div id="{{'#'+(i+1)}}" class="panel-collapse collapse in" role="tabpanel">
-                              <div class="panel-body">
-
-                                <div class="col-md-1 field-tip" style="width: 6%;margin-top: 4px; margin-right:5px;">
-                                  <span>Every</span>
-                                </div>
-                                <div class="col-md-2 field-tip">
+                            <div id="{{'#'+(i+1)}}">
+                              <div class="card-body row">
+                                <div class=" col-3 form-row form-group">
+                                  <label class="col-form-label">Every</label>
+                                <div class="field-tip">
                                   <select #typeVal="ngModel" [(ngModel)]="interval.type" id="type1{{i}}" name="type1+{{i}}" class="form-control" disabled required>
                                     <option value="">--Select--</option>
                                     <option *ngFor="let typeValue of intervalOptions" [ngValue]="typeValue">{{typeValue}}</option>
                                   </select>
                                 </div>
-
-                                <div *ngIf="interval.type!==undefined && interval.type!==''">
-
-                                  <div class="col-md-2 text-left ">
-                                    <label class="control-label ">{{'Start Time'|translate}}
-                                      <span class="star">*</span>
-                                    </label>
+                                </div>
+                                <div *ngIf="interval.type!==undefined && interval.type!==''" class="col-9 d-flex flex-row justify-content-between">
+                                  <div class="form-row form-group">
+                                  <div  *ngIf="interval.type==='Month' || interval.type==='Week'">
+                                    <label class="col-form-label" >on</label>
                                   </div>
-                                  <div class="col-md-2">
-                                    <input type="time" style="margin-left:-30px" atp-time-picker [(ngModel)]="interval.startTime" name="startTime1+{{i}}" id="startTime1{{i}}"
-                                      onlyHour="false" disabled/>
-                                  </div>
-
-
-
-                                  <div class="col-md-1 col-md-offset-1" style="width: 1%;margin-top: 4px;" *ngIf="interval.type==='Month' || interval.type==='Week'">
-
-                                    <span style="text-align:center; vertical-align:middle;margin-top:30px">on</span>
-                                  </div>
-                                  <div class="col-md-2" style="height:10px;" *ngIf="interval.type==='Week'">
+                                  <div *ngIf="interval.type==='Week'">
                                     <select #weekVal="ngModel" [(ngModel)]="interval.week" name="week1+{{i}}" id="week1{{i}}" class="form-control" (change)="check(interval.week);"
                                       multiple disabled>
                                       <option *ngFor="let week of weeklyOptions" [ngValue]="week">{{week}}</option>
                                     </select>
                                   </div>
-
-                                  <div class="col-md-2 " style="height:10px;" *ngIf="interval.type==='Month'">
-
+                                  </div>
+                                  <div *ngIf="interval.type==='Month'">
                                     <select #typeDate="ngModel" [(ngModel)]="interval.date" name="date1+{{i}}" id="date1{{i}}" class="form-control" multiple
                                       disabled>
                                       <option *ngFor="let date of dateOptions" [ngValue]="date">{{date}}</option>
                                     </select>
                                   </div>
+                                  <div>
+                                    <div class="form-row form-group">
+                                      <label class="col-form-label ">{{'Start Time'|translate}}
+                                        <span class="star">*</span>
+                                      </label>
+                                      <input type="time"  atp-time-picker [(ngModel)]="interval.startTime" name="startTime1+{{i}}" id="startTime1{{i}}"
+                                             onlyHour="false" disabled/>
+                                    </div>
+                                    <div class="form-row form-group">
+                                      <label class="col-form-label">{{'End Time'|translate}}
+                                        <span class="star">*</span>
+                                      </label>
+                                      <input type="time" atp-time-picker [(ngModel)]="interval.endTime" id="endTime1{{i}}" name="endTime1+{{i}}" onlyHour="false"
+                                             disabled/>
+                                    </div>
+                                  </div>
 
-                                  <br>
-                                  <br>
-                                  <div class="col-md-2 col-md-offset-3 text-left" style="margin-left: 207px">
-                                    <label class="control-label">{{'End Time'|translate}}
-                                      <span class="star">*</span>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2 text-left" style="margin-left: -5px">
-                                    <input type="time" atp-time-picker [(ngModel)]="interval.endTime" id="endTime1{{i}}" name="endTime1+{{i}}" onlyHour="false"
-                                      disabled/>
-                                  </div>
                                 </div>
-                                <br>
                               </div>
-
                             </div>
                           </div>
                         </div>
                       </form>
                     </div>
-                  </div>
                 </div>
               </div>
-
             </div>
           </div>
 
           <div *ngIf="envPlannigData.applicationName!==undefined && envPlannigData.applicationName!=='' && envPlannigData.releaseNumbers.length!==0">
-            <div class="row form-group">
-              <div class="col-md-offset-1 col-md-3 text-right ">
-                <label class="control-label ">{{'Release Number'|translate}}
+            <div class="form-row form-group">
+              <div class="col-md-3  ">
+                <label class="col-form-label ">{{'Release Number'|translate}}
                   <span class="star">*</span>
                 </label>
               </div>
@@ -175,70 +142,63 @@
             </div>
             <!--This is for showing the pipeline for the relase.-->
             <div *ngIf="envPlannigData.releaseNumber!==undefined && envPlannigData.releaseNumber!==''">
-              <div class="row form-group">
-                <div class="col-md-offset-1 col-md-3 text-right">
-                  <label class="control-label ">{{'Affected Pipeline/(s)'|translate}}
+              <div class="form-row form-group">
+                <div class="col-md-3 ">
+                  <label class="col-form-label ">{{'Affected Pipeline/(s)'|translate}}
 
                   </label>
                 </div>
                 <div class="col-md-4 field-tip">
-                  <select style="width:70%" class="form-control" multiple disabled>                   
+                  <select  class="form-control" multiple disabled>
                     <option *ngFor="let name of pipelineNames" [ngValue]="name">{{name}}</option>
                   </select>
-                  <span class="tip-content">{{'Affected Pipeline/(s) from this plan'|translate}}</span>
+                  <span class="tip-content" style="right:-59px; margin-top: 10px; zoom: 98%;">{{'Affected Pipeline/(s) from this plan'|translate}}</span>
                 </div>
 
               </div>
             </div>
             <form name="IDPDataSwitch.BuildTriggerParamForm1" id="paramForm" ngNativeValidate class="form-horizontal" (ngSubmit)="updatePlan()">
               <div *ngIf="envPlannigData.env!==undefined && envPlannigData.env!=='' && envPlannigData.releaseNumber!==undefiend && envPlannigData.releaseNumber!==''">
-                <div class="panel panel-default " style="margin-left:20px; width:98%">
-                  <div class="panel-heading">
-                    <div class="text-left">
-                      <b>{{'Schedule the Environment'|translate}}</b>
+                <div class="card " style="margin-left:20px; width:98%">
+                  <div class="card-header d-flex flex-row justify-content-between">
+                    <div style="width:100%;">
+                      <div class="text-left">
+                        <b>{{'Schedule the Environment'|translate}}</b>
+                      </div>
+                      <div class="text-right">
+                        <b>{{'Server TimeZone: '|translate}}{{timeZone}}</b>
+                      </div>
                     </div>
-                    <div class="text-right">
-                      <b>{{'Server TimeZone: '|translate}}{{timeZone}}</b>
-                    </div>
+                    
+
                   </div>
-
-                  <div class="panel-body">
-                    <div class="container-fluid">
-                      <div class="row form-group">
-                        <div class="text-center">
-
-                          <div class="col-md-3 col-md-offset-9">
-                            <button type="button" class="btn btn-info " id="btn_txt" (click)="addJob()" style="float:right;margin-top:10px">{{'Add Slot'|translate}}</button>
-                          </div>
-
-                          <div class="panel-group col-md-10 col-md-offset-1" role="tablist" aria-multiselectable="true">
-
-                            <div class="panel panel-default" *ngFor="let interval of envData; let i =index" [attr.data-index]="i">
-                              <div class="panel-heading" role="tab">
-                                <h4 class="panel-title">
-                                  <a data-toggle="collapse" href="{{i+1}}" data-target="{{'#'+(i+1)}}" href="{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
+                  <div class="card-body">
+                      <button type="button" class="btn btn-info " id="btn_txt" (click)="addJob()" style="float:right;margin: -8px 0 0 8px; font-size: 14px;">{{'Add Slot'|translate}}</button>
+                            <div class="card" *ngFor="let interval of envData; let i =index" [attr.data-index]="i" style="margin-top: 18px;">
+                              <div class="card-header" role="tab">
+                                <span class="panel-title">
+                                  <a  attr.aria-controls="#{{i+1}}" (click)="collapse.toggle()" aria-expanded="true" >
                                     Slot_{{(i+1)}}
                                   </a>
                                   <span style="float:right">
-                                    <a (click)="deleteBuildInterval(i)" style="cursor:pointer;font-size:16px !important;color:black;">
-                                      <span class="glyphicon glyphicon-remove"></span>
-                                    </a>
+                                    <button class="btn bg-transparent" (click)="deleteBuildInterval(i)">
+                                      <span class="cui-trash" aria-hidden="true"></span>
+                                    </button>
                                   </span>
-                                </h4>
+                                </span>
                               </div>
-                              <div id="{{'#'+(i+1)}}" class="panel-collapse collapse in" role="tabpanel">
-                                <div class="panel-body">
-
-                                  <div class="col-md-1 field-tip" style="width: 6%;margin-top: 4px; margin-right:5px;">
+                              <div id="{{(i+1)}}" #collapse="bs-collapse" [collapse]="slotsCardCollapseStatus[i+1]" role="tabpanel">
+                                <div class="card-body d-flex flex-row justify-content-start">
+                                  <div class="col-3 form-row form-group">
+                                  <div class="field-tip col-md-3" style="margin: 6px 0px 0 0;">
                                     <span>Every</span>
                                   </div>
-                                  <div class="col-md-2 field-tip">
+                                  <div class="field-tip" >
                                     <select #typeVal="ngModel" [(ngModel)]="interval.type" id="type{{i}}" name="type+{{i}}" class="form-control" required>
                                       <option value="">--Select--</option>
                                       <option *ngFor="let typeValue of intervalOptions" [ngValue]="typeValue">{{typeValue}}</option>
 
                                     </select>
-
 
                                     <div *ngIf="typeVal.errors && (typeVal.dirty || typeVal.touched)" class="alert alert-danger ">
                                       <div [hidden]="!typeVal.errors.required">
@@ -246,22 +206,42 @@
                                       </div>
                                     </div>
                                   </div>
-
-                                  <div *ngIf="interval.type!==undefined && interval.type!==''">
-
-                                    <div class="col-md-2 text-left ">
-                                      <label class="control-label ">{{'Start Time'|translate}}
-                                        <span class="star">*</span>
-                                      </label>
+                                  </div>
+                                  <div *ngIf="interval.type!==undefined && interval.type!==''" class=" col-9 d-flex flex-row justify-content-between">
+                                    <div class="form-row form-group">
+                                        <div style="margin-right: 90px;">
+                                            <div class="form-row form-group" style="margin-bottom: 5px; font-size: 13px;">
+                                              <div class="text-left " style="margin-right: 70px;">
+                                                <label class="col-form-label ">{{'Start Time'|translate}}
+                                                  <span class="star">*</span>
+                                                </label>
+                                              </div>
+                                              <div style="margin-top: 3px;">
+                                                <input type="time"  atp-time-picker [(ngModel)]="interval.startTime" name="startTime+{{i}}" id="startTime{{i}}"
+                                                       onlyHour="false" required />
+                                              </div>
+                                            </div>
+                                            <div  class="form-row form-group" style="font-size: 13px;">
+                                              <div class="text-left" style="margin-right: 76px;">
+                                                <label class="col-form-label">{{'End Time'|translate}}
+                                                  <span class="star">*</span>
+                                                </label>
+                                              </div>
+                                              <div class="text-left" style="margin-top: 6px;">
+                                                <input type="time" atp-time-picker [(ngModel)]="interval.endTime" id="endTime{{i}}" name="endTime+{{i}}" onlyHour="false"
+                                                       required/>
+                                                <div *ngIf="interval.endTime!==undefined  && interval.endTime!=='' && interval.endTime<=interval.startTime" class="alert alert-danger ">
+                                                  <div [hidden]="!(interval.endTime<=interval.startTime)">
+                                                    End time has to be greater than start time!
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                    <div *ngIf="interval.type==='Month' || interval.type==='Week'" style="margin-right: 20px;">
+                                      <span>on</span>
                                     </div>
-                                    <div class="col-md-2">
-                                      <input type="time" style="margin-left:-30px" atp-time-picker [(ngModel)]="interval.startTime" name="startTime+{{i}}" id="startTime{{i}}"
-                                        onlyHour="false" required />
-                                    </div>
-                                    <div class="col-md-1 col-md-offset-1" style="width: 1%;margin-top: 4px;" *ngIf="interval.type==='Month' || interval.type==='Week'">
-                                      <span style="text-align:center; vertical-align:middle;margin-top:30px">on</span>
-                                    </div>
-                                    <div class="col-md-2" style="height:10px;" *ngIf="interval.type==='Week'">
+                                    <div  *ngIf="interval.type==='Week'" style="width: 110px;">
                                       <select #weekVal="ngModel" [(ngModel)]="interval.week" name="week+{{i}}" id="week{{i}}" class="form-control" (change)="check(interval.week);"
                                         multiple required>
                                         <option *ngFor="let week of weeklyOptions" [ngValue]="week">{{week}}</option>
@@ -273,7 +253,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-2 " style="height:10px;" *ngIf="interval.type==='Month'">
+                                    <div *ngIf="interval.type==='Month'" style="width: 110px;">
                                       <select #typeDate="ngModel" [(ngModel)]="interval.date" name="date+{{i}}" id="date{{i}}" class="form-control" multiple required>
                                         <option *ngFor="let date of dateOptions" [ngValue]="date">{{date}}</option>
                                       </select>
@@ -283,33 +263,14 @@
                                         </div>
                                       </div>
                                     </div>
+                                    </div>
+                                    
 
-                                    <br>
-                                    <br>
-                                    <div class="col-md-2 col-md-offset-3 text-left" style="margin-left: 207px">
-                                      <label class="control-label">{{'End Time'|translate}}
-                                        <span class="star">*</span>
-                                      </label>
-                                    </div>
-                                    <div class="col-md-2 text-left" style="margin-left: -5px">
-                                      <input type="time" atp-time-picker [(ngModel)]="interval.endTime" id="endTime{{i}}" name="endTime+{{i}}" onlyHour="false"
-                                        required/>
-                                      <div *ngIf="interval.endTime!==undefined  && interval.endTime!=='' && interval.endTime<=interval.startTime" class="alert alert-danger ">
-                                        <div [hidden]="!(interval.endTime<=interval.startTime)">
-                                          End time has to be greater than start time!
-                                        </div>
-                                      </div>
-                                    </div>
                                   </div>
                                   <br>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -320,7 +281,5 @@
               </div>
             </form>
           </div>
-        </div>
-      </div>
-    </div>
   </div>
+</div>

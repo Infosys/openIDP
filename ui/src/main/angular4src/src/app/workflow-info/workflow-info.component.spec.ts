@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { WorkflowInfoComponent } from "./workflow-info.component";
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
 import { SortablejsModule } from "angular-sortablejs";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { IdpService } from "../idp-service.service";
 import { IdpdataService } from "../idpdata.service";
 import { IdprestapiService } from "../idprestapi.service";

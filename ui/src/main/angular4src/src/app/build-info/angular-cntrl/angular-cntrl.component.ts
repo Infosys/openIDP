@@ -264,6 +264,18 @@ export class AngularCntrlComponent implements OnInit {
    return "off";
  }
 
+ clearSonarqube() {
+  this.buildInfo.modules[0].sonarUrl ="";
+  this.buildInfo.modules[0].sonarUserName ="";
+  this.buildInfo.modules[0].sonarPassword ="";
+  this.buildInfo.modules[0].sonarProjectKey ="";
+
+    return "off";
+  }
+
+
+  
+
  setBuildInfoValue(value) {
    console.log(value);
  }

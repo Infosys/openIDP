@@ -1,20 +1,19 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BuildIntervalCntrlComponent } from "./build-interval-cntrl.component";
-import { buildScheduleRouter } from "./build-interval-cntrl.router";
-import { TranslateModule, TranslateStaticLoader, TranslateLoader } from "ng2-translate";
+import {BuildScheduleRouter} from "./build-interval-cntrl.router";
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
-import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { DateTimePickerModule } from "ng-pick-datetime";
 
 import { TreeviewModule } from "ngx-treeview";
 import { TriggerModule } from "../triggerPipeline/triggerPipeline.module";
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
-export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, "assets/i18n", ".json");
-}
+
 
 @NgModule({
     declarations: [
@@ -22,18 +21,15 @@ export function createTranslateLoader(http: Http) {
     ],
   imports: [
     CommonModule,
-    TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [Http]
-    }),
     HttpModule,
     FormsModule,
     AngularMultiSelectModule,
     DateTimePickerModule,
     TreeviewModule.forRoot(),
+    BuildScheduleRouter,
+    TranslateModule,
     TriggerModule,
-    buildScheduleRouter
+    CollapseModule
   ],
   bootstrap: [BuildIntervalCntrlComponent]
 })

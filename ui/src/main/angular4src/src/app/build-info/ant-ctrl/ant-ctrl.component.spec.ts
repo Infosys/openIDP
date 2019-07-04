@@ -14,7 +14,7 @@ import { IdpdataService } from "../../idpdata.service";
 import { IdprestapiService } from "../../idprestapi.service";
 import { Router, NavigationExtras } from "@angular/router";
 import { ParentFormConnectComponent } from "../../parent-form-connect/parent-form-connect.component";
-import { TranslateModule, TranslateService, TranslateLoader, TranslateParser } from "ng2-translate";
+import { TranslateModule, TranslateService, TranslateLoader, TranslateParser } from "@ngx-translate/core";
 
 describe("AntCtrlComponent", () => {
   let component: AntCtrlComponent;
