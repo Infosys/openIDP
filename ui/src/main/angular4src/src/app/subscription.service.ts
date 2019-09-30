@@ -12,7 +12,7 @@ import "rxjs/add/operator/toPromise";
 import { IdpdataService } from "./idpdata.service";
 @Injectable()
 export class SubscriptionService {
-  subscriptionUrl: String = "https://idptestServerHost:8090/subscription";
+  subscriptionUrl: String = "https://dummyuser:8090/subscription";
   constructor(private http: Http,
     private IdpdataService: IdpdataService,
     private _cookieService: CookieService

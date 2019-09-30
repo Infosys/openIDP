@@ -31,17 +31,11 @@ public class ReleaseManagementDL {
 
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
-	@Autowired
-	private JobInfoDL jobInfoDL;
+	
 
 	protected Logger logger = LoggerFactory.getLogger(ReleaseDetails.class);
 	private static final String WHERE_CLAUSE = " WHERE ";
-	private static final String AND_CLAUSE = " AND ";
-	private static final String SELECT_CLAUSE = " SELECT ";
-	private static final String FROM_CLAUSE = " FROM ";
-	private static final String ORDER_BY = " ORDER BY ";
 	protected static final String ERROR1 = "Postgres Error while fetching user details:";
-	private static final String INSERT_CLAUSE = " INSERT INTO ";
 	/**
 	 * 
 	 * @param releaseId

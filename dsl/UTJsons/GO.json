@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "edit"
   },
   "code": {
@@ -31,11 +31,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/ambica.mehrotra/GoApp.git",
-        "userName": "userName",
+        "url": "http://xyz.com/dummyuser/GoApp.git",
+        "userName": "dummyuser",
         "password": "pwddummy",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com/",
+        "browserUrl": "http://xyz.com/",
         "projectName": "",
         "branch": "master",
         "projPath": "",

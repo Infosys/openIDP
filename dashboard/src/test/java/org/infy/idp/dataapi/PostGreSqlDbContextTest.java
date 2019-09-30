@@ -104,23 +104,12 @@ public class PostGreSqlDbContextTest {
 	}
 
 	
-//	@Test
-//	public void testGetConnection_CheckNotNull() throws Throwable{
-//		
-//		configmanager.setUrl("jdbc:postgresql://idptestServerHost:5432/IDP");
-//		JT.invoke(PostGreSqlDbContext.class, postGreSqlDbContext, "init", new Object[] {}, new Class[] {});
-//		
-//		assertNotNull(postGreSqlDbContext.getConnection());
-//		
-//	}
 	
 	
 	@Test
 	public void testGetConnection_CheckNull() throws Throwable{
 		
-		configmanager.setUrl("jdbc:postgresql://idptestServerHost:5400/IDP");
-		//JT.invoke(PostGreSqlDbContext.class, postGreSqlDbContext, "init", new Object[] {}, new Class[] {});
-//		postGreSqlDbContext.init();
+		configmanager.setUrl("jdbc:postgresql://dummyuser:5400/IDP");
 		assertNull(postGreSqlDbContext.getConnection());
 		
 	}
@@ -148,7 +137,7 @@ try {
 			configmanager.setPostgresqlpassword("root");
 			configmanager.setPostgresqlschemaname("public");
 			configmanager.setPostgresqlusername("postgres");
-			configmanager.setUrl("jdbc:postgresql://idptestServerHost:5432/IDP");
+			configmanager.setUrl("jdbc:postgresql://dummyuser:5432/IDP");
 			
 			
 			

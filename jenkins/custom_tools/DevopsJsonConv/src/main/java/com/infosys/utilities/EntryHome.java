@@ -284,7 +284,6 @@ public class EntryHome {
 		
 		//Update Package Contents
 		if(args.length>19 && args[19].toLowerCase().contains("build") && json.getBuildDetails().get(0).getBuiltStatus().toLowerCase().contains("fail")){
-			PackageContent packageContent1=new PackageContent();
 			packageContent.setArtifactName(artifactName);
 			Gson gson = new Gson();
 			String packageInString=gson.toJson(packageContent);

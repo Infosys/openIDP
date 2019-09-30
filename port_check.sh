@@ -1,6 +1,6 @@
 #!/bin/sh
 port_check(){ 
-    netstat -ntpl | grep :$1 -q ; 
+    netstat -ntpl | grep ":$1 " -q ; 
     if [ $? -eq 0 ]
     then
 		echo -en "\033[u Failed\n"
@@ -8,7 +8,7 @@ port_check(){
 	else
 		echo -en "\033[u Passed\n"
 	fi
-}
+}  
 
 echo "Starting port check ......."
 if [ "$SSL_ENABLED" = true ]

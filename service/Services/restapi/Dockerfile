@@ -1,6 +1,6 @@
 FROM openjdk:8u151-jre
 
-LABEL maintainer="idpadmin@domain.com"\
+LABEL maintainer="IDP_OSS@domain.com"\
       owner="Infosys Ltd."
 
 EXPOSE 8889/tcp

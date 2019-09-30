@@ -1,11 +1,11 @@
 {
 "/idp-oauth/*":{
-		"target":"http://10.177.168.60/idpapp",
+		"target":"https://localhost/idpapp/",
 		"secure":false,
 		"logLevel":"debug"
 	},
 	"/properties":{
-		"target":"http://10.177.168.60/idpapp",
+		"target":"https://localhost/idpapp/",
 	    "secure":false,
 		"logLevel":"debug"
 	},

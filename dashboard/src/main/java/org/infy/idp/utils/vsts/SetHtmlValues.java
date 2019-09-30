@@ -23,11 +23,13 @@ import org.jsoup.select.Elements;
  */
 public class SetHtmlValues {
 	
+	private static SimpleDateFormat sdfTimeStamp = new SimpleDateFormat("yyyy-MM-dd 'T'HH:mm:ss");
+
 	private SetHtmlValues() {
 		
 	}
 	
-	private static SimpleDateFormat sdfTimeStamp = new SimpleDateFormat("yyyy-MM-dd 'T'HH:mm:ss");
+	
 	
 	public static String setNewTableValues(String inputHtml, VSTSDataBean mainObj, String inputHtmlNew){
 		String outputHtml = "";

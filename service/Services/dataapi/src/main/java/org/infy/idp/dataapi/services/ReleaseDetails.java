@@ -43,8 +43,7 @@ public class ReleaseDetails {
 
 	@Autowired
 	private PostGreSqlDbContext postGreSqlDbContext;
-	@Autowired
-	private JobInfoDL jobInfoDL;
+
 	@Autowired
 	private DateFormatter datefunctions;
 	

@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "create"
 
   },
@@ -32,7 +32,7 @@
     "scm": [
       {
         "type": "rtc",
-        "url": "https://mysgecrqmapps01.domain.com:9443/ccm/",
+        "url": "https://xyz.com:9443/ccm/",
         "userName": "idpadmin",
         "password": "idpadmin@123",
         "repositoryBrowser": "",
@@ -101,7 +101,7 @@
         "jsonPath": "web_app",
         "installGrunt": "on",
         "excludeFolders": "test",
-        "npmProxy": "http://indblrb06intpxy01.domain.com:80",
+        "npmProxy": "http://xyz.com:80",
         "npmProxyUserName": "idpadmin",
         "npmProxyPassword": "idpadmin@123"
       }
@@ -121,7 +121,7 @@
       "destinationDir": "",
       "flattenFilePath": ""
     },
-    "sonarUrl": "http://infysonarqube:8080/"
+    "sonarUrl": "http://dummyuser:8080/"
   },
   "deployInfo": {
     "deployEnv": [
@@ -189,7 +189,7 @@
               "frameWork": "",
               "testCase": "",
               "testPlan": "",
-              "folderUrl": "https://myservice.com",
+              "folderUrl": "https://xyz.com",
               "userName": "idpadmin",
               "password": "idpadmin@123",
               "testSuiteName": "",

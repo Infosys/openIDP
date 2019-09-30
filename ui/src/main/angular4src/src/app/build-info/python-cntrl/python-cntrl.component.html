@@ -278,7 +278,7 @@
                           <div class="col-md-9 field-tip text-left">
                             <input id="bdpkpftb" name="privateKeyPathField" #privateKeyPathField="ngModel" [(ngModel)]="buildInfo.modules[0].privateKey"
                               class="form-control  textFieldWidth"
-                              type="text" placeholder="D:\PNG\am-rtdc-emr-ec2-key-linux.ppk "
+                              type="text" placeholder="D:\idp\am-rtdc-emr-ec2-key-linux.ppk "
                               minlength="1" maxlength="150" required>
                               <div *ngIf="privateKeyPathField.errors && (privateKeyPathField.dirty || privateKeyPathField.touched)" class="alert alert-danger ">
                                 <div [hidden]="!privateKeyPathField.errors.required">

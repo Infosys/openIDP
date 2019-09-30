@@ -35,6 +35,7 @@ export class CreateApplicationComponent implements OnInit {
   appNames: any = [];
   flagNew: any = false;
   FlagEdit: any = false;
+  alreadyApplication: any = false;
   flagp: any = false;
   flagpi: any = false;
   valueSubmit: any = "";
@@ -548,10 +549,12 @@ export class CreateApplicationComponent implements OnInit {
         if (sameAppFlag) {
             if (document.getElementById("appname").innerHTML !== null) {
             document.getElementById("appname").innerHTML = "Application already exists.";
+            this.alreadyApplication = true;
             }
         } else {
             if (document.getElementById("appname").innerHTML !== null) {
             document.getElementById("appname").innerHTML = "";
+            this.alreadyApplication = false;
             }
         }
         } catch (e) {

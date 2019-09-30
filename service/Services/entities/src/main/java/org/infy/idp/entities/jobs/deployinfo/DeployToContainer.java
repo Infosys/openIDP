@@ -27,9 +27,13 @@ public class DeployToContainer {
 	@SerializedName("containerName")
 	@Expose
 	private String containerName;
+	@SerializedName("appName")
+	@Expose
+	private String appName;
 	@SerializedName("serverManagerURL")
 	@Expose
 	private String serverManagerURL;
+	
 	@SerializedName("resourceToBeDeployed")
 	@Expose
 	private String resourceToBeDeployed;
@@ -254,7 +258,15 @@ public class DeployToContainer {
 	@SerializedName("srcEnvName")
 	@Expose
 	private String srcEnvName;
+    
+	public String getAppName() {
+		return appName;
+	}
 
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+	
 	public String getSrcEnvName() {
 		return srcEnvName;
 	}

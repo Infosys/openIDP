@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="$projectName" xmlns:monkeytalk="antlib:com.gorillalogic.monkeytalk.ant">
-  <target name="$targetName">
-    <monkeytalk:run agent="iOS" script="${IDP_WS}/$scriptName" reportdir="${IDP_WS}/Reports/DETAIL-script1.mt.html"/>
-  </target>
-</project>

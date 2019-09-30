@@ -11,7 +11,7 @@ public class AppContext {
 	@Bean
 	public ConfigurationManager configurationManager() {
 		ConfigurationManager configurationManager = new ConfigurationManager();
-		configurationManager.setIdpurl("jdbc:postgresql://idptestServerHost:5432/IDP");
+		configurationManager.setIdpurl("jdbc:postgresql://dummyuser:5432/IDP");
 		configurationManager.setPostgresqldatabase("i2p");
 		configurationManager.setPostgresqlinitialsize("5");
 		configurationManager.setPostgresqlpassword("root");
@@ -24,10 +24,10 @@ public class AppContext {
 		configurationManager.setIdppostgresqlpassword("root");
 		configurationManager.setIdppostgresqlschemaname("public");
 		configurationManager.setBatchSize("1");
-		configurationManager.setUrl("jdbc:postgresql://idptestServerHost:5432/i2p");
-		configurationManager.setJenkinsID("userName");
+		configurationManager.setUrl("jdbc:postgresql://dummyuser:5432/i2p");
+		configurationManager.setJenkinsID("dummyuser");
 		configurationManager.setJenkinsPassword("pwddummy");
-		configurationManager.setJenkinsURL("https://idptestServerHost:8085/jenkins");
+		configurationManager.setJenkinsURL("https://dummyuser:8085/jenkins");
 		return configurationManager;
 	}
 

@@ -62,7 +62,7 @@
       "id": 75,
       "panels": [],
       "repeat": null,
-      "title": "Dashboard Row",
+      "title": "STATUS OF JOBS",
       "type": "row"
     },
     {
@@ -586,7 +586,7 @@
       "id": 76,
       "panels": [],
       "repeat": null,
-      "title": "Dashboard Row",
+      "title": "DURATION OF JOBS",
       "type": "row"
     },
     {
@@ -3856,7 +3856,7 @@
       "panelHeight": 161,
       "rowNumbersEnabled": false,
       "rowsPerPage": 5,
-      "scroll": false,
+      "scroll": true,
       "scrollHeight": "default",
       "searchEnabled": true,
       "showCellBorders": false,
@@ -4365,7 +4365,7 @@
       "panelHeight": 161,
       "rowNumbersEnabled": false,
       "rowsPerPage": 5,
-      "scroll": false,
+      "scroll": true,
       "scrollHeight": "default",
       "searchEnabled": true,
       "showCellBorders": false,
@@ -4474,20 +4474,6 @@
         "w": 24,
         "x": 0,
         "y": 25
-      },
-      "id": 80,
-      "panels": [],
-      "repeat": null,
-      "title": "Dashboard Row",
-      "type": "row"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 26
       },
       "id": 81,
       "panels": [],

@@ -254,7 +254,6 @@ export class IdprestapiService {
     this.idpdataService.keycloakClientId = this.startupData.keycloakClientId;
     this.idpdataService.cloudDeployURL = this.startupData.clouddeployurl;
     this.idpdataService.insightsFlag=this.startupData.insightsFlag;
-    // this.idpdataService.cloudDeployURL="http://server324895d:8889/idprest/";
      this.idpdataService.cloudDeployFlag=this.startupData.cloudDeployFlag;
 
     if (this.idpdataService.authmode === "azureAd") {
@@ -413,11 +412,7 @@ export class IdprestapiService {
 
 
  getData(): Promise<any> {
-    // headers = headers.append("Authorization", "Basic " + btoa("username:password"));
-    //  let params = new URLSearchParams();
-    //      params.append('username',"idpadmin");
-    //      params.append('password',"idpadmin@123");    
-    //      params.append('grant_type','password');
+  
         let headers = new Headers({'Authorization': 'Basic '+btoa("idpadmin:idpadmin@123")});
         let options = new RequestOptions({ headers: headers });
        

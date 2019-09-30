@@ -119,7 +119,7 @@
     "artifactToStage": {
       "artifact": "**/*.*",
       "artifactRepo": {
-        "repoURL": "dummyNexus.domain.com:8081",
+        "repoURL": "xyz.com:8081",
         "repoName": "tg_hosted",
         "repoUsername": "admin",
         "repoPassword": "dummy"

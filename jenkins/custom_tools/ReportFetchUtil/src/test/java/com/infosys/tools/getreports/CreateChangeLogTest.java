@@ -94,8 +94,7 @@ public class CreateChangeLogTest {
 		try {
 			SSLUtilities.trustAllHostnames();
 			SSLUtilities.trustAllHttpsCertificates();
-			// String href =
-			// "http://server411214d:8085/jenkins/job/CustomerPortal_Android_Gradle_App/job/CustomerPortal_Android_Gradle_App_Build/lastBuild/api/xml";
+			
 			String href = "http://google.com";
 
 			URLConnection urlConnection = mock(URLConnection.class);
@@ -131,11 +130,9 @@ public class CreateChangeLogTest {
 			
 			Mockito.when(doc2.createElement(Matchers.any(String.class))).thenReturn(e);
 			
-			// String temp=createChangeLog.createChangeLog("string", "", "",
-			// "CustomerPortal_Android_Gradle_App/CustomerPortal_Android_Gradle_App_Build",
-			// "destpath", "time", "CustomerPortal");
+		
 
-			String temp = createChangeLog.createChangeLog("http://server411214d:8085", "userName", "pwddummy",
+			String temp = createChangeLog.createChangeLog("http://dummyuser:8085", "dummyuser", "pwddummy",
 					"CustomerPortal_Android_Gradle_App/CustomerPortal_Android_Gradle_App_Build", "D://", "time",
 					"CustomerPortal");
 			assertEquals("test", temp);
@@ -144,22 +141,5 @@ public class CreateChangeLogTest {
 		}
 	}
 
-//	private class HttpUrlStreamHandler extends URLStreamHandler {
-//		 
-//	    private Map<URL, URLConnection> connections = new HashMap();
-//	 
-//	    @Override
-//	    protected URLConnection openConnection(URL url) throws IOException {
-//	        return connections.get(url);
-//	    }
-//	 
-//	    public void resetConnections() {
-//	        connections = new HashMap();
-//	    }
-//	 
-//	    public HttpUrlStreamHandler addConnection(URL url, URLConnection urlConnection) {
-//	        connections.put(url, urlConnection);
-//	        return this;
-//	    }
-//	}
+
 }

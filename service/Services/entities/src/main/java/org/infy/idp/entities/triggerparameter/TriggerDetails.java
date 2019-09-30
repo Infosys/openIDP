@@ -66,9 +66,6 @@ public class TriggerDetails {
 	@SerializedName("testSlaveName")
 	@Expose
 	private String testSlaveName;
-	@SerializedName("castSlaveName")
-	@Expose
-	private String castSlaveName;
 	@SerializedName("envSelected")
 	@Expose
 	private String envSelected;
@@ -656,12 +653,6 @@ public class TriggerDetails {
 		this.testSlaveName = testSlaveName;
 	}
 
-	/*public String getCastSlaveName() {
-		return castSlaveName;
-	}
-
-	public void setCastSlaveName(String castSlaveName) {
-		this.castSlaveName = castSlaveName;
-	}*/
+	
 
 }

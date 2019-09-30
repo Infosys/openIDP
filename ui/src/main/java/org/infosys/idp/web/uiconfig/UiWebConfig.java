@@ -56,6 +56,12 @@ public class UiWebConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/pipelines/**").setViewName("forward:/");
 		registry.addViewController("/releaseConfig").setViewName("forward:/");
 		registry.addViewController("/releaseConfig/**").setViewName("forward:/");
+		registry.addViewController("/dashboard/**").setViewName("forward:/");
+		registry.addViewController("/applications/**").setViewName("forward:/");
+		registry.addViewController("/showConfigurations/**").setViewName("forward:/");
+		registry.addViewController("/aboutView/**").setViewName("forward:/");
+		registry.addViewController("/dashboardView/**").setViewName("forward:/");
+		registry.addViewController("/editApp/**").setViewName("forward:/");
         
     }
 

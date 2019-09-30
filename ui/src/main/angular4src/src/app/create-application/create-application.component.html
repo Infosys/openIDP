@@ -234,6 +234,7 @@
                                                 class="form-control" style="width: 50%" [disabled]="FlagEdit" required>
                                                 <option value="">--Select--</option>
                                                 <option value="nexus">Nexus</option>
+                                                <option value="docker">Docker Registry </option>
                                                 <option value="jfrog">JFrog Artifactory </option>
                                                 <option value="na">NA</option>
                                             </select>
@@ -489,7 +490,72 @@
                                 </div>
                                 <!-- JFrog End -->
 
-								 
+                                 <!-- Docker Details Start -->
+                                 <div *ngIf="grantAccess.artifactToStage.artifactRepoName==='docker'">
+
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">Docker {{'File Path'|translate}}
+                                            <span class="star">*</span>
+                                        </label>
+                                        <div class="col-md-8 field-tip textFieldContainer text-left">
+                                            <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.dockerFilePathDR" id="dydsdfptfdr{{envIndex}}{{stepIndex}}"
+                                                name="dockFilPathdr{{envIndex}}{{stepIndex}}" type="text" placeholder="src/docker/files"
+                                                maxlength="150" required>
+                                            <span class="tip-content">{{'Relative workspace path'|translate}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">
+                                            Docker Registry URL
+                                        </label>
+                                        <div class="col-md-8 field-tip textFieldContainer text-left">
+                                            <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.dockerRegistryUrlDR" id="dydsdptfdr{{envIndex}}{{stepIndex}}"
+                                                name="dockPortdr{{envIndex}}{{stepIndex}}" type="text" placeholder="dockersrv.domain.com"
+                                                maxlength="150">
+                                            <span class="tip-content">Docker Registry URL</span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">{{'Repo Name'|translate}}
+                                            <span class="star">*</span>
+                                        </label>
+                                        <div class="col-md-8 field-tip textFieldContainer text-left">
+                                            <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.repoNameDR" id="dydsrntfdr{{envIndex}}{{stepIndex}}"
+                                                name="reponamedr{{envIndex}}{{stepIndex}}" type="text" placeholder="account_name/reponame"
+                                                maxlength="150" required>
+                                            <span class="tip-content">{{'Docker Repo name'|translate}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">Docker {{'Username'|translate}}
+                                            <span class="star">*</span>
+                                        </label>
+                                        <div class="col-md-8 field-tip textFieldContainer text-left">
+                                            <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.userNameDR" id="dydsduntfdr{{envIndex}}{{stepIndex}}"
+                                                name="dockerUsernmedr{{envIndex}}{{stepIndex}}" type="text" placeholder="admin"
+                                                maxlength="150" required>
+                                            <span class="tip-content">{{'Username for '|translate}} Docker URL</span>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">Docker {{'Password'|translate}}
+                                        </label>
+                                        <div class="col-md-8 field-tip textFieldContainer text-left">
+                                            <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.passwordDR" encrypt id="dydspwdtfdr{{envIndex}}{{stepIndex}}"
+                                                name="passWordDockerdr{{envIndex}}{{stepIndex}}" type="password" placeholder="password"
+                                                maxlength="150">
+                                            <span class="tip-content">{{'Password for '|translate}} Docker URL</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Docker Details End --> 
+                                
                             </div>
                             <!-- Artifact Details End -->
                         </div>
@@ -1598,7 +1664,7 @@
                         <div class="row">
                             <div class="col-md-5"></div>
                             <div class="col-md-7">
-                                <button id="cabusu" type="submit" class="btn btn-success btn-md" style="text-transform: uppercase;" [disabled]="isgrantDisabled">
+                                <button id="cabusu" type="submit" class="btn btn-success btn-md" style="text-transform: uppercase;" [disabled]="isgrantDisabled || alreadyApplication">
                                     &nbsp;
                                     <span [hidden]="grantloading">{{valueSubmit|translate}} &nbsp;</span>
                                     <span [hidden]="!grantloading">{{valueSubmitting|translate}} &nbsp;

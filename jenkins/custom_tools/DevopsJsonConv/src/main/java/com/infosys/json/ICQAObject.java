@@ -43,6 +43,59 @@ public class ICQAObject {
 		@SerializedName("doth")
 		@Expose
 		private String doth;
+	
+	
+		@SerializedName("loc")
+		@Expose
+		private String loc;
+		
+		@SerializedName("locom1")
+		@Expose
+		private String locom1;
+		
+		@SerializedName("mnol")
+		@Expose
+		private String mnol;
+		
+		@SerializedName("wmpc1")
+		@Expose
+		private String wmpc1;
+		
+		@SerializedName("mnop")
+		@Expose
+		private String mnop;
+		
+		@SerializedName("noa")
+		@Expose
+		private String noa;
+		
+		@SerializedName("noam")
+		@Expose
+		private String noam;
+		
+		@SerializedName("nocon")
+		@Expose
+		private String nocon;
+		
+		@SerializedName("noo")
+		@Expose
+		private String noo;
+		
+		@SerializedName("norm")
+		@Expose
+		private String norm;
+		
+		@SerializedName("rfc")
+		@Expose
+		private String rfc;
+		
+		@SerializedName("cc")
+		@Expose
+		private String cc;
+		
+		@SerializedName("noom")
+		@Expose
+		private String noom;  
 		
 		public String getClassName() {
 			return className;
@@ -212,57 +265,6 @@ public class ICQAObject {
 			this.noom = noom;
 		}
 
-		@SerializedName("loc")
-		@Expose
-		private String loc;
-		
-		@SerializedName("locom1")
-		@Expose
-		private String locom1;
-		
-		@SerializedName("mnol")
-		@Expose
-		private String mnol;
-		
-		@SerializedName("wmpc1")
-		@Expose
-		private String wmpc1;
-		
-		@SerializedName("mnop")
-		@Expose
-		private String mnop;
-		
-		@SerializedName("noa")
-		@Expose
-		private String noa;
-		
-		@SerializedName("noam")
-		@Expose
-		private String noam;
-		
-		@SerializedName("nocon")
-		@Expose
-		private String nocon;
-		
-		@SerializedName("noo")
-		@Expose
-		private String noo;
-		
-		@SerializedName("norm")
-		@Expose
-		private String norm;
-		
-		@SerializedName("rfc")
-		@Expose
-		private String rfc;
-		
-		@SerializedName("cc")
-		@Expose
-		private String cc;
-		
-		@SerializedName("noom")
-		@Expose
-		private String noom;  
 	 
 
 	/*String className,appid;

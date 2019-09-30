@@ -338,7 +338,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip  text-left">
                                         <input class="form-control  " type="text" [(ngModel)]="env.hostName " id="dydsohntf{{envIndex}}{{stepIndex}}" name="oshostname{{envIndex}}{{stepIndex}}"
-                                          placeholder="10.26.235.14 or BLRKEC123" required>
+                                          placeholder="IP address or hostName" required>
   
                                         <span class="tip-content">{{'Enter the HOSTNAME/IP address'|translate}}
                                         </span>
@@ -402,7 +402,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip  text-left">
                                         <input class="form-control" type="text" [(ngModel)]="env.ipcHostName" id="dydsipchntf{{envIndex}}{{stepIndex}}" name="ipchostname{{envIndex}}{{stepIndex}}"
-                                          placeholder="10.26.235.14 or BLRKEC123" required>
+                                          placeholder="IP address or hostName" required>
                                         <span class="tip-content">{{'Enter Target the HOSTNAME/IP address'|translate}}
                                         </span>
                                         <!--<div class="text-danger" *ngIf="nameErrorMessage">{{nameErrorMessage}}</div>-->
@@ -1265,7 +1265,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip text-left">
                                         <input class="form-control " [(ngModel)]="env.destinationMachineName" id="dyffdmtb{{envIndex}}{{stepIndex}}" name="destinationMachineName{{envIndex}}{{stepIndex}}"
-                                          type="text" placeholder="{{'BLRKEC3242D'|translate}}" minlength='3' maxlength="150"
+                                          type="text" placeholder="{{'HostName'|translate}}" minlength='3' maxlength="150"
                                           required>
                                         <span class="tip-content">{{'Destination Server Name where the files and folders has to be deployed'|translate}}
                                         </span>
@@ -1307,7 +1307,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip text-left">
                                         <input class="form-control " [(ngModel)]="env.destinationBranch" id="dysrfdstb{{envIndex}}{{stepIndex}}" name="destinationBranch{{envIndex}}{{stepIndex}}"
-                                          type="text" placeholder="{{'BLRKEC3242D'|translate}}" minlength='3' maxlength="150"
+                                          type="text" placeholder="{{'HostName'|translate}}" minlength='3' maxlength="150"
                                           required>
                                         <span class="tip-content">{{'Please provide Name of the Destination Server'|translate}}
                                         </span>
@@ -1741,7 +1741,7 @@
                                                     </label>
                                                     <div class="col-md-9 field-tip text-left">
                                                       <input class="form-control " [(ngModel)]="env.staticHostName" id="dydshstntf{{envIndex}}{{stepIndex}}" name="hstNamer{{envIndex}}{{stepIndex}}"
-                                                        type="text" placeholder="BLRKECdummy56D" minlength='1' maxlength="150">
+                                                        type="text" placeholder="HostName" minlength='1' maxlength="150">
                                                       <span class="tip-content">{{'Destination Server Name where the files and folders has to be deployed'|translate}}
                                                       </span>
                                                     </div>
@@ -1848,7 +1848,7 @@
                                                       </label>
                                                       <div class="col-md-9 field-tip text-left">
                                                         <input class="form-control " [(ngModel)]="env.srfHostName" id="dydsdesTServetf{{envIndex}}{{stepIndex}}" name="desTServe{{envIndex}}{{stepIndex}}"
-                                                          type="text" placeholder="BLRKECdummy56D" minlength='1' maxlength="150">
+                                                          type="text" placeholder="HostName" minlength='1' maxlength="150">
                                                         <span class="tip-content">{{'Destination Server Name where the files and folders has to be deployed'|translate}}
                                                         </span>
                                                       </div>
@@ -1937,7 +1937,7 @@
                                                       </label>
                                                       <div class="col-md-9 field-tip text-left">
                                                         <input class="form-control " [(ngModel)]="env.admHostName" id="dydsdemntf{{envIndex}}{{stepIndex}}{{$index}}" name="destMachName{{envIndex}}{{stepIndex}}{{$index}}"
-                                                          type="text" placeholder="BLRKECdummy56D" minlength='1' maxlength="150">
+                                                          type="text" placeholder="HostName" minlength='1' maxlength="150">
                                                         <span class="tip-content">{{'Destination Server Name where the files and folders has to be deployed'|translate}}
                                                         </span>
                                                       </div>
@@ -2086,7 +2086,7 @@
                                     </label>
                                     <div class="col-md-8 field-tip textFieldContainer text-left">
                                       <input class="form-control  " [(ngModel)]="env.hostName" id="hostName{{envIndex}}{{stepIndex}}" name="hostName{{envIndex}}{{stepIndex}}"
-                                        type="text" placeholder="dummyHost122" maxlength="150" required>
+                                        type="text" placeholder="HostName" maxlength="150" required>
                                       <span class="tip-content">{{'Mule Server Host Name'|translate}}</span>
                                     </div>
                                   </div>
@@ -2317,7 +2317,7 @@
                                                                 <div class="col-md-8 field-tip text-left">
                                                                     <input id="dydssfte" name="sshFile{{envIndex}}{{stepIndex}}" #sshFile="ngModel" class="form-control"
                                                                         [(ngModel)]="env.runScript.host"
-                                                                        type="text" placeholder="10.234.13.12"
+                                                                        type="text" placeholder="IP address"
                                                                         minlength="5" maxlength="150"
                                                                         value="" required>
                                                                     <span class="tip-content" style="right:-49px;top:-4px;">{{'Please provide the Host Name'|translate}}</span>
@@ -2543,7 +2543,7 @@
                                                         <input id="dydspftf{{envIndex}}{{stepIndex}}" name="pathFileMQ2" #pathFileMQ2="ngModel" class="form-control "
                                                             [(ngModel)]="env.MqIP"
                                                             type="text" ng-pattern="/^[0-9\_\-\.]+$/"
-                                                            minlength='3' placeholder="Manager IP adderss"
+                                                            minlength='3' placeholder="Manager IP address"
                                                             maxlength="150" required/>
                                                         <span class="tip-content" style="z-index: 1">
                                                             Please provide the IP address of MQ Manager
@@ -2739,7 +2739,7 @@
                                             <div class="col-md-9 field-tip text-left">
                                               <input id="pigServerName{{envIndex}}{{stepIndex}}" class="form-control " #pigServerName="ngModel" [(ngModel)]="env.pigServerName"
                                                 type="text" name="'pigServerName'+{{envIndex}}{{stepIndex}}" pattern="^[\_/a-zA-Z0-9.-]+"
-                                                placeholder="10.62.13.282" maxlength="150" required>
+                                                placeholder="IP address" maxlength="150" required>
                                               <span class="tip-content">{{'Target Pig Server Name'|translate}}
                                               </span>
                                               <div *ngIf="pigServerName.errors && (pigServerName.dirty || pigServerName.touched)" class="alert alert-danger ">
@@ -2926,7 +2926,7 @@
                                             </label>
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #hiveServerName="ngModel" [(ngModel)]="env.hiveServerName" type="text" name="'hiveServerName'+{{envIndex}}{{stepIndex}}"
-                                                id="hiveServerName{{envIndex}}{{stepIndex}}" pattern="^[\_/a-zA-Z0-9.-]+" placeholder="10.62.13.282"
+                                                id="hiveServerName{{envIndex}}{{stepIndex}}" pattern="^[\_/a-zA-Z0-9.-]+" placeholder="IP address"
                                                 maxlength="150" required>
                                               <span class="tip-content">{{'Target hive Server Name'|translate}}
                                               </span>
@@ -3072,7 +3072,7 @@
                                             </label>
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #scalaServerName="ngModel" [(ngModel)]="env.scalaServerName" type="text" name="'scalaServerName'+{{envIndex}}{{stepIndex}}"
-                                                id="scalaServerName{{envIndex}}{{stepIndex}}" pattern="^[\_/a-zA-Z0-9.-]+" placeholder="10.62.13.282"
+                                                id="scalaServerName{{envIndex}}{{stepIndex}}" pattern="^[\_/a-zA-Z0-9.-]+" placeholder="IP address"
                                                 maxlength="150" required>
                                               <span class="tip-content">{{'Target scala Server Name'|translate}}
                                               </span>
@@ -3480,7 +3480,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip text-left">
                                         <input id="dydsdbtf01{{envIndex}}{{stepIndex}}" name="'dbhostNameOTM'+{{envIndex}}{{stepIndex}}" #dbhostNameOTM="ngModel"
-                                          class="form-control " [(ngModel)]="env.dbhostNameOTM" type="text" placeholder="serverdummy56d"
+                                          class="form-control " [(ngModel)]="env.dbhostNameOTM" type="text" placeholder="hostName"
                                           minlength="3" maxlength="200" required>
                                         <span class="tip-content" style="z-index: 1">
                                           {{'Please provide DB Host Name'|translate}}
@@ -3756,7 +3756,7 @@
                                       </label>
                                       <div class="col-md-9 field-tip text-left">
                                         <input id="dydsdbtf01{{envIndex}}{{stepIndex}}" name="'dbhostName'+{{envIndex}}{{stepIndex}}" #dbhostName="ngModel" class="form-control "
-                                          [(ngModel)]="env.dbhostName" type="text" placeholder="serverdummy56d" minlength="3"
+                                          [(ngModel)]="env.dbhostName" type="text" placeholder="HostName" minlength="3"
                                           maxlength="200" required>
                                         <span class="tip-content" style="z-index: 1">
                                           {{'Please provide DB Host Name'|translate}}
@@ -5632,7 +5632,7 @@
                                             <!-- </div> -->
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #AEMProxy="ngModel" id="aemproxy{{i}}" name="AEMProxy{{i}}" [(ngModel)]="env.deployToContainer.aemProxy"
-                                                type="text" placeholder="10.28.33.102">
+                                                type="text" placeholder="IP address">
                                               <span class="tip-content">{{'Proxy to connect to AEM Server'|translate}}</span>
                                             </div>
                                           </div>
@@ -5805,7 +5805,7 @@
                                             <!-- </div> -->
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #AEMProxys="ngModel" id="aemproxys{{i}}" name="AEMProxys{{i}}" [(ngModel)]="env.deployToContainer.aemProxy"
-                                                type="text" placeholder="10.28.33.102">
+                                                type="text" placeholder="IP address">
                                               <span class="tip-content">{{'Proxy to connect to AEM Server'|translate}}</span>
                                             </div>
                                           </div>
@@ -5989,7 +5989,7 @@
                                             </div>
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #AEMProxy="ngModel" id="aemproxy{{i}}" name="AEMProxy{{i}}" [(ngModel)]="env.deployToContainer.aemProxy"
-                                                type="text" placeholder="10.28.33.102">
+                                                type="text" placeholder="IP address">
                                               <span class="tip-content">{{'Proxy to connect to AEM Server'|translate}}</span>
                                             </div>
                                           </div>
@@ -6163,7 +6163,7 @@
                                             </div>
                                             <div class="col-md-9 field-tip text-left">
                                               <input class="form-control " #AEMProxys="ngModel" id="aemproxys{{i}}" name="AEMProxys{{i}}" [(ngModel)]="env.deployToContainer.aemProxy"
-                                                type="text" placeholder="10.28.33.102">
+                                                type="text" placeholder="IP address">
                                               <span class="tip-content">{{'Proxy to connect to AEM Server'|translate}}</span>
                                             </div>
                                           </div>
@@ -6643,7 +6643,7 @@
                                           <div class="col-md-9 field-tip text-left">
                                             <input id="'webSphereIp'+{{envIndex}}{{stepIndex}}" name="'webSphereIp'+{{envIndex}}{{stepIndex}}" #webSphereIp="ngModel"
                                               [(ngModel)]="env.deployToContainer.ipOrDNS" type="text" class="form-control  "
-                                              placeholder="1.2.3.4 or BLRKECdummy5D.domain.com" required>
+                                              placeholder="IP address or Hostname.domain.com" required>
                                             <span class="tip-content">{{'IP address or DNS name of IBM WebSphere Application Server instance where the
                                               application has to be deployed'|translate}}
                                             </span>
@@ -6974,198 +6974,89 @@
   
                                   </div>
                                   <!-- Start of docker container -->
-  
-                                  <div class="animate-switch-container" [ngSwitch]="buildInfo.buildtool=='maven' || buildInfo.buildtool=='java_gradle'">
-                                    <div class="animate-switch" *ngSwitchCase="true">
-                                      <div class="container-fluid form-group chkright">
-                                        <label class="checkbox-inline">
-                                          <input type="checkbox" [checked]="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerContainerFlag==='on'" name="dock{{envIndex}}{{stepIndex}}"
-                                            id="dydsdcb{{envIndex}}{{stepIndex}}" (change)="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerContainerFlag=$event.target.checked ? 'on':dockerContainerOff(envIndex,stepIndex)"
-                                            (click)="addArtifactField(envIndex,stepIndex)" [disabled]="tempObject.deployEnv[envIndex].deploySteps[stepIndex].scriptType == 'on' ||
-                                                                                        tempObject.deployEnv[envIndex].deploySteps[stepIndex].deployContainerFlag == 'on'"
-                                          /> &nbsp; {{'Deploy to '|translate}} Docker {{'Container'|translate}}
-                                        </label>
+
+                                  <div *ngIf="((buildInfo.artifactToStage.artifactRepoName==='docker') || (isDockerRegistry && (buildInfo.artifactToStage.artifactRepoName==='na' || buildInfo.artifactToStage.artifactRepoName==='')))">
+
+                                    <div class="animate-switch-container">
+                                      <div class="animate-switch">
+                                        <div class="container-fluid form-group chkright">
+                                          <label class="checkbox-inline">
+                                            <input type="checkbox" [checked]="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerRegistryFlag==='on'" name="dockerSwarm{{envIndex}}{{stepIndex}}"
+                                              id="dockerSwarm{{envIndex}}{{stepIndex}}" (change)="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerRegistryFlag=$event.target.checked ? 'on':dockerRegistryOff(envIndex,stepIndex)"
+                                            /> &nbsp; {{'Deploy to Docker Swarm'|translate}}
+                                          </label>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-  
-  
-                                  <div *ngIf="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerContainerFlag=='on'" class="animate-switch-container">
-                                    <div class="animate-switch">
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">Docker {{'File Path'|translate}}
-                                          <span class="star">*</span>
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.dockerFilePath" id="dydsdfptf{{envIndex}}{{stepIndex}}" name="dockFilPath{{envIndex}}{{stepIndex}}"
-                                            type="text" placeholder="src/docker/files" maxlength="150" required>
-                                          <span class="tip-content">{{'Relative workspace path'|translate}}</span>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">{{'Path to'|translate}} Docker {{'Artifacts'|translate}}
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.artifact" id="dydsdptf{{envIndex}}{{stepIndex}}" name="dockPort{{envIndex}}{{stepIndex}}"
-                                            type="text" placeholder="/home/user/docker/files" maxlength="150">
-                                          <span class="tip-content">{{'Path where docker artifacts are present'|translate}}
-                                          </span>
-                                        </div>
-                                      </div>
-  
-  
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">{{'Repo Name'|translate}}
-                                          <span class="star">*</span>
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.tagName" id="dydsrntf{{envIndex}}{{stepIndex}}" name="reponame{{envIndex}}{{stepIndex}}"
-                                            type="text" placeholder="repo" maxlength="150" required>
-                                          <span class="tip-content">{{'Docker Repo name'|translate}}</span>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">Docker {{'Username'|translate}}
-                                          <span class="star">*</span>
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.userName" id="dydsduntf{{envIndex}}{{stepIndex}}" name="dockerUsernme{{envIndex}}{{stepIndex}}"
-                                            type="text" placeholder="admin" maxlength="150" required>
-                                          <span class="tip-content">{{'Username for '|translate}} Docker URL</span>
-                                        </div>
-                                      </div>
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">Docker {{'Password'|translate}}
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.password" encrypt id="dydspwdtf{{envIndex}}{{stepIndex}}" name="passWordDocker{{envIndex}}{{stepIndex}}"
-                                            type="password" placeholder="password" maxlength="150">
-                                          <span class="tip-content">{{'Password for '|translate}} Docker URL</span>
-                                        </div>
-                                      </div>
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">Docker {{'Repository'|translate}} URL
-                                          <span class="star">*</span>
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-                                          <input id="dydsduftf{{envIndex}}{{stepIndex}}" name="dockerUrlField{{envIndex}}{{stepIndex}}" #dockerUrlField="ngModel" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./]+"
-                                            class="form-control  textFieldWidth" [(ngModel)]="env.repoUrl" type="text" placeholder="http://docker.com"
-                                            maxlength="150" required>
-                                          <span class="tip-content">URL {{'for '|translate}} Docker {{'Repository'|translate}}
-                                          </span>
-                                          <div *ngIf="dockerUrlField.errors && (dockerUrlField.dirty || dockerUrlField.touched)" class="alert alert-danger ">
-                                            <div [hidden]="!dockerUrlField.errors.required">
-                                              This Field is required!
-                                            </div>
-                                            <div [hidden]="!dockerUrlField.errors.pattern">
-                                              This field can only accept URL.
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">
-                                          {{'Container Port'|translate}}
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-  
-                                          <input class="form-control  textFieldWidth" id="dydsdcptf{{envIndex}}{{stepIndex}}" name="dockerContPort{{envIndex}}{{stepIndex}}"
-                                            #dockerContPort="ngModel" [(ngModel)]="env.dockerPort" type="text" placeholder="8080"
-                                            pattern="[0-9]+" maxlength="4">
-                                          <span class="tip-content">{{'Container Port Number '|translate}}</span>
-                                          <div *ngIf="dockerContPort.errors && (dockerContPort.dirty || dockerContPort.touched)" class="alert alert-danger ">
-  
-                                            <div [hidden]="!dockerContPort.errors.pattern">
-                                              This Field can only consist of numbers
-                                            </div>
-                                            <div [hidden]="!dockerContPort.errors.maxlength">
-                                              This Field Name cannot be more than 4 digits long.
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3 text-right col-form-label ">
-                                          {{'Publish Port'|translate}}
-                                        </label>
-                                        <div class="col-md-8 field-tip textFieldContainer text-left">
-  
-                                          <input class="form-control  textFieldWidth" [(ngModel)]="env.applicationPort" pattern="[0-9]+" maxlength="4" id="dydsdpptf{{envIndex}}{{stepIndex}}"
-                                            name="dockerPubPort{{envIndex}}{{stepIndex}}" #dockerPubPort="ngModel" type="text"
-                                            placeholder="8080">
-                                          <span class="tip-content">{{'Publish Port Number '|translate}}</span>
-                                          <div *ngIf="dockerPubPort.errors && (dockerPubPort.dirty || dockerPubPort.touched)" class="alert alert-danger ">
-  
-                                            <div [hidden]="!dockerPubPort.errors.pattern">
-                                              This Field can only consist of numbers
-                                            </div>
-                                            <div [hidden]="!dockerPubPort.errors.maxlength">
-                                              This Field Name cannot be more than 4 digits long.
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group chkright" style="padding-left: 20px;">
-                                        <div class="col-md-12">
-                                          <label class="checkbox-inline">
-                                            <input id="dydspttf{{envIndex}}{{stepIndex}}" name="pushto{{envIndex}}{{stepIndex}}" type="checkbox" [checked]="env.pushToRepo==='on'"
-                                              (change)="env.pushToRepo=$event.target.checked ? 'on':'off'"> {{'Push to '|translate}} Docker {{'Repository'|translate}}
+    
+                                    <div *ngIf="tempObject.deployEnv[envIndex].deploySteps[stepIndex].dockerRegistryFlag=='on'" class="animate-switch-container">
+                                      <div class="animate-switch">
+                                        <div class="form-row form-group">
+                                          <label class="col-md-3 text-right col-form-label ">
+                                            {{'Docker Compose File Path'|translate}}
+                                            <span style="color: red">*</span>
                                           </label>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group chkright" style="padding-left: 20px;">
-                                        <div class="col-md-12">
-                                          <label class="checkbox-inline">
-                                            <input id="dydspfcb{{envIndex}}{{stepIndex}}" name="pullfrom{{envIndex}}{{stepIndex}}" type="checkbox" [checked]="env.pullFromRepo==='on'"
-                                              (change)="env.pullFromRepo=$event.target.checked ? 'on':'off'">{{'Pull from '|translate}} Docker {{'Repository'|translate}}
-                                          </label>
-                                        </div>
-                                      </div>
-  
-                                      <div class="form-row form-group">
-                                        <label class="col-md-3  col-form-label ">
-                                          {{'Path of Artifacts to be deployed'|translate}}
-  
-                                        </label>
-                                        <div class="col-md-9 field-tip">
-                                          <button type="button" class="btn btn-primary m-2" id="dydsafbu" (click)="addField(envIndex,stepIndex)">{{'Add'|translate}}</button>
-                                          <button type="button" class="btn btn-primary" id="dydsrafbu" (click)="removeAllFields(envIndex,stepIndex)">{{'Remove All'|translate}}
-                                          </button>
-                                          <span class="tip-content">{{'Path of artifacts to be deployed'|translate}}
-                                          </span>
-                                        </div>
-                                        <div *ngIf="env.artifactsToBeDeployed!==undefined && env.artifactsToBeDeployed.length!=0" class="col-md-12">
-                                          <div *ngFor="let field of env.artifactsToBeDeployed; let dockerIndex=index; trackBy: trackById;">
-                                            <div class="col-md-3"></div>
-                                            <div class="col-md-7  d-flex flex-row">
-                                              <input [(ngModel)]="env.artifactsToBeDeployed[dockerIndex]" id="dydspotf{{envIndex}}{{stepIndex}}{{dockerIndex}}" name="pathtoarti{{envIndex}}{{stepIndex}}{{dockerIndex}}"
-                                                pattern="[_a-zA-Z0-9-./\\:]+" #pathToArtifacts="ngModel" placeholder="src/artifacts/artifact{{dockerIndex}}"
-                                                required class="form-control  textFieldWidth">
-                                              <button class="btn bg-transparent" [hidden]="env.artifactsToBeDeployed.length==0" (click)="removeField(envIndex,stepIndex,dockerIndex)">
-                                                <i class="fa fa-icon fa-trash"></i>
-                                              </button>
-                                              <div *ngIf="pathToArtifacts.errors && (pathToArtifacts.dirty || pathToArtifacts.touched)" class="alert alert-danger ">
-  
-                                                <div [hidden]="!pathToArtifacts.errors.pattern">
-                                                  This Field can only consist of alphnumerics, slashes and dots. (Format of a folder path)
-                                                </div>
-                                                <div [hidden]="!pathToArtifacts.errors.required">
-                                                  This is a required field.
-                                                </div>
+                                          <div class="col-md-8 field-tip textFieldContainer text-left">
+    
+                                            <input class="form-control  textFieldWidth" id="dockerComposePth{{envIndex}}{{stepIndex}}" name="dockerComposePth{{envIndex}}{{stepIndex}}"
+                                              #dockerComposePth="ngModel" [(ngModel)]="env.dockerComposePath" type="text" placeholder="dockerregistry/docker_compose.yml"
+                                              pattern="[\\_a-zA-Z0-9-.\/]+(.yml|.yaml)"minlength="5" maxlength="150" required>
+                                            <span class="tip-content">{{'Path of docker_compose.yml '|translate}}</span>
+                                            <div *ngIf="dockerComposePth.errors && (dockerComposePth.dirty || dockerComposePth.touched)" class="alert alert-danger ">
+    
+                                              <div [hidden]="!dockerComposePth.errors.pattern">
+                                                This Field Name can only consist of alphabetical, number, dot and underscore and should end with ".yml or .yaml"
+                                              </div>
+                                              <div [hidden]="!dockerComposePth.errors.required">
+                                                This Field Name is required!
+                                              </div>
+                                              <div [hidden]="!dockerComposePth.errors.minlength">
+                                                This Field Name must be at least 5 characters long.
+                                              </div>
+                                              <div [hidden]="!dockerComposePth.errors.maxlength">
+                                                This Field Name cannot be more than 150 digits long.
                                               </div>
                                             </div>
                                           </div>
                                         </div>
+  
+                                        <div class="form-row form-group">
+                                          <label class="col-md-3 text-right col-form-label ">
+                                            {{'Stack Name'|translate}}
+                                            <span style="color: red">*</span>
+                                          </label>
+                                          <div class="col-md-8 field-tip textFieldContainer text-left">
+    
+                                            <input class="form-control  textFieldWidth"  id="dydsdpptfsn{{envIndex}}{{stepIndex}}" name="stackNme{{envIndex}}{{stepIndex}}" #stackNme="ngModel"  [(ngModel)]="env.stackName" pattern="[_a-zA-Z_.0-9:-]+" 
+                                                  maxlength="150" minlength="1"  type="text"
+                                              placeholder="Testapp" required>
+                                            <span class="tip-content">{{'Stack Name'|translate}}</span>
+                                            <div *ngIf="stackNme.errors && (stackNme.dirty || stackNme.touched)" class="alert alert-danger ">
+    
+                                              <div [hidden]="!stackNme.errors.pattern">
+                                                This Field can only consist of alphabetical, number, dot and underscore
+                                              </div>
+                                              <div [hidden]="!stackNme.errors.required">
+                                                This Field Name is required!
+                                              </div>
+                                              <div [hidden]="!stackNme.errors.maxlength">
+                                                This Field Name cannot be more than 150 charecters long.
+                                              </div>
+                                              <div [hidden]="!stackNme.errors.minlength">
+                                                This Field Name at least 1 charecters long.
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+                                        </div>
+  
                                       </div>
+    
                                     </div>
                                   </div>
+                                
+
+
   
                                   <!-- End of docker container -->
 
@@ -7712,7 +7603,7 @@
                                                               #sshFile="ngModel"
                                                               class="form-control  "
                                                               [(ngModel)]="env.runScript.host"
-                                                              type="text" placeholder="10.234.13.12"
+                                                              type="text" placeholder="IP address"
                                                               minlength="5" maxlength="150"
                                                               value="" required>
                                                           <span class="tip-content">{{'Please

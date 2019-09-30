@@ -143,10 +143,10 @@ public class EmailSenderTest {
 	public void setup() {
 		emailSender = new EmailSender();
 		ReflectionTestUtils.setField(emailSender, "emailUserName", "idpadmin");
-		ReflectionTestUtils.setField(emailSender, "emailPassword", "idpadmin@123");
+		ReflectionTestUtils.setField(emailSender, "emailPassword", "dummyuser");
 		ReflectionTestUtils.setField(emailSender, "emailSmtpHost", "localhost");
 		ReflectionTestUtils.setField(emailSender, "emailSmtpPort", "587");
 		ReflectionTestUtils.setField(emailSender, "emailServer", "sendgrid");
-		ReflectionTestUtils.setField(emailSender, "emailSenderId", "idpadmin01@domain.com");
+		ReflectionTestUtils.setField(emailSender, "emailSenderId", "idpadmin01@xyz.com");
 	}
 }

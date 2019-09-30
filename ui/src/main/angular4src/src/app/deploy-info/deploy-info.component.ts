@@ -57,6 +57,7 @@ export class DeployInfoComponent implements OnInit {
   formStatusObject = this.IdpdataService.data.formStatus;
   copyEditOperation=this.IdpdataService.copyEditOperation;
   ssoId: any;
+  isDockerRegistry=this.IdpdataService.isDockerRegistry;
   ssoName: any;
   serverIndex: any;
   srfServerIndex: any;
@@ -989,8 +990,8 @@ public fileUploader(event,envIndex,stepIndex) {
             this.tempObject.deployEnv[i].deploySteps[j].dockerContainerFlag = "off";
             }
 
-            if (this.deployInfo.deployEnv[i].deploySteps[j].applicationPortDR !== undefined &&
-                this.deployInfo.deployEnv[i].deploySteps[j].applicationPortDR !== "") {
+            if (this.deployInfo.deployEnv[i].deploySteps[j].dockerComposePath !== undefined &&
+                this.deployInfo.deployEnv[i].deploySteps[j].dockerComposePath !== "") {
                 if (this.tempObject.deployEnv[i].deploySteps[j] === undefined) {
                     console.log(this.tempObject.deployEnv[i].deploySteps[j]);
                     this.tempObject.deployEnv[i].deploySteps[j] = {};
@@ -1924,6 +1925,7 @@ public fileUploader(event,envIndex,stepIndex) {
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerFilePathDR = "";
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerPortDR = "";
     this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].applicationPortDR = "";
+    this.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].dockerComposePath = "";
     
 
     return false;

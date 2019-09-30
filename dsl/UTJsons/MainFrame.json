@@ -14,7 +14,7 @@
 			"applicationTeam": "",
 			"emailIds": ""
 		},
-		"userName": "userName",
+		"userName": "dummyuser",
 		"pipelineStatus": "edit"
 	},
 	"code": {
@@ -23,8 +23,8 @@
 		"scm": [
 			{
 				"type": "git",
-				"url": "http://infygit.domain.com/angelin.mariya/MFED_CLI.git",
-				"userName": "Ciplatform",
+				"url": "http://xyz.com/dummyuser/MFED_CLI.git",
+				"userName": "dummyuser",
 				"password": "pwd",
 				"repositoryBrowser": "gitHub",
 				"browserUrl": "",

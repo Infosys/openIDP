@@ -103,7 +103,7 @@ class Deploy {
     private void addDeploySteps(factory, jsonData, index, envVar) {
         def envObj = jsonData.deployInfo.deployEnv[index];
         if ((jsonData.buildInfo && jsonData.buildInfo.artifactToStage
-                && (jsonData.buildInfo.artifactToStage.artifactRepoName == "nexus" || jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog"))
+                && (jsonData.buildInfo.artifactToStage.artifactRepoName == "nexus" || jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog" || jsonData.buildInfo.artifactToStage.artifactRepoName == "docker"))
                 || (jsonData.code.technology.equalsIgnoreCase('J2EE/Ant'))) {
             new BaseJobCreator(
                     jobName: basepath + '/' + basepath + '_ArtifactDownload',
@@ -111,6 +111,7 @@ class Deploy {
             ).create(factory).with {
                 configure { it / canRoam(false) }
                 concurrentBuild(true)
+                addProperties(delegate, jsonData)
                 environmentVariables {
                     propertiesFile('$IDP_WS/CustomJobParm.properties')
                     keepBuildVariables(true)
@@ -125,6 +126,14 @@ class Deploy {
                 if (jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog") {
                     ArtifactoryDownload artifactory = new ArtifactoryDownload();
                     artifactory.artifactoryDownloadJobCreation(delegate, jsonData, envVar)
+                }
+                if (jsonData.buildInfo.artifactToStage.artifactRepoName == "docker") {
+                    addWrapperForDocker(delegate,jsonData)
+                    if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                        DockerDownload.addStepsDRWindows(delegate, jsonData, envVar)
+                    }else{
+                        DockerDownload.addStepsDRLinux(delegate, jsonData, envVar)
+                    }
                 }
             }
         }
@@ -184,14 +193,16 @@ class Deploy {
                             DBDeployObject.add(delegate, jsonData, index, i)
                         if (envObj.deploySteps[i].dockerFilePath)
                             DockerDeploy.addSteps(delegate, jsonData, index, i, envVar)
-                        if (envObj.deploySteps[i].dockerFilePathDR) {
-                            if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
-                                DockerDeploy.addStepsDRWindows(delegate, jsonData, index, i, envVar)
-                            }else{
-                                DockerDeploy.addStepsDRLinux(delegate, jsonData, index, i, envVar)
-                            }
-                         }
 
+                        if (envObj.deploySteps[i].dockerComposePath)
+                        {
+                            if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                               DockerSwarmDeploy.addStepsDRWindows(delegate, jsonData, index, i, envVar)
+                           }else{
+                                DockerSwarmDeploy.addStepsDRLinux(delegate, jsonData, index, i, envVar)
+                            }
+
+                        }
                         NiaIntegStage.run(delegate, jsonData, Constants.DEPLOY);
 
                         //Optional settings of job
@@ -222,6 +233,18 @@ class Deploy {
 				env.add(delegate, jsonData);
             }
         }
+    }
+
+    void addWrapperForDocker(context, jsonData){
+        def password = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
+       context.with{
+            wrappers{
+                BuildEnvIIS env = new BuildEnvIIS();
+                env.setName("DR_PASSWORD");
+                env.setPswd(password);
+                env.add(delegate, jsonData);
+            }
+       }
     }
 
     /*

@@ -89,12 +89,8 @@ public class FetchDetailsBL {
     private String mtmurl;
 	@Value("${mtmproject}")
     private String mtmproject;
-	@Value("${serverURL}")
-    private String serverURL;
 	@Value("${projectName}")
     private String projectName;
-	@Value("${authorizationToken}")
-    private String authorizationToken;
 	@Value("${proxyip}")
     private String proxyip;
 	@Value("${proxyport}")
@@ -450,7 +446,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			logger.info(application+pipeline+releasno+artifactname);
 			String newQuery=" select buildstatus,created_at from buildinfo where appid=(select id from appinfo where application_name='"+application+"' and pipeline_name ='"+pipeline+"')  and pipelineno='"+pipelineno+"' and stagename like '%Build%' ";
@@ -510,7 +506,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -573,7 +569,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -636,7 +632,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -699,7 +695,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -764,7 +760,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -830,7 +826,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -896,7 +892,7 @@ public class FetchDetailsBL {
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 			
@@ -1468,56 +1464,57 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 		QueryResponse response = new QueryResponse();
 		response.setTarget(query);
 		
-		if(query.toLowerCase().contains("sparkartifactsdetails"))
-		{
+		// if(query.toLowerCase().contains("sparkartifactsdetails"))
+		// {
 
 
 			
-			try (Connection connection = idpPostGreSqlDbContext.getConnection();
-					PreparedStatement preparedStatement = connection.prepareStatement(query);
-					ResultSet rs = preparedStatement.executeQuery();) {
+		// 	try (Connection connection = idpPostGreSqlDbContext.getConnection();
+		// 			PreparedStatement preparedStatement = connection.prepareStatement(query);
+		// 			ResultSet rs = preparedStatement.executeQuery();) {
 
 				
-				ResultSetMetaData metars = rs.getMetaData();
-				if (metars.getColumnCount() != 0) {
-					for (int i = 1; i <= 4; i++) {
-						c = new Column();
-						c.setText(metars.getColumnName(i));
-						c.setType(metars.getColumnTypeName(i));
-						columns.add(c);
-					}
+		// 		ResultSetMetaData metars = rs.getMetaData();
+		// 		if (metars.getColumnCount() != 0) {
+		// 			for (int i = 1; i <= 4; i++) {
+		// 				c = new Column();
+		// 				c.setText(metars.getColumnName(i));
+		// 				c.setType(metars.getColumnTypeName(i));
+		// 				columns.add(c);
+		// 			}
 
-					while (rs.next()) {
-						singleRow = new ArrayList<>();
-						for (int j = 1; j <=4; j++) {
-							if(j==2)singleRow.add(rs.getString(5)+"_"+rs.getString(6)+"_"+rs.getString(1));
-							else singleRow.add(rs.getString(j));
-						}
-						rows.add(singleRow);
-					}
-					logger.info(VALUES);
-					if (singleRow != null) {
-						for (String string : singleRow) {
-							logger.info(string);
-						}
-					}
-					response.setColumns(columns);
-					response.setRows(rows);
+		// 			while (rs.next()) {
+		// 				singleRow = new ArrayList<>();
+		// 				for (int j = 1; j <=4; j++) {
+		// 					if(j==2)singleRow.add(rs.getString(5)+"_"+rs.getString(6)+"_"+rs.getString(1));
+		// 					else singleRow.add(rs.getString(j));
+		// 				}
+		// 				rows.add(singleRow);
+		// 			}
+		// 			logger.info(VALUES);
+		// 			if (singleRow != null) {
+		// 				for (String string : singleRow) {
+		// 					logger.info(string);
+		// 				}
+		// 			}
+		// 			response.setColumns(columns);
+		// 			response.setRows(rows);
 
-					response.setType("table");
+		// 			response.setType("table");
 
-				}
-				return response;
-			} catch (Exception e) {
+		// 		}
+		// 		return response;
+		// 	} catch (Exception e) {
 				
-				logger.error("Exception in runTableQuery ", e);
-				return response;
-			}
+		// 		logger.error("Exception in runTableQuery ", e);
+		// 		return response;
+		// 	}
 		
 		
-		}
+		// }
 		
-		else if (query.toLowerCase().contains("saptransportobjectfinalincludingold")) {
+		// else
+		 if (query.toLowerCase().contains("saptransportobjectfinalincludingold")) {
 
 			String releaseNo = query.substring(query.indexOf('_') + 1, query.indexOf('@'));
 			String userStory = query.substring(query.indexOf('@') + 1, query.indexOf('#'));
@@ -2188,7 +2185,7 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 						JSONArray parameters=jObject.getJSONArray("parameters");
 						String name=parameters.getJSONObject(0).getString("name");
 						String value=parameters.getJSONObject(0).getString("value");
-						if(name.toLowerCase().equals("json_input"))
+						if(name.equalsIgnoreCase("json_input"))
 						{
 							flag=true;
 							JSONObject valueJson=new JSONObject(value);
@@ -2278,7 +2275,7 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 			        	
 			        	String newQuery="select artifact_name from tartifact_approval where release_id in(Select release_id from trelease_info where pipeline_id in (select pipeline_id from tpipeline_info where pipeline_name='"+pipeline+"' and application_id in (select application_id from tapplication_info where application_name='"+appName+"')) and application_id in (select application_id from tapplication_info where application_name='"+appName+"')) order by artifact_id DESC limit 1";
 			        	try(Connection connection = idpPostGreSqlDbContext.getConnection();
-								PreparedStatement preparedStatement = connection.prepareStatement(newQuery.toString());){
+								PreparedStatement preparedStatement = connection.prepareStatement(newQuery);){
 
 
 							ResultSet rs = preparedStatement.executeQuery();
@@ -2477,7 +2474,7 @@ else if (query.equalsIgnoreCase("unitgraph")) {
 			pipeline=query.substring(query.indexOf("@")+1,query.indexOf("#"));
 			env=query.substring(query.indexOf("#")+1);
 			String query1="select version as \"ExecutionNo\",json_array_elements((trigger_entity::json->>\'transportRequest\')::json) as \"Transport Request\",trigger_entity::json->>\'userStories\' as \"User Story\",trigger_entity::json->>\'userName\' as \"User Name\",to_char(trigger_time,'YY/MM/DD HH12:MI')  as \"Trigger Time\" from ttrigger_history where(trigger_entity::json ->> 'applicationName'='"+app+"' and trigger_entity::json ->> 'pipelineName' ='"+pipeline+"'  and trigger_entity::json ->> 'envSelected'='"+env+"')";
-			try (Connection connectionNew1 = idpPostGreSqlDbContext.getConnection();PreparedStatement preparedStatement = connectionNew1.prepareStatement(query1.toString(),ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);) {
+			try (Connection connectionNew1 = idpPostGreSqlDbContext.getConnection();PreparedStatement preparedStatement = connectionNew1.prepareStatement(query1,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);) {
 				
 				ResultSet rs = preparedStatement.executeQuery();
 				ResultSetMetaData metars = rs.getMetaData();
@@ -2604,7 +2601,7 @@ else if(query.toLowerCase().contains("artifactviewtestdetails"))
 				pipelineno2=artifactname.substring(artifactname.lastIndexOf('-')+1);
 			}
 				catch(Exception e){logger.error(e.getMessage());}
-			if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+			if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 			else pipelineno=pipelineno1;
 			
 
@@ -2835,7 +2832,7 @@ else if(query.toLowerCase().contains("artifactviewalmdetails"))
 					String requesturl=jiraurl1+"/rest/api/2/issue/";
 					requesturl+=issueId;
 					URL url = new URL(requesturl);	
-					logger.info("requesturl: "+requesturl);
+					
 					
 					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("GET");
@@ -2916,13 +2913,13 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 		pipelineno2=artifactname.substring(artifactname.lastIndexOf("-")+1);
 	}
 		catch(Exception e){}
-	if(!pipelineno2.equals("") && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
+	if(!"".equals(pipelineno2) && pipelineno2.length()<pipelineno1.length())pipelineno=pipelineno2;
 	else pipelineno=pipelineno1;
 	
 	//artifactname="demoapp_demopip_2";
 	String newQuery="Select package_content from tartifact_approval where artifact_name='"+artifactname+"'";
 	System.out.println(newQuery);
-	try (Connection connectionNew1 = idpPostGreSqlDbContext.getConnection();PreparedStatement preparedStatement = connectionNew1.prepareStatement(newQuery.toString(),ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);) {
+	try (Connection connectionNew1 = idpPostGreSqlDbContext.getConnection();PreparedStatement preparedStatement = connectionNew1.prepareStatement(newQuery,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);) {
 		
 		ResultSet rs = preparedStatement.executeQuery();
 		ResultSetMetaData metars = rs.getMetaData();
@@ -3236,7 +3233,7 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 						
 						String requesturl=mtmurl+"_apis/wit/workitems?ids=";
 						requesturl+=storyId+"&$expand=all&api-version=1.0";
-						logger.info("requesturl: "+requesturl);
+						
 						
 
 								JSONObject json=getVSTSDetails(requesturl);
@@ -3592,8 +3589,7 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 			
 			
 			String qreleaseNo = "";
-
-			if (releaseNo.contains("$") || releaseNo.equals("") || releaseNo.equals("N/A"))
+			if (releaseNo.contains("$") || "".equals(releaseNo) || "N/A".equals(releaseNo))
 				qreleaseNo = " release_number=''";
 			else
 				qreleaseNo = " release_number='" + releaseNo + "' ";
@@ -3724,7 +3720,7 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 			String[] usList = userStory.split("\\|");
 			String qreleaseNo;
 			String quserStory;
-			if (releaseNo.contains("$") || releaseNo.equals("") || releaseNo.equals("N/A"))
+			if (releaseNo.contains("$") || "".equals(releaseNo) || "".equals(releaseNo))
 				qreleaseNo = " release_number=''";
 			else
 				qreleaseNo = " release_number='" + releaseNo + "' ";
@@ -3740,7 +3736,6 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 				else
 					quserStory = " user_story = '" + us + "' and ";
 				String newQuery;
-				String newQueryOld;
 				String newQuerytemp;
 				String newQueryOldtemp;
 
@@ -3758,7 +3753,7 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 							+ qreleaseNo + " and project_name='"+projectName+"'";
 					/*newQueryOld = "select distinct transport_request from tsap_deploy_details where " + quserStory
 							+ " trigger_id in (Select trigger_id from ttrigger_history where release_number='"
-							+ releaseNo + "' and trigger_id in (Select trigger_id from tsap_deploy_details)) "*/;
+							+ releaseNo + "' and trigger_id in (Select trigger_id from tsap_deploy_details)) "*/
 					newQuerytemp = "select distinct transport_request from tsap_trigger_details where " + qreleaseNo
 							+ " and project_name='"+projectName+"'";
 					/*newQueryOldtemp = "select distinct transport_request from tsap_deploy_details where trigger_id in (Select trigger_id from ttrigger_history where release_number='"
@@ -3769,7 +3764,7 @@ else if(query.toLowerCase().contains("artifactviewpackagecontent"))
 						PreparedStatement restStatement = restconnection.prepareStatement(newQuery);
 						//PreparedStatement restStatement1 = restconnection.prepareStatement(newQueryOld);
 						PreparedStatement restStatement2 = restconnection.prepareStatement(newQuerytemp);)
-						//PreparedStatement restStatement3 = restconnection.prepareStatement(newQueryOldtemp);)
+				
 
 				{
 					ResultSet rs = restStatement.executeQuery();

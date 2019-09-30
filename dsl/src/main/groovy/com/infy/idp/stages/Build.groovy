@@ -18,6 +18,8 @@ import com.infy.idp.utils.fs.*
 import javaposse.jobdsl.dsl.DslFactory
 
 import com.infy.idp.plugins.wrappers.BuildEnv
+import com.infy.idp.plugins.wrappers.BuildEnvIIS
+import com.infy.idp.plugins.wrappers.*
 
 
 /**
@@ -83,7 +85,7 @@ class Build {
 
                     NiaIntegStage.run(delegate, jsonData, Constants.BUILD)
 
-                    if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus')
+                   if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus' ||  jsonData.buildInfo.artifactToStage.artifactRepoName == 'docker')
                     ) {
                         artifacttostage(factory, jsonData, envVar)
                     }
@@ -123,7 +125,7 @@ class Build {
 
                 }
             }
-            if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus')
+            if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'docker')
             ) {
                 new BaseJobCreator(
                         jobName: basepath + '/' + basepath + '_ArtifactUpload',
@@ -148,6 +150,14 @@ class Build {
                         NexusUpload.freeStyleNexus(delegate, jsonData, envVar,'$JOB_BUILD_ID')
                     } else if (jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog") {
                         ArtifactoryUpload.freeStyleArtifactory(delegate, jsonData, envVar,'$JOB_BUILD_ID')
+                    }
+                    if (jsonData.buildInfo.artifactToStage.artifactRepoName == "docker") {
+                        addWrapperForDocker(delegate, jsonData)
+                        if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                            DockerUpload.addStepsDRWindows(delegate, jsonData, envVar)
+                        }else{
+                            DockerUpload.addStepsDRLinux(delegate, jsonData, envVar)
+                        }
                     }
                 }
             }
@@ -220,7 +230,7 @@ class Build {
                     if (jsonData.buildInfo.postBuildScript && !jsonData.buildInfo.postBuildScript.equals('{}'))
                         RunScript.inBuildModule(delegate, jsonData.buildInfo.postBuildScript)
                 }
-                if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus')
+                if (jsonData.buildInfo && jsonData.buildInfo.artifactToStage && (jsonData.buildInfo.artifactToStage.artifactRepoName == 'jfrog' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'nexus' || jsonData.buildInfo.artifactToStage.artifactRepoName == 'docker')
                 ) {
                     new BaseJobCreator(
                             jobName: basepath + '/' + basepath + '_ArtifactUpload',
@@ -252,7 +262,19 @@ class Build {
                             NexusUpload.freeStyleNexus(delegate, jsonData, envVar, '$JOB_BUILD_ID')
                         } else if (jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog") {
                             ArtifactoryUpload.freeStyleArtifactory(delegate, jsonData, envVar, '$JOB_BUILD_ID')
+                        }else if(jsonData.buildInfo.artifactToStage.artifactRepoName == "docker") {
+
+                            addWrapperForDocker(delegate,jsonData)
+                            if (jsonData.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR) { 
+                                if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                                    DockerUpload.addStepsDRWindows(delegate, jsonData, envVar)
+                                }else{
+                                    DockerUpload.addStepsDRLinux(delegate, jsonData, envVar)
+                                }
+                            }
+
                         }
+
                     }
                 }
 
@@ -303,7 +325,31 @@ class Build {
                 NexusUpload.freeStyleNexus(delegate, jsonData, envVar,'$JOB_BUILD_ID')
             } else if (jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog") {
                 ArtifactoryUpload.freeStyleArtifactory(delegate, jsonData, envVar,'$JOB_BUILD_ID')
+            }else if(jsonData.buildInfo.artifactToStage.artifactRepoName == "docker") {
+                /* if (jsonData.buildStr.dockerFilePath)
+                     DockerUpload.addSteps(delegate, jsonData, envVar)*/
+                addWrapperForDocker(delegate,jsonData)
+                if (jsonData.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR) {
+                    if(jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+                        DockerUpload.addStepsDRWindows(delegate, jsonData, envVar)
+                    }else{
+                        DockerUpload.addStepsDRLinux(delegate, jsonData, envVar)
+                    }
+                }
+
             }
+            
+        }
+    }
+    void addWrapperForDocker(context, jsonData){
+        def password = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
+        context.with{
+            wrappers{
+                BuildEnvIIS env = new BuildEnvIIS();
+                env.setName("DR_PASSWORD");
+                env.setPswd(password);
+                env.add(delegate, jsonData);
+           }
         }
     }
 
@@ -334,6 +380,7 @@ class Build {
                     PropertiesAdder.addNodeParam(delegate, 'SLAVE_NODE', ['ldaproleapp_Jmvn1_14Mr1_Slave'], '')
                     PropertiesAdder.addStringParam(delegate, 'BUILD_LABEL', 'NA', '')
                     PropertiesAdder.addStringParam(delegate, 'ARTIFACT_NAME', 'NA', '')
+                    PropertiesAdder.addStringParam(delegate, 'SCM_BRANCH', 'default', 'SCm branch selected while trigger')
                     if (jsonData.buildInfo.artifactToStage && jsonData.buildInfo.artifactToStage.artifact) {
                         PropertiesAdder.addStringParam(delegate, 'ARTIFACT_VERSION', 'NA', 'This parameter tells which artifacts has to be downloaded')
                         PropertiesAdder.addStringParam(delegate, 'ARTIFACT_ID', 'NA', 'This will tell in which folder it has to be downloaded')

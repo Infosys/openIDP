@@ -358,9 +358,10 @@ else {
 }
 
 def deployStageExecution(jsonData,stageFlag,waitForSlave,mainNodeObject,labelName,basePath,mainCustomWS,testLabel,iterationCount,deployStage,testStage,idpSlaveConfiguration){
-	echo "inside deploy stage"
+	
 	
 	if(jsonData["deploy"] && stageFlag[1] == 'off'){
+	echo "inside deploy stage"
 	echo "deploy condition satisfied"
 	
 		stageFlag[1] = 'on'
