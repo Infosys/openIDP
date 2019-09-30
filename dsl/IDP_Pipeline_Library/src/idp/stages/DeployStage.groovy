@@ -1,9 +1,8 @@
-/***********************************************************************************************
+/*********************************************************************************************
  *
  * Copyright 2018 Infosys Ltd.
  * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
  * https://opensource.org/licenses/MIT.
- *
  ***********************************************************************************************/
 
 package idp.stages
@@ -85,6 +84,11 @@ class DeployStage implements Serializable {
                 } else {
                     artifactId = jsonData["deploy"]["deployArtifact"]["artifactID"]
                     artifactVersion = jsonData["releaseNumber"] + "-" + branchNexus + "-" + jsonData["deploy"]["deployArtifact"]["version"]
+					if(jsonData["deploy"]["deployArtifact"]!=null &&  jsonData["deploy"]["deployArtifact"]["artifactID"] && jsonData["deploy"]["deployArtifact"]["artifactID"]!=null){
+                        if((jsonData["deploy"]["deployArtifact"]["version"]).indexOf("-")!=-1){
+                            artifactVersion = jsonData["deploy"]["deployArtifact"]["version"]
+                        }
+                    }
                 }
 
                 this.script.build job: basePath + "_ArtifactDownload",
@@ -93,6 +97,7 @@ class DeployStage implements Serializable {
                                      [$class: 'StringParameterValue', name: 'PIPELINE_NAME', value: basePath],
                                      [$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
                                      [$class: 'StringParameterValue', name: 'RELEASE_NO', value: jsonData["releaseNumber"]],
+                                     [$class: 'StringParameterValue', name: 'trigger_id', value: jsonData["triggerId"].toString()],
                                      [$class: 'LabelParameterValue', name: 'SLAVE_NODE', label: nodeObject.slaveName],
                                      [$class: 'StringParameterValue', name: 'PIPELINE_BUILD_ID', value: this.script.BUILD_NUMBER],
                                      [$class: 'StringParameterValue', name: 'NEXUS_URL', value: path],
@@ -217,7 +222,7 @@ class DeployStage implements Serializable {
                                             parameters: [[$class: 'StringParameterValue', name: 'IDP_WS', value: customWS],
                                                          [$class: 'StringParameterValue', name: 'MODULE_LIST', value: moduleList],
                                                          [$class: 'StringParameterValue', name: 'RELEASE_IDENTIFIER', value: relNo],
-                                                         [$class: 'LabelParameterValue', name: 'SLAVE_NODE', label: nodeObject.slaveName],
+ 							[$class: 'StringParameterValue', name: 'ARTIFACT_VERSION', value: artifactVersion],					                                         [$class: 'LabelParameterValue', name: 'SLAVE_NODE', label: nodeObject.slaveName],
                                                          [$class: 'StringParameterValue', name: 'PIPELINE_BUILD_ID', value: this.script.BUILD_NUMBER],
                                                          [$class: 'StringParameterValue', name: 'BUILD_LABEL', value: buildLabel],
                                                          [$class: 'StringParameterValue', name: 'SUBMODULE_LIST', value: moduleList1]]
@@ -356,3 +361,4 @@ class DeployStage implements Serializable {
         }
     }
 }
+
