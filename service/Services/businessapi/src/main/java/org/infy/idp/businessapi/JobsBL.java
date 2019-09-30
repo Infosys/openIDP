@@ -93,8 +93,6 @@ public class JobsBL {
 	@Autowired
 	private FetchJobDetails fetchJobDetails;
 	@Autowired
-	private TriggerDetailBL triggerDetailBL;
-	@Autowired
 	private JobsManagementBL jobsmgmtBL;
 	@Autowired
 	private JobsAdditionalInfo jobsaddInfo;
@@ -192,10 +190,15 @@ public class JobsBL {
 				try {
 					ApplicationInfo ap = jobInfoDL.getApplication(idp.getBasicInfo().getApplicationName());
 					if (ap.getArtifactToStage() != null) {
+						// for Docker registry
+						if (ap.getArtifactToStage().getArtifactRepoName().equalsIgnoreCase("docker")) {
+							idp.getBuildInfo().setArtifactToStage(ap.getArtifactToStage());
+						} else {
 						ap.getArtifactToStage().setArtifact(idp.getBuildInfo().getArtifactToStage().getArtifact());
 						ap.getArtifactToStage().setFlattenFileStructure(
 								idp.getBuildInfo().getArtifactToStage().getFlattenFileStructure());
 						idp.getBuildInfo().setArtifactToStage(ap.getArtifactToStage());
+					}
 					}
 				} catch (SQLException e) {
 					logger.error(e.getMessage(), e);
@@ -588,7 +591,7 @@ public class JobsBL {
 		// Modularized email ids
 		TriggerParameters triggerparameters = inputTriggerparameters;
 		Gson g = new Gson();
-		String domain = jobInfoDL.getDomainName(userName);
+		
 		List<String> users = emailSender.getUsersFromApplication(triggerparameters.getApplicationName(),
 				triggerparameters.getPipelineName(), triggerparameters.getUserName());
 		String emailIds = String.join(",", users);

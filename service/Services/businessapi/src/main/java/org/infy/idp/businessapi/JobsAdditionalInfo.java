@@ -23,7 +23,6 @@ import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
 import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.JobManagementDL;
-import org.infy.idp.dataapi.services.ReleaseDetails;
 import org.infy.idp.dataapi.services.UpdateJobDetails;
 import org.infy.idp.entities.jobs.DownloadArtifactInputs;
 import org.infy.idp.entities.jobs.IDPJob;
@@ -75,8 +74,7 @@ public class JobsAdditionalInfo {
 	private JenkinsCLI cli;
 	@Autowired
 	private TestPlanDetailsFetcher testPlanDetailsFetcher;
-	@Autowired
-	private ReleaseDetails releaseDetailsDL;
+
 
 	private JobsAdditionalInfo() {
 	}

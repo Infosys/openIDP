@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
-
+import com.google.gson.reflect.TypeToken;
+import org.infy.idp.utils.SSLUtilities;
 import org.infy.entities.artifact.ArtifactoryArtifacts;
 import org.infy.entities.artifact.ArtifactoryFile;
 import org.infy.entities.triggerinputs.ApproveBuild;
@@ -27,6 +28,7 @@ import org.infy.entities.triggerinputs.BuildDeployEnv;
 import org.infy.entities.triggerinputs.Deploy;
 import org.infy.entities.triggerinputs.DeployArtifact;
 import org.infy.entities.triggerinputs.DeployTestEnv;
+import org.infy.entities.artifact.DockerArtifact;
 import org.infy.entities.triggerinputs.Test;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
@@ -68,6 +70,8 @@ public class TriggerDetailBL {
 	private static final String TEST = "TEST";
 	private static final String WORKFLOW = "workflow";
 	private static final String VALUE = "value";
+	private static final String DOCKER = "docker";
+	private static final String LATEST_ARTIFACT = "latestArtifact";
 	
 	
 	@Autowired
@@ -514,6 +518,11 @@ public class TriggerDetailBL {
 		String nexusURL = null;
 		String repoName = null;
 		String artifactType = null;
+		String repoNameDR = null;
+		String passwordDR = null;
+		String dockerFilePathDR = null;
+		String dockerRegistryUrlDR = null;
+		String userNameDR = null;
 		List<DeployArtifact> arList = new ArrayList<>();
 		if (idp.getBuildInfo() != null && idp.getBuildInfo().getArtifactToStage() != null
 				&& idp.getBuildInfo().getArtifactToStage().getArtifactRepoName() != null
@@ -523,6 +532,11 @@ public class TriggerDetailBL {
 			passWord = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoPassword();
 			nexusURL = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoURL();
 			repoName = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoName();
+			repoNameDR = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoNameDR();
+			passwordDR = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getPasswordDR();
+			dockerFilePathDR = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getDockerFilePathDR();
+			dockerRegistryUrlDR = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getDockerRegistryUrlDR();
+			userNameDR = idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getUserNameDR();
 			artifactType = idp.getBuildInfo().getArtifactToStage().getArtifactRepoName();
 			artifact = true;
 		} else if ((idp.getBuildInfo() != null && idp.getBuildInfo().getArtifactToStage() != null
@@ -538,6 +552,13 @@ public class TriggerDetailBL {
 			repoName = app.getArtifactToStage().getArtifactRepo().getRepoName();
 			artifactType = app.getArtifactToStage().getArtifactRepoName();
 			artifact = true;
+			if(app.getArtifactToStage().getArtifactRepoName().equalsIgnoreCase(DOCKER)) {
+				repoNameDR = app.getArtifactToStage().getArtifactRepo().getRepoNameDR();
+				passwordDR = app.getArtifactToStage().getArtifactRepo().getPasswordDR();
+				dockerFilePathDR = app.getArtifactToStage().getArtifactRepo().getDockerFilePathDR();
+				dockerRegistryUrlDR = app.getArtifactToStage().getArtifactRepo().getDockerRegistryUrlDR();
+				userNameDR = app.getArtifactToStage().getArtifactRepo().getUserNameDR();
+				}
 		}
 		if (idp.getCode().getTechnology().equalsIgnoreCase("J2EE/Ant") && app.getArtifactToStage() != null
 				&& app.getArtifactToStage().getArtifactRepo() != null
@@ -549,6 +570,13 @@ public class TriggerDetailBL {
 			repoName = app.getArtifactToStage().getArtifactRepo().getRepoName();
 			artifactType = app.getArtifactToStage().getArtifactRepoName();
 			artifact = true;
+			if(app.getArtifactToStage().getArtifactRepoName().equalsIgnoreCase(DOCKER)) {
+				repoNameDR = app.getArtifactToStage().getArtifactRepo().getRepoNameDR();
+				passwordDR = app.getArtifactToStage().getArtifactRepo().getPasswordDR();
+				dockerFilePathDR = app.getArtifactToStage().getArtifactRepo().getDockerFilePathDR();
+				dockerRegistryUrlDR = app.getArtifactToStage().getArtifactRepo().getDockerRegistryUrlDR();
+				userNameDR = app.getArtifactToStage().getArtifactRepo().getUserNameDR();
+				}
 		}
 		if (artifact) {
 			if (artifactType.equalsIgnoreCase("nexus")) {
@@ -743,6 +771,135 @@ public class TriggerDetailBL {
 					}
 				}
 			}
+			else if(artifactType.equalsIgnoreCase(DOCKER)){
+				/*
+				 * need to  split and encode 
+				 * String encRepoNameDR = repoNameDR;
+				try {
+					encRepoNameDR = URLEncoder.encode(encRepoNameDR, "UTF-8");
+				} catch (UnsupportedEncodingException e1) {
+					logger.error("Error in converting encRepoNameDR to URL param ", e1.getMessage());
+				}*/
+				String urlToHit = dockerRegistryUrlDR + "/api/v0/repositories/" + repoNameDR.toLowerCase() + "/tags?pageSize=100";
+				if (!urlToHit.startsWith("http")) {
+					urlToHit = "https://" + urlToHit;
+				}
+				triggerInputs.setRepoName(repoNameDR);
+				triggerInputs.setNexusURL(dockerRegistryUrlDR);
+				
+				List<DockerArtifact> initialArtifacts = this.getDockerArtifacts(urlToHit, userNameDR, passwordDR);
+				Gson gson = new Gson();
+				//DockerRegistryArtifactList artifacts = gson.fromJson(response, DockerRegistryArtifactList.class);
+				//logger.info(response);
+				//DockerRegistryArtifactList artifacts = gson.fromJson(response, DockerRegistryArtifactList.class);
+				List<DockerArtifact> artifacts = new ArrayList<DockerArtifact>();
+				if(initialArtifacts != null && (initialArtifacts.size() != 0)) {
+				for (int i = 0; i < initialArtifacts.size(); i++) {
+					//String[] name = initialArtifacts.get(i).getName().split("_");
+					int index = initialArtifacts.get(i).getName().lastIndexOf("_");
+					if(index != -1){
+						String appName_pipeName = initialArtifacts.get(i).getName().substring(0, index);
+						if(appName_pipeName.equals(triggerInputs.getApplicationName() + "_" + triggerInputs.getPipelineName())){
+							artifacts.add(initialArtifacts.get(i));
+						}
+					}
+				}
+				}
+				logger.debug(gson.toJson(artifacts));
+				if (artifacts != null && (artifacts.size() != 0)) {
+					for (int i = 0; i < artifacts.size(); i++) {
+						DeployArtifact d1 = new DeployArtifact();
+						DockerArtifact dockerRegistryArtifact = artifacts.get(i);
+						String[] pathSplit = dockerRegistryArtifact.getName().split("-");
+						int index = dockerRegistryArtifact.getName().lastIndexOf("_");
+						d1.setArtifactID(triggerInputs.getPipelineName());
+						String artifactEnd="";
+						if(index != -1)
+						{
+							artifactEnd= dockerRegistryArtifact.getName().substring(index+1);
+							//d1.setArtifactID(artifactEnd);
+						
+						}
+						d1.setGroupId("");
+						//artifactId=pipelinename
+						//groupId=appname
+						//version = release no-branchname-buildno, condition checked in UI to display artifact
+						//if(artifactEnd.split("-").length > 1)
+						
+							d1.setVersion(artifactEnd);
+						logger.info("Artifact version :  " + d1.getVersion());
+						d1.setDownloadURL(dockerRegistryUrlDR + "/" + repoNameDR + "/" + pipelineName + dockerRegistryArtifact.getName());
+						d1.setArtifactName(triggerInputs.getApplicationName() + "_" + triggerInputs.getPipelineName()
+								+ "_" + artifactEnd);
+						List<List> tpt = jobManagementDL.getTriggerEntity(triggerJobName.getApplicationName(),
+								pipelineName, d1.getVersion());
+						d1.setTimestamp("NA");
+						d1.setEnvironment("NA");
+						d1.setUserInfo("NA");
+						if ((tpt.size() == 0)) {
+							logger.info("No trigger entity!");
+						} else {
+							int tptSize = tpt.size();
+							for (int j = 0; j < tptSize; j++) {
+								TriggerParameters tp = (TriggerParameters) tpt.get(j).get(0);
+								String timestamp = (String) tpt.get(j).get(1);
+								if ((tp.getDeploy() != null && tp.getDeploy().getDeployArtifact() != null
+										&& tp.getDeploy().getDeployArtifact().getArtifactName() != null
+										&& tp.getDeploy().getDeployArtifact().getArtifactName()
+												.endsWith(LATEST_ARTIFACT)
+										&& tp.getDeploy().getDeployArtifact().getRepoName().equals(repoNameDR))) {
+									try {
+										List tps = jobManagementDL.getTriggerEntitytime(
+												triggerJobName.getApplicationName(), pipelineName, d1.getVersion());
+										if (tps != null) {
+											tp = (TriggerParameters) tps.get(0);
+											timestamp = (String) tps.get(1);
+											String env = "NA";
+											d1.setUserInfo(tp.getUserName());
+											if (tp.getDeploy() != null) {
+												env = tp.getEnvSelected();
+												d1.setTimestamp(timestamp);
+											}
+											d1.setEnvironment(env);
+											break;
+										}
+									} catch (Exception e) {
+										logger.error(e.getLocalizedMessage());
+									}
+								}
+								if (tp.getDeploy() != null && tp.getDeploy().getDeployArtifact() != null
+										&& tp.getDeploy().getDeployArtifact().getArtifactName() != null
+										&& tp.getDeploy().getDeployArtifact().getArtifactName()
+												.equalsIgnoreCase(d1.getArtifactName())) {
+									String env = "NA";
+									d1.setUserInfo(tp.getUserName());
+									if (tp.getDeploy() != null) {
+										env = tp.getEnvSelected();
+										d1.setTimestamp(timestamp);
+									}
+									d1.setEnvironment(env);
+									break;
+								}
+							}
+							if (null == d1.getBuildModulesList()) {
+								List tpsb = jobManagementDL.getTriggerEntitytime(triggerJobName.getApplicationName(),
+										pipelineName, d1.getVersion());
+								List<String> module = new ArrayList<>();
+								if (tpsb != null) {
+									TriggerParameters tpb = (TriggerParameters) tpsb.get(0);
+									if (tpb.getBuild() != null && tpb.getBuild().getModule() != null
+											&& tpb.getBuild().getModule().size() > 0) {
+										module = tpb.getBuild().getModule();
+										d1.setBuildModulesList(module);
+									}
+								}
+							}
+							arList.add(d1);
+						}
+					}
+				}
+			}
+			
 		} else {
 			triggerInputs.setRepoName("na");
 		}
@@ -928,7 +1085,37 @@ public class TriggerDetailBL {
 		}
 	}
 
-	
+	public List<DockerArtifact> getDockerArtifacts(String urlToHit, String username, String password) {
+		SSLUtilities.trustAllHostnames();
+		SSLUtilities.trustAllHttpsCertificates();
+
+		String authString = username + ":" + password;
+		String authStringEnc = Base64.getEncoder().encodeToString(authString.getBytes());
+
+		URL url;
+		List<DockerArtifact> dockerArList = null;
+		try {
+			url = new URL(urlToHit);
+			URLConnection urlconnection = url.openConnection();
+			urlconnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+			try(BufferedReader in = new BufferedReader(new InputStreamReader(urlconnection.getInputStream()))){
+				String inputLine;
+				StringBuilder input = new StringBuilder();
+				while ((inputLine = in.readLine()) != null) {
+					input.append(inputLine);
+				}
+				Gson gson = new Gson();
+				dockerArList = gson.fromJson(input.toString(), new TypeToken<List<DockerArtifact>>() {
+				}.getType());
+			}
+			
+
+		} catch (IOException e) {
+			logger.error("Error in docker artifact fetch", e.getMessage());
+		}
+		return dockerArList;
+
+	}
 	
 	public ArrayList<ArrayList<String>> gitLabbranchesTagsFetcher(String repoUrl, String username, String pwd,
 			String projectUrl) {

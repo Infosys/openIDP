@@ -242,7 +242,7 @@ public class JenkinsCLITest  {
 
 		configmanager.setJenkinsurl("http://localhost:8085/jenkins");
 		configmanager.setJenkinsuserid("idpadmin");
-		configmanager.setJenkinspassword("idpadmin@123");
+		configmanager.setJenkinspassword("dummyuser");
 		configmanager.setSharePath("D:\\idpdata\\dsldata");
 		configmanager.setPipelineScriptPath("D:\\idpdata\\dsldata\\src\\main\\groovy\\pipeline_sequence");
 		MockitoAnnotations.initMocks(this);

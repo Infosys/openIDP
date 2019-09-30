@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "create"
   },
   "code": {
@@ -31,7 +31,7 @@
     "scm": [
       {
         "type": "svn",
-        "url": "http://svn.co.in",
+        "url": "http://xyz.in",
         "userName": "idpadmin",
         "password": "idpadmin@123",
         "repositoryBrowser": "",
@@ -80,7 +80,7 @@
 
     "modules": [
       {
-        "hostName": "10.74.91.103",
+        "hostName": "dummyuser",
         "userName": "idpadmin",
         "moduleName": "",
         "relativePath": "rootDirectory",
@@ -97,7 +97,7 @@
     "postBuildScript": {
       "dependentPipelineList": []
     },
-    "sonarUrl": "http://infysonarqube:8080/"
+    "sonarUrl": "http://dummyuser:8080/"
   },
   "deployInfo": {
     "deployEnv": [

@@ -30,6 +30,82 @@ public class ArtifactRepo {
 	@SerializedName("repoPassword")
 	@Expose
 	private String repoPassword;
+	@SerializedName("repoNameDR")
+	@Expose
+	private String repoNameDR;
+	@SerializedName("passwordDR")
+	@Expose
+	private String passwordDR;
+	@SerializedName("dockerFilePathDR")
+	@Expose
+	private String dockerFilePathDR;
+	@SerializedName("dockerRegistryUrlDR")
+	@Expose
+	private String dockerRegistryUrlDR;
+	@SerializedName("userNameDR")
+	@Expose
+	private String userNameDR;
+	@SerializedName("passwordManager")
+	@Expose
+	private String passwordManager;
+	@SerializedName("passwordManagerId")
+	@Expose
+	private String passwordManagerId;
+	public String getRepoNameDR() {
+		return repoNameDR;
+	}
+
+	public void setRepoNameDR(String repoNameDR) {
+		this.repoNameDR = repoNameDR;
+	}
+
+	public String getPasswordDR() {
+		return passwordDR;
+	}
+
+	public void setPasswordDR(String passwordDR) {
+		this.passwordDR = passwordDR;
+	}
+
+	public String getDockerFilePathDR() {
+		return dockerFilePathDR;
+	}
+
+	public void setDockerFilePathDR(String dockerFilePathDR) {
+		this.dockerFilePathDR = dockerFilePathDR;
+	}
+
+	public String getDockerRegistryUrlDR() {
+		return dockerRegistryUrlDR;
+	}
+
+	public void setDockerRegistryUrlDR(String dockerRegistryUrlDR) {
+		this.dockerRegistryUrlDR = dockerRegistryUrlDR;
+	}
+
+	public String getUserNameDR() {
+		return userNameDR;
+	}
+
+	public void setUserNameDR(String userNameDR) {
+		this.userNameDR = userNameDR;
+	}
+
+	public String getPasswordManager() {
+		return passwordManager;
+	}
+
+	public void setPasswordManager(String passwordManager) {
+		this.passwordManager = passwordManager;
+	}
+
+	public String getPasswordManagerId() {
+		return passwordManagerId;
+	}
+
+	public void setPasswordManagerId(String passwordManagerId) {
+		this.passwordManagerId = passwordManagerId;
+	}
 
 	public String getRepoURL() {
 		return repoURL;

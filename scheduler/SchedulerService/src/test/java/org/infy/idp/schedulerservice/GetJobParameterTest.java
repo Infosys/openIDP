@@ -86,7 +86,7 @@ public class GetJobParameterTest {
 
 	@Test
 	public void testInsertTriggerhistory() {
-		String jsonInput = "{\"applicationName\":\"CustomerPortal\",\"artifactorySelected\":\"on\",\"branchOrTag\":\"\",\"build\":{\"branchSelected\":\"\",\"module\":[]},\"buildartifactNumber\":\"\",\"emailed\":\"userName@domain.com,shivam.bhagat@domain.com,kruti.vyas@domain.com\",\"envSelected\":\"\",\"gitTag\":\"\",\"ibmRQMTestSuiteId\":\"\",\"jiraProjectKey\":\"\",\"jobBuildId\":\"\",\"jobParam\":[],\"mtmStepName\":\"\",\"nonRepoDeployStatus\":\"\",\"pipelineName\":\"DB_CICD\",\"releaseNumber\":\"R18.3\",\"repoDeployStatus\":\"\",\"slaveName\":\"java-agent-1\",\"subApplicationName\":\"\",\"technology\":\"J2EE/Maven\",\"testPlanId\":\"\",\"testSelected\":\"off\",\"testSlaveName\":\"\",\"testStep\":[],\"testSuitId\":\"\",\"tfsWorkItem\":\"\",\"userName\":\"userName\",\"userStoryString\":\"\"}";
+		String jsonInput = "{\"applicationName\":\"CustomerPortal\",\"artifactorySelected\":\"on\",\"branchOrTag\":\"\",\"build\":{\"branchSelected\":\"\",\"module\":[]},\"buildartifactNumber\":\"\",\"emailed\":\"dummyuser@xyz.com,dummyuser@xyz.com,dummyuser@xyz.com\",\"envSelected\":\"\",\"gitTag\":\"\",\"ibmRQMTestSuiteId\":\"\",\"jiraProjectKey\":\"\",\"jobBuildId\":\"\",\"jobParam\":[],\"mtmStepName\":\"\",\"nonRepoDeployStatus\":\"\",\"pipelineName\":\"DB_CICD\",\"releaseNumber\":\"R18.3\",\"repoDeployStatus\":\"\",\"slaveName\":\"java-agent-1\",\"subApplicationName\":\"\",\"technology\":\"J2EE/Maven\",\"testPlanId\":\"\",\"testSelected\":\"off\",\"testSlaveName\":\"\",\"testStep\":[],\"testSuitId\":\"\",\"tfsWorkItem\":\"\",\"userName\":\"dummyuser\",\"userStoryString\":\"\"}";
 
 		org.json.JSONObject json;
 		try {

@@ -19,14 +19,14 @@ public class AppContext {
 		configurationManager.setPostgresqlinitialsize("5");
 		configurationManager.setUrl("jdbc:postgresql://localhost:5432/IDP");
 		configurationManager.setEmaildomain("@domain.com");
-		configurationManager.setEmailusername("idpadmin@domain.com");
-		configurationManager.setEmailpassword("idpadmin@123");
+		configurationManager.setEmailusername("idpadmin@xyz.com");
+		configurationManager.setEmailpassword("dummyuser");
 		configurationManager.setEmailsmtphost("email_host");
 		configurationManager.setEmailsmtpport("25");
 		configurationManager.setJenkinsurl("http://localhost:8085/jenkins");
 		configurationManager.setJenkinsstageviewurl("http://localhost:8085/jenkins");
 		configurationManager.setUserID("idpadmin");
-		configurationManager.setPassword("idpadmin@123");
+		configurationManager.setPassword("dummyuser");
 		return configurationManager;
 	}
 	

@@ -20,7 +20,7 @@
     },
     "additionalMailRecipients": {
       "applicationTeam": "",
-      "emailIds": "hardik.rathod01@domain.com"
+      "emailIds": "xyz.com"
     },
     "userName": "userName",
     "pipelineStatus": "edit",
@@ -40,7 +40,7 @@
             "jiraProjectKey": "",
             "charmRequests": [],
             "userStoryString": "",
-            "userName": "userName",
+            "userName": "dummyuser",
             "slaveName": "jpetslave",
             "testSlaveName": "",
             "envSelected": "",
@@ -50,7 +50,7 @@
             },
             "testSelected": "off",
             "artifactorySelected": "off",
-            "emailed": "userName@domain.com,kruti.vyas@domain.com,hardik.rathod01@domain.com",
+            "emailed": "dummyuser@xyz.com",
             "testStep": [],
             "technology": "J2EE/Maven",
             "repoDeployStatus": "",
@@ -74,11 +74,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
-        "userName": "saraswathi.t",
-        "password": "happy@2018",
+        "url": "http://xyz.com/dummyuser/JPetStore_Maven.git",
+        "userName": "dummyuser",
+        "password": "dummyuser",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com/",
+        "browserUrl": "http://xyz.com/",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -125,7 +125,7 @@
     "artifactToStage": {
       "artifact": "**/*.*",
       "artifactRepo": {
-        "repoURL": "dummyNexus.domain.com:8081",
+        "repoURL": "xyz.com:8081",
         "repoName": "tg_hosted",
         "repoUsername": "admin",
         "repoPassword": "dummy"
@@ -146,7 +146,7 @@
         "install": "on",
         "MVNOPTS": "",
         "interval": "",
-        "sonarUrl": "http://infysonarqube:8080/",
+        "sonarUrl": "http://dummyuser:8080/",
         "sonarUserName": "",
         "sonarPassword": ""
       }
@@ -173,7 +173,7 @@
             },
             "deployToContainer": {
               "containerName": "tomcat",
-              "serverManagerURL": "http://dummyHost122:7979",
+              "serverManagerURL": "http://dummyuser:7979",
               "resourceToBeDeployed": "manualTomcat",
               "warPath": "**/*.war",
               "contextPath": "/TCMTest",

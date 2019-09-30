@@ -6,14 +6,12 @@ buildscript {
 		
 		maven {
 			
-			//url 'http://chdsez400283d:8081/repository/DSL/'
-			url 'http://dummyNexus.domain.com:8081/repository/DSL_Group'
+		
+			url 'http://xyz.com:8081/repository/DSL_Group'
 			
-			//url 'http://nexusServer/nexus/repository/PUBLIC_REPO/'
+			
 	   }
-	   /*maven {
-			url 'http://dummyNexus.domain.com:8081/repository/maven-public/'
-	   }*/
+	
 	   
 	   
     }
@@ -35,13 +33,11 @@ repositories {
 	
     maven {
 		 
-		 //url 'http://chdsez400283d:8081/repository/DSL/'
-		 url 'http://dummyNexus.domain.com:8081/repository/DSL_Group'
-		//url 'http://nexusServer/nexus/repository/PUBLIC_REPO/'
+		 
+		 url 'http://xyz.com:8081/repository/DSL_Group'
+		
     }
-	/*maven {
-		 url 'http://dummyNexus.domain.com:8081/repository/maven-public/'
-    }*/ 
+	
 	
 	
 }

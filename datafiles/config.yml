@@ -24,7 +24,7 @@
       xml:
         path: "/datafiles/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
         xpath: /jenkins.model.JenkinsLocationConfiguration/adminAddress
-        value: idpadmin@domain.com
+        value: idpadmin@xyz.com
     - name: Setting Jenkins Location Details (Jenkins  Url).......
       xml:
         path: "/datafiles/jenkinsdata/jenkins.model.JenkinsLocationConfiguration.xml"
@@ -34,7 +34,7 @@
       xml:
         path: "/datafiles/jenkinsdata/org.jenkins.ci.plugins.xframe_filter.XFrameFilterPageDecorator.xml"
         xpath: /org.jenkins.ci.plugins.xframe__filter.XFrameFilterPageDecorator/options
-        value: "ALLOW-FROM *"
+        value: "ALLOW-FROM {{ PROTOCOL }}://{{ HOSTNAME }}{{ JENKINS_PORT }}/idpapp"
     - name: Setting KeyCloak Token Url.........
       xml:
         path: "/datafiles/jenkinsdata/config.xml"

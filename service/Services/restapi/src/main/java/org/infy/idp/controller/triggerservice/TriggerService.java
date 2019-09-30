@@ -14,7 +14,7 @@
 ***********************************************************************************************/
 package org.infy.idp.controller.triggerservice;
 
-import org.infy.idp.businessapi.JobsAdditionalInfo;
+
 import org.infy.idp.entities.models.ResourceResponse;
 import org.infy.idp.utils.SlaveDetails;
 import org.slf4j.Logger;
@@ -33,8 +33,6 @@ public class TriggerService {
 
 	@Autowired
 	private SlaveDetails slaveDetails;
-	@Autowired
-	private JobsAdditionalInfo jobsAdditionalInfo;
 	private Logger logger = LoggerFactory.getLogger(TriggerService.class);
 
 	/**

@@ -20,7 +20,7 @@
     },
     "additionalMailRecipients": {
       "applicationTeam": "",
-      "emailIds": "hardik.rathod01,userName"
+      "emailIds": "dummyuser"
     },
     "pipelineStatus": "edit"
   },
@@ -30,11 +30,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/dummy/TCM_Maven.git",
-        "userName": "userName",
+        "url": "http://xyz.com/dummyuser/TCM_Maven.git",
+        "userName": "dummyuser",
         "password": "pwd",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com",
+        "browserUrl": "http://xyz.com",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -59,8 +59,8 @@
       },
       {
         "type": "svn",
-        "url": "http://svn.co.in",
-        "userName": "dummy",
+        "url": "http://xyz.in",
+        "userName": "dummyuser",
         "password": "pwddummy",
         "repositoryBrowser": "",
         "browserUrl": "",
@@ -138,7 +138,7 @@
         ],
         "unitTesting": "on",
         "codeCoverage": "on",
-        "args": "-Dsonar.host.url\u003dhttp://infysonarqube:8080",
+        "args": "-Dsonar.host.url\u003dhttp://dummyuser:8080",
         "compile": "on",
         "clean": "on",
         "install": "on",
@@ -174,7 +174,7 @@
             },
             "deployToContainer": {
               "containerName": "tomcat",
-              "serverManagerURL": "http://dummyHost122:7979",
+              "serverManagerURL": "http://dummyuser:7979",
               "resourceToBeDeployed": "manualTomcat",
               "warPath": "**/*.war",
               "contextPath": "/TCMTest",
@@ -216,9 +216,9 @@
               "contextPath": "",
               "userName": "tomcatadmin",
               "password": "tomcatadmin",
-              "ipOrDNS": "VQTOOLS122.domain.com",
-              "targetCellName": "VQTOOLS122Node01Cell",
-              "targetNodeName": "VQTOOLS122Node01",
+              "ipOrDNS": "xyz.com",
+              "targetCellName": "dummyuserNode01Cell",
+              "targetNodeName": "dummyuserNode01",
               "targetServerName": "server1",
               "hostName": "",
               "port": "8880",
@@ -394,7 +394,7 @@
               "password": "",
               "testSuiteName": "",
               "projectLocation": "",
-              "serverUrl": "http://idptestServerHost:8080/idpapp",
+              "serverUrl": "http://dummyuser:8080/idpapp",
               "domain": "",
               "serviceName": "",
               "path": "scripts/login.sah",

@@ -347,7 +347,7 @@ ALTER TABLE ONLY testanalysis
 
 	
 	
-INSERT INTO userorg(user_name,org_name) VALUES('idpadmin@domain.com','INFOSYS');
+INSERT INTO userorg(user_name,org_name) VALUES('idpadmin@xyz.com','INFOSYS');
 	
 	
 -- Completed on 2018-07-27 14:23:25

@@ -38,7 +38,7 @@ https://opensource.org/licenses/MIT
     </properties>
     <scm>
         <connection>scm:git:git:openidp</connection>
-        <url>scm:git:http://infygit.domain.com</url>
+        <url>scm:git:http://xyz.com</url>
     </scm>
     <build>
         <plugins>

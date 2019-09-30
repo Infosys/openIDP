@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jenkins.model.JenkinsLocationConfiguration>
-  <adminAddress>idpadmin@domain.com</adminAddress>
+  <adminAddress>idpadmin@xyz.com</adminAddress>
   <jenkinsUrl>http://localhost:8085/jenkins</jenkinsUrl>
 </jenkins.model.JenkinsLocationConfiguration>

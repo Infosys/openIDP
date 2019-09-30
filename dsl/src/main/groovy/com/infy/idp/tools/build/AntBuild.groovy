@@ -182,7 +182,7 @@ class AntBuild {
         SonarRunner sonarRunner = new SonarRunner()
         def modulesArr = jsonData.buildInfo.modules
         def username = jsonData.basicInfo.userName;
-        username = username + '@domain.com'
+        username = username + '@xyz.com'
         context.with {
 
             for (int i = 0; i < modulesArr.size(); i++) {

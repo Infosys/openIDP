@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "edit"
   },
   "code": {
@@ -31,8 +31,8 @@
     "scm": [
       {
         "type": "tfs",
-        "url": "http://tfs2013-farm01.domain.com:8080/tfs/QTOOLS",
-        "userName": "dummy",
+        "url": "http://xyz.com:8080/tfs/QTOOLS",
+        "userName": "dummyuser",
         "password": "pwddummy",
         "repositoryBrowser": "",
         "browserUrl": "",
@@ -99,7 +99,7 @@
     "postBuildScript": {
       "dependentPipelineList": []
     },
-    "sonarUrl": "http://infysonarqube:8080/"
+    "sonarUrl": "http://dummyuser:8080/"
   },
   "deployInfo": {
     "deployEnv": [

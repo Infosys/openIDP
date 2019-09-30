@@ -149,9 +149,9 @@ class Scm {
             steps {
                 if (jsonData.buildInfo.buildtool == 'siebel') {
                     Powershell pw = new Powershell();
-                    def cmd1 = 'New-Item IDP -ItemType Directory -Force \n AutomationScripts/idp_siebel_delta_script.ps1 -SourcePath $env:IDP_WS/Repo -DestinationPath $env:IDP_WS/IDP -JenkinsURL $env:JOB_URL -JenkinsBuildNumber $env:BUILD_NUMBER -ObjectType REPO -UserName idpadmin01 -Password Automation@123 -LogFileName $env:IDP_WS/IDP/log1.log'
+                    def cmd1 = 'New-Item IDP -ItemType Directory -Force \n AutomationScripts/idp_siebel_delta_script.ps1 -SourcePath $env:IDP_WS/Repo -DestinationPath $env:IDP_WS/IDP -JenkinsURL $env:JOB_URL -JenkinsBuildNumber $env:BUILD_NUMBER -ObjectType REPO -UserName dummyuser -Password dummyuser -LogFileName $env:IDP_WS/IDP/log1.log'
                     pw.add(delegate, cmd1.toString())
-                    def cmd2 = 'AutomationScripts/idp_siebel_delta_script.ps1 -SourcePath $env:IDP_WS/NonRepo -DestinationPath $env:IDP_WS/IDP -JenkinsURL $env:JOB_URL -JenkinsBuildNumber $env:BUILD_NUMBER -ObjectType NONREPO -UserName idpadmin01 -Password Automation@123 -LogFileName $env:IDP_WS/IDP/log1.log'
+                    def cmd2 = 'AutomationScripts/idp_siebel_delta_script.ps1 -SourcePath $env:IDP_WS/NonRepo -DestinationPath $env:IDP_WS/IDP -JenkinsURL $env:JOB_URL -JenkinsBuildNumber $env:BUILD_NUMBER -ObjectType NONREPO -UserName dummyuser -Password dummyuser -LogFileName $env:IDP_WS/IDP/log1.log'
                     pw.add(delegate, cmd2.toString())
                     def cmd3 = '$IDP_StaticPath = $env:IDP_WS+\'/IDP_Static\'\n' +
                             'if((Test-Path $IDP_StaticPath))\n' +

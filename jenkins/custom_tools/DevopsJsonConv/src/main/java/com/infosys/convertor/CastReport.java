@@ -19,7 +19,7 @@ public class CastReport {
 	protected Logger logger = LoggerFactory.getLogger(CastReport.class);
 
 	public String readCastReport(String sapWarName) {
-		String path = "http://dummyHost-70:8080/" + sapWarName + "/rest/AAD/results?select=evolutionSummary";
+		String path = "http://dummyuser:8080/" + sapWarName + "/rest/AAD/results?select=evolutionSummary";
 		String username = "guest";
 		String password = "my_password";
 		String output = null;

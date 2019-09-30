@@ -43,7 +43,7 @@ public class DBTableConstants {
 		datamap.put("mtmTestSuites",
 				"select distinct trigger_entity::json ->> 'testPlanId' as \"testPlanId\" from ttrigger_history where (trigger_entity::json ->> 'testPlanId' !='null' and trigger_entity::json ->> 'testPlanId' !='' and trigger_entity::json->>'applicationName'=? and trigger_entity::json->>'releaseNumber'=? and trigger_entity::json->>'envSelected'=?);");
 		datamap.put("sparkArtifactsDetails",
-				"select version,trigger_entity::json ->> 'buildartifactNumber' as \"buildartifactNumber\",trigger_time,trigger_entity::json ->> 'userName' as \"userName\",trigger_entity::json ->> 'applicationName' as \"applicationName\",trigger_entity::json ->> 'pipelineName' as \"pipelineName\" from ttrigger_history where trigger_entity::json ->> 'applicationName'=? and trigger_entity::json->>'envSelected'=? and trigger_entity::json->>'pipelineName'=?;");
+				"select version,trigger_time,trigger_entity::json ->> 'userName' as \"userName\",trigger_entity::json ->> 'applicationName' as \"applicationName\",trigger_entity::json ->> 'pipelineName' as \"pipelineName\" from ttrigger_history where trigger_entity::json ->> 'applicationName'=? and trigger_entity::json->>'envSelected'=? and trigger_entity::json->>'pipelineName'=?;");
 		datamap.put("sparkEnvDetailsTypeNew",
 				"select trigger_entity::json ->> 'pipelineName' as \"pipelineName\",version,trigger_time from ttrigger_history t1 where (trigger_time=(select max(trigger_time) from ttrigger_history t2 where t1.trigger_entity::json ->> 'pipelineName'=t2.trigger_entity::json ->> 'pipelineName'  ) and trigger_entity::json->>'applicationName'=? and trigger_entity::json->>'envSelected'=?);");
 		datamap.put("storystatusboar",

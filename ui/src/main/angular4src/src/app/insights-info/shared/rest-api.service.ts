@@ -35,8 +35,7 @@ export class RestApiService {
   flaskCheckinURL:any;
   mlurl:any;
   idpRestUrl:any;
-  /* QA Server */
- //  mlurl ='http://10.82.13.24:5000/';
+
 
   getData(): Promise<any> {
     return this.http
@@ -117,7 +116,7 @@ export class RestApiService {
   }
 
   getELKdetails(params) {
-    const url = 'http://10.82.13.24:5010/appserver/'+params;
+    const url = 'http://dummyuser:5010/appserver/'+params;
     const headers = new Headers();
     console.log('url'+url)
     const options = new RequestOptions({ headers: headers });

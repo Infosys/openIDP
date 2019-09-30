@@ -1524,7 +1524,7 @@ ALTER TABLE ONLY tsap_deploy_details
 	
 INSERT INTO torg_info (org_name,org_domain) VALUES ('Infosys', 'infosys.com');
 
-INSERT INTO tuser_info VALUES ('idpadmin', 'idpadmin@domain.com', 5, true, 1);
+INSERT INTO tuser_info VALUES ('idpadmin', 'dummyuser@xyz.com', 5, true, 1);
 	
 	
 

@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "edit"
   },
   "code": {
@@ -31,11 +31,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/ambica.mehrotra/AngularProject.git",
-        "userName": "userName",
-        "password": "pwddummy",
+        "url": "http://xyz.com/ambica.mehrotra/AngularProject.git",
+        "userName": "dummyuser",
+        "password": "dummyuser",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com",
+        "browserUrl": "http://dummyuser.com",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -92,11 +92,11 @@
         "codeCoverageTool": [
           "off"
         ],
-        "npmProxy": "http://indblrb06intpxy01.domain.com:80",
+        "npmProxy": "http://xyz.com:80",
         "allUnitTestPass": "off",
         "noViolations": "off",
         "npmProxyUserName": "root",
-        "npmProxyPassword": "server316711d"
+        "npmProxyPassword": "dummyuser"
       }
     ],
     "postBuildScript": {

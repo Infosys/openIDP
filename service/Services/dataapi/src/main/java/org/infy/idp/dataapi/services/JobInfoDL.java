@@ -53,8 +53,6 @@ public class JobInfoDL {
 	private static final String ACTIVE_PIPELINE = " and active = true ";
 	protected static final String ERROR1 = "Postgres Error while fetching user details:";
 	private static final String SUB_APPLICATION_NAME = " sub_application LIKE ? ";
-	private static final String TECHNOLOGY_NAME = " and technology LIKE ? ";
-
 	private static final String WORKFLOW = "workflow";
 
 	/**

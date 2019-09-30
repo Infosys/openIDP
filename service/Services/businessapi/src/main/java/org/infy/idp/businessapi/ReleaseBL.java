@@ -16,12 +16,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.infy.entities.triggerinputs.TriggerJobName;
-import org.infy.idp.dataapi.services.EnvironmentDetails;
 import org.infy.idp.dataapi.services.JobAdditionalDetailsDL;
-import org.infy.idp.dataapi.services.JobDetailsInsertionService;
 import org.infy.idp.dataapi.services.JobInfoDL;
 import org.infy.idp.dataapi.services.ReleaseDetails;
-import org.infy.idp.dataapi.services.ReleaseManagementDL;
 import org.infy.idp.entities.jobs.IDPJob;
 import org.infy.idp.entities.jobs.applicationinfo.Application;
 import org.infy.idp.entities.jobs.applicationinfo.ApplicationInfo;
@@ -48,19 +45,13 @@ public class ReleaseBL {
 	@Autowired
 	private ReleaseDetails releaseDetails;
 	@Autowired
-	private ReleaseManagementDL releaseManagementDL;
-	@Autowired
 	private JobAdditionalDetailsDL jobAddInfoDL;
 	@Autowired
 	private JobInfoDL jobInfoDL;
 	@Autowired
 	private EmailSender emailSender;
 	@Autowired
-	private EnvironmentDetails environmentDetails;
-	@Autowired
 	private FetchJobDetails fetchJobDetails;
-	@Autowired
-	private JobDetailsInsertionService jobDetailsInsertion;
 	@Autowired
 	private TriggerAdditionalBL triggerAdditionalBL;
 	@Autowired
@@ -278,10 +269,9 @@ public class ReleaseBL {
 
 						List<ArrayList<String>> branchTagList = triggerAdditionalBL.gitHubBranchesTagsFetcher(
 								new GitHubBrachModel(repoUrl, username, pwd, projectUrl, proxy, port));
-						if (branchTagList != null) {
-							if (branchTagList.size() != 0) {
+						if (branchTagList != null && branchTagList.size() != 0 )  {
+							
 								branches = branchTagList.get(0);
-							}
 
 						}
 

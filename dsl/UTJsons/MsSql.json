@@ -14,7 +14,7 @@
 			"applicationTeam": "",
 			"emailIds": ""
 		},
-		"userName": "userName",
+		"userName": "dummyuser",
 		"pipelineStatus": "edit"
 	},
 	"code": {
@@ -23,11 +23,11 @@
 		"scm": [
 			{
 				"type": "git",
-				"url": "http://harshita.badlani@infygit.domain.com/harshita.badlani/MSSQL.git",
-				"userName": "userName",
+				"url": "http://xyz.com/dummyuser/MSSQL.git",
+				"userName": "dummyuser",
 				"password": "pwddummy",
 				"repositoryBrowser": "gitLab",
-				"browserUrl": "http://infygit.domain.com/",
+				"browserUrl": "http://xyz.com/",
 				"projectName": "",
 				"branch": "master",
 				"projPath": "",
@@ -71,7 +71,7 @@
 			"artifact": "**/*.*",
 			"flattenFileStructure": "off",
 			"artifactRepo": {
-				"repoURL": "dummyNexus.domain.com:8081",
+				"repoURL": "xyz.com:8081",
 				"repoName": "idp_Nexus",
 				"repoUsername": "admin",
 				"repoPassword": "dummy"
@@ -81,7 +81,7 @@
 		"modules": [
 			{
 				"customScript": "Successscript.sql",
-				"hostName": "MYSTGSERV01",
+				"hostName": "dummyuser",
 				"userName": "libraryadmin",
 				"password": "admin",
 				"authenticationMode": "sql",

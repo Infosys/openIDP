@@ -16,7 +16,6 @@ import org.infy.idp.businessapi.EmailSender;
 import org.infy.idp.businessapi.JobsAdditionalInfo;
 import org.infy.idp.businessapi.JobsBL;
 import org.infy.idp.businessapi.JobsManagementBL;
-import org.infy.idp.businessapi.ReleaseBL;
 import org.infy.idp.controller.BaseResource;
 import org.infy.idp.entities.jobs.AppNames;
 import org.infy.idp.entities.jobs.EnvName;
@@ -52,8 +51,7 @@ public class ApplicationServices extends BaseResource {
 	protected static final String modelId = "Model Id: ";
 	@Autowired
 	private JobsBL jobsBL;
-	@Autowired
-	private ReleaseBL releaseBL;
+	
 
 	@Autowired
 	private JobsAdditionalInfo jobsaddInfo;

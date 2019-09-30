@@ -52,10 +52,7 @@ public class IDPPostGreSqlDbContextTest {
 	 */
 	@Test
 	public void testCreateDataSource0() throws Throwable {
-		/*BasicDataSource result = (BasicDataSource) (JT.invoke(PostGreSqlDbContext.class, testedObject,
-				"createDataSource", new Object[] {}, new Class[] {}));*/
 		
-		// jtest.NoSuchValueException thrown
 	}
 
 	/**
@@ -70,10 +67,7 @@ public class IDPPostGreSqlDbContextTest {
 	 */
 	@Test
 	public void testInit0() throws Throwable {
-		//JT.invoke(PostGreSqlDbContext.class, testedObject, "init", new Object[] {}, new Class[] {});
-//		postGreSqlDbContext.init();
-
-		// jtest.NoSuchValueException thrown
+	
 	}
 
 	/**
@@ -89,34 +83,17 @@ public class IDPPostGreSqlDbContextTest {
 	@Test
 	public void testPostGreSqlDbContext0() throws Throwable {
 
-		//JT.invoke(PostGreSqlDbContext.class, testedObject, "init", new Object[] {}, new Class[] {});
-//		postGreSqlDbContext.init();
-		
-		/*PostGreSqlDbContext testedObject = (PostGreSqlDbContext) JT.createObject(PostGreSqlDbContext.class,
-				new Object[] {}, new Class[] {});*/
-		
-		// No exception thrown
-		// jtest_unverified
+
 	}
 
-	
-//	@Test
-//	public void testGetConnection_CheckNotNull() throws Throwable{
-//		
-//		configmanager.setUrl("jdbc:postgresql://idptestServerHost:5432/IDP");
-//		JT.invoke(PostGreSqlDbContext.class, postGreSqlDbContext, "init", new Object[] {}, new Class[] {});
-//		
-//		assertNotNull(postGreSqlDbContext.getConnection());
-//		
-//	}
+
 	
 	
 	@Test
 	public void testGetConnection_CheckNull() throws Throwable{
 		
-		configmanager.setUrl("jdbc:postgresql://idptestServerHost:5400/IDP");
-		//JT.invoke(PostGreSqlDbContext.class, postGreSqlDbContext, "init", new Object[] {}, new Class[] {});
-//		postGreSqlDbContext.init();
+		configmanager.setUrl("jdbc:postgresql://dummyuser:5400/IDP");
+		
 		assertNull(idppostGreSqlDbContext.getConnection());
 		
 	}
@@ -144,12 +121,11 @@ try {
 			configmanager.setPostgresqlpassword("root");
 			configmanager.setPostgresqlschemaname("public");
 			configmanager.setPostgresqlusername("postgres");
-			configmanager.setUrl("jdbc:postgresql://idptestServerHost:5432/IDP");
+			configmanager.setUrl("jdbc:postgresql://dummyuser:5432/IDP");
 			
 			
 			
-			//JT.invoke(PostGreSqlDbContext.class, postGreSqlDbContext, "init", new Object[] {}, new Class[] {});
-//			postGreSqlDbContext.init();
+		
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

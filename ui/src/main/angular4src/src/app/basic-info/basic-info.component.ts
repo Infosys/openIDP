@@ -242,6 +242,7 @@ export class BasicInfoComponent implements OnInit {
                 } else {
                 this.Idpdata.artifactVariable = false;
                 this.Idpdata.artifactAppVariable = false;
+                this.Idpdata.isDockerRegistry = false;
                 }
             }
             } catch (e) {

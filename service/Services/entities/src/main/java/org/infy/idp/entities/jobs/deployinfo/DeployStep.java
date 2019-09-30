@@ -505,6 +505,118 @@ public class DeployStep {
 	@SerializedName("buildproperties")
 	@Expose
 	private String buildproperties;
+	
+	@SerializedName("dockerFilePathDR")
+	@Expose
+	private String dockerFilePathDR;
+
+	@SerializedName("repoNameDR")
+	@Expose
+	private String repoNameDR;
+	@SerializedName("tagNameDR")
+	@Expose
+	private String tagNameDR;
+	@SerializedName("userNameDR")
+	@Expose
+	private String userNameDR;
+	@SerializedName("passwordDR")
+	@Expose
+	private String passwordDR;
+	@SerializedName("dockerRegistryUrlDR")
+	@Expose
+	private String dockerRegistryUrlDR;
+	@SerializedName("dockerPortDR")
+	@Expose
+	private Integer dockerPortDR;
+	@SerializedName("applicationPortDR")
+	@Expose
+	private Integer applicationPortDR;
+	@SerializedName("dockerComposePath")
+	@Expose
+	private String dockerComposePath;
+	@SerializedName("stackName")
+	@Expose
+	private String stackName;
+
+	public String getDockerFilePathDR() {
+		return dockerFilePathDR;
+	}
+
+	public void setDockerFilePathDR(String dockerFilePathDR) {
+		this.dockerFilePathDR = dockerFilePathDR;
+	}
+
+	public String getRepoNameDR() {
+		return repoNameDR;
+	}
+
+	public void setRepoNameDR(String repoNameDR) {
+		this.repoNameDR = repoNameDR;
+	}
+
+	public String getTagNameDR() {
+		return tagNameDR;
+	}
+
+	public void setTagNameDR(String tagNameDR) {
+		this.tagNameDR = tagNameDR;
+	}
+
+	public String getUserNameDR() {
+		return userNameDR;
+	}
+
+	public void setUserNameDR(String userNameDR) {
+		this.userNameDR = userNameDR;
+	}
+
+	public String getPasswordDR() {
+		return passwordDR;
+	}
+
+	public void setPasswordDR(String passwordDR) {
+		this.passwordDR = passwordDR;
+	}
+
+	public String getDockerRegistryUrlDR() {
+		return dockerRegistryUrlDR;
+	}
+
+	public void setDockerRegistryUrlDR(String dockerRegistryUrlDR) {
+		this.dockerRegistryUrlDR = dockerRegistryUrlDR;
+	}
+
+	public Integer getDockerPortDR() {
+		return dockerPortDR;
+	}
+
+	public void setDockerPortDR(Integer dockerPortDR) {
+		this.dockerPortDR = dockerPortDR;
+	}
+
+	public Integer getApplicationPortDR() {
+		return applicationPortDR;
+	}
+
+	public void setApplicationPortDR(Integer applicationPortDR) {
+		this.applicationPortDR = applicationPortDR;
+	}
+
+	public String getDockerComposePath() {
+		return dockerComposePath;
+	}
+
+	public void setDockerComposePath(String dockerComposePath) {
+		this.dockerComposePath = dockerComposePath;
+	}
+
+	public String getStackName() {
+		return stackName;
+	}
+
+	public void setStackName(String stackName) {
+		this.stackName = stackName;
+	}
 
 	public EnvProv getEnvProv() {
 		return envProv;

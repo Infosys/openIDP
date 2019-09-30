@@ -44,6 +44,7 @@ class DockerDeploy {
     public static void addSteps(context, jsonData, envIndex, stepIndex, envVar) {
 
 
+
         String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
         String command = '';
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
@@ -52,8 +53,8 @@ class DockerDeploy {
             command = 'cd '
         }
 
-        //def modulesArr = jsonData.buildInfo.modules
-        def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
+//        def modulesArr = jsonData.buildInfo.modules
+         def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
         context.with {
             addWrappers(delegate, envVar)
             steps {
@@ -95,16 +96,15 @@ class DockerDeploy {
                     }
 
                 }
-                if (modulesArr.pullFromRepo != null) {
-                    String pullCommand = '';
-                    pullCommand += command + artifact + '\n' + 'sudo docker pull ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
-                    ExecuteCmd.invokeCmd(delegate, pullCommand, jsonData.basicInfo.buildServerOS)
-                }
+                 if (modulesArr.pullFromRepo != null) {
+                     String pullCommand = '';
+                     pullCommand += command + artifact + '\n' + 'sudo docker pull ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
+                     ExecuteCmd.invokeCmd(delegate, pullCommand, jsonData.basicInfo.buildServerOS)
+                 }
 
-                String runCommand = '';
-                runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '|| true' + '\n' + command + artifact + '\n' + 'sudo docker run -itd -p ' + modulesArr.dockerPort + ':' + modulesArr.applicationPort + ' --name ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '  -itd ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
-                ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
-
+                 String runCommand = '';
+                 runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '|| true' + '\n' + command + artifact + '\n' + 'sudo docker run -itd -p ' + modulesArr.dockerPort + ':' + modulesArr.applicationPort + ' --name ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '  -itd ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
+                 ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
 
             }
         }
@@ -131,40 +131,28 @@ class DockerDeploy {
 			 addWrappers(delegate, envVar)
 			 steps {
 
-					 String createImageCommand = '';
-					 createImageCommand += command + idpWS + '\n' + 'docker build -t ' + modulesArr.tagNameDR + ' -f ' +modulesArr.dockerFilePathDR+ ' .'
-					 ExecuteCmd.invokeCmd(delegate, createImageCommand, jsonData.basicInfo.buildServerOS)
+
+                 String artID = '%ARTIFACT_VERSION%'
+
+                 if (artID.toString().trim().replaceAll("[\n\r]", "").endsWith("-")) {
+                     artID = artID + '%PIPELINE_BUILD_ID%'
+                 }
+				 def tagName=jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName;
+                 def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
 
 
+                 def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase();
+                 def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
 
-					 if (modulesArr.passwordDR != null) {
-						 String pushCommand = '';
-                         String imageTagCommand = '';
-						 imageTagCommand += 'docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker image tag ' + modulesArr.tagNameDR + ' ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+                 def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                 if(dockerRegistryUrlDR.startsWith("http")){
+                     dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
+                 }
+                 String runCommand = '';
 
-						 pushCommand += 'docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+                 runCommand =  command + idpWS + '\n'+'docker stop '+tagName +' || true && docker rm '+tagNameDR +' || true\n' +'docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + tagNameDR + '  -itd ' +dockerUrlWithoutProtocol+'/'+ repoNameDR+":"+tagNameDR
 
-						 ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
-					 }
-					 if (modulesArr.passwordDR == null) {
-						 String pushCommand = ''
-						 pushCommand += 'docker login ' + modulesArr.dockerRegistryUrlDR + '\n' + 'docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
-
-						 ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
-					 }
-
-
-                 String stopCommand = ''
-                 stopCommand += 'docker ps -a --filter="name=' + modulesArr.tagNameDR +'" -q'
-                 ExecuteCmd.invokeCmd(delegate, stopCommand, jsonData.basicInfo.buildServerOS)
-
-                 String removeCommand = ''
-                 removeCommand += 'docker rm ' + ExecuteCmd.invokeCmd(delegate, stopCommand, jsonData.basicInfo.buildServerOS) +' -f'
-                 ExecuteCmd.invokeCmd(delegate, removeCommand, jsonData.basicInfo.buildServerOS)
-
-				 String runCommand = '';
-				 runCommand += command + idpWS + '\n' + 'docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + modulesArr.tagNameDR + '  -itd ' + modulesArr.tagNameDR
-				 ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
+                 ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
  
  
 			 }
@@ -175,42 +163,37 @@ class DockerDeploy {
 
         String idpWS = '$IDP_WS/'
         String command = '';
-
+        if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
+            command = 'D: \n' + 'cd '
+        } else {
             command = 'cd '
-
-        //def modulesArr = jsonData.buildInfo.modules
-        def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
+        }
         context.with {
             addWrappers(delegate, envVar)
             steps {
 
-                String createImageCommand = '';
-                createImageCommand += command + idpWS + '\n' + 'sudo docker build -t ' + modulesArr.tagNameDR + ' -f ' +modulesArr.dockerFilePathDR+ ' .'
-                ExecuteCmd.invokeCmd(delegate, createImageCommand, jsonData.basicInfo.buildServerOS)
+                String artID = '${ARTIFACT_VERSION}'
 
-
-
-                if (modulesArr.passwordDR != null) {
-                    String pushCommand = '';
-                    String imageTagCommand = '';
-                    imageTagCommand += 'sudo docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker image tag ' + modulesArr.tagNameDR + ' ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
-
-                    pushCommand += 'sudo docker login -u ' + modulesArr.userNameDR + ' -p ' + modulesArr.passwordDR + ' ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
-
-                    ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+                if (artID.toString().trim().replaceAll("[\n\r]", "").endsWith("-")) {
+                    artID = artID + '${PIPELINE_BUILD_ID}'
                 }
-                if (modulesArr.passwordDR == null) {
-                    String pushCommand = '';
-                    pushCommand += 'sudo docker login ' + modulesArr.dockerRegistryUrlDR + '\n' + 'sudo docker push ' + modulesArr.dockerRegistryUrlDR + '/' + modulesArr.repoNameDR + ':' + modulesArr.tagNameDR
+				def tagName=jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName;
+                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
+                String appNamePipelineName = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName
 
-                    ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
+                def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase();
+                def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
+                def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
+
+                def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                if(dockerRegistryUrlDR.startsWith("http")){
+                    dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
                 }
-
-
 
 
                 String runCommand = '';
-                runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + modulesArr.tagNameDR +  'sudo docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + modulesArr.tagNameDR + '  -itd ' + modulesArr.tagNameDR
+//                runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + tagNameDR + '|| true' + '\n' + command + idpWS + '\n' + 'sudo docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + tagNameDR + '  -itd ' +dockerUrlWithoutProtocol+'/'+ repoNameDR+":"+tagNameDR
+                runCommand = command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + tagName + '|| true' + '\n'+'sudo docker run -itd -p ' + modulesArr.dockerPortDR + ':' + modulesArr.applicationPortDR + ' --name ' + tagNameDR + '  -itd ' +dockerUrlWithoutProtocol+'/'+ repoNameDR+":"+tagNameDR
                 ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
 
 
@@ -218,4 +201,3 @@ class DockerDeploy {
         }
     }
 }
-

@@ -23,11 +23,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/ambica.mehrotra/GoApp.git",
-        "userName": "userName",
+        "url": "http://xyz.com/dummyuser/GoApp.git",
+        "userName": "dummyuser",
         "password": "pwddummy",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com/",
+        "browserUrl": "http://xyz.com/",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -68,7 +68,7 @@
     "artifactToStage": {
       "artifact": "**/*.*",
       "artifactRepo": {
-        "repoURL": "dummyNexus.domain.com:8081",
+        "repoURL": "xyz.com:8081",
         "repoName": "idp_Nexus",
         "repoUsername": "admin",
         "repoPassword": "dummy"
@@ -87,13 +87,13 @@
         "codeCoverage": "on",
         "compile": "on",
         "unitTestDir": "math",
-        "npmProxy": "http://10.74.91.103:80",
-        "npmProxyUserName": "userName",
+        "npmProxy": "http://dummyuser:80",
+        "npmProxyUserName": "dummyuser",
         "npmProxyPassword": "pwddummy"
       }
     ],
     "postBuildScript": {},
-    "sonarUrl": "http://infysonarqube:8080/"
+    "sonarUrl": "http://dummyuser:8080/"
   },
   "deployInfo": {
     "deployEnv": [

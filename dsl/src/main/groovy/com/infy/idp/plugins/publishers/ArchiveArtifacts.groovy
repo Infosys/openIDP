@@ -22,6 +22,7 @@ import org.infy.idp.entities.jobs.IDPJob
 class ArchiveArtifacts implements IPluginBase {
 
     private String pattern = ''
+	private Boolean allowEmpty = "false"
 
     public String updatePattern(pattern) {
         this.pattern += (pattern + ',')
@@ -35,6 +36,13 @@ class ArchiveArtifacts implements IPluginBase {
         return pattern;
     }
 
+	public String setAllowEmpty(allowEmpty) {
+        this.allowEmpty = allowEmpty
+    }
+
+    public String getAllowEmpty() {
+        return allowEmpty;
+    }
     /*
      * This function implements add method of IPluginBase interface
      */
@@ -52,7 +60,8 @@ class ArchiveArtifacts implements IPluginBase {
         println idpJobObj
         HashMap<String, String> data = new HashMap<String, String>();
 
-        data.put('allowEmpty', "false");
+        //data.put('allowEmpty', "false");
+		data.put('allowEmpty', this.allowEmpty);
         data.put('defaultExcludes', "true");
         data.put("exclude", "");
         data.put('fingerprint', "false");

@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "dummyuser",
     "pipelineStatus": "edit"
   },
   "code": {
@@ -31,11 +31,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/dummy/ReservationSystem_2013.git",
-        "userName": "userName",
-        "password": "pwddummy",
+        "url": "http://xyz.com/dummyuser/ReservationSystem_2013.git",
+        "userName": "dummyuser",
+        "password": "dummyuser",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com",
+        "browserUrl": "http://xyz.com",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -76,7 +76,7 @@
     "artifactToStage": {
       "artifact": "**/*.dll",
       "artifactRepo": {
-        "repoURL": "dummyNexus:8081",
+        "repoURL": "dummyuser:8081",
         "repoName": "idp_Nexus",
         "repoUsername": "admin",
         "repoPassword": "dummy"
@@ -130,11 +130,11 @@
               "resourceToBeDeployed": "",
               "warPath": "",
               "contextPath": "ReservationSystem_2013/ReservationSystem",
-              "userName": "itlinfosys\\dummy",
-              "password": "pwddummy",
+              "userName": "dummyuser\\dummyuser",
+              "password": "dummyuser",
               "targetCellName": "",
               "targetNodeName": "",
-              "targetServerName": "dummyHost122",
+              "targetServerName": "dummyuser",
               "hostName": "",
               "port": "",
               "updateDB": "",

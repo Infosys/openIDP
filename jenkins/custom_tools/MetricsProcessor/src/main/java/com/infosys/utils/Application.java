@@ -29,8 +29,7 @@ public class Application implements CommandLineRunner {
 	public static void main(String[] args) {
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
-		// String[] args =
-		// {"http://server409389d:8184/idpdashboard/","admin","admin","IDP_Githook","Dashboard_MetricsProcessor","D:\\jenkins\\Devops_Json"};
+		
 		System.out.println("MetricsProcessor util frozen");
 		String postgresServiceURL = args[0];
 		String PGServiceuserName = args[1];
