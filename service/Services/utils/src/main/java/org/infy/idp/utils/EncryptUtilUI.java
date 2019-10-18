@@ -12,8 +12,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.util.Base64;
 
 /**
  *  The class EncryptUtilUI contains methods for encryption and decryption of data send to UI 
@@ -23,7 +22,7 @@ import sun.misc.BASE64Encoder;
  */
 public class EncryptUtilUI {
 
-	private static final String algo = "AES/CBC/NoPadding";
+	private static final String ALGO = "AES/CBC/NoPadding";
 
 	private static final byte[] keyForIDP = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
 			0x0B, 0x0C, 0x0A, 0x0D, 0x0F, 0x0E };
@@ -49,10 +48,10 @@ public class EncryptUtilUI {
 	 */
 	public static String encrypt(String source) throws Exception {
 		String paddedString = padString(source);
-		Cipher c = Cipher.getInstance(algo);
+		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.ENCRYPT_MODE, idpkeyspec, idpivspec);
 		byte[] encVal = c.doFinal(paddedString.getBytes());
-		String encryptedData = new BASE64Encoder().encode(encVal);
+		String encryptedData = new String(Base64.getEncoder().encode(encVal));
 		encryptedData = encryptedData.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 		return encryptedData;
 	}
@@ -64,9 +63,9 @@ public class EncryptUtilUI {
 	 * @throws Exception
 	 */
 	public static String decrypt(String encryptedData) throws Exception {
-		Cipher c = Cipher.getInstance(algo);
+		Cipher c = Cipher.getInstance(ALGO);
 		c.init(Cipher.DECRYPT_MODE, idpkeyspec, idpivspec);
-		byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedData);
+		byte[] decordedValue = Base64.getDecoder().decode(encryptedData);
 		byte[] decValue = c.doFinal(decordedValue);
 		String decryptedData = new String(decValue);
 		return decryptedData;
