@@ -147,6 +147,6 @@ public class EmailSenderTest {
 		ReflectionTestUtils.setField(emailSender, "emailSmtpHost", "localhost");
 		ReflectionTestUtils.setField(emailSender, "emailSmtpPort", "587");
 		ReflectionTestUtils.setField(emailSender, "emailServer", "sendgrid");
-		ReflectionTestUtils.setField(emailSender, "emailSenderId", "idpadmin01@xyz.com");
+		ReflectionTestUtils.setField(emailSender, "emailSenderId", "idpadmin@xyz.com");
 	}
 }
