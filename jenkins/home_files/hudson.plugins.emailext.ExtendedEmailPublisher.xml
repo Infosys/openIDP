@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.plugins.emailext.ExtendedEmailPublisherDescriptor plugin="email-ext@2.57.2">
-  <defaultSuffix>@domain.com</defaultSuffix>
-  <smtpAuthUsername>idpadmin01</smtpAuthUsername>
-  <smtpAuthPassword>{AQAAABAAAAAQ42kdQDie0Rq1l5JPfgc8uK3eTILQbyDjrsB2ZLp1oS4=}</smtpAuthPassword>
-  <smtpHost>10.66.236.42</smtpHost>
+  <defaultSuffix>@xyz.com</defaultSuffix>
+  <smtpAuthUsername>idpadmin</smtpAuthUsername>
+  <smtpAuthPassword>somepassword</smtpAuthPassword>
+  <smtpHost>localhost</smtpHost>
   <useSsl>false</useSsl>
   <smtpPort>25</smtpPort>
   <charset>UTF-8</charset>

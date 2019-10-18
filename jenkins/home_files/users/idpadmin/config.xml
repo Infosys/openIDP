@@ -13,7 +13,7 @@
       <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
     </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
     <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.20">
-      <emailAddress>idpadmin@domain.com</emailAddress>
+      <emailAddress>idpadmin@xyz.com</emailAddress>
     </hudson.tasks.Mailer_-UserProperty>
     <hudson.plugins.emailext.watching.EmailExtWatchAction_-UserProperty plugin="email-ext@2.57.2">
       <triggers/>

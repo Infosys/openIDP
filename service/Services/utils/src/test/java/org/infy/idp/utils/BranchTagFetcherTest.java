@@ -36,7 +36,7 @@ public class BranchTagFetcherTest {
 		BitBucketBranchTagFetcher fetch = new BitBucketBranchTagFetcher();
 
 		List<ArrayList<String>> branchTag = fetch.getBranchList("https://bitbucket.org",
-				"idpadmin@domain.com", "Adi19931", "https://my-bitbucket-user@bitbucket.org/my-bitbucket-user/test1.git",
+				"idpadmin@xyz.com", "somepassword", "https://my-bitbucket-user@bitbucket.org/fakeurl.git",
 				"proxy_ip", "80");
 
 		Assert.assertEquals(2, branchTag.get(0).size());
@@ -48,8 +48,8 @@ public class BranchTagFetcherTest {
 
 		TFSBranchFetcher fetch = new TFSBranchFetcher();
 
-		ArrayList<String> branch = fetch.getAllBranches("http://tfs2013-farm01.com:8080/tfs/QTOOLS",
-				"$/QTOOLSTRACKER/024-JUnitRules", "1.0", "idpadmin", "qazwsxQAZ!@#");
+		ArrayList<String> branch = fetch.getAllBranches("http://faketfsurl.com:8080/tfs/QTOOLS",
+				"$/QTOOLSTRACKER/024-JUnitRules", "1.0", "idpadmin", "somepassword");
 
 		Assert.assertEquals(2, branch.size());
 
