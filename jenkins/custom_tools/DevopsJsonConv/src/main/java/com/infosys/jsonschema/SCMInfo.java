@@ -34,6 +34,17 @@ public class SCMInfo {
 	private String remoteUrl;
 	@JsonProperty("getAffectedPath")
 	private String getAffectedPath;
+	
+	@JsonProperty("scmUrl")
+	private String scmUrl;
+
+	public String getScmUrl() {
+		return scmUrl;
+	}
+
+	public void setScmUrl(String scmUrl) {
+		this.scmUrl = scmUrl;
+	}
 
 	public String getRemoteUrl() {
 		return remoteUrl;

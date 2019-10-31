@@ -15,7 +15,7 @@ mkdir -p home_files/plugins home_files/CUSTOM_TOOLS
 mkdir -p jenkins/WEB-INF/lib
 
 echo "Downloading and Preparing required Jenkins version"
-smart_download jenkins_org.war https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/jenkins-war/2.46.3/jenkins-war-2.46.3.war
+smart_download jenkins_org.war https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/jenkins-war/2.164.3/jenkins-war-2.164.3.war
 yes | \cp -rf /jenkins/custom_tools/SchedulerUtility/target/scheduleutility.jar /jenkins/jenkins/WEB-INF/lib/
 	
 echo "Downloading Custom Tools"
@@ -32,7 +32,7 @@ smart_download checkstyle-6.17/antlr-2.7.7.jar http://central.maven.org/maven2/a
 smart_download checkstyle-6.17/antlr4-runtime-4.5.2-1.jar http://central.maven.org/maven2/org/antlr/antlr4-runtime/4.5.2-1/antlr4-runtime-4.5.2-1.jar
 smart_download checkstyle-6.17/checkstyle-6.17.jar http://central.maven.org/maven2/com/puppycrawl/tools/checkstyle/6.17/checkstyle-6.17.jar
 smart_download checkstyle-6.17/checkstyle-6.17-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-6.17/checkstyle-6.17-all.jar
-smart_download checkstyle-6.17/commons-beanutils-1.9.2.jar http://central.maven.org/maven2/commons-beanutils/commons-beanutils/1.9.2/commons-beanutils-1.9.2.jar
+smart_download checkstyle-6.17/commons-beanutils-1.9.3.jar http://central.maven.org/maven2/commons-beanutils/commons-beanutils/1.9.3/commons-beanutils-1.9.3.jar
 smart_download checkstyle-6.17/commons-cli-1.3.1.jar http://central.maven.org/maven2/commons-cli/commons-cli/1.3.1/commons-cli-1.3.1.jar
 smart_download checkstyle-6.17/commons-collections-3.2.1.jar http://central.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar
 smart_download checkstyle-6.17/commons-logging-1.1.1.jar http://central.maven.org/maven2/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar
@@ -94,9 +94,10 @@ smart_download home_files/plugins/clang-scanbuild.hpi https://updates.jenkins-ci
 smart_download home_files/plugins/clearcase.hpi https://updates.jenkins-ci.org/download/plugins/clearcase/1.6.3/clearcase.hpi 
 smart_download home_files/plugins/clearcase-ucm-baseline.hpi https://updates.jenkins-ci.org/download/plugins/clearcase-ucm-baseline/1.7.4/clearcase-ucm-baseline.hpi 
 smart_download home_files/plugins/clearcase-ucm-plugin.hpi https://updates.jenkins-ci.org/download/plugins/clearcase-ucm-plugin/1.7.0/clearcase-ucm-plugin.hpi 
-smart_download home_files/plugins/cloudbees-folder.hpi https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/6.0.4/cloudbees-folder.hpi 
+smart_download home_files/plugins/cloudbees-folder.hpi https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/6.9/cloudbees-folder.hpi 
 smart_download home_files/plugins/cobertura.hpi https://updates.jenkins-ci.org/download/plugins/cobertura/1.10/cobertura.hpi 
-smart_download home_files/plugins/codesonar.hpi https://updates.jenkins-ci.org/download/plugins/codesonar/2.0.5/codesonar.hpi 
+smart_download home_files/plugins/codesonar.hpi https://updates.jenkins-ci.org/download/plugins/codesonar/2.0.5/codesonar.hpi
+smart_download home_files/plugins/command-launcher.hpi https://updates.jenkins-ci.org/download/plugins/command-launcher/1.0/command-launcher.hpi 
 smart_download home_files/plugins/compatibility-action-storage.hpi https://updates.jenkins-ci.org/download/plugins/compatibility-action-storage/1.0/compatibility-action-storage.hpi 
 smart_download home_files/plugins/compress-artifacts.hpi https://updates.jenkins-ci.org/download/plugins/compress-artifacts/1.10/compress-artifacts.hpi 
 smart_download home_files/plugins/conditional-buildstep.hpi https://updates.jenkins-ci.org/download/plugins/conditional-buildstep/1.3.6/conditional-buildstep.hpi 
@@ -106,7 +107,7 @@ smart_download home_files/plugins/copyartifact.hpi https://updates.jenkins-ci.or
 smart_download home_files/plugins/copy-to-slave.hpi https://updates.jenkins-ci.org/download/plugins/copy-to-slave/1.4.4/copy-to-slave.hpi 
 smart_download home_files/plugins/covcomplplot.hpi https://updates.jenkins-ci.org/download/plugins/covcomplplot/1.1.1/covcomplplot.hpi 
 smart_download home_files/plugins/credentials-binding.hpi https://updates.jenkins-ci.org/download/plugins/credentials-binding/1.12/credentials-binding.hpi 
-smart_download home_files/plugins/credentials.hpi https://updates.jenkins-ci.org/download/plugins/credentials/2.1.14/credentials.hpi 
+smart_download home_files/plugins/credentials.hpi https://updates.jenkins-ci.org/download/plugins/credentials/2.2.0/credentials.hpi 
 smart_download home_files/plugins/custom-tools-plugin.hpi https://updates.jenkins-ci.org/download/plugins/custom-tools-plugin/0.5/custom-tools-plugin.hpi 
 smart_download home_files/plugins/cvs.hpi https://updates.jenkins-ci.org/download/plugins/cvs/2.13/cvs.hpi 
 smart_download home_files/plugins/dashboard-view.hpi https://updates.jenkins-ci.org/download/plugins/dashboard-view/2.9.11/dashboard-view.hpi 
@@ -152,13 +153,15 @@ smart_download home_files/plugins/jenkins-multijob-plugin.hpi https://updates.je
 smart_download home_files/plugins/jira.hpi https://updates.jenkins-ci.org/download/plugins/jira/2.3.1/jira.hpi 
 smart_download home_files/plugins/JiraTestResultReporter.hpi https://updates.jenkins-ci.org/download/plugins/JiraTestResultReporter/2.0.4/JiraTestResultReporter.hpi 
 smart_download home_files/plugins/jquery.hpi https://updates.jenkins-ci.org/download/plugins/jquery/1.11.2-0/jquery.hpi 
+smart_download home_files/plugins/jquery-ui.hpi https://updates.jenkins.io/download/plugins/jquery-ui/1.0.2/jquery-ui.hpi
+smart_download home_files/plugins/jsch.hpi https://updates.jenkins-ci.org/download/plugins/jsch/0.1.54.2/jsch.hpi
 smart_download home_files/plugins/junit.hpi https://updates.jenkins-ci.org/download/plugins/junit/1.20/junit.hpi 
 smart_download home_files/plugins/ldap.hpi https://updates.jenkins-ci.org/download/plugins/ldap/1.15/ldap.hpi 
 smart_download home_files/plugins/lockable-resources.hpi https://updates.jenkins-ci.org/download/plugins/lockable-resources/2.0/lockable-resources.hpi 
 smart_download home_files/plugins/mailer.hpi https://updates.jenkins-ci.org/download/plugins/mailer/1.20/mailer.hpi 
 smart_download home_files/plugins/mapdb-api.hpi https://updates.jenkins-ci.org/download/plugins/mapdb-api/1.0.9.0/mapdb-api.hpi 
 smart_download home_files/plugins/mask-passwords.hpi https://updates.jenkins-ci.org/download/plugins/mask-passwords/2.10.1/mask-passwords.hpi 
-smart_download home_files/plugins/matrix-auth.hpi https://updates.jenkins-ci.org/download/plugins/matrix-auth/1.6/matrix-auth.hpi 
+smart_download home_files/plugins/matrix-auth.hpi https://updates.jenkins-ci.org/download/plugins/matrix-auth/2.4.2/matrix-auth.hpi 
 smart_download home_files/plugins/matrix-project.hpi https://updates.jenkins-ci.org/download/plugins/matrix-project/1.12/matrix-project.hpi 
 smart_download home_files/plugins/maven-plugin.hpi https://updates.jenkins-ci.org/download/plugins/maven-plugin/2.17/maven-plugin.hpi 
 smart_download home_files/plugins/mercurial.hpi https://updates.jenkins-ci.org/download/plugins/mercurial/1.60/mercurial.hpi 
@@ -193,7 +196,8 @@ smart_download home_files/plugins/postbuildscript.hpi https://updates.jenkins-ci
 smart_download home_files/plugins/powershell.hpi https://updates.jenkins-ci.org/download/plugins/powershell/1.3/powershell.hpi 
 smart_download home_files/plugins/prometheus.hpi https://updates.jenkins-ci.org/download/plugins/prometheus/1.0.6/prometheus.hpi 
 smart_download home_files/plugins/promoted-builds.hpi https://updates.jenkins-ci.org/download/plugins/promoted-builds/2.28.1/promoted-builds.hpi 
-smart_download home_files/plugins/publish-over-ssh.hpi https://updates.jenkins-ci.org/download/plugins/publish-over-ssh/1.17/publish-over-ssh.hpi 
+smart_download home_files/plugins/publish-over.hpi https://updates.jenkins-ci.org/download/plugins/publish-over/0.21/publish-over.hpi
+smart_download home_files/plugins/publish-over-ssh.hpi https://updates.jenkins-ci.org/download/plugins/publish-over-ssh/1.20.1/publish-over-ssh.hpi 
 smart_download home_files/plugins/pubsub-light.hpi https://updates.jenkins-ci.org/download/plugins/pubsub-light/1.8/pubsub-light.hpi 
 smart_download home_files/plugins/purge-build-queue-plugin.hpi https://updates.jenkins-ci.org/download/plugins/purge-build-queue-plugin/1.0/purge-build-queue-plugin.hpi 
 smart_download home_files/plugins/quality-gates.hpi https://updates.jenkins-ci.org/download/plugins/quality-gates/2.5/quality-gates.hpi 
@@ -201,19 +205,19 @@ smart_download home_files/plugins/repo.hpi https://updates.jenkins-ci.org/downlo
 smart_download home_files/plugins/repository-connector.hpi https://updates.jenkins-ci.org/download/plugins/repository-connector/1.1.3/repository-connector.hpi 
 smart_download home_files/plugins/resource-disposer.hpi https://updates.jenkins-ci.org/download/plugins/resource-disposer/0.6/resource-disposer.hpi 
 smart_download home_files/plugins/robot.hpi https://updates.jenkins-ci.org/download/plugins/robot/1.6.4/robot.hpi 
-smart_download home_files/plugins/role-strategy.hpi.org https://updates.jenkins-ci.org/download/plugins/role-strategy/2.3.2/role-strategy.hpi 
+smart_download home_files/plugins/role-strategy.hpi https://updates.jenkins-ci.org/download/plugins/role-strategy/2.13/role-strategy.hpi 
 smart_download home_files/plugins/run-condition.hpi https://updates.jenkins-ci.org/download/plugins/run-condition/1.0/run-condition.hpi 
 smart_download home_files/plugins/scm-api.hpi https://updates.jenkins-ci.org/download/plugins/scm-api/2.1.1/scm-api.hpi 
-smart_download home_files/plugins/script-security.hpi https://updates.jenkins-ci.org/download/plugins/script-security/1.29/script-security.hpi 
+smart_download home_files/plugins/script-security.hpi https://updates.jenkins-ci.org/download/plugins/script-security/1.60/script-security.hpi 
 smart_download home_files/plugins/selenium.hpi https://updates.jenkins-ci.org/download/plugins/selenium/3.1.0/selenium.hpi 
 smart_download home_files/plugins/sonargraph-integration.hpi https://updates.jenkins-ci.org/download/plugins/sonargraph-integration/2.0.2/sonargraph-integration.hpi 
 smart_download home_files/plugins/sonargraph-plugin.hpi https://updates.jenkins-ci.org/download/plugins/sonargraph-plugin/1.6.4/sonargraph-plugin.hpi 
 smart_download home_files/plugins/sonar.hpi https://updates.jenkins-ci.org/download/plugins/sonar/2.6.1/sonar.hpi 
 smart_download home_files/plugins/sse-gateway.hpi https://updates.jenkins-ci.org/download/plugins/sse-gateway/1.15/sse-gateway.hpi 
-smart_download home_files/plugins/ssh-credentials.hpi https://updates.jenkins-ci.org/download/plugins/ssh-credentials/1.13/ssh-credentials.hpi 
+smart_download home_files/plugins/ssh-credentials.hpi https://updates.jenkins-ci.org/download/plugins/ssh-credentials/1.17/ssh-credentials.hpi
 smart_download home_files/plugins/ssh.hpi https://updates.jenkins-ci.org/download/plugins/ssh/2.4/ssh.hpi 
 smart_download home_files/plugins/ssh-slaves.hpi https://updates.jenkins-ci.org/download/plugins/ssh-slaves/1.20/ssh-slaves.hpi 
-smart_download home_files/plugins/structs.hpi https://updates.jenkins-ci.org/download/plugins/structs/1.10/structs.hpi 
+smart_download home_files/plugins/structs.hpi https://updates.jenkins-ci.org/download/plugins/structs/1.20/structs.hpi 
 smart_download home_files/plugins/subversion.hpi https://updates.jenkins-ci.org/download/plugins/subversion/2.7.1/subversion.hpi 
 smart_download home_files/plugins/svnmerge.hpi https://updates.jenkins-ci.org/download/plugins/svnmerge/2.6/svnmerge.hpi 
 smart_download home_files/plugins/svnpublisher.hpi https://updates.jenkins-ci.org/download/plugins/svnpublisher/0.1/svnpublisher.hpi 
@@ -245,7 +249,7 @@ smart_download home_files/plugins/workflow-cps.hpi https://updates.jenkins-ci.or
 smart_download home_files/plugins/workflow-durable-task-step.hpi https://updates.jenkins-ci.org/download/plugins/workflow-durable-task-step/2.12/workflow-durable-task-step.hpi 
 smart_download home_files/plugins/workflow-job.hpi https://updates.jenkins-ci.org/download/plugins/workflow-job/2.11/workflow-job.hpi 
 smart_download home_files/plugins/workflow-multibranch.hpi https://updates.jenkins-ci.org/download/plugins/workflow-multibranch/2.15/workflow-multibranch.hpi 
-smart_download home_files/plugins/workflow-step-api.hpi https://updates.jenkins-ci.org/download/plugins/workflow-step-api/2.11/workflow-step-api.hpi 
+smart_download home_files/plugins/workflow-step-api.hpi https://updates.jenkins-ci.org/download/plugins/workflow-step-api/2.16/workflow-step-api.hpi 
 smart_download home_files/plugins/ws-cleanup.hpi https://updates.jenkins-ci.org/download/plugins/ws-cleanup/0.33/ws-cleanup.hpi 
 smart_download home_files/plugins/xcode-plugin.hpi https://updates.jenkins-ci.org/download/plugins/xcode-plugin/2.0.2/xcode-plugin.hpi 
 smart_download home_files/plugins/xframe-filter-plugin.hpi https://updates.jenkins-ci.org/download/plugins/xframe-filter-plugin/1.2/xframe-filter-plugin.hpi 
@@ -264,7 +268,7 @@ smart_download home_files/plugins/jquery-detached.hpi https://updates.jenkins-ci
 smart_download home_files/plugins/logstash.hpi https://updates.jenkins-ci.org/download/plugins/logstash/1.3.0/logstash.hpi 
 smart_download home_files/plugins/momentjs.hpi https://updates.jenkins-ci.org/download/plugins/momentjs/1.1.1/momentjs.hpi 
 smart_download home_files/plugins/nodelabelparameter.hpi https://updates.jenkins-ci.org/download/plugins/nodelabelparameter/1.7.2/nodelabelparameter.hpi 
-smart_download home_files/plugins/oic-auth.hpi https://updates.jenkins-ci.org/download/plugins/oic-auth/1.3/oic-auth.hpi 
+smart_download home_files/plugins/oic-auth.hpi https://updates.jenkins-ci.org/download/plugins/oic-auth/1.6/oic-auth.hpi 
 smart_download home_files/plugins/parameterized-scheduler.hpi https://updates.jenkins-ci.org/download/plugins/parameterized-scheduler/0.5/parameterized-scheduler.hpi 
 smart_download home_files/plugins/performance.hpi https://updates.jenkins-ci.org/download/plugins/performance/3.3/performance.hpi 
 smart_download home_files/plugins/pipeline-model-declarative-agent.hpi https://updates.jenkins-ci.org/download/plugins/pipeline-model-declarative-agent/1.1.1/pipeline-model-declarative-agent.hpi 
@@ -281,3 +285,9 @@ smart_download home_files/plugins/xunit.hpi https://updates.jenkins-ci.org/downl
 smart_download home_files/plugins/nunit.hpi https://updates.jenkins-ci.org/download/plugins/nunit/0.23/nunit.hpi
 smart_download home_files/plugins/ivy.hpi https://updates.jenkins-ci.org/download/plugins/ivy/1.28/ivy.hpi
 smart_download home_files/plugins/xvfb.hpi https://updates.jenkins-ci.org/download/plugins/xvfb/1.1.3/xvfb.hpi
+smart_download home_files/plugins/jdk-tool.hpi https://updates.jenkins.io/download/plugins/jdk-tool/1.2/jdk-tool.hpi
+smart_download home_files/plugins/fortify.hpi https://updates.jenkins.io/download/plugins/fortify/19.1.29/fortify.hpi
+smart_download home_files/plugins/ansible.hpi https://updates.jenkins.io/download/plugins/ansible/1.0/ansible.hpi
+smart_download home_files/plugins/jaxb.hpi https://updates.jenkins.io/download/plugins/jaxb/2.3.0.1/jaxb.hpi
+smart_download home_files/plugins/trilead-api.hpi https://updates.jenkins.io/download/plugins/trilead-api/1.0.5/trilead-api.hpi
+

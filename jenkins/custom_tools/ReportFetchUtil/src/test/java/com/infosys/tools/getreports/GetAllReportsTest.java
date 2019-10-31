@@ -76,8 +76,9 @@ public class GetAllReportsTest {
 //		            0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x0A, 0x00, 0x00, 0x02, 0x16, 0x8C, 0x2D, 0x99,
 //		            0x87, 0x2A, 0x1C, 0xDC, 0x33, 0xA0, 0x02, 0x75, 0xEC, 0x95, 0xFA, 0xA8, 0xDE, 0x60, 0x8C, 0x04,
 //		            0x91, 0x4C, 0x01, 0x00, 0x3B);
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
 			
 			String temp=getAllReports.makeDir("string");
 			assertNotNull(temp);
@@ -100,9 +101,10 @@ public class GetAllReportsTest {
 //		            0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x0A, 0x00, 0x00, 0x02, 0x16, 0x8C, 0x2D, 0x99,
 //		            0x87, 0x2A, 0x1C, 0xDC, 0x33, 0xA0, 0x02, 0x75, 0xEC, 0x95, 0xFA, 0xA8, 0xDE, 0x60, 0x8C, 0x04,
 //		            0x91, 0x4C, 0x01, 0x00, 0x3B);
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
-			
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
+
 			Boolean temp = getAllReports.copyReports("string", "string", "string", "string", "string", "string");
 			assertNotNull(temp);
 		} catch (Exception e) {
@@ -124,8 +126,9 @@ public class GetAllReportsTest {
 //		            0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x0A, 0x00, 0x00, 0x02, 0x16, 0x8C, 0x2D, 0x99,
 //		            0x87, 0x2A, 0x1C, 0xDC, 0x33, 0xA0, 0x02, 0x75, 0xEC, 0x95, 0xFA, 0xA8, 0xDE, 0x60, 0x8C, 0x04,
 //		            0x91, 0x4C, 0x01, 0x00, 0x3B);
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
 			
 			getAllReports.copy("string", "string", "string", "string", "string", "string", "string");
 			List<String> temp=null;
@@ -149,9 +152,10 @@ public class GetAllReportsTest {
 //		            0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x0A, 0x00, 0x00, 0x02, 0x16, 0x8C, 0x2D, 0x99,
 //		            0x87, 0x2A, 0x1C, 0xDC, 0x33, 0xA0, 0x02, 0x75, 0xEC, 0x95, 0xFA, 0xA8, 0xDE, 0x60, 0x8C, 0x04,
 //		            0x91, 0x4C, 0x01, 0x00, 0x3B);
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
-			
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
+						
 			String[] args = { "" };
 			String[] extensions = { "" };
 			File file = new File("test");

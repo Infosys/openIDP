@@ -53,6 +53,7 @@ public class ConvertJUnit {
 				tcObj.settestSuiteName(c.getName());
 				tcObj.setDuration(String.format("%.4f", Float.parseFloat(tc.getTime())));
 				tcObj.setStartTime(getStartTime());
+				tcObj.setTestToolName("Junit");
 				if (inputPath.toLowerCase().contains("lisa"))
 					tcObj.setCategory("Functional Test");
 				else
@@ -169,6 +170,7 @@ public class ConvertJUnit {
 					}
 					tr.setCategory("UNIT");
 					tr.setDuration(testcase.getTime().toString());
+					tr.setTestToolName("Junit");
 					listresult.add(tr);
 				}
 			}

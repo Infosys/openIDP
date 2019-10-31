@@ -28,13 +28,14 @@ public class CopyFolderUtility {
 
 	public static Boolean copyFolder(File src, File dest, String name, String id, String appName) throws IOException {
 		Boolean status = false;
-		InputStream inStream = null;
-		OutputStream outStream = null;
+		
 		if (src.isFile()) {
 			String fileName = src.getName();
 			String fileN = fileName.substring(0, fileName.lastIndexOf('.'));
 			String fileE = fileName.substring(fileName.lastIndexOf('.') + 1);
-			if (fileN.toUpperCase().startsWith("TEST-") && src.getPath().toLowerCase().contains("reports"))
+			if(fileN.toLowerCase().contains("lint") && fileN.toLowerCase().contains("result") && fileE.equalsIgnoreCase("xml"))
+				fileN="lintreport";
+			else if (fileN.toUpperCase().startsWith("TEST-") && src.getPath().toLowerCase().contains("reports"))
 				fileN = "sui_" + fileN;
 			else if (fileN.toUpperCase().startsWith("TEST-") && src.getPath().toLowerCase().contains("devdebug"))
 				fileN = "android_" + fileN;
@@ -50,6 +51,8 @@ public class CopyFolderUtility {
 				fileN = "JUnit_test_Angular_" + fileN;
 			else if (fileN.toLowerCase().contains("coberturacoverage.xml"))
 				fileN = "cobertura_coverage_Angular_" + fileN;
+			else if (fileN.contains("Results") && fileE.equals("xml"))
+				fileN= "HpUft_test";
 			if (src.getPath().contains("test-output") && "testng-results".equals(fileN))
 				fileN = "selenium-testng_" + fileN;
 			else if ("testng-results".equals(fileN))
@@ -82,15 +85,20 @@ public class CopyFolderUtility {
 				} else {
 					bfile = new File(dest + "/" + appName + "_" + fileN + "_" + timeNew + "." + fileE);
 				}
-				inStream = new FileInputStream(afile);
-				outStream = new FileOutputStream(bfile);
-				byte[] buffer = new byte[1024];
-				int length;
-				// copy the file content in bytes
-				while ((length = inStream.read(buffer)) > 0) {
-					outStream.write(buffer, 0, length);
+				
+				try(InputStream inStream = new FileInputStream(afile);
+						OutputStream outStream = new FileOutputStream(bfile)){
+					
+					byte[] buffer = new byte[1024];
+					int length;
+					// copy the file content in bytes
+					while ((length = inStream.read(buffer)) > 0) {
+						outStream.write(buffer, 0, length);
+					}
+					
 				}
-				inStream.close();
+				
+				
 				boolean status1;
 				status1 = afile.delete();
 				if (status1) {
@@ -102,10 +110,6 @@ public class CopyFolderUtility {
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 				status = false;
-			} finally {
-				if (inStream != null && outStream != null) {
-					outStream.close();
-				}
 			}
 		}
 		return status;

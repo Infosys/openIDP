@@ -9,6 +9,7 @@ package com.infosys.convertor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.net.util.Base64;
 import org.apache.log4j.Logger;
@@ -26,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.infosys.json.CsvUpload;
 import com.infosys.json.Informatica;
 import com.infosys.json.InformaticaObject;
 import com.infosys.json.JsonClass;
@@ -72,19 +75,19 @@ public class ConvertBuildLog {
 			jsonClass.setLog(new String(Files.readAllBytes(Paths.get(inputPath)), Charset.defaultCharset()));
 			
 			//Package Contents
-			if(technologyName.equalsIgnoreCase("informatica") && stage.equalsIgnoreCase("build"))
+			if(technologyName.toLowerCase().equals("informatica") && stage.toLowerCase().equals("build"))
 			{
 				convertInformatica(inputPath,jsonClass,serviceUrl,artifactName);
 			}
-			if((technologyName.equalsIgnoreCase("dotnet") || technologyName.equalsIgnoreCase("net")) && stage.equalsIgnoreCase("build"))
+			if((technologyName.toLowerCase().contains("dotnet") || technologyName.toLowerCase().contains("net")) && stage.toLowerCase().equals("build"))
 			{
 				convertDotNet(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 			}
-			if(technologyName.equalsIgnoreCase("ant") && stage.equalsIgnoreCase("build"))
+			if(technologyName.toLowerCase().contains("ant") && stage.toLowerCase().equals("build"))
 			{
 				convertAnt(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 			}
-			if(technologyName.equalsIgnoreCase("bigdata") && stage.equalsIgnoreCase("build"))
+			if(technologyName.toLowerCase().contains("bigdata") && stage.toLowerCase().equals("build"))
 			{
 				convertBigData(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 
@@ -103,8 +106,8 @@ public class ConvertBuildLog {
 		packageContent.setArtifactName(artifactName);
 		Informatica informatica=new Informatica();
 		List<InformaticaObject> informaticaObjects=new ArrayList<>();
-		try{
-			BufferedReader in = new BufferedReader(new FileReader(inputPath));
+		try(BufferedReader in = new BufferedReader(new FileReader(inputPath))){
+			
 			
 			String line = in.readLine();
 			
@@ -212,6 +215,102 @@ public class ConvertBuildLog {
 			logger.error("Exception while parsing informatica buildlog",e);
 		}
 	}
+	@SuppressWarnings("resource")
+	public static List<CsvUpload> convertCSV(String inputPath) throws IOException {
+		Pattern p = Pattern.compile("\\w+.xml");
+		System.out.println(p);
+		System.out.println(inputPath);
+		List<CsvUpload> value = new ArrayList<>();
+		List<String> fileNameList = new ArrayList<>();
+		List<String> statusList = new ArrayList<>();
+		BufferedReader in = new BufferedReader(new FileReader(inputPath));
+
+		try {
+			// in = new BufferedReader(new FileReader(inputPath));
+			boolean hasFile=false;
+			String filename1=""; 
+			String status="";
+			String line = in.readLine();
+//			boolean hasFile=false;
+			while ((line = in.readLine()) != null) {
+				
+//				hasFile=false;
+//				if ((line.contains("Done creating")) && (line.contains(".xml"))) {
+					String comparstr = "ReferenceTransmissionNo>";
+					String str1 = "TransmissionAckStatus>";
+					String filename = "file>";
+					String timeout="TITLE>";
+					if (line.contains(comparstr)) {
+
+						String str = line.substring((line.indexOf(comparstr) + 24), (line.lastIndexOf(comparstr) - 2));
+              		  		System.out.println(str);
+//						
+//						
+						
+							status=str;
+							statusList.add(status);
+						hasFile=true;
+					}
+
+					 if (line.contains(str1)) {
+						 String str2 = line.substring((line.indexOf(str1) + 22), (line.lastIndexOf(str1) - 2));
+              		  			 System.out.println(str2);
+//              		  			 
+              		  			
+              		  				 status=str2;
+              		  				statusList.add(status);
+              		  			 hasFile=true;
+						
+					} 
+					 if(line.contains(timeout)) 
+					 {
+						 String str3 = line.substring((line.indexOf(timeout) + 6), (line.lastIndexOf(timeout) - 2));
+      		  		     System.out.println(str3);
+      		  		     status="Failure of Web Server bridge";
+      		  		     System.out.println("timeout values"+status);
+      		  		     statusList.add(status);
+      		  		     hasFile=true;
+					}				 
+					  if (line.contains(filename)) {
+//              		  			 
+						if (line.indexOf(filename) >= 0) {
+							
+							String str = line.toString().trim().substring((line.indexOf(filename)),
+									(line.lastIndexOf(filename))-11);
+							
+							filename1 = str.replaceFirst("file>", "");
+//							
+							fileNameList.add(filename1);
+							hasFile=true;
+						}
+					}
+			}
+							for(int i=0,j=0;i<fileNameList.size() && j<statusList.size();i++,j++) {
+								CsvUpload csvUpload = new CsvUpload();
+								csvUpload.setFilename(fileNameList.get(i));								
+								csvUpload.setAck_status(statusList.get(j));
+//								
+								value.add(csvUpload);
+								
+							}
+							
+//							
+
+						
+						
+		}
+
+		catch (Exception e) {
+			logger.error("Exception while parsing CSV upload buildlog", e);
+		} finally {
+			in.close();
+		}
+
+		return value;
+
+	}
+
+	
 	
 	private static void convertDotNet(String serviceUrl,String jobName,String jenkinsServer,String pipelineId,String artifactName,String jenkinsUserName,String jenkinsPassword)
 	{
@@ -235,13 +334,15 @@ public class ConvertBuildLog {
 			URL url = new URL(webPage);
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-	        StringBuilder sb = new StringBuilder();
+			 StringBuilder sb = new StringBuilder();
 	        String line1;
-	        while ((line1 = br.readLine()) != null) {
-	            sb.append(line1+"\n");
+	        try(BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))){
+	        	while ((line1 = br.readLine()) != null) {
+		            sb.append(line1+"\n");
+		        }
 	        }
-	        br.close();
+	        
+	      
 	        JSONObject json = new JSONObject(sb.toString());
 			JSONArray actions=json.getJSONArray("actions");
 			boolean flag=false;
@@ -311,13 +412,13 @@ public class ConvertBuildLog {
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
 			
-			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 	        StringBuilder sb = new StringBuilder();
 	        String line1;
-	        while ((line1 = br.readLine()) != null) {
-	            sb.append(line1+"\n");
+	        try(BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))){
+	        	while ((line1 = br.readLine()) != null) {
+		            sb.append(line1+"\n");
+		        }
 	        }
-	        br.close();
 	        JSONObject json = new JSONObject(sb.toString());
 			JSONArray actions=json.getJSONArray("actions");
 			boolean flag=false;
@@ -330,7 +431,7 @@ public class ConvertBuildLog {
 						JSONArray parameters=jObject.getJSONArray("parameters");
 						String name=parameters.getJSONObject(0).getString("name");
 						String value=parameters.getJSONObject(0).getString("value");
-						if(name.equalsIgnoreCase("json_input"))
+						if(name.toLowerCase().equals("json_input"))
 						{
 							flag=true;
 							JSONObject valueJson=new JSONObject(value);
@@ -385,13 +486,15 @@ public class ConvertBuildLog {
 			URL url = new URL(webPage);
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
 	        StringBuilder sb = new StringBuilder();
 	        String line1;
-	        while ((line1 = br.readLine()) != null) {
-	            sb.append(line1+"\n");
+	        try(BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))){
+	        	 while ((line1 = br.readLine()) != null) {
+	 	            sb.append(line1+"\n");
+	 	        }
 	        }
-	        br.close();
+	       
 	        JSONObject json = new JSONObject(sb.toString());
 			JSONArray actions=json.getJSONArray("actions");
 			boolean flag=false;
@@ -404,7 +507,7 @@ public class ConvertBuildLog {
 						JSONArray parameters=jObject.getJSONArray("parameters");
 						String name=parameters.getJSONObject(0).getString("name");
 						String value=parameters.getJSONObject(0).getString("value");
-						if(name.equalsIgnoreCase("json_input"))
+						if(name.toLowerCase().equals("json_input"))
 						{
 							flag=true;
 							JSONObject valueJson=new JSONObject(value);
@@ -457,16 +560,15 @@ public class ConvertBuildLog {
             os.close();
             
             conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuffer jsonString = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                    jsonString.append(line);
-            }
-            br.close();
             
+			StringBuffer jsonString = new StringBuffer();
+			String line;
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+				while ((line = br.readLine()) != null) {
+					jsonString.append(line);
+				}
+			}
 
-            
             conn.disconnect();
             
            

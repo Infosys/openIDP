@@ -21,6 +21,12 @@ public final class SSLUtilities {
 	private static com.sun.net.ssl.TrustManager[] trustManagers;
 	private static HostnameVerifier hostnameVerifiers;
 	private static TrustManager[] trustManager;
+	
+	
+
+	private SSLUtilities() {
+		// TODO Auto-generated constructor stub
+	}
 
 	private static void trustAllHostname() {
 		// Create a trust manager that does not validate certificate chains

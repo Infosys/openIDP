@@ -8,6 +8,10 @@
 package com.infosys.convertor;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -16,6 +20,7 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.log4j.Logger;
 
 import com.infosys.json.JMeter;
+import com.infosys.json.JmeterViewResults;
 import com.infosys.json.JsonClass;
 import com.infosys.json.Performance;
 import com.infosys.json.TestCaseResult;
@@ -49,6 +54,7 @@ public class ConvertJMeter {
 			iterateOverHttpSample(testResults.getHttpSample(), listTR);
 			if (testResults.getSample() != null && !testResults.getSample().isEmpty())
 				iterateOverSample(testResults.getSample(), listTR);
+				
 			try {
 				jMeter.setThroughput(tTotal / tCount);
 				jMeter.setResponseTime(ltTotal / ltCount);
@@ -87,6 +93,7 @@ public class ConvertJMeter {
 			tr.setId(httpSample.getTn());
 			tr.setMessage(httpSample.getRm());
 			tr.setCategory("Performance");
+			tr.setTestToolName("JMeter");
 			listTR.add(tr);
 		}
 	}
@@ -108,7 +115,68 @@ public class ConvertJMeter {
 			tr.setId(sample.getTn());
 			tr.setMessage(sample.getRm());
 			tr.setCategory("Performance");
+			tr.setTestToolName("JMeter");
 			listTR.add(tr);
 		}
 	}
+	
+	
+	
+	public static List<JmeterViewResults> convertViewResult(String inputPath, String[] arg) {
+		
+		List<JmeterViewResults> finalList=new ArrayList<>();
+		
+		
+		try {
+			File file = new File(inputPath);
+			JAXBContext jaxbContext = JAXBContext.newInstance(TestResults.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			TestResults testResults = (TestResults) jaxbUnmarshaller.unmarshal(file);
+			
+//			List<Sample> sampleArr = testResults.getSample();
+			List<HttpSample> sampleArr = testResults.getHttpSample();
+			for (HttpSample sample : sampleArr) {
+				JmeterViewResults obj =new  JmeterViewResults();
+				obj.setElapsed(String.valueOf(sample.getT()));
+				
+
+				Timestamp ts=new Timestamp(sample.getTs().longValue());  
+                Date date=ts;  
+               
+				obj.setTimeStamp(String.valueOf(date));
+				
+				obj.setThreadName(sample.getTn());
+				obj.setLabel(sample.getLb());
+				
+				System.out.println(sample.isS());
+				Boolean value = sample.isS();
+				if(value=true) {
+				obj.setSuccess("SUCCESS");	
+				}
+				else {
+					obj.setSuccess("FAIL");
+				}
+				obj.setBytes(String.valueOf(sample.getBy()));
+				obj.setSentBytes(String.valueOf(sample.getSby()));
+				obj.setLatency(String.valueOf(sample.getLt()));
+				
+				
+				obj.setConnect(String.valueOf(sample.getCt()));
+		
+				
+				finalList.add(obj);
+			}
+			
+	
+		}
+		catch (Exception e) {
+			logger.error("Conversion error for " + inputPath + e);
+		}
+
+		return finalList;
+		
+	}
+	
+	
+	
 }

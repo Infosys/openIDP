@@ -15,7 +15,6 @@ public class Reports {
 	private ArrayList<PMDReports> pmdReports = null;
 	private ArrayList<FindBugsReports> findBugsReports = null;
 	private ArrayList<QualitiaReports> qualitia = null;
-	private ArrayList<IFastReports> iFastReports = null;
 	private ArrayList<RobotReports> robotReports = null;
 	private ArrayList<SeleniumReports> seleniumReports = null;
 	private ArrayList<ITopsReports> iTopsReps = null;
@@ -198,23 +197,7 @@ public class Reports {
 		this.robotReports.add(rpo);
 	}
 
-	public void setiFastReports(ArrayList<IFastReports> iFastReports) {
-		this.iFastReports = iFastReports;
-	}
-
-	public List<IFastReports> getiFastReports() {
-		return iFastReports;
-	}
-
-	public void addiFastReports(String url) {
-		if (iFastReports == null) {
-			iFastReports = new ArrayList<>();
-		}
-		IFastReports rpo = new IFastReports();
-		rpo.setURL(url);
-		this.iFastReports.add(rpo);
-	}
-
+	
 	public void setQualitia(ArrayList<QualitiaReports> qualitia) {
 		this.qualitia = qualitia;
 	}

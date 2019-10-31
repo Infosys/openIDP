@@ -23,6 +23,8 @@ public final class SSLUtilities {
 	private static HostnameVerifier _hostnameVerifier;
 	private static TrustManager[] _trustManagers;
 
+	private SSLUtilities(){}
+
 	private static void trustAllHostnamess() {
 		// Create a trust manager that does not validate certificate chains
 		if (__hostnameVerifier == null) {

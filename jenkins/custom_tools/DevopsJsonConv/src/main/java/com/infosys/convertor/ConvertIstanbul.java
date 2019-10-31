@@ -50,18 +50,38 @@ public class ConvertIstanbul {
 				List<Coverage.Packages.Package.Classes.Class> c = p.getClasses().getClazz();
 				jsonClass.setCoverageDetails();
 				for (Coverage.Packages.Package.Classes.Class class1 : c) {
-					//
-					CoverageDetails cd1 = createCoverageDetails();
+					
+					CoverageDetails coverageDetails = createCoverageDetails();
 					// cd1.setBranchCoverage(String.valueOf(class1.getBranchRate()*100));
-					cd1.setCategory("istanbul");
-					cd1.setClassName(class1.getName());
-					cd1.setLineCoverage(String.valueOf(class1.getLineRate() * 100));
-					//
-					cd1.setPckage(p.getName());
-					jsonClass.addCoverageDetails(cd1);
+					coverageDetails.setCategory("Istanbul");
+					coverageDetails.setClassName(class1.getName());
+					coverageDetails.setLineCoverage(String.valueOf(class1.getLineRate() * 100));
+					
+					coverageDetails.setPckage(p.getName());
+					String missedLineNumbers="";
+					if(class1.getLines() != null && class1.getLines().getLine()!=null)
+					{
+						StringBuilder stringBuilder = new StringBuilder();
+						Coverage.Packages.Package.Classes.Class.Lines lines=class1.getLines();
+						List<Coverage.Packages.Package.Classes.Class.Lines.Line> lineList=lines.getLine();
+						for(Coverage.Packages.Package.Classes.Class.Lines.Line line : lineList)
+						{
+							if(line.getHits().toString().equals("0")) {
+								stringBuilder.append(line.getNumber());
+								stringBuilder.append(", ");
+							}
+						}
+						missedLineNumbers=stringBuilder.toString();
+						if(missedLineNumbers.contains(","))missedLineNumbers=missedLineNumbers.substring(0, missedLineNumbers.lastIndexOf(","));
+					}
+					if("".equals(missedLineNumbers)) {
+						missedLineNumbers="N/A";
+					}
+					coverageDetails.setMissedLineNumbers(missedLineNumbers);
+					jsonClass.addCoverageDetails(coverageDetails);
 				}
 			}
-			System.out.println("istanbul coverage converted ");
+			System.out.println("Istanbul coverage converted ");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

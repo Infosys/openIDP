@@ -18,6 +18,13 @@ import com.infosys.json.JsonClass;
 import com.infosys.json.TestCaseResult;
 
 public class ConvertOATS {
+	
+	
+	
+	private ConvertOATS() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void convert(String path, JsonClass json) {
 		try {
 			EditDocType.edit(path);
@@ -37,6 +44,7 @@ public class ConvertOATS {
 			tcr.setId(c.getIterationNum().toString());
 			tcr.setMessage(c.getName());
 			tcr.setStatus(c.getResult());
+			tcr.setTestToolName("OATS");
 			tr.add(tcr);
 			json.setTestCaseResult(tr);
 		} catch (Exception e) {

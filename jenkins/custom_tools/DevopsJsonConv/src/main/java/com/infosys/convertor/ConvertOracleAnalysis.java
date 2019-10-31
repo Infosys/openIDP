@@ -26,9 +26,9 @@ public class ConvertOracleAnalysis {
 	};
 
 	public static JsonClass convert(String inputPath, JsonClass jsonClass) {
-		try {
+		try(FileInputStream file = new FileInputStream(new File(inputPath))) {
 			List<CodeAnalysis> ca = new ArrayList<>();
-			FileInputStream file = new FileInputStream(new File(inputPath));
+			
 			HSSFWorkbook workbook = new HSSFWorkbook(file);
 			HSSFSheet sheet = workbook.getSheet("Report");
 			Iterator<Row> rowIterator = sheet.iterator();

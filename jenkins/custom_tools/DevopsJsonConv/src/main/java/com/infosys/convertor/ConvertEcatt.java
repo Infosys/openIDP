@@ -43,6 +43,7 @@ public class ConvertEcatt {
 					t.setCategory("functional_Ecatt");
 					t.setMessage("Testcase passed");
 					t.setStatus("SUCCESS");
+					t.setTestToolName("ECATT");
 					tc.add(t);
 				}
 				for (int i = 0; i < array[1]; i++) {
@@ -50,6 +51,7 @@ public class ConvertEcatt {
 					t.setCategory("functional_Ecatt");
 					t.setMessage("Testcase failed");
 					t.setStatus("FAILURE");
+					t.setTestToolName("ECATT");
 					tc.add(t);
 				}
 			}

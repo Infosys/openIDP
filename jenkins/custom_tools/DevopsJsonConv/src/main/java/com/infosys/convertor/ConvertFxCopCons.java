@@ -21,6 +21,14 @@ public class ConvertFxCopCons {
 	private static Integer high = 0;
 	private static Integer medium = 0;
 	private static Integer low = 0;
+	
+	
+
+	private ConvertFxCopCons() {
+		
+	}
+
+
 
 	public static FxCopReportJson convert(String inputPath) {
 		try {

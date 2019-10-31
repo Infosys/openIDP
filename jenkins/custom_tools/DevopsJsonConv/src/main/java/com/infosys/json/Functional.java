@@ -46,7 +46,15 @@ public class Functional {
 	@SerializedName("parasoftSOATest")
 	@Expose
 	private ParasoftSOATest parasoftSOATest;
+	@SerializedName("sahiReport")
+	@Expose
+	private SahiReport sahiReport;
+	@SerializedName("hpUft")
+	@Expose
+	private HpUft hpUft;
 
+
+	
 
 	public PythonUT getPython() {
 		return python;
@@ -133,5 +141,21 @@ public class Functional {
 
 	public void setParasoftSOATest(ParasoftSOATest parasoftSOATest) {
 		this.parasoftSOATest = parasoftSOATest;
+	}
+	
+	public SahiReport getSahiReport() {
+		return sahiReport;
+	}
+
+	public void setSahiReport(SahiReport sahiReport) {
+		this.sahiReport = sahiReport;
+	}
+
+	public HpUft getHpUft() {
+		return hpUft;
+	}
+
+	public void setHpUft(HpUft hpUft) {
+		this.hpUft = hpUft;
 	}
 }

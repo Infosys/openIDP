@@ -231,7 +231,7 @@
 
                                         <div class="col-md-9 text-left">
                                             <select id="caddarm" [ngModelOptions]="{standalone: true}" [(ngModel)]="grantAccess.artifactToStage.artifactRepoName"
-                                                class="form-control" style="width: 50%" [disabled]="FlagEdit" required>
+                                                class="form-control" style="width: 50%" [disabled]="FlagEdit" (change)="clearOrSetArtifactoryDetails()" required>
                                                 <option value="">--Select--</option>
                                                 <option value="nexus">Nexus</option>
                                                 <option value="docker">Docker Registry </option>
@@ -544,11 +544,12 @@
                                     </div>
                                     <div class="row form-group">
                                         <label class="col-md-3 col-form-label">Docker {{'Password'|translate}}
+                                                <span class="star">*</span>
                                         </label>
                                         <div class="col-md-8 field-tip textFieldContainer text-left">
                                             <input class="form-control  " [(ngModel)]="grantAccess.artifactToStage.artifactRepo.passwordDR" encrypt id="dydspwdtfdr{{envIndex}}{{stepIndex}}"
                                                 name="passWordDockerdr{{envIndex}}{{stepIndex}}" type="password" placeholder="password"
-                                                maxlength="150">
+                                                maxlength="150" required>
                                             <span class="tip-content">{{'Password for '|translate}} Docker URL</span>
                                         </div>
                                     </div>

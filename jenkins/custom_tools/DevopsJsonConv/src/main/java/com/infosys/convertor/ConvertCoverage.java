@@ -57,7 +57,10 @@ public class ConvertCoverage {
 		List<Coverage.Packages.Package.Classes.Class> cls1 = p2.getClasses().getClazz();
 		for (Coverage.Packages.Package.Classes.Class cls2 : cls1) {
 			CodeMetric c1 = getCodeMetricObject();
-			c1.setcyclomaticComplexity(roundOff(cls2.getComplexity()) + "(11)");
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(roundOff(cls2.getComplexity()));
+			stringBuilder.append("(11)");
+			c1.setcyclomaticComplexity(stringBuilder.toString());
 			c1.setID(cls2.getName().replace(".", "_"));
 			c1.setcoverageMetric(roundOffFloat(cls2.getLineRate()));
 			int flag = checkId(listCov, c1);

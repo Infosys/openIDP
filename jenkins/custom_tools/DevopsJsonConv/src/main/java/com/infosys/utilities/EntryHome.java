@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-* Copyright 2018 Infosys Ltd.
+f* Copyright 2018 Infosys Ltd.
 * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
 * https://opensource.org/licenses/MIT.
 *
@@ -36,25 +36,29 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.util.Base64;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.infosys.codeanalysisrecommendation.RecommendationByCSV;
 import com.infosys.convertor.ConvertBuildInfo;
 import com.infosys.convertor.ConvertBuildLog;
+import com.infosys.convertor.ConvertChamDashBoard;
 import com.infosys.convertor.ConvertCheckstyle;
 import com.infosys.convertor.ConvertCobertura;
 import com.infosys.convertor.ConvertDSPriv;
 import com.infosys.convertor.ConvertEcatt;
 import com.infosys.convertor.ConvertFileNet;
 import com.infosys.convertor.ConvertFindbugs;
+import com.infosys.convertor.ConvertFortify;
 import com.infosys.convertor.ConvertFxCop;
 import com.infosys.convertor.ConvertFxCopCons;
+import com.infosys.convertor.ConvertHpuft;
+import com.infosys.convertor.ConvertICQAReport;
 //import com.infosys.convertor.ConvertICQAReport;
 import com.infosys.convertor.ConvertIFast;
 import com.infosys.convertor.ConvertIstanbul;
@@ -63,6 +67,7 @@ import com.infosys.convertor.ConvertJShintCS;
 import com.infosys.convertor.ConvertJUnit;
 import com.infosys.convertor.ConvertJacoco;
 import com.infosys.convertor.ConvertLintReport;
+import com.infosys.convertor.ConvertMVNDependencies;
 import com.infosys.convertor.ConvertNUnit;
 import com.infosys.convertor.ConvertOATS;
 import com.infosys.convertor.ConvertOracleAnalysis;
@@ -73,21 +78,29 @@ import com.infosys.convertor.ConvertProtractor;
 import com.infosys.convertor.ConvertPythonUT;
 import com.infosys.convertor.ConvertSAPUnit;
 import com.infosys.convertor.ConvertSCMInfo;
+import com.infosys.convertor.ConvertSahiReport;
 import com.infosys.convertor.ConvertSci;
 import com.infosys.convertor.ConvertSoapUIReport;
 import com.infosys.convertor.ConvertSonarqube;
 import com.infosys.convertor.ConvertTRXNunit;
 import com.infosys.convertor.ConvertTSLintReport;
+import com.infosys.convertor.ConvertTosca;
+import com.infosys.convertor.ConverterKarmaJasmine;
+import com.infosys.json.ChamDashBoard;
 import com.infosys.json.CodeAnalysis;
 import com.infosys.json.CodeQuality;
 import com.infosys.json.Codecoverage;
 import com.infosys.json.CoverageDSPrivJson;
 import com.infosys.json.CoverageDetails;
+import com.infosys.json.CsvUpload;
 import com.infosys.json.FileNet;
 import com.infosys.json.FindBugs;
 import com.infosys.json.Functional;
+import com.infosys.json.HpUft;
+import com.infosys.json.IFastReport;
 import com.infosys.json.JUnit;
 import com.infosys.json.JiraDeployObjects;
+import com.infosys.json.JmeterViewResults;
 import com.infosys.json.JsonClass;
 import com.infosys.json.Lint;
 import com.infosys.json.PackageContent;
@@ -98,6 +111,8 @@ import com.infosys.json.Protractor;
 import com.infosys.json.PythonUT;
 import com.infosys.json.Reports;
 import com.infosys.json.RuleSet;
+import com.infosys.json.SahiReport;
+import com.infosys.json.ServiceTest;
 import com.infosys.json.Siebel;
 import com.infosys.json.SoapUIReport;
 import com.infosys.json.Sonar;
@@ -111,21 +126,24 @@ import com.infosys.utilities.csvparser.CSVWriterUtility;
 import com.opencsv.CSVReader;
 
 public class EntryHome {
-	@Autowired
+	
 	private static final String JSON = ".json";
 	private static final Logger logger = Logger.getLogger(EntryHome.class);
 	private static CodeQuality codeQuality = new CodeQuality();
-	public static final String CONTENTTYPE="Content-Type";
-	public static final String APPLICATIONJSON="application/json";
+	public static final String CONTENTTYPE = "Content-Type";
+	public static final String APPLICATIONJSON = "application/json";
+
 	private EntryHome() {
 	}
 
-	
-
 	public static void main(String[] args) {
+	
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
 		logger.info("DevOps Json util Version Frozen");
+		for (int i = 0; i < args.length; i++) {
+			System.out.println(i + " " + args[i]);
+		}
 		try {
 			int flag = 1;
 			if (flag == 1) {
@@ -151,6 +169,12 @@ public class EntryHome {
 			}
 			file.delete();
 		}
+		try {
+			FileUtils.cleanDirectory(file);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 	private static File getFileObject(String path, String s) {
@@ -169,18 +193,21 @@ public class EntryHome {
 			json.setGroupName(args[7]);
 		if (args.length > 8)
 			json.setbuildId(args[8]);
-		
-		String technologyName="";	
-		if (args.length > 18 && !args[18].equals("NA"))technologyName=args[18];
-		String serviceUrl="";
-		if (args.length > 14 && !args[14].equals("NA"))serviceUrl=args[14]+":8889";
-		String artifactName="";
-		if (args.length > 17 && !args[17].equals("NA"))artifactName=args[17];
-		
+
+		String technologyName = "";
+		if (args.length > 18 && !args[18].equals("NA"))
+			technologyName = args[18];
+		String serviceUrl = "";
+		if (args.length > 14 && !args[14].equals("NA"))
+			serviceUrl = args[14] + ":8889";
+		String artifactName = "";
+		if (args.length > 17 && !args[17].equals("NA"))
+			artifactName = args[17];
+
 		// For VSTS
 		// Passing vsts flag and setting flag value accordingly
 		boolean isVSTS = false;
-		if (args.length > 20 && args[20] != null && !args[20].equals("NA") && args[20].equalsIgnoreCase("story")) {
+		if (args.length > 21 && args[21] != null && !args[21].equals("NA") && args[21].equalsIgnoreCase("story")) {
 			isVSTS = true;
 		}
 		logger.info("VSTS flag is set to " + isVSTS);
@@ -189,13 +216,12 @@ public class EntryHome {
 		if (index != -1) {
 			list2.add(listOfFiles[index]);
 		}
-		
-		
+
 		List<CoverageDetails> coverageDetails = null;
 		FileNet fileNetJsonObj = null;
 		boolean isFileNet = false;
-		boolean isDeploy=false;
-		
+		boolean isDeploy = true;
+
 		logger.info(isFileNet);
 		logger.info("FileNet flag is set to " + isFileNet);
 		if (args.length > 20 && args[20] != null && !args[20].equals("NA") && args[20].equalsIgnoreCase("filenet")) {
@@ -249,20 +275,19 @@ public class EntryHome {
 				logger.info("complete json");
 				logger.info(json.toString());
 				ObjectMapper objMapper = new ObjectMapper();
-				DataOutputStream writer = new DataOutputStream(httpConnection.getOutputStream());
-				logger.info("Dataoutput stream object createddd");
-				logger.info("POST RequestURL: " + requestUrl + ", JSON=" + json);
-				objMapper.writeValue(writer, json);
-				logger.info("Write value");
-				writer.flush();
-				writer.close();
-				httpConnection.getInputStream();
-				BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-				String line;
-				while ((line = br.readLine()) != null) {
-					logger.info(line);
+				try (OutputStream writer = new DataOutputStream(httpConnection.getOutputStream())) {
+					logger.info("Dataoutput stream object createddd");
+					logger.info("POST RequestURL: " + requestUrl + ", JSON=" + json);
+					objMapper.writeValue(writer, json);
+					logger.info("Write value");
+					writer.flush();
 				}
-				br.close();
+				try (BufferedReader br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()))) {
+					String line;
+					while ((line = br.readLine()) != null) {
+						logger.info(line);
+					}
+				}
 				httpConnection.disconnect();
 			} catch (Exception e) {
 				logger.error(e.getMessage());
@@ -270,52 +295,51 @@ public class EntryHome {
 			}
 		}
 		processVSTS(args, isVSTS);
-		processSAPTRDeploy(args,isDeploy);
-		
-		PackageContent packageContent=new PackageContent();
-		Siebel siebel=new Siebel();
-		boolean isSiebel=false;
-		
+		processSAPTRDeploy(args, isDeploy);
+
+		PackageContent packageContent = new PackageContent();
+		Siebel siebel = new Siebel();
+		boolean isSiebel = false;
+
 		for (int i = 0; i < list2.size(); i++) {
 			if (list2.get(i).isFile() && list2.get(i).getName().toLowerCase().contains(args[1].toLowerCase())) {
 				json = computeIDPJson(list2.get(i), json, args, coverageDetails);
+				
 			}
 		}
-		
-		//Update Package Contents
-		if(args.length>19 && args[19].toLowerCase().contains("build") && json.getBuildDetails().get(0).getBuiltStatus().toLowerCase().contains("fail")){
+
+		// Update Package Contents
+		if (args.length > 19 && args[19].toLowerCase().contains("build")
+				&& json.getBuildDetails().get(0).getBuiltStatus().toLowerCase().contains("fail")) {
+			PackageContent packageContent1 = new PackageContent();
 			packageContent.setArtifactName(artifactName);
 			Gson gson = new Gson();
-			String packageInString=gson.toJson(packageContent);
-			
-			sendPackageContent(packageInString,serviceUrl);
+			String packageInString = gson.toJson(packageContent);
+
+			sendPackageContent(packageInString, serviceUrl);
 			logger.info("Updating package content to null as build failed");
-		}
-		else if(args.length>19 && args[19].toLowerCase().contains("build") && technologyName.toLowerCase().contains("siebel"))
-		{
+		} else if (args.length > 19 && args[19].toLowerCase().contains("build")
+				&& technologyName.toLowerCase().contains("siebel")) {
 			packageContent.setArtifactName(artifactName);
 			packageContent.setSiebel(siebel);
 			Gson gson = new Gson();
-			String packageInString=gson.toJson(packageContent);
-			
-			sendPackageContent(packageInString,serviceUrl);
+			String packageInString = gson.toJson(packageContent);
+
+			sendPackageContent(packageInString, serviceUrl);
 			logger.info("Siebel package content parsed");
-		}
-		else if(technologyName.toLowerCase().contains("pega") && args.length>19 && args[19].toLowerCase().contains("build"))
-		{
-			String path=args[0].replaceAll("\\\\", "/");
-			path=path.replace("IDP_DevopsJSON_Integration/Jenkins_Reports","Deploy");
-			File pegaFile=new File(path);
+		} else if (technologyName.toLowerCase().contains("pega") && args.length > 19
+				&& args[19].toLowerCase().contains("build")) {
+			String path = args[0].replaceAll("\\\\", "/");
+			path = path.replace("IDP_DevopsJSON_Integration/Jenkins_Reports", "Deploy");
+			File pegaFile = new File(path);
 			File[] listOfPegaFiles = pegaFile.listFiles();
-			
-			Pega pega=new Pega();
-			List<String> pegaFileList=new ArrayList<>();
-			for(int i=0;i<listOfPegaFiles.length;i++)
-			{
-				if(listOfPegaFiles[i].getPath().endsWith("zip") || listOfPegaFiles[i].getPath().endsWith("jar"))
-				{
-					
-					//System.out.println(listOfPegaFiles[i].getName());
+
+			Pega pega = new Pega();
+			List<String> pegaFileList = new ArrayList<>();
+			for (int i = 0; i < listOfPegaFiles.length; i++) {
+				if (listOfPegaFiles[i].getPath().endsWith("zip") || listOfPegaFiles[i].getPath().endsWith("jar")) {
+
+					// System.out.println(listOfPegaFiles[i].getName());
 					pegaFileList.add(listOfPegaFiles[i].getName());
 				}
 			}
@@ -323,36 +347,38 @@ public class EntryHome {
 			packageContent.setArtifactName(artifactName);
 			packageContent.setPega(pega);
 			Gson gson = new Gson();
-			String packageInString=gson.toJson(packageContent);
-			
-			sendPackageContent(packageInString,serviceUrl);
+			String packageInString = gson.toJson(packageContent);
+
+			sendPackageContent(packageInString, serviceUrl);
 			logger.info("Pega package content parsed");
 		}
-		
-		
+
 		logger.info(json.getCodecoverage());
 		String idPrefixFlag = args[4];
 		String appName = args[1];
 		String prefixForId = preparePrefixForId(idPrefixFlag, appName);
-		
+
 		if (!"NA".equals(args[2]) && !"NA".equals(args[3])) {
 			try {
 				SonarDetails sonarDetailsobj = new SonarDetails();
-				sonarDetailsobj.setRateperhour(ConvertSonarqube.readSonarrateperhour());
-				if (!args[3].endsWith("/")) {
-					args[3] = args[3].concat("/");
-				}
-				List<CodeAnalysis> ca = new ArrayList<>();
-				ConvertSonarqube.convert(args[0], ca, args[2], args[3], prefixForId, sonarDetailsobj);
-				List<Integer> severity = ConvertSonarqube.getSeverityDetails();
-				logger.info("try");
-				json.setCodeAnalysis(ca);
 				String[] sonarDetailsArray = args[2].split("#");
 				sonarDetailsobj.setSonarPrjctKey(sonarDetailsArray[0]);
 				sonarDetailsobj.setSonarUserName(sonarDetailsArray[1]);
 				sonarDetailsobj.setSonarPassword(sonarDetailsArray[2]);
-				sonarDetailsobj.setSonarServer("http://" + args[3]);
+				sonarDetailsobj.setSonarServer(args[3]);
 				json.setSonarDetails(sonarDetailsobj);
+				sonarDetailsobj.setRateperhour(ConvertSonarqube.readSonarrateperhour());
+				if (!args[3].endsWith("/")) {
+					args[3] = args[3].concat("/");
+				}
+				List<CodeAnalysis> ca = json.getCodeAnalysis();
+				if (ca == null)
+					ca = new ArrayList<>();
+				ConvertSonarqube.convert(args[0], ca, sonarDetailsobj.getSonarPrjctKey(), args[3], prefixForId, sonarDetailsobj);
+				List<Integer> severity = ConvertSonarqube.getSeverityDetails();
+				logger.info("try");
+				json.setCodeAnalysis(ca);
+				
 				Sonar sonar = new Sonar();
 				sonar.setCritical(severity.get(0));
 				sonar.setBlocker(severity.get(1));
@@ -380,158 +406,169 @@ public class EntryHome {
 		Gson gson1 = new Gson();
 		try (PrintWriter out = new PrintWriter(outputPath)) {
 			out.println(gson1.toJson(json));
+			logger.info("Writing content in json file in path: ");
+			logger.info(outputPath);
+			logger.info("This json file will be used in metricProcessor custom tool");
+			
+			JsonClass tempJsonForDebug = new JsonClass();
+			//object cloning using google json
+			tempJsonForDebug = gson.fromJson(gson.toJson(json), JsonClass.class);
+			tempJsonForDebug.setLog("");
+			
 		}
 		try (PrintWriter out = new PrintWriter(output)) {
 			out.println(gson.toJson(json));
+			logger.info("Writing content in json file in path: ");
+			logger.info(output);
+			logger.info("This json file will be used in metricProcessor custom tool");
+			
+			JsonClass tempJsonForDebug = new JsonClass();
+			tempJsonForDebug = json;
+			tempJsonForDebug.setLog("");
+			
 		}
 	}
-	
-	private static void sendPackageContent(String packageContent,String serviceUrl)
-	{
-		try{
-			String requestUrl="https://"+serviceUrl+"/idprest/releaseService/release/insert/package%26dummy";
-	        System.out.println("service url for package content "+requestUrl);
-	        
-	        URL url = new URL(requestUrl);
-	       
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setRequestMethod("POST");
- //           System.out.println("asd");
-//            String userCredentials = "admin"+":"+"admin";
-//            String basicAuth = "Basic " + new String(new Base64().encode(userCredentials.getBytes()));
-//            basicAuth= basicAuth.replaceAll("\n","");
-//            basicAuth=basicAuth.replaceAll("\r","");
-//            conn.setRequestProperty ("Authorization", basicAuth);
-            
-            OutputStream os = conn.getOutputStream();
-            os.write(packageContent.getBytes("UTF-8"));
-            os.close();
-            
-            conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuffer jsonString = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                    jsonString.append(line);
-            }
-            br.close();
-            
 
-            
-            conn.disconnect();
-            
-            //System.out.println("done");
-		}
-		catch(Exception e)
-		{
-			logger.error("Exception while sending packageContent",e);
+	private static String toPrettyFormat(JsonClass json2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static void sendPackageContent(String packageContent, String serviceUrl) {
+		try {
+			String requestUrl = "https://" + serviceUrl + "/idprest/releaseService/release/insert/package%26dummy";
+			System.out.println("service url for package content " + requestUrl);
+
+			URL url = new URL(requestUrl);
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5000);
+			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.setRequestMethod("POST");
+			// System.out.println("asd");
+			// String userCredentials = "admin"+":"+"admin";
+			// String basicAuth = "Basic " + new String(new
+			// Base64().encode(userCredentials.getBytes()));
+			// basicAuth= basicAuth.replaceAll("\n","");
+			// basicAuth=basicAuth.replaceAll("\r","");
+			// conn.setRequestProperty ("Authorization", basicAuth);
+			try (OutputStream os = conn.getOutputStream()) {
+				os.write(packageContent.getBytes("UTF-8"));
+			}
+
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+				StringBuffer jsonString = new StringBuffer();
+				String line;
+				while ((line = br.readLine()) != null) {
+					jsonString.append(line);
+				}
+			}
+
+			conn.disconnect();
+
+			// System.out.println("done");
+		} catch (Exception e) {
+			logger.error("Exception while sending packageContent", e);
 		}
 	}
-	
-	private static void processSAPTRDeploy(String[] args, boolean bIsDeploy)
-	{
-		String buildTriggerID="";
-		String dbUser="";
-		String dbPort="";
-		String dbPassword="";
-		String technologyName=args[18];	
-		String stage=args[19];
-		boolean isDeploy=bIsDeploy;
-		if(stage.equalsIgnoreCase("deploy") && technologyName.equalsIgnoreCase("sapnoncharm")){
-			isDeploy=true;
-			if(args.length>20 )buildTriggerID=args[20];
-			dbUser="postgres";
-			if(args.length>21 )dbPort=args[21];
-			if(args.length>22 )dbPassword=args[22];
-		}
-		if(isDeploy && !"".equals(buildTriggerID) && !"".equals(dbPort) && !"".equals(dbPassword))
-		{
 
-			///////postgres connection
-	
-			String url = "jdbc:postgresql://"+args[14]+":"+dbPort+"/IDP";
-		    String user = dbUser;
-		    String password = dbPassword;
-		    
-		    String query="Select trigger_entity from ttrigger_history where trigger_id='"+buildTriggerID+"'";
-			try(
-					Connection connectionNew =DriverManager.getConnection(url, user, password);
-					PreparedStatement preparedStatement = connectionNew.prepareStatement(query,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-					ResultSet rs = preparedStatement.executeQuery();
-					)
-			{
-				
+	private static void processSAPTRDeploy(String[] args, boolean bIsDeploy) {
+		String buildTriggerID = "";
+		String dbUser = "";
+		String dbPort = "";
+		String dbPassword = "";
+		String technologyName = args[18];
+		String stage = args[19];
+		boolean isDeploy = bIsDeploy;
+		if (stage.equalsIgnoreCase("deploy") && technologyName.equalsIgnoreCase("sapnoncharm")) {
+			isDeploy = true;
+			if (args.length > 20)
+				buildTriggerID = args[20];
+			dbUser = "postgres";
+			if (args.length > 21)
+				dbPort = args[21];
+			if (args.length > 22)
+				dbPassword = args[22];
+		}
+		if (isDeploy && !"".equals(buildTriggerID) && !"".equals(dbPort) && !"".equals(dbPassword)) {
+
+			/////// postgres connection
+
+			String url = "jdbc:postgresql://" + args[14] + ":" + dbPort + "/IDP";
+			String user = dbUser;
+			String password = dbPassword;
+
+			String query = "Select trigger_entity from ttrigger_history where trigger_id='" + buildTriggerID + "'";
+			try (Connection connectionNew = DriverManager.getConnection(url, user, password);
+					PreparedStatement preparedStatement = connectionNew.prepareStatement(query,
+							ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+					ResultSet rs = preparedStatement.executeQuery();) {
+
 				ResultSetMetaData metars = rs.getMetaData();
 				if (metars.getColumnCount() != 0) {
-					while(rs.next())
-					{
-						String jsonString=rs.getString(1);
-						JSONObject applicationInfoJson=new JSONObject(jsonString);
-						
-						String appName=args[1];
-						String pipelineName=args[5];
+					while (rs.next()) {
+						String jsonString = rs.getString(1);
+						JSONObject applicationInfoJson = new JSONObject(jsonString);
+
+						String appName = args[1];
+						String pipelineName = args[5];
 						String landscapeName;
 						String userStory;
 						String releaseNo;
-						
-						landscapeName=applicationInfoJson.getString("lanscapeName");
-						userStory=applicationInfoJson.getString("userStories");
-						releaseNo=applicationInfoJson.getString("releaseNumber");
-						List<String> userStoryNameList=new ArrayList();
-						JSONArray userStoryMapping= applicationInfoJson.getJSONArray("userStoryMapping");
-						for(int i=0;i<userStoryMapping.length();i++)
-						{
-							String userStoryName=userStoryMapping.getJSONObject(i).getString("userstory");
+
+						landscapeName = applicationInfoJson.getString("lanscapeName");
+						userStory = applicationInfoJson.getString("userStories");
+						releaseNo = applicationInfoJson.getString("releaseNumber");
+						List<String> userStoryNameList = new ArrayList();
+						JSONArray userStoryMapping = applicationInfoJson.getJSONArray("userStoryMapping");
+						for (int i = 0; i < userStoryMapping.length(); i++) {
+							String userStoryName = userStoryMapping.getJSONObject(i).getString("userstory");
 							userStoryNameList.add(userStoryName);
 						}
-						
-						//kafka connection
-						JiraDeployObjects jiraDeployObjects=new JiraDeployObjects();
+
+						// kafka connection
+						JiraDeployObjects jiraDeployObjects = new JiraDeployObjects();
 						jiraDeployObjects.setApplicationName(appName);
 						jiraDeployObjects.setLandscapeName(landscapeName);
 						jiraDeployObjects.setPipelineName(pipelineName);
 						jiraDeployObjects.setReleaseName(releaseNo);
 						jiraDeployObjects.setUserStoryName(userStory);
-						//Modify to include Userstory list
+						// Modify to include Userstory list
 						jiraDeployObjects.setUserStoryNameList(userStoryNameList);
 						Gson gson = new Gson();
 						String str = gson.toJson(jiraDeployObjects);
-						
-						///hitting rest api
-						try{
-							String rebaseReqUrlString=args[11]+"/SAP/JiraDetailUpdateForImport";
+
+						/// hitting rest api
+						try {
+							String rebaseReqUrlString = "http://" + args[14]
+									+ ":8889/idprest/releaseService/SAP/JiraDetailUpdateForImport";
 							URL rebaseUrl = new URL(rebaseReqUrlString);
 							HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
 							rebaseConn.setRequestMethod("POST");
 							rebaseConn.setDoOutput(true);
 							rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
-							 OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream());
-							 writer.write(str);
-						     writer.close();
-
-						    logger.info("connected rest service");
+							try (OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream())) {
+								writer.write(str);
+							}
+							logger.info("connected rest service");
 							logger.info(rebaseConn.getResponseCode());
-							
-						}catch(Exception e){
-							logger.error("Error in sending rebase data for insertion: "+e);
-				
+
+						} catch (Exception e) {
+							logger.error("Error in sending rebase data for insertion: " + e);
+
 						}
-						
+
 					}
 				}
-			}
-			catch(Exception e)
-			{
-				logger.error("Errors while populating applicationInfo",e);
+			} catch (Exception e) {
+				logger.error("Errors while populating applicationInfo", e);
 			}
 
 		}
 	}
-	
+
 	private static void processVSTS(String[] args, boolean isVSTS) {
 		// If VSTS is selected
 		if (isVSTS) {
@@ -540,8 +577,8 @@ public class EntryHome {
 				String restUrl = args[11];
 				String authUname = args[12];
 				String password = args[13];
-				String triggerID = args[21];
-				logger.info("printintg args 21 " + args[21]);
+				String triggerID = args[20];
+				logger.info("printintg args 20 " + args[20]);
 				String buildNum = args[8];
 				String requestUrl = restUrl + triggerID + "/" + buildNum;
 				URL url = new URL(requestUrl);
@@ -556,12 +593,12 @@ public class EntryHome {
 				connection.setRequestMethod("POST");
 				connection.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
 				connection.getInputStream();
-				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line;
-				while ((line = br.readLine()) != null) {
-					logger.info(line);
+				try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+					String line;
+					while ((line = br.readLine()) != null) {
+						logger.info(line);
+					}
 				}
-				br.close();
 				connection.disconnect();
 			} catch (Exception e) {
 				logger.error(e.getMessage());
@@ -582,7 +619,6 @@ public class EntryHome {
 			fileNamesToSearch.add("PMD_Report.html");// PMD-done
 			fileNamesToSearch.add("findbugs-default.html");// Findbugs-done
 			fileNamesToSearch.add("SummaryReport.html");// Qualitia
-			fileNamesToSearch.add("Fastest.txt");// iFastReports
 			fileNamesToSearch.add("report.html");// Checkmarx
 			fileNamesToSearch.add("detailed-report.html");// Accelera
 			fileNamesToSearch.add("coverage.xml");// Cobertura-done
@@ -684,12 +720,7 @@ public class EntryHome {
 						logger.info("Qualitia report url added");
 						r.addQualitiaReports(json.getBaseURL() + "/" + finalURL);
 					}
-				} else if (finalURL.contains("Fastest.txt")) {
-					if (validateUrl(json.getBaseURL() + "/" + finalURL)) {
-						logger.info("iFast report url added");
-						r.addiFastReports(json.getBaseURL() + "/" + finalURL);
-					}
-				} else if (finalURL.contains("Checkmarx") && finalURL.contains("report.html")) {
+				}  else if (finalURL.contains("Checkmarx") && finalURL.contains("report.html")) {
 					if (validateUrl(json.getBaseURL() + "/" + finalURL)) {
 						logger.info("Check Marx report url added");
 						r.addCheckmarxReport(json.getBaseURL() + "/" + finalURL);
@@ -716,7 +747,7 @@ public class EntryHome {
 				}
 				if (r.getAccelerateReports() != null || r.getCheckmarxReports() != null || r.getCheckReports() != null
 						|| r.getCoberturareports() != null || r.getFindBugsReports() != null
-						|| r.getiFastReports() != null || r.getiTopsReps() != null || r.getjMeterReports() != null
+						|| r.getiTopsReps() != null || r.getjMeterReports() != null
 						|| r.getJunitReports() != null || r.getPMDReports() != null || r.getQualitia() != null
 						|| r.getRobotReports() != null || r.getSeleniumReports() != null) {
 					json.setReports(r);
@@ -793,9 +824,9 @@ public class EntryHome {
 		return folderPath;
 	}
 
-	private static JsonClass computeIDPJson(File reportfile, JsonClass jsonObj, String[] args,
-			 List<CoverageDetails> cd) throws IOException {
-		JsonClass json=jsonObj;
+	private static JsonClass computeIDPJson(File reportfile, JsonClass jsonObj, String[] args, List<CoverageDetails> cd)
+			throws IOException {
+		JsonClass json = jsonObj;
 		String idPrefixFlag = args[4];
 		String appName = args[1];
 		String pipName = args[5];
@@ -813,12 +844,12 @@ public class EntryHome {
 				|| reportfile.getName().toLowerCase().endsWith("trx")
 				|| reportfile.getName().toLowerCase().endsWith("csv")) {
 			logger.info("parsing => " + reportfile);
-//			if ((reportfile.getName().toLowerCase().contains("pqm_report_pmd-existing"))
-//					&& reportfile.getName().toLowerCase().endsWith(".txt")) {
-//				ConvertICQAReport.convert(reportfile.getCanonicalPath(), args[1], args[5], args[11]);
-//			}else
-				if (reportType.toLowerCase().contains("parasoftsoatest")
-					&& reportType.toLowerCase().endsWith("xml")) {
+			// if ((reportfile.getName().toLowerCase().contains("pqm_report_pmd-existing"))
+			// && reportfile.getName().toLowerCase().endsWith(".txt")) {
+			// ConvertICQAReport.convert(reportfile.getCanonicalPath(), args[1], args[5],
+			// args[11]);
+			// }else
+			if (reportType.toLowerCase().contains("parasoftsoatest") && reportType.toLowerCase().endsWith("xml")) {
 				List<TestCaseResult> listTR = json.getTestCaseResult();
 				if (listTR == null)
 					listTR = new ArrayList<>();
@@ -835,7 +866,64 @@ public class EntryHome {
 					json.setTestCaseResult(listTR);
 				}
 				logger.info("ParasoftSOATest report parsed");
-			} else if (reportfile.getName().toLowerCase().contains("codeanalysisreports")
+			}
+
+			else if ((reportfile.getName().toLowerCase().contains("pqm_report_pmd-existing"))
+					&& reportfile.getName().toLowerCase().endsWith(".txt")
+					|| (reportfile.getName().toLowerCase().contains("pqm_report_pmd"))
+							&& reportfile.getName().toLowerCase().endsWith(".txt")) {
+
+				ConvertICQAReport.convert(reportfile.getCanonicalPath(), args[1], args[5], args[11]);
+
+			}
+
+			else if (reportType.toLowerCase().contains("sapcrdetails") && reportType.toLowerCase().endsWith("csv")) {
+				List<ChamDashBoard> list = ConvertChamDashBoard.extractData(reportfile.getCanonicalPath(), args);
+				try {
+					String rebaseReqUrlString = args[11] + "/" + args[1] + "/" + args[20] + "/SAP/CSVImport";
+					URL rebaseUrl = new URL(rebaseReqUrlString);
+					Gson gson = new Gson();
+					String str = gson.toJson(list);
+					HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
+					rebaseConn.setRequestMethod("POST");
+					rebaseConn.setDoOutput(true);
+					rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+					try (OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream())) {
+						writer.write(str);
+					}
+
+					logger.info("connected rest service");
+					logger.info(rebaseConn.getResponseCode());
+
+				} catch (Exception e) {
+					logger.error("Error in sending rebase data for insertion: " + e);
+
+				}
+
+			}
+
+			else if (reportType.toLowerCase().contains("sahitestcasesummary")
+					&& reportType.toLowerCase().endsWith("xml")) {
+				List<TestCaseResult> listTR = json.getTestCaseResult();
+				if (listTR == null)
+					listTR = new ArrayList<>();
+				SahiReport sr = ConvertSahiReport.convert(reportfile.getCanonicalPath(), json, listTR);
+				if (json.getFunctionalTest() != null) {
+					Functional ft = json.getFunctionalTest();
+					ft.setSahiReport(sr);
+					json.setFunctionalTest(ft);
+					json.setTestCaseResult(listTR);
+				} else {
+					Functional ftNew = new Functional();
+					ftNew.setSahiReport(sr);
+					json.setFunctionalTest(ftNew);
+					json.setTestCaseResult(listTR);
+				}
+				logger.info("SahiReport report parsed");
+
+			}
+
+			else if (reportfile.getName().toLowerCase().contains("codeanalysisreports")
 					&& reportfile.getName().toLowerCase().endsWith("xls")) {
 				try {
 					ConvertOracleAnalysis.convert(reportfile.getCanonicalPath(), json);
@@ -852,7 +940,7 @@ public class EntryHome {
 			} else if (reportfile.getName().toLowerCase().contains("pythontest")
 					&& reportfile.getName().toLowerCase().endsWith("xml")) {
 				try {
-					List<TestCaseResult> tr ;
+					List<TestCaseResult> tr;
 					tr = ConvertPythonUT.convert(reportfile.getCanonicalPath(), json, prefixForId);
 					json.setTestCaseResult(tr);
 					Functional ft = json.getFunctionalTest();
@@ -870,7 +958,7 @@ public class EntryHome {
 			} else if (reportfile.getName().toLowerCase().contains("result")
 					&& reportfile.getName().toLowerCase().endsWith("txt")) {
 				try {
-					List<CodeAnalysis> ca ;
+					List<CodeAnalysis> ca;
 					ca = ConvertTSLintReport.convert(reportfile.getCanonicalPath());
 					TSLint tsLint = new TSLint();
 					ConvertTSLintReport.setTotalSeverities(ca);
@@ -907,7 +995,22 @@ public class EntryHome {
 					json.setTestCaseResult(listTR);
 				}
 				logger.info("SoapUI report parsed");
-			} else if (reportType.toLowerCase().contains("protractorxml") && reportType.toLowerCase().endsWith("xml")) {
+			}else if(reportfile.getName().startsWith(appName+"_"+pipName+"_iFastTestReport") && reportfile.getName().endsWith("txt")){
+				List<TestCaseResult> listTR = new ArrayList<>();
+				logger.info("Parsing iFastTestReport.txt");
+				IFastReport ifastTestReport = ConvertIFast.convert(reportfile.getCanonicalPath(), listTR);
+				if(json.getServiceTest()!=null) {
+					ServiceTest serviceTestReport = json.getServiceTest();
+					serviceTestReport.setIfastTestReport(ifastTestReport);
+					json.setServiceTest(serviceTestReport);
+					json.setTestCaseResult(listTR);
+				}else {
+					ServiceTest serviceTestReport = new ServiceTest();
+					serviceTestReport.setIfastTestReport(ifastTestReport);
+					json.setServiceTest(serviceTestReport);
+					json.setTestCaseResult(listTR);
+				}
+			}  else if (reportType.toLowerCase().contains("protractorxml") && reportType.toLowerCase().endsWith("xml")) {
 				List<TestCaseResult> tr = new ArrayList<>();
 				Protractor pt = ConvertProtractor.convert(reportfile.getCanonicalPath(), json, tr);
 				if (json.getFunctionalTest() != null) {
@@ -920,17 +1023,55 @@ public class EntryHome {
 					json.setFunctionalTest(ftNew);
 				}
 				logger.info("protractor report parsed");
-			} else if (reportfile.getName().toLowerCase().contains("jshint-checkstyle")) {
+			} 
+			
+			else if (reportfile.getName().toLowerCase().contains("jshint-checkstyle")) {
 				List<CodeAnalysis> ca = new ArrayList<>();
 				Map<String, String> ruleToValueCheckStyle = new HashMap<>();
 				ConvertJShintCS.convert(reportfile.getCanonicalPath(), ruleToValueCheckStyle, ca);
 				json.setCodeAnalysis(ca);
 				codeQuality.setCheckstyle(ConvertJShintCS.getCheckStyleCodeQuality(json));
 				json.setCodeQuality(codeQuality);
-			} else if (reportType.toLowerCase().contains("checkstyle")) {
+			}
+		
+			else if(reportfile.getName().contains("fortifyxmlreport") && reportType.toLowerCase().endsWith("xml")) {
+				List<CodeAnalysis> codeAnalysis = json.getCodeAnalysis();
+				if (codeAnalysis == null ) {
+					codeAnalysis = new ArrayList<>();
+				}
+				ConvertFortify.convert(reportfile.getCanonicalPath(), json,codeAnalysis);
+				json.setCodeAnalysis(codeAnalysis);
+				logger.info(new Gson().toJson(json,JsonClass.class));;
+			}
+			
+			
+			else if(reportfile.getName().contains("HpUft_test") && reportType.toLowerCase().endsWith("xml")) {
+			
+				List<TestCaseResult> listTR = json.getTestCaseResult();
+				if (listTR == null)
+					listTR = new ArrayList<>();
+				String jobName=args[1]+"_"+args[5];
+				HpUft hp = ConvertHpuft.convert(reportfile.getCanonicalPath(), json, listTR,jobName);
+				if (json.getFunctionalTest() != null) {
+					Functional ft = json.getFunctionalTest();
+					ft.setHpUft(hp);
+					json.setFunctionalTest(ft);
+					json.setTestCaseResult(listTR);
+				} else {
+					Functional ftNew = new Functional();
+					ftNew.setHpUft(hp);;
+					json.setFunctionalTest(ftNew);
+					json.setTestCaseResult(listTR);
+				}
+				logger.info("HpUft report parsed");
+				
+			}
+			
+			
+			else if (reportType.toLowerCase().contains("checkstyle")) {
 				Map<String, String> ruleToValueCheckStyle = RecommendationByCSV.createMap("csv/checkstyle.csv",
 						"Check");
-				List<CodeAnalysis> ca ;
+				List<CodeAnalysis> ca;
 				ca = ConvertCheckstyle.convert(reportfile.getCanonicalPath(), ruleToValueCheckStyle, prefixForId);
 				List<Integer> severity = ConvertCheckstyle.getcheckStyleSeverity();
 				Checkstyle checkstyle = new Checkstyle();
@@ -945,7 +1086,62 @@ public class EntryHome {
 				json.setCodeQuality(codeQuality);
 				json.setCodeAnalysis(ca);
 			} else if (reportfile.getName().toLowerCase().contains("buildlog")) {
-				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json,args);
+				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json, args);
+				if (args[19].toLowerCase().equals("deploy")) {
+					List<CsvUpload> value = ConvertBuildLog.convertCSV(reportfile.getCanonicalPath());
+					try {
+						String rebaseReqUrlString = args[11] + "/" + args[1] + "/" + args[5] + "/" + args[21] + "/"
+								+ args[8] + "/DHL/BuildUpdate";
+						System.out.println(rebaseReqUrlString);
+						URL rebaseUrl = new URL(rebaseReqUrlString);
+						Gson gson = new Gson();
+						// System.out.println(gson);
+						String str = gson.toJson(value);
+						System.out.println(str);
+						HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
+						rebaseConn.setRequestMethod("POST");
+						rebaseConn.setDoOutput(true);
+						rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+						OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream());
+						writer.write(str);
+						writer.close();
+
+						logger.info("connected rest service");
+						logger.info(rebaseConn.getResponseCode());
+					} catch (Exception e) {
+						logger.info(e.getMessage());
+						logger.error("Exception in converting file:" + reportfile.getName());
+					}
+				}
+
+				// List<CsvUpload> result
+				// =ConvertBuildLog.readFileBufferedReaderReadLine(reportfile.getCanonicalPath());
+				//
+				// try{
+				// String rebaseReqUrlString=args[11]+"/"+args[1]+"/"+args[20]+"/DHL/XMLDeploy";
+				// URL rebaseUrl = new URL(rebaseReqUrlString);
+				// Gson gson=new Gson();
+				// String str=gson.toJson(result);
+				// HttpURLConnection rebaseConn = (HttpURLConnection)
+				// rebaseUrl.openConnection();
+				// rebaseConn.setRequestMethod("POST");
+				// rebaseConn.setDoOutput(true);
+				// rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+				// OutputStreamWriter writer = new
+				// OutputStreamWriter(rebaseConn.getOutputStream());
+				// writer.write(str);
+				// writer.close();
+				//
+				// logger.info("connected rest service");
+				// logger.info(rebaseConn.getResponseCode());
+				// }
+				// catch (Exception e) {
+				// logger.error("Exception in converting file:" + reportfile.getName());
+				// }
+			}
+
+			else if (reportfile.getName().toLowerCase().contains("buildlog")) {
+				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json, args);
 			} else if (reportType.toLowerCase().contains("findbugs")) {
 				Map<String, String> ruleToValueCheckStyle = RecommendationByCSV.createMap("csv/findbugs.csv", "Check");
 				List<CodeAnalysis> ca;
@@ -964,7 +1160,7 @@ public class EntryHome {
 				json.setCodeAnalysis(ca);
 			} else if (reportType.toLowerCase().contains("pmd")) {
 				Map<String, String> ruleToValuePMD = RecommendationByCSV.createMap("csv/pmd.csv", "");
-				List<CodeAnalysis> ca ;
+				List<CodeAnalysis> ca;
 				ca = ConvertPmd.convert(reportfile.getCanonicalPath(), ruleToValuePMD, prefixForId);
 				List<Integer> severity = ConvertPmd.getPmdSeverity();
 				Pmd pmd = new Pmd();
@@ -977,10 +1173,11 @@ public class EntryHome {
 				json.setCodeQuality(codeQuality);
 				json.setCodeAnalysis(ca);
 			} else if ((reportType.toLowerCase().contains("junit_") && reportType.toLowerCase().contains("lisa"))
-					|| (reportType.toLowerCase().contains("junit_") && !reportType.toLowerCase().contains("junit_test"))
+					|| (reportType.toLowerCase().contains("junit_") && !reportType.toLowerCase().contains("junit_test")
+							&& !reportType.toLowerCase().contains("junit_ut"))
 					|| reportType.toLowerCase().contains("android")) {
 				// *********
-				List<TestCaseResult> tr ;
+				List<TestCaseResult> tr;
 				tr = ConvertJUnit.convert(reportfile.getCanonicalPath(), json, prefixForId);
 				json.setTestCaseResult(tr);
 				Functional ft = json.getFunctionalTest();
@@ -991,10 +1188,72 @@ public class EntryHome {
 					ft.setjUnit(ju);
 					json.setFunctionalTest(ft);
 				}
-			} else if (reportType.toLowerCase().contains("goreportunit") && reportType.toLowerCase().endsWith("xml")) {
+			}
+			
+
+			else if (reportType.toLowerCase().contains("junit_ut") && reportType.toLowerCase().endsWith("xml")) {
+				// *********
+				List<TestCaseResult> karmalist;
+
+				karmalist = ConverterKarmaJasmine.karmajasmineConverter(reportfile.getCanonicalPath(), json,
+						prefixForId);
+				System.out.println(karmalist);
+
+				json.setTestCaseResult(karmalist);
+
+				// json.setFunctionalTest(ft);
+
+			}
+
+			else if (reportType.toLowerCase().contains("tosca_report") && reportType.toLowerCase().endsWith("xml")) {
+				// *********
+				List<TestCaseResult> tr;
+
+				tr = ConvertTosca.toscaConvert(reportfile.getCanonicalPath(), json, prefixForId);
+				System.out.println(tr);
+
+				json.setTestCaseResult(tr);
+				Functional ft = json.getFunctionalTest();
+				// JUnit ju = ConvertJUnit.getJUnitSummary(json);
+				// if (ft == null && ju != null)
+				// ft = new Functional();
+				// if (ju != null) {
+				// ft.setjUnit(ju);
+				json.setFunctionalTest(ft);
+
+			} else if (reportType.toLowerCase().contains("maven-dependencies")
+					&& reportType.toLowerCase().endsWith("csv")) {
+				List<String> list = ConvertMVNDependencies.extractData(reportfile.getCanonicalPath(), args);
+				try {
+					String mvnDepURL = args[11] + "/" + args[1] + "/" + args[5] + "/" + args[8] + "/maven/dependencies";
+					URL rebaseUrl = new URL(mvnDepURL);
+					Gson gson = new Gson();
+					String str = gson.toJson(list);
+					HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
+					rebaseConn.setRequestMethod("POST");
+					rebaseConn.setDoOutput(true);
+					rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+					try (OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream())) {
+						writer.write(str);
+					} catch (Exception e) {
+						e.printStackTrace();
+
+					}
+
+					logger.info("connected rest service");
+					logger.info(rebaseConn.getResponseCode());
+
+				} catch (Exception e) {
+					logger.error("Error in sending rebase data for insertion: " + e);
+
+				}
+
+			}
+
+			else if (reportType.toLowerCase().contains("goreportunit") && reportType.toLowerCase().endsWith("xml")) {
 				json = ConvertJUnit.convertgo(reportfile.getPath(), json);
 			} else if (reportType.toLowerCase().contains("nunit") && reportType.toLowerCase().endsWith("xml")) {
-				List<TestCaseResult> tr ;
+				List<TestCaseResult> tr;
 				tr = ConvertNUnit.convert(reportfile.getCanonicalPath(), json, prefixForId);
 				json.setTestCaseResult(tr);
 			} else if (reportType.toLowerCase().contains("nunit") && reportType.toLowerCase().endsWith("trx")) {
@@ -1012,7 +1271,7 @@ public class EntryHome {
 			} else if (reportType.toLowerCase().contains("coverage")) {
 				ConvertCobertura.convert(reportfile.getCanonicalPath(), json);
 			} else if (reportType.toLowerCase().contains("analysisresult")) {
-				List<CodeAnalysis> ca ;
+				List<CodeAnalysis> ca;
 				ca = ConvertFxCop.convert(reportfile.getCanonicalPath());
 				codeQuality.setFxCopReport(ConvertFxCopCons.convert(reportfile.getCanonicalPath()));
 				json.setCodeAnalysis(ca);
@@ -1026,11 +1285,20 @@ public class EntryHome {
 			} else if (reportType.toLowerCase().contains("changelog")) {
 				json = ConvertBuildInfo.convert(reportfile.getCanonicalPath(), json, prefixForId, tfsPath);
 				json = ConvertSCMInfo.convert(reportfile.getCanonicalPath(), json, args[1]);
+				
+				Gson g = new Gson();
+				logger.info("print json");
+				String value = g.toJson(json, JsonClass.class);
+				logger.info(value);
+				
+				logger.info("afterjosn");
+				logger.info(json.toString());
 			} else if (reportType.toLowerCase().contains("jobdetails")) {
 				json = ConvertBuildInfo.convertJobDetail(reportfile.getCanonicalPath(), json);
 			} else if (reportType.toLowerCase().contains("codecheck")) {
 				json = ConvertBuildInfo.convertCodeCoverage(reportfile.getCanonicalPath(), json);
-			} else if (reportType.toLowerCase().contains("checkmarx")) {
+			} else if (reportType.toLowerCase().contains("checkmarx")
+					|| reportType.toLowerCase().contains("scanreport")) {
 				json = ConvertBuildInfo.convertCheckmarx(reportfile.getCanonicalPath(), json);
 			} else if (reportType.toLowerCase().contains("summaryreport")) {
 				// For Qualitia
@@ -1049,9 +1317,31 @@ public class EntryHome {
 					listTR = new ArrayList<>();
 				ConvertJMeter.convert(reportfile.getCanonicalPath(), json, listTR);
 				json.setTestCaseResult(listTR);
-			} else if (reportType.toLowerCase().contains("fastest")) {
-				ConvertIFast.convert(reportfile.getCanonicalPath(), json, args[1], prefixForId, tfsPath);
-			} else if (reportType.toLowerCase().contains("output")) {
+				List<JmeterViewResults> finalList=ConvertJMeter.convertViewResult(reportfile.getCanonicalPath(), args);
+				
+				try {
+					String rebaseReqUrlString = args[11] + "/" + args[1] + "/"+args[5] +"/"+ args[8] + "/jmeter/ViewTableResult";
+					logger.info(rebaseReqUrlString);
+					URL rebaseUrl = new URL(rebaseReqUrlString);
+					Gson gson = new Gson();
+					String str = gson.toJson(finalList);
+					HttpURLConnection rebaseConn = (HttpURLConnection) rebaseUrl.openConnection();
+					rebaseConn.setRequestMethod("POST");
+					rebaseConn.setDoOutput(true);
+					rebaseConn.setRequestProperty(CONTENTTYPE, APPLICATIONJSON);
+					try (OutputStreamWriter writer = new OutputStreamWriter(rebaseConn.getOutputStream())) {
+						writer.write(str);
+					}
+
+					logger.info("connected rest service");
+					logger.info(rebaseConn.getResponseCode());
+
+				} catch (Exception e) {
+					logger.error("Error in sending rebase data for insertion: " + e);
+
+				}
+				
+			}else if (reportType.toLowerCase().contains("output")) {
 				// For Robot
 				json = ConvertBuildInfo.converRobot(reportfile.getCanonicalPath(), json);
 			} else if (reportType.contains("modReport_ecatt")) {
@@ -1192,7 +1482,7 @@ public class EntryHome {
 	}
 
 	private static JsonClass cbi(File[] list2, JsonClass inputjson, String[] args) throws IOException {
-		JsonClass json=inputjson;
+		JsonClass json = inputjson;
 		String tfsPath = null;
 		if (args.length > 11) {
 			tfsPath = args[11];

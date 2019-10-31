@@ -30,6 +30,7 @@ import com.infosys.json.Accleratest;
 import com.infosys.json.BuildDetail;
 import com.infosys.json.BuildOwner;
 import com.infosys.json.Checkmarx;
+import com.infosys.json.CodeAnalysis;
 import com.infosys.json.Codecoverage;
 import com.infosys.json.Functional;
 import com.infosys.json.Jacoco;
@@ -388,6 +389,32 @@ public class ConvertBuildInfo {
 			checkmarx.setMedium(medium);
 			securityTest.setCheckmarx(checkmarx);
 			json.setSecurityTest(securityTest);
+
+			List<CodeAnalysis> ca = json.getCodeAnalysis();
+			if (ca==null)
+				ca = new ArrayList<>();
+
+			for (CxXMLResults.Query query : obj.getQuery()) {
+
+				for (CxXMLResults.Query.Result result : query.getResult()) {
+
+					try {
+						CodeAnalysis caTemp = new CodeAnalysis();
+						caTemp.setCategory("CHECKMARX_SECURITY");
+						caTemp.setRuleName(query.getName());
+						caTemp.setRecommendation(query.getCategories());
+						caTemp.setSeverity(result.getSeverity());
+						caTemp.setClassName(result.getFileName());
+
+						ca.add(caTemp);
+					}
+					catch(Exception e)
+					{
+						logger.info("Error in getting checkmarx query->result");
+					}
+				}
+			}
+			json.setCodeAnalysis(ca);
 			logger.info("Checkmarx Report Converted Successfully..!!");
 		} catch (Exception e) {
 			logger.error(CONEVERSIONERROR + inputPath + ERROR + e);
@@ -400,15 +427,8 @@ public class ConvertBuildInfo {
 		int passed = 0;
 		int failed = 0;
 		int totalnooftests = 0;
-		try {
-			JSONArray array = (JSONArray) parser.parse(new FileReader(inputPath)); // please
-																					// get
-																					// the
-																					// path
-																					// from
-																					// the
-																					// parameter
-																					// XML
+		try(FileReader file = new FileReader(inputPath)) {
+			JSONArray array = (JSONArray) parser.parse(file); // please get the path from the parameter XML
 			for (Object o : array) {
 				JSONObject object = (JSONObject) o;
 				JSONArray elements = (JSONArray) object.get("elements");

@@ -31,7 +31,8 @@ import org.xml.sax.SAXException;
 
 public class EditDocType {
 	private static final Logger logger = Logger.getLogger(EditDocType.class);
-	private static ArrayList<String> messagesforPunit = new ArrayList<>();
+	//private static ArrayList<String> messagesforPunit = new ArrayList<>();
+	private static MessageObject messageObject = new MessageObject();
 	private EditDocType() {
 	}
 
@@ -47,6 +48,7 @@ public class EditDocType {
 
 	public static void edit(String filepath) {
 		try {
+			ArrayList<String> messagesforPunit = messageObject.getMessagesforPunit();
 			Document xmlDoc = getDocument(filepath);
 			if (filepath.contains("pythontest")) {
 				NodeList l = xmlDoc.getElementsByTagName("failure");
@@ -60,11 +62,11 @@ public class EditDocType {
 	}
 
 	public static ArrayList<String> getMessagesforPunit() {
-		return messagesforPunit;
+		return messageObject.getMessagesforPunit();
 	}
 
 	public static void setMessagesforPunit(ArrayList<String> messagesforPunit) {
-		EditDocType.messagesforPunit = messagesforPunit;
+		messageObject.setMessagesforPunit(messagesforPunit);
 	}
 
 	public static Document getDocument(String filePath) throws ParserConfigurationException {

@@ -21,6 +21,13 @@ import com.infosys.utilities.coveragejacoco.Report;
 import com.infosys.utilities.coveragejacoco.Report.Counter;
 
 public class ConvertJacoco {
+	
+	
+	
+	private ConvertJacoco() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void convert(String inputPath, List<CoverageDetails> cdList, JsonClass json) {
 		System.out.println("converting Jacoco");
 		EditDocType.edit(inputPath);

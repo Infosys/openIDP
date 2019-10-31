@@ -19,6 +19,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
 import com.infosys.json.JsonClass;
 import com.infosys.jsonschema.SCMInfo;
 import com.infosys.utilities.changeset.ChangeSet;
@@ -42,8 +43,11 @@ public class ConvertSCMInfo {
 				List<ChangeSet.Item> item = c.getItem();
 				listInfo = iterateItem(item, app, c);
 			}
-			jsonClass.setScmInfo(listInfo);
+			jsonClass.setScmInfo(listInfo);	
+			
 			logger.info("Report Converted Successfully..!!");
+			logger.info(jsonClass.toString());
+			System.out.println(jsonClass.toString());
 			return jsonClass;
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
@@ -80,6 +84,10 @@ public class ConvertSCMInfo {
 					setUserFunc(i, bi);
 					setVersionFunc(i, bi);
 					setRemoteUrlFunc(c, bi, app);
+					
+					setAffectedPath(i,bi) ;
+					setscmUrl( c,  bi,  app);
+					
 					listInfo.add(bi);
 				}
 			}
@@ -91,6 +99,19 @@ public class ConvertSCMInfo {
 		return listInfo;
 	}
 
+	private static void setscmUrl(ChangeSet c, SCMInfo bi, String app) {
+		try {
+			if (c.getScmurl() != null) {
+				
+				System.out.println(c.getScmurl());
+				bi.setScmUrl(c.getScmurl());
+				
+			}
+		} catch (Exception e) {
+			System.out.println("Exception in URL generation for SCM" + e.getMessage());
+		}
+	}
+
 	private static void setRemoteUrlFunc(ChangeSet c, SCMInfo bi, String app) {
 		try {
 			if (c.getScmurl() != null) {
@@ -100,6 +121,9 @@ public class ConvertSCMInfo {
 				temp = c.getScmurl().substring(0, c.getScmurl().lastIndexOf('.')) + "/" + temp + "/";
 				temp2 = temp.substring(0, temp.indexOf("@") + 1);
 				temp = temp.replace(temp2, "http://");
+				
+				System.out.println(temp);
+				System.out.println(c.getScmurl());
 				bi.setRemoteUrl(temp);
 				System.out.println("SCM URL added");
 			}
@@ -138,6 +162,20 @@ public class ConvertSCMInfo {
 		}
 	}
 
+	private static void setAffectedPath(Item i, SCMInfo bi) {
+		if (i.getAffectedPath()!= null) {
+			
+			List<String> clas = i.getAffectedPath();
+//			boolean flag = false;
+			for (String cls : clas) {
+
+				System.out.println(cls);
+					bi.setGetAffectedPath(cls);				}
+			
+		}
+	}
+	
+	
 	private static void setVersionFunc(Item i, SCMInfo bi) {
 		if (i.getCommitId() != null)
 			bi.setLatestFileVersion(i.getCommitId());

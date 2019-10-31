@@ -1,0 +1,482 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 24,
+  "iteration": 1571227689720,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#e24d42",
+        "#e24d42",
+        "#e24d42"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 500,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__time(time_column),\n  value1\nFROM\n  metric_table\nWHERE\n  $__timeFilter(time_column)\n",
+          "refId": "A",
+          "target": "select count(DISTINCT rulename),max(created_at) from codeanalysis where appid in(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline') and UPPER(severity)='HIGH' and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "High Severity Count",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#e5ac0e",
+        "#e5ac0e",
+        "#e5ac0e"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 500,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 2,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__time(time_column),\n  value1\nFROM\n  metric_table\nWHERE\n  $__timeFilter(time_column)\n",
+          "refId": "A",
+          "target": "select count(DISTINCT rulename),max(created_at) from codeanalysis where appid in(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline') and UPPER(severity)='MEDIUM' and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Medium Severity Count",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#629e51",
+        "#629e51"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 500,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 3,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "alias": "",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__time(time_column),\n  value1\nFROM\n  metric_table\nWHERE\n  $__timeFilter(time_column)\n",
+          "refId": "A",
+          "target": "select count(DISTINCT rulename),max(created_at) from codeanalysis where appid in(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline') and UPPER(severity)='LOW' and pipelineno='$Build_Number'",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "",
+      "title": "Low Severity Count",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "columns": [],
+      "datasource": "DS_IDP",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 4,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 1",
+          "refId": "A",
+          "target": "securityDetails%$Application%$Pipeline%$Build_Number%$Severity",
+          "type": "table"
+        }
+      ],
+      "title": "Severity Details",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "18jan_app",
+          "value": "18jan_app"
+        },
+        "datasource": "DS_IDP",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Application",
+        "multi": false,
+        "name": "Application",
+        "options": [],
+        "query": "select application_name from appinfo order by created_at desc",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "27Feb_Node_Sachin",
+          "value": "27Feb_Node_Sachin"
+        },
+        "datasource": "DS_IDP",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Pipeline",
+        "multi": false,
+        "name": "Pipeline",
+        "options": [],
+        "query": "select pipeline_name from appinfo where application_name ='$Application'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "33",
+          "value": "33"
+        },
+        "datasource": "DS_IDP",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Build_Number",
+        "multi": false,
+        "name": "Build_Number",
+        "options": [],
+        "query": "select distinct pipelineno from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 4,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "MEDIUM",
+          "value": "MEDIUM"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Severity",
+        "multi": false,
+        "name": "Severity",
+        "options": [
+          {
+            "selected": true,
+            "text": "HIGH",
+            "value": "HIGH"
+          },
+          {
+            "selected": false,
+            "text": "MEDIUM",
+            "value": "MEDIUM"
+          },
+          {
+            "selected": false,
+            "text": "LOW",
+            "value": "LOW"
+          }
+        ],
+        "query": "HIGH, MEDIUM, LOW",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "2018-01-29T09:14:25.854Z",
+    "to": "2018-01-29T09:24:25.854Z"
+  },
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Security Analysis Details view",
+  "uid": "0113",
+  "version": 1
+}

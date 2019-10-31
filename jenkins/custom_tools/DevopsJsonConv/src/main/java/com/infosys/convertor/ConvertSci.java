@@ -38,7 +38,7 @@ public class ConvertSci {
 					CodeAnalysis c = new CodeAnalysis();
 					if (array1[6].startsWith("N")) {
 						notiCount++;
-						c.setSeverity("medium");
+						c.setSeverity("low");
 					}
 					if (array1[6].startsWith("E")) {
 						errorCount++;
@@ -46,7 +46,7 @@ public class ConvertSci {
 					}
 					if (array1[6].startsWith("W")) {
 						warningCount++;
-						c.setSeverity("low");
+						c.setSeverity("medium");
 					}
 					c.setCategory("Sci");
 					c.setLine(array1[7]);

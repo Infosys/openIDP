@@ -97,7 +97,8 @@ public class JobDetailsTest {
 		try {
 			SSLUtilities.trustAllHostnames();
 			SSLUtilities.trustAllHttpsCertificates();
-			
+			// String href =
+			// "http://idposs:8085/jenkins/job/CustomerPortal_Android_Gradle_App/job/CustomerPortal_Android_Gradle_App_Build/lastBuild/api/xml";
 			String href = "http://google.com";
 
 			URLConnection urlConnection = mock(URLConnection.class);
@@ -105,35 +106,38 @@ public class JobDetailsTest {
 			httpUrlStreamHandler.addConnection(new URL(href), urlConnection);
 			byte[] expectedImageBytes = getXMLString().getBytes();
 
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
-			
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
+						
 			//Document document=mock(Document.class);
 			DocumentBuilder documentBuilder=mock(DocumentBuilder.class);
 			DocumentBuilderFactory documentBuilderFactory=mock(DocumentBuilderFactory.class);
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc=builder.parse(new StringBufferInputStream(getXMLString()));
-							
-			Mockito.when(documentBuilderFactory.newDocumentBuilder()).thenReturn(documentBuilder);
-			
-			Mockito.when(documentBuilder.parse(Matchers.any(InputStream.class))).thenReturn(doc);
-			
+			try(StringBufferInputStream stringBuffer =  new StringBufferInputStream(getXMLString())){
+				Document doc=builder.parse(stringBuffer);
+				Mockito.when(documentBuilderFactory.newDocumentBuilder()).thenReturn(documentBuilder);
+				
+				Mockito.when(documentBuilder.parse(Matchers.any(InputStream.class))).thenReturn(doc);
+				
+			}
+						
 			DocumentBuilder documentBuilder1=mock(DocumentBuilder.class);
 			DocumentBuilderFactory documentBuilderFactory1=mock(DocumentBuilderFactory.class);
 			DocumentBuilderFactory factory1 = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder1 = factory1.newDocumentBuilder();
-			Document doc1=builder1.parse(new StringBufferInputStream(getXMLString()));
-			
-			Mockito.when(documentBuilder1.parse(Matchers.any(File.class))).thenReturn(doc1);
-			
+			try(StringBufferInputStream stringBuffer =  new StringBufferInputStream(getXMLString())){
+				Document doc1=builder1.parse(stringBuffer);
+				Mockito.when(documentBuilder1.parse(Matchers.any(File.class))).thenReturn(doc1);
+			}
 			Element e=mock(Element.class);
 			Document doc2=mock(Document.class);
 			
 			Mockito.when(doc2.createElement(Matchers.any(String.class))).thenReturn(e);
 			
-			jobDetails.createJobDetails("http://dummyuser:8085", "dummyuser", "pwddummy",
+			jobDetails.createJobDetails("http://idposs:8085", "idposs", "pwddd+",
 					"CustomerPortal_Android_Gradle_App/CustomerPortal_Android_Gradle_App_Build", "D://", "time",
 					"CustomerPortal");
 			List<String> temp=null;

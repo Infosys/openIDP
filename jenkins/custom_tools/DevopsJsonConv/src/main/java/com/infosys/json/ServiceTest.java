@@ -11,15 +11,17 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ServiceTest {
-	@SerializedName("iFast")
+	@SerializedName("ifastTestReport")
 	@Expose
-	private IFast iFast;
+	private IFastReport ifastTestReport;
 
-	public IFast getiFast() {
-		return iFast;
+	public IFastReport getIfastTestReport() {
+		return ifastTestReport;
 	}
 
-	public void setiFast(IFast iFast) {
-		this.iFast = iFast;
+	public void setIfastTestReport(IFastReport ifastTestReport) {
+		this.ifastTestReport = ifastTestReport;
 	}
+	
+	
 }

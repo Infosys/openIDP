@@ -65,15 +65,22 @@ public class DeleteUtilityChangeLogTest {
 		try {
 			SSLUtilities.trustAllHostnames();
 			SSLUtilities.trustAllHttpsCertificates();
-			
+			// String href =
+			// "http://idposs:8085/jenkins/job/CustomerPortal_Android_Gradle_App/job/CustomerPortal_Android_Gradle_App_Build/lastBuild/api/xml";
 			String href = "https://google.com";
 
 			URLConnection urlConnection = mock(URLConnection.class);
 			httpUrlStreamHandler.addConnection(new URL(href), urlConnection);
 			byte[] expectedImageBytes = "Any String you want".getBytes();
-
-			InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes);
-			Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+//		    byte[] expectedImageBytes = bytes.toBytes(
+//		            0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x0A, 0x00, 0x0A, 0x00, 0x91, 0x00, 0x00, 0xFF, 0xFF, 0xFF,
+//		            0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x21, 0xF9, 0x04, 0x00, 0x00, 0x00, 0x00,
+//		            0x00, 0x2C, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x0A, 0x00, 0x00, 0x02, 0x16, 0x8C, 0x2D, 0x99,
+//		            0x87, 0x2A, 0x1C, 0xDC, 0x33, 0xA0, 0x02, 0x75, 0xEC, 0x95, 0xFA, 0xA8, 0xDE, 0x60, 0x8C, 0x04,
+//		            0x91, 0x4C, 0x01, 0x00, 0x3B);
+			try(InputStream imageInputStream = new ByteArrayInputStream(expectedImageBytes)){
+				Mockito.when(urlConnection.getInputStream()).thenReturn(imageInputStream);
+			}
 			
 			List<String> temp=null;
 			deleteUtilityChangeLog.del("string");

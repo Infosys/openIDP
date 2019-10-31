@@ -21,6 +21,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ChevkMarkzParser {
+
+	private ChevkMarkzParser(){}
+
 	public static void main(String[] args) {
 		File jtlFile = new File("ScanReport.xml");
 		DocumentBuilder dBuilder;

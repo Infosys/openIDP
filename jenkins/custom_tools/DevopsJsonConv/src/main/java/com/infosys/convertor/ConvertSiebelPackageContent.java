@@ -19,9 +19,7 @@ public class ConvertSiebelPackageContent {
 	}
 
 	public static void convert(String path, Siebel siebel) {
-		try {
-			// EditDocType.edit(path);
-			BufferedReader in = new BufferedReader(new FileReader(path));
+		try(BufferedReader in = new BufferedReader(new FileReader(path))) {
 			String line;
 			List<String> nonRepoList = new ArrayList<>();
 			List<String> repoList = new ArrayList<>();

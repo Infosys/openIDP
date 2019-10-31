@@ -53,7 +53,7 @@ public class ConvertSonarqube {
 			String sonarHost, String prefixForId, SonarDetails sonardetailsobj) {
 		try {
 			String severities = readSonarSeverities();
-			waitForAnalysis(sonarHost, sonarPrjctKey);
+			waitForAnalysis(sonarHost, sonarPrjctKey,sonardetailsobj);
 			String sonarIssuesURL = generateSonarIssuesURL(sonarPrjctKey, sonarHost, severities);
 			getSonarIssuesList(sonarIssuesURL, sonardetailsobj.getSonarUserName(), sonardetailsobj.getSonarPassword(),
 					ca, sonarHost, prefixForId, pathToCsvDir.replaceAll("\\\\", "/"));
@@ -74,11 +74,20 @@ public class ConvertSonarqube {
 		return ca;
 	}
 
-	private static void waitForAnalysis(String sonarHost, String sonarPrjctKey) {
+	private static void waitForAnalysis(String sonarHost, String sonarPrjctKey, SonarDetails sonardetailsobj) {
 		String prjctQueueUrl = sonarHost + "api/ce/component?componentKey=" + sonarPrjctKey;
 		// loop untill analysis is running
+		String jsonResp="";
 		while (true) {
-			String jsonResp = hitSonarWebService(prjctQueueUrl);
+			if ((sonardetailsobj.getSonarUserName()!=null && sonardetailsobj.getSonarUserName() !="NA") && 
+					sonardetailsobj.getSonarPassword() != null && sonardetailsobj.getSonarPassword() != "NA" )
+			{
+				jsonResp = hitSonarWebServiceWithAuthentication(prjctQueueUrl , sonardetailsobj.getSonarUserName() ,sonardetailsobj.getSonarPassword());
+			}
+			else
+			{
+				jsonResp = hitSonarWebService(prjctQueueUrl);
+			}
 			JSONParser parser = new JSONParser();
 			try {
 				JSONObject json = (JSONObject) parser.parse(jsonResp);
@@ -91,6 +100,7 @@ public class ConvertSonarqube {
 		}
 		logger.info("Sonar analysis is ready to be consumed");
 	}
+			
 
 	private static SonarDetails getSonarLOC(SonarDetails sonardetailsobj, String sonarLOCURL) {
 		try {
@@ -99,7 +109,7 @@ public class ConvertSonarqube {
 					|| "NA".equalsIgnoreCase(sonardetailsobj.getSonarPassword())) {
 				locresponse = hitSonarWebService(sonarLOCURL);
 			} else {
-				locresponse = hitSonarWebServiceWithAuthentication(sonarLOCURL);
+				locresponse = hitSonarWebServiceWithAuthentication(sonarLOCURL , sonardetailsobj.getSonarUserName() ,sonardetailsobj.getSonarPassword());
 			}
 			Gson g = new Gson();
 			SonarDetailsLOCjson sl = g.fromJson(locresponse, SonarDetailsLOCjson.class);
@@ -178,7 +188,7 @@ public class ConvertSonarqube {
 					|| sonarPassword == null) {
 				jsonResp = hitSonarWebService(sonarPrjctIssuesURL + String.valueOf(nextPageIndex));
 			} else {
-				jsonResp = hitSonarWebServiceWithAuthentication(sonarPrjctIssuesURL + String.valueOf(nextPageIndex));
+				jsonResp = hitSonarWebServiceWithAuthentication(sonarPrjctIssuesURL + String.valueOf(nextPageIndex) , sonarUserName ,sonarPassword);
 			}
 			nextPageIndex = parseIssuesJson(jsonResp, caList, sonarHost, prefixForId, pathToCsvDir);
 		}
@@ -197,9 +207,9 @@ public class ConvertSonarqube {
 				csmjsonResp = hitSonarWebService(sonarCSURL);
 				vuljsonResp = hitSonarWebService(sonarVULURL);
 			} else {
-				bugjsonResp = hitSonarWebServiceWithAuthentication(sonarBGURL);
-				csmjsonResp = hitSonarWebServiceWithAuthentication(sonarCSURL);
-				vuljsonResp = hitSonarWebServiceWithAuthentication(sonarVULURL);
+				bugjsonResp = hitSonarWebServiceWithAuthentication(sonarBGURL , sobj.getSonarUserName() ,sobj.getSonarPassword());
+				csmjsonResp = hitSonarWebServiceWithAuthentication(sonarCSURL , sobj.getSonarUserName() ,sobj.getSonarPassword());
+				vuljsonResp = hitSonarWebServiceWithAuthentication(sonarVULURL, sobj.getSonarUserName() ,sobj.getSonarPassword());
 			}
 			double bugEffort;
 			double vulEffort;
@@ -273,12 +283,12 @@ public class ConvertSonarqube {
 		return jsonResponse;
 	}
 
-	private static String hitSonarWebServiceWithAuthentication(String sonarPrjctIssuesURL) {
+	private static String hitSonarWebServiceWithAuthentication(String sonarPrjctIssuesURL ,String sonarUserName, String sonarPassword) {
 		String jsonResponse = null;
 		BufferedReader in = null;
 		try {
 			URL url = new URL(sonarPrjctIssuesURL);
-			String s = "admin" + ":" + "admin";
+			String s = sonarUserName + ":" + sonarPassword;
 			String encoding = Base64.getEncoder().encodeToString(s.getBytes());
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("Authorization", "Basic " + encoding);
@@ -335,6 +345,8 @@ public class ConvertSonarqube {
 				String id = extractId(component, nsClassMapForDotNet);
 				ca.setId(prefixForId + id);
 				ca.setMessage(((JSONObject) issuesArr.get(i)).get("message").toString());
+				ca.setProject(((JSONObject) issuesArr.get(i)).get("project").toString());
+				ca.setType(((JSONObject) issuesArr.get(i)).get("type").toString());
 				caList.add(ca);
 			}
 			currPageIndex = Integer.parseInt(json.get("p").toString());

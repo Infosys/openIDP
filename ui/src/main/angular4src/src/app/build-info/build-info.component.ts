@@ -77,13 +77,7 @@ export class BuildInfoComponent implements OnInit {
                 if (this.IdpdataService.isSAPApplication) {
                     this.buildInfo = this.IdpdataService.SapBuildTemp;
                 }
-                if ((this.buildInfo.artifactToStage.artifact === undefined || this.buildInfo.artifactToStage.artifact === "")
-                    && this.buildInfo.artifactToStage.artifactRepoName !== "na" && this.IdpdataService.artifactAppVariable === true) {
-						if(this.IdpdataService.isDockerRegistry===false){
-                    alert("Artifact Repository manager selected at application level.Either give repository at pipeline level or fill the artifact pattern.");
-                    return;
-		    }
-                }
+               
 
                 this.IdpdataService.data.buildInfo = this.buildInfo;
                 this.IdpdataService.data.masterJson["buildInfo"] = this.buildInfo;

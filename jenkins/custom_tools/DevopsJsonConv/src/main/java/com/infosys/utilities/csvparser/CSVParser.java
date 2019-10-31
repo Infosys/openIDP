@@ -30,7 +30,7 @@ public class CSVParser {
 
 	public List<CSVInfo> parse(String inputpath) throws IOException, ClassNotFoundException {
 		List<CSVInfo> csv = null;
-		CSVReader r = null;
+		
 		try {
 			if (inputpath != null) {
 				String csvOut = "./sampleCSV.txt";
@@ -49,32 +49,31 @@ public class CSVParser {
 				strategy.setType(Bean.class);
 				strategy.setColumnMapping(columnMapping);
 				CsvToBean<Bean> csvToBean = new CsvToBean<>();
-				r = new CSVReader(new FileReader(pathToCsvFile), ',');
-				List<Bean> beanList = csvToBean.parse(strategy, r);
-				csv = new ArrayList<>();
-				for (Bean b : beanList) {
-					CSVInfo c = getCSVInfoObject();
-					c.setName(b.getPackageName());
-					c.setCc(b.getCC() == null ? "0.00" : b.getCC());
-					c.setMi(b.getMI() == null ? "0.00" : b.getMI());
-					c.setDp(b.getDP() == null ? "0.00" : b.getDP());
-					c.setCp(b.getCP() == null ? "0.00" : b.getCP());
-					if (c.getName() != null && isDouble(c.getCc()) && isDouble(c.getMi()) && isDouble(c.getCp())
-							&& isDouble(c.getDp())) {
-						csv.add(c);
+				
+				try(CSVReader r = new CSVReader(new FileReader(pathToCsvFile), ',')){
+					List<Bean> beanList = csvToBean.parse(strategy, r);
+					csv = new ArrayList<>();
+					for (Bean b : beanList) {
+						CSVInfo c = getCSVInfoObject();
+						c.setName(b.getPackageName());
+						c.setCc(b.getCC() == null ? "0.00" : b.getCC());
+						c.setMi(b.getMI() == null ? "0.00" : b.getMI());
+						c.setDp(b.getDP() == null ? "0.00" : b.getDP());
+						c.setCp(b.getCP() == null ? "0.00" : b.getCP());
+						if (c.getName() != null && isDouble(c.getCc()) && isDouble(c.getMi()) && isDouble(c.getCp())
+								&& isDouble(c.getDp())) {
+							csv.add(c);
+						}
 					}
+					File f = new File(csvOut);
+					f.delete();
 				}
-				File f = new File(csvOut);
-				f.delete();
+				
 			} else {
 				logger.error("No path specified");
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-		} finally {
-			if (r != null) {
-				r.close();
-			}
 		}
 		return csv;
 	}
