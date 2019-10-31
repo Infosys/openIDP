@@ -34,7 +34,12 @@ public class TestCaseResult {
 	private String startTime;
 	@JsonProperty("duration")
 	private String duration;
-
+	@JsonProperty("testCaseName")
+	private String testCaseName;
+	@JsonProperty("testToolName")
+	private String testToolName;
+	
+	
 	public TestCaseResult() {
 		super();
 		this.id = "none";
@@ -43,6 +48,8 @@ public class TestCaseResult {
 		this.status = "passed";
 		this.duration = "none";
 		this.startTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+		this.testCaseName="none";
+		this.testToolName = "none";
 	}
 
 	public TestCaseResult(String id, String message, String testSuiteName, String category, String startTime,
@@ -54,6 +61,25 @@ public class TestCaseResult {
 		this.category = category;
 		this.startTime = startTime;
 		this.duration = duration;
+		
+	}
+
+	
+	@JsonProperty("testSuiteName")
+	public String getTestSuiteName() {
+		return testSuiteName;
+	}
+	@JsonProperty("testSuiteName")
+	public void setTestSuiteName(String testSuiteName) {
+		this.testSuiteName = testSuiteName;
+	}
+	@JsonProperty("testToolName")
+	public String getTestToolName() {
+		return testToolName;
+	}
+	@JsonProperty("testToolName")
+	public void setTestToolName(String testToolName) {
+		this.testToolName = testToolName;
 	}
 
 	@JsonProperty("category")
@@ -125,4 +151,16 @@ public class TestCaseResult {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+
+	@JsonProperty("testCaseName")
+	public String getTestCaseName() {
+		return testCaseName;
+	}
+
+	@JsonProperty("testCaseName")
+	public void setTestCaseName(String testCaseName) {
+		this.testCaseName = testCaseName;
+	}
+	
+	
 }

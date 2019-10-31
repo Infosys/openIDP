@@ -11,6 +11,7 @@ package org.infy.idp.entities.jobs.buildinfo;
 import java.util.List;
 
 import org.infy.idp.entities.jobs.common.RunScript;
+import org.infy.idp.entities.models.Fortify;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,10 +26,35 @@ public class BuildInfo {
 	@SerializedName("buildtool")
 	@Expose
 	private String buildtool;
+	
+	@SerializedName("securityAnalysisTool")
+	@Expose
+	private String securityAnalysisTool;
+
+	public String getSecurityAnalysisTool() {
+		return securityAnalysisTool;
+	}
+
+	public void setSecurityAnalysisTool(String securityAnalysisTool) {
+		this.securityAnalysisTool = securityAnalysisTool;
+	}
+
 	@SerializedName("artifactToStage")
 	@Expose
 	private ArtifactToStage artifactToStage;
-//    @SerializedName("castAnalysis")
+	@SerializedName("fortifyDetails")
+	@Expose
+	private Fortify fortifyDetails;
+
+public Fortify getFortifyDetails() {
+		return fortifyDetails;
+	}
+
+	public void setFortifyDetails(Fortify fortifyDetails) {
+		this.fortifyDetails = fortifyDetails;
+	}
+
+	//    @SerializedName("castAnalysis")
 //    @Expose
 //    private CastAnalysis castAnalysis;
 	@SerializedName("modules")

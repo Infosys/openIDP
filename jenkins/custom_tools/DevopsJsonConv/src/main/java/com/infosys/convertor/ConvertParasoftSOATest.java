@@ -21,6 +21,10 @@ import com.infosys.utilities.parasoftsoatest.ExecutedTestsDetails;
 import com.infosys.utilities.parasoftsoatest.ResultsSession;
 
 public class ConvertParasoftSOATest {
+	private ConvertParasoftSOATest() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static ParasoftSOATest convert(String inputPath, JsonClass json, List<TestCaseResult> listTR) {
 		EditDocType.edit(inputPath);
 		File file = new File(inputPath);
@@ -46,6 +50,7 @@ public class ConvertParasoftSOATest {
 				tr.setStatus("FAILURE");
 				tr.setMessage("Testcase failed");
 				tr.setDuration(Double.toString(time));
+				tr.setTestToolName("Parasoft");
 				listTR.add(tr);
 			}
 			for (int i = 0; i < p.getPass(); i++) {
@@ -54,6 +59,7 @@ public class ConvertParasoftSOATest {
 				tr.setStatus("SUCCESS");
 				tr.setMessage("Testcase passed");
 				tr.setDuration(Double.toString(time));
+				tr.setTestToolName("Parasoft");
 				listTR.add(tr);
 			}
 			return p;

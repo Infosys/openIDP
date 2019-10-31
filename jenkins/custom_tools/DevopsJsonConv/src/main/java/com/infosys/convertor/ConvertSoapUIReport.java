@@ -19,6 +19,10 @@ import com.infosys.json.TestCaseResult;
 import com.infosys.utilities.soapuireport.Testsuite;
 
 public class ConvertSoapUIReport {
+	private ConvertSoapUIReport() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static SoapUIReport convert(String inputPath, List<TestCaseResult> listTR) {
 		EditDocType.edit(inputPath);
 		File file = new File(inputPath);
@@ -42,6 +46,7 @@ public class ConvertSoapUIReport {
 				tr.setCategory("Functional");
 				tr.setDuration(each.getTime());
 				tr.setId(each.getName());
+				tr.setTestToolName("Soap UI");
 				if (!each.getFailure().isEmpty()) {
 					tr.setStatus("FAILURE");
 					tr.setMessage("Testcase failed");

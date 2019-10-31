@@ -33,6 +33,12 @@ import org.xml.sax.SAXException;
 
 public class CodeCoverage {
 	private static final Logger logger = Logger.getLogger(CreateChangeLog.class);
+	
+
+	private CodeCoverage() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public static void createcodeCoverage(String server, String username, String password, String jobName,
 			String destPath, String time, String appName) {

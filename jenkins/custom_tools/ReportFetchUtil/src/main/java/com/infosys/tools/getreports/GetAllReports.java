@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-
+import org.apache.log4j.BasicConfigurator;
 public class GetAllReports {
 	private static final Logger logger = Logger.getLogger(GetAllReports.class);
 	private GetAllReports() {
@@ -27,6 +27,7 @@ public class GetAllReports {
 
 	public static void main(String[] args) throws IOException {
 		
+		BasicConfigurator.configure();
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
 		logger.info("Report fetch util Frozen");
@@ -118,6 +119,10 @@ public class GetAllReports {
 				String utility = utilityPath[0];
 				String fileName = utilityPath[1];
 				String srcPath = i.getCanonicalPath();
+				
+				String fileToBeCopied=i.getName().substring(i.getName().indexOf("//")+1);
+				fileToBeCopied=fileToBeCopied.substring(0, fileToBeCopied.lastIndexOf("."));
+				
 				if ("put".equals(utility) && ((i.getName()).toLowerCase().contains("pythontest")
 						&& i.getName().toLowerCase().endsWith(".xml"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
@@ -131,19 +136,18 @@ public class GetAllReports {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
 				} else if ("jcc".equals(utility) && (i.getName().toLowerCase().contains("jacoco"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
-				} else if ("alt".equals(utility) && (i.getName().toLowerCase().contains("lintreport"))) {
+				} else if ("alt".equals(utility) && (i.getName().toLowerCase().contains("lint")) && (i.getName().toLowerCase().contains("result"))) {
 					copy(i.getCanonicalPath(), destPath, name, time, buildId, utility, appName);
 				} else if (!fileName.startsWith(".")) {
 					String fileN = fileName.substring(0, fileName.lastIndexOf('.'));
 					String fileE = fileName.substring(fileName.lastIndexOf('.') + 1);
 					if (fileName.equalsIgnoreCase(i.getName().toLowerCase())) {
 						copy(srcPath, destPath, name, time, buildId, utility, appName);
-					} else if ("*".equals(fileN)) {
-						if ((i.getName().split("\\.")[1]).equals(fileN) || "*".equals(fileE)) {
+					} else if ("*".equals(fileN) && ((i.getName().split("\\.")[1]).equals(fileN) || "*".equals(fileE)) || (fileN.endsWith("*") && !fileN.startsWith("*")&& (i.getName().contains(fileN.substring(0,fileN.indexOf("*")))) && !(fileToBeCopied.equals(fileN.substring(0,fileN.indexOf("*")))))) {
+						
 							copy(srcPath, destPath, name, time, buildId, utility, appName);
-						} else {
-							logger.error("Specify correct path for copying " + utility + " report");
-						}
+						
+							
 					}
 				}
 			}

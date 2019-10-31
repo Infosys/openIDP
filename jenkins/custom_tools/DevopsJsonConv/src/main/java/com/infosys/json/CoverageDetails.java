@@ -20,6 +20,8 @@ public class CoverageDetails {
 	private String category;
 	@JsonProperty("package")
 	private String pckage;
+	@JsonProperty("missedLineNumbers")
+	private String missedLineNumbers;
 
 	public String getPckage() {
 		return pckage;
@@ -64,4 +66,14 @@ public class CoverageDetails {
 	public CoverageDetails createCoverageDetails() {
 		return new CoverageDetails();
 	}
+
+	public String getMissedLineNumbers() {
+		return missedLineNumbers;
+	}
+
+	public void setMissedLineNumbers(String missedLineNumbers) {
+		this.missedLineNumbers = missedLineNumbers;
+	}
+	
+	
 }

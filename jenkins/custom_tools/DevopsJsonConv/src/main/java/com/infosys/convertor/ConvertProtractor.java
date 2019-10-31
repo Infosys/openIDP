@@ -20,10 +20,16 @@ import com.infosys.json.TestCaseResult;
 import com.infosys.utilities.protractor.Testsuites;
 
 public class ConvertProtractor {
+	
 	private static int fail;
 	private static int skipped;
 	private static int totalTest;
 	private static int errors;
+	
+	private ConvertProtractor() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public static Protractor convert(String inputPath, JsonClass json, List<TestCaseResult> tr) {
 		EditDocType.edit(inputPath);
@@ -44,6 +50,7 @@ public class ConvertProtractor {
 					t.setCategory("protractor");
 					t.settestSuiteName(each.getName());
 					t.setStatus("failed");
+					t.setTestToolName("Protractor");
 					tr.add(t);
 				}
 				for (int i = 0; i < s; i++) {
@@ -51,6 +58,7 @@ public class ConvertProtractor {
 					t.setCategory("protractor");
 					t.settestSuiteName(each.getName());
 					t.setStatus("passed");
+					t.setTestToolName("Protractor");
 					tr.add(t);
 				}
 				fail += each.getFailures();

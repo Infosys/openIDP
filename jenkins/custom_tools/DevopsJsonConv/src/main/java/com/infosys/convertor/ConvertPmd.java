@@ -63,10 +63,15 @@ public class ConvertPmd {
 		List<com.infosys.utilities.pmd.Pmd.File.Violation> violations = f.getViolation();
 		for (com.infosys.utilities.pmd.Pmd.File.Violation v : violations) {
 			CodeAnalysis v1 = getCodeAnalysisObject();
-			if (v.getClazz() != null) {
-				v1.setId(prefixForId + (v.getPackage() + "." + v.getClazz()).replace(".", "_"));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(prefixForId);
+			stringBuilder.append(v.getPackage().replace(".", "_"));
+			if (v.getClazz() != null) {		
+				stringBuilder.append("_");
+				stringBuilder.append(v.getClazz().replace(".", "_"));
+				v1.setId(stringBuilder.toString());
 			} else {
-				v1.setId(prefixForId + (v.getPackage().replace(".", "_")));
+				v1.setId(stringBuilder.toString());
 			}
 			if (v.getPriority() != null) {
 				if (v.getPriority() <= 2) {

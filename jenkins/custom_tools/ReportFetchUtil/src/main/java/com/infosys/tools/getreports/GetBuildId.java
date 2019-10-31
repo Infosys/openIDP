@@ -26,6 +26,14 @@ import org.xml.sax.SAXException;
 
 public class GetBuildId {
 	private static final Logger logger = Logger.getLogger(GetBuildId.class);
+	
+	
+
+	private GetBuildId() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	public static String getId(String server, String username, String password, String name) {
 		try {

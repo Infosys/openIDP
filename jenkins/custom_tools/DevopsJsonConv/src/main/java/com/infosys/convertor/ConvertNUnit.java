@@ -75,14 +75,16 @@ public class ConvertNUnit {
 			return;
 		for (TestCase testCase : testCaseList) {
 			TestCaseResult testCaseResult = getTestCaseResultObject();
-			if (testCase.getClassname().indexOf('.') != -1)
-				testCaseResult
-						.setId(prefixForId + (testCase.getClassname() + "_" + testCase.getName()).replace(".", "_"));
-			else
-				testCaseResult.setId(prefixForId + (testCase.getClassname() + "_" + testCase.getName()));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(prefixForId);
+			stringBuilder.append(testCase.getClassname().replace(".", "_"));
+			stringBuilder.append("_");
+			stringBuilder.append(testCase.getName().replace(".", "_"));
+			testCaseResult.setId(stringBuilder.toString());
 			testCaseResult.settestSuiteName(testSuite.getName());
 			testCaseResult.setCategory("Unit Test");
 			testCaseResult.setDuration(String.format("%.4f", testCase.getDuration()));
+			testCaseResult.setTestToolName("NUnit");
 			testCaseResult.setStartTime(processDate(testCase.getStartTime()));
 			setTCStatus(testCaseResult, testCase);
 			setTCMsg(testCaseResult, testCase);

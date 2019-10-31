@@ -21,6 +21,7 @@ SKIP_TOOLS_CONFIG=${SKIP_TOOLS_CONFIG:-false}
 SKIP_JENKINS_COMPONENTS=${SKIP_JENKINS_COMPONENTS:-false}
 SKIP_GRAFANA_PLUGINS=${SKIP_GRAFANA_PLUGINS:-false}
 SKIP_DATAFILES_PACKAGE=${SKIP_DATAFILES_PACKAGE:-false}
+SKIP_DATAFILES_UPDATE=${SKIP_DATAFILES_UPDATE:-false}
 LOCAL_M2_CACHE=${LOCAL_M2_CACHE:-"-v /root/.m2/:/root/.m2/"}
 AUTOMATED_DEPLOYMENT=${AUTOMATED_DEPLOYMENT:-false}
 STACK_RELEASE_TIMEOUT=${STACK_RELEASE_TIMEOUT:-50}
@@ -274,7 +275,7 @@ export HIDE_JSON_CONVERT=${HIDE_JSON_CONVERT:-true}
 
 export CLOUD_DEPLOY_FLAG=${CLOUD_DEPLOY_FLAG:-true}
 
-export BUILD_NUM=${BUILD_NUM:-1.4.0}
+export BUILD_NUM=${BUILD_NUM:-1.5.0}
 export BUILD_TYPE=${BUILD_TYPE:-RELEASE}
 export BUILD_NAME=$BUILD_NUM-$BUILD_TYPE
 
@@ -296,6 +297,10 @@ export IDP_DASHBOARD_IMAGE=${IDP_DASHBOARD_IMAGE:-${DOCKER_REPO}idp/idpdashboard
 export IDP_UI_IMAGE=${IDP_UI_IMAGE:-${DOCKER_REPO}idp/idpapp}:$BUILD_NAME
 export IDP_SUBSCRIPTION_IMAGE=${IDP_SUBSCRIPTION_IMAGE:-${DOCKER_REPO}idp/idpsubscription}:$BUILD_NAME
 export IDP_SCHEDULER_IMAGE=${IDP_SCHEDULER_IMAGE:-${DOCKER_REPO}idp/idpscheduler}:$BUILD_NAME
+export IDP_DATAFILES_IMAGE=${IDP_DATAFILES_IMAGE:-${DOCKER_REPO}idp/datafiles}:$BUILD_NAME
+export TEMP_DATAFILES_IMAGE=${TEMP_DATAFILES_IMAGE:-${DOCKER_REPO}idp/temp_datafiles}:$BUILD_NAME
+
+
 
 #Installation and Pre-requisites check
 
@@ -518,15 +523,35 @@ then
 		docker run --rm $INTERACTIVE -v $PWD/grafana:/grafana -e WGET_PROXY="$WGET_PROXY" -w=/grafana --entrypoint "sh" $WGET_IMAGE download.sh
 		docker run --rm $INTERACTIVE -v $PWD/grafana:/grafana -v $MOUNT_DIR/grafanadata/:/grafanadata/ -w=/grafana --entrypoint "sh" $ARCHIVE_CREATE_IMAGE move.sh
 	fi
-	
+
+		
 	
 	#Datafiles Sync
 	cd $EXEC_DIR
 	docker run --rm $INTERACTIVE -v $PWD:/openidp -v $MOUNT_DIR:/data  $ARCHIVE_MGMT_IMAGE sh -c "cp -rf /openidp/datafiles/. /data > /dev/null 2>&1" || echo "Default datafiles folder. Hence not syncing"
+
+	## Datafiles Package
+	if [ "$SKIP_DATAFILES_PACKAGE" != true ]
+	then
+		if [ "$SKIP_DEPLOYMENT" != true ]
+		then
+			cd $EXEC_DIR
+			docker build -t $TEMP_DATAFILES_IMAGE ./
+			cd $MOUNT_DIR
+			docker build -t $IDP_DATAFILES_IMAGE ./ --build-arg TEMP_DATAFILES_IMAGE="$TEMP_DATAFILES_IMAGE"
+		fi
+	fi
+
 	
 else
 	echo "Skipping 	Build...."
-	echo "WARNING: Images are supposed to be in place"
+	echo "WARNING: Images are assumed to be present in local/remote repository"
+	if [ "$SKIP_DATAFILES_UPDATE" != true ]
+	then
+		rm -rf $MOUNT_DIR/jenkinsdata/plugins
+		rm -rf $MOUNT_DIR/jenkinsdata/CUSTOM_TOOLS
+		docker run --rm $INTERACTIVE -v $MOUNT_DIR:/data $IDP_DATAFILES_IMAGE sh -c "cp -rf /datafiles/. /data > /dev/null 2>&1"
+	fi
 fi
 
 #Configuring Tools for Access

@@ -24,7 +24,6 @@ public class TestCaseResult {
 	private String id;
 	@JsonProperty("className")
 	private String className;
-
 	@JsonProperty("message")
 	private String message;
 	@JsonProperty("testSuiteName")
@@ -37,6 +36,11 @@ public class TestCaseResult {
 	private String startTime;
 	@JsonProperty("duration")
 	private String duration;
+	@JsonProperty("testCaseName")
+	private String testCaseName;
+	@JsonProperty("testToolName")
+	private String testToolName;
+	
 	public String getClassName() {
 		return className;
 	}
@@ -65,6 +69,37 @@ public class TestCaseResult {
 		this.category = category;
 		this.startTime = startTime;
 		this.duration = duration;
+	}
+
+	
+	@JsonProperty("testSuiteName")
+	public String getTestSuiteName() {
+		return testSuiteName;
+	}
+
+	@JsonProperty("testSuiteName")
+	public void setTestSuiteName(String testSuiteName) {
+		this.testSuiteName = testSuiteName;
+	}
+
+	@JsonProperty("testCaseName")
+	public String getTestCaseName() {
+		return testCaseName;
+	}
+
+	@JsonProperty("testCaseName")
+	public void setTestCaseName(String testCaseName) {
+		this.testCaseName = testCaseName;
+	}
+
+	@JsonProperty("testToolName")
+	public String getTestToolName() {
+		return testToolName;
+	}
+
+	@JsonProperty("testToolName")
+	public void setTestToolName(String testToolName) {
+		this.testToolName = testToolName;
 	}
 
 	@JsonProperty("category")

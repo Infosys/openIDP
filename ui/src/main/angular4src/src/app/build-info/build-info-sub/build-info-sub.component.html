@@ -12,6 +12,88 @@
                 </div>
     </ng-template>
 
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="animate-switch">
+                <div class="card">
+                    <div class="card-header panelHeadingBackground">
+                        <span class="chkright"><b>{{'Security Analysis Operations'|translate}}</b></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid form-group" style="margin-left:20px">
+                            <div class="col-md-6 checkbox" style="float: left;">
+                                <input (change)="$event.target.checked ? openSADropdown() : closeSADropdown()" type="checkbox" id="checkbox_securityAnalysisTool" [checked]="buildInfo.securityAnalysisTool != null" /> &nbsp; {{'Security Analysis'|translate}}
+                                <!-- <span class="tip-content" style="z-index: 1;">{{'This step will be executed to check vulnerabilities in code'|translate}}</span>  -->
+                            </div>
+                            <div *ngIf = "buildInfo.securityAnalysisTool!=null ">
+                                <div class="row form-group">
+                                    <div class="col-md-7">
+                                        <select name="securityAnalysisName" 
+                                            [(ngModel)]="buildInfo.securityAnalysisTool" 
+                                            id="securityAnalysisTool" 
+                                            #securityAnalysisName="ngModel" 
+                                            class="form-control" 
+                                            style="width: 85%" 
+                                            (change)="addFortifyDetails();clearFortifyDetails()" 
+                                            required>
+                                            <option value="">--Select--</option>
+                                            <option  value="fortify">Fortify</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div *ngIf="(buildInfo.securityAnalysisTool==='fortify')">
+                                    <div *ngIf = " IdpdataService.data.code.technology === 'J2EE/Ant'
+                                    || IdpdataService.data.code.technology === 'J2EE/Gradle'" class="row form-group">
+                                            <span class="col-md-3 text-right">
+                                                <label class="control-label">Java Source Version
+                                                </label>
+                                            </span>
+                                            <div class="col-md-7 mg10">
+                                                <select name="java_version" [(ngModel)]="buildInfo.fortifyDetails.javaVersion" id="java_version"  #teamName="ngModel" class="form-control" style="width: 50%">
+                                                    <option value="">--Select--</option>
+                                                    <option *ngFor = "let version of javaVersionsForFortify">{{version}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div *ngIf = "IdpdataService.data.code.technology === 'dotNetCsharp'" class="row form-group">
+                                                <span class="col-md-3 text-right">
+                                                    <label class="control-label"> .NET Framework Version
+                                                        <span class="star">*</span>
+                                                    </label>
+                                                </span>
+                                                <div class="col-md-7 mg10">
+                                                    <select name=".net_version" [(ngModel)]="buildInfo.fortifyDetails.dotNetVersion" id=".net_version"  #teamName="ngModel" class="form-control" style="width: 50%" required>
+                                                        <option value="">--Select--</option>
+                                                        <option *ngFor = "let version of dotNetVersionsForFortify">{{version}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group exclude-file">
+                                                <div class="col-md-3 text-right">
+                                                    <label class="control-label">Exclude List:</label>
+                                                </div>
+                                            <div class="col-md-9 field-tip text-left">
+    
+                                        <input 
+                                            class="form-control txtbox boxWidth" 
+                                            name="excludeList" id="bdpbaltg" 
+                                            [(ngModel)]="buildInfo.fortifyDetails.excludeList" 
+                                            type="text" 
+                                            placeholder='"**/directory/**/*" "/**/*.java"' 
+                                            minlength='1' 
+                                            maxlength="500">
+                                        <span class="tip-content">Exclude the files that need not to be scanned</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div>
     <div class="card">
@@ -944,12 +1026,13 @@
                             <!-- <div> -->
                             <label class="col-md-3 text-right control-label " style="padding-right: 18px;">Docker
                                 {{'Password'|translate}}
+                                <span class="star">*</span>
                             </label>
                             <!-- </div> -->
                             <div class="col-md-8 field-tip textFieldContainer text-left">
                                 <input class="form-control textFieldWidth" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.passwordDR"
                                     encrypt id="dydspwdtfdrd{{envIndex}}{{stepIndex}}" name="passWordDockerdr{{envIndex}}{{stepIndex}}"
-                                    type="password" placeholder="password" maxlength="150">
+                                    type="password" placeholder="password" maxlength="150" required>
                                 <span class="tip-content">{{'Password
                                     for '|translate}} Docker URL</span>
                             </div>

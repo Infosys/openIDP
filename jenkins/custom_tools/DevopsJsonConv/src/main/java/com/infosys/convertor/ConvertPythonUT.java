@@ -50,6 +50,7 @@ public class ConvertPythonUT {
 				tcObj.setDuration(String.valueOf(tc.getTime()));
 				tcObj.setStartTime(getStartTime());
 				tcObj.setCategory("Unit Test");
+				tcObj.setTestToolName("Python UT");
 				if (tc.getFailure() == null && tc.getError() == null) {
 					tcObj.setStatus("SUCCESS");
 					tcObj.setMessage("Test Case Passed");

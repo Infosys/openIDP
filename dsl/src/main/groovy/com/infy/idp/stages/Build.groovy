@@ -20,7 +20,7 @@ import javaposse.jobdsl.dsl.DslFactory
 import com.infy.idp.plugins.wrappers.BuildEnv
 import com.infy.idp.plugins.wrappers.BuildEnvIIS
 import com.infy.idp.plugins.wrappers.*
-
+import com.infy.idp.plugins.buildsteps.*
 
 /**
  *
@@ -79,6 +79,15 @@ class Build {
                                 MavenBuild.mavenBuildJobCreation(delegate, jsonData, envVar, basepath)
                                 break
 
+                        }
+                    }
+                    // fortify in postbuild step   
+                    if(jsonData.buildInfo.securityAnalysisTool != null && jsonData.buildInfo.securityAnalysisTool != '' ){
+                        if(jsonData.buildInfo.securityAnalysisTool.equalsIgnoreCase("fortify")){
+                            Fortify fortify = new Fortify()
+                            fortify.add(delegate, jsonData)
+                            def commandN = "ReportGenerator -format xml -f fortifyxmlreport.xml -source fortifyxmlreport.fpr"
+                            ExecuteCmdPostBuild.invokeCmd(delegate, commandN, jsonData.basicInfo.buildServerOS)
                         }
                     }
 
@@ -217,7 +226,15 @@ class Build {
                                 break
                         }
                     }
-
+                    // fortify in postbuild step
+                    if(jsonData.buildInfo.securityAnalysisTool != null && jsonData.buildInfo.securityAnalysisTool != '' ){
+                        if(jsonData.buildInfo.securityAnalysisTool.equalsIgnoreCase("fortify")){
+                            Fortify fortify = new Fortify()
+                            fortify.add(delegate, jsonData)
+                            def commandN = "ReportGenerator -format xml -f fortifyxmlreport.xml -source fortifyxmlreport.fpr"
+                            ExecuteCmdPostBuild.invokeCmd(delegate, commandN, jsonData.basicInfo.buildServerOS)
+                        }
+                    }
 
                     NiaIntegStage.run(delegate, jsonData, Constants.BUILD)
 

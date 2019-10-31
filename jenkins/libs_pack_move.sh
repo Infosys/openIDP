@@ -63,3 +63,4 @@ cp -rpf /jenkins/home_files/org.jenkinsci.plugins.p4.PerforceScm.xml /jenkinsdat
 cp -rpf /jenkins/home_files/org.jenkinsci.plugins.testresultsanalyzer.TestResultsAnalyzerExtension.xml /jenkinsdata/org.jenkinsci.plugins.testresultsanalyzer.TestResultsAnalyzerExtension.xml
 cp -rpf /jenkins/home_files/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml /jenkinsdata/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml
 cp -rpf /jenkins/home_files/scriptApproval.xml /jenkinsdata/scriptApproval.xml
+cp -rpf /jenkins/home_files/config.xml /jenkinsdata/config.xml

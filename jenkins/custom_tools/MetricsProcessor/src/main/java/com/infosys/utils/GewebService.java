@@ -59,16 +59,15 @@ public class GewebService {
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Content-Type", "application/octet-stream");
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-			writer.write(payload);
-			writer.close();
-			connection.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line;
-			while ((line = br.readLine()) != null) {
-				jsonString.append(line);
+			try(OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())){
+				writer.write(payload);
+			}			
+			try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))){
+				String line;
+				while ((line = br.readLine()) != null) {
+					jsonString.append(line);
+				}
 			}
-			br.close();
 			connection.disconnect();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

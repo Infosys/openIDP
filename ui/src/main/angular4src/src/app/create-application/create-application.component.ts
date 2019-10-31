@@ -292,6 +292,18 @@ export class CreateApplicationComponent implements OnInit {
         "messageEnvName": ""
     });
   }
+  clearOrSetArtifactoryDetails(){
+    this.grantAccess.artifactToStage.artifactRepo.repoURL="",
+    this.grantAccess.artifactToStage.artifactRepo.repoName="",
+    this.grantAccess.artifactToStage.artifactRepo.repoUsername="",
+    this.grantAccess.artifactToStage.artifactRepo.repoPassword="",
+    this.grantAccess.artifactToStage.artifactRepo.dockerFilePathDR="",
+    this.grantAccess.artifactToStage.artifactRepo.dockerRegistryUrlDR="",
+    this.grantAccess.artifactToStage.artifactRepo.repoNameDR="",
+    this.grantAccess.artifactToStage.artifactRepo.userNameDR="",
+    this.grantAccess.artifactToStage.artifactRepo.passwordDR=""
+}
+
   removeEnvProv(envIndex) {
     this.delEnvProvModalRef = this.modalService.show(this.modalforDelProv);
     this.delEnvProvModalRef.content = {envIndex};

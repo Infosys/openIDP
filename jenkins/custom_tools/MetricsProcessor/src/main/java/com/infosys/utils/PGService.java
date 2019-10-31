@@ -19,12 +19,18 @@ import java.net.URLEncoder;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.util.Base64;
+import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.infosys.json.JsonClass;
 
 public class PGService {
+	
+	private static final Logger logger = Logger.getLogger(PGService.class);
+	
 	public boolean postJSON(String jsonFileLocation, String url, String appName, String pipeline, String temp,
 			String pgsuname, String pgspwd) {
 		try {
@@ -73,16 +79,19 @@ public class PGService {
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Content-Type", "application/json");
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-			writer.write(payload);
-			writer.close();
-			connection.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line;
-			while ((line = br.readLine()) != null) {
-				jsonString.append(line);
+			logger.info("Calling dashboard service at '/{appname}/{pipname}/{pipbuildno}/update'");
+			logger.info("Json to be posted : ");
+			JsonClass tempJsonForDebug = new Gson().fromJson(payload, JsonClass.class);
+			logger.info(tempJsonForDebug.toString());
+			try(OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())){
+				writer.write(payload);
 			}
-			br.close();
+			try(BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))){
+				String line;
+				while ((line = br.readLine()) != null) {
+					jsonString.append(line);
+				}
+			}
 			connection.disconnect();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -97,9 +106,13 @@ public class PGService {
 		if (jsonFile.contains(appName + "_" + pipeline)) {
 			try {
 				String x = File.separator;
+				logger.info("Reading JSON data from file : ");
+				logger.info(jsonFile);
 				jsonReader = new JsonReader(new FileReader(temp + x + jsonFile));
 				result = gson.fromJson(jsonReader, JsonClass.class);
-				System.out.println("Json is " + jsonReader.toString());
+				logger.info("Data read successfully");
+				logger.info("Read Json is : ");
+				logger.info(new Gson().toJson(result, JsonClass.class));
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			} finally {
@@ -107,7 +120,7 @@ public class PGService {
 					try {
 						jsonReader.close();
 					} catch (IOException e) {
-						System.out.println(e.getMessage());
+						logger.error(e);
 					}
 				}
 			}

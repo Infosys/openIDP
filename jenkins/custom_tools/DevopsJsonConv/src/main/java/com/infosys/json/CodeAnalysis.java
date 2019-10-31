@@ -26,6 +26,11 @@ public class CodeAnalysis {
 	private String recommendation;
 	@JsonProperty("className")
 	private String className;
+	@JsonProperty("type")
+	private String type;
+	@JsonProperty("project")
+	private String project;
+	
 
 	public String getRuleName() {
 		return ruleName;
@@ -60,6 +65,8 @@ public class CodeAnalysis {
 		this.ruleName = "default";
 		this.recommendation = "default";
 		this.className = "default";
+		this.project="default";
+		this.type="default";
 	}
 
 	public CodeAnalysis(String id, String severity, String message) {
@@ -137,4 +144,25 @@ public class CodeAnalysis {
 	public void setcategory(String testsuites) {
 		this.category = testsuites;
 	}
+
+	@JsonProperty("type")
+	public String getType() {
+		return type;
+	}
+
+	@JsonProperty("type")
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@JsonProperty("project")
+	public String getProject() {
+		return project;
+	}
+
+	@JsonProperty("project")
+	public void setProject(String project) {
+		this.project = project;
+	}
+	
 }

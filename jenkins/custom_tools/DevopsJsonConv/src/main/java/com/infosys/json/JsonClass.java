@@ -411,4 +411,19 @@ public class JsonClass {
 	public void setReports(Reports reports) {
 		this.Reports = reports;
 	}
+	@Override
+	public String toString() {
+		return "JsonClass [sonarDetails=" + sonarDetails + ", pipelineName=" + pipelineName + ", groupId=" + groupId
+				+ ", groupName=" + groupName + ", ssoId=" + ssoId + ", log=" + log + ", BaseURL=" + BaseURL
+				+ ", Reports=" + Reports + ", functionalTest=" + functionalTest + ", serviceTest=" + serviceTest
+				+ ", performanceTest=" + performanceTest + ", securityTest=" + securityTest + ", codeQuality="
+				+ codeQuality + ", codeCoverage=" + codeCoverage + ", application=" + application + ", buildId="
+				+ buildId + ", jobBuildId=" + jobBuildId + ", buildDetails=" + buildDetails + ", buildOwners="
+				+ buildOwners + ", ruleSet=" + ruleSet + ", codeMetric=" + codeMetric + ", testCaseResult="
+				+ testCaseResult + ", codeAnalysis=" + codeAnalysis + ", coverageDetails=" + coverageDetails
+				+ ", versionInfo=" + versionInfo + ", scmInfo=" + scmInfo + ", fileNet=" + fileNet + "]";
+	}
+	
+	
+	
 }

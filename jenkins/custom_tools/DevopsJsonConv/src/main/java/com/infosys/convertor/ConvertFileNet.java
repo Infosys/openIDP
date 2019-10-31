@@ -37,7 +37,7 @@ public class ConvertFileNet {
 		String importFilePath = inputPath + "/" + importFileName;
 		System.out.println("importFilePAth is  " + importFilePath);
 		File importFile = new File(importFilePath);
-		logger.debug("file opend");
+		logger.info("file opend");
 		logger.info("convert; importFilePAth=" + importFilePath);
 		System.out.println("convert; importFilePAth =" + importFilePath);
 		JAXBContext jaxbContextForPair = JAXBContext.newInstance(PairConfig.class);

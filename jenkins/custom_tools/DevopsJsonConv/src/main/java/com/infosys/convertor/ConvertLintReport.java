@@ -40,7 +40,8 @@ public class ConvertLintReport {
 				CodeAnalysis c = new CodeAnalysis();
 				c.setId(i2.getId());
 				c.setMessage(i2.getMessage());
-				c.setLine(Integer.toString(i2.getLocation().getLine()));
+				Integer line=i2.getLocation().getLine();
+				if(line!=null)c.setLine(Integer.toString(line));
 				c.setruleName(i2.getSummary());
 				c.setcategory("Android_Lint");
 				c.setClassName(i2.getLocation().getFile());

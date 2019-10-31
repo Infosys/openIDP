@@ -36,22 +36,26 @@ public class ConvertTRXNunit {
 		try {
 			EditDocType.edit(inputPath);
 			File file = new File(inputPath);
-			Reader fileReader = new FileReader(file);
-			BufferedReader bufReader = new BufferedReader(fileReader);
+			
 			StringBuilder sb = new StringBuilder();
-			String line = bufReader.readLine();
-			while (line != null) {
-				sb.append(line).append("\n");
-				line = bufReader.readLine();
+			try(BufferedReader bufReader = new BufferedReader(new FileReader(file))){
+				String line = bufReader.readLine();
+				while (line != null) {
+					sb.append(line).append("\n");
+					line = bufReader.readLine();
+				}
 			}
+			
 			String xml2String = sb.toString();
 			//
 			//
 			xml2String = xml2String.replaceAll("xmlns", "temp");
-			FileOutputStream o = new FileOutputStream(file);
+			
 			byte[] strToBytes = xml2String.getBytes();
-			o.write(strToBytes);
-			o.close();
+			try(FileOutputStream o = new FileOutputStream(file)){
+				o.write(strToBytes);
+			}
+
 			JAXBContext jaxbContext = JAXBContext.newInstance(com.infosys.utilities.ntrxunit.TestRun.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			com.infosys.utilities.ntrxunit.TestRun testRun = (com.infosys.utilities.ntrxunit.TestRun) jaxbUnmarshaller
@@ -65,6 +69,7 @@ public class ConvertTRXNunit {
 				t.setCategory(".Net Junit TestCaseResult");
 				t.setStartTime(t2.getStartTime());
 				t.setDuration(t2.getDuration());
+				t.setTestToolName("TRXNunit");
 				if (t2.getOutcome().equalsIgnoreCase("error")) {
 					t.setMessage("error");
 					t.setMessage("testcase results in error");
@@ -85,8 +90,7 @@ public class ConvertTRXNunit {
 			}
 			json.setTestCaseResult(tr);
 			logger.info("Nunit trx report successfully parsed");
-			fileReader.close();
-			bufReader.close();
+			
 		} catch (Exception e) {
 			logger.error("Conversion error for " + inputPath + "Error: " + e);
 		}

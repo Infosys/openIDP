@@ -23,7 +23,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class BuildInfoSubComponent implements OnInit {
   @ViewChild("modalforDelAntProperties")DelAntProp;
 
+  javaVersionsForFortify: string[] = ['1.5','1.6','1.7','1.8','1.9']
 
+  dotNetVersionsForFortify: string[] = ['3.5','4.0','4.5','4.6','4.7','4.8'] 
+  
   @Input()
   public formName: string;
     deleteAntPropModalRef: BsModalRef;
@@ -171,6 +174,25 @@ openSADropdown() {
                                         };
     this.buildInfo.securityAnalysisTool="";
 }
+addFortifyDetails(){
+    if(this.buildInfo.securityAnalysisTool === 'fortify'){
+        this.buildInfo.fortifyDetails = {
+            "javaVersion" : "",
+            "dotNetVersion" : "",
+            "excludeList" : ""
+        };
+    }
+  }
+
+  clearFortifyDetails(){
+    if(this.buildInfo.securityAnalysisTool !== 'fortify'){
+        this.buildInfo.fortifyDetails = {
+            "javaVersion" : "",
+            "dotNetVersion" : "",
+            "excludeList" : ""
+        };
+    }
+  }
 
   closeSADropdown() {
 
@@ -188,16 +210,7 @@ openSADropdown() {
     this.buildInfo.securityAnalysisTool=null;
   }
 
-  updateSecurityAnalysis() {
-      if(this.buildInfo.securityAnalysisTool === 'checkmarx'){
-        this.buildInfo.checkmarxAnalysis.scanTag = "on"
-        if (this.IdpdataService.application.checkMarxDetails && this.IdpdataService.application.checkMarxDetails.checkmarxUrl !== "") {
-            this.getCheckmarxDetails();
-        }
-      }else{
-        this.buildInfo.checkmarxAnalysis.scanTag = "off"
-      }
-  }
+  
 
   openOSACheck() {
     this.buildInfo.checkmarxAnalysis.enableOSA = {
@@ -238,9 +251,22 @@ openSADropdown() {
 
   clearArtifactOnSelect() {
     this.buildInfo.artifactToStage.artifactRepo = {};
-    this.buildInfo.artifactToStage.artifact = "";
+    this.buildInfo.artifactToStage.artifact = "na";
     this.checkBoxObject.nugetPackage = "off";
+    this.clearOrSetArtifactoryDetails()
   }
+
+  clearOrSetArtifactoryDetails(){
+    this.buildInfo.artifactToStage.artifactRepo.repoURL="",
+    this.buildInfo.artifactToStage.artifactRepo.repoName="",
+    this.buildInfo.artifactToStage.artifactRepo.repoUsername="",
+    this.buildInfo.artifactToStage.artifactRepo.repoPassword="",
+    this.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR="",
+    this.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR="",
+    this.buildInfo.artifactToStage.artifactRepo.repoNameDR="",
+    this.buildInfo.artifactToStage.artifactRepo.userNameDR="",
+    this.buildInfo.artifactToStage.artifactRepo.passwordDR=""
+}
 
   naArtifact() {
     if (this.buildInfo.artifactToStage.artifactRepoName !== "na") {
@@ -250,6 +276,8 @@ openSADropdown() {
         this.IdpdataService.artifactVariable = false;
         this.clearArtifactOnSelect();
     }
+    this.clearOrSetArtifactoryDetails()
+
   }
 
   clearRunScripts() {
