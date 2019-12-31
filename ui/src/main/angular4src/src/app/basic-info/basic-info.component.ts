@@ -208,11 +208,6 @@ export class BasicInfoComponent implements OnInit {
         "name": "Pipeline Sequence",
         "value": "pipeline"
     },
-
-    {
-        "name": "Master Workflow Sequence",
-        "value": "workflow"
-      },
     ];
   }
 

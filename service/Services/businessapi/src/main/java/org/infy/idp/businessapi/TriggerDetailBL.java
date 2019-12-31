@@ -585,6 +585,18 @@ public class TriggerDetailBL {
 				triggerInputs.setRepoName(repoName);
 				triggerInputs.setNexusURL(nexusURL);
 				String response = this.getInputStream(userName, passWord, urlToHit);
+				if (response == null) {
+					urlToHit = urlToHit.replaceFirst("/beta", "/v1");
+					response = this.getInputStream(userName, passWord, urlToHit);
+				}
+				if (response == null) {
+					urlToHit = urlToHit.replaceFirst("/siesta", "");
+					response = this.getInputStream(userName, passWord, urlToHit);
+				}
+				if (response == null) {
+					urlToHit = urlToHit.replaceFirst("/v1", "/beta");
+					response = this.getInputStream(userName, passWord, urlToHit);
+				}
 				Gson gson = new Gson();
 				Nexus nexusArtifact = gson.fromJson(response, Nexus.class);
 				String data="";
