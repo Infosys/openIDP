@@ -47,6 +47,8 @@ public class CopyFolderUtility {
 				fileN = "nunit_" + fileN;
 			else if (fileN.toLowerCase().contains("result.txt"))
 				fileN = "TSLint_test_" + fileN;
+			else if (fileN.toUpperCase().startsWith("TEST-") && src.getPath().toLowerCase().contains("SeleniumJunit_Report"))
+				fileN = "Selenium_report" + fileN;
 			else if (fileN.toLowerCase().contains("junittestreport1.xml"))
 				fileN = "JUnit_test_Angular_" + fileN;
 			else if (fileN.toLowerCase().contains("coberturacoverage.xml"))

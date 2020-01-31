@@ -40,7 +40,7 @@
                 </label>
               </div>
               <div class="col-md-4 field-tip">
-                <input id="bipntf" (change)="checkJobName(basicInfo.pipelineName)" #title="ngModel" name="title" class="form-control"
+                <input id="bipntf" (change)="checkJobName(basicInfo.pipelineName);setValues()" #title="ngModel" name="title" class="form-control"
                   [disabled]="formStatusObject.operation == 'edit'" [(ngModel)]="basicInfo.pipelineName" type="text" placeholder="JobName"
                   minlength="5" maxlength="35" pattern="[_a-zA-Z0-9]+" required>
                <span *ngIf="basicInfo.pipelineType" class="tip-content">{{basicInfo.pipelineType}}</span>
@@ -76,7 +76,7 @@
             </div>
             <div class="col-md-4 text-left">
               <select  class="form-control" [(ngModel)]="basicInfo.buildServerOS" name="buildServerOS" id="bibsdd" [disabled]="formStatusObject.operation == 'edit' "
-                required>
+              (change)="setOSName()" required>
                 <option value="">--Select--</option>
                 <option *ngFor="let os of osList" [ngValue]="os.value">{{os.name}}</option>
               </select>

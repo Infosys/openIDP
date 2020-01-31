@@ -16,7 +16,7 @@ import { AdalService } from "adal-angular4";
 import { StartupService } from "./startup.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-
+import { OAuthService } from 'angular-oauth2-oidc';
 
 
 @Injectable()
@@ -244,7 +244,8 @@ export class IdprestapiService {
     private router: Router,
     private adalSvc: AdalService,
     private startupService: StartupService,
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private oauthService: OAuthService
 
   ) {
     this.startupData = this.startupService.getData();
@@ -394,7 +395,6 @@ export class IdprestapiService {
     const url = "idp-oauth/oauth/token";
     const headers = new Headers();
     headers.append("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
-
     if (this.idpdataService.authmode === "keycloak") {
         console.log(this.idpdataService.keycloakToken);
         headers.append("accessflow", this.idpdataService.keycloakToken);
@@ -432,7 +432,9 @@ export class IdprestapiService {
     if (this.idpdataService.authmode === "keycloak") {
         this._cookieService.removeAll();
         this.idpdataService.keycloakToken = "";
-        KeycloakService.logout();
+        console.log("inside logout");
+        this.oauthService.logOut();
+
     }
     const url = "idp-oauth/oauth/token";
     return this.http

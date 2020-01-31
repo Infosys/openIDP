@@ -91,93 +91,93 @@ public class FxCopReport {
 		@XmlType(name = "", propOrder = { "type", "exceptionMessage", "stackTrace" })
 		public static class Exception {
 			@XmlElement(name = "Type", required = true)
-			protected java.lang.String type;
+			protected String type;
 			@XmlElement(name = "ExceptionMessage", required = true)
-			protected java.lang.String exceptionMessage;
+			protected String exceptionMessage;
 			@XmlElement(name = "StackTrace", required = true)
-			protected java.lang.String stackTrace;
+			protected String stackTrace;
 			@XmlAttribute(name = "Keyword")
-			protected java.lang.String keyword;
+			protected String keyword;
 			@XmlAttribute(name = "Kind")
-			protected java.lang.String kind;
+			protected String kind;
 			@XmlAttribute(name = "TypeName")
-			protected java.lang.String typeName;
+			protected String typeName;
 			@XmlAttribute(name = "Category")
-			protected java.lang.String category;
+			protected String category;
 			@XmlAttribute(name = "CheckId")
-			protected java.lang.String checkId;
+			protected String checkId;
 			@XmlAttribute(name = "Target")
-			protected java.lang.String target;
+			protected String target;
 
-			public java.lang.String getType() {
+			public String getType() {
 				return type;
 			}
 
-			public void setType(java.lang.String value) {
+			public void setType(String value) {
 				this.type = value;
 			}
 
-			public java.lang.String getExceptionMessage() {
+			public String getExceptionMessage() {
 				return exceptionMessage;
 			}
 
-			public void setExceptionMessage(java.lang.String value) {
+			public void setExceptionMessage(String value) {
 				this.exceptionMessage = value;
 			}
 
-			public java.lang.String getStackTrace() {
+			public String getStackTrace() {
 				return stackTrace;
 			}
 
-			public void setStackTrace(java.lang.String value) {
+			public void setStackTrace(String value) {
 				this.stackTrace = value;
 			}
 
-			public java.lang.String getKeyword() {
+			public String getKeyword() {
 				return keyword;
 			}
 
-			public void setKeyword(java.lang.String value) {
+			public void setKeyword(String value) {
 				this.keyword = value;
 			}
 
-			public java.lang.String getKind() {
+			public String getKind() {
 				return kind;
 			}
 
-			public void setKind(java.lang.String value) {
+			public void setKind(String value) {
 				this.kind = value;
 			}
 
-			public java.lang.String getTypeName() {
+			public String getTypeName() {
 				return typeName;
 			}
 
-			public void setTypeName(java.lang.String value) {
+			public void setTypeName(String value) {
 				this.typeName = value;
 			}
 
-			public java.lang.String getCategory() {
+			public String getCategory() {
 				return category;
 			}
 
-			public void setCategory(java.lang.String value) {
+			public void setCategory(String value) {
 				this.category = value;
 			}
 
-			public java.lang.String getCheckId() {
+			public String getCheckId() {
 				return checkId;
 			}
 
-			public void setCheckId(java.lang.String value) {
+			public void setCheckId(String value) {
 				this.checkId = value;
 			}
 
-			public java.lang.String getTarget() {
+			public String getTarget() {
 				return target;
 			}
 
-			public void setTarget(java.lang.String value) {
+			public void setTarget(String value) {
 				this.target = value;
 			}
 		}
@@ -200,23 +200,23 @@ public class FxCopReport {
 		@XmlType(name = "", propOrder = { "value" })
 		public static class String {
 			@XmlValue
-			protected java.lang.String value;
+			protected String value;
 			@XmlAttribute(name = "Key")
-			protected java.lang.String key;
+			protected String key;
 
-			public java.lang.String getValue() {
+			public String getValue() {
 				return value;
 			}
 
-			public void setValue(java.lang.String value) {
+			public void setValue(String value) {
 				this.value = value;
 			}
 
-			public java.lang.String getKey() {
+			public String getKey() {
 				return key;
 			}
 
-			public void setKey(java.lang.String value) {
+			public void setKey(String value) {
 				this.key = value;
 			}
 		}
@@ -240,42 +240,42 @@ public class FxCopReport {
 				"file" })
 		public static class Rule {
 			@XmlElement(name = "Name", required = true)
-			protected java.lang.String name;
+			protected String name;
 			@XmlElement(name = "Description", required = true)
-			protected java.lang.String description;
+			protected String description;
 			@XmlElement(name = "Resolution")
 			protected List<FxCopReport.Rules.Rule.Resolution> resolution;
 			@XmlElement(name = "Owner", required = true)
-			protected java.lang.String owner;
+			protected String owner;
 			@XmlElement(name = "Url", required = true)
 			@XmlSchemaType(name = "anyURI")
-			protected java.lang.String url;
+			protected String url;
 			@XmlElement(name = "Email", required = true)
-			protected java.lang.String email;
+			protected String email;
 			@XmlElement(name = "MessageLevel", required = true)
 			protected FxCopReport.Rules.Rule.MessageLevel messageLevel;
 			@XmlElement(name = "File", required = true)
 			protected FxCopReport.Rules.Rule.File file;
 			@XmlAttribute(name = "TypeName")
-			protected java.lang.String typeName;
+			protected String typeName;
 			@XmlAttribute(name = "Category")
-			protected java.lang.String category;
+			protected String category;
 			@XmlAttribute(name = "CheckId")
-			protected java.lang.String checkId;
+			protected String checkId;
 
-			public java.lang.String getName() {
+			public String getName() {
 				return name;
 			}
 
-			public void setName(java.lang.String value) {
+			public void setName(String value) {
 				this.name = value;
 			}
 
-			public java.lang.String getDescription() {
+			public String getDescription() {
 				return description;
 			}
 
-			public void setDescription(java.lang.String value) {
+			public void setDescription(String value) {
 				this.description = value;
 			}
 
@@ -286,27 +286,27 @@ public class FxCopReport {
 				return this.resolution;
 			}
 
-			public java.lang.String getOwner() {
+			public String getOwner() {
 				return owner;
 			}
 
-			public void setOwner(java.lang.String value) {
+			public void setOwner(String value) {
 				this.owner = value;
 			}
 
-			public java.lang.String getUrl() {
+			public String getUrl() {
 				return url;
 			}
 
-			public void setUrl(java.lang.String value) {
+			public void setUrl(String value) {
 				this.url = value;
 			}
 
-			public java.lang.String getEmail() {
+			public String getEmail() {
 				return email;
 			}
 
-			public void setEmail(java.lang.String value) {
+			public void setEmail(String value) {
 				this.email = value;
 			}
 
@@ -326,27 +326,27 @@ public class FxCopReport {
 				this.file = value;
 			}
 
-			public java.lang.String getTypeName() {
+			public String getTypeName() {
 				return typeName;
 			}
 
-			public void setTypeName(java.lang.String value) {
+			public void setTypeName(String value) {
 				this.typeName = value;
 			}
 
-			public java.lang.String getCategory() {
+			public String getCategory() {
 				return category;
 			}
 
-			public void setCategory(java.lang.String value) {
+			public void setCategory(String value) {
 				this.category = value;
 			}
 
-			public java.lang.String getCheckId() {
+			public String getCheckId() {
 				return checkId;
 			}
 
-			public void setCheckId(java.lang.String value) {
+			public void setCheckId(String value) {
 				this.checkId = value;
 			}
 
@@ -354,33 +354,33 @@ public class FxCopReport {
 			@XmlType(name = "", propOrder = { "value" })
 			public static class File {
 				@XmlValue
-				protected java.lang.String value;
+				protected String value;
 				@XmlAttribute(name = "Name")
-				protected java.lang.String name;
+				protected String name;
 				@XmlAttribute(name = "Version")
-				protected java.lang.String version;
+				protected String version;
 
-				public java.lang.String getValue() {
+				public String getValue() {
 					return value;
 				}
 
-				public void setValue(java.lang.String value) {
+				public void setValue(String value) {
 					this.value = value;
 				}
 
-				public java.lang.String getName() {
+				public String getName() {
 					return name;
 				}
 
-				public void setName(java.lang.String value) {
+				public void setName(String value) {
 					this.name = value;
 				}
 
-				public java.lang.String getVersion() {
+				public String getVersion() {
 					return version;
 				}
 
-				public void setVersion(java.lang.String value) {
+				public void setVersion(String value) {
 					this.version = value;
 				}
 			}
@@ -389,15 +389,15 @@ public class FxCopReport {
 			@XmlType(name = "", propOrder = { "value" })
 			public static class MessageLevel {
 				@XmlValue
-				protected java.lang.String value;
+				protected String value;
 				@XmlAttribute(name = "Certainty")
 				protected Byte certainty;
 
-				public java.lang.String getValue() {
+				public String getValue() {
 					return value;
 				}
 
-				public void setValue(java.lang.String value) {
+				public void setValue(String value) {
 					this.value = value;
 				}
 
@@ -414,23 +414,23 @@ public class FxCopReport {
 			@XmlType(name = "", propOrder = { "value" })
 			public static class Resolution {
 				@XmlValue
-				protected java.lang.String value;
+				protected String value;
 				@XmlAttribute(name = "Name")
-				protected java.lang.String name;
+				protected String name;
 
-				public java.lang.String getValue() {
+				public String getValue() {
 					return value;
 				}
 
-				public void setValue(java.lang.String value) {
+				public void setValue(String value) {
 					this.value = value;
 				}
 
-				public java.lang.String getName() {
+				public String getName() {
 					return name;
 				}
 
-				public void setName(java.lang.String value) {
+				public void setName(String value) {
 					this.name = value;
 				}
 			}

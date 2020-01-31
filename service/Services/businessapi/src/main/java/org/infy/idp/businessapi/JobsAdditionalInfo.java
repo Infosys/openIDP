@@ -8,14 +8,12 @@
 
 package org.infy.idp.businessapi;
 
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
+
 import java.util.List;
 
 import org.infy.entities.triggerinputs.Steps;
@@ -43,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.infy.idp.utils.OrchestratorConnector;
 import com.google.gson.Gson;
 
 @Component
@@ -60,7 +58,8 @@ public class JobsAdditionalInfo {
 	private TriggerDetailBL getTriggerDetails;
 	@Autowired
 	private TriggerAdditionalBL triggerAddBl;
-
+	@Autowired
+	private OrchestratorConnector orchConn;
 	@Autowired
 	private JobManagementDL jobManagementDL;
 	@Autowired
@@ -80,54 +79,8 @@ public class JobsAdditionalInfo {
 	}
 
 	public String downloadArtifacts(DownloadArtifactInputs downloadArtifactInputs) {
-		StringBuilder jobUrl = new StringBuilder();
-		if ("SelectNumber".equalsIgnoreCase(downloadArtifactInputs.getBuildNumber())
-				|| ("SelectJob").equalsIgnoreCase(downloadArtifactInputs.getSubJobName())) {
-			logger.error("Build number or job is not correct!!");
-			return null;
-		}
-		jobUrl.append(configmanager.getJenkinsurl());
-		jobUrl.append(JOB_URL);
-		jobUrl.append(downloadArtifactInputs.getJobName());
-		jobUrl.append(JOB_URL);
-		jobUrl.append(downloadArtifactInputs.getSubJobName());
-		jobUrl.append("/");
-		jobUrl.append(downloadArtifactInputs.getBuildNumber());
-		jobUrl.append("/artifactarchive.zip");
-		String line = "";
-		FileOutputStream outputStream = null;
-		InputStream in = null;
-		try {
-			URL url = new URL(jobUrl.toString());
-			String s = configmanager.getJenkinsuserid() + ":" + configmanager.getJenkinspassword();
-			String encoding = Base64.getEncoder().encodeToString(s.getBytes());
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setDoOutput(false);
-			connection.setRequestProperty(AUTHORIZATION, BASIC + encoding);
-			in = connection.getInputStream();
-			outputStream = new FileOutputStream(downloadArtifactInputs.getJobName() + ".zip");
-			int bytesRead = -1;
-			byte[] buffer = new byte[4096];
-			while ((bytesRead = in.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-				logger.debug("No artifacts present");
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
-				if (outputStream != null) {
-					outputStream.close();
-				}
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
-		return line;
+		return orchConn.downloadArtifacts(downloadArtifactInputs.getJobName(),
+				downloadArtifactInputs.getBuildNumber(), downloadArtifactInputs.getSubJobName());
 	}
 
 	public List<String> getAllPermissionforApp(String appName, String userId) {
@@ -150,8 +103,8 @@ public class JobsAdditionalInfo {
 			return status;
 		}
 		try {
-			cli.disableJob(triggerJobName.getApplicationName() + "_" + triggerJobName.getPipelineName(),
-					"randomString");
+			orchConn.disableJob(triggerJobName.getApplicationName() + "_" + triggerJobName.getPipelineName(),
+					"randomString",configmanager.getJenkinsurl());
 		} catch (IOException e) {
 			logger.error("could not disable the job", e);
 		}
@@ -178,13 +131,7 @@ public class JobsAdditionalInfo {
 	}
 
 	public String getStageViewUrl(String appName, String pipelineName) throws Exception {
-		String url = "";
-		String jenkinsUrl = configmanager.getJenkinsstageviewurl();
-		String appNameWS = appName.replaceAll(" ", "%20");
-		String pipelineNameWS = pipelineName.replaceAll(" ", "%20");
-		String jobName = appNameWS + "_" + pipelineNameWS;
-		url = jenkinsUrl + JOB_URL + jobName + JOB_URL + jobName + "_Pipeline/";
-		return url;
+		return orchConn.getStageViewUrl(appName, pipelineName,configmanager.getJenkinsurl());
 	}
 
 	public List<String> getAllPermission(String userId) {
@@ -487,11 +434,12 @@ public class JobsAdditionalInfo {
 		String repoName = appInfo.getArtifactToStage().getArtifactRepoName();
 		if (repoName.equalsIgnoreCase("jfrog")) {
 			try {
-				i = cli.addArtifactoryRepoGlobConf(appInfo.getArtifactToStage().getArtifactRepo().getRepoURL(),
+				i = orchConn.addArtifactoryRepoGlobConf(appInfo.getArtifactToStage().getArtifactRepo().getRepoURL(),
 						appInfo.getArtifactToStage().getArtifactRepo().getRepoUsername(),
 						appInfo.getArtifactToStage().getArtifactRepo().getRepoPassword(),
 						appInfo.getArtifactToStage().getArtifactRepo().getRepoUsername().toLowerCase() + "_"
-								+ appInfo.getArtifactToStage().getArtifactRepo().getRepoName());
+								+ appInfo.getArtifactToStage().getArtifactRepo().getRepoName(),configmanager.getJenkinsurl());
+				
 				logger.info("Artifcatory added successfully. Status : " + i);
 			} catch (Exception e) {
 				logger.error("Error in slave creation!!", e);

@@ -10,11 +10,10 @@ package org.infy.idp.businessapi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
+import org.infy.idp.utils.OrchestratorConnector;
 import org.infy.entities.triggerinputs.TriggerInputs;
 import org.infy.entities.triggerinputs.TriggerJobName;
 import org.infy.idp.dataapi.services.DeleteInfo;
@@ -109,7 +108,9 @@ public class JobsManagementBL {
 	private KafkaTemplate<String, String> kafkaTemplate;
 	@Autowired
 	private EnvironmentBL environmentBL;
-
+	@Autowired
+	private OrchestratorConnector orchConn;
+	
 	private JobsManagementBL() {
 	}
 
@@ -401,9 +402,10 @@ public class JobsManagementBL {
 			allUsers += ";" + orgName;
 			kafkaTemplate.send("idpoauth", allUsers);
 			try {
-				cli.createRole("IDP_User", usersList.toString(), appName + ".*_Slave", "GLOBAL", PIPELINE_READER);
-				status = cli.createRole(appName + "_Reader", usersList.toString(), sPipelineAdminReaderPattern,
-						"PROJECT", PIPELINE_READER);
+				orchConn.createRole("IDP_User", usersList.toString(), appName + ".*_Slave", "GLOBAL", PIPELINE_READER,
+						configmanager.getJenkinsurl());
+				status = orchConn.createRole(appName + "_Reader", usersList.toString(), sPipelineAdminReaderPattern,
+						"PROJECT", PIPELINE_READER, configmanager.getJenkinsurl());
 				if (status == 0)
 					logger.info("Pipeline Reader role added successfully.");
 			} catch (IOException e) {
@@ -586,9 +588,10 @@ public class JobsManagementBL {
 			kafkaTemplate.send("idpdashboard_users", allUsers);
 			kafkaTemplate.send("idpdashboard_app", appInfo.getApplicationName() + ";" + orgName);
 			try {
-				cli.createRole("IDP_User", usersList.toString(), appName + ".*_Slave", "GLOBAL", PIPELINE_READER);
-				status = cli.createRole(appName + "_Reader", usersList.toString(), sPipelineAdminReaderPattern,
-						"PROJECT", PIPELINE_READER);
+				orchConn.createRole("IDP_User", usersList.toString(), appName + ".*_Slave", "GLOBAL", PIPELINE_READER,
+						configmanager.getJenkinsurl());
+				status = orchConn.createRole(appName + "_Reader", usersList.toString(), sPipelineAdminReaderPattern,
+						"PROJECT", PIPELINE_READER, configmanager.getJenkinsurl());
 				if (status == 0)
 					logger.info("Pipeline Reader role added successfully.");
 				else
@@ -789,8 +792,9 @@ public class JobsManagementBL {
 					if (null == slave.getSSHKeyPath() || "".equalsIgnoreCase(slave.getSSHKeyPath())) {
 						slave.setSSHKeyPath(slave.getWorkspacePath());
 					}
-					cli.copySlave(slave.getSlaveName(), slave.getWorkspacePath(), slave.getLabels(),
-							slave.getSSHKeyPath());
+
+					orchConn.copySlave(slave.getSlaveName(), slave.getWorkspacePath(), slave.getLabels(),
+							slave.getSSHKeyPath(),configmanager.getJenkinsurl());
 				} catch (Exception e) {
 					logger.error("Error in slave creation!!", e);
 				}
@@ -824,78 +828,8 @@ public class JobsManagementBL {
 	}
 
 	public String getJobJSON(String jobName, String param) {
-		StringBuilder jobUrl = new StringBuilder();
-		jobUrl.append(configmanager.getJenkinsurl());
-		jobUrl.append(JOB_URL);
-		jobUrl.append(jobName);
-		logger.debug("Base Job Url:" + jobUrl);
-		if ("job".equalsIgnoreCase(param)) {
-			jobUrl.append("/api/json?tree=jobs[name]");
-			logger.debug("job url " + jobUrl);
-		} else if ("builds".equalsIgnoreCase(param)) {
-			jobUrl.append("/api/json?tree=builds[number]");
-			logger.debug("builds url " + jobUrl);
-		} else if ("builds_Pipeline".equalsIgnoreCase(param)) {
-			jobUrl.append(JOB_URL + jobName + "_Pipeline/api/json?tree=builds[number]");
-			logger.debug("builds url " + jobUrl);
-		} else if ("lastBuild".equalsIgnoreCase(param)) {
-			jobUrl.append(JOB_URL + jobName + "_Pipeline/api/json?tree=lastBuild[number]");
-			logger.debug("last build url " + jobUrl);
-		} else if ("nextBuild".equalsIgnoreCase(param)) {
-			jobUrl.append(JOB_URL + jobName + "_Pipeline/api/json?pretty=true");
-			logger.debug("next build url " + jobUrl);
-		} else if ("nextBuild_Pipeline".equalsIgnoreCase(param)) {
-			jobUrl.append(JOB_URL + jobName + "_Pipeline/api/json?pretty=true");
-			logger.debug("nextBuild_Pipeline url " + jobUrl);
-		} else if ("buildable".equalsIgnoreCase(param)) {
-			jobUrl.append("_Main/api/json?pretty=true");
-			logger.debug("buildable url " + jobUrl);
-		} else if (param.contains("ApprovalCheck")) {
-			jobUrl.append(JOB_URL + param.split(";")[2] + param.split(";")[0] + APPR_STEP);
-			logger.debug("buildable url " + jobUrl);
-		} else if (param.contains("apprNext;")) {
-			if ("BUILD".equalsIgnoreCase(param.split(";")[1])) {
-				jobUrl.append(JOB_URL + jobName + "_Build");
-			} else if ("DEPLOY".equalsIgnoreCase(param.split(";")[1])) {
-				String workenv = param.split(";")[2];
-				jobUrl.append(JOB_URL + jobName + "_Deploy_" + workenv);
-				jobUrl.append(JOB_URL + jobName + "_Deploy_" + workenv);
-			}
-			jobUrl.append("/api/json?tree=nextBuildNumber");
-			logger.debug("buildable url " + jobUrl);
-		} else if (param.contains("getJson;")) {
-			jobUrl.append("/job/" + param.split(";")[2] + param.split(";")[0]);
-			jobUrl.append("/api/json");
-			logger.debug("buildable url " + jobUrl);
-		}
-		try {
-			URL url = new URL(jobUrl.toString());
-			logger.info(jobUrl.toString());
-			StringBuilder json = new StringBuilder();
-			String line = "";
-			String s = configmanager.getJenkinsuserid() + ":" + configmanager.getJenkinspassword();
-			String encoding = Base64.getEncoder().encodeToString(s.getBytes());
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setDoOutput(false);
-			connection.setRequestProperty(AUTHORIZATION, BASIC + encoding);
-			InputStream content = connection.getInputStream();
-			BufferedReader in = new BufferedReader(new InputStreamReader(content));
-			try {
-				while ((line = (in.readLine())) != null) {
-					json.append(line);
-				}
-				return json.toString();
-			} finally {
-				in.close();
-				content.close();
-			}
-		} catch (MalformedURLException e) {
-			logger.error("malformed url", e.getMessage());
-		} catch (IOException e) {
-			logger.error("IO Exeption!!", e);
-		}
-		return "";
+
+		return orchConn.getJobJSON(jobName, param, configmanager.getJenkinsurl());
 	}
 
 	public Pipeline getPipelineDetails(TriggerJobName triggerJobName) throws SQLException {

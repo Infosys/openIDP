@@ -18,7 +18,9 @@ import org.infy.idp.utils.TriggerBuilds;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.infy.idp.utils.OrchestratorConnector;
+import org.infy.idp.entities.jobs.IDPJob;
+import com.google.gson.Gson;
 /**
  * The class DeploymentBL provides methods for updating jobs and pipelines
  * 
@@ -35,7 +37,10 @@ public class DeploymentBL {
 	private JobsAdditionalInfo jobsaddInfo;
 	@Autowired
 	private DeploymentDL deploymentDL;
-
+	
+	@Autowired
+	private OrchestratorConnector orchConn;
+	
 	@Autowired
 	private TriggerBuilds triggerBuilds;
 
@@ -117,7 +122,10 @@ public class DeploymentBL {
 		logger.info("Pipeline " + pipeline.getApplicationName() + "_" + pipeline.getPipelineName() + "_Main"
 				+ " is getting updated.");
 		try {
-			triggerBuilds.buildByJobName(pipeline.getPipelineJson());
+			Gson gson = new Gson();
+			orchConn.sendKafkaMessage(
+					"{\"action\": \"create\",\"targetplatform\":\"jenkins\",\"idpjson\":" + gson.toJson(pipeline.getPipelineJson(), IDPJob.class).toString() + ",\"jenkinsURL\":\"" + pipeline.getApplicationName() + "\"}");
+
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}

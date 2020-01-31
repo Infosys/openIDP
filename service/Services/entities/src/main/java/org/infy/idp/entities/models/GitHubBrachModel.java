@@ -14,7 +14,12 @@ package org.infy.idp.entities.models;
  *
  */
 public class GitHubBrachModel {
-	private String repoUrl, username, pwd, projectUrl, proxy, port;
+	private String repoUrl; 
+	private String username;
+	private String pwd;
+	private String projectUrl;
+	private String proxy;
+	private String port;
 
 	public GitHubBrachModel(String repoUrl, String username, String pwd, String projectUrl, String proxy, String port) {
 		this.repoUrl = repoUrl;

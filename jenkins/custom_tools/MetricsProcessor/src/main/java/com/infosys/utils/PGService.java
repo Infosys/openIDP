@@ -22,8 +22,7 @@ import org.apache.commons.net.util.Base64;
 import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
 import com.google.gson.stream.JsonReader;
 import com.infosys.json.JsonClass;
 

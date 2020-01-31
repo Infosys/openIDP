@@ -45,7 +45,7 @@ public class ConfigurationManager {
 	private String emailsmtpport;
 	private String emailserver;
 	private String emailsenderid;
-
+    private String orchestratorUrl;
 	private String dashboardurl;
 	private String sonardashboardurl;
 	private String sharePath;
@@ -414,7 +414,13 @@ public class ConfigurationManager {
 	public void setDashboardurl(String dashboardurl) {
 		this.dashboardurl = dashboardurl;
 	}
+    public String getOrchestratorUrl() {
+		return orchestratorUrl;
+	}
 
+	public void setOrchestratorUrl(String orchestratorUrl) {
+		this.orchestratorUrl = orchestratorUrl;
+	}
 	public String getSonardashboardurl() {
 		return sonardashboardurl;
 	}

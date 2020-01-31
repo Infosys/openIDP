@@ -36,7 +36,7 @@ public class ConvertICQAReport {
 			String strSplit[];
 			int splitLength;
 			while((str = br.readLine()) != null){
-				if(!str.equals(" ")){
+				if(!" ".equals(str)){
 					strSplit = str.split("\\s+");
 					splitLength = strSplit.length;
 					try{
@@ -94,8 +94,6 @@ public class ConvertICQAReport {
 		                  int responseCode = conn.getResponseCode();
 		                  System.out.println("\nSending 'POST' request to URL : " + url);
 		                  System.out.println("Response Code : " + responseCode);
-
-		                 ;
 		                  String inputLine;
 		                  StringBuffer response = new StringBuffer();
 		                  try( BufferedReader in = new BufferedReader(

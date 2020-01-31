@@ -1956,16 +1956,15 @@
                                     <div>
                                         <div class="form-row form-group">
                                             <div class="col-md-2 field-tip text-left ">
-                                                <select class="form-control" #jobTypeParam="ngModel"
-                                                    [(ngModel)]="param.jobType" name="paramJobType{{j}}" id="cdadptdd{{j}}"
-                                                    required>
+                                                <select class="form-control" #jobTypeParam="ngModel" [ngModelOptions]="{standalone: true}" id="cdadptdd{{j}}" name="paramJobType{{j}}"
+                                                    [(ngModel)]="param.jobType" required>
                                                     <option value="">--Select--</option>
                                                     <option *ngFor="let jobType  of jobParamType " [ngValue]="jobType.value">{{jobType.name}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4 field-tip text-left ">
-                                                <input class="form-control    " [(ngModel)]="param.jobParamName" name="jobParamName{{j}}"
-                                                    id="cdadpjntf{{j}}" #jobParamName="ngModel" placeholder="JobParam Name" type="text"
+                                                <input class="form-control" [(ngModel)]="param.jobParamName" name="jobParamName{{j}}" id="cdadpjntf{{j}}"
+                                                [ngModelOptions]="{standalone: true}" #jobParamName="ngModel" placeholder="JobParam Name" type="text"
                                                     maxlength="60" pattern="[a-zA-Z0-9_\s-{}]+" (blur)="checkJobParamName(j)"
                                                     required>
                                                 <div class="text-danger" *ngIf="tempObjectcode.paramDetails!==undefined && tempObjectcode.paramDetails[j]!==undefined && tempObjectcode.paramDetails[j].messageSlvName !== undefined && tempObjectcode.paramDetails[j].messageSlvName !== ''">{{tempObjectcode.paramDetails[j].messageSlvName}}</div>
@@ -1982,20 +1981,20 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div *ngIf="param.jobType != 'pwd'">
-                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" name="jobParamValue+{{j}}"
-                                                        id="cdadpjvtf{{j}}" #jobParamValue="ngModel" placeholder="JobParam Value"
-                                                        type="text" maxlength="60" required>
+                                                <div *ngIf="param.jobType !== 'pwd'">
+                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" name="jobParamValue+{{j}}" id="cdadpjvtf{{j}}"
+                                                    [ngModelOptions]="{standalone: true}" #jobParamValue="ngModel" placeholder="JobParam Value"
+                                                        type="text" maxlength="200" required>
                                                 </div>
                                                 <div *ngIf="param.jobType === 'pwd'">
-                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" name="jobParamValue2+{{j}}"
-                                                        #jobParamValue2="ngModel" placeholder="JobParam Value" type="password"
-                                                        maxlength="60" required>
+                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" encrypt [ngModelOptions]="{standalone: true}" name="jobParamValue2+{{j}}"
+                                                        #jobParamValue2="ngModel" placeholder="JobParam Value" type="password" minlength="5"
+                                                        maxlength="60" required> 
                                                 </div>
                                             </div>
                                             <div class="col-md-1 field-tip static-checkbox">
-                                                <input type="checkbox" class="text-left" [checked]="param.jobParamSatic==='on'"
-                                                    [(ngModel)]="param.jobParamSatic" name="jobParamSatic+{{j}}" id="cdadjbscb{{j}}"
+                                                <input type="checkbox" class="text-left" [checked]="param.jobParamSatic===true" name="jobParamSatic+{{j}}" id="cdadjbscb{{j}}"
+                                                    [(ngModel)]="param.jobParamSatic" [ngModelOptions]="{standalone: true}" (change)="param.jobParamSatic=$event.target.checked ?true:false"
                                                     #jobParamSatic="ngModel">
                                             </div>
                                           <div class="col-md-1 field-tip remove-icon">

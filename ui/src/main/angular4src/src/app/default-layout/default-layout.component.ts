@@ -34,7 +34,7 @@ export class DefaultLayoutComponent implements OnInit{
       {
         name: 'Home',
         icon: 'icon-speedometer',
-        url: '/previousConfig',
+        url: '/dashboard',
         attributes: {
           id: 'homeMenu'
         }

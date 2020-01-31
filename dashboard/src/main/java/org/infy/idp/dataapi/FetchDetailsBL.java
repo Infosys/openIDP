@@ -2470,7 +2470,9 @@ public class FetchDetailsBL {
 		}
 
 		else if (query.toLowerCase().contains("sappipelinedetails")) {
-			String app, env, pipeline;
+			String app;
+			String env;
+			String pipeline;
 			app = query.substring(query.indexOf("_") + 1, query.indexOf("@"));
 			pipeline = query.substring(query.indexOf("@") + 1, query.indexOf("#"));
 			env = query.substring(query.indexOf("#") + 1);

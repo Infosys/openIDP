@@ -75,19 +75,19 @@ public class ConvertBuildLog {
 			jsonClass.setLog(new String(Files.readAllBytes(Paths.get(inputPath)), Charset.defaultCharset()));
 			
 			//Package Contents
-			if(technologyName.toLowerCase().equals("informatica") && stage.toLowerCase().equals("build"))
+			if(technologyName.equalsIgnoreCase("informatica") && stage.equalsIgnoreCase("build"))
 			{
 				convertInformatica(inputPath,jsonClass,serviceUrl,artifactName);
 			}
-			if((technologyName.toLowerCase().contains("dotnet") || technologyName.toLowerCase().contains("net")) && stage.toLowerCase().equals("build"))
+			if((technologyName.toLowerCase().contains("dotnet") || technologyName.toLowerCase().contains("net")) && stage.equalsIgnoreCase("build"))
 			{
 				convertDotNet(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 			}
-			if(technologyName.toLowerCase().contains("ant") && stage.toLowerCase().equals("build"))
+			if(technologyName.toLowerCase().contains("ant") && stage.equalsIgnoreCase("build"))
 			{
 				convertAnt(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 			}
-			if(technologyName.toLowerCase().contains("bigdata") && stage.toLowerCase().equals("build"))
+			if(technologyName.toLowerCase().contains("bigdata") && stage.equalsIgnoreCase("build"))
 			{
 				convertBigData(serviceUrl,jobName,jenkinsServer,pipelineId,artifactName,jenkinsUserName,jenkinsPassword);
 
@@ -271,9 +271,7 @@ public class ConvertBuildLog {
       		  		     statusList.add(status);
       		  		     hasFile=true;
 					}				 
-					  if (line.contains(filename)) {
-//              		  			 
-						if (line.indexOf(filename) >= 0) {
+					  if (line.contains(filename) && line.indexOf(filename) >= 0) {
 							
 							String str = line.toString().trim().substring((line.indexOf(filename)),
 									(line.lastIndexOf(filename))-11);
@@ -282,7 +280,7 @@ public class ConvertBuildLog {
 //							
 							fileNameList.add(filename1);
 							hasFile=true;
-						}
+						
 					}
 			}
 							for(int i=0,j=0;i<fileNameList.size() && j<statusList.size();i++,j++) {
@@ -431,7 +429,7 @@ public class ConvertBuildLog {
 						JSONArray parameters=jObject.getJSONArray("parameters");
 						String name=parameters.getJSONObject(0).getString("name");
 						String value=parameters.getJSONObject(0).getString("value");
-						if(name.toLowerCase().equals("json_input"))
+						if(name.equalsIgnoreCase("json_input"))
 						{
 							flag=true;
 							JSONObject valueJson=new JSONObject(value);

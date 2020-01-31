@@ -9,7 +9,7 @@ package org.infy.idp.bl;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.infy.idp.entities.QuerySeriesResponse;
 import org.apache.commons.lang.StringUtils;
 import org.infy.idp.dataapi.FetchDetailsBL;
 import org.infy.idp.entities.QueryRequest;
@@ -45,7 +45,7 @@ public class RetrieveInfoBL {
 	 */
 	
 	
-	public List<QueryResponse> queryInfo(QueryRequest queryRequest,String userid) 
+	public Object queryInfo(QueryRequest queryRequest,String userid) 
 	{
 		List<QueryResponse> responelist = new ArrayList();
 		for (Target target : queryRequest.getTargets()) 
@@ -53,13 +53,24 @@ public class RetrieveInfoBL {
 			QueryResponse response = new QueryResponse();
 			if(target.getType().toLowerCase().contains("timeserie"))
 			{
-				response.setTarget(target.getTarget());
+				List<QuerySeriesResponse> responsetime=new ArrayList();
+				//response.setTarget(target.getTarget());
 				logger.info("Entering timeseries");
 								
 				
 				
 				responelist = jobDL.runQuery(target.getTarget(),userid);
-				return responelist;
+				//return responelist;
+				for(QueryResponse respo : responelist) {
+					QuerySeriesResponse newresponse = new QuerySeriesResponse();
+					newresponse.setDatapoints(respo.getDatapoints());
+					newresponse.setType(respo.getType());
+					newresponse.setTarget(target.getTarget());
+					responsetime.add(newresponse);
+				}
+				
+				return responsetime;
+
 
 			
 			}

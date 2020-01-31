@@ -294,10 +294,9 @@ public class ReleaseBL {
 								.bitBucketbranchesTagsFetcher(repoUrl, username, pwd, projectUrl, proxy, port);
 						logger.info("showing branchTag");
 						logger.info(branchTagList.toString());
-						if (branchTagList != null) {
-							if (branchTagList.size() != 0) {
+						if (branchTagList != null && branchTagList.size() != 0) {
 								branches = branchTagList.get(0);
-							}
+						//	}
 
 						}
 

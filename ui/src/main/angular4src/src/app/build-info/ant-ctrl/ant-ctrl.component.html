@@ -26,7 +26,7 @@
                   <a data-toggle="collapse" data-target="{{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
                     Module_{{(i+1)}}
                   </a>
-                  <span style="float:right">
+                  <span style="float:right" *ngIf="buildInfo.modules.length !== 1">
                     <a (click)="deleteItem(i)">
                         <span class="cui-trash" aria-hidden="true"></span>
                     </a>
@@ -206,14 +206,14 @@
 
                         </label>
                         <!-- sonar Authentication code -->
-                        <div *ngIf="buildInfo.modules[0].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
+                        <div *ngIf="buildInfo.modules[i].codeAnalysis[0]=='sonar'" style="padding-top: 15px;padding-left:20px;">
                           <div class="row" style="margin-bottom: 10px;">
                             <div class="col-md-2">
                             <label for="sonarUrl">SonarQube URL</label>
                             </div>
                             <div class="col-md-10 field-tip">
                             <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
-                              id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[0].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
+                              id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[i].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
                               
 
                                <div *ngIf="sonarUrl.errors && (sonarUrl.dirty || sonarUrl.touched)" class="alert alert-danger ">
@@ -231,8 +231,8 @@
                 
                             </div>
                             <div class="col-md-10 field-tip">
-                            <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[0].sonarPassword=''"
-                              #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[0].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                            <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[i].sonarPassword=''"
+                              #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[i].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
                               <span class="tip-content">Password is required only with username</span>
                               <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
                             
@@ -250,7 +250,7 @@
                             </div>
                             <div class="col-md-10">
                             <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
-                              #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[0].sonarPassword"
+                              #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[i].sonarPassword"
                               encrypt>
                             </div>
                           </div>
@@ -483,6 +483,7 @@
                     </div>
                   </div>
                   <!--End WARPackaging -->
+
                   <!--Default Module-->
                   <div>
                     <div class="form-row form-group" style="padding-left: 20px;">

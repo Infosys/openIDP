@@ -1087,7 +1087,7 @@ public class EntryHome {
 				json.setCodeAnalysis(ca);
 			} else if (reportfile.getName().toLowerCase().contains("buildlog")) {
 				ConvertBuildLog.convert(reportfile.getCanonicalPath(), json, args);
-				if (args[19].toLowerCase().equals("deploy")) {
+				if (args[19].equalsIgnoreCase("deploy")) {
 					List<CsvUpload> value = ConvertBuildLog.convertCSV(reportfile.getCanonicalPath());
 					try {
 						String rebaseReqUrlString = args[11] + "/" + args[1] + "/" + args[5] + "/" + args[21] + "/"
@@ -1175,7 +1175,8 @@ public class EntryHome {
 			} else if ((reportType.toLowerCase().contains("junit_") && reportType.toLowerCase().contains("lisa"))
 					|| (reportType.toLowerCase().contains("junit_") && !reportType.toLowerCase().contains("junit_test")
 							&& !reportType.toLowerCase().contains("junit_ut"))
-					|| reportType.toLowerCase().contains("android")) {
+					|| reportType.toLowerCase().contains("android")
+					|| reportType.toLowerCase().contains("selenium_report") ) {
 				// *********
 				List<TestCaseResult> tr;
 				tr = ConvertJUnit.convert(reportfile.getCanonicalPath(), json, prefixForId);

@@ -1,6 +1,12 @@
 version: "3.2"
 
 services:
+    orchestrator:
+        image: ${IDP_ORCH_JAVA_IMAGE}
+        environment:
+          KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
+          KAFKA_PORT: ${KAFKA_PORT}
+
     proxy:
         ports:
             - ${CUSTOM_PORT}:${CUSTOM_PORT}

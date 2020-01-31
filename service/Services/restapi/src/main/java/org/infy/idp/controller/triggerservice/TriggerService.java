@@ -16,7 +16,6 @@ package org.infy.idp.controller.triggerservice;
 
 
 import org.infy.idp.entities.models.ResourceResponse;
-import org.infy.idp.utils.SlaveDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +25,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.infy.idp.utils.OrchestratorConnector;
 
 @RestController
 @RequestMapping(value = "trigger")
 public class TriggerService {
 
-	@Autowired
-	private SlaveDetails slaveDetails;
 	private Logger logger = LoggerFactory.getLogger(TriggerService.class);
-
+	
+	@Autowired
+	private OrchestratorConnector orchConn;
 	/**
 	 * Returns status of the specified slave
 	 * 
@@ -49,7 +49,7 @@ public class TriggerService {
 		try {
 			logger.info("Retrieving slave status details");
 
-			String status = slaveDetails.getSlaveStatus(slaveName);
+			String status = orchConn.getSlaveStatus(slaveName);
 			resourceResponse.setResource(status);
 			resourceResponse.setStatus("SUCCESS");
 

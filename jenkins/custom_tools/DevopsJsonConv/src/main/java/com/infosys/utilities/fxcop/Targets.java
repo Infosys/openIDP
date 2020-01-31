@@ -36,7 +36,7 @@ public  class Targets {
 		@XmlElement(name = "Modules", required = true)
 		protected Target.Modules modules;
 		@XmlAttribute(name = "Name")
-		protected java.lang.String name;
+		protected String name;
 
 		public Target.Modules getModules() {
 			return modules;
@@ -46,11 +46,11 @@ public  class Targets {
 			this.modules = value;
 		}
 
-		public java.lang.String getName() {
+		public String getName() {
 			return name;
 		}
 
-		public void setName(java.lang.String value) {
+		public void setName(String value) {
 			this.name = value;
 		}
 
@@ -76,7 +76,7 @@ public  class Targets {
 				@XmlElement(name = "Namespaces")
 				protected Target.Modules.Module.Namespaces namespaces;
 				@XmlAttribute(name = "Name")
-				protected java.lang.String name;
+				protected String name;
 
 				public Target.Modules.Module.Messages getMessages() {
 					return messages;
@@ -94,11 +94,11 @@ public  class Targets {
 					this.namespaces = value;
 				}
 
-				public java.lang.String getName() {
+				public String getName() {
 					return name;
 				}
 
-				public void setName(java.lang.String value) {
+				public void setName(String value) {
 					this.name = value;
 				}
 
@@ -121,17 +121,17 @@ public  class Targets {
 						@XmlElement(name = "Issue", required = true)
 						protected Target.Modules.Module.Messages.Message.Issue issue;
 						@XmlAttribute(name = "TypeName")
-						protected java.lang.String typeName;
+						protected String typeName;
 						@XmlAttribute(name = "Category")
-						protected java.lang.String category;
+						protected String category;
 						@XmlAttribute(name = "CheckId")
-						protected java.lang.String checkId;
+						protected String checkId;
 						@XmlAttribute(name = "Status")
-						protected java.lang.String status;
+						protected String status;
 						@XmlAttribute(name = "Created")
-						protected java.lang.String created;
+						protected String created;
 						@XmlAttribute(name = "FixCategory")
-						protected java.lang.String fixCategory;
+						protected String fixCategory;
 
 						public Target.Modules.Module.Messages.Message.Issue getIssue() {
 							return issue;
@@ -142,51 +142,51 @@ public  class Targets {
 							this.issue = value;
 						}
 
-						public java.lang.String getTypeName() {
+						public String getTypeName() {
 							return typeName;
 						}
 
-						public void setTypeName(java.lang.String value) {
+						public void setTypeName(String value) {
 							this.typeName = value;
 						}
 
-						public java.lang.String getCategory() {
+						public String getCategory() {
 							return category;
 						}
 
-						public void setCategory(java.lang.String value) {
+						public void setCategory(String value) {
 							this.category = value;
 						}
 
-						public java.lang.String getCheckId() {
+						public String getCheckId() {
 							return checkId;
 						}
 
-						public void setCheckId(java.lang.String value) {
+						public void setCheckId(String value) {
 							this.checkId = value;
 						}
 
-						public java.lang.String getStatus() {
+						public String getStatus() {
 							return status;
 						}
 
-						public void setStatus(java.lang.String value) {
+						public void setStatus(String value) {
 							this.status = value;
 						}
 
-						public java.lang.String getCreated() {
+						public String getCreated() {
 							return created;
 						}
 
-						public void setCreated(java.lang.String value) {
+						public void setCreated(String value) {
 							this.created = value;
 						}
 
-						public java.lang.String getFixCategory() {
+						public String getFixCategory() {
 							return fixCategory;
 						}
 
-						public void setFixCategory(java.lang.String value) {
+						public void setFixCategory(String value) {
 							this.fixCategory = value;
 						}
 
@@ -194,27 +194,27 @@ public  class Targets {
 						@XmlType(name = "", propOrder = { "value" })
 						public static class Issue {
 							@XmlValue
-							protected java.lang.String value;
+							protected String value;
 							@XmlAttribute(name = "Name")
-							protected java.lang.String name;
+							protected String name;
 							@XmlAttribute(name = "Certainty")
 							protected Byte certainty;
 							@XmlAttribute(name = "Level")
-							protected java.lang.String level;
+							protected String level;
 
-							public java.lang.String getValue() {
+							public String getValue() {
 								return value;
 							}
 
-							public void setValue(java.lang.String value) {
+							public void setValue(String value) {
 								this.value = value;
 							}
 
-							public java.lang.String getName() {
+							public String getName() {
 								return name;
 							}
 
-							public void setName(java.lang.String value) {
+							public void setName(String value) {
 								this.name = value;
 							}
 
@@ -226,11 +226,11 @@ public  class Targets {
 								this.certainty = value;
 							}
 
-							public java.lang.String getLevel() {
+							public String getLevel() {
 								return level;
 							}
 
-							public void setLevel(java.lang.String value) {
+							public void setLevel(String value) {
 								this.level = value;
 							}
 						}
@@ -258,7 +258,7 @@ public  class Targets {
 						@XmlElement(name = "Types", required = true)
 						protected Target.Modules.Module.Namespaces.Namespace.Types types;
 						@XmlAttribute(name = "Name")
-						protected java.lang.String name;
+						protected String name;
 
 						public Target.Modules.Module.Namespaces.Namespace.Types getTypes() {
 							return types;
@@ -269,11 +269,11 @@ public  class Targets {
 							this.types = value;
 						}
 
-						public java.lang.String getName() {
+						public String getName() {
 							return name;
 						}
 
-						public void setName(java.lang.String value) {
+						public void setName(String value) {
 							this.name = value;
 						}
 
@@ -298,13 +298,13 @@ public  class Targets {
 								@XmlElement(name = "Members", required = true)
 								protected Target.Modules.Module.Namespaces.Namespace.Types.Type.Members members;
 								@XmlAttribute(name = "Name")
-								protected java.lang.String name;
+								protected String name;
 								@XmlAttribute(name = "Kind")
-								protected java.lang.String kind;
+								protected String kind;
 								@XmlAttribute(name = "Accessibility")
-								protected java.lang.String accessibility;
+								protected String accessibility;
 								@XmlAttribute(name = "ExternallyVisible")
-								protected java.lang.String externallyVisible;
+								protected String externallyVisible;
 
 								public Target.Modules.Module.Namespaces.Namespace.Types.Type.Messages getMessages() {
 									return messages;
@@ -324,35 +324,35 @@ public  class Targets {
 									this.members = value;
 								}
 
-								public java.lang.String getName() {
+								public String getName() {
 									return name;
 								}
 
-								public void setName(java.lang.String value) {
+								public void setName(String value) {
 									this.name = value;
 								}
 
-								public java.lang.String getKind() {
+								public String getKind() {
 									return kind;
 								}
 
-								public void setKind(java.lang.String value) {
+								public void setKind(String value) {
 									this.kind = value;
 								}
 
-								public java.lang.String getAccessibility() {
+								public String getAccessibility() {
 									return accessibility;
 								}
 
-								public void setAccessibility(java.lang.String value) {
+								public void setAccessibility(String value) {
 									this.accessibility = value;
 								}
 
-								public java.lang.String getExternallyVisible() {
+								public String getExternallyVisible() {
 									return externallyVisible;
 								}
 
-								public void setExternallyVisible(java.lang.String value) {
+								public void setExternallyVisible(String value) {
 									this.externallyVisible = value;
 								}
 
@@ -375,15 +375,15 @@ public  class Targets {
 										@XmlElement(name = "Messages", required = true)
 										protected Target.Modules.Module.Namespaces.Namespace.Types.Type.Members.Member.Messages messages;
 										@XmlAttribute(name = "Name")
-										protected java.lang.String name;
+										protected String name;
 										@XmlAttribute(name = "Kind")
-										protected java.lang.String kind;
+										protected String kind;
 										@XmlAttribute(name = "Static")
-										protected java.lang.String _static;
+										protected String _static;
 										@XmlAttribute(name = "Accessibility")
-										protected java.lang.String accessibility;
+										protected String accessibility;
 										@XmlAttribute(name = "ExternallyVisible")
-										protected java.lang.String externallyVisible;
+										protected String externallyVisible;
 
 										public Target.Modules.Module.Namespaces.Namespace.Types.Type.Members.Member.Messages getMessages() {
 											return messages;
@@ -394,43 +394,43 @@ public  class Targets {
 											this.messages = value;
 										}
 
-										public java.lang.String getName() {
+										public String getName() {
 											return name;
 										}
 
-										public void setName(java.lang.String value) {
+										public void setName(String value) {
 											this.name = value;
 										}
 
-										public java.lang.String getKind() {
+										public String getKind() {
 											return kind;
 										}
 
-										public void setKind(java.lang.String value) {
+										public void setKind(String value) {
 											this.kind = value;
 										}
 
-										public java.lang.String getStatic() {
+										public String getStatic() {
 											return _static;
 										}
 
-										public void setStatic(java.lang.String value) {
+										public void setStatic(String value) {
 											this._static = value;
 										}
 
-										public java.lang.String getAccessibility() {
+										public String getAccessibility() {
 											return accessibility;
 										}
 
-										public void setAccessibility(java.lang.String value) {
+										public void setAccessibility(String value) {
 											this.accessibility = value;
 										}
 
-										public java.lang.String getExternallyVisible() {
+										public String getExternallyVisible() {
 											return externallyVisible;
 										}
 
-										public void setExternallyVisible(java.lang.String value) {
+										public void setExternallyVisible(String value) {
 											this.externallyVisible = value;
 										}
 
@@ -453,19 +453,19 @@ public  class Targets {
 												@XmlElement(name = "Issue")
 												protected List<Target.Modules.Module.Namespaces.Namespace.Types.Type.Members.Member.Messages.Message.Issue> issue;
 												@XmlAttribute(name = "Id")
-												protected java.lang.String id;
+												protected String id;
 												@XmlAttribute(name = "TypeName")
-												protected java.lang.String typeName;
+												protected String typeName;
 												@XmlAttribute(name = "Category")
-												protected java.lang.String category;
+												protected String category;
 												@XmlAttribute(name = "CheckId")
-												protected java.lang.String checkId;
+												protected String checkId;
 												@XmlAttribute(name = "Status")
-												protected java.lang.String status;
+												protected String status;
 												@XmlAttribute(name = "Created")
-												protected java.lang.String created;
+												protected String created;
 												@XmlAttribute(name = "FixCategory")
-												protected java.lang.String fixCategory;
+												protected String fixCategory;
 
 												public List<Target.Modules.Module.Namespaces.Namespace.Types.Type.Members.Member.Messages.Message.Issue> getIssue() {
 													if (issue == null) {
@@ -474,59 +474,59 @@ public  class Targets {
 													return this.issue;
 												}
 
-												public java.lang.String getId() {
+												public String getId() {
 													return id;
 												}
 
-												public void setId(java.lang.String value) {
+												public void setId(String value) {
 													this.id = value;
 												}
 
-												public java.lang.String getTypeName() {
+												public String getTypeName() {
 													return typeName;
 												}
 
-												public void setTypeName(java.lang.String value) {
+												public void setTypeName(String value) {
 													this.typeName = value;
 												}
 
-												public java.lang.String getCategory() {
+												public String getCategory() {
 													return category;
 												}
 
-												public void setCategory(java.lang.String value) {
+												public void setCategory(String value) {
 													this.category = value;
 												}
 
-												public java.lang.String getCheckId() {
+												public String getCheckId() {
 													return checkId;
 												}
 
-												public void setCheckId(java.lang.String value) {
+												public void setCheckId(String value) {
 													this.checkId = value;
 												}
 
-												public java.lang.String getStatus() {
+												public String getStatus() {
 													return status;
 												}
 
-												public void setStatus(java.lang.String value) {
+												public void setStatus(String value) {
 													this.status = value;
 												}
 
-												public java.lang.String getCreated() {
+												public String getCreated() {
 													return created;
 												}
 
-												public void setCreated(java.lang.String value) {
+												public void setCreated(String value) {
 													this.created = value;
 												}
 
-												public java.lang.String getFixCategory() {
+												public String getFixCategory() {
 													return fixCategory;
 												}
 
-												public void setFixCategory(java.lang.String value) {
+												public void setFixCategory(String value) {
 													this.fixCategory = value;
 												}
 
@@ -534,33 +534,33 @@ public  class Targets {
 												@XmlType(name = "", propOrder = { "value" })
 												public static class Issue {
 													@XmlValue
-													protected java.lang.String value;
+													protected String value;
 													@XmlAttribute(name = "Name")
-													protected java.lang.String name;
+													protected String name;
 													@XmlAttribute(name = "Certainty")
 													protected Byte certainty;
 													@XmlAttribute(name = "Level")
-													protected java.lang.String level;
+													protected String level;
 													@XmlAttribute(name = "Path")
-													protected java.lang.String path;
+													protected String path;
 													@XmlAttribute(name = "File")
-													protected java.lang.String file;
+													protected String file;
 													@XmlAttribute(name = "Line")
 													protected Byte line;
 
-													public java.lang.String getValue() {
+													public String getValue() {
 														return value;
 													}
 
-													public void setValue(java.lang.String value) {
+													public void setValue(String value) {
 														this.value = value;
 													}
 
-													public java.lang.String getName() {
+													public String getName() {
 														return name;
 													}
 
-													public void setName(java.lang.String value) {
+													public void setName(String value) {
 														this.name = value;
 													}
 
@@ -572,27 +572,27 @@ public  class Targets {
 														this.certainty = value;
 													}
 
-													public java.lang.String getLevel() {
+													public String getLevel() {
 														return level;
 													}
 
-													public void setLevel(java.lang.String value) {
+													public void setLevel(String value) {
 														this.level = value;
 													}
 
-													public java.lang.String getPath() {
+													public String getPath() {
 														return path;
 													}
 
-													public void setPath(java.lang.String value) {
+													public void setPath(String value) {
 														this.path = value;
 													}
 
-													public java.lang.String getFile() {
+													public String getFile() {
 														return file;
 													}
 
-													public void setFile(java.lang.String value) {
+													public void setFile(String value) {
 														this.file = value;
 													}
 
@@ -630,19 +630,19 @@ public  class Targets {
 										@XmlElement(name = "Issue", required = true)
 										protected Target.Modules.Module.Namespaces.Namespace.Types.Type.Messages.Message.Issue issue;
 										@XmlAttribute(name = "Id")
-										protected java.lang.String id;
+										protected String id;
 										@XmlAttribute(name = "TypeName")
-										protected java.lang.String typeName;
+										protected String typeName;
 										@XmlAttribute(name = "Category")
-										protected java.lang.String category;
+										protected String category;
 										@XmlAttribute(name = "CheckId")
-										protected java.lang.String checkId;
+										protected String checkId;
 										@XmlAttribute(name = "Status")
-										protected java.lang.String status;
+										protected String status;
 										@XmlAttribute(name = "Created")
-										protected java.lang.String created;
+										protected String created;
 										@XmlAttribute(name = "FixCategory")
-										protected java.lang.String fixCategory;
+										protected String fixCategory;
 
 										public Target.Modules.Module.Namespaces.Namespace.Types.Type.Messages.Message.Issue getIssue() {
 											return issue;
@@ -653,59 +653,59 @@ public  class Targets {
 											this.issue = value;
 										}
 
-										public java.lang.String getId() {
+										public String getId() {
 											return id;
 										}
 
-										public void setId(java.lang.String value) {
+										public void setId(String value) {
 											this.id = value;
 										}
 
-										public java.lang.String getTypeName() {
+										public String getTypeName() {
 											return typeName;
 										}
 
-										public void setTypeName(java.lang.String value) {
+										public void setTypeName(String value) {
 											this.typeName = value;
 										}
 
-										public java.lang.String getCategory() {
+										public String getCategory() {
 											return category;
 										}
 
-										public void setCategory(java.lang.String value) {
+										public void setCategory(String value) {
 											this.category = value;
 										}
 
-										public java.lang.String getCheckId() {
+										public String getCheckId() {
 											return checkId;
 										}
 
-										public void setCheckId(java.lang.String value) {
+										public void setCheckId(String value) {
 											this.checkId = value;
 										}
 
-										public java.lang.String getStatus() {
+										public String getStatus() {
 											return status;
 										}
 
-										public void setStatus(java.lang.String value) {
+										public void setStatus(String value) {
 											this.status = value;
 										}
 
-										public java.lang.String getCreated() {
+										public String getCreated() {
 											return created;
 										}
 
-										public void setCreated(java.lang.String value) {
+										public void setCreated(String value) {
 											this.created = value;
 										}
 
-										public java.lang.String getFixCategory() {
+										public String getFixCategory() {
 											return fixCategory;
 										}
 
-										public void setFixCategory(java.lang.String value) {
+										public void setFixCategory(String value) {
 											this.fixCategory = value;
 										}
 
@@ -713,27 +713,27 @@ public  class Targets {
 										@XmlType(name = "", propOrder = { "value" })
 										public static class Issue {
 											@XmlValue
-											protected java.lang.String value;
+											protected String value;
 											@XmlAttribute(name = "Name")
-											protected java.lang.String name;
+											protected String name;
 											@XmlAttribute(name = "Certainty")
 											protected Byte certainty;
 											@XmlAttribute(name = "Level")
-											protected java.lang.String level;
+											protected String level;
 
-											public java.lang.String getValue() {
+											public String getValue() {
 												return value;
 											}
 
-											public void setValue(java.lang.String value) {
+											public void setValue(String value) {
 												this.value = value;
 											}
 
-											public java.lang.String getName() {
+											public String getName() {
 												return name;
 											}
 
-											public void setName(java.lang.String value) {
+											public void setName(String value) {
 												this.name = value;
 											}
 
@@ -745,11 +745,11 @@ public  class Targets {
 												this.certainty = value;
 											}
 
-											public java.lang.String getLevel() {
+											public String getLevel() {
 												return level;
 											}
 
-											public void setLevel(java.lang.String value) {
+											public void setLevel(String value) {
 												this.level = value;
 											}
 										}

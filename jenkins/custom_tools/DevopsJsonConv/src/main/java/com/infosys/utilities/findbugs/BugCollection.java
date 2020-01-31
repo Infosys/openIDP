@@ -37,11 +37,11 @@ public class BugCollection {
 	@XmlElement(name = "FindBugsSummary", required = true)
 	protected BugCollection.FindBugsSummary findBugsSummary;
 	@XmlElement(name = "ClassFeatures", required = true)
-	protected java.lang.String classFeatures;
+	protected String classFeatures;
 	@XmlElement(name = "History", required = true)
-	protected java.lang.String history;
+	protected String history;
 	@XmlAttribute(name = "version")
-	protected java.lang.String version;
+	protected String version;
 	@XmlAttribute(name = "sequence")
 	protected Byte sequence;
 	@XmlAttribute(name = "timestamp")
@@ -49,7 +49,7 @@ public class BugCollection {
 	@XmlAttribute(name = "analysisTimestamp")
 	protected Long analysisTimestamp;
 	@XmlAttribute(name = "release")
-	protected java.lang.String release;
+	protected String release;
 
 	public BugCollection.Project getProject() {
 		return project;
@@ -103,27 +103,27 @@ public class BugCollection {
 		this.findBugsSummary = value;
 	}
 
-	public java.lang.String getClassFeatures() {
+	public String getClassFeatures() {
 		return classFeatures;
 	}
 
-	public void setClassFeatures(java.lang.String value) {
+	public void setClassFeatures(String value) {
 		this.classFeatures = value;
 	}
 
-	public java.lang.String getHistory() {
+	public String getHistory() {
 		return history;
 	}
 
-	public void setHistory(java.lang.String value) {
+	public void setHistory(String value) {
 		this.history = value;
 	}
 
-	public java.lang.String getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(java.lang.String value) {
+	public void setVersion(String value) {
 		this.version = value;
 	}
 
@@ -151,11 +151,11 @@ public class BugCollection {
 		this.analysisTimestamp = value;
 	}
 
-	public java.lang.String getRelease() {
+	public String getRelease() {
 		return release;
 	}
 
-	public void setRelease(java.lang.String value) {
+	public void setRelease(String value) {
 		this.release = value;
 	}
 
@@ -163,23 +163,23 @@ public class BugCollection {
 	@XmlType(name = "", propOrder = { "description" })
 	public static class BugCategory {
 		@XmlElement(name = "Description", required = true)
-		protected java.lang.String description;
+		protected String description;
 		@XmlAttribute(name = "category")
-		protected java.lang.String category;
+		protected String category;
 
-		public java.lang.String getDescription() {
+		public String getDescription() {
 			return description;
 		}
 
-		public void setDescription(java.lang.String value) {
+		public void setDescription(String value) {
 			this.description = value;
 		}
 
-		public java.lang.String getCategory() {
+		public String getCategory() {
 			return category;
 		}
 
-		public void setCategory(java.lang.String value) {
+		public void setCategory(String value) {
 			this.category = value;
 		}
 	}
@@ -188,25 +188,25 @@ public class BugCollection {
 	@XmlType(name = "", propOrder = { "description" })
 	public static class BugCode {
 		@XmlElement(name = "Description", required = true)
-		protected java.lang.String description;
+		protected String description;
 		@XmlAttribute(name = "abbrev")
-		protected java.lang.String abbrev;
+		protected String abbrev;
 		@XmlAttribute(name = "cweid")
 		protected Short cweid;
 
-		public java.lang.String getDescription() {
+		public String getDescription() {
 			return description;
 		}
 
-		public void setDescription(java.lang.String value) {
+		public void setDescription(String value) {
 			this.description = value;
 		}
 
-		public java.lang.String getAbbrev() {
+		public String getAbbrev() {
 			return abbrev;
 		}
 
-		public void setAbbrev(java.lang.String value) {
+		public void setAbbrev(String value) {
 			this.abbrev = value;
 		}
 
@@ -225,55 +225,55 @@ public class BugCollection {
 	@XmlType(name = "", propOrder = { "shortDescription", "details" })
 	public static class BugPattern {
 		@XmlElement(name = "ShortDescription", required = true)
-		protected java.lang.String shortDescription;
+		protected String shortDescription;
 		@XmlElement(name = "Details", required = true)
-		protected java.lang.String details;
+		protected String details;
 		@XmlAttribute(name = "type")
-		protected java.lang.String type;
+		protected String type;
 		@XmlAttribute(name = "abbrev")
-		protected java.lang.String abbrev;
+		protected String abbrev;
 		@XmlAttribute(name = "category")
-		protected java.lang.String category;
+		protected String category;
 		@XmlAttribute(name = "cweid")
 		protected Short cweid;
 
-		public java.lang.String getShortDescription() {
+		public String getShortDescription() {
 			return shortDescription;
 		}
 
-		public void setShortDescription(java.lang.String value) {
+		public void setShortDescription(String value) {
 			this.shortDescription = value;
 		}
 
-		public java.lang.String getDetails() {
+		public String getDetails() {
 			return details;
 		}
 
-		public void setDetails(java.lang.String value) {
+		public void setDetails(String value) {
 			this.details = value;
 		}
 
-		public java.lang.String getType() {
+		public String getType() {
 			return type;
 		}
 
-		public void setType(java.lang.String value) {
+		public void setType(String value) {
 			this.type = value;
 		}
 
-		public java.lang.String getAbbrev() {
+		public String getAbbrev() {
 			return abbrev;
 		}
 
-		public void setAbbrev(java.lang.String value) {
+		public void setAbbrev(String value) {
 			this.abbrev = value;
 		}
 
-		public java.lang.String getCategory() {
+		public String getCategory() {
 			return category;
 		}
 
-		public void setCategory(java.lang.String value) {
+		public void setCategory(String value) {
 			this.category = value;
 		}
 
@@ -290,20 +290,20 @@ public class BugCollection {
 	@XmlType(name = "", propOrder = { "missingClass" })
 	public static class Errors {
 		@XmlElement(name = "MissingClass")
-		protected List<java.lang.String> missingClass;
+		protected List<String> missingClass;
 		@XmlAttribute(name = "errors")
 		protected Byte errors;
 		@XmlAttribute(name = "missingClasses")
 		protected Byte missingClasses;
 
-		public List<java.lang.String> getMissingClass() {
+		public List<String> getMissingClass() {
 			if (missingClass == null) {
-				missingClass = new ArrayList<java.lang.String>();
+				missingClass = new ArrayList<String>();
 			}
 			return this.missingClass;
 		}
 
-		public void setMissingClass(List<java.lang.String> list) {
+		public void setMissingClass(List<String> list) {
 			this.missingClass = list;
 		}
 
@@ -334,7 +334,7 @@ public class BugCollection {
 		@XmlElement(name = "FindBugsProfile", required = true)
 		protected BugCollection.FindBugsSummary.FindBugsProfile findBugsProfile;
 		@XmlAttribute(name = "timestamp")
-		protected java.lang.String timestamp;
+		protected String timestamp;
 		@XmlAttribute(name = "total_classes")
 		protected Byte totalClasses;
 		@XmlAttribute(name = "referenced_classes")
@@ -346,9 +346,9 @@ public class BugCollection {
 		@XmlAttribute(name = "num_packages")
 		protected Byte numPackages;
 		@XmlAttribute(name = "java_version")
-		protected java.lang.String javaVersion;
+		protected String javaVersion;
 		@XmlAttribute(name = "vm_version")
-		protected java.lang.String vmVersion;
+		protected String vmVersion;
 		@XmlAttribute(name = "cpu_seconds")
 		protected Float cpuSeconds;
 		@XmlAttribute(name = "clock_seconds")
@@ -386,11 +386,11 @@ public class BugCollection {
 			this.findBugsProfile = value;
 		}
 
-		public java.lang.String getTimestamp() {
+		public String getTimestamp() {
 			return timestamp;
 		}
 
-		public void setTimestamp(java.lang.String value) {
+		public void setTimestamp(String value) {
 			this.timestamp = value;
 		}
 
@@ -434,19 +434,19 @@ public class BugCollection {
 			this.numPackages = value;
 		}
 
-		public java.lang.String getJavaVersion() {
+		public String getJavaVersion() {
 			return javaVersion;
 		}
 
-		public void setJavaVersion(java.lang.String value) {
+		public void setJavaVersion(String value) {
 			this.javaVersion = value;
 		}
 
-		public java.lang.String getVmVersion() {
+		public String getVmVersion() {
 			return vmVersion;
 		}
 
-		public void setVmVersion(java.lang.String value) {
+		public void setVmVersion(String value) {
 			this.vmVersion = value;
 		}
 
@@ -510,29 +510,29 @@ public class BugCollection {
 		@XmlType(name = "", propOrder = { "value" })
 		public static class FileStats {
 			@XmlValue
-			protected java.lang.String value;
+			protected String value;
 			@XmlAttribute(name = "path")
-			protected java.lang.String path;
+			protected String path;
 			@XmlAttribute(name = "bugCount")
 			protected Byte bugCount;
 			@XmlAttribute(name = "size")
 			protected Short size;
 			@XmlAttribute(name = "bugHash")
-			protected java.lang.String bugHash;
+			protected String bugHash;
 
-			public java.lang.String getValue() {
+			public String getValue() {
 				return value;
 			}
 
-			public void setValue(java.lang.String value) {
+			public void setValue(String value) {
 				this.value = value;
 			}
 
-			public java.lang.String getPath() {
+			public String getPath() {
 				return path;
 			}
 
-			public void setPath(java.lang.String value) {
+			public void setPath(String value) {
 				this.path = value;
 			}
 
@@ -552,11 +552,11 @@ public class BugCollection {
 				this.size = value;
 			}
 
-			public java.lang.String getBugHash() {
+			public String getBugHash() {
 				return bugHash;
 			}
 
-			public void setBugHash(java.lang.String value) {
+			public void setBugHash(String value) {
 				this.bugHash = value;
 			}
 		}
@@ -578,9 +578,9 @@ public class BugCollection {
 			@XmlType(name = "", propOrder = { "value" })
 			public static class ClassProfile {
 				@XmlValue
-				protected java.lang.String value;
+				protected String value;
 				@XmlAttribute(name = "name")
-				protected java.lang.String name;
+				protected String name;
 				@XmlAttribute(name = "totalMilliseconds")
 				protected Short totalMilliseconds;
 				@XmlAttribute(name = "invocations")
@@ -592,19 +592,19 @@ public class BugCollection {
 				@XmlAttribute(name = "standardDeviationMircosecondsPerInvocation")
 				protected Integer standardDeviationMircosecondsPerInvocation;
 
-				public java.lang.String getValue() {
+				public String getValue() {
 					return value;
 				}
 
-				public void setValue(java.lang.String value) {
+				public void setValue(String value) {
 					this.value = value;
 				}
 
-				public java.lang.String getName() {
+				public String getName() {
 					return name;
 				}
 
-				public void setName(java.lang.String value) {
+				public void setName(String value) {
 					this.name = value;
 				}
 
@@ -656,7 +656,7 @@ public class BugCollection {
 			@XmlElement(name = "ClassStats")
 			protected List<BugCollection.FindBugsSummary.PackageStats.ClassStats> classStats;
 			@XmlAttribute(name = "package")
-			protected java.lang.String _package;
+			protected String _package;
 			@XmlAttribute(name = "total_bugs")
 			protected Byte totalBugs;
 			@XmlAttribute(name = "total_types")
@@ -675,11 +675,11 @@ public class BugCollection {
 				return this.classStats;
 			}
 
-			public java.lang.String getPackage() {
+			public String getPackage() {
 				return _package;
 			}
 
-			public void setPackage(java.lang.String value) {
+			public void setPackage(String value) {
 				this._package = value;
 			}
 
@@ -727,13 +727,13 @@ public class BugCollection {
 			@XmlType(name = "", propOrder = { "value" })
 			public static class ClassStats {
 				@XmlValue
-				protected java.lang.String value;
+				protected String value;
 				@XmlAttribute(name = "class")
-				protected java.lang.String clazz;
+				protected String clazz;
 				@XmlAttribute(name = "sourceFile")
-				protected java.lang.String sourceFile;
+				protected String sourceFile;
 				@XmlAttribute(name = "interface")
-				protected java.lang.String _interface;
+				protected String _interface;
 				@XmlAttribute(name = "size")
 				protected Short size;
 				@XmlAttribute(name = "bugs")
@@ -743,35 +743,35 @@ public class BugCollection {
 				@XmlAttribute(name = "priority_1")
 				protected Byte priority1;
 
-				public java.lang.String getValue() {
+				public String getValue() {
 					return value;
 				}
 
-				public void setValue(java.lang.String value) {
+				public void setValue(String value) {
 					this.value = value;
 				}
 
-				public java.lang.String getClazz() {
+				public String getClazz() {
 					return clazz;
 				}
 
-				public void setClazz(java.lang.String value) {
+				public void setClazz(String value) {
 					this.clazz = value;
 				}
 
-				public java.lang.String getSourceFile() {
+				public String getSourceFile() {
 					return sourceFile;
 				}
 
-				public void setSourceFile(java.lang.String value) {
+				public void setSourceFile(String value) {
 					this.sourceFile = value;
 				}
 
-				public java.lang.String getInterface() {
+				public String getInterface() {
 					return _interface;
 				}
 
-				public void setInterface(java.lang.String value) {
+				public void setInterface(String value) {
 					this._interface = value;
 				}
 
@@ -814,23 +814,23 @@ public class BugCollection {
 	@XmlType(name = "", propOrder = { "jar" })
 	public static class Project {
 		@XmlElement(name = "Jar", required = true)
-		protected java.lang.String jar;
+		protected String jar;
 		@XmlAttribute(name = "projectName")
-		protected java.lang.String projectName;
+		protected String projectName;
 
-		public java.lang.String getJar() {
+		public String getJar() {
 			return jar;
 		}
 
-		public void setJar(java.lang.String value) {
+		public void setJar(String value) {
 			this.jar = value;
 		}
 
-		public java.lang.String getProjectName() {
+		public String getProjectName() {
 			return projectName;
 		}
 
-		public void setProjectName(java.lang.String value) {
+		public void setProjectName(String value) {
 			this.projectName = value;
 		}
 	}

@@ -17,6 +17,12 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+
+
 /**
  * 
  * class Utils provides methods for data type conversion
@@ -60,4 +66,9 @@ public class Utils {
 		}
 		return 0.0;
 	}
+
+	public static String getUserFromJWT(String jwtToken){
+		DecodedJWT keycloakToken = JWT.decode(jwtToken);
+		return keycloakToken.getClaim("email").asString();
+    }
 }

@@ -47,7 +47,7 @@ https://opensource.org/licenses/MIT
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-log4j-appender</artifactId>
-            <version>0.10.0.0</version>
+            <version>0.11.0.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -76,9 +76,26 @@ https://opensource.org/licenses/MIT
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-		<dependency>
+		<!-- oauth -->
+	 	<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.3.6.RELEASE</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+			<version>1.0.10.RELEASE</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.security.oauth</groupId>
+					<artifactId>spring-security-oauth2</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -153,7 +170,7 @@ https://opensource.org/licenses/MIT
 		<dependency>
 		  <groupId>org.keycloak</groupId>
 		  <artifactId>keycloak-admin-client</artifactId>
-		  <version>3.4.3.Final</version>
+		  <version>6.0.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.jboss.resteasy</groupId>

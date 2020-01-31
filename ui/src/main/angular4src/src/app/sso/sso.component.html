@@ -1,0 +1,23 @@
+<!-- /***********************************************************************************************
+*
+* Copyright 2018 Infosys Ltd.
+* Use of this source code is governed by MIT license that can be found in the LICENSE file or at 
+* https://opensource.org/licenses/MIT.
+*
+***********************************************************************************************/ -->
+
+<div class="full-page d-flex align-content-center flex-wrap justify-content-center">
+  <div class="column">
+    <div *ngIf="!error" class="h5">
+      Loading....
+    </div>
+    <div *ngIf="error">
+      <div class="alert alert-danger h5 p-5">
+        {{error.message}}
+      </div>
+      <div class="text-center" *ngIf="error.statusCode>=400 && error.statusCode<500">Click <span class="link"  (click)="logout()">here</span> to login as a different user</div>
+      <div class="text-center" *ngIf="error.statusCode >=500">Please click <a href="/idpapp">here</a> to try again</div>
+    </div>
+  </div>
+</div>
+

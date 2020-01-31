@@ -17,29 +17,29 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = { "message" })
 public  class LocalVariable {
 	@XmlElement(name = "Message", required = true)
-	protected java.lang.String message;
+	protected String message;
 	@XmlAttribute(name = "name")
-	protected java.lang.String name;
+	protected String name;
 	@XmlAttribute(name = "register")
 	protected Byte register;
 	@XmlAttribute(name = "pc")
 	protected Byte pc;
 	@XmlAttribute(name = "role")
-	protected java.lang.String role;
+	protected String role;
 
-	public java.lang.String getMessage() {
+	public String getMessage() {
 		return message;
 	}
 
-	public void setMessage(java.lang.String value) {
+	public void setMessage(String value) {
 		this.message = value;
 	}
 
-	public java.lang.String getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(java.lang.String value) {
+	public void setName(String value) {
 		this.name = value;
 	}
 
@@ -59,11 +59,11 @@ public  class LocalVariable {
 		this.pc = value;
 	}
 
-	public java.lang.String getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(java.lang.String value) {
+	public void setRole(String value) {
 		this.role = value;
 	}
 }

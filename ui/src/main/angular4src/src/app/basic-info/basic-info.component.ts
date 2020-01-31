@@ -207,7 +207,7 @@ export class BasicInfoComponent implements OnInit {
     this.sequenceList = [{
         "name": "Pipeline Sequence",
         "value": "pipeline"
-    },
+    }
     ];
   }
 
@@ -1104,4 +1104,15 @@ if(pipelineType==='Application'){
     return true;
   }
 }
+
+//on navigating using navbar idpdataservice is not being set, hence explicitly setting the OS name as it is used in dotnet pipeline
+setOSName(){
+	this.Idpdata.data.basicInfo.buildServerOS = this.basicInfo.buildServerOS;
+}
+
+setValues(){
+    this.Idpdata.data.basicInfo.applicationName = this.basicInfo.applicationName;
+    this.Idpdata.data.basicInfo.pipelineName = this.basicInfo.pipelineName;
+}
+
 }
