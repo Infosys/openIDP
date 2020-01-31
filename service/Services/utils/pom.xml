@@ -35,6 +35,10 @@
 		<jtwig.templates.version>5.65</jtwig.templates.version>
 	</properties>
 	<dependencies>
+	    <dependency>
+		    <groupId>org.springframework.kafka</groupId>
+		    <artifactId>spring-kafka</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.offbytwo.jenkins</groupId>
 			<artifactId>jenkins-client</artifactId>

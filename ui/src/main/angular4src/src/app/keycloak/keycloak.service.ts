@@ -25,7 +25,7 @@ export class KeycloakService {
         KeycloakService.auth.loggedIn = false;
 
         return new Promise((resolve, reject) => {
-            keycloakAuth.init({onLoad: "login-required"})
+            keycloakAuth.init({onLoad: "login-required" , checkLoginIframe: false })
                 .success(() => {
                     // alert("Init success");
                     // console.log(document.baseURI);

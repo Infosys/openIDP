@@ -19,15 +19,16 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public final class SSLUtilities {
-	private SSLUtilities() {
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	private static com.sun.net.ssl.HostnameVerifier __hostnameVerifier;
 	private static com.sun.net.ssl.TrustManager[] __trustManagers;
 	private static HostnameVerifier _hostnameVerifier;
 	private static TrustManager[] _trustManagers;
-
+    
+	private SSLUtilities() {
+		// TODO Auto-generated constructor stub
+	}
 	private static void trustAllHostnamess() {
 		// Create a trust manager that does not validate certificate chains
 		if (__hostnameVerifier == null) {

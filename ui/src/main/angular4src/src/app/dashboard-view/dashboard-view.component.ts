@@ -26,7 +26,7 @@ export class DashboardViewComponent implements OnInit {
     //this.getUrl();
   }
 
-  dashboardUrl: any;
+  dashboardUrl: any= "";
   
 	
 	getUrl() {
@@ -49,7 +49,7 @@ export class DashboardViewComponent implements OnInit {
             this.IdpdataService.serverUrl = response.json().tfsServerUrl;
             this.IdpdataService.uName = response.json().uName;
             this.IdpdataService.pass = response.json().pass;
-            this.dashboardUrl= this.IdpdataService.IDPDashboardURL;
+            this.dashboardUrl= this.IdpdataService.IDPDashboardURL + "?theme=light&kiosk=tv" ;
             console.log(this.IdpdataService.IDPDashboardURL);
 
           }

@@ -253,6 +253,7 @@ public class GitLabBranchTagFetcher {
 		return auth_token;
 	}
 
+
 	/**
 	 * Returns tag for the specified repository
 	 * 

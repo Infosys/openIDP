@@ -17,7 +17,7 @@ import org.infy.idp.entities.jobs.code.Code;
 import org.infy.idp.entities.jobs.deployinfo.DeployInfo;
 import org.infy.idp.entities.jobs.testinfo.TestInfo;
 import org.infy.idp.entities.triggerparameter.ApplicationDetails;
-
+import org.infy.idp.entities.models.Ngnjson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -46,7 +46,9 @@ public class IDPJob {
 	@SerializedName("errorCode")
 	@Expose
 	private String errorCode;
-
+    @SerializedName("ngnJson")
+	@Expose
+	private Ngnjson ngnJson;
 	@SerializedName("ssoName")
 	@Expose
 	private String ssoName;
@@ -129,4 +131,11 @@ public class IDPJob {
 	public void setTestInfo(TestInfo testInfo) {
 		this.testInfo = testInfo;
 	}
+	public Ngnjson getNgnJson() {
+		return ngnJson;
+	}
+	public void setNgnJson(Ngnjson ngnJson) {
+		this.ngnJson = ngnJson;
+	}
+
 }

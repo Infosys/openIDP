@@ -19,7 +19,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
+
 import com.infosys.json.JsonClass;
 import com.infosys.jsonschema.SCMInfo;
 import com.infosys.utilities.changeset.ChangeSet;

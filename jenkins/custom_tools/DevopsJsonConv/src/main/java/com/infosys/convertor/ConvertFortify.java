@@ -18,7 +18,7 @@ import com.infosys.utilities.fortify.ReportDefinition.ReportSection.SubSection.I
 import com.infosys.utilities.fortify.ReportDefinition.ReportSection.SubSection.IssueListing.Chart;
 import com.infosys.utilities.fortify.ReportDefinition.ReportSection.SubSection.IssueListing.Chart.GroupingSection;
 import com.infosys.utilities.fortify.ReportDefinition.ReportSection.SubSection.IssueListing.Chart.GroupingSection.Issue;
-import com.infosys.utilities.sahi.Suites;
+
 
 public class ConvertFortify {
 	private static final Logger logger = Logger.getLogger(ConvertFortify.class);
@@ -36,12 +36,10 @@ public class ConvertFortify {
 			List<ReportSection> reportSection = report.getReportSection();
 			for (int i = 0; i < reportSection.size(); i++) {
 				logger.info(reportSection.get(i).getTitle());
-				if (reportSection.get(i).getTitle() != null) {
-					if (reportSection.get(i).getTitle().equalsIgnoreCase("Results Outline")) {
+				if (reportSection.get(i).getTitle() != null && reportSection.get(i).getTitle().equalsIgnoreCase("Results Outline")) {
 						List<SubSection> subSection = reportSection.get(i).getSubSection();
 						for (int j = 0; j < subSection.size(); j++) {
-							if (subSection.get(j).getTitle() != null) {
-								if (subSection.get(j).getTitle()
+							if (subSection.get(j).getTitle() != null && subSection.get(j).getTitle()
 										.equalsIgnoreCase("Vulnerability Examples by Category")) {
 									IssueListing issueList = subSection.get(j).getIssueListing();
 									Chart chart = issueList.getChart();
@@ -93,10 +91,10 @@ public class ConvertFortify {
 										}
 
 									}
-								}
+			
 							}
 						}
-					}
+				
 				}
 
 			}

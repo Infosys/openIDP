@@ -23,11 +23,13 @@ import { CreateOrganizationComponent } from "./create-organization/create-organi
 import { NotificationInfoComponent } from "./notification-info/notification-info.component";
 import { DefaultLayoutComponent } from "./default-layout";
 import { ApproveReleaseComponent } from "./approve-release/approve-release.component";
+import { SsoComponent } from './sso/sso.component';
 
 export const appRoutes: Routes = [
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "login", component: LoginComponent, canActivate: [AuthGuardService] },
   { path : "keycloak", component: KeycloakComponent },
+  { path: 'sso' , component: SsoComponent},
   {
     path: '',
     component: DefaultLayoutComponent,
@@ -45,7 +47,9 @@ export const appRoutes: Routes = [
       { path: "notificationPage", component: NotificationInfoComponent, data: { 'title': 'Notifications' } },
       { path: "aboutView", loadChildren: 'app/about-view/about-view.module#AboutViewModule', data: { 'title': 'About IDP' } },
       {
-        path: "previousConfig", component: PreviousConfigComponent/*, canActivate: [AuthGuardService]*/,
+        path: "previousConfig",
+        component: PreviousConfigComponent,
+        canActivate: [AuthGuardService],
         children: [
           { path: "", redirectTo: "showConfigurations", pathMatch: "full" },
           { path: "showConfigurations", loadChildren: "./show-config/show-config.module#ShowConfigModule", data: { 'title': 'View Pipelines' } },

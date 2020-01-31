@@ -31,13 +31,7 @@ public class BuildInfo {
 	@Expose
 	private String securityAnalysisTool;
 
-	public String getSecurityAnalysisTool() {
-		return securityAnalysisTool;
-	}
 
-	public void setSecurityAnalysisTool(String securityAnalysisTool) {
-		this.securityAnalysisTool = securityAnalysisTool;
-	}
 
 	@SerializedName("artifactToStage")
 	@Expose
@@ -46,13 +40,6 @@ public class BuildInfo {
 	@Expose
 	private Fortify fortifyDetails;
 
-public Fortify getFortifyDetails() {
-		return fortifyDetails;
-	}
-
-	public void setFortifyDetails(Fortify fortifyDetails) {
-		this.fortifyDetails = fortifyDetails;
-	}
 
 	//    @SerializedName("castAnalysis")
 //    @Expose
@@ -126,7 +113,13 @@ public Fortify getFortifyDetails() {
 		this.sonarProjectKey = sonarProjectKey;
 	}
 
+	public String getSecurityAnalysisTool() {
+		return securityAnalysisTool;
+	}
 
+	public void setSecurityAnalysisTool(String securityAnalysisTool) {
+		this.securityAnalysisTool = securityAnalysisTool;
+	}
 	
 	// Add Jira ALM
 //    @SerializedName("jiraProjKey")
@@ -153,6 +146,13 @@ public Fortify getFortifyDetails() {
 //	public void setJiraAssigneeName(String jiraAssigneeName) {
 //		this.jiraAssigneeName = jiraAssigneeName;
 //	}
+    public Fortify getFortifyDetails() {
+		return fortifyDetails;
+	}
+
+	public void setFortifyDetails(Fortify fortifyDetails) {
+		this.fortifyDetails = fortifyDetails;
+	}
 
 	public String getSonarUserName() {
 		return sonarUserName;

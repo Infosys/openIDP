@@ -52,6 +52,10 @@ export class AntCtrlComponent implements OnInit {
     if (this.formStatusObject.operation === "copy" || this.formStatusObject.operation === "edit") {
         this.checkCheckBox();
     }
+
+    if (this.buildInfo.modules.length === 0) {
+      this.addItem();
+  }
     
     this.checkBoxObject = "on";
     this.javaOptionList();

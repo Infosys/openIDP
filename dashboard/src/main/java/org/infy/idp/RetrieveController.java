@@ -18,9 +18,9 @@ import org.infy.idp.bl.RetrieveInfoBL;
 import org.infy.idp.entities.AnnotationRequest;
 import org.infy.idp.entities.AnnotationResponse;
 import org.infy.idp.entities.QueryRequest;
-import org.infy.idp.entities.QueryResponse;
-import org.infy.idp.entities.SearchRequest;
 
+import org.infy.idp.entities.SearchRequest;
+import org.infy.idp.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +89,9 @@ public class RetrieveController {
     
     @RequestMapping(method = RequestMethod.POST, value = "/search")
     @ResponseBody
-    public List<String> search(@CookieValue("grafana_user") String grafanaUser,@RequestBody SearchRequest request) {
+    public List<String> search(@CookieValue("access_token") String accessToken, @RequestBody SearchRequest request) {
     	
-    	return retrieveBL.searchInfo(request,grafanaUser);
+    	return retrieveBL.searchInfo(request, Utils.getUserFromJWT(accessToken));
         
     }
     
@@ -107,11 +107,12 @@ public class RetrieveController {
     //
     @RequestMapping(method = RequestMethod.POST, value = "/query")
     @ResponseBody
-    public List<QueryResponse> query(@CookieValue("grafana_user") String grafanaUser,@RequestBody QueryRequest queryRequest) {
+   public Object query(@CookieValue("access_token") String accessToken, @RequestBody QueryRequest queryRequest) {
     	logger.debug("Target is " + queryRequest.getTargets().get(0).getTarget());
-    	return retrieveBL.queryInfo(queryRequest,grafanaUser);
-        
+    	return retrieveBL.queryInfo(queryRequest, Utils.getUserFromJWT(accessToken)); 
     }
+
+
     
     @RequestMapping(method = RequestMethod.GET, value = "/annotations")
     @ResponseBody

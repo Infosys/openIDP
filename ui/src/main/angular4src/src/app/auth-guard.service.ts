@@ -12,9 +12,11 @@ import { IdpdataService } from "./idpdata.service";
 import { AdalService } from "adal-angular4";
 import { IdprestapiService } from "./idprestapi.service";
 import { KeycloakService } from "./keycloak/keycloak.service";
+import { SsoService } from './sso/sso.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 @Injectable()
 export class AuthGuardService implements CanActivate {
-    private landingPageRoute = "/previousConfig";
+    private landingPageRoute = "/dashboard";
 
   constructor(
     private router: Router,
@@ -22,7 +24,8 @@ export class AuthGuardService implements CanActivate {
     private restApiService: IdprestapiService,
     private adalSvc: AdalService,
     private idpdataService: IdpdataService,
-    private keycloakService: KeycloakService
+    private ssoService : SsoService,
+    private oauthService : OAuthService
   ) {
 
   }
@@ -52,12 +55,16 @@ export class AuthGuardService implements CanActivate {
             console.log("Authentication failure");
             return false;
         }
-
+        console.log("auth mode he " + this.idpdataService.authmode)
         if (this.idpdataService.authmode === "keycloak") {
-            if (this.keycloakService.checkLoggedIn() === false) {
-            this.router.navigate(["/keycloak"]);
-            }
-            return false;
+            	
+					if(this.oauthService.hasValidIdToken() && this._cookieService.get("access_token")){
+						//alert("loggedin");
+						return true;
+          } 
+          //alert("not login");
+            this.router.navigate(['/sso']);
+						return false;
         }
         }
         if (this._cookieService.get("access_token")) {
@@ -135,17 +142,36 @@ export class AuthGuardService implements CanActivate {
         // not logged in so redirect to login page with the return url
         return false;
     } else if (urlValue !== "/") {
-        if (this._cookieService.get("access_token")) {
-        // logged in so return true
+        //alert("stage1")
+        console.log("auth mode"+this.idpdataService.authmode)
+        if(this.idpdataService.authmode =="keycloak"){
+         this.oauthService.loadDiscoveryDocumentAndTryLogin()
+       .then(() => {
+         console.log("Inside load_document \n Valid id token : " + this.oauthService.hasValidIdToken() + "\n" +
+         " Valid Access Token : " + this.oauthService.hasValidAccessToken());
+       });
 
-        return true;
-        } else if (this.idpdataService.authmode === "keycloak"
-        && this.keycloakService.checkLoggedIn()) {
-        return true;
-        }
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(["/login"]);
-       // console.log("redirect To Login");
+          if(this.oauthService.hasValidAccessToken() && this._cookieService.get('access_token')){
+         
+         return true;
+          }
+          else{
+           
+           this.router.navigate(['/sso']);
+           console.log('redirect To Login');
+           return false;
+          }
+   
+      
+          
+       }
+       else if (this._cookieService.get('access_token')) {
+         // logged in so return true
+        
+         return true;
+       }
+         // not logged in so redirect to login page with the return url
+         this.router.navigate(['/sso']);
         return false;
 
     }

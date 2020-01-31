@@ -12,12 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
+
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +24,7 @@ import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import org.infy.idp.utils.OrchestratorConnector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -70,7 +69,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
-import com.offbytwo.jenkins.JenkinsServer;
+
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -121,7 +120,9 @@ public class JobsBL {
 	private ReleaseDetails releaseDetails;
 	@Autowired
 	private EmailSender emailSender;
-
+	@Autowired
+	private OrchestratorConnector orchConn;
+	
 	private JobsBL() {
 		// constructor
 	}
@@ -173,8 +174,9 @@ public class JobsBL {
 			}
 
 		}
-
-		buildService.createNewJob(idp);
+		
+		logger.info("creating seed jobs.");
+		orchConn.sendKafkaMessage("{\"action\": \"create\",\"targetplatform\":\"jenkins\",\"idpjson\":" + gson.toJson(idp, IDPJob.class).toString() + ",\"jenkinsURL\":\"" + configmanager.getJenkinsurl() + "\"}");
 		logger.info(
 				idp.getBasicInfo().getApplicationName() + "_" + idp.getBasicInfo().getPipelineName() + " Job created.");
 		IDPJob idpLocal = idp;
@@ -205,12 +207,12 @@ public class JobsBL {
 				}
 			} else if (idp.getBuildInfo().getArtifactToStage().getArtifactRepoName().equalsIgnoreCase("jfrog")) {
 				try {
-					cli.addArtifactoryRepoGlobConf(
+					orchConn.addArtifactoryRepoGlobConf(
 							idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoURL(),
 							idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoUsername(),
 							idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoPassword(),
 							idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoUsername().toLowerCase()
-									+ "_" + idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoName());
+									+ "_" + idp.getBuildInfo().getArtifactToStage().getArtifactRepo().getRepoName(),configmanager.getJenkinsurl());
 				} catch (Exception e) {
 					logger.error("error while adding artifcatory repo {}", e.getMessage());
 				}
@@ -223,17 +225,16 @@ public class JobsBL {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				triggerBuilds.buildByJobName(idpLocal);
+			
 				String jenkinsURL = configmanager.getJenkinsurl();
 				String userName = configmanager.getJenkinsuserid();
 				String password = configmanager.getJenkinspassword();
-
+				Integer pipelineLastBuildNumber = 0;
 				try {
-					JenkinsServer server = new JenkinsServer(new URI(jenkinsURL), userName, password);
-					BuildStatus buildStatus = buildService.getBuildStatus(server,
-							idpLocal.getBasicInfo().getApplicationName() + "_"
-									+ idpLocal.getBasicInfo().getPipelineName() + "_Main",
-							0, 120000);
+					pipelineLastBuildNumber = jobDetailsInsertion.getLatestBuildNumber( idpLocal.getBasicInfo().getApplicationName(), idpLocal.getBasicInfo().getPipelineName());
+					BuildStatus buildStatus = orchConn.getBuildStatus(
+							idpLocal.getBasicInfo().getApplicationName() + "_" + idpLocal.getBasicInfo().getPipelineName() + "_Main", pipelineLastBuildNumber + 1, 120000, jenkinsURL);
+		
 					logger.info("creating seed jobs.");
 					if (buildStatus.getState().equalsIgnoreCase(SUCCESS)) {
 						jobDetailsInsertion.insertPipelineJsonDetails(aLocal, TRUE);
@@ -624,7 +625,9 @@ public class JobsBL {
 		if ((triggerparameters.getDeploy() != null || triggerparameters.getBuild() != null)) {
 			insertArtifact(triggerparameters, buildJson, userName);
 		}
-		triggerBuilds.buildByJobName(triggerparameters);
+		orchConn.sendKafkaMessage("{\"action\": \"trigger\",\"targetplatform\":\"jenkins\",\"idpjson\":"
+				+ g.toJson(triggerparameters, TriggerParameters.class).toString() + ",\"jenkinsURL\":\"" + configmanager.getJenkinsurl() + "\"}");
+		//triggerBuilds.buildByJobName(triggerparameters);
 	}
 
 	private String getAritifactName(TriggerParameters triggerparameters, JSONObject buildJson) {
@@ -762,98 +765,8 @@ public class JobsBL {
 	}
 
 	public String apprRejectJobs(ApproveBuildParams approveBuildParams, String to) {
-		String jobName = approveBuildParams.getApplicationName() + "_" + approveBuildParams.getPipelineName();
-		StringBuilder jobUrl = new StringBuilder();
-		jobUrl.append(configmanager.getJenkinsurl());
-		jobUrl.append(JOB_URL);
-		jobUrl.append(jobName);
-		logger.debug("Base Job Url:" + jobUrl);
-		StringBuilder jobUrl_temp = new StringBuilder(jobUrl);
-		Integer buildNum = -1;
-		if ("BUILD".equalsIgnoreCase(approveBuildParams.getJobType())) {
-			jobUrl.append(JOB_URL);
-			jobUrl.append(jobName + "_Build");
-			jobUrl_temp.append(JOB_URL);
-			jobUrl_temp.append(jobName + "_Build");
-			buildNum = getBuildNumber(jobUrl, approveBuildParams.getApprBuildNo());
-			logger.info("Build Number for Build: " + buildNum);
-		} else {
-			jobUrl.append(JOB_URL);
-			String workEnv = approveBuildParams.getEnvName();
-			jobUrl.append(jobName + "_Deploy_" + workEnv + "/job/" + jobName + "_Deploy_" + workEnv);
-			jobUrl_temp.append(JOB_URL);
-			jobUrl_temp.append(jobName + "_Deploy_" + workEnv + "/job/" + jobName + "_Deploy_" + workEnv);
-			buildNum = getBuildNumber(jobUrl, approveBuildParams.getApprBuildNo());
-			logger.info("Build Number for Deploy: " + buildNum);
-		}
-		if (approveBuildParams.getApprComment() == null || "".equalsIgnoreCase(approveBuildParams.getApprComment())) {
-			approveBuildParams.setApprComment("No Comments Recorded");
-		}
-		String description = approveBuildParams.getUserName() + "  Comments: " + approveBuildParams.getApprComment();
-		boolean appReject = false;
-		jobUrl.append("/" + buildNum + "/input/IDPApproval/submit");
-		if ("approved".equalsIgnoreCase(approveBuildParams.getApprInput())) {
-			jobUrl.append("?proceed=Proceed&json=" + URLEncoder
-					.encode("{\"parameter\": [{\"name\":\"APPR_INFO\", \"value\":\"" + description + "\"}]}"));
-		} else if ("rejected".equalsIgnoreCase(approveBuildParams.getApprInput())) {
-			jobUrl.append("?abort=Abort");
-			appReject = true;
-		}
-		BufferedReader in = null;
-		BufferedReader in2 = null;
-		try {
-			URL urldemo = new URL(jobUrl.toString());
-			logger.info("URL for approve/reject: " + urldemo);
-			HttpURLConnection yc = (HttpURLConnection) urldemo.openConnection();
-			yc.setRequestMethod("POST");
-			yc.setDoOutput(true);
-			yc.setInstanceFollowRedirects(false);
-			String userpass = configmanager.getJenkinsuserid() + ":" + configmanager.getJenkinspassword();
-			String basicAuth = "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary(userpass.getBytes());
-			yc.setRequestProperty("Authorization", basicAuth);
-			yc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-			if (appReject) {
-				logger.info("before sleep");
-				Thread.sleep(20000);
-				logger.info("after sleep");
-				jobUrl_temp.append("/" + buildNum + "/input/IDPDefault/submit?" + "proceed=Proceed&json=" + URLEncoder
-						.encode("{\"parameter\": [{\"name\":\"APPR_INFO\", \"value\":\"" + description + "\"}]}"));
-				urldemo = new URL(jobUrl_temp.toString());
-				logger.info("URL for reject: " + urldemo);
-				yc = (HttpURLConnection) urldemo.openConnection();
-				yc.setRequestMethod("POST");
-				yc.setDoOutput(true);
-				yc.setRequestProperty("Authorization", basicAuth);
-				yc.setInstanceFollowRedirects(false);
-				yc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-				in2 = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-			}
-		} catch (MalformedURLException e) {
-			logger.error("malformed url");
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		} catch (InterruptedException e) {
-			logger.error("Interrupt Exeption!!");
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (Exception e2) {
-					logger.error(e2.getMessage(), e2);
-				}
-			}
-			if (in2 != null) {
-				try {
-					in2.close();
-				} catch (Exception e2) {
-					logger.error(e2.getMessage(), e2);
-				}
-			}
-		}
-		logger.info("Job " + approveBuildParams.getApplicationName() + "_" + approveBuildParams.getPipelineName()
-				+ "is " + approveBuildParams.getApprInput() + " by " + description);
-		return "SUCCESS";
+
+		return orchConn.apprRejectJobs(approveBuildParams, to,configmanager.getJenkinsuserid());
 	}
 
 	private Integer getBuildNumber(StringBuilder jobUrl, String apprBuildNo) {

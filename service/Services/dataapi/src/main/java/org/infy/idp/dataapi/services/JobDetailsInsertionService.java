@@ -51,7 +51,7 @@ public class JobDetailsInsertionService {
 	private static final String WHERE_CLAUSE = " WHERE ";
 	private static final String SET_CLAUSE = " SET ";
 	private static final String WORKFLOW = "workflow";
-
+	private static final String SELECT_CLAUSE = "SELECT  ";
 	private JobDetailsInsertionService() {
 
 	}
@@ -83,6 +83,31 @@ public class JobDetailsInsertionService {
 		}
 
 		return 1;
+	}
+	public Integer getLatestBuildNumber(String applicationName,String pipelineName)
+	{
+		logger.info("getting latest buildno ");
+		Integer buildNo=0;
+		String tablename = " tnotification_info ";
+		StringBuilder queryStatement = new StringBuilder();
+		queryStatement.append(SELECT_CLAUSE);
+		queryStatement.append(" max(pipeline_build_number) from ");
+		queryStatement.append(tablename);
+		queryStatement.append(" where pipeline_name=? and application_name=?; ");
+		try (Connection connection = postGreSqlDbContext.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(queryStatement.toString())) {
+			preparedStatement.setString(1, pipelineName);
+			preparedStatement.setString(2, applicationName);
+			ResultSet rs=preparedStatement.executeQuery();
+			while(rs.next())
+			{
+				buildNo=rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			logger.error("Postgres Error while getting data", e);
+		}
+		return buildNo;
 	}
 
 	/**

@@ -20,7 +20,10 @@ import com.google.gson.annotations.SerializedName;
  *
  */
 public class TriggerParameters {
-
+    
+	@SerializedName("pipelineJson")
+	@Expose
+	private String pipelineJson;
 	@SerializedName("applicationName")
 	@Expose
 	private String applicationName;
@@ -321,7 +324,20 @@ public class TriggerParameters {
 //	public void setUserStoryString(String userStoryString) {
 //		this.userStoryString = userStoryString;
 //	}
+   
+    @SerializedName("encrypted")
+	@Expose
+	private String encrypted;
+	
+	
+	
+	public String getEncrypted() {
+		return encrypted;
+	}
 
+	public void setEncrypted(String encrypted) {
+		this.encrypted = encrypted;
+	}
 	public Boolean getRestoreTRFlag() {
 		return restoreTRFlag;
 	}
@@ -360,6 +376,14 @@ public class TriggerParameters {
 
 	public void setApprInput(String apprInput) {
 		this.apprInput = apprInput;
+	}
+
+	public String getPipelineJson() {
+		return pipelineJson;
+	}
+
+	public void setPipelineJson(String pipelineJson) {
+		this.pipelineJson = pipelineJson;
 	}
 
 	public String getApprComment() {

@@ -25,7 +25,7 @@
         "type": "git",
         "url": "http://gitserver/JPetStore_Maven.git",
         "userName": "uname",
-        "password": pwd",
+        "password": "pwd",
         "repositoryBrowser": "gitLab",
         "browserUrl": "http://gitserver",
         "projectName": "",

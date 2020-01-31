@@ -20,12 +20,19 @@ SKIP_CLOUD=${SKIP_CLOUD:-false}
 SKIP_TOOLS_CONFIG=${SKIP_TOOLS_CONFIG:-false}
 SKIP_JENKINS_COMPONENTS=${SKIP_JENKINS_COMPONENTS:-false}
 SKIP_GRAFANA_PLUGINS=${SKIP_GRAFANA_PLUGINS:-false}
+SKIP_CONNECTOR_JENKINS=${SKIP_CONNECTOR_JENKINS:-false}
+SKIP_ORCHESTRATOR=${SKIP_ORCHESTRATOR:-false}
 SKIP_DATAFILES_PACKAGE=${SKIP_DATAFILES_PACKAGE:-false}
 SKIP_DATAFILES_UPDATE=${SKIP_DATAFILES_UPDATE:-false}
 LOCAL_M2_CACHE=${LOCAL_M2_CACHE:-"-v /root/.m2/:/root/.m2/"}
 AUTOMATED_DEPLOYMENT=${AUTOMATED_DEPLOYMENT:-false}
 STACK_RELEASE_TIMEOUT=${STACK_RELEASE_TIMEOUT:-50}
 export HOSTNAME=${HOSTNAME:-$(hostname)}
+
+export BUILD_NUM=${BUILD_NUM:-3.6.5}
+export BUILD_TYPE=${BUILD_TYPE:-SNAPSHOT}
+export BUILD_NAME=$BUILD_NUM-$BUILD_TYPE
+export BUILD_ID=$BUILD_NAME-$(date +%s)
 
 #Docker Images Used for Build
 ANSIBLE_IMAGE=${ANSIBLE_IMAGE:-${SUPP_DOCKER_REPO}jaskirat/ansible-xml}
@@ -42,6 +49,8 @@ COMPOSE_IMAGE=${COMPOSE_IMAGE:-${SUPP_DOCKER_REPO}docker/compose:1.24.0}
 #Variables enabling iterative compilation and Quality scanning 
 FOLDER_UI=ui/
 FOLDER_SCHEDULER=scheduler/SchedulerService/
+FOLDER_ORCHESTRATOR=idporchestrator/
+FOLDER_JENKINS_CONNECTOR=idpjenkinsconnector/
 FOLDER_DASHBOARD=dashboard/
 FOLDER_SUBSCRIPTION=subscription/
 FOLDER_DSL=dsl/
@@ -97,7 +106,14 @@ then
     *${FOLDER_CLOUD}*) echo 'CLOUD CONFIG CHANGED'  ;component+=";idp-config";;
     *)                SKIP_CLOUD=true  ;;
     esac
-    
+    case "$CHANGED_SET" in
+    *${FOLDER_JENKINS_CONNECTOR}*) echo 'JENKINS CONNECTOR CHANGED'  ;component+=";connector.jenkins";;
+    *)                SKIP_CONNECTOR_JENKINS=true  ;;
+    esac
+    case "$CHANGED_SET" in
+    *${FOLDER_ORCHESTRATOR}*) echo 'ORCHESTRATOR CHANGED'  ;component+=";connector.jenkins";;
+    *)                SKIP_ORCHESTRATOR=true  ;;
+    esac
 	case "$CHANGED_SET" in
     *${FOLDER_JENKINS_COMPONENT}*) echo 'JENKINS COMPONENTS CHANGED'  ;component+=";DevopsJsonConv;metricsprocessor;ReportFetchUtil;scheduleUtility";;
     *)                SKIP_JENKINS_COMPONENTS=true  ;;
@@ -122,11 +138,11 @@ then
 	top -bn1 | grep load | awk '{printf "CPU Load: %.2f\n", $(NF-2)}'
 	free -g |  awk 'NR==2{printf "Memory Usage: %s/%sGB (%.2f%%)\n", $3, $2, $3*100/$2}'
 	df -m $MOUNT_DIR | awk 'NR==2{printf "Disk Usage(Datafiles Directory): %d/%dGB (%s)\n", $3,$2,$5}'
-	DATAFILES_DISK_SPACE=$(df -m $MOUNT_DIR | awk 'NR==2{printf "%d", $3}')
+	DATAFILES_DISK_SPACE=$(df -m $MOUNT_DIR | awk 'NR==2{printf "%d", $4}')
 	df -m $DOCKER_DIR | awk 'NR==2{printf "Disk Usage (Docker Data Directory): %d/%dGB (%s)\n", $3,$2,$5}'
 	DOCKER_DISK_SPACE=$(df -m $DOCKER_DIR | awk 'NR==2{printf "%d", $3}')
 
-	RECC_MEM=30
+	RECC_MEM=32
 	MIN_REQ_MEM=14
 	MIN_REQ_DISK=40960
 	MIN_REQ_DISK_DOCKER=15360
@@ -228,6 +244,7 @@ export KEYCLOAK_HOSTNAME=$HOSTNAME
 export JENKINS_HOSTNAME=$HOSTNAME
 export OAUTH_HOSTNAME=$HOSTNAME
 export EUREKA_HOSTNAME=$HOSTNAME
+export KAFKA_HOSTNAME_EXT=$HOSTNAME
 
 if [ "$CUSTOM_PORT" != "80" -a "$CUSTOM_PORT" != "443" ]
 then	
@@ -248,6 +265,7 @@ export ZOOKEEPER_PORT=2181
 
 export KAFKA_HOSTNAME=kafka
 export KAFKA_PORT=9092
+export KAFKA_PORT_EXT=9094
 
 
 export CONFIG_HOSTNAME=config
@@ -271,11 +289,17 @@ export JENKINS_PASSWORD=650f0ef465ef16b5a8e1bdcbd461973c
 
 export AUTH_PROVIDER=keycloak
 
+export ORCHESTRATOR_HOSTNAME=orchestrator
+export ORCHESTRATOR_PORT=8281
+
+export CON_JENKINS_HOSTNAME=jenkinsconnector
+export CON_JENKINS_PORT=8282
+
 export HIDE_JSON_CONVERT=${HIDE_JSON_CONVERT:-true}
 
 export CLOUD_DEPLOY_FLAG=${CLOUD_DEPLOY_FLAG:-true}
 
-export BUILD_NUM=${BUILD_NUM:-1.5.0}
+export BUILD_NUM=${BUILD_NUM:-1.6.0}
 export BUILD_TYPE=${BUILD_TYPE:-RELEASE}
 export BUILD_NAME=$BUILD_NUM-$BUILD_TYPE
 
@@ -283,11 +307,11 @@ export PROFILE=${PROFILE:-paas}
 
 #Images used for IDP stack
 export IDP_PROXY_IMAGE=${IDP_PROXY_IMAGE:-${DOCKER_REPO}nginx:1.15.10}
-export IDP_ZOOKEEPER_IMAGE=${IDP_ZOOKEEPER_IMAGE:-${DOCKER_REPO}zookeeper:3.5}
-export IDP_KAFKA_IMAGE=${IDP_KAFKA_IMAGE:-${DOCKER_REPO}wurstmeister/kafka:0.11.0.1}
-export IDP_POSTGRES_IMAGE=${IDP_POSTGRES_IMAGE:-${DOCKER_REPO}postgres:9.6.1}
-export IDP_KEYCLOAK_IMAGE=${IDP_KEYCLOAK_IMAGE:-${DOCKER_REPO}jboss/keycloak:4.0.0.Final}
-export IDP_GRAFANA_IMAGE=${IDP_GRAFANA_IMAGE:-${DOCKER_REPO}grafana/grafana:5.2.1}
+export IDP_ZOOKEEPER_IMAGE=${IDP_ZOOKEEPER_IMAGE:-${DOCKER_REPO}zookeeper:3.5.5}
+export IDP_KAFKA_IMAGE=${IDP_KAFKA_IMAGE:-${DOCKER_REPO}wurstmeister/kafka:2.12-2.2.1}
+export IDP_POSTGRES_IMAGE=${IDP_POSTGRES_IMAGE:-${DOCKER_REPO}postgres:9.6.13}
+export IDP_KEYCLOAK_IMAGE=${IDP_KEYCLOAK_IMAGE:-${DOCKER_REPO}jboss/keycloak:6.0.1}
+export IDP_GRAFANA_IMAGE=${IDP_GRAFANA_IMAGE:-${DOCKER_REPO}grafana/grafana:6.2.1}
 export IDP_JENKINS_IMAGE=${IDP_JENKINS_IMAGE:-${DOCKER_REPO}idp/jenkins}:$BUILD_NAME
 export IDP_CONFIG_IMAGE=${IDP_CONFIG_IMAGE:-${DOCKER_REPO}idp/idpconfig}:$BUILD_NAME
 export IDP_EUREKA_IMAGE=${IDP_EUREKA_IMAGE:-${DOCKER_REPO}idp/idpeureka}:$BUILD_NAME
@@ -299,6 +323,9 @@ export IDP_SUBSCRIPTION_IMAGE=${IDP_SUBSCRIPTION_IMAGE:-${DOCKER_REPO}idp/idpsub
 export IDP_SCHEDULER_IMAGE=${IDP_SCHEDULER_IMAGE:-${DOCKER_REPO}idp/idpscheduler}:$BUILD_NAME
 export IDP_DATAFILES_IMAGE=${IDP_DATAFILES_IMAGE:-${DOCKER_REPO}idp/datafiles}:$BUILD_NAME
 export TEMP_DATAFILES_IMAGE=${TEMP_DATAFILES_IMAGE:-${DOCKER_REPO}idp/temp_datafiles}:$BUILD_NAME
+export IDP_JENKINSCON_IMAGE=${IDP_JENKINSCON_IMAGE:-${DOCKER_REPO}idp/idpjenkinsconnector}:$BUILD_NAME
+export IDP_ORCH_IMAGE=${IDP_ORCH_IMAGE:-${DOCKER_REPO}idp/idporchestrator}:$BUILD_NAME
+export IDP_ORCH_JAVA_IMAGE=${IDP_ORCH_JAVA_IMAGE:-${DOCKER_REPO}idp/idporchestrator_java}:$BUILD_NAME
 
 
 
@@ -382,7 +409,7 @@ then
 		fi
 	fi
 	
-	
+
 	#Eureka
 	if [ "$SKIP_EUREKA" != true ]
 	then
@@ -438,7 +465,34 @@ then
 			docker build -t $IDP_UI_IMAGE ./
 		fi
 	fi
+	## Orchestrator - Java
+	if [ "$SKIP_ORCHESTRATOR" != true ]
+	then
+		echo "Compiling Orchestrator - Java ......."
+		cd $EXEC_DIR
+		docker run --rm $INTERACTIVE -v $PWD:/openidp $LOCAL_M2_CACHE -e BUILD_NAME=$BUILD_NAME -w=/openidp/orchestrator/orchestrator_java $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS 		
+		if [ "$SKIP_DEPLOYMENT" != true ]
+		then
+			echo "Building orchestrator(java) Docker Image"
+			cd $EXEC_DIR/orchestrator/orchestrator_java
+			docker build -t $IDP_ORCH_JAVA_IMAGE ./
+			
+		fi
+	fi
 	
+	# ## Connector-Jenkins
+	if [ "$SKIP_CONNECTOR_JENKINS" != true ]
+	then
+		echo "Compiling Jenkins Connector ......."
+		cd $EXEC_DIR
+		docker run --rm $INTERACTIVE -v $PWD:/openidp $LOCAL_M2_CACHE -e BUILD_NAME=$BUILD_NAME -w=/openidp/connectors/jenkins $MAVEN_BUILD_IMAGE mvn clean install $MAVEN_TESTS $SONAR_COMMAND
+		cd $EXEC_DIR/connectors/jenkins
+		if [ "$SKIP_DEPLOYMENT" != true ]
+		then
+			echo "Building Jenkins Connector Docker Image"
+			docker build -t $IDP_JENKINSCON_IMAGE ./
+		fi
+	fi
 	#Subscription
 	if [ "$SKIP_SUBSCRIPTION" != true ]
 	then
@@ -593,7 +647,9 @@ then
 	docker pull $IDP_ORCH_IMAGE > /dev/null 2>&1 || echo "Image $IDP_ORCH_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
 	docker pull $IDP_CDSERVICE_IMAGE > /dev/null 2>&1 || echo "Image $IDP_CDSERVICE_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
 	docker pull $IDP_DATAFILES_IMAGE > /dev/null 2>&1 || echo "Image $IDP_DATAFILES_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
-	
+	docker pull $IDP_JENKINSCON_IMAGE > /dev/null 2>&1 || echo "Image $IDP_JENKINSCON_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
+	docker pull $IDP_ORCH_IMAGE > /dev/null 2>&1 || echo "Image $IDP_ORCH_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
+	docker pull $IDP_ORCH_JAVA_IMAGE > /dev/null 2>&1 || echo "Image $IDP_ORCH_JAVA_IMAGE not avaialble in remote repo. Assumed to avaialble locally"
 	
 	cd $EXEC_DIR
 	
@@ -602,7 +658,11 @@ then
 		echo "Setting Permissions for Datafiles"
 		chmod -fR 0777 $MOUNT_DIR || :
 	fi
-	
+
+    	echo "Deploying IDP Stack"
+	env | grep '' > run.env
+	docker run --rm $INTERACTIVE -v $PWD:$PWD --env-file run.env -w=$PWD --entrypoint "" $COMPOSE_IMAGE /bin/sh -c "/usr/local/bin/docker-compose $COMPOSE_FILE config > stack.yml"
+
 	echo "Deploying IDP Stack"
 	env | grep '' > run.env
 	docker run --rm $INTERACTIVE -v $PWD:$PWD --env-file run.env -w=$PWD --entrypoint "" $COMPOSE_IMAGE /bin/sh -c "/usr/local/bin/docker-compose $COMPOSE_FILE config > stack.yml"

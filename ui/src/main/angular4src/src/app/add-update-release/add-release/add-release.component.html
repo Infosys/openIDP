@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-6 field-tip">
         <input  id="reartfrn" name="releaseNumber" #releaseNumber="ngModel" type="text" class="form-control" placeholder="1.0.0" [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="releaseManagerData.releaseNumber" (blur)="checkReleaseNo()" (focus)="invalidFalse()" style="width:70%" maxlength="10" required />
+        [(ngModel)]="releaseManagerData.releaseNumber" pattern="^([0-9a-zA-Z])+([._-]{0,1}[0-9a-zA-Z]+)+$"  (blur)="checkReleaseNo()" (focus)="invalidFalse()" style="width:70%" maxlength="10" required />
 		  <div *ngIf="releaseNumber.errors && (releaseNumber.dirty || releaseNumber.touched)" class="alert alert-danger ">
                           <div [hidden]="!releaseNumber.errors.required">
                             This Field Name is required!
@@ -32,6 +32,11 @@
                          
                           <div [hidden]="!releaseNumber.errors.maxlength">
                             This Field Name cannot be more than 10 characters long.
+                          </div>
+
+
+                          <div [hidden]="!releaseNumber.errors.pattern">
+                            This Field Name can only consist of alphanumeric,hyphen,underscore and dot.
                           </div>
                          
                         </div>

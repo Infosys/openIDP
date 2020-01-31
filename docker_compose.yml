@@ -20,22 +20,22 @@ services:
         deploy:
           mode: replicated
           replicas: 1
+    # Kafka Broker to be used for micro-service communication
     kafka:
         image: ${IDP_KAFKA_IMAGE}
+        hostname: ${KAFKA_HOSTNAME}
         environment:
           TZ: Asia/Kolkata
-          KAFKA_BROKER_ID: 1001
-          KAFKA_RESERVED_BROKER_MAX_ID: 1001
-          HOSTNAME_COMMAND: "echo ${KAFKA_HOSTNAME}"      
-          KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS: "INSIDE://:9092,OUTSIDE://${KAFKA_HOSTNAME_EXT}:${KAFKA_PORT_EXT}"
+          KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
           KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-          KAFKA_ADVERTISED_PROTOCOL_NAME: OUTSIDE
-          KAFKA_ADVERTISED_PORT: ${KAFKA_PORT}
-          KAFKA_PROTOCOL_NAME: INSIDE
-          KAFKA_PORT: 9091
+          KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+          KAFKA_BROKER_ID:  1
         deploy:
           mode: replicated
           replicas: 1
+          
     postgres:
         image: ${IDP_POSTGRES_IMAGE}
         environment:
@@ -61,6 +61,8 @@ services:
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
           PROXY_ADDRESS_FORWARDING: "true"
+        volumes:
+            - ${MOUNT_DIR}/keycloak/idptheme:/opt/jboss/keycloak/themes/idptheme
         deploy:
           mode: replicated
           replicas: 1
@@ -146,6 +148,8 @@ services:
         environment:
           TZ: Asia/Kolkata
           PROFILE: ${PROFILE}
+          ORCHESTRATOR_HOSTNAME: ${ORCHESTRATOR_HOSTNAME}
+          ORCHESTRATOR_PORT: ${ORCHESTRATOR_PORT}
           GRAFANA_HOSTNAME: ${GRAFANA_HOSTNAME}
           GRAFANA_PORT: ${GRAFANA_PORT}
           ZOOKEEPER_HOSTNAME: ${ZOOKEEPER_HOSTNAME}
@@ -319,6 +323,38 @@ services:
           JENKINS_PORT: ${JENKINS_PORT}
           JENKINS_USERNAME: ${JENKINS_USERNAME}
           JENKINS_PASSWORD: ${JENKINS_PASSWORD}
+    # module.
+    # Provides single point of interaction to jenkins core engine and accessible only to orchestrator.
+    jenkinsconnector:
+        image: ${IDP_JENKINSCON_IMAGE}
+        environment:
+          TZ: Asia/Kolkata
+          PROFILE: ${PROFILE}
+          KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
+          KAFKA_PORT: ${KAFKA_PORT}
+          JENKINS_HOSTNAME: ${JENKINS_HOSTNAME}
+          JENKINS_PORT: ${JENKINS_PORT}
+          JENKINS_USERNAME: ${JENKINS_USERNAME}
+          JENKINS_PASSWORD: ${JENKINS_PASSWORD}
+          TRACER_FLAG: ${TRACER_FLAG}
+          JAEGER_HOSTNAME: ${JAEGER_HOSTNAME}
+          SSL_ENABLED: ${SSL_ENABLED}
+        deploy:
+          mode: replicated
+          replicas: 1
+    # As part of modern multi-CI approach, all execution engine requests will be published to this component
+    # and based on content it will decide and forward the request to excution engine
+    orchestrator:
+        environment:
+          TZ: Asia/Kolkata
+          PROFILE: ${PROFILE}
+          JENKINS_CONNECTOR: "http://${CON_JENKINS_HOSTNAME}:${CON_JENKINS_PORT}/idpjenkins"
+          TRACER_FLAG: ${TRACER_FLAG}
+          JAEGER_HOSTNAME: ${JAEGER_HOSTNAME}
+          SSL_ENABLED: ${SSL_ENABLED}
+        deploy:
+          mode: replicated
+          replicas: 1
           OAUTH_HOSTNAME: ${OAUTH_HOSTNAME}
           OAUTH_PORT: ${OAUTH_PORT}
           DASHBOARD_HOSTNAME: ${DASHBOARD_HOSTNAME}

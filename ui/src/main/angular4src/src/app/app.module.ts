@@ -15,6 +15,9 @@ import { DateTimePickerModule } from "ng-pick-datetime";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { AppComponent } from "./app.component";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import { SsoComponent } from './sso/sso.component';
+import { SsoService } from './sso/sso.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { FormsModule } from "@angular/forms";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
@@ -66,6 +69,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { MomentModule } from 'ngx-moment';
+
 import {
     AppAsideModule,
     AppBreadcrumbModule,
@@ -110,6 +114,7 @@ const APP_CONTAINERS = [
         CreateLicenseComponent,
         NotificationInfoComponent,
         CreateOrganizationComponent,
+        SsoComponent,
     ],
     imports: [
         BrowserModule,
@@ -122,6 +127,8 @@ const APP_CONTAINERS = [
         AppSidebarModule,
         PerfectScrollbarModule,
         CookieModule.forRoot(),
+        OAuthModule.forRoot(),
+        HttpClientModule,
         HttpModule,
         Ng2TableModule,
         AngularMultiSelectModule,
@@ -173,7 +180,8 @@ const APP_CONTAINERS = [
             useFactory: keycloakHttpFactory,
             deps: [XHRBackend, RequestOptions, KeycloakService]
         },
-        KeycloakService],
+        KeycloakService,
+        SsoService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

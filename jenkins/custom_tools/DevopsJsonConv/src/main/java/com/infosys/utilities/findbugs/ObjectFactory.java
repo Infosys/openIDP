@@ -138,8 +138,8 @@ public class ObjectFactory {
 	}
 
 	@XmlElementDecl(namespace = "", name = "LongMessage", scope = BugInstance.class)
-	public JAXBElement<java.lang.String> createBugCollectionBugInstanceLongMessage(java.lang.String value) {
-		return new JAXBElement<java.lang.String>(_BugCollectionBugInstanceLongMessage_QNAME, java.lang.String.class,
+	public JAXBElement<String> createBugCollectionBugInstanceLongMessage(String value) {
+		return new JAXBElement<String>(_BugCollectionBugInstanceLongMessage_QNAME, String.class,
 				BugInstance.class, value);
 	}
 
@@ -200,14 +200,14 @@ public class ObjectFactory {
 	}
 
 	@XmlElementDecl(namespace = "", name = "ShortMessage", scope = BugInstance.class)
-	public JAXBElement<java.lang.String> createBugCollectionBugInstanceShortMessage(java.lang.String value) {
-		return new JAXBElement<java.lang.String>(_BugCollectionBugInstanceShortMessage_QNAME, java.lang.String.class,
+	public JAXBElement<String> createBugCollectionBugInstanceShortMessage(String value) {
+		return new JAXBElement<String>(_BugCollectionBugInstanceShortMessage_QNAME, String.class,
 				BugInstance.class, value);
 	}
 
 	@XmlElementDecl(namespace = "", name = "Message", scope = BugInstance.Method.SourceLine.class)
-	public JAXBElement<java.lang.String> createBugCollectionBugInstanceMethodSourceLineMessage(java.lang.String value) {
-		return new JAXBElement<java.lang.String>(_BugCollectionBugInstanceMethodSourceLineMessage_QNAME,
-				java.lang.String.class, BugInstance.Method.SourceLine.class, value);
+	public JAXBElement<String> createBugCollectionBugInstanceMethodSourceLineMessage(String value) {
+		return new JAXBElement<String>(_BugCollectionBugInstanceMethodSourceLineMessage_QNAME,
+				String.class, BugInstance.Method.SourceLine.class, value);
 	}
 }

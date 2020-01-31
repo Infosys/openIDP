@@ -62,6 +62,19 @@
               for automating and simplifying and bootstrapping boiler plate.</td>
           </tr>
           <tr>
+            <td style="border-right: 1px solid #dddddd;">IDP Orchestrator</td>
+            <td style="text-align: left">This Java based component provides a layer of abstraction to decouple the underlying orchestration engine
+               such as Jenkins, from the IDP REST component. 
+              The component subscribes to Kafka topics for processing of various pipeline management requests for the orchestration engine.</td>
+          </tr>
+          <tr>
+              <td style="border-right: 1px solid #dddddd;">IDP Jenkins Connector</td>
+              <td style="text-align: left">This Java based component implements pipeline, slave and user management functions for Jenkins OSS.
+                Orchestrator component delegates the requests to respective Connector component depending on the orchestration engine defined 
+                in the Kafka message. 
+               </td>
+            </tr>
+          <tr>
             <td style="border-right: 1px solid #dddddd;">DSL</td>
             <td style="text-align: left">DSLs are the core for automating the Jenkins Job Creation. This is a hybrid approach for creating Jenkins
               jobs using

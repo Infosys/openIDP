@@ -47,3 +47,13 @@ services:
           SSL_CA_LOC: ${SSL_CA_LOC}
         volumes:
             - ${MOUNT_DIR}/certs/:/certs/
+    jenkinsconnector:
+        environment:
+          SSL_CA_LOC: ${SSL_CA_LOC}
+        volumes:
+            - ${MOUNT_DIR}/certs/:/certs/
+    orchestrator:
+        environment:
+          SSL_CA_LOC: ${SSL_CA_LOC}
+        volumes:
+            - ${MOUNT_DIR}/certs/:/certs/

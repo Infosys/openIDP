@@ -11,16 +11,18 @@ import org.apache.log4j.Logger;
 
 import com.infosys.json.JsonClass;
 import com.infosys.json.TestCaseResult;
-import com.infosys.utilities.junit.Testsuite.Testcase;
+
 import com.infosys.utilities.tosca.Testsuites;
-import com.infosys.utilities.tosca.Testsuites.Testsuite;
+
 
 public class ConvertTosca {
+      private static final Logger logger = Logger.getLogger(ConvertTosca.class);
+       
        private ConvertTosca() {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static final Logger logger = Logger.getLogger(ConvertTosca.class);
+	
        
        public static List<TestCaseResult> toscaConvert(String inputPath, JsonClass json, String prefixForId) {
               List<TestCaseResult> tr=json.getTestCaseResult();

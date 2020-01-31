@@ -1,0 +1,99 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.29">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>JSON_Input</name>
+          <description>Json containing the stage and step configuration</description>
+          <defaultValue></defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>agent</name>
+          <description>Agent to run pipeline on</description>
+          <defaultValue>master</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.60">
+    <script>def OS
+def PLUGIN_REPO = &quot;http://nexusServer/nexus/repository/necessity&quot;
+def EXECUTOR_URL_UNIX = &quot;http://nexusServer/nexus/repository/necessity/bin/executor&quot;
+def EXECUTOR_URL_WINDOWS = &quot;http://nexusServer/nexus/repository/necessity/bin/executor.exe&quot;
+def BINARY_NAME_UNIX = &quot;executor&quot;
+def BINARY_NAME_WINDOWS = &quot;executor.exe&quot;
+
+pipeline {
+    agent {
+          label &quot;${agent}&quot;
+    }
+    stages {
+        stage(&apos;Prep&apos;){
+            steps{
+                script {
+                    if(isUnix()){
+                        OS = &quot;unix&quot;        
+                        sh &apos;echo &quot;${JSON_Input}&quot; &gt; pipeline.json&apos;
+                        sh &quot;wget -O ${BINARY_NAME_UNIX} ${EXECUTOR_URL_UNIX} &amp;&amp; chmod +x ${BINARY_NAME_UNIX}&quot;
+                    } else {
+                        OS = &quot;non-unix&quot;
+                        bat &apos;echo &quot;${JSON_Input}&quot; &gt; pipeline.json&apos;
+                        bat &quot;powershell -Command &apos;Invoke-WebRequest ${EXECUTOR_URL_WINDOWS} -OutFile ${BINARY_NAME_WINDOWS}&apos;&quot;
+                    }
+                }
+            }
+        }
+        stage(&apos;SCM&apos;) { 
+            steps {
+                script {
+                    if (OS == &quot;unix&quot;){
+                        sh &quot;./executor --inputFile=pipeline.json --stages=SCM --pluginRepo=${PLUGIN_REPO}&quot;
+                    } else {
+                       bat &quot;./executor.exe  --inputFile=pipeline.json --stages=SCM --pluginRepo=${PLUGIN_REPO}&quot;
+                    }
+                }
+            }
+        }
+        stage(&apos;Build&apos;) { 
+            steps {
+                script {
+                    if (OS == &quot;unix&quot;){
+                        sh &quot;./executor  --inputFile=pipeline.json --stages=Build --pluginRepo=${PLUGIN_REPO}&quot;
+                    } else {
+                       bat &quot;./executor.exe  --inputFile=pipeline.json --stages=Build --pluginRepo=${PLUGIN_REPO}&quot;
+                    }
+                }
+            }
+        }
+        stage(&apos;Deploy&apos;) { 
+            steps {
+                script {
+                    if (OS == &quot;unix&quot;){
+                        sh &quot;./executor  --inputFile=pipeline.json --stages=Deploy --pluginRepo=${PLUGIN_REPO}&quot;
+                    } else {
+                       bat &quot;./executor.exe  --inputFile=pipeline.json --stages=Deploy --pluginRepo=${PLUGIN_REPO}&quot;
+                    }
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
