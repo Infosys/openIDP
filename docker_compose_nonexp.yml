@@ -1,0 +1,22 @@
+#***********************************************************************************************
+#
+# Copyright 2019 Infosys Ltd.
+# Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/MIT.
+#
+#**********************************************************************************************/
+
+# The following compose file will activate when environment variable EXPERIMENTAL_FEATURES is set false.
+# This will enable orchestrator module programmed in springboot framework
+
+
+version: "3.2"
+
+services:
+    orchestrator:
+        image: ${IDP_ORCH_JAVA_IMAGE}
+        environment:
+          KAFKA_HOSTNAME: ${KAFKA_HOSTNAME}
+          KAFKA_PORT: ${KAFKA_PORT}
+          TRACER_FLAG: ${TRACER_FLAG}
+          JAEGER_HOSTNAME: ${JAEGER_HOSTNAME}

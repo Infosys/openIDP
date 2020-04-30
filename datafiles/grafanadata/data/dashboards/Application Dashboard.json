@@ -1,4 +1,14 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_DS_IDP",
+      "label": "DS_IDP",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-simple-json-datasource",
+      "pluginName": "SimpleJson"
+    }
+  ],
   "__requires": [
     {
       "type": "panel",
@@ -10,13 +20,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.2.1"
+      "version": "5.2.4"
     },
     {
       "type": "datasource",
       "id": "grafana-simple-json-datasource",
       "name": "SimpleJson",
-      "version": "1.3.5"
+      "version": "1.4.0"
     },
     {
       "type": "panel",
@@ -54,7 +64,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1537422759356,
+  "iteration": 1583822405622,
   "links": [],
   "panels": [
     {
@@ -68,7 +78,8 @@
       "id": 17,
       "links": [],
       "mode": "html",
-      "title": "Pipeline Info",
+      "options": {},
+      "title": "Application Details",
       "type": "text"
     },
     {
@@ -112,6 +123,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -220,6 +232,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -328,6 +341,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -382,7 +396,7 @@
         }
       ],
       "thresholds": "100",
-      "title": "Successfull",
+      "title": "Successful",
       "transparent": true,
       "type": "singlestat",
       "valueFontSize": "50%",
@@ -436,6 +450,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -550,6 +565,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -652,6 +668,7 @@
       "infoEnabled": true,
       "lengthChangeEnabled": true,
       "links": [],
+      "options": {},
       "orderColumnEnabled": true,
       "pagingTypes": [
         {
@@ -824,6 +841,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -921,10 +939,11 @@
         "total": true,
         "values": true
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 1,
       "points": true,
@@ -967,6 +986,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Duration Trend",
       "tooltip": {
@@ -989,7 +1009,7 @@
         {
           "format": "dtdurationms",
           "label": null,
-          "logBase": 1,
+          "logBase": 2,
           "max": null,
           "min": null,
           "show": true
@@ -1049,6 +1069,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1162,6 +1183,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1275,6 +1297,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1372,13 +1395,14 @@
         "total": true,
         "values": true
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 1,
-      "points": false,
+      "points": true,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -1427,6 +1451,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Duration Trend",
       "tooltip": {
@@ -1507,6 +1532,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1620,6 +1646,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1733,6 +1760,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1828,13 +1856,14 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 5,
-      "points": false,
+      "points": true,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -1884,6 +1913,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Duration Trend",
       "tooltip": {
@@ -1964,6 +1994,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2077,6 +2108,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2190,6 +2222,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2285,10 +2318,11 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 1,
       "points": true,
@@ -2340,6 +2374,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Duration Trend",
       "tooltip": {
@@ -2420,6 +2455,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2533,6 +2569,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2648,6 +2685,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "deploys in this week",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2708,7 +2746,6 @@
       ],
       "thresholds": "",
       "title": "",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "170%",
       "valueMaps": [
@@ -2731,6 +2768,7 @@
         "allValue": null,
         "current": {},
         "datasource": "DS_IDP",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": "Application",
@@ -2740,6 +2778,7 @@
         "query": "select application_name  from appinfo",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -2779,7 +2818,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Application Dashboard v2 PG",
+  "title": "Application Dashboard",
   "uid": "001",
-  "version": 3
+  "version": 5
 }

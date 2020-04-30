@@ -1,0 +1,18 @@
+#***********************************************************************************************
+#
+# Copyright 2019 Infosys Ltd.
+# Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/MIT.
+#
+#**********************************************************************************************/
+
+# The following compose file will activate when environment variable EXPERIMENTAL_FEATURES is set true.
+# This will enable orchestrator module programmed in python flask api isolated from Neccesity's code base.
+
+version: "3.2"
+
+services:
+    orchestrator:
+        image: ${IDP_ORCH_IMAGE}
+        environment:
+          KAFKA_CLUSTER: "${KAFKA_HOSTNAME}:${KAFKA_PORT}"

@@ -1,4 +1,14 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_DS_IDP",
+      "label": "DS_IDP",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-simple-json-datasource",
+      "pluginName": "SimpleJson"
+    }
+  ],
   "__requires": [
     {
       "type": "panel",
@@ -16,13 +26,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.2.1"
+      "version": "5.2.4"
     },
     {
       "type": "datasource",
       "id": "grafana-simple-json-datasource",
       "name": "SimpleJson",
-      "version": "1.3.5"
+      "version": "1.4.0"
     },
     {
       "type": "panel",
@@ -48,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1537422793753,
+  "iteration": 1583997730328,
   "links": [],
   "panels": [
     {
@@ -64,6 +74,86 @@
       "repeat": null,
       "title": "STATUS OF JOBS",
       "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "DS_IDP",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 83,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "StoryID",
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "A",
+          "target": "buildTriggeredAt%$Pipeline%$Application%$Build_Number",
+          "type": "table"
+        }
+      ],
+      "thresholds": "",
+      "title": "Trigger Time",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "diff"
     },
     {
       "cacheTimeout": null,
@@ -85,8 +175,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 0,
+        "w": 5,
+        "x": 4,
         "y": 1
       },
       "id": 70,
@@ -106,6 +196,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -169,7 +260,6 @@
       ],
       "thresholds": "1,1",
       "title": "SCM Status",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -216,8 +306,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 6,
+        "w": 5,
+        "x": 9,
         "y": 1
       },
       "id": 42,
@@ -237,6 +327,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -265,7 +356,6 @@
       ],
       "thresholds": "1,1",
       "title": "Build Status",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -299,7 +389,7 @@
       "colors": [
         "rgba(245, 54, 54, 0.9)",
         "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
+        "rgba(7, 170, 0, 0.97)"
       ],
       "datasource": "DS_IDP",
       "format": "none",
@@ -312,8 +402,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 12,
+        "w": 5,
+        "x": 14,
         "y": 1
       },
       "id": 43,
@@ -333,6 +423,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -394,7 +485,6 @@
       ],
       "thresholds": "0.1,1",
       "title": "Deploy Status",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -433,7 +523,7 @@
       "colors": [
         "rgba(245, 54, 54, 0.9)",
         "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
+        "rgba(7, 170, 0, 0.97)"
       ],
       "datasource": "DS_IDP",
       "format": "none",
@@ -446,8 +536,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 18,
+        "w": 5,
+        "x": 19,
         "y": 1
       },
       "id": 45,
@@ -467,6 +557,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -526,9 +617,8 @@
           "type": "timeserie"
         }
       ],
-      "thresholds": "0.1,1",
+      "thresholds": "1,1",
       "title": "Test Status",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -600,7 +690,7 @@
       ],
       "datasource": "DS_IDP",
       "decimals": null,
-      "format": "dtdurationms",
+      "format": "ms",
       "gauge": {
         "maxValue": 100,
         "minValue": 0,
@@ -610,7 +700,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
+        "w": 5,
         "x": 0,
         "y": 5
       },
@@ -631,6 +721,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -686,13 +777,12 @@
             ]
           ],
           "tags": [],
-          "target": "SELECT buildtime,created_at FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%SCM%'",
+          "target": "jobduration%$Application%$Pipeline%$Build_Number%scm",
           "type": "timeserie"
         }
       ],
       "thresholds": "",
       "title": "SCM duration",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -707,7 +797,7 @@
           "value": "-1"
         }
       ],
-      "valueName": "current"
+      "valueName": "avg"
     },
     {
       "cacheTimeout": null,
@@ -729,8 +819,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 6,
+        "w": 5,
+        "x": 5,
         "y": 5
       },
       "id": 38,
@@ -750,6 +840,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -805,13 +896,12 @@
             ]
           ],
           "tags": [],
-          "target": "SELECT buildtime,created_at FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Build%'",
+          "target": "jobduration%$Application%$Pipeline%$Build_Number%building",
           "type": "timeserie"
         }
       ],
       "thresholds": "",
       "title": "Build duration",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -838,7 +928,7 @@
         "rgba(50, 172, 45, 0.97)"
       ],
       "datasource": "DS_IDP",
-      "format": "dtdurationms",
+      "format": "ms",
       "gauge": {
         "maxValue": 100,
         "minValue": 0,
@@ -848,7 +938,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
+        "w": 5,
         "x": 10,
         "y": 5
       },
@@ -869,6 +959,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -924,13 +1015,12 @@
             ]
           ],
           "tags": [],
-          "target": "SELECT sum(buildtime),max(created_at) FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number' and stagename like '%Deploy%'",
+          "target": "jobduration%$Application%$Pipeline%$Build_Number%deployment",
           "type": "timeserie"
         }
       ],
       "thresholds": "",
       "title": "Deploy duration",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -962,7 +1052,7 @@
         "rgba(50, 172, 45, 0.97)"
       ],
       "datasource": "DS_IDP",
-      "format": "dtdurationms",
+      "format": "ms",
       "gauge": {
         "maxValue": 100,
         "minValue": 0,
@@ -972,8 +1062,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
-        "x": 16,
+        "w": 5,
+        "x": 15,
         "y": 5
       },
       "id": 41,
@@ -993,6 +1083,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1048,15 +1139,14 @@
             ]
           ],
           "tags": [],
-          "target": "SELECT sum(buildtime),max(created_at) FROM buildinfo WHERE appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number'and stagename like '%Test%'",
+          "target": "jobduration%$Application%$Pipeline%$Build_Number%testing",
           "type": "timeserie"
         }
       ],
       "thresholds": "",
       "title": "Test duration",
-      "transparent": false,
       "type": "singlestat",
-      "valueFontSize": "50%",
+      "valueFontSize": "80%",
       "valueMaps": [
         {
           "op": "=",
@@ -1112,6 +1202,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1164,13 +1255,12 @@
               "value": "/^$Pipeline$/"
             }
           ],
-          "target": "select sum(buildtime),max(created_at)from buildinfo group by appid,pipelineno having appid=(select id from appinfo where application_name='$Application' and pipeline_name ='$Pipeline')  and pipelineno='$Build_Number'",
+          "target": "jobduration%$Application%$Pipeline%$Build_Number%totalduration",
           "type": "timeserie"
         }
       ],
       "thresholds": "",
       "title": "Total Duration",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1216,6 +1306,86 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "DS_IDP",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 85,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "A",
+          "target": "totalLineCoverage%$Application%$Pipeline%$Build_Number",
+          "type": "timeserie"
+        }
+      ],
+      "thresholds": "30,60",
+      "title": "Total Line Coverage",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
         "rgba(50, 172, 45, 0.97)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
@@ -1233,8 +1403,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 0,
+        "w": 6,
+        "x": 6,
         "y": 9
       },
       "id": 65,
@@ -1254,6 +1424,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1315,7 +1486,6 @@
       ],
       "thresholds": "0,0",
       "title": "Zero coverage classes",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1349,8 +1519,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 12,
         "y": 9
       },
       "id": 66,
@@ -1370,6 +1540,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1431,7 +1602,6 @@
       ],
       "thresholds": "0,0",
       "title": "0-50% coverage classes",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1465,8 +1635,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 18,
         "y": 9
       },
       "id": 67,
@@ -1486,6 +1656,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1547,7 +1718,6 @@
       ],
       "thresholds": "0,0",
       "title": "50-100% coverage classes",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1650,7 +1820,7 @@
         "labelFontSize": 26,
         "maxNeedleAngle": 320,
         "maxTickAngle": 300,
-        "maxValue": 50,
+        "maxValue": 100,
         "minValue": 0,
         "needleCol": "rgb(0, 0, 0)",
         "needleLengthNeg": 0.2,
@@ -1714,6 +1884,7 @@
         "total",
         "name"
       ],
+      "options": {},
       "rangeMaps": [
         {
           "from": "null",
@@ -1763,7 +1934,7 @@
           "type": "timeserie"
         }
       ],
-      "thresholds": "1,3",
+      "thresholds": "30,60",
       "tickMaps": [],
       "title": "High Severity",
       "transparent": true,
@@ -2405,7 +2576,7 @@
         "labelFontSize": 18,
         "maxNeedleAngle": 320,
         "maxTickAngle": 300,
-        "maxValue": 300,
+        "maxValue": 1000,
         "minValue": 0,
         "needleCol": "rgb(0, 0, 0)",
         "needleLengthNeg": 0.2,
@@ -2469,6 +2640,7 @@
         "total",
         "name"
       ],
+      "options": {},
       "rangeMaps": [
         {
           "from": "null",
@@ -2518,7 +2690,7 @@
           "type": "timeserie"
         }
       ],
-      "thresholds": "50,200",
+      "thresholds": "300,600",
       "tickMaps": [],
       "title": "medium Severity",
       "transparent": true,
@@ -3224,6 +3396,7 @@
         "total",
         "name"
       ],
+      "options": {},
       "rangeMaps": [
         {
           "from": "null",
@@ -3240,7 +3413,7 @@
           "type": "timeserie"
         }
       ],
-      "thresholds": "100,1000",
+      "thresholds": "300,600",
       "tickMaps": [],
       "title": "Low Severity violations",
       "transparent": true,
@@ -3826,6 +3999,7 @@
       "infoEnabled": true,
       "lengthChangeEnabled": true,
       "links": [],
+      "options": {},
       "orderColumnEnabled": true,
       "pagingTypes": [
         {
@@ -4013,6 +4187,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -4127,6 +4302,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -4241,6 +4417,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -4321,7 +4498,7 @@
       "datatablePagingType": "simple_numbers",
       "datatableTheme": "basic_theme",
       "editable": true,
-      "emptyData": false,
+      "emptyData": true,
       "error": false,
       "fontSize": "100%",
       "gridPos": {
@@ -4335,6 +4512,7 @@
       "infoEnabled": true,
       "lengthChangeEnabled": true,
       "links": [],
+      "options": {},
       "orderColumnEnabled": true,
       "pagingTypes": [
         {
@@ -4495,7 +4673,7 @@
         "h": 5,
         "w": 18,
         "x": 0,
-        "y": 27
+        "y": 26
       },
       "hoverEnabled": true,
       "id": 69,
@@ -4508,6 +4686,7 @@
           "url": "http://infygit.com"
         }
       ],
+      "options": {},
       "orderColumnEnabled": true,
       "pagingTypes": [
         {
@@ -4664,7 +4843,7 @@
         "h": 5,
         "w": 6,
         "x": 18,
-        "y": 27
+        "y": 26
       },
       "id": 71,
       "interval": null,
@@ -4683,6 +4862,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -4766,6 +4946,7 @@
         "allValue": null,
         "current": {},
         "datasource": "DS_IDP",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": "Application",
@@ -4775,6 +4956,7 @@
         "query": "select application_name from appinfo order by created_at desc",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -4786,6 +4968,7 @@
         "allValue": null,
         "current": {},
         "datasource": "DS_IDP",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": "Pipeline",
@@ -4795,6 +4978,7 @@
         "query": "select pipeline_name from appinfo where application_name ='$Application'",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -4806,15 +4990,17 @@
         "allValue": null,
         "current": {},
         "datasource": "DS_IDP",
+        "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": "Build_Number",
         "multi": false,
         "name": "Build_Number",
         "options": [],
-        "query": "select distinct pipelineno from buildinfo where appid=(select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')",
+        "query": "select distinct pipelineno from buildinfo where appid in (select id from appinfo where application_name='$Application' and pipeline_name='$Pipeline')",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 4,
         "tagValuesQuery": null,
         "tags": [],
@@ -4829,6 +5015,7 @@
     "to": "2018-01-29T09:24:25.854Z"
   },
   "timepicker": {
+    "hidden": true,
     "refresh_intervals": [
       "5s",
       "10s",
@@ -4854,7 +5041,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Developer Dashboard v2 PG",
+  "title": "Developer Dashboard",
   "uid": "002",
-  "version": 3
+  "version": 15
 }

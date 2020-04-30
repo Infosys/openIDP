@@ -29,10 +29,6 @@ AUTOMATED_DEPLOYMENT=${AUTOMATED_DEPLOYMENT:-false}
 STACK_RELEASE_TIMEOUT=${STACK_RELEASE_TIMEOUT:-50}
 export HOSTNAME=${HOSTNAME:-$(hostname)}
 
-export BUILD_NUM=${BUILD_NUM:-3.6.5}
-export BUILD_TYPE=${BUILD_TYPE:-SNAPSHOT}
-export BUILD_NAME=$BUILD_NUM-$BUILD_TYPE
-export BUILD_ID=$BUILD_NAME-$(date +%s)
 
 #Docker Images Used for Build
 ANSIBLE_IMAGE=${ANSIBLE_IMAGE:-${SUPP_DOCKER_REPO}jaskirat/ansible-xml}
@@ -299,9 +295,10 @@ export HIDE_JSON_CONVERT=${HIDE_JSON_CONVERT:-true}
 
 export CLOUD_DEPLOY_FLAG=${CLOUD_DEPLOY_FLAG:-true}
 
-export BUILD_NUM=${BUILD_NUM:-1.6.0}
+export BUILD_NUM=${BUILD_NUM:-1.7.0}
 export BUILD_TYPE=${BUILD_TYPE:-RELEASE}
 export BUILD_NAME=$BUILD_NUM-$BUILD_TYPE
+export BUILD_ID=$BUILD_NAME-$(date +%s)
 
 export PROFILE=${PROFILE:-paas}
 
@@ -659,6 +656,16 @@ then
 		chmod -fR 0777 $MOUNT_DIR || :
 	fi
 
+	
+	# Checks if experimental features are requested
+	if [ "$EXPERIMENTAL_FEATURES" != true ]
+	then
+		export COMPOSE_FILE="$COMPOSE_FILE -f $EXEC_DIR/docker_compose_nonexp.yml"
+	else
+		export COMPOSE_FILE="$COMPOSE_FILE -f $EXEC_DIR/docker_compose_exp.yml"
+	fi
+
+	
     	echo "Deploying IDP Stack"
 	env | grep '' > run.env
 	docker run --rm $INTERACTIVE -v $PWD:$PWD --env-file run.env -w=$PWD --entrypoint "" $COMPOSE_IMAGE /bin/sh -c "/usr/local/bin/docker-compose $COMPOSE_FILE config > stack.yml"

@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,6 +75,10 @@ public class FetchDetailsBL {
 	@Autowired
 	private IDPPostGreSqlDbContext idpPostGreSqlDbContext;
 
+
+	@Autowired
+	private JobDuration jobDuration;
+	
 	@Autowired
 	private DBQuery dbQuery;
 
@@ -784,6 +789,87 @@ public class FetchDetailsBL {
 
 		}
 
+		
+		else if (query.toLowerCase().contains("jobduration")) {
+
+			String[] data = query.split("%");
+			String appName = data[1];
+			String pipeName = data[2];
+			String buildNo = data[3];
+			String stage = data[4];
+
+			int duration = jobDuration.getJobsDuration(appName, pipeName, buildNo, stage);
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+			Date date = new Date();
+			String currDate = dateFormat.format(date);
+
+			double[][] array = new double[1][2];
+			array[0][0] = Utils.convertString(String.valueOf(duration));
+			array[0][1] = Utils.convertDate(currDate);
+
+			response = new QueryResponse();
+			response.setDatapoints(array);
+			response.setType("timeserie");
+			response.setTarget("jobdurationscm");
+			resultsresponses.add(response);
+			return resultsresponses;
+
+		}
+
+		else if (query.toLowerCase().contains("totallinecoverage")) {
+
+			String[] data = query.split("%");
+			String appName = data[1];
+			String pipeName = data[2];
+			String buildNo = data[3];
+			
+			
+			String newQuery = "select avg(linecoverage),max(created_at) from codecoverage where"
+					+ " appid=(select id from appinfo where application_name='"+appName+"' and pipeline_name ='"+pipeName+"') "
+					+ " and pipelineno="+buildNo+" ";
+			logger.info(newQuery);
+			
+			try (Connection connectionNew1 = postGreSqlDbContext.getConnection();
+					PreparedStatement preparedStatement1 = connectionNew1.prepareStatement(newQuery,
+							ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+
+				logger.debug("preparedstatement : " + preparedStatement1.toString());
+
+				ResultSet rs = preparedStatement1.executeQuery();
+				while (rs.next()) {
+					String lineCoverage=rs.getString(1);
+					String time=rs.getString(2);
+				
+
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+					Date date = new Date();
+					String currDate = dateFormat.format(date);
+
+					double[][] array = new double[1][2];
+					array[0][0] = Utils.convertString(String.valueOf(lineCoverage));
+					array[0][1] = Utils.convertDate(currDate);
+
+					response = new QueryResponse();
+					response.setDatapoints(array);
+					response.setType("timeserie");
+					response.setTarget("jobdurationscm");
+					resultsresponses.add(response);
+					
+					
+				}
+				logger.info("runQuery result set");
+			
+			} catch (Exception e) {
+				logger.error("Exception in runQuery ", e);
+			}
+			return resultsresponses;
+		
+
+		}
+
+		
+		
 		else if (query.equalsIgnoreCase("nexuscodeanalysishigh")) {
 			results.put("32", "2017-12-08 12:13:14");
 			int index = 0;
@@ -1371,8 +1457,13 @@ public class FetchDetailsBL {
 					violationsScore = violations / appIds.size();
 					double[][] array = new double[1][2];
 
+					Date date = new Date();
+					long time = date.getTime();
+					Timestamp ts = new Timestamp(time);
+					String stamp = ts.toString();
+					
 					array[0][0] = violationsScore;
-					array[0][1] = Utils.convertDate("2017-12-04 16:20:00.51251");
+					array[0][1] = Utils.convertDate(stamp);
 
 					response = new QueryResponse();
 					response.setDatapoints(array);
@@ -3134,6 +3225,57 @@ public class FetchDetailsBL {
 				return response;
 			}
 		}
+		
+		else if (query.toLowerCase().contains("buildtriggeredat")) {
+			
+			String[] data = query.split("%");
+
+			String pipename = data[1];
+			String applicationName = data[2];
+			String version = data[3];
+			
+			c = new Column();
+			c.setText("StoryID");
+			c.setType("text");
+			columns.add(c);
+			
+		String queryBuildTriggeredAt = " Select to_char(trigger_time, 'DD Mon YYYY HH12:MI:SS') from ttrigger_history "
+				+ "where pipeline_id in (Select pipeline_id from tpipeline_info where pipeline_name=? and "
+				+ "application_id in(select application_id from tapplication_info where application_name=? )) and version=? ";
+
+		logger.info(query);
+		try (Connection connection = idpPostGreSqlDbContext.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(queryBuildTriggeredAt);) {
+			preparedStatement.setString(1, pipename);
+			preparedStatement.setString(2, applicationName);
+			preparedStatement.setString(3, version);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+				while (rs.next()) {
+
+					String date =rs.getString(1);
+					singleRow = new ArrayList<>();
+				
+					singleRow.add(date);
+					rows.add(singleRow);
+
+				}
+
+				response.setColumns(columns);
+				response.setRows(rows);
+
+				response.setType("table");
+
+			}
+		 catch (Exception e) {
+			logger.error("Exception in runTableQuery ", e);
+			
+		}
+		return response;
+			
+		}
+
 
 		else if (query.toLowerCase().contains("storystatusboard")) {
 

@@ -32,8 +32,8 @@
       {
         "type": "svn",
         "url": "http://xyz.in",
-        "userName": "idpadmin",
-        "password": "idpadmin@123",
+        "userName": "abcd",
+        "password": "abcd",
         "repositoryBrowser": "",
         "browserUrl": "",
         "projectName": "",
@@ -81,7 +81,7 @@
     "modules": [
       {
         "hostName": "dummyuser",
-        "userName": "idpadmin",
+        "userName": "abcd",
         "moduleName": "",
         "relativePath": "rootDirectory",
         "codeAnalysis": [

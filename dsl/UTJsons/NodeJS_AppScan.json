@@ -33,8 +33,8 @@
       {
         "type": "rtc",
         "url": "https://xyz.com:9443/ccm/",
-        "userName": "idpadmin",
-        "password": "idpadmin@123",
+        "userName": "abcd",
+        "password": "abcd",
         "repositoryBrowser": "",
         "browserUrl": "",
         "projectName": "",
@@ -102,8 +102,8 @@
         "installGrunt": "on",
         "excludeFolders": "test",
         "npmProxy": "http://xyz.com:80",
-        "npmProxyUserName": "idpadmin",
-        "npmProxyPassword": "idpadmin@123"
+        "npmProxyUserName": "abcd",
+        "npmProxyPassword": "abcd"
       }
     ],
     "postBuildScript": {
@@ -190,8 +190,8 @@
               "testCase": "",
               "testPlan": "",
               "folderUrl": "https://xyz.com",
-              "userName": "idpadmin",
-              "password": "idpadmin@123",
+              "userName": "abcd",
+              "password": "abcd",
               "testSuiteName": "",
               "projectLocation": "",
               "serverUrl": "",
