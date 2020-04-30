@@ -659,6 +659,16 @@ then
 		chmod -fR 0777 $MOUNT_DIR || :
 	fi
 
+	
+	# Checks if experimental features are requested
+	if [ "$EXPERIMENTAL_FEATURES" != true ]
+	then
+		export COMPOSE_FILE="$COMPOSE_FILE -f $EXEC_DIR/docker_compose_nonexp.yml"
+	else
+		export COMPOSE_FILE="$COMPOSE_FILE -f $EXEC_DIR/docker_compose_exp.yml"
+	fi
+
+	
     	echo "Deploying IDP Stack"
 	env | grep '' > run.env
 	docker run --rm $INTERACTIVE -v $PWD:$PWD --env-file run.env -w=$PWD --entrypoint "" $COMPOSE_IMAGE /bin/sh -c "/usr/local/bin/docker-compose $COMPOSE_FILE config > stack.yml"

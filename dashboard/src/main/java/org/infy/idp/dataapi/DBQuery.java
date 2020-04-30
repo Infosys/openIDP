@@ -191,7 +191,7 @@ public class DBQuery {
 			while(rs.next())app.add(rs.getString(1));
 			
 			try (Connection restconnection1 = postGreSqlDbContext.getConnection();
-					PreparedStatement restStatement1 = restconnection1.prepareStatement("select application_name from apporg ao, userorg uo where ao.org_name=uo.org_name and uo.user_name='"+userid+"'");ResultSet rs2 = restStatement1.executeQuery();) {
+					PreparedStatement restStatement1 = restconnection1.prepareStatement("select application_name from apporg ao, userorg uo where ao.org_name=uo.org_name and uo.user_name like '%"+userid+"%'");ResultSet rs2 = restStatement1.executeQuery();) {
 				
 				while (rs2.next()) {
 					resultsi2p.add(rs2.getString(1));

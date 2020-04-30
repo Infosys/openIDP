@@ -69,6 +69,7 @@ public class Utils {
 
 	public static String getUserFromJWT(String jwtToken){
 		DecodedJWT keycloakToken = JWT.decode(jwtToken);
-		return keycloakToken.getClaim("email").asString();
+		return keycloakToken.getClaim("user_name").asString();
+		
     }
 }

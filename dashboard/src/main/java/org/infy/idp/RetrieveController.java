@@ -20,6 +20,7 @@ import org.infy.idp.entities.AnnotationResponse;
 import org.infy.idp.entities.QueryRequest;
 
 import org.infy.idp.entities.SearchRequest;
+import org.infy.idp.utils.SSLUtilities;
 import org.infy.idp.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,12 +103,13 @@ public class RetrieveController {
     	return retrieveBL.fetchInfo(appname,pipelinename);
         
     }
-    //
-  
-    //
+    
     @RequestMapping(method = RequestMethod.POST, value = "/query")
     @ResponseBody
    public Object query(@CookieValue("access_token") String accessToken, @RequestBody QueryRequest queryRequest) {
+    	
+    	SSLUtilities.trustAllHostnames();
+		SSLUtilities.trustAllHttpsCertificates();
     	logger.debug("Target is " + queryRequest.getTargets().get(0).getTarget());
     	return retrieveBL.queryInfo(queryRequest, Utils.getUserFromJWT(accessToken)); 
     }
