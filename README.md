@@ -72,11 +72,11 @@ Below instructions will help the users to get to know the structure of this repo
   <td align="center"><sup><b>Services</b></sup></td>
   <td><sup>This module is divided into number of sub-parts.</sup>
      <ol>
-    <li><sup>Spring RESTful service module for creating stateless services for implementing business logic. These services can be independently deployed and scaled up using a load Balancer</sup></li>
+    <li><sup>Spring RESTful service module for creating stateless services for implementing business logic. These services can be independently deployed and scaled up using a load balancer</sup></li>
     <li><sup>OAuth2 authorization module for enhanced security</sup></li>
     <li><sup>Module implementing Zuul Proxy to be used as an edge gateway which would route the request through Authorization Server (if Access token is not available/expired)</sup></li>
      <li><sup>Database layer for performing CRUD operations on backend database with respect to the operation being performed</sup></li>
-     <li><sup>Swagger for automatic Documentation of Services</sup></li>
+     <li><sup>Swagger for automatic documentation of RESTful Services</sup></li>
     </ol>
     
  </td>
