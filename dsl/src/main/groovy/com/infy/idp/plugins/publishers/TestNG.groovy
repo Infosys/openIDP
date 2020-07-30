@@ -48,14 +48,14 @@ class TestNG implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put('escapeExceptionMessages', true)
         data.put('escapeTestDescription', true)
         data.put('markBuildAsFailureOnFailedConfiguration', true)
         data.put('markBuildAsUnstableOnSkippedTests', false)
         data.put('showFailedBuildsInTrendGraph', true)
         data.put('glob', this.pattern)
-        return data;
+        return data
     }
 
     /*

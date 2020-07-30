@@ -53,7 +53,7 @@ class HPRunFromFileBuilder implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("fsTests", this.testScriptPath)
         data.put("controllerPollingInterval", "30")
         data.put("fsAutActions", "")
@@ -76,7 +76,7 @@ class HPRunFromFileBuilder implements IPluginBase {
         data.put("fsProxyAddress", "")
         data.put("fsProxyUserName", "")
         data.put("fsProxyPassword", "")
-        return data;
+        return data
     }
 
     /*
@@ -88,7 +88,7 @@ class HPRunFromFileBuilder implements IPluginBase {
         context.with {
             runFromFileBuilder {
                 if (data.containsKey("fsTests"))
-                    fsTests(data.get("fsTests"));
+                    fsTests(data.get("fsTests"))
                 if (data.containsKey("fsTimeout"))
                     fsTimeout(data.get("fsTimeout").toString());
 

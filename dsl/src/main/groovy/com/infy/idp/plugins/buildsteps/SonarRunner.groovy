@@ -56,7 +56,7 @@ class SonarRunner implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         IDPJob job = idpJobObj
 
         data.put('javaOpts', '')
@@ -66,7 +66,7 @@ class SonarRunner implements IPluginBase {
         data.put('sonarScannerName', 'IDP_Sonar')
         data.put('task', '')
 
-        return data;
+        return data
     }
 
     /*

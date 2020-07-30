@@ -251,7 +251,7 @@ class EmailSender implements Serializable {
         // Default values
         def subject = "${buildStatus}: For Application: ${jsonData.applicationName} and Pipeline: ${jsonData.pipelineName}"
 
-        def image;
+        def image
         if (buildStatus == 'SUCCESS') {
             image = '<img src="https://raw.githubusercontent.com/jenkinsci/jenkins/master/war/src/main/webapp/images/32x32/green.gif">'
         } else {

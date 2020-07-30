@@ -1,74 +1,81 @@
-.scrollVertical
-	{
-		    overflow-y: auto;
-   			min-height: 100px;
-    		max-height: 220px;
-    		padding-top: 20px;
-    		overflow-x: hidden;
-    		/* padding-left: 110px; */
-    		width: auto;
-	}
-	.custom-combobox {
-	    position: relative;
-	    display: inline-block;
-	  }
-	  .custom-combobox-toggle {
-	    position: absolute;
-	    top: 0;
-	    bottom: 0;
-	    margin-left: -1px;
-	    padding: 0;
-	  }
-	  .custom-combobox-input {
-	    margin: 0;
-	    padding: 5px 10px;
-	  }
-	  	ul{
-	list-style:none;
-	background-color : white;
-	  min-height:100px;
-	  max-height:100px;
-	  margin:0;
-	  overflow-y:auto;
-	  overflow-x : hidden;
-	  padding:0;
-	  text-indent:10px;
-	  position: relative;
-  }
+.scrollVertical {
+  overflow-y: auto;
+  min-height: 100px;
+  max-height: 220px;
+  padding-top: 20px;
+  overflow-x: hidden;
+  width: auto;
+}
 
+.custom-combobox {
+  position: relative;
+  display: inline-block;
+}
 
-	/*ul li a:hover,ul li.active a{
- color:red
-}*/
+.custom-combobox-toggle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: -1px;
+  padding: 0;
+}
 
- .id123:active a { color: blue ; background-color:#f4ba51}
+.custom-combobox-input {
+  margin: 0;
+  padding: 5px 10px;
+}
 
-  .comboStyle{
-	background-color : white;
-	color : #555;
-	border : 1px solid #ccc;
-	height:34px;
-	/* width: 100%; */
-	/* box-shadow : inset 0 1px 1px rgba(0,0,0,.075); */
-	/* transition : border-color ease-in-out .15s,box-shadow ease-in-out .15s; */
-	text-align-last : center;
-	color : black;
-  }
-  #below_header {
-    width: 1366px;
-    background-color: #FFFFFF;
-    height: 40px;
-	}
-  .comboButton{
-  	border-left : none;
-  	background-color : white;
-		color : #555;
-		border : 1px solid #ccc;
-		height:34px;
-		/* box-shadow : inset 0 1px 1px rgba(0,0,0,.075); */
-		/* transition : border-color ease-in-out .15s,box-shadow ease-in-out .15s; */
-		right:0px;
-	}
-	.notify-trigger { margin: 0 25px !important; }
-	.mg15 { margin-bottom: 15px; }
-	.slave-msg { float: left; margin-top: 5px; }
+ul {
+  list-style: none;
+  background-color: white;
+  min-height: 100px;
+  max-height: 100px;
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  text-indent: 10px;
+  position: relative;
+}
+
+.id123:active a {
+  color: blue;
+  background-color: #f4ba51;
+}
+
+.comboStyle {
+  background-color: white;
+  border: 1px solid #ccc;
+  height: 34px;
+  text-align-last: center;
+  color: black;
+}
+
+#below_header {
+  width: 1366px;
+  background-color: #fff;
+  height: 40px;
+}
+
+.comboButton {
+  border-left: none;
+  background-color: white;
+  color: #555;
+  border: 1px solid #ccc;
+  height: 34px;
+  right: 0.01px;
+}
+
+.notify-trigger {
+  margin: 0 25px !important;
+}
+
+.mg15 {
+  margin-bottom: 15px;
+}
+
+.slave-msg {
+  float: left;
+  margin-top: 5px;
+  margin-left: 20%;
+}

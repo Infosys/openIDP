@@ -43,7 +43,7 @@ class PmdPublisher implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
         IDPJob job = idpJobObj
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('canComputeNew', false)
         data.put('canResolveRelativePaths', false)
@@ -57,7 +57,7 @@ class PmdPublisher implements IPluginBase {
         data.put('unHealthy', '')
         data.put('defaultEncoding', '')
 
-        return data;
+        return data
     }
     /*
      * This method is used to generate the pattern for Pmd reports

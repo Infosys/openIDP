@@ -20,13 +20,13 @@
         <div class="card-body">
           <div  aria-multiselectable="true">
             <!-- Addition of Ant Module -->
-            <div class="card card-with-border" *ngFor="let module of buildInfo.modules; let i =index" [attr.data-index]="i">
+            <div class="card card-with-border" *ngFor="let module of buildInfo.modules; index as i" [attr.data-index]="i">
               <div class="card-header" role="tab">
                 <h4 class="card-title">
                   <a data-toggle="collapse" data-target="{{'#'+(i+1)}}" aria-expanded="true" style="cursor:pointer;font-size:14px !important;">
                     Module_{{(i+1)}}
                   </a>
-                  <span style="float:right" *ngIf="buildInfo.modules.length !== 1">
+                  <span style="float:right">
                     <a (click)="deleteItem(i)">
                         <span class="cui-trash" aria-hidden="true"></span>
                     </a>
@@ -44,7 +44,7 @@
                       </label>
                       <!-- </div> -->
                       <div class="col-md-9 field-tip  text-left">
-                        <input class="form-control  textFieldWidth" id="bdamdantmntf{{i}}" name="moduleName{{i}}" #moduleName="ngModel" pattern="^[_a-zA-Z0-9.-]+"
+                        <input class="form-control  textFieldWidth" [ngModelOptions]="{standalone: true}" id="bdamdantmntf{{i}}" name="moduleName{{i}}" #moduleName="ngModel" pattern="^[_a-zA-Z0-9.-]+"
                           (change)="javaOptionList();ejbOptionList();warOptionList();" type="text" [(ngModel)]="module.moduleName"
                           (blur)="checkModuleName(i)" minlength="3" required>
                         <div *ngIf="moduleName.errors && (moduleName.dirty || moduleName.touched)" class="alert alert-danger ">
@@ -75,7 +75,7 @@
                       </label>
                     </div>
                     <div class="col-md-9 field-tip textFieldContainer text-left">
-                      <input class="form-control  textFieldWidth" id="bdamdantscdtf{{i}}" name="sourceCode{{i}}" #sourceCode="ngModel" [(ngModel)]="module.relativePath"
+                      <input class="form-control  textFieldWidth" [ngModelOptions]="{standalone: true}" id="bdamdantscdtf{{i}}" name="sourceCode{{i}}" #sourceCode="ngModel" [(ngModel)]="module.relativePath"
                         type="text" placeholder="src" maxlength="150" required>
                       <div *ngIf="sourceCode.errors && (sourceCode.dirty || sourceCode.touched)" class="alert alert-danger ">
                         <div [hidden]="!sourceCode.errors.required">
@@ -196,7 +196,7 @@
                     <div class="animate-switch container-fluid form-row form-group chkright">
                       <div class="col-md-12" style="margin-left: 0px;text-transform:capitalize;">
                         <label class="checkbox-inline ">
-                          <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[0]!=='off'" id="bdamdanttca0ch01{{i}}" (change)="module.codeAnalysis[0]=$event.target.checked ?tempCodeAnalysis[0]:clearSonarqube()"
+                          <input type="checkbox" class="checkBoxdimension" [checked]="module.codeAnalysis[0]!=='off'" id="bdamdanttca0ch01{{i}}" (change)="module.codeAnalysis[0]=$event.target.checked ?tempCodeAnalysis[0]:clearSonarqube(i)"
                             name="codeAnalysisForModulezero{{i}}" style="width: 12px; height: 15px; margin-right: 10px;">SonarQube
 
                         </label>
@@ -212,7 +212,7 @@
                             <label for="sonarUrl">SonarQube URL</label>
                             </div>
                             <div class="col-md-10 field-tip">
-                            <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" placeholder="SonarQube Url" 
+                            <input class="form-control  textFieldWidth" name="sonarUrl" #sonarUrl="ngModel" [ngModelOptions]="{standalone: true}" placeholder="SonarQube Url" 
                               id="sonarUrl" type="text" [(ngModel)]="buildInfo.modules[i].sonarUrl" pattern="(https?|HTTPS?):\/\/[_a-zA-Z0-9-./:]+">
                               
 
@@ -232,7 +232,7 @@
                             </div>
                             <div class="col-md-10 field-tip">
                             <input class="form-control  textFieldWidth" name="SonarUsername" (change)="buildInfo.modules[i].sonarPassword=''"
-                              #sonarUname="ngModel" placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[i].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
+                              #sonarUname="ngModel" [ngModelOptions]="{standalone: true}"  placeholder="Username" id="sonarUsername" type="text" [(ngModel)]="buildInfo.modules[i].sonarUserName" pattern="[_a-zA-Z0-9.-]+" >
                               <span class="tip-content">Password is required only with username</span>
                               <div *ngIf="sonarUname.errors && (sonarUname.dirty || sonarUname.touched)" class="alert alert-danger ">
                             
@@ -250,12 +250,12 @@
                             </div>
                             <div class="col-md-10">
                             <input class="form-control  textFieldWidth" name="SonarPassword" type="password" 
-                              #sonarPassword="ngModel" placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[i].sonarPassword"
+                              #sonarPassword="ngModel" [ngModelOptions]="{standalone: true}"  placeholder="Password" id="sonarPassword" [(ngModel)]="buildInfo.modules[i].sonarPassword"
                               encrypt>
                             </div>
                           </div>
                           
-
+                         
                           </div>
                         <!-- /sonar Authentication code -->
 
@@ -501,7 +501,7 @@
           </div>
         </div>
       </div>
-    </div>
+	 </div>
 
     <!-- EAR Packaging -->
     <div class="card">

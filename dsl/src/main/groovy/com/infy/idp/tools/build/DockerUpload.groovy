@@ -52,7 +52,7 @@ class DockerUpload {
 
 
         String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
-        String command = '';
+        String command = ''
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
             command = 'D: \n' + 'cd '
         } else {
@@ -63,7 +63,7 @@ class DockerUpload {
             addWrappers(delegate, envVar)
             steps {
                 def repo = modulesArr.repoUrl.split('/')
-                String artifact = '';
+                String artifact = ''
                 if (modulesArr.artifact == '') {
                     ExecuteCmd.invokeCmd(delegate, command + idpWS + '\n' + 'mkdir -p artifacts', jsonData.basicInfo.buildServerOS)
                     artifact = idpWS + 'artifacts'
@@ -87,13 +87,13 @@ class DockerUpload {
                 if (modulesArr.pushToRepo == 'on') {
 
                     if (modulesArr.password != null) {
-                        String pushCommand = '';
+                        String pushCommand = ''
                         pushCommand += command + artifact + '\n' + 'sudo docker login -u ' + modulesArr.userName + ' -p ' + modulesArr.password + ' ' + modulesArr.repoUrl + '\n' + 'sudo docker push ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
 
                         ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
                     }
                     if (modulesArr.password == null) {
-                        String pushCommand = '';
+                        String pushCommand = ''
                         pushCommand += command + artifact + '\n' + 'sudo docker login ' + modulesArr.repoUrl + '\n' + 'sudo docker push ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
 
                         ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
@@ -117,14 +117,14 @@ class DockerUpload {
         def repoNameDR = (jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR).toLowerCase();
         def tagNameDR =  jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+'_%RELEASE_IDENTIFIER%-%SCM_BRANCH%-%PIPELINE_BUILD_ID%'
 
-        def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
-        def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+        def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR 
+        def dockerUrlWithoutProtocol = dockerRegistryUrlDR
         if(dockerRegistryUrlDR.startsWith("http")){
             dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
         }
 
         String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
-        String command = '';
+        String command = ''
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
             command = 'D: \n' + 'cd '
         } else {
@@ -144,7 +144,7 @@ class DockerUpload {
 
 
                 if (passwordDR != null) {
-                    String pushCommand = '';
+                    String pushCommand = ''
                     pushCommand += 'docker login -u ' + userNameDR + ' -p ' + passwordDR + ' ' +  dockerRegistryUrlDR + '\n' + 'docker push ' + dockerUrlWithoutProtocol + '/' + repoNameDR + ':' + tagNameDR
 
                     ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
@@ -164,7 +164,7 @@ class DockerUpload {
 
 
         String idpWS = '$IDP_WS/'
-        String command = '';
+        String command = ''
 
 
         def dockerFilePathDR = jsonData.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR;
@@ -172,8 +172,8 @@ class DockerUpload {
         def userNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.userNameDR;
         def repoNameDR = (jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR).toLowerCase();
         def tagNameDR =  jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+'_${RELEASE_IDENTIFIER}-${SCM_BRANCH}-${PIPELINE_BUILD_ID}'
-        def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
-        def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+        def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR 
+        def dockerUrlWithoutProtocol = dockerRegistryUrlDR
         if(dockerRegistryUrlDR.startsWith("http")){
             dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
         }
@@ -190,14 +190,14 @@ class DockerUpload {
 
 
                 if (passwordDR != null) {
-                    String pushCommand = '';
+                    String pushCommand = ''
 
                     pushCommand += 'docker login -u ' + userNameDR + ' -p ' + passwordDR + ' ' +  dockerRegistryUrlDR + '\n' + 'docker push ' + dockerUrlWithoutProtocol + '/' + repoNameDR + ':' + tagNameDR
 
                     ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
                 }
                 if (passwordDR == null) {
-                    String pushCommand = '';
+                    String pushCommand = ''
 
                     pushCommand += 'sudo docker login ' +  dockerRegistryUrlDR + '\n' + 'sudo docker push ' +  dockerUrlWithoutProtocol + '/' +  repoNameDR + ':' + tagNameDR
 

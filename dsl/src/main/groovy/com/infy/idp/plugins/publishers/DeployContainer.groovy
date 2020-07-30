@@ -48,9 +48,9 @@ class DeployContainer implements IPluginBase {
         data.put("onFailure", false);
         data.put("containerName", containerInfo.containerName);
         data.put("userName", containerInfo.userName);
-        data.put("password", containerInfo.password);
+        data.put("password", containerInfo.password)
         data.put("serverManagerURL", containerInfo.serverManagerURL);
-        return data;
+        return data
     }
 
     /*

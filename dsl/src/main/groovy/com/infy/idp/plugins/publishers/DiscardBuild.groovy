@@ -36,7 +36,7 @@ class DiscardBuild implements IPluginBase {
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
         IDPJob job = idpJobObj
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('daysToKeep', '30');
         data.put('intervalDaysToKeep', '30');
@@ -54,7 +54,7 @@ class DiscardBuild implements IPluginBase {
 
         data.put('regexp', '');
 
-        return data;
+        return data
     }
 
     /*

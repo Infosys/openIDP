@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BuildIntervalCntrlComponent } from "./build-interval-cntrl.component";
-import {BuildScheduleRouter} from "./build-interval-cntrl.router";
+import { BuildScheduleRouter } from "./build-interval-cntrl.router";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { HttpModule, Http } from "@angular/http";
 import { FormsModule } from "@angular/forms";
@@ -10,15 +10,10 @@ import { DateTimePickerModule } from "ng-pick-datetime";
 
 import { TreeviewModule } from "ngx-treeview";
 import { TriggerModule } from "../triggerPipeline/triggerPipeline.module";
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-
-
-
+import { CollapseModule } from "ngx-bootstrap/collapse";
 
 @NgModule({
-    declarations: [
-    BuildIntervalCntrlComponent
-    ],
+  declarations: [BuildIntervalCntrlComponent],
   imports: [
     CommonModule,
     HttpModule,
@@ -29,8 +24,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     BuildScheduleRouter,
     TranslateModule,
     TriggerModule,
-    CollapseModule
+    CollapseModule,
   ],
-  bootstrap: [BuildIntervalCntrlComponent]
+  bootstrap: [BuildIntervalCntrlComponent],
 })
-export class BuildIntervalModule { }
+export class BuildIntervalModule {}

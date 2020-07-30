@@ -15,7 +15,7 @@ declare const $: any;
 @Component({
     selector: "app-add-release",
     templateUrl: "./add-release.component.html",
-    styleUrls: ["./add-release.component.css"]
+    styleUrls: []
 })
 export class AddReleaseComponent implements OnInit {
 

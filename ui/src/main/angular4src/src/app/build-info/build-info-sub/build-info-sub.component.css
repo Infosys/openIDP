@@ -1,10 +1,41 @@
-.threshold-main { padding-left: 30px; }
-.threshold-sast { margin-left: -40px; }
-.exclude-file { padding: 10px; }
-.threshold-inputs { width: 100px; zoom: 95%; }
-.sast-medium { padding-left: 0; width: 125px; }
-.sast-low { width: 115px; }
-.threshold-pd { padding-left: 5px; }
-.exclude-osa { padding-left: 20px; }
-.exclude-osa-file { padding-bottom: 10px; }
-.mg10 { margin-left: 10px; }
+.threshold-main {
+  padding-left: 30px;
+}
+
+.threshold-sast {
+  margin-left: -40px;
+}
+
+.exclude-file {
+  padding: 10px;
+}
+
+.threshold-inputs {
+  width: 100px;
+  zoom: 95%;
+}
+
+.sast-medium {
+  padding-left: 0;
+  width: 125px;
+}
+
+.sast-low {
+  width: 115px;
+}
+
+.threshold-pd {
+  padding-left: 5px;
+}
+
+.exclude-osa {
+  padding-left: 20px;
+}
+
+.exclude-osa-file {
+  padding-bottom: 10px;
+}
+
+.mg10 {
+  margin-left: 10px;
+}

@@ -56,12 +56,12 @@ class BuildEnv implements IPluginBase{
 
   @Override
   public HashMap<String, String> performMapping(IDPJob dataObj) {
-    HashMap<String, String> data = new HashMap<String, String>();
+    HashMap<String, String> data = new HashMap<String, String>()
     data.put("name","DASHBOARD_SERVICE_PWD");
 	data.put("pswd",PropReader.readProperty(Constants.CONFIGFN, 'IDP_DASHBOARD_SERVICEPWD'));
 	data.put("jenkinsName", "JENKINS_PASSWORD");
 	data.put("jenkinsPswd", PropReader.readProperty(Constants.CONFIGFN, 'JENKINS_PASSWORD'))
-	return data;
+	return data
   }
 
   @Override

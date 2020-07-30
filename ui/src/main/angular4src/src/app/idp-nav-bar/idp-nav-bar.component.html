@@ -28,7 +28,7 @@
         <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
     </li>
     <li class="d-flex flex-row justify-content-center" >
-      <button [ngClass]="buildInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.buildSubscription===true"
+      <button [ngClass]="buildInfo ? ' active' : ' '" class="btn" 
          [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/buildInfo']"
          [style.cursor]="getCursor()" id="menu_build"
 
@@ -38,7 +38,7 @@
         <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
     </li>
     <li class="d-flex flex-row justify-content-center" >
-      <button [ngClass]="deployInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.deploySubscription===true"
+      <button [ngClass]="deployInfo ? ' active' : ' '" class="btn" 
          [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/deployInfo']"
          [style.cursor]="getCursor()" id="menudeploy"
 
@@ -48,7 +48,7 @@
         <img class="arrow_button" src="assets/img/icon/next_arrow.svg"/>
     </li>
     <li class="d-flex flex-row justify-content-center" >
-      <button [ngClass]="testInfo ? ' active' : ' '" class="btn" *ngIf="IdpdataService.testSubscription===true"
+      <button [ngClass]="testInfo ? ' active' : ' '" class="btn" 
          [routerLink]="IdpdataService.freezeNavBars?['/createConfig/testInfo']:['/createConfig/testInfo']"
          [style.cursor]="getCursor()" id="menu_test">
          <img class="small_icon" src="assets/img/icon/test.svg" alt="testimg"/>

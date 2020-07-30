@@ -1,11 +1,12 @@
 /**
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.”
-*
-**/
-import { Component, OnInit, TemplateRef, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges} from "@angular/core";
+ *
+ * Copyright 2018 Infosys Ltd.
+ * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.”
+ *
+ **/
+import {
+  Component,  OnInit,  TemplateRef,  ChangeDetectionStrategy,  Input,  OnChanges,  SimpleChanges} from "@angular/core";
 import { IdprestapiService } from "../../idprestapi.service";
 import { IdpService } from "../../idp-service.service";
 import { IdpdataService } from "../../idpdata.service";
@@ -21,7 +22,7 @@ import { ParentFormConnectComponent } from "../../parent-form-connect/parent-for
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: "app-ant-ctrl",
   templateUrl: "./ant-ctrl.component.html",
-  styleUrls: ["./ant-ctrl.component.css"]
+  styleUrls: []
 })
 export class AntCtrlComponent implements OnInit {
 
@@ -29,8 +30,8 @@ export class AntCtrlComponent implements OnInit {
   public formName: string;
 
   tempsecurityAnalysislist: any = ["App Scan"];
-  @Input() buildInfo: any = this.IdpdataService.data.buildInfo;
-  @Input() tempObject: any = this.IdpdataService.data.checkboxStatus.buildInfo;
+  buildInfo: any = this.IdpdataService.data.buildInfo;
+  tempObject: any = this.IdpdataService.data.checkboxStatus.buildInfo;
   formStatusObject: any = this.IdpdataService.data.formStatus;
   nameErrorMessage: any = "";
   javalist: any = [];
@@ -38,6 +39,7 @@ export class AntCtrlComponent implements OnInit {
   warList: any = [];
   tempCodeAnalysis: any = ["sonar", "pmd", "checkStyle", "findBugs"];
   checkBoxObject: any;
+   addModuleFlag: boolean = true;
   distributionList: any = [];
   /* Constructor */
   constructor(
@@ -100,22 +102,27 @@ export class AntCtrlComponent implements OnInit {
   /* Clear Code Analysis on unchecking */
   clearCodeAnalysis(i) {
     this.buildInfo.modules[i].codeAnalysis = [];
+    this.buildInfo.modules[i].sonarUrl = "";
+    this.buildInfo.modules[i].sonarUserName = "";
+    this.buildInfo.modules[i].sonarPassword = "";
+    this.buildInfo.modules[i].sonarProjectKey = "";
+    this.buildInfo.modules[i].sonarProperties = "";
     return "off";
   }
-  clearSonarqube() {
-    console.log(this.buildInfo.modules[0]);
-   this.buildInfo.modules[0].sonarUrl ="";
-  this.buildInfo.modules[0].sonarUserName ="";
-  this.buildInfo.modules[0].sonarPassword ="";
-  this.buildInfo.modules[0].sonarProjectKey ="";
-  this.buildInfo.modules[0].sonarProperties ="";
+  clearSonarqube(i) {
+    // console.log(this.buildInfo.modules[i]);
+    this.buildInfo.modules[i].sonarUrl = "";
+    this.buildInfo.modules[i].sonarUserName = "";
+    this.buildInfo.modules[i].sonarPassword = "";
+    this.buildInfo.modules[i].sonarProjectKey = "";
+    this.buildInfo.modules[i].sonarProperties = "";
 
     return "off";
   }
 
   /* Default Code Analysis, security Analysis status */
   createCodeAnalysis(i) {
-    this.buildInfo.modules[i].codeAnalysis = ["off" , "off" , "off" , "off"];
+    this.buildInfo.modules[i].codeAnalysis = ["off", "off", "off", "off"];
     return "on";
   }
   setContinuecontrolFalse() {
@@ -286,16 +293,19 @@ export class AntCtrlComponent implements OnInit {
         codeAnalysis: [],
         ossDistributionType: ""
     });
+    this.moduleCheck();
     if (this.tempObject.modules === undefined) {
-        this.tempObject.modules = [];
+      this.tempObject.modules = [];
     }
     this.tempObject.modules.push({});
   }
   onClick(key) {
-    if (this.buildInfo.modules[key].compile === "off"
-        || this.buildInfo.modules[key].compile === undefined
-        || this.buildInfo.modules[key].compile === null) {
-        this.buildInfo.modules[key].codeAnalysis[3].disabled = true;
+    if (
+      this.buildInfo.modules[key].compile === "off" ||
+      this.buildInfo.modules[key].compile === undefined ||
+      this.buildInfo.modules[key].compile === null
+    ) {
+      this.buildInfo.modules[key].codeAnalysis[3].disabled = true;
     } else {
         this.buildInfo.modules[key].codeAnalysis[3].disabled = false;
     }
@@ -380,6 +390,7 @@ export class AntCtrlComponent implements OnInit {
         this.buildInfo.modules.splice(index, 1);
         this.tempObject.modules.splice(index, 1);
     }
+    this.moduleCheck();
   }
 
   /* Checks for status of each checkbbox,
@@ -458,38 +469,14 @@ export class AntCtrlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.distributionList = [{
-        "name": "Internal",
-        "value": "Internal"
-    },
-    {
-        "name": "Hosted Service (Infosys Infrastructure) ",
-        "value": "Hosted Service"
-    },
-    {
-        "name": "Bundling",
-        "value": "Bundling"
-    },
-    {
-        "name": "Dynamic Library",
-        "value": "Dynamic Library"
-    },
-    {
-        "name": "Deliverable Application",
-        "value": "Deliverable Application"
-    }];
+    this.moduleCheck();
   }
 
-  /* Initializing OSS inputs on checking and unchecking */
-  ossCompliance(index,checked){
-    if (checked) {
-      this.tempObject.modules[index].ossCheck = "on";
-    } 
-    else {
-      this.tempObject.modules[index].ossCheck = "off";
-      this.buildInfo.modules[index].ossMailRecipients = "";
-      this.buildInfo.modules[index].ossDistributionType = "";
-      this.buildInfo.modules[index].ossAnalysisType = "";
+  moduleCheck() {
+    if (this.buildInfo.modules.length === 0) {
+      this.addModuleFlag = true;
+    } else {
+      this.addModuleFlag = false;
     }
   }
 }

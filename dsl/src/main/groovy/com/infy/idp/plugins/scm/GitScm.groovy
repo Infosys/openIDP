@@ -49,7 +49,7 @@ class GitScm implements IPluginBase {
             for (Map.Entry<Integer, Scm> entry : this.scmMap.entrySet()) {
                 int key = entry.getKey();
                 if (scmArr.getAt(key).type == Constants.GITSCM) {
-                    indexToMap = key;
+                    indexToMap = key
                     this.addOptions(context, this.performMapping(idpJobObj));
                 }
 
@@ -75,7 +75,7 @@ class GitScm implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         def scmSection = null
         if (idpJobObj.code != null) {
             scmSection = idpJobObj.code.scm.getAt(indexToMap)
@@ -124,7 +124,7 @@ class GitScm implements IPluginBase {
         data.put('shallow', false)
         data.put('timeout', 60)
 
-        return data;
+        return data
     }
 
     /*

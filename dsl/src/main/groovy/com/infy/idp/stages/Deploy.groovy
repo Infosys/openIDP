@@ -124,7 +124,7 @@ class Deploy {
                     nexus.nexusDownloadJobCreation(delegate, jsonData, envVar)
                 }
                 if (jsonData.buildInfo.artifactToStage.artifactRepoName == "jfrog") {
-                    ArtifactoryDownload artifactory = new ArtifactoryDownload();
+                    ArtifactoryDownload artifactory = new ArtifactoryDownload()
                     artifactory.artifactoryDownloadJobCreation(delegate, jsonData, envVar)
                 }
                 if (jsonData.buildInfo.artifactToStage.artifactRepoName == "docker") {
@@ -183,7 +183,7 @@ class Deploy {
                         addWrappers(delegate, jsonData)
 
                         if (envObj.deploySteps[i].runScript) RunScript.add(delegate, envObj.deploySteps[i].runScript);
-						if(envObj.deploySteps[i].envProv)EnvProv.add(delegate,envObj.deploySteps[i].envProv);
+						if(envObj.deploySteps[i].envProv)EnvProv.add(delegate,envObj.deploySteps[i].envProv)
                         if (envObj.deploySteps[i].deployToContainer && envObj.deploySteps[i].deployToContainer.containerName && envObj.deploySteps[i].deployToContainer.containerName != Constants.IISDEPLOY)
                             DeployToContainer.add(delegate, jsonData, index, i)
 
@@ -229,8 +229,8 @@ class Deploy {
                 BuildNameSetter buildname1 = new BuildNameSetter()
                 buildname1.setTemplate('${BUILD_LABEL}' + '_' + '${build_number}')
                 buildname1.add(delegate, jsonData)
-				BuildEnv env = new BuildEnv();
-				env.add(delegate, jsonData);
+				BuildEnv env = new BuildEnv()
+				env.add(delegate, jsonData)
             }
         }
     }
@@ -239,10 +239,10 @@ class Deploy {
         def password = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
        context.with{
             wrappers{
-                BuildEnvIIS env = new BuildEnvIIS();
-                env.setName("DR_PASSWORD");
-                env.setPswd(password);
-                env.add(delegate, jsonData);
+                BuildEnvIIS env = new BuildEnvIIS()
+                env.setName("DR_PASSWORD")
+                env.setPswd(password)
+                env.add(delegate, jsonData)
             }
        }
     }

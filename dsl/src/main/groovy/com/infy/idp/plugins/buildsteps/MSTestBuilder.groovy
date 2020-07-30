@@ -32,7 +32,7 @@ class MSTestBuilder implements IPluginBase {
 
 
     public void setTestFiles(String testFiles) {
-        this.testFiles = testFiles;
+        this.testFiles = testFiles
     }
 
 
@@ -42,7 +42,7 @@ class MSTestBuilder implements IPluginBase {
 
 
     public void setTestOpFile(String testOpFile) {
-        this.testOpFile = testOpFile;
+        this.testOpFile = testOpFile
     }
 
 

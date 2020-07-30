@@ -1,219 +1,201 @@
 /* You can add global styles to this file, and also import other style files */
+
 label {
-    font-weight: normal ;
+  font-weight: normal;
 }
 
 select {
-    text-align-last:center;
+  text-align-last: center;
 }
-.star{
-	color:red;
-}
-.field-tip {
-    position:relative;
-    cursor:help;
-}
-    .field-tip .tip-content {
-        position:absolute;
-        top:-10px; /* - top padding */
-        right:9999px;
-        width:200px;
-        margin-right:-150px; /* width + left/right padding */
-        padding:10px;
-        color:#fff;
-        background:#333;
-        -webkit-box-shadow:2px 2px 5px #aaa;
-           -moz-box-shadow:2px 2px 5px #aaa;
-                box-shadow:2px 2px 5px #aaa;
-        opacity:0;
-        -webkit-transition:opacity 250ms ease-out;
-           -moz-transition:opacity 250ms ease-out;
-            -ms-transition:opacity 250ms ease-out;
-             -o-transition:opacity 250ms ease-out;
-                transition:opacity 250ms ease-out;
-    }
-        /* <http://css-tricks.com/snippets/css/css-triangle/> */
-        .field-tip .tip-content:before {
-            content:' '; /* Must have content to display */
-            position:absolute;
-            top:50%;
-            left:-16px; /* 2 x border width */
-            width:0;
-            height:0;
-            margin-top:-8px; /* - border width */
-            border:8px solid transparent;
-            border-right-color:#333;
-        }
-        .field-tip:hover .tip-content {
-            right:115px;
-            opacity:1;
-            z-index: 1;
-        }
 
-        .txtbox {
-			border-right: 0 ;
-			border-top: 0 ;
-			border-left: 0 ;
-			border-radius: 0 ;
-			border-bottom-color:#e4e4e4;
-		    -webkit-box-shadow: none;
-			-moz-box-shadow: none;
-		 	-moz-transition: none;
-			-webkit-transition: none;
-		}
-.Mail_Recipients_style{margin-top:10px;}
-.form-control{
-/* background-image: url("C:\xampp\htdocs\img\login_Assets\user_icon_normal.png"); */
-background-repeat: no-repeat;
-/*padding-left:30px;*/
+.star {
+  color: red;
+}
+
+.field-tip {
+  position: relative;
+  cursor: help;
+}
+
+.field-tip .tip-content {
+  position: absolute;
+  top: -10px; /* - top padding */
+  right: 9999px;
+  width: 200px;
+  margin-right: -150px; /* width + left/right padding */
+  padding: 10px;
+  color: #fff;
+  background: #333;
+  -webkit-box-shadow: 2px 2px 5px #aaa;
+  -moz-box-shadow: 2px 2px 5px #aaa;
+  box-shadow: 2px 2px 5px #aaa;
+  opacity: 0;
+  -webkit-transition: opacity 250ms ease-out;
+  -moz-transition: opacity 250ms ease-out;
+  -ms-transition: opacity 250ms ease-out;
+  -o-transition: opacity 250ms ease-out;
+  transition: opacity 250ms ease-out;
+}
+
+/* <http://css-tricks.com/snippets/css/css-triangle/> */
+
+.field-tip:hover .tip-content::before {
+  content: " "; /* Must have content to display */
+  position: absolute;
+  top: 50%;
+  left: -16px; /* 2 x border width */
+  width: 0;
+  height: 0;
+  margin-top: -8px; /* - border width */
+  border: 8px solid transparent;
+  border-right-color: #333;
+}
+
+.field-tip:hover .tip-content {
+  right: 115px;
+  opacity: 1;
+  z-index: 1;
+}
+
+.txtbox {
+  border-right: 0;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0;
+  border-bottom-color: #e4e4e4;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -moz-transition: none;
+  -webkit-transition: none;
+}
+
+.Mail_Recipients_style {
+  margin-top: 10px;
+}
+
+.form-control {
+  background-repeat: no-repeat;
 }
 
 .showConfig {
-  width:auto;
+  width: auto;
 }
 
-.showConfig .table tbody > tr > td  > a{
+a:hover {
+  color: #00e5ff;
+  font-weight: bold;
+}
+
+li a:hover {
+  background-color: #1fa0e4;
+  color: black;
+  text-decoration: none;
+}
+
+.showConfig .table tbody > tr > td > a {
   color: #337ab7;
 }
 
-.showConfig .table thead th {
-  text-align: center;/*change that parameter to left/right*/
+.table th,
+.table td {
+  vertical-align: middle;
 }
 
-.showConfig .dateclass1{
+.showConfig .table thead th {
+  text-align: center;
+}
+
+.showConfig .dateclass1 {
   text-align: center;
 }
 
 .showConfig .field-tip {
-    position:relative;
-    cursor:help;
+  position: relative;
+  cursor: help;
 }
 
 .showConfig .field-tip .tip-content {
-        position:absolute;
-        top:-10px; /* - top padding */
-        right:9999px;
-        width:200px;
-        margin-right:-290px ; /* width + left/right padding */
-        padding:10px;
-        color:#fff;
-        background:#333;
-        -webkit-box-shadow:2px 2px 5px #aaa;
-           -moz-box-shadow:2px 2px 5px #aaa;
-                box-shadow:2px 2px 5px #aaa;
-        opacity:0;
-        -webkit-transition:opacity 250ms ease-out;
-           -moz-transition:opacity 250ms ease-out;
-            -ms-transition:opacity 250ms ease-out;
-             -o-transition:opacity 250ms ease-out;
-                transition:opacity 250ms ease-out;
-    }
-        /* <http://css-tricks.com/snippets/css/css-triangle/> */
+  position: absolute;
+  top: -10px;
+  right: 9999px;
+  width: 200px;
+  margin-right: -290px;
+  padding: 10px;
+  color: #fff;
+  background: #333;
+  -webkit-box-shadow: 2px 2px 5px #aaa;
+  -moz-box-shadow: 2px 2px 5px #aaa;
+  box-shadow: 2px 2px 5px #aaa;
+  opacity: 0;
+  -webkit-transition: opacity 250ms ease-out;
+  -moz-transition: opacity 250ms ease-out;
+  -ms-transition: opacity 250ms ease-out;
+  -o-transition: opacity 250ms ease-out;
+  transition: opacity 250ms ease-out;
+}
 
-        .showConfig .field-tip .tip-content:before {
-            content:' '; /* Must have content to display */
-            position:absolute;
-            top:50%;
-            left:-16px; /* 2 x border width */
-            width:0;
-            height:0;
-            margin-top:-8px; /* - border width */
-            border:8px solid transparent;
-            border-right-color:#333;
-        }
+.showConfig .field-tip .tip-content::before {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: -16px;
+  width: 0;
+  height: 0;
+  margin-top: -8px;
+  border: 8px solid transparent;
+  border-right-color: #333;
+}
 
-        .showConfig .field-tip:hover .tip-content {
-            right:215px;
-            opacity:1;
-            z-index: 1;
-        }
+.showConfig .field-tip:hover .tip-content {
+  right: 215px;
+  opacity: 1;
+  z-index: 1;
+}
 
-/*----------------------------UI Skinning--------------------------------*/
-.app_name::before{
-  content: 'Infosys DevOps Platform';
+.app_name::before {
+  content: "Infosys DevOps Platform";
   text-align: center;
 }
-.text_color{
-  color: #FFFFFF ;
+
+.text_color {
+  color: #fff;
 }
- .logo::after {
+
+.logo::after {
   content: url("assets/images/Automation_WhiteLogo2.png");
   visibility: visible;
-} 
-.app_header{
-  background-color:#007dc3;
-  color: white ;
-  border-bottom-style:solid;
-  border-bottom-color:black;
-}
-/* ========================================================== */
-
-/* .app_name::before{
-  content: '';
-  visibility: hidden;
-
-}
-.app_name::after{
-  content:'Infosys Continuous Testing Platform';
-  visibility: visible;
-  text-align: center;
-  font-weight: bold;
-  color: white ;
 }
 
-.logo{
-  content: url("assets/images/Automation_BlueLogo2.png"); 
-  visibility: visible;
-} 
-
-.app_header{
-  background-color: black ;
-  color: white ;
-  border-bottom-style: hidden ;
-  border-bottom-color:white;
-} */
-.text_color{
-  color: white ;
+.app_header {
+  background-color: #007dc3;
+  color: white;
+  border-bottom-style: solid;
+  border-bottom-color: black;
 }
 
-.href_links{
-  color: white ;
+.href_links {
+  color: white;
   font-size: 14px;
 }
-a:hover{
-  color : #00e5ff;
-  font-weight : bold;
-}
-
-
-
-
 
 #below_header {
-  background-color:#2885ae;
+  background-color: #2885ae;
 }
 
 /* ------ Side Nav-bar ------ */
- a.list-group-item:hover {
-  color: #ffffff ;
-  background: -webkit-linear-gradient(#1fa0e4, #1992d1) ;
-  background: -webkit-gradient(#1fa0e4, #1992d1) ;
-  background: -moz-linear-gradient(#1fa0e4, #1992d1) ;
-  background: -o-linear-gradient(#1fa0e4, #1992d1) ;
-  background: -ms-linear-gradient(#1fa0e4, #1992d1) ;
-  background: linear-gradient(#1fa0e4, #1992d1) ;
-} 
-a.list-group-item:focus {
-  text-decoration: none ;
-  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4) ;
-  background: -webkit-gradient(#1fa0e4, #1fa0e4) ;
-  background: -moz-linear-gradient(#1fa0e4, #1fa0e4) ;
-  background: -o-linear-gradient(#1fa0e4, #1fa0e4) ;
-  background: -ms-linear-gradient(#1fa0e4, #1fa0e4) ;
-  background: linear-gradient(#1fa0e4, #1fa0e4) ;
+
+a.list-group-item:hover {
+  color: #fff;
+  background: -webkit-linear-gradient(#1fa0e4, #1992d1);
+  background: -webkit-gradient(#1fa0e4, #1992d1);
+  background: -moz-linear-gradient(#1fa0e4, #1992d1);
+  background: -o-linear-gradient(#1fa0e4, #1992d1);
+  background: -ms-linear-gradient(#1fa0e4, #1992d1);
+  background: linear-gradient(#1fa0e4, #1992d1);
 }
-.marked {
-  text-decoration: none ;
+
+a.list-group-item:focus {
+  text-decoration: none;
   background: -webkit-linear-gradient(#1fa0e4, #1fa0e4);
   background: -webkit-gradient(#1fa0e4, #1fa0e4);
   background: -moz-linear-gradient(#1fa0e4, #1fa0e4);
@@ -221,13 +203,18 @@ a.list-group-item:focus {
   background: -ms-linear-gradient(#1fa0e4, #1fa0e4);
   background: linear-gradient(#1fa0e4, #1fa0e4);
 }
-li a.active {
-  background-color: #1fa0e4;
-  color: black;
+
+.marked {
   text-decoration: none;
+  background: -webkit-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -webkit-gradient(#1fa0e4, #1fa0e4);
+  background: -moz-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -o-linear-gradient(#1fa0e4, #1fa0e4);
+  background: -ms-linear-gradient(#1fa0e4, #1fa0e4);
+  background: linear-gradient(#1fa0e4, #1fa0e4);
 }
 
-li a:hover {
+li a.active {
   background-color: #1fa0e4;
   color: black;
   text-decoration: none;
@@ -250,6 +237,7 @@ li a.navactive {
   color: white;
   padding-top: 1px;
 }
+
 .well {
   min-height: 20px;
   padding: 19px;
@@ -258,93 +246,88 @@ li a.navactive {
   border: 0px solid #e3e3e3;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
-          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
 }
 
-/* -- Login Page-- */
-/* .app_name_login::before{
-  content: '';
+.app_name_login::before {
+  content: "";
   visibility: hidden;
-
 }
-.app_name_login::after{
-  content:'Infosys DevOps Platform';
-  visibility: visible;
-  text-align: center;
-  font-size: xx-large;
-  padding-left: 500px;
-  width: 60%;
-  font-family: Sans-serif;
-   color: #1b6bb1; 
-  /* color: whitesmoke; */
-  /* font-weight: 700;
-  position: relative;
-  top: 18px;
-} */
-.app_name_login::before{
-  content: '';
-  visibility: hidden;
 
-}
-.app_name_login::after{
-  content:'Infosys DevOps Platform';
+.app_name_login::after {
+  content: "Infosys DevOps Platform";
   visibility: visible;
   text-align: center;
   font-size: 35px;
   width: 60%;
   font-family: Sans-serif;
-   color: #1b6bb1;
-  /* color: whitesmoke; */
+  color: #1b6bb1;
   font-weight: 700;
   top: 30px;
-
   position: absolute;
-
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
+
 .logo_login {
-  background: url("assets/images/Automation_BlueLogo2.png") no-repeat; 
+  background: url("assets/images/Automation_BlueLogo2.png") no-repeat;
   visibility: visible;
-  margin-left:100px;
-  margin-top:12px;
+  margin-left: 100px;
+  margin-top: 12px;
   width: 250px;
   height: 50px;
 }
 
-#page_top
-	{
-	margin-top:-20px;
-	width: 100%;
-	height: 79px;
-	background-color: white;
-	box-shadow: 2px 2px 2px #d0d0d0;
-  }
+#page_top {
+  margin-top: -20px;
+  width: 100%;
+  height: 79px;
+  background-color: white;
+  box-shadow: 2px 2px 2px #d0d0d0;
+}
 
-  .bgwrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    /* Preserve aspet ratio */
-    min-width: 100%;
-    min-height: 100%;
-    background: url('assets/images/Login_page_BG.png') no-repeat center;
+.bgwrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
 
-  }
-  .logo_login {
-    background: url("assets/images/Automation_BlueLogo2.png") no-repeat;
-    visibility: visible;
-    margin-left:100px;
-    margin-top:18px;
-    width: 250px !important;
-    height: 100px !important;
-  }
-  .mg20  { margin-left: 20% !important; }
-  .btn-info { color: white !important; }
-  .release-main-container { margin-top: 20px; padding-bottom: 50px; }
-  .pipeline-list { float: left; }
-  .release-pipeline-name { float: right; margin: -4% 20% 0% 0 !important; }
-  .release-table { margin-top: 30px; }
-  .nav-tabs .nav-link:hover { background-color: #eee !important; }
-  .owl-dateTime-dialog { width: 284px !important; }
-  .table th, .table td { vertical-align: middle;}
+  /* Preserve aspet ratio */
+
+  min-width: 100%;
+  min-height: 100%;
+  background: url("assets/images/Login_page_BG.png") no-repeat center;
+}
+
+.mg20 {
+  margin-left: 20% !important;
+}
+
+.btn-info {
+  color: white !important;
+}
+
+.release-main-container {
+  margin-top: 20px;
+  padding-bottom: 50px;
+}
+
+.pipeline-list {
+  float: left;
+}
+
+.release-pipeline-name {
+  float: right;
+  margin: -4% 20% 0% 0 !important;
+}
+
+.release-table {
+  margin-top: 30px;
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: #eee !important;
+}
+
+.owl-dateTime-dialog {
+  width: 284px !important;
+}

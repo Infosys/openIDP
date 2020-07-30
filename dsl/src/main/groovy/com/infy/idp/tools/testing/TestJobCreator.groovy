@@ -345,8 +345,8 @@ class TestJobCreator {
 
             wrappers {
 
-			BuildEnv env = new BuildEnv();
-				env.add(delegate, jsonData);
+			BuildEnv env = new BuildEnv()
+				env.add(delegate, jsonData)
                 // add X11 support for linux environment
                 if (jsonData.basicInfo.buildServerOS == Constants.UNIXOS && testStepElem.testCategory == Constants.FUNCTEST && testStepElem.testTypeName.toString() != Constants.MONKEYTALK)
                     new Xvfb().add(delegate, jsonData)

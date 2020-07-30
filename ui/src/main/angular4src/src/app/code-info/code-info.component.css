@@ -1,9 +1,24 @@
-.scm-container { margin-bottom: 35px; }
-.scm-inner-container { width: 100px; float: left; padding-left: 0; }
-.scm-input { float: left; padding-left: 10px; }
-.static-checkbox {
-    margin-left: 30px;
-    max-width: 40px !important;
-    margin-top: 6px;
+.scm-container {
+  margin-bottom: 35px;
 }
-.remove-icon { max-width: 50px !important; }
+
+.scm-inner-container {
+  width: 100px;
+  float: left;
+  padding-left: 0;
+}
+
+.scm-input {
+  float: left;
+  padding-left: 10px;
+}
+
+.static-checkbox {
+  margin-left: 30px;
+  max-width: 40px !important;
+  margin-top: 6px;
+}
+
+.remove-icon {
+  max-width: 50px !important;
+}

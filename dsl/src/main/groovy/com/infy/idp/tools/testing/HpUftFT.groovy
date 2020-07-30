@@ -29,8 +29,8 @@ public class HpUftFT {
             steps {
 
                 def testEnvElem = jsonData.testInfo.testEnv.getAt(envIndex);
-                def testStepElem = testEnvElem.testSteps.getAt(stepIndex).test;
-                HPRunFromFileBuilder hpUft = new HPRunFromFileBuilder();
+                def testStepElem = testEnvElem.testSteps.getAt(stepIndex).test
+                HPRunFromFileBuilder hpUft = new HPRunFromFileBuilder()
 
 
                 hpUft.setTestScriptPath(testStepElem.testSuiteName)
@@ -51,7 +51,7 @@ public class HpUftFT {
             publishers {
 
                 HPRunResultRecorder hpUftReporter = new HPRunResultRecorder();
-                hpUftReporter.add(delegate, jsonData);
+                hpUftReporter.add(delegate, jsonData)
 
             }
         }

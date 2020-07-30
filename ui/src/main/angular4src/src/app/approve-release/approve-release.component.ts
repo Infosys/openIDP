@@ -1,45 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { IdprestapiService } from '../idprestapi.service';
-import { IdpService } from '../idp-service.service';
-import { IdpdataService } from '../idpdata.service';
+import { Component, OnInit } from "@angular/core";
+import { IdprestapiService } from "../idprestapi.service";
+import { IdpService } from "../idp-service.service";
+import { IdpdataService } from "../idpdata.service";
 @Component({
-  selector: 'app-approve-release',
-  templateUrl: './approve-release.component.html',
-  styleUrls: ['./approve-release.component.css']
+  selector: "app-approve-release",
+  templateUrl: "./approve-release.component.html",
+  styleUrls: [],
 })
 export class ApproveReleaseComponent implements OnInit {
-
-  constructor(public idpdataService: IdpdataService,
+  constructor(
+    public idpdataService: IdpdataService,
     private idpService: IdpService,
-    private idprestapiService: IdprestapiService) {
+    private idprestapiService: IdprestapiService
+  ) {
     if (this.data === undefined) {
-
-
       this.data = {
-        "applicationName": this.idpdataService.appName,
-        "approvedArtifact": [],
-        "environmentName": "",
-        "importedArtifact": [],
-        "pipelineName": this.idpdataService.pipelineName,
-        "releaseNumber": ""
+        applicationName: this.idpdataService.appName,
+        approvedArtifact: [],
+        environmentName: "",
+        importedArtifact: [],
+        pipelineName: this.idpdataService.pipelineName,
+        releaseNumber: "",
       };
 
       this.outputData = {
-        "applicationName": this.idpdataService.appName,
-        "approvedArtifact": [],
-        "environmentName": "",
-        "importedArtifact": [],
-        "pipelineName": this.idpdataService.pipelineName,
-        "releaseNumber": ""
+        applicationName: this.idpdataService.appName,
+        approvedArtifact: [],
+        environmentName: "",
+        importedArtifact: [],
+        pipelineName: this.idpdataService.pipelineName,
+        releaseNumber: "",
       };
-
     }
     this.getReleaseAndEnvironment();
-
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   data: any;
   update: boolean;
   approve = "";
@@ -48,11 +44,11 @@ export class ApproveReleaseComponent implements OnInit {
   releaseList = [];
   approvedList = [];
   importedList = [];
-  disapproveList = ['Bangalore', 'Chennai'];
+  disapproveList = ["Bangalore", "Chennai"];
   extraMultiselectSettings = {
     enableSearchFilter: true,
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All'
+    selectAllText: "Select All",
+    unSelectAllText: "UnSelect All",
   };
 
   arraylist = [];
@@ -64,71 +60,74 @@ export class ApproveReleaseComponent implements OnInit {
   outputApproveRemark: any;
   displayimportedSelected: any = [];
   displayapproveSelected: any = [];
-  outputData: any
+  outputData: any;
 
   getReleaseAndEnvironment() {
-
     this.idpdataService.loading = true;
-    this.idprestapiService.getReleasesApprovePortal().then(response => {
+    this.idprestapiService.getReleasesApprovePortal().then((response) => {
       let resp = response.json();
       //alert(resp);
-      console.log(resp);
+      //console.log(resp);
       let errorMsg = resp.errorMessage;
       // console.log("required"+JSON.stringify(resp));
       this.release = JSON.parse(resp.resource).releasePipeline[0].release;
       this.envList = JSON.parse(resp.resource).accessEnvironmentList;
       for (var i = 0; i < this.release.length; i++) {
         //push into release list to show in dropdown
-        this.releaseList.push(this.release[i].releaseNumber)
+        this.releaseList.push(this.release[i].releaseNumber);
       }
 
-      console.log(this.release);
+      //console.log(this.release);
       this.idpdataService.loading = false;
-    })
+    });
   }
-  getReleaseNamesApprovePortal() {
-
-  }
+  getReleaseNamesApprovePortal() {}
 
   getArtifactsApprovePortal() {
-    console.log("In artifacts!!");
+    // console.log("In artifacts!!");
     if (this.data.environmentName !== "") {
       this.idpdataService.loading = true;
       this.data.importedArtifact = [];
       this.data.approvedArtifact = [];
-      this.idprestapiService.getArtifactsApprovePortal(this.data).then(response => {
-        let resp = response.json();
-        //alert(resp);
-        console.log(resp);
-        let errorMsg = resp.errorMessage;
-        // console.log("required"+JSON.stringify(resp));
-        console.log(resp.resource);
-        this.importedarrayList = JSON.parse(resp.resource).importedArtifact;
-        this.approvearrayList = JSON.parse(resp.resource).approvedArtifact;
+      this.idprestapiService
+        .getArtifactsApprovePortal(this.data)
+        .then((response) => {
+          let resp = response.json();
+          //alert(resp);
+          //console.log(resp);
+          let errorMsg = resp.errorMessage;
+          // console.log("required"+JSON.stringify(resp));
+          //console.log(resp.resource);
+          this.importedarrayList = JSON.parse(resp.resource).importedArtifact;
+          this.approvearrayList = JSON.parse(resp.resource).approvedArtifact;
 
-        var temp = JSON.parse(resp.resource).approvedArtifact;
-        this.approvedList = [];
-        //multiselect box dosent take simple array of strings as input, hence convert it to array of objects
-        for (var i = 0; i < temp.length; i++) {
-          this.approvedList.push({ "id": i, "itemName": temp[i].artifactName });
-        }
-        temp = JSON.parse(resp.resource).importedArtifact;
-        this.importedList = [];
-        for (var i = 0; i < temp.length; i++) {
-          this.importedList.push({ "id": i, "itemName": temp[i].artifactName });
-        }
-        console.log(this.importedList);
-        console.log(this.release);
-        this.idpdataService.loading = false;
-      })
-
+          var temp = JSON.parse(resp.resource).approvedArtifact;
+          this.approvedList = [];
+          //multiselect box dosent take simple array of strings as input, hence convert it to array of objects
+          for (var i = 0; i < temp.length; i++) {
+            this.approvedList.push({ id: i, itemName: temp[i].artifactName });
+          }
+          temp = JSON.parse(resp.resource).importedArtifact;
+          this.importedList = [];
+          for (var i = 0; i < temp.length; i++) {
+            this.importedList.push({ id: i, itemName: temp[i].artifactName });
+          }
+          // console.log(this.importedList);
+          // //console.log(this.release);
+          this.idpdataService.loading = false;
+        });
     }
   }
 
   updateArtifacts() {
-    console.log(this.outputData.importedArtifact);
-    console.log(this.outputData.approvedArtifact);
-    if ((this.outputData.importedArtifact.length !== 0 && this.outputData.importedArtifact !== undefined) || (this.outputData.approvedArtifact.length !== 0 && this.outputData.approvedArtifact !== undefined)) {
+    // console.log(this.outputData.importedArtifact);
+    // console.log(this.outputData.approvedArtifact);
+    if (
+      (this.outputData.importedArtifact.length !== 0 &&
+        this.outputData.importedArtifact !== undefined) ||
+      (this.outputData.approvedArtifact.length !== 0 &&
+        this.outputData.approvedArtifact !== undefined)
+    ) {
       // this.data.applicationName=this.IdpdataService.appName;
       // this.data.pipelineName=this.IdpdataService.pipelineName;
       // var temp = this.data.importedArtifact;
@@ -149,26 +148,25 @@ export class ApproveReleaseComponent implements OnInit {
       this.outputData.environmentName = this.data.environmentName;
       this.outputData.releaseNumber = this.data.releaseNumber;
       this.idpdataService.loading = true;
-      this.idprestapiService.updateArtifacts(this.outputData).then(response => {
-        let resp = response.json();
-        //alert(resp);
-        console.log(resp);
-        let errorMsg = resp.errorMessage;
-        // console.log("required"+JSON.stringify(resp));
+      this.idprestapiService
+        .updateArtifacts(this.outputData)
+        .then((response) => {
+          let resp = response.json();
+          //alert(resp);
+          //console.log(resp);
+          let errorMsg = resp.errorMessage;
+          // console.log("required"+JSON.stringify(resp));
 
-        if (resp.resource === "Updated Successfully!!!") {
-          this.update = true;
-        }
-        else {
-          alert("Update unsuccessful!! Please update again.");
-        }
+          if (resp.resource === "Updated Successfully!!!") {
+            this.update = true;
+          } else {
+            alert("Update unsuccessful!! Please update again.");
+          }
 
-
-        console.log(this.release);
-        this.idpdataService.loading = false;
-      })
-    }
-    else {
+          //console.log(this.release);
+          this.idpdataService.loading = false;
+        });
+    } else {
       alert("Please Select artifacts!!");
     }
     this.displayapproveSelected = this.approveSelected;
@@ -182,27 +180,21 @@ export class ApproveReleaseComponent implements OnInit {
   }
 
   updateArtifactRemark() {
-
     this.outputData.environmentName = this.data.environmentName;
     this.outputData.releaseNumber = this.data.releaseNumber;
-
-    console.log(this.outputData);
-
   }
 
   updateFalse() {
-
     this.update = false;
     this.data = {
-      "applicationName": this.idpdataService.appName,
-      "approvedArtifact": [],
-      "environmentName": "",
-      "importedArtifact": [],
-      "pipelineName": this.idpdataService.pipelineName,
-      "releaseNumber": ""
+      applicationName: this.idpdataService.appName,
+      approvedArtifact: [],
+      environmentName: "",
+      importedArtifact: [],
+      pipelineName: this.idpdataService.pipelineName,
+      releaseNumber: "",
     };
     this.approve = "";
-
   }
 
   clearData() {
@@ -214,7 +206,7 @@ export class ApproveReleaseComponent implements OnInit {
     this.approvedList = [];
   }
   onItemSelect(item: any) {
-    console.log(item);
+    //console.log(item);
 
     var temp = this.importedarrayList;
     for (var i = 0; i < temp.length; i++) {
@@ -222,18 +214,18 @@ export class ApproveReleaseComponent implements OnInit {
         this.importedSelected.push(temp[i]);
     }
 
-
     let artifactJson = {
-      "artifactName": '',
-      "artifactDetails": [{
-        "status": '',
-        "remark": ''
-      }]
-
-    }
+      artifactName: "",
+      artifactDetails: [
+        {
+          status: "",
+          remark: "",
+        },
+      ],
+    };
 
     artifactJson.artifactName = item.itemName;
-    artifactJson.artifactDetails[0].status = 'approved'
+    artifactJson.artifactDetails[0].status = "approved";
     this.outputData.importedArtifact.push(artifactJson);
     //this.outputApproveRemark.push('');
 
@@ -242,7 +234,7 @@ export class ApproveReleaseComponent implements OnInit {
     //console.log(this.selectedItems2);
   }
   OnItemDeSelect(item: any) {
-    console.log(item);
+    //console.log(item);
     var temp = this.importedSelected;
     for (var i = 0; i < temp.length; i++) {
       if (temp[i].artifactName == item.itemName) {
@@ -260,7 +252,6 @@ export class ApproveReleaseComponent implements OnInit {
       }
     }
 
-
     /* var i = this.buildInfo.postBuildScript.dependentPipelineList.indexOf(item.itemName);
     if (i !== -1) {
       this.buildInfo.postBuildScript.dependentPipelineList.splice(i, 1);
@@ -268,7 +259,7 @@ export class ApproveReleaseComponent implements OnInit {
     } */
   }
   onSelectAll(items: any) {
-    console.log(items);
+    //console.log(items);
     this.importedSelected = [];
     this.outputData.importedArtifact = [];
     //this.outputApproveRemark = [];
@@ -277,20 +268,19 @@ export class ApproveReleaseComponent implements OnInit {
       this.importedSelected.push(temp[i]);
     }
 
-
     for (var item of items) {
-
       let artifactJson = {
-        "artifactName": '',
-        "artifactDetails": [{
-          "status": '',
-          "remark": ''
-        }]
-
-      }
+        artifactName: "",
+        artifactDetails: [
+          {
+            status: "",
+            remark: "",
+          },
+        ],
+      };
 
       artifactJson.artifactName = item.itemName;
-      artifactJson.artifactDetails[0].status = 'approved'
+      artifactJson.artifactDetails[0].status = "approved";
       this.outputData.importedArtifact.push(artifactJson);
       //this.outputApproveRemark.push('');
     }
@@ -300,16 +290,15 @@ export class ApproveReleaseComponent implements OnInit {
      } */
   }
   onDeSelectAll(items: any) {
-    console.log(items);
+    //console.log(items);
     this.importedSelected = [];
     this.outputData.importedArtifact = [];
     //this.outputApproveRemark = [];
     //this.buildInfo.postBuildScript.dependentPipelineList = [];
   }
 
-
   onItemSelectDisapprove(item: any) {
-    console.log(item);
+    //console.log(item);
 
     var temp = this.approvearrayList;
     for (var i = 0; i < temp.length; i++) {
@@ -318,16 +307,17 @@ export class ApproveReleaseComponent implements OnInit {
     }
 
     let artifactJson = {
-      "artifactName": '',
-      "artifactDetails": [{
-        "status": '',
-        "remark": ''
-      }]
-
-    }
+      artifactName: "",
+      artifactDetails: [
+        {
+          status: "",
+          remark: "",
+        },
+      ],
+    };
 
     artifactJson.artifactName = item.itemName;
-    artifactJson.artifactDetails[0].status = 'disapproved'
+    artifactJson.artifactDetails[0].status = "disapproved";
     this.outputData.approvedArtifact.push(artifactJson);
     //this.outputDisapproveRemark.push('');
     //console.log(artifactJson);
@@ -337,7 +327,7 @@ export class ApproveReleaseComponent implements OnInit {
     //console.log(this.selectedItems2);
   }
   OnItemDeSelectDisapprove(item: any) {
-    console.log(item);
+    //console.log(item);
     var temp = this.approveSelected;
     for (var i = 0; i < temp.length; i++) {
       if (temp[i].artifactName == item.itemName) {
@@ -362,7 +352,7 @@ export class ApproveReleaseComponent implements OnInit {
     } */
   }
   onSelectAllDisapprove(items: any) {
-    console.log(items);
+    //console.log(items);
 
     this.approveSelected = [];
     this.outputData.approvedArtifact = [];
@@ -370,22 +360,21 @@ export class ApproveReleaseComponent implements OnInit {
     var temp = this.approvearrayList;
     for (var i = 0; i < temp.length; i++) {
       this.approveSelected.push(temp[i]);
-
     }
 
     for (var item of items) {
-
       let artifactJson = {
-        "artifactName": '',
-        "artifactDetails": [{
-          "status": '',
-          "remark": ''
-        }]
-
-      }
+        artifactName: "",
+        artifactDetails: [
+          {
+            status: "",
+            remark: "",
+          },
+        ],
+      };
 
       artifactJson.artifactName = item.itemName;
-      artifactJson.artifactDetails[0].status = 'disapproved'
+      artifactJson.artifactDetails[0].status = "disapproved";
       this.outputData.approvedArtifact.push(artifactJson);
       //this.outputDisapproveRemark.push('');
     }
@@ -395,38 +384,43 @@ export class ApproveReleaseComponent implements OnInit {
      } */
   }
   onDeSelectAllDisapprove(items: any) {
-    console.log(items);
+    //console.log(items);
     this.approveSelected = [];
     this.outputData.approvedArtifact = [];
     //this.outputDisapproveRemark = [];
     //this.buildInfo.postBuildScript.dependentPipelineList = [];
   }
 
-
   insertDisapproveRemark(remark: any) {
-    for (var count = 0; count < this.outputData.approvedArtifact.length; count++) {
-      this.outputData.approvedArtifact[count].artifactDetails[0].remark = remark;
-      console.log(this.outputData);
+    for (
+      var count = 0;
+      count < this.outputData.approvedArtifact.length;
+      count++
+    ) {
+      this.outputData.approvedArtifact[
+        count
+      ].artifactDetails[0].remark = remark;
     }
-
   }
 
   insertApproveRemark(remark: any) {
-    for (var count = 0; count < this.outputData.importedArtifact.length; count++) {
-      this.outputData.importedArtifact[count].artifactDetails[0].remark = remark;
-      console.log(this.outputData);
+    for (
+      var count = 0;
+      count < this.outputData.importedArtifact.length;
+      count++
+    ) {
+      this.outputData.importedArtifact[
+        count
+      ].artifactDetails[0].remark = remark;
     }
-
   }
 
-  clearArtifact(){
+  clearArtifact() {
     this.approveSelected = [];
     this.outputData.approvedArtifact = [];
     this.importedSelected = [];
     this.outputData.importedArtifact = [];
-    this.data.importedArtifact=[];
-    this.data.approvedArtifact=[];
+    this.data.importedArtifact = [];
+    this.data.approvedArtifact = [];
   }
-
-
 }

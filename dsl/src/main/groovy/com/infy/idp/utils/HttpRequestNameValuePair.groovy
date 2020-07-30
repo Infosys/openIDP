@@ -18,11 +18,11 @@ public class HttpRequestNameValuePair {
 
     private String name = ''
     private String value = ''
-    private boolean maskValue = false;
+    private boolean maskValue = false
 
 
     public String getName() {
-        return name;
+        return name
     }
 
     public void setName(String name) {
@@ -30,7 +30,7 @@ public class HttpRequestNameValuePair {
     }
 
     public String getValue() {
-        return value;
+        return value
     }
 
     public void setValue(String value) {
@@ -38,7 +38,7 @@ public class HttpRequestNameValuePair {
     }
 
     public boolean getMaskValue() {
-        return maskValue;
+        return maskValue
     }
 
 

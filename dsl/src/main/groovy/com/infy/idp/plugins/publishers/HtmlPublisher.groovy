@@ -52,7 +52,7 @@ class HtmlPublisher implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('reportDir', reportDir)
         data.put('allowMissing', false)
@@ -61,7 +61,7 @@ class HtmlPublisher implements IPluginBase {
         data.put('reportFiles', reportFile)
         data.put('reportName', 'HTML Report')
 
-        return data;
+        return data
     }
 
     /*

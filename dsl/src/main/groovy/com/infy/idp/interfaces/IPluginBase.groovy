@@ -17,7 +17,7 @@ import org.infy.idp.entities.jobs.IDPJob
  */
 
 public interface IPluginBase {
-  public void add(context,IDPJob dataObj );
+  public void add(context,IDPJob dataObj )
   public HashMap<String,String> performMapping(IDPJob dataObj);
   public void addOptions(context, HashMap<String,String> data); 
 }

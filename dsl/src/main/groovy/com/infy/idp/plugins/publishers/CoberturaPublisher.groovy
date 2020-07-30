@@ -41,7 +41,7 @@ class CoberturaPublisher implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('reportFile', this.pattern)
         data.put('autoUpdateHealth', false)
@@ -62,7 +62,7 @@ class CoberturaPublisher implements IPluginBase {
         data.put('sourceEncoding', 'ASCII')
         data.put('zoomCoverageChart', false)
 
-        return data;
+        return data
     }
 
     /*

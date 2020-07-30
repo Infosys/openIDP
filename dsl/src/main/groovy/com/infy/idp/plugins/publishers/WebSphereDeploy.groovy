@@ -40,7 +40,7 @@ class WebSphereDeploy implements IPluginBase {
 
         def containerInfo = dataObj.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].deployToContainer;
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("ipAddress", containerInfo.ipOrDNS);
         data.put("connectorType", "SOAP");
         data.put("port", containerInfo.port);
@@ -63,7 +63,7 @@ class WebSphereDeploy implements IPluginBase {
         data.put("verbose", "");
         data.put("classLoaderPolicy", "")
 
-        return data;
+        return data
     }
 
     /*

@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
                                     <input id="catfde" #title="ngModel" name="title" [(ngModel)]="grantAccess.developers" [ngModelOptions]="{standalone: true}"
-                                        class="form-control  " type="text" placeholder="userName,idpuser1"
+                                        class="form-control  " type="text" placeholder="idpuser1"
                                         required pattern="[-a-zA-Z0-9_.@]+(,[-a-zA-Z0-9_.@]+)*">
                                     <span class="tip-content">{{'Please mention Ids for Developers List'|translate}}({{'Comma Separated'|translate}})
                                     </span>
@@ -210,7 +210,7 @@
                                     <label class="col-form-label">{{'Module Lead'|translate}}<span class="star">*</span>  </label>
                                 </div>
                                 <div class="col-md-9 field-tip text-left">
-                                    <input id="catfml" #moduleLead="ngModel"[(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control  " type="text" placeholder="userName,idpuser1" pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$" required>
+                                    <input id="catfml" #moduleLead="ngModel"[(ngModel)]="grantAccess.releaseManager" [ngModelOptions]="{standalone: true}" class="form-control  " type="text" placeholder="idpuser1" pattern="^[a-zA-Z_0-9\.]+(,[a-zA-Z_0-9\.]+)*$" required>
                                     <span class="tip-content">{{'Please mention  Module Lead List'|translate}}({{'Comma Separated'|translate}})</span>
                                     <div *ngIf="moduleLead.errors && (moduleLead.dirty || moduleLead.touched)" class="alert alert-danger ">
                                             <div [hidden]="!moduleLead.errors.required">

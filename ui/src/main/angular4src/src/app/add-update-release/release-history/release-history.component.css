@@ -1,34 +1,23 @@
-table thead tr th{
-  border-color:#2885ae
+table thead tr th {
+  border-color: #2885ae;
 }
 
 table thead {
-  background-color:rgba(28, 93, 121, 0.13)
+  background-color: rgba(28, 93, 121, 0.13);
 }
 
-table tbody tr td{
-  border-color:#2885ae
+table tbody tr td {
+  border-color: #2885ae;
 }
 
-#example{
+#example {
   border-collapse: collapse;
 }
 
-.owl-inputtext{
-  padding:.35em
+.owl-inputtext {
+  padding: 0.35em;
 }
 
-.owl-corner-all{
-  border-radius:4px
+.owl-corner-all {
+  border-radius: 4px;
 }
-
-
-
-/*.owl-inputtext .owl-state-focus, .owl-inputtext:focus{
-
-  box-shadow: rgba(102,175,233,.6)
-
-}*/
-
-
-

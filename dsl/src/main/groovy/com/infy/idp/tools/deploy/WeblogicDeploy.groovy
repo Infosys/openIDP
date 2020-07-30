@@ -52,7 +52,7 @@ class WeblogicDeploy {
 		def containerInfo = dataObj.deployInfo.deployEnv[envIndex].deploySteps[stepIndex].deployToContainer;
 	
 		
-		HashMap<String, String> data = new HashMap<String, String>();
+		HashMap<String, String> data = new HashMap<String, String>()
 		data.put("wlsUsername", containerInfo.userName);
 		data.put("wlsPassword", containerInfo.password);
 		data.put("wlsHostname", containerInfo.hostName);		
@@ -64,7 +64,7 @@ class WeblogicDeploy {
 		
 		
 
-		return data;
+		return data
 		}
 
 }

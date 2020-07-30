@@ -1,19 +1,18 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import { DiagnoseComponent } from './diagnose.component';
-import { DiagnoseRoutingModule } from './diagnose-routing.module';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { DiagnoseComponent } from "./diagnose.component";
+import { DiagnoseRoutingModule } from "./diagnose-routing.module";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 // Tabs Component
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TabsModule } from "ngx-bootstrap/tabs";
 // Chartjs Component
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from "ng2-charts";
 // Modal
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TrendsComponent } from './trends/trends.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { NgxPaginationModule } from 'ngx-pagination';
-
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TrendsComponent } from "./trends/trends.component";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @NgModule({
   imports: [
@@ -22,13 +21,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     TabsModule,
     ChartsModule,
-	NgxPaginationModule,
+    NgxPaginationModule,
     NgxSpinnerModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
-  declarations: [
-    DiagnoseComponent,
-    TrendsComponent
-  ]
+  declarations: [DiagnoseComponent, TrendsComponent],
 })
-export class DiagnoseModule { }
+export class DiagnoseModule {}

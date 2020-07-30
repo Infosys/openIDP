@@ -64,7 +64,7 @@ export class SlaveLabelfilterPipe implements PipeTransform {
             // return slaveDetails.filter(slave => slave[checkValue].indexOf(this.onStr) !== -1)
             //                     .map(slave => slave.labels);
         } else {
-            console.log("ParameterInput JSON doesnot contain Slave usage keys");
+            // console.log("ParameterInput JSON doesnot contain Slave usage keys");
             return slaveDetails;
         }
         // filters slaveDetails array, slaves which match and return true will be

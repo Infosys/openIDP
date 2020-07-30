@@ -44,10 +44,10 @@ class DeployToIIS {
 
         context.with {
 		wrappers{
-				BuildEnvIIS env = new BuildEnvIIS();
-				env.setName("iisPswd");
-				env.setPswd(pwd);
-				env.add(delegate, jsonData);
+				BuildEnvIIS env = new BuildEnvIIS()
+				env.setName("iisPswd")
+				env.setPswd(pwd)
+				env.add(delegate, jsonData)
 			}			
             steps {
 

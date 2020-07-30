@@ -151,7 +151,7 @@
                                 <span style="color: red">*</span>
                             </label>
                         <div class="col-md-4 text-left">
-                            <select class="form-control" id="cdcgdd01" (change)="setDataKeys();clearTech()" name="category" [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'"
+                            <select [ngModelOptions]="{standalone: true}"  class="form-control" id="cdcgdd01" (change)="setDataKeys();clearTech()" name="category" [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'"
                                 [(ngModel)]="codeInfo.category" required>
                                 <option value="">--Select--</option>
                                 <option *ngFor="let category of categoryList" value="{{category.value}}">{{category.name}}</option>
@@ -166,7 +166,7 @@
                                 </label>
                             <div   class="col-md-4" *ngIf="codeInfo.category === 'Standard'">
                                 <div class="text-left">
-                                    <select [(ngModel)]="codeInfo.technology" id="bitgdd01" name="standardtech" [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'"
+                                    <select [ngModelOptions]="{standalone: true}"  [(ngModel)]="codeInfo.technology" id="bitgdd01" name="standardtech" [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'"
                                         (change)="selectedTech()"  class="form-control" required>
                                         <option value="">--Select--</option>
                                         <option *ngFor="let key of technologyDatakeys" value="{{technologyData[codeInfo.category][key]}}">{{key}}
@@ -176,7 +176,7 @@
                             </div>
                             <div class="col-md-4" *ngIf="codeInfo.category === 'Package'">
                                 <div class="text-left">
-                                        <select [(ngModel)]="codeInfo.technology" id="cdcstedd1" name="packagetech"  [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'" (change)="selectedTech()" class="form-control" required>
+                                        <select [ngModelOptions]="{standalone: true}"  [(ngModel)]="codeInfo.technology" id="cdcstedd1" name="packagetech"  [disabled]="formStatusObject.operation === 'copy' || formStatusObject.operation === 'edit'" (change)="selectedTech()" class="form-control" required>
                                             <option value="">--Select--</option>
                                             <option *ngFor="let key of technologyDatakeys"  value="{{technologyData[codeInfo.category][key]}}">{{key}}</option>
                                         </select>
@@ -184,7 +184,7 @@
                             </div>
                             <div class="col-md-4" *ngIf="codeInfo.category === 'Mobile'">
                                 <div class="text-left">
-                                    <select [(ngModel)]="codeInfo.technology" name="mobiletech" id="cdtedd01"  [disabled]="IdpdataService.data.formStatus.operation === 'edit'" (change)="selectedTech()" class="form-control" required>
+                                    <select [ngModelOptions]="{standalone: true}"  [(ngModel)]="codeInfo.technology" name="mobiletech" id="cdtedd01"  [disabled]="IdpdataService.data.formStatus.operation === 'edit'" (change)="selectedTech()" class="form-control" required>
                                             <option value="">--Select--</option><!-- ng-selected="codeInfo.technology===key" -->
                                             <option *ngFor="let key of technologyDatakeys"  value="{{technologyData[codeInfo.category][key]}}">{{key}}</option>
                                     </select>
@@ -239,7 +239,7 @@
                                                 <div class="col-md-8 text-left scm-input">
                                                     <div *ngIf="setScmType(scm.type,i)"></div>
 
-                                                    <select class="form-control" id="cdsctedd{{i}}" name="ibmpm2{{i}}" [(ngModel)]="scm.type"
+                                                    <select [ngModelOptions]="{standalone: true}"  class="form-control" id="cdsctedd{{i}}" name="ibmpm2{{i}}" [(ngModel)]="scm.type"
                                                         style="width:50%" (change)="clearSCMFields(i);" required>
                                                         <option value="">--Select--</option>
                                                         <option *ngFor="let temp of SCMList" value="{{temp.value}}">{{temp.name}}</option>
@@ -281,7 +281,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtltf{{i}}" name="rtcUlr{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtltf{{i}}" name="rtcUlr{{i}}"
                                                             #rtcUlr="ngModel" [(ngModel)]="scm.url" name="urlrtc" type="url"
                                                             pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@%]+" placeholder="https://mysgecrqmapps01.domain.com:9443/ccm/"
                                                             maxlength="150" required>
@@ -307,7 +307,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtcWorkspace{{i}}" name="rtcWorkspace{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtcWorkspace{{i}}" name="rtcWorkspace{{i}}"
                                                                 #rtcWorkspace="ngModel" [(ngModel)]="scm.repositoryWorkspace" name="repoWordrtc"
                                                                 type="text" placeholder="{{'RTC Workspace Name'|translate}}" minlength="5"
                                                                 maxlength="150" required>
@@ -332,7 +332,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtfbtf{{i}}" name="rtcBranch{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtfbtf{{i}}" name="rtcBranch{{i}}"
                                                                 #rtcBranch="ngModel" [(ngModel)]="scm.branch" type="text" name="branchrtc"
                                                                 placeholder="{{'RTC Stream Name'|translate}}" minlength="5" maxlength="150"
                                                                 required>
@@ -357,7 +357,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtcuntf{{i}}" name="rtcUsername{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtcuntf{{i}}" name="rtcUsername{{i}}"
                                                                 #rtcUsername="ngModel" type="text" [(ngModel)]="scm.userName" name="unamertc"
                                                                 pattern="[_a-zA-Z0-9.-]+" placeholder="{{'RTC User name'|translate}}"
                                                                 minlength="5" maxlength="150" required>
@@ -386,7 +386,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtcpstf{{i}}" name="rtcPassword{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtcpstf{{i}}" name="rtcPassword{{i}}"
                                                             #rtcPassword="ngModel" type="password" [(ngModel)]="scm.password"
                                                             encrypt name="passRtc" placeholder="{{'RTC password'|translate}}"
                                                             maxlength="150" required>
@@ -413,7 +413,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscrtcpstf{{i}}" name="svnUrl{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscrtcpstf{{i}}" name="svnUrl{{i}}"
                                                                 #svnUrl="ngModel" [(ngModel)]="scm.url" name="svnUrl" type="url"
                                                                 placeholder="http://infysvn/svn" pattern="((https|svn|http)?://?|(www.))[_a-zA-Z0-9-.:/@]+"
                                                                 maxlength="150" required>
@@ -438,7 +438,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscsvnuntf{{i}}" name="svnUsername{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscsvnuntf{{i}}" name="svnUsername{{i}}"
                                                                 #svnUsername="ngModel" [(ngModel)]="scm.userName" name="svnUname" type="text"
 																
 																pattern="[_a-zA-Z0-9./\\:;@-]+" placeholder="{{'SVN UserName'|translate}}"
@@ -469,7 +469,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdscsvnpstf{{i}}" name="svnPassword{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdscsvnpstf{{i}}" name="svnPassword{{i}}"
                                                             #svnPassword="ngModel" type="password" [(ngModel)]="scm.password"
                                                             encrypt name="svnpass12" placeholder="{{'SVN Password'|translate}}"
                                                             maxlength="150" required>
@@ -495,7 +495,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdsctfsurltf{{i}}" name="tfsUrl{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdsctfsurltf{{i}}" name="tfsUrl{{i}}"
                                                                 #tfsUlr="ngModel" [(ngModel)]="scm.url" name="tfsURLval" type="text"
                                                                 placeholder="http://tfsserver:8080/tfs/CollectionName" maxlength="150"
                                                                 required>
@@ -513,7 +513,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdsctfspatf{{i}}" name="tfsProjectPath{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdsctfspatf{{i}}" name="tfsProjectPath{{i}}"
                                                             #tfsProjectPath="ngModel" [(ngModel)]="scm.projPath" name="projPathTfs"
                                                             type="text" placeholder="$/teamprojectname/Project_Name" pattern="\$/[_a-zA-Z0-9-./: ]+"
                                                             maxlength="150" required>
@@ -540,7 +540,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " id="cdsctfsuntf{{i}}" name="tfsUsername{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " id="cdsctfsuntf{{i}}" name="tfsUsername{{i}}"
                                                                 #tfsUsername="ngModel" [(ngModel)]="scm.userName" name="tfsusername1"
                                                                 type="text" pattern="[_a-zA-Z0-9.-\\]+" placeholder="domain\TFSUsername"
                                                                 minlength="5" maxlength="150" required>
@@ -569,7 +569,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " #tfsPassword="ngModel" id="cdsctfspastf{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control " #tfsPassword="ngModel" id="cdsctfspastf{{i}}"
                                                             name="tfsPassword{{i}}" [(ngModel)]="scm.password" encrypt name="tfspass12"
                                                             type="password" placeholder="{{'TFS Password'|translate}}" maxlength="150"
                                                             required>
@@ -594,7 +594,7 @@
                                                     <span style="color:red">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input class="form-control " #cvsroot="ngModel" placeholder="pserver;hostname@user1:abc/url"
+                                                <input [ngModelOptions]="{standalone: true}" class="form-control " #cvsroot="ngModel" placeholder="pserver;hostname@user1:abc/url"
                                                 pattern="[_a-zA-Z0-9;:@/-]+" [(ngModel)]="scm.url" id="cvsroot{{i}}" name="cvsroot{{i}}" type="text"  maxlength="150" required>
                                                 <span class="tip-content">{{'CVSROOT Value'|translate}}</span>
                                                 <div *ngIf="cvsroot.errors && (cvsroot.touched || cvsroot.dirty)" class="alert alert-danger">
@@ -615,7 +615,7 @@
                                                     <span style="color:red">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input class="form-control " #cvspass="ngModel" [(ngModel)]="scm.password" encrypt id="cvspass{{i}}" name="cvspass{{i}}" type="password" placeholder="{{'CVS Password'|translate}}" maxlength="150" required>
+                                                <input [ngModelOptions]="{standalone: true}" class="form-control " #cvspass="ngModel" [(ngModel)]="scm.password" encrypt id="cvspass{{i}}" name="cvspass{{i}}" type="password" placeholder="{{'CVS Password'|translate}}" maxlength="150" required>
                                                 <span class="tip-content">{{'CVS Password'|translate}}</span>
                                                 <div *ngIf="cvspass.errors && (cvspass.touched || cvspass.dirty)" class="alert alert-danger">
                                                         <div [hidden]="!cvspass.errors.required">
@@ -632,7 +632,7 @@
                                                     <span style="color:red">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input class="form-control " type="text"  #cvsremotename="ngModel" [(ngModel)]="scm.moduleName"
+                                                <input [ngModelOptions]="{standalone: true}" class="form-control " type="text"  #cvsremotename="ngModel" [(ngModel)]="scm.moduleName"
                                                         pattern="[a-zA-Z0-9_-]+" id="cvsremotename{{i}}" name="cvsremotename{{i}}"
                                                         placeholder="{{'CVS Module Name'|translate}}"
                                                         (change)="changeLocalName(i)"
@@ -664,7 +664,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " #gitUrl="ngModel" id="cdscgitUrl{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #gitUrl="ngModel" id="cdscgitUrl{{i}}"
                                                                 name="gitUrl{{i}}" [(ngModel)]="scm.url" type="text" pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@~%]+.git"
                                                                 placeholder="http://infygit:8080/gitblit/ProjectName.git" maxlength="150"
                                                                 required>
@@ -690,7 +690,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " #gitUserName="ngModel" id="cdscgiturltf{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #gitUserName="ngModel" id="cdscgiturltf{{i}}"
                                                                 name="gitUserName{{i}}" [(ngModel)]="scm.userName" type="text" pattern="[_a-zA-Z0-9.-]+"
                                                                 placeholder="{{'GIT UserName'|translate}}" minlength="5" maxlength="150"
                                                                 required>
@@ -719,7 +719,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " #gitPassword="ngModel" id="cdscgitpstf{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #gitPassword="ngModel" id="cdscgitpstf{{i}}"
                                                             name="gitPassword{{i}}" [(ngModel)]="scm.password" encrypt name="gitpass12"
                                                             type="password" placeholder="{{'GIT Password'|translate}}" maxlength="150"
                                                             required>
@@ -742,7 +742,7 @@
                                                                 <span style="color:red">*</span>
                                                             </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control " #gitBranch="ngModel" id="cdscgitbrtf{{i}}"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #gitBranch="ngModel" id="cdscgitbrtf{{i}}"
                                                             name="gitBranch{{i}}" [(ngModel)]="scm.branch" name="branch124git" type="text"
                                                             placeholder="{{'Master'|translate}}" maxlength="150" required>
                                                         <span class="tip-content">{{'GIT Default Branch'|translate}}</span>
@@ -762,7 +762,7 @@
                                                             {{'Proxy Detail (If any)'|translate}}
                                                         </label>
                                                     <div class="col-md-9 field-tip text-left">
-                                                    <input class="form-control " #bitBucketProxy="ngModel" id="cdscbbptf{{i}}"
+                                                    <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #bitBucketProxy="ngModel" id="cdscbbptf{{i}}"
                                                             name="bitBucketProxy{{i}}" [(ngModel)]="scm.proxy" type="text" placeholder="10.28.33.102">
                                                         <span class="tip-content">{{'Proxy to connect to BitBucket'|translate}}</span>
                                                     </div>
@@ -773,7 +773,7 @@
                                                         </label>
 
                                                     <div class="col-md-9 field-tip text-left">
-                                                    <input class="form-control " #bitBucketPort="ngModel" id="cdscbbport{{i}}"
+                                                    <input [ngModelOptions]="{standalone: true}" class="form-control " #bitBucketPort="ngModel" id="cdscbbport{{i}}"
                                                             name="bitBucketPort{{i}}" [(ngModel)]="scm.proxyPort" type="text"
                                                             placeholder="80" pattern="[0-9]{2,4}">
                                                         <span class="tip-content">{{'Port to connect to BitBucket'|translate}}</span>
@@ -788,7 +788,7 @@
                                             <div class="form-row form-group">
                                                     <div class="col-md-12">
                                                         <label class="checkbox-inline">
-                                                            <input type="checkbox" [checked]="tempObjectcode.scm[i].directory==='on'"
+                                                            <input type="checkbox"  [checked]="tempObjectcode.scm[i].directory==='on'"
                                                                 name="include{{i}}" id="cdsciccb{{i}}" (change)="tempObjectcode.scm[i].directory=$event.target.checked ? 'on':clearDir(i)">
                                                             &nbsp;{{'Include directories explicitly?'|translate}}
                                                         </label>
@@ -802,7 +802,7 @@
                                                                     <span style="color:red">*</span>
                                                                 </label>
                                                             <div class="col-md-9 field-tip">
-                                                            <input class="form-control " #gitExculde="ngModel" id="cdscge{{i}}"
+                                                            <input class="form-control "  [ngModelOptions]="{standalone: true}" #gitExculde="ngModel" id="cdscge{{i}}"
                                                                     name="gitExculde{{i}}" [(ngModel)]="scm.exclude" type="text"
                                                                     placeholder="dir1,dir2" minlength="1" maxlength="150" required />
                                                                 <span class="tip-content"> {{'Please provide git directory
@@ -829,7 +829,7 @@
                                                             </label>
                                                         <div class="col-md-9 text-left">
                                                             <div *ngIf="setRepositoryBrowser(scm.repositoryBrowser,i)"></div>
-                                                            <select class="form-control" [(ngModel)]="scm.repositoryBrowser" (change)="clearBroserFields(i)"
+                                                            <select [ngModelOptions]="{standalone: true}"  class="form-control" [(ngModel)]="scm.repositoryBrowser" (change)="clearBroserFields(i)"
                                                                 name="gitRepoB{{i}}" id="cdscrbdd{{i}}" style="width:50%" required>
                                                                 <option value="">--Select--</option>
                                                                 <option *ngFor="let tempList of repoList" value="{{tempList.value}}">{{tempList.name}}</option>
@@ -847,7 +847,7 @@
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " #Gitblit="ngModel" name="Gitblit"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #Gitblit="ngModel" name="Gitblit"
                                                                         [(ngModel)]="scm.browserUrl" name="'gitBrowserUrl'+{{i}}" type="url"
                                                                         pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@]+" placeholder="http://infygit:8080/gitblit"
                                                                         maxlength="150" required>
@@ -873,7 +873,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " #GitblitProjectName="ngModel"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #GitblitProjectName="ngModel"
                                                                         name="GitblitProjectName{{i}}" [(ngModel)]="scm.projectName"
                                                                         name="gitBlitName" type="text" placeholder="{{'Project Name'|translate}}"
                                                                         maxlength="150" required>
@@ -898,7 +898,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " #GitLab="ngModel" id="cdscglabtf{{i}}"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #GitLab="ngModel" id="cdscglabtf{{i}}"
                                                                         name="GitLab{{i}}" [(ngModel)]="scm.browserUrl" name="brwoserUrlgitlab"
                                                                         type="url" pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@]+"
                                                                         placeholder="http://infygit:8080/gitlab" required>
@@ -924,7 +924,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " #GitLabversion="ngModel" id="cdscglabvtf{{i}}"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #GitLabversion="ngModel" id="cdscglabvtf{{i}}"
                                                                         name="GitLabversion{{i}}" [(ngModel)]="scm.version" name="gitlabservsion"
                                                                         type="text" placeholder="{{'Versions'|translate}}" required>
                                                                     <span class="tip-content">{{'GitLab Version'|translate}}</span>
@@ -944,7 +944,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " #GitLab="ngModel" id="cdscgitltf{{i}}"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #GitLab="ngModel" id="cdscgitltf{{i}}"
                                                                     name="GitLab{{i}}" [(ngModel)]="scm.browserUrl" type="url"
                                                                     pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@]+" placeholder="http://bitBucket:8080/bitBucket"
                                                                     required>
@@ -982,7 +982,7 @@
                                                                     <span style="color:red">*</span>
                                                                 </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <select id="buildconf" class="form-control" ng-options="buildConfList.value as buildConfList.name for buildConfList in buildConfList"
+                                                            <select [ngModelOptions]="{standalone: true}"  id="buildconf" class="form-control" ng-options="buildConfList.value as buildConfList.name for buildConfList in buildConfList"
                                                                 [(ngModel)]="scm.buildConfiguration" name="'buildconfig556'+{{i}}"
                                                                 style="width:50%" required>
                                                                 <option value="">--Select--</option>
@@ -996,7 +996,7 @@
                                                                     <span style="color:red">*</span>
                                                                 </label>
                                                             <div class="col-md-9 field-tip text-left">
-                                                            <input class="form-control " [(ngModel)]="scm.url" id="cdscibmurlrtctf{{i}}"
+                                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.url" id="cdscibmurlrtctf{{i}}"
                                                                     name="ibmurlrtc{{i}}" #ibmurlrtc="ngModel" type="text" pattern="(https?://?|www.|git@)[_a-zA-Z0-9-.:/@]+"
                                                                     placeholder="https://mysgecrqmapps01.domain.com:9443/ccm/"
                                                                     maxlength="150" required>
@@ -1009,7 +1009,7 @@
                                                                     <span style="color:red">*</span>
                                                                 </label>
                                                             <div class="col-md-9 field-tip text-left">
-                                                            <input class="form-control " type="text" [(ngModel)]="scm.moduleName"
+                                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="scm.moduleName"
                                                                     id="cdmodnamertc{{i}}" name="modnamertc{{i}}" placeholder="{{'username'|translate}} IBM RTC"
                                                                     pattern="[_a-zA-Z0-9.-]+" #rtcUsername1="ngModel" minlength="5"
                                                                     maxlength="150" required>
@@ -1038,7 +1038,7 @@
                                                                     <span style="color:red">*</span>
                                                                 </label>
                                                             <div class="col-md-9 field-tip text-left">
-                                                            <input class="form-control " [(ngModel)]="scm.password" encrypt
+                                                            <input [ngModelOptions]="{standalone: true}"  class="form-control "  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.password" encrypt
                                                                     id="cdpassrtc123{{i}}" name="passrtc123{{i}}" type="password"
                                                                     placeholder="{{'password'|translate}} IBM RTC" maxlength="150"
                                                                     required>
@@ -1052,7 +1052,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " [(ngModel)]="scm.buildDefinition"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}"  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.buildDefinition"
                                                                         id="cdbuilddefrtctf{{i}}" name="builddefrtc{{i}}" type="text"
                                                                         placeholder="{{'Build Definition'|translate}}" maxlength="150"
                                                                         required>
@@ -1067,7 +1067,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " [(ngModel)]="scm.repositoryWorkspace"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.repositoryWorkspace"
                                                                         id="cdrepoWrkspacertctf{{i}}" name="repoWrkspacertc{{i}}" type="text"
                                                                         placeholder="{{'Repository Workspace'|translate}}" maxlength="150"
                                                                         required>
@@ -1083,7 +1083,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " [(ngModel)]="scm.projArea" id="cdprojAreartctf{{i}}"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.projArea" id="cdprojAreartctf{{i}}"
                                                                         name="projAreartc{{i}}" type="text" placeholder="{{'Project or Team Area'|translate}}"
                                                                         maxlength="150" required>
                                                                     <span class="tip-content">{{'Enter Project or Team
@@ -1096,7 +1096,7 @@
                                                                         <span style="color:red">*</span>
                                                                     </label>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " [(ngModel)]="scm.branch" type="text"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" [(ngModel)]="scm.branch" type="text"
                                                                         name="'branchrtc123'+{{i}}" placeholder="{{'Stream'|translate}}"
                                                                         maxlength="150" required>
                                                                     <span class="tip-content">{{'Enter Stream'|translate}}</span>
@@ -1133,7 +1133,7 @@
                                                 <span style="color:red">*</span>
                                             </label>
                                         <div class="col-md-9 text-left">
-                                            <select class="form-control" name="preBuild" id="cdpbpadd" [(ngModel)]="codeInfo.buildScript[0].tool" (change)="cleanPathchg(codeInfo.buildScript[0].tool,0)"
+                                            <select [ngModelOptions]="{standalone: true}"  class="form-control" name="preBuild" id="cdpbpadd" [(ngModel)]="codeInfo.buildScript[0].tool" (change)="cleanPathchg(codeInfo.buildScript[0].tool,0)"
                                                 style="width:50%" required>
                                                 <option value="">--Select--</option>
                                                 <option *ngFor="let temp of codeScriptList" [ngValue]="temp.value">{{temp.name}}</option>
@@ -1152,7 +1152,7 @@
                                                 <div class="col-md-9 field-tip text-left" >
                                                     <!-- Bach Script Start -->
                                                     <div *ngSwitchCase="'batchScript'">
-                                                        <textarea class="form-control " id="cdpbpbsa" name="batchScriptzero" #batchScriptzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
+                                                        <textarea [ngModelOptions]="{standalone: true}" class="form-control " id="cdpbpbsa" name="batchScriptzero" #batchScriptzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
                                                             name="scriptFileprebuild" type="text" placeholder="/sc.bat | /sc.cmd"
                                                             minlength="1" maxlength="500" required></textarea>
                                                         <div *ngIf="batchScriptzero.errors && (batchScriptzero.dirty || batchScriptzero.touched)" class="alert alert-danger ">
@@ -1175,7 +1175,7 @@
 
                                                     <!-- Shell Script Start -->
                                                     <div *ngSwitchCase="'shellScript'">
-                                                        <textarea class="form-control " id="cdpbssta" name="shellScriptzero" #shellScriptzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
+                                                        <textarea [ngModelOptions]="{standalone: true}" class="form-control " id="cdpbssta" name="shellScriptzero" #shellScriptzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
                                                             name="scriptFiledummy214523" type="text" placeholder="/sc.sh" minlength="1"
                                                             maxlength="500" required></textarea>
                                                         <div *ngIf="shellScriptzero.errors && (shellScriptzero.dirty || shellScriptzero.touched)" class="alert alert-danger ">
@@ -1199,7 +1199,7 @@
 
                                                     <!-- Ant Script Start -->
                                                     <div *ngSwitchCase="'ant'">
-                                                        <input class="form-control " id="cdpbaptf" name="ANTzero" #ANTzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" id="cdpbaptf" name="ANTzero" #ANTzero="ngModel" [(ngModel)]="codeInfo.buildScript[0].scriptFilePath"
                                                             name="scriptFile1776" pattern="[_a-zA-Z_.0-9.\\ /-]+.xml" type="text"
                                                             placeholder="/build.xml" minlength="1" maxlength="500" required>
                                                         <div *ngIf="ANTzero.errors && (ANTzero.dirty || ANTzero.touched)" class="alert alert-danger ">
@@ -1233,7 +1233,7 @@
                                                             <span style="color:red">*</span>
                                                         </label>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input class="form-control " id="cdpbattf01" name="antTags2" #antTags2="ngModel" [(ngModel)]="codeInfo.buildScript[0].targets"
+                                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" id="cdpbattf01" name="antTags2" #antTags2="ngModel" [(ngModel)]="codeInfo.buildScript[0].targets"
                                                                 name="targertPrebuilddummy" type="text" placeholder="{{'Targets'|translate}} 1 {{'Targets'|translate}} 2"
                                                                 pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
                                                             <div *ngIf="antTags2.errors && (antTags2.dirty || antTags2.touched)" class="alert alert-danger ">
@@ -1281,7 +1281,7 @@
                                                                                 
                                                                             </div>
                                                                             
-                                                                            <input class="form-control " name="antKey+{{j}}" #antKey="ngModel" [(ngModel)]="property.antKey" type="text" placeholder="{{'var'|translate}}"
+                                                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" name="antKey+{{j}}" #antKey="ngModel" [(ngModel)]="property.antKey" type="text" placeholder="{{'var'|translate}}"
                                                                             pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150"
                                                                             required>
 
@@ -1308,7 +1308,7 @@
                                                                               
                                                                             </div>
                                                                             
-                                                                        <input id="pre_script_value" class="form-control " name="antValue+{{j}}" #antValue="ngModel" [(ngModel)]="property.antValue" type="text" placeholder="{{'value'|translate}}"
+                                                                        <input [ngModelOptions]="{standalone: true}" id="pre_script_value" class="form-control " name="antValue+{{j}}" #antValue="ngModel" [(ngModel)]="property.antValue" type="text" placeholder="{{'value'|translate}}"
                                                                             pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150"
                                                                             required>
 
@@ -1343,7 +1343,7 @@
                                                         <span style="color:red">*</span>
                                                     </label>
                                                     <div class="col-md-9 ">
-                                                        <input class="form-control " name="antJavaOption"  #antJavaOption="ngModel" [(ngModel)]="codeInfo.buildScript[0].javaOptions"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" name="antJavaOption"  #antJavaOption="ngModel" [(ngModel)]="codeInfo.buildScript[0].javaOptions"
                                                             type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
                                                             pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
                                                             <div *ngIf="antJavaOption!==undefined  && antJavaOption.errors && (antJavaOption.dirty || antJavaOption.touched)"
@@ -1377,7 +1377,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input name="sshFilePre" #sshFile="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].host" type="text"
+                                                            <input [ngModelOptions]="{standalone: true}" name="sshFilePre" #sshFile="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].host" type="text"
                                                                 placeholder="10.234.13.12" minlength="5" maxlength="150" value=""
                                                                 required>
                                                             <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
@@ -1405,7 +1405,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input name="usernamePre" #username="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].userName"
+                                                            <input [ngModelOptions]="{standalone: true}" name="usernamePre" #username="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].userName"
                                                                 type="text" placeholder="{{'username'|translate}}" minlength="1"
                                                                 maxlength="150" required>
                                                             <span class="tip-content">{{'Please provide valid username for logging into host'|translate}}</span>
@@ -1430,7 +1430,7 @@
                                                             <label class=" col-md-3  col-form-label">{{'Password'|translate}}</label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input name="passwordPre" #password="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].password"
+                                                            <input [ngModelOptions]="{standalone: true}" name="passwordPre" #password="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].password"
                                                                 encrypt type="password" placeholder="{{'password'|translate}}"
                                                                 minlength="6">
                                                             <span class="tip-content">{{'Please provide valid password for logging into host'|translate}}</span>
@@ -1441,7 +1441,7 @@
                                                             <label class=" col-md-3  col-form-label">SSH {{'Key'|translate}}</label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input name="sshkeyPre" #sshkey="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].sshKey" type="text"
+                                                            <input [ngModelOptions]="{standalone: true}" name="sshkeyPre" #sshkey="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].sshKey" type="text"
                                                                 placeholder="sshKey">
                                                             <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
                                                         </div>
@@ -1451,7 +1451,7 @@
                                                             <label class=" col-md-3  col-form-label">SSH {{'Path To Key'|translate}}</label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <input name="sshkeypathPre" #sshkeypath="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].sshPathToKey"
+                                                            <input [ngModelOptions]="{standalone: true}" name="sshkeypathPre" #sshkeypath="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].sshPathToKey"
                                                                 type="text" placeholder="sshkeypath">
                                                             <span class="tip-content">{{'Please provide'|translate}} SSH {{'path to key'|translate}}.</span>
                                                         </div>
@@ -1463,7 +1463,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-md-9 field-tip text-left">
-                                                            <textarea name="scriptPathPre" #scriptPath="ngModel" class="form-control " [(ngModel)]="codeInfo.buildScript[0].script" type="text"
+                                                            <textarea [ngModelOptions]="{standalone: true}" name="scriptPathPre" #scriptPath="ngModel" class="form-control " [(ngModel)]="codeInfo.buildScript[0].script" type="text"
                                                                 placeholder="opt/IBM/Deploy/install.sh" minlength="5" maxlength="500"
                                                                 value="" required></textarea>
                                                             <span class="tip-content">{{'Please provide path of script to be executed'|translate}}</span>
@@ -1497,7 +1497,7 @@
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                    <input class="form-control  " [(ngModel)]="codeInfo.buildScript[0].pathToFiles" name="'transferfilePre" type="text"
+                                                                    <input [ngModelOptions]="{standalone: true}" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].pathToFiles" name="'transferfilePre" type="text"
                                                                         placeholder="**/*.tar.gz" name="TxtSSHDeploySourceFile"
                                                                         minlength="5" maxlength="150" value="" required>
                                                                     <span class="tip-content">{{'Please provide path of file to be transfered'|translate}}</span>
@@ -1510,7 +1510,7 @@
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-md-9 field-tip text-left">
-                                                                    <input class="form-control  " [(ngModel)]="codeInfo.buildScript[0].destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
+                                                                    <input [ngModelOptions]="{standalone: true}" class="form-control  " [(ngModel)]="codeInfo.buildScript[0].destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
                                                                         name="destnDirePre" minlength="5" maxlength="150" value=""
                                                                         required>
                                                                     <span class="tip-content">{{'Please provide path of destination directory, where
@@ -1552,7 +1552,7 @@
                                         <span style="color:red">*</span>
                                     </label>
                                 <div class="col-md-9 text-left">
-                                    <select class="form-control" style="width: 50%;" [(ngModel)]="codeInfo.buildScript[1].tool" name="postscript123" id="cdpopadd01" (change)="cleanPathchg(codeInfo.buildScript[1].tool,1)"
+                                    <select [ngModelOptions]="{standalone: true}"  class="form-control" style="width: 50%;" [(ngModel)]="codeInfo.buildScript[1].tool" name="postscript123" id="cdpopadd01" (change)="cleanPathchg(codeInfo.buildScript[1].tool,1)"
                                          required>
                                         <option value="">--Select--</option>
                                         <option *ngFor="let temp of codeScriptList" [ngValue]="temp.value">{{temp.name}}</option>
@@ -1568,7 +1568,7 @@
                                         </label>
                                     <div class="col-md-9 field-tip text-left">
                                         <div *ngSwitchCase="'batchScript'">
-                                            <textarea class="form-control " id="cdpobsta" name="batchScript1" #batchScript1="ngModel" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
+                                            <textarea [ngModelOptions]="{standalone: true}" class="form-control " id="cdpobsta" name="batchScript1" #batchScript1="ngModel" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
                                                 name="postscriptdummy" type="text" placeholder="/sc.bat | /sc.cmd" minlength="1"
                                                 maxlength="500" required></textarea>
                                             <div *ngIf="batchScript1.errors && (batchScript1.dirty || batchScript1.touched)" class="alert alert-danger ">
@@ -1587,7 +1587,7 @@
                                             </div>
                                         </div>
                                         <div *ngSwitchCase="'shellScript'">
-                                            <textarea class="form-control " #shellScriptOne="ngModel" id="cdpossta01" name="shellScriptOne" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
+                                            <textarea [ngModelOptions]="{standalone: true}" class="form-control " #shellScriptOne="ngModel" id="cdpossta01" name="shellScriptOne" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
                                                 name="postscript1237" type="text" placeholder="/sc.sh" minlength="1" maxlength="500"
                                                 required></textarea>
                                             <div *ngIf="shellScriptOne.errors && (shellScriptOne.dirty || shellScriptOne.touched)" class="alert alert-danger ">
@@ -1607,7 +1607,7 @@
                                         </div>
 
                                         <div *ngSwitchCase="'ant'">
-                                            <input class="form-control " #ANTone="ngModel" id="cdpoastf" name="ANTone" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
+                                            <input [ngModelOptions]="{standalone: true}" class="form-control " #ANTone="ngModel" id="cdpoastf" name="ANTone" [(ngModel)]="codeInfo.buildScript[1].scriptFilePath"
                                                 name="postscript123355" pattern="[_a-zA-Z_.0-9.\\ /-]+.xml" type="text" placeholder="/build.xml"
                                                 minlength="1" maxlength="500" required>
                                             <div *ngIf="ANTone.errors && (ANTone.dirty || ANTone.touched)" class="alert alert-danger ">
@@ -1639,7 +1639,7 @@
                                                 <span style="color:red">*</span>
                                             </label>
                                         <div class="col-md-9 field-tip text-left" >
-                                            <input class="form-control " #antTagsone="ngModel" name="antTagsone" [(ngModel)]="codeInfo.buildScript[1].targets"
+                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" #antTagsone="ngModel" name="antTagsone" [(ngModel)]="codeInfo.buildScript[1].targets"
                                                 name="postscript123target" type="text" placeholder="{{'Targets'|translate}} 1 {{'Targets'|translate}} 2"
                                                 pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
                                             <span class="tip-content">{{'ANT Targets separated by spaces'|translate}}</span>
@@ -1672,7 +1672,7 @@
                                                     <span class="star">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input name="sshFile" #sshFile="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].host" type="text"
+                                                <input [ngModelOptions]="{standalone: true}" name="sshFile" #sshFile="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].host" type="text"
                                                     placeholder="10.234.13.12" minlength="5" maxlength="150" value="" required>
                                                 <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
                                                 <div *ngIf="sshFile.errors && (sshFile.dirty || sshFile.touched)" class="alert alert-danger ">
@@ -1697,7 +1697,7 @@
                                                     <span class="star">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input name="username" #username="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].userName" type="text"
+                                                <input [ngModelOptions]="{standalone: true}" name="username" #username="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].userName" type="text"
                                                     placeholder="{{'username'|translate}}" minlength="1" maxlength="150" required>
                                                 <span class="tip-content">{{'Please provide valid username for logging into host'|translate}}</span>
                                                 <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger ">
@@ -1719,7 +1719,7 @@
                                         <div class="form-row form-group">
                                                 <label class=" col-md-3  col-form-label">{{'Password'|translate}}</label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input name="password" #password="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].password" encrypt
+                                                <input [ngModelOptions]="{standalone: true}" name="password" #password="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].password" encrypt
                                                     type="password" placeholder="{{'password'|translate}}" minlength="6">
                                                 <span class="tip-content">{{'Please provide valid password for logging into host'|translate}}</span>
                                             </div>
@@ -1727,7 +1727,7 @@
                                         <div class="form-row form-group">
                                                 <label class=" col-md-3  col-form-label">SSH {{'Key'|translate}}</label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input name="sshkey" #sshkey="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].sshKey" type="text"
+                                                <input [ngModelOptions]="{standalone: true}" name="sshkey" #sshkey="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].sshKey" type="text"
                                                     placeholder="sshKey">
                                                 <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
                                             </div>
@@ -1735,7 +1735,7 @@
                                         <div class="form-row form-group">
                                                 <label class=" col-md-3  col-form-label">SSH {{'Path To Key'|translate}}</label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <input name="sshkeypath" #sshkeypath="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].sshPathToKey"
+                                                <input [ngModelOptions]="{standalone: true}" name="sshkeypath" #sshkeypath="ngModel" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].sshPathToKey"
                                                     type="text" placeholder="sshkeypath">
                                                 <span class="tip-content">{{'Please provide'|translate}} SSH {{'path to key'|translate}}.</span>
                                             </div>
@@ -1745,7 +1745,7 @@
                                                     <span class="star">*</span>
                                                 </label>
                                             <div class="col-md-9 field-tip text-left">
-                                                <textarea name="scriptPath" #scriptPath="ngModel" class="form-control " [(ngModel)]="codeInfo.buildScript[1].script" type="text"
+                                                <textarea [ngModelOptions]="{standalone: true}" name="scriptPath" #scriptPath="ngModel" class="form-control " [(ngModel)]="codeInfo.buildScript[1].script" type="text"
                                                     placeholder="opt/IBM/Deploy/install.sh" minlength="5" maxlength="500" value=""
                                                     required></textarea>
                                                 <span class="tip-content">{{'Please provide path of script to be executed'|translate}}</span>
@@ -1777,7 +1777,7 @@
                                                             <span class="star">*</span>
                                                         </label>
                                                     <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control  " [(ngModel)]="codeInfo.buildScript[1].pathToFiles" name="'transferfile" type="text" placeholder="**/*.tar.gz"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].pathToFiles" name="'transferfile" type="text" placeholder="**/*.tar.gz"
                                                             name="TxtSSHDeploySourceFile" minlength="5" maxlength="150" value=""
                                                             required>
                                                         <span class="tip-content">{{'Please provide path of file to be transfered'|translate}}</span>
@@ -1788,7 +1788,7 @@
                                                             <span class="star">*</span>
                                                         </label>
                                                     <div class="col-md-9 field-tip text-left">
-                                                        <input class="form-control  " [(ngModel)]="codeInfo.buildScript[1].destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
+                                                        <input [ngModelOptions]="{standalone: true}" class="form-control  " [(ngModel)]="codeInfo.buildScript[1].destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
                                                             name="destnDire" minlength="5" maxlength="150" value="" required>
                                                         <span class="tip-content">{{'Please provide path of destination directory, where the file will
                                                             be placed'|translate}}</span>
@@ -1827,7 +1827,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text" id="">{{'Key'|translate}}<span style="color:red">*</span></span>
                                                                 </div>
-                                                            <input class="form-control " name="antKeyPost+{{j}}" #antKeyPost="ngModel" [(ngModel)]="property.antKeyPost" type="text" placeholder="{{'var'|translate}}"
+                                                            <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" name="antKeyPost+{{j}}" #antKeyPost="ngModel" [(ngModel)]="property.antKeyPost" type="text" placeholder="{{'var'|translate}}"
                                                                 pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
                                                             </div>
                                                             <div *ngIf=" antKeyPost!==undefined  && antKeyPost.errors && (antKeyPost.dirty || antKeyPost.touched)" class="alert alert-danger ">
@@ -1852,7 +1852,7 @@
                                                                     <span class="input-group-text" id="">{{'Value'|translate}}<span style="color:red">*</span></span>
                                                                 </div>
 
-                                                            <input id="post_script_value" class="form-control " name="antValuePost+{{j}}" #antValuePost="ngModel" [(ngModel)]="property.antValuePost" type="text" placeholder="{{'value'|translate}}"
+                                                            <input [ngModelOptions]="{standalone: true}" id="post_script_value" class="form-control " name="antValuePost+{{j}}" #antValuePost="ngModel" [(ngModel)]="property.antValuePost" type="text" placeholder="{{'value'|translate}}"
                                                                 pattern="[_a-zA-Z0-9-. ]+" minlength="1" maxlength="150" required>
                                                             </div>
                                                             <div *ngIf="antValuePost!==undefined  && antValuePost.errors && (antValuePost.dirty || antValuePost.touched)" class="alert alert-danger ">
@@ -1887,7 +1887,7 @@
                                             </label>
 
                                             <div class="col-md-3 ">
-                                                <input class="form-control " name="antJavaOption1" #antJavaOption1="ngModel" [(ngModel)]="codeInfo.buildScript[1].javaOptions"
+                                                <input [ngModelOptions]="{standalone: true}" class="form-control "  [ngModelOptions]="{standalone: true}" name="antJavaOption1" #antJavaOption1="ngModel" [(ngModel)]="codeInfo.buildScript[1].javaOptions"
                                                     type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}" pattern="[_a-zA-Z0-9-. ]+"
                                                     minlength="1" maxlength="150" required>
                                                     <div *ngIf="antJavaOption1!==undefined  && antJavaOption1.errors && (antJavaOption1.dirty || antJavaOption1.touched)"
@@ -1956,7 +1956,7 @@
                                     <div>
                                         <div class="form-row form-group">
                                             <div class="col-md-2 field-tip text-left ">
-                                                <select class="form-control" #jobTypeParam="ngModel" [ngModelOptions]="{standalone: true}" id="cdadptdd{{j}}" name="paramJobType{{j}}"
+                                                <select [ngModelOptions]="{standalone: true}"  class="form-control" #jobTypeParam="ngModel" [ngModelOptions]="{standalone: true}" id="cdadptdd{{j}}" name="paramJobType{{j}}"
                                                     [(ngModel)]="param.jobType" required>
                                                     <option value="">--Select--</option>
                                                     <option *ngFor="let jobType  of jobParamType " [ngValue]="jobType.value">{{jobType.name}}</option>
@@ -1982,12 +1982,12 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div *ngIf="param.jobType !== 'pwd'">
-                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" name="jobParamValue+{{j}}" id="cdadpjvtf{{j}}"
+                                                    <input class="form-control "  [(ngModel)]="param.jobParamValue" name="jobParamValue+{{j}}" id="cdadpjvtf{{j}}"
                                                     [ngModelOptions]="{standalone: true}" #jobParamValue="ngModel" placeholder="JobParam Value"
                                                         type="text" maxlength="200" required>
                                                 </div>
                                                 <div *ngIf="param.jobType === 'pwd'">
-                                                    <input class="form-control " [(ngModel)]="param.jobParamValue" encrypt [ngModelOptions]="{standalone: true}" name="jobParamValue2+{{j}}"
+                                                    <input class="form-control "  [(ngModel)]="param.jobParamValue" encrypt [ngModelOptions]="{standalone: true}" name="jobParamValue2+{{j}}"
                                                         #jobParamValue2="ngModel" placeholder="JobParam Value" type="password" minlength="5"
                                                         maxlength="60" required> 
                                                 </div>

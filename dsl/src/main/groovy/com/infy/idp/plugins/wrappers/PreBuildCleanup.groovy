@@ -80,13 +80,13 @@ class PreBuildCleanup implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("cleanupParameter", this.cleanupParameter);
         data.put("deleteCommand", this.deleteCommand);
         data.put("deleteDirectories", this.deleteDirectories);
         data.put("excludePattern", this.excludePattern);
         data.put("includePattern", this.includePattern);
-        return data;
+        return data
     }
 
     /*

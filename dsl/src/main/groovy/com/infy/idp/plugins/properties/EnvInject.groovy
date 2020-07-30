@@ -35,7 +35,7 @@ class EnvInject implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         def proxy = idpJobObj.code.scm.getAt(0).proxy;
         def port = idpJobObj.code.scm.getAt(0).proxyPort;
@@ -43,7 +43,7 @@ class EnvInject implements IPluginBase {
         data.put('http_proxy', proxy)
         data.put('http_port', port)
 
-        return data;
+        return data
     }
 
     /*

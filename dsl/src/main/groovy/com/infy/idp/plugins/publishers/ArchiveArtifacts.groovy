@@ -58,7 +58,7 @@ class ArchiveArtifacts implements IPluginBase {
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
         println idpJobObj
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         //data.put('allowEmpty', "false");
 		data.put('allowEmpty', this.allowEmpty);
@@ -68,7 +68,7 @@ class ArchiveArtifacts implements IPluginBase {
         data.put('onlyIfSuccessful', "false");
         data.put('pattern', this.pattern);
 
-        return data;
+        return data
     }
 
     /*

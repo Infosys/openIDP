@@ -33,7 +33,7 @@ class MavenFindBugsReporter implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
         IDPJob job = idpJobObj
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('healthy', '')
         data.put('unHealthy', '')
@@ -64,7 +64,7 @@ class MavenFindBugsReporter implements IPluginBase {
         data.put('excludePattern', '')
         data.put('includePattern', '')
 
-        return data;
+        return data
     }
 
     /*

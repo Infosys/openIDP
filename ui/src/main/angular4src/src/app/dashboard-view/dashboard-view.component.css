@@ -1,3 +1,16 @@
-.dash-outer-div { height: 100vh; width: 100%; }
-.dash-inner-div { height: 100%; width: 100%; }
-.dash-iframe { display: block; height: 100%; width: 100%; margin-top:1px; }
+.dash-outer-div {
+  height: 100vh;
+  width: 100%;
+}
+
+.dash-inner-div {
+  height: 100%;
+  width: 100%;
+}
+
+.dash-iframe {
+  display: block;
+  height: 100%;
+  width: 100%;
+  margin-top: 1px;
+}

@@ -189,7 +189,7 @@
                                                                     <span style="color: red">*</span>
                                                                 </label>
                                                             <div class="col-md-9 field-tip text-left">
-                                                                <input class="form-control " name="stepName{{i}}{{j}}" #stepName="ngModel" [(ngModel)]="env.stepName" type="text" id="tetssntb{{i}}{{j}}"
+                                                                <input [ngModelOptions]="{standalone: true}" class="form-control " name="stepName{{i}}{{j}}" #stepName="ngModel" [(ngModel)]="env.stepName" type="text"  [ngModelOptions]="{standalone: true}" id="tetssntb{{i}}{{j}}"
                                                                     placeholder="Enter Step Name" (blur)="checkStepName(i,j)" pattern="[_a-zA-Z0-9-.]+"
                                                                     minlength="3" maxlength="200" required>
                                                                 <span class="tip-content" style="z-index: 1;"> {{'Please provide the test Step name'|translate}} </span>
@@ -232,7 +232,7 @@
                                                                             <span style="color: red">*</span>
                                                                         </label>
                                                                     <span class="col-md-9 text-left">
-                                                                        <select id="tersstdd{{i}}{{j}}" class="form-control" [(ngModel)]="env.runScript.scriptType" name="'scriptType'+{{i}}{{j}}"
+                                                                        <select  [ngModelOptions]="{standalone: true}" id="tersstdd{{i}}{{j}}" class="form-control" [(ngModel)]="env.runScript.scriptType" name="'scriptType'+{{i}}{{j}}"
                                                                             style="width:50%" (change)="changeRunScript(i,j)"
                                                                             required>
                                                                             <option value="">--Select--</option>
@@ -253,21 +253,21 @@
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="terspoffta{{i}}{{j}}" class="form-control  " [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFile{{i}}{{j}}"
                                                                                 #pathOfScriptFileAnt="ngModel" *ngIf="env.runScript.scriptType === 'ant'"
-                                                                                pattern="[/_a-zA-Z.0-9-. ]+.xml" type="text"
+                                                                                pattern="[/_a-zA-Z.0-9-. ]+.xml" type="text"  [ngModelOptions]="{standalone: true}"
                                                                                 placeholder="build.xml" minlength='1' maxlength="150"
                                                                                 required />
 
-                                                                            <textarea id="terspofsfscta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilesc{{i}}{{j}}"
+                                                                            <textarea  [ngModelOptions]="{standalone: true}" id="terspofsfscta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilesc{{i}}{{j}}"
                                                                                 *ngIf="env.runScript.scriptType === 'shellScript'"
                                                                                 type="textarea" placeholder="sc.sh" minlength="1"
                                                                                 maxlength="500" required>
 																	</textarea>
-                                                                            <textarea id="terspofsfbatta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilebat{{i}}{{j}}"
+                                                                            <textarea  [ngModelOptions]="{standalone: true}" id="terspofsfbatta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilebat{{i}}{{j}}"
                                                                                 *ngIf="env.runScript.scriptType === 'batchScript'"
                                                                                 type="textarea" placeholder="deploy.bat" minlength="1"
                                                                                 maxlength="500" required>
 																	</textarea>
-                                                                            <textarea id="terspofsfpwta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilepw{{i}}{{j}}"
+                                                                            <textarea  [ngModelOptions]="{standalone: true}" id="terspofsfpwta{{i}}{{j}}" class="form-control textFieldWidth" [(ngModel)]="env.runScript.pathOfFile" name="pathOfScriptFilepw{{i}}{{j}}"
                                                                                 *ngIf="env.runScript.scriptType === 'powerShell'"
                                                                                 type="textarea" placeholder="deploy.psm1" minlength="1"
                                                                                 maxlength="500" required>
@@ -288,7 +288,7 @@
                                                                                 <div class="col-md-9 field-tip text-left">
 
                                                                                     <input id="tersattb{{i}}{{j}}" class="form-control  " [(ngModel)]="env.runScript.targets" name="targetant{{i}}{{j}}"
-                                                                                        type="text" placeholder="target1 target2"
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="target1 target2"
                                                                                         pattern="[_a-zA-Z0-9-. ]+" minlength='1'
                                                                                         maxlength="150" required>
                                                                                     <span class="tip-content">{{'ANT Targets separated by spaces'|translate}}
@@ -324,7 +324,7 @@
                                                                                                             </span>
                                                                                                         </div>
                                                                                                         <input id="titsak{{i}}{{j}}{{k}}" class="form-control " name="antKey+{{i}}{{j}}{{k}}" #antKey="ngModel" [(ngModel)]="property.antKey"
-                                                                                                        type="text" placeholder="{{'var'|translate}}"
+                                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="{{'var'|translate}}"
                                                                                                         pattern="[_a-zA-Z0-9-. ]+"
                                                                                                         minlength="1" maxlength="150"
                                                                                                         required>
@@ -344,7 +344,6 @@
                                                                                                             This Field Name can only consist of alphabetical, number, dot and underscore
                                                                                                         </label>
                                                                                                     </div>
-
                                                                                             </div>
                                                                                             <div class="col-5">
                                                                                                 <div class="input-group">
@@ -355,7 +354,7 @@
                                                                                                             </span>
                                                                                                         </div>
                                                                                                     <input id="tirav{{i}}{{j}}{{k}}" class="form-control " name="antValue+{{i}}{{j}}{{k}}" #antValue="ngModel" [(ngModel)]="property.antValue"
-                                                                                                        type="text" placeholder="{{'value'|translate}}"
+                                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="{{'value'|translate}}"
                                                                                                         pattern="[_a-zA-Z0-9-. ]+"
                                                                                                         minlength="1" maxlength="150"
                                                                                                         required>
@@ -398,7 +397,7 @@
                                                                                     <div class="col-md-3 ">
                                                                                         <input id="tirsajo1{{envIndex}}{{stepIndex}}" class="form-control " name="antJavaOption1+{{envIndex}}{{stepIndex}}"
                                                                                             #antJavaOption1="ngModel" [(ngModel)]="env.runScript.javaOptions"
-                                                                                            type="text" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
+                                                                                            type="text"  [ngModelOptions]="{standalone: true}" placeholder="{{'-Xmx512m -XX:MaxPermSize=256m'|translate}}"
                                                                                             pattern="[_a-zA-Z0-9-. ]+" minlength="1"
                                                                                             maxlength="150" required>
                                                                                     </div>
@@ -417,7 +416,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tisshtb{{i}}{{j}}" name="'sshFile'+{{i}}{{j}}" #sshFile="ngModel" class="form-control  " [(ngModel)]="env.runScript.host"
-                                                                                        type="text" placeholder="10.234.13.12"
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="10.234.13.12"
                                                                                         minlength="5" maxlength="150" value=""
                                                                                         required>
                                                                                     <span class="tip-content">{{'Please provide the Host Name'|translate}}</span>
@@ -443,7 +442,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tisshuntb{{i}}{{j}}" name="'username'+{{i}}{{j}}" #username="ngModel" class="form-control  " [(ngModel)]="env.runScript.userName"
-                                                                                        type="text" placeholder="{{'username'|translate}}"
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="{{'username'|translate}}"
                                                                                         minlength="1" maxlength="150" required>
                                                                                     <span class="tip-content">{{'Please provide valid username for
                                                                                         logging into host'|translate}}</span>
@@ -469,7 +468,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tisshpwd{{i}}{{j}}" name="'password'+{{i}}{{j}}" #password="ngModel" class="form-control  " [(ngModel)]="env.runScript.password"
-                                                                                        encrypt type="password" placeholder="{{'password'|translate}}"
+                                                                                        encrypt type="password" [ngModelOptions]="{standalone: true}" placeholder="{{'password'|translate}}"
                                                                                         minlength="6">
                                                                                     <span class="tip-content">{{'Please provide valid password for
                                                                                         logging into host'|translate}}</span>
@@ -482,7 +481,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tisshkey{{i}}{{j}}" name="'sshkey'+{{i}}{{j}}" #sshkey="ngModel" class="form-control  " [(ngModel)]="env.runScript.sshKey"
-                                                                                        type="text" placeholder="sshKey">
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="sshKey">
                                                                                     <span class="tip-content">{{'Please provide'|translate}} SSH {{'key'|translate}}.</span>
 
                                                                                 </div>
@@ -493,7 +492,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tisshptk{{i}}{{j}}" name="'sshkeypath'+{{i}}{{j}}" #sshkeypath="ngModel" class="form-control  " [(ngModel)]="env.runScript.sshPathToKey"
-                                                                                        type="text" placeholder="sshkeypath">
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="sshkeypath">
                                                                                     <span class="tip-content">{{'Please provide'|translate}} SSH {{'path
                                                                                         to key'|translate}}.</span>
 
@@ -504,8 +503,8 @@
                                                                                         <span class="star">*</span>
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
-                                                                                    <textarea id="tisshscta{{i}}{{j}}" name="'scriptPa35h'+{{i}}{{j}}" #scriptPath="ngModel" class="form-control " [(ngModel)]="env.runScript.script"
-                                                                                        type="text" placeholder="opt/IBM/Deploy/install.sh"
+                                                                                    <textarea  id="tisshscta{{i}}{{j}}" name="'scriptPa35h'+{{i}}{{j}}" #scriptPath="ngModel" class="form-control " [(ngModel)]="env.runScript.script"
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="opt/IBM/Deploy/install.sh"
                                                                                         minlength="5" maxlength="500" value=""
                                                                                         required></textarea>
                                                                                     <span class="tip-content">{{'Please provide path of script to be
@@ -546,7 +545,7 @@
                                                                                                     </label>
                                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                                     <input id="titspoftttb{{i}}{{j}}" class="form-control  " #filePath="ngModel" [(ngModel)]="env.runScript.pathToFiles" name="'transferfile'+{{i}}{{j}}"
-                                                                                                        type="text" placeholder="**/*.tar.gz"
+                                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="**/*.tar.gz"
                                                                                                         name="TxtSSHDeploySourceFile"
                                                                                                         minlength="5" maxlength="150"
                                                                                                         value="" required>
@@ -571,7 +570,7 @@
                                                                                                         <span class="star">*</span>
                                                                                                     </label>
                                                                                                 <div class="col-md-9 field-tip text-left">
-                                                                                                    <input class="form-control  " #destDir="ngModel"[(ngModel)]="env.runScript.destinationDir" type="text" placeholder="opt/IBM/Deploy/pending"
+                                                                                                    <input class="form-control  " #destDir="ngModel"[(ngModel)]="env.runScript.destinationDir" type="text"  [ngModelOptions]="{standalone: true}" placeholder="opt/IBM/Deploy/pending"
                                                                                                         id="titsddtb{{i}}{{j}}"
                                                                                                         name="'destnDire'+{{i}}{{j}}"
                                                                                                         minlength="5" maxlength="150"
@@ -637,7 +636,7 @@
                                                                 </label>
                                                                 <!-- <div> -->
                                                                     <div class="col-md-9 text-left">
-                                                                        <select id="tetttcdd{{i}}{{j}}" name="testCat{{i}}{{j}}" [(ngModel)]="env.test.testCategory" class="form-control" (change)="checkCategory(i ,j,env.test.testCategory);clearTool(i,j)"
+                                                                        <select  [ngModelOptions]="{standalone: true}" id="tetttcdd{{i}}{{j}}" name="testCat{{i}}{{j}}" [(ngModel)]="env.test.testCategory" class="form-control" (change)="checkCategory(i ,j,env.test.testCategory);clearTool(i,j)"
                                                                             style="width:50%" required>
                                                                             <option value="">--Select--</option>
                                                                             <option *ngFor="let category of testCategory" value="{{category.value}}">{{category.name}}
@@ -653,14 +652,14 @@
                                                                         <span class="star">*</span>
                                                                     </label>
                                                                     <div class="col-md-9 text-left">
-                                                                        <select id="tettttdd{{i}}{{j}}" class="form-control" name="testToolss{{i}}{{j}}" (change)="clearAllValues(i,j)" [(ngModel)]="env.test.testTypeName"
+                                                                        <select  [ngModelOptions]="{standalone: true}" id="tettttdd{{i}}{{j}}" class="form-control" name="testToolss{{i}}{{j}}" (change)="clearAllValues(i,j)" [(ngModel)]="env.test.testTypeName"
                                                                            #tool="ngModel" style="width:50%" required>
                                                                             <option value="">--Select--</option>
                                                                             <option *ngFor="let testTypeName of tempObjecttest.testEnv[i].testSteps[j].testTypeName" [ngValue]="testTypeName.value">{{testTypeName.name}}</option>
                                                                         </select>
                                                                         <div *ngIf="tool.errors && (tool.dirty || tool.touched)" class="alert alert-danger ">
                                                                             <div [hidden]="!tool.errors.required">
-                                                                                This Field is Requires
+                                                                                This Field is Required
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -674,7 +673,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosProjectName" type="text" name="iosProjectName{{i}}{{j}}" #iosProjectName="ngModel"
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosProjectName" type="text"  [ngModelOptions]="{standalone: true}" name="iosProjectName{{i}}{{j}}" #iosProjectName="ngModel"
                                                                                 class="form-control " placeholder="DemoProject"
                                                                                 maxlength="150" required />
                                                                             <span class="tip-content">{{'please provide Name of project which contains
@@ -703,7 +702,7 @@
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosTarget" type="text" name="iosTarget{{i}}{{j}}" #iosTarget="ngModel"
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosTarget" type="text"  [ngModelOptions]="{standalone: true}" name="iosTarget{{i}}{{j}}" #iosTarget="ngModel"
                                                                                 class="form-control " placeholder="testOSSimulator"
                                                                                 maxlength="150" required />
                                                                             <span class="tip-content">{{'Please provide Name of target which has to
@@ -732,7 +731,7 @@
                                                                             </label>
 
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosMonkeyTalkScript" type="text" name="iosMonkeyTalkScript{{i}}{{j}}"
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.iosMonkeyTalkScript" type="text"  [ngModelOptions]="{standalone: true}" name="iosMonkeyTalkScript{{i}}{{j}}"
                                                                                 #iosMonkeyTalkScript="ngModel" class="form-control "
                                                                                 placeholder="MTScripts/script.mt, scripts.mts"
                                                                                 maxlength="150" required />
@@ -764,7 +763,7 @@
                                                                               <span style="color: red">*</span>
                                                                           </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidProjectName" type="text" name="androidProjectName{{i}}{{j}}" #androidProjectName="ngModel"
+                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidProjectName" type="text"  [ngModelOptions]="{standalone: true}" name="androidProjectName{{i}}{{j}}" #androidProjectName="ngModel"
                                                                               class="form-control " placeholder="DemoProject"
                                                                               maxlength="150" required />
                                                                           <span class="tip-content">{{'please provide Name of project which contains
@@ -791,7 +790,7 @@
                                                                               <span style="color: red">*</span>
                                                                           </label>
                                                                       <div class="col-md-9 field-tip text-left">
-                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidTarget" type="text" name="androidTarget{{i}}{{j}}" #androidTarget="ngModel"
+                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidTarget" type="text"  [ngModelOptions]="{standalone: true}" name="androidTarget{{i}}{{j}}" #androidTarget="ngModel"
                                                                               class="form-control " placeholder="testOSSimulator"
                                                                               maxlength="150" required />
                                                                           <span class="tip-content">{{'Please provide Name of target which has to
@@ -819,7 +818,7 @@
                                                                                   style="color: red">*</span>
                                                                           </label>
                                                                       <div class="col-md-9 field-tip text-left">
-                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidMonkeyTalkScript" type="text" name="androidMonkeyTalkScript{{i}}{{j}}"
+                                                                          <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.androidMonkeyTalkScript" type="text"  [ngModelOptions]="{standalone: true}" name="androidMonkeyTalkScript{{i}}{{j}}"
                                                                               #androidMonkeyTalkScript="ngModel" class="form-control "
                                                                               placeholder="MTScripts/script.mt, scripts.mts"
                                                                               maxlength="150" required />
@@ -852,7 +851,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.testScript" type="text" name="testScript{{i}}{{j}}" #testScript="ngModel"
+                                                                            <input id="tetttstf{{i}}{{j}}" [(ngModel)]="env.test.testScript" type="text"  [ngModelOptions]="{standalone: true}" name="testScript{{i}}{{j}}" #testScript="ngModel"
                                                                                 class="form-control " placeholder="/EbizzScriptLogin/EbizzScriptLogin/EbizzScriptLogin.jwg"
                                                                                 maxlength="150" required />
                                                                             <span class="tip-content">{{'Path of OATS Test Script relative to the checkout
@@ -882,7 +881,7 @@
                                                                             <span style="color:red">*</span>
                                                                         </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttsntf{{i}}{{j}}" #testConfig="ngModel" [(ngModel)]="env.test.testSuiteName" type="text" name="testConf{{i}}{{j}}" class="form-control "
+                                                                            <input id="tetttsntf{{i}}{{j}}" #testConfig="ngModel" [(ngModel)]="env.test.testSuiteName" type="text"  [ngModelOptions]="{standalone: true}" name="testConf{{i}}{{j}}" class="form-control "
                                                                                 placeholder="ZTG_TEST_CONFIG" maxlength="150"
                                                                                 required />
                                                                             <span class="tip-content" style="z-index:1">{{'Name of the Test Configuration'|translate}}</span>
@@ -903,7 +902,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left field-tip">
-                                                                            <select id="tettsndd{{i}}{{j}}" class="form-control" name="slaveNames{{i}}{{j}}" [(ngModel)]="env.test.slaveName" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="tettsndd{{i}}{{j}}" class="form-control" name="slaveNames{{i}}{{j}}" [(ngModel)]="env.test.slaveName" style="width:50%"
                                                                                 required>
                                                                                 <option value="">--Select--</option>
                                                                                 <option *ngFor="let testframeworkList of testframeworkList" value="{{testframeworkList.value}}">{{testframeworkList.name}}
@@ -922,7 +921,7 @@
                                                                                 <!-- <span style="color: red">*</span> -->
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettfurltf{{i}}{{j}}" [(ngModel)]="env.test.folderUrl" type="url" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@%]+" name="folderUrl{{i}}{{j}}" #folderUrl="ngModel"
+                                                                            <input id="tettfurltf{{i}}{{j}}" [(ngModel)]="env.test.folderUrl" type="url" select  [ngModelOptions]="{standalone: true}" pattern="(https?://?|www.)[_a-zA-Z0-9-.:/@%]+" name="folderUrl{{i}}{{j}}" #folderUrl="ngModel"
                                                                                 class="form-control " placeholder="http://appurl" minlength="3"
                                                                                 maxlength="150">
                                                                             <span class="tip-content">URL {{' of the application'|translate}}</span>
@@ -951,7 +950,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="projnameeee{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="projnameeee{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="JPetStore_Selenium" maxlength="150" #projectPath="ngModel"
                                                                                 required />
                                                                             <span class="tip-content">{{'Project path which contains Selenium Test
@@ -973,9 +972,9 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left field-tip">
-                                                                            <select id="tettfwdd{{i}}{{j}}" class="form-control" name="frameworkldd{{i}}{{j}}" [(ngModel)]="env.test.frameWork" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="tettfwdd{{i}}{{j}}" class="form-control" name="frameworkldd{{i}}{{j}}" [(ngModel)]="env.test.frameWork" style="width:50%"
                                                                                 #frameWork="ngModel" required>
-                                                                                <option value="">--Select--</option>
+                                                                                <option value="">--select--</option>
                                                                                 <option *ngFor="let testframeworkList of testframeworkList" value="{{testframeworkList.value}}">{{testframeworkList.name}}
                                                                             </select>
                                                                             <span class="tip-content">{{'Framework for selenium project'|translate}}</span>
@@ -992,7 +991,7 @@
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="tettrdtb{{i}}{{j}}" class="form-control " name="rootDirectorysrc{{i}}{{j}}" [(ngModel)]="env.test.rootDir"
-                                                                                #srcPath="ngModel" type="text" placeholder="src" required maxlength="150">
+                                                                                #srcPath="ngModel" type="text"  [ngModelOptions]="{standalone: true}" placeholder="src" required maxlength="150">
                                                                             <span class="tip-content">{{'Relative path to root directory'|translate}}</span>
                                                                             <div *ngIf="srcPath.errors && (srcPath.dirty || srcPath.touched)" class="alert alert-danger ">
                                                                                     <div [hidden]="!srcPath.errors.required">
@@ -1011,7 +1010,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="tesetSuit{{i}}{{j}}" required class="form-control "
+                                                                            <input id="tetttsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text"  [ngModelOptions]="{standalone: true}" name="tesetSuit{{i}}{{j}}" required class="form-control "
                                                                                 placeholder="testSuite" maxlength="150" #testSuite="ngModel" required/>
                                                                             <span class="tip-content">{{'Name of Selenium Test Suite file which has
                                                                                 to be executed'|translate}}</span>
@@ -1039,7 +1038,7 @@
                                                                                     <span style="color: red">*</span>
                                                                                 </label>
                                                                             <div class="col-md-9 field-tip text-left">
-                                                                                <input id="tettpodtf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text" name="pathOfDire{{i}}{{j}}" required
+                                                                                <input id="tettpodtf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text"  [ngModelOptions]="{standalone: true}" name="pathOfDire{{i}}{{j}}" required
                                                                                     class="form-control " placeholder="lib" #lib="ngModel"
                                                                                     maxlength="150" required/>
                                                                                     <div *ngIf="lib.errors && (lib.dirty || lib.touched)" class="alert alert-danger ">
@@ -1061,7 +1060,7 @@
                                                                             {{'TestRunner'|translate}}
                                                                         </label>
                                                                         <div class="col-md-9 text-left field-tip">
-                                                                            <select id="cucumber_testrunner{{i}}{{j}}" class="form-control" name="testrunnername{{i}}{{j}}" [(ngModel)]="env.test.frameWork" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="cucumber_testrunner{{i}}{{j}}" class="form-control" name="testrunnername{{i}}{{j}}" [(ngModel)]="env.test.frameWork" style="width:50%"
                                                                                 #testrunnername="ngModel" >
                                                                                 <option value="">JUnit</option>
                                                                             </select>
@@ -1074,7 +1073,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="cucumber_proj{{i}}{{j}}" [(ngModel)]="env.test.cucumberProjectPath" name="cucumber_projpath{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="cucumber_proj{{i}}{{j}}" [(ngModel)]="env.test.cucumberProjectPath" name="cucumber_projpath{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="Cucumber ProjectPath" #cucumberProjectPath="ngModel"
                                                                                 required />
                                                                             <span class="tip-content">{{'Project path which contains Cucumber Test
@@ -1092,7 +1091,7 @@
                                                                             {{'Feature Path'|translate}}
                                                                         </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="cucumber_feature{{i}}{{j}}" [(ngModel)]="env.test.featurePath" name="feature_path{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="cucumber_feature{{i}}{{j}}" [(ngModel)]="env.test.featurePath" name="feature_path{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="Feature Path" #featurePath="ngModel"
                                                                             />
                                                                             <span class="tip-content">{{'Feature Path which contains feature files in Cucumber 
@@ -1105,7 +1104,7 @@
                                                                             {{'Name'|translate}}
                                                                         </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="cucumber_scenarioname{{i}}{{j}}" [(ngModel)]="env.test.scenarioName" name="scenario_name{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="cucumber_scenarioname{{i}}{{j}}" [(ngModel)]="env.test.scenarioName" name="scenario_name{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="Scenario Name" #scenarioName="ngModel"
                                                                             />
                                                                             <span class="tip-content">{{'Scenario Name given in the Cucumber Project'|translate}}</span>
@@ -1116,7 +1115,7 @@
                                                                             {{'Tags'|translate}}
                                                                         </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="cucumber_tags{{i}}{{j}}" [(ngModel)]="env.test.cucumberTags" name="tags_cucumber{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="cucumber_tags{{i}}{{j}}" [(ngModel)]="env.test.cucumberTags" name="tags_cucumber{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="Smoke,Regression,Sanity" #cucumberTags="ngModel"
                                                                             />
                                                                             <span class="tip-content">{{'Give the tags of the test suites given in the Cucumber Project (comma separated tags are expected)'|translate}}</span>
@@ -1134,7 +1133,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettfurltf{{i}}{{j}}" [(ngModel)]="env.test.iTafUrl" type="url" name="iTafUrl{{i}}{{j}}" #iTafUrl="ngModel"
+                                                                            <input id="tettfurltf{{i}}{{j}}" [(ngModel)]="env.test.iTafUrl" type="url" select  [ngModelOptions]="{standalone: true}" name="iTafUrl{{i}}{{j}}" #iTafUrl="ngModel"
                                                                                 class="form-control " placeholder="http://serverqltyws07:8886" pattern="(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+[\.]{0,1}[a-zA-Z0-9\.\-\:]+"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">URL {{' of the iTAF'|translate}}</span>
@@ -1160,7 +1159,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="testiTafUser{{i}}{{j}}" [(ngModel)]="env.test.iTafUser" type="text" name="iTafUser{{i}}{{j}}" #iTafUser="ngModel"
+                                                                            <input id="testiTafUser{{i}}{{j}}" [(ngModel)]="env.test.iTafUser" type="text"  [ngModelOptions]="{standalone: true}" name="iTafUser{{i}}{{j}}" #iTafUser="ngModel"
                                                                                 class="form-control " placeholder="userName" minlength="4"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">iTaf Username</span>
@@ -1187,7 +1186,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="testiTafPassword{{i}}{{j}}" [(ngModel)]="env.test.iTafPassword" type="password" name="iTafPassword{{i}}{{j}}" #iTafPassword="ngModel"
+                                                                            <input id="testiTafPassword{{i}}{{j}}" [(ngModel)]="env.test.iTafPassword" type="password" [ngModelOptions]="{standalone: true}" name="iTafPassword{{i}}{{j}}" #iTafPassword="ngModel"
                                                                                 class="form-control" placeholder="Password" minlength="5"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">iTaf Password</span>
@@ -1214,7 +1213,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="testiTafAgent{{i}}{{j}}" [(ngModel)]="env.test.iTafAgent" type="text" name="iTafAgent{{i}}{{j}}" #iTafAgent="ngModel"
+                                                                            <input id="testiTafAgent{{i}}{{j}}" [(ngModel)]="env.test.iTafAgent" type="text"  [ngModelOptions]="{standalone: true}" name="iTafAgent{{i}}{{j}}" #iTafAgent="ngModel"
                                                                                 class="form-control " placeholder="agent-1"  minlength="3"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">iTaf Agent</span>
@@ -1241,7 +1240,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="testiTafProject{{i}}{{j}}" [(ngModel)]="env.test.iTafProject" type="text" name="iTafProject{{i}}{{j}}" #iTafProject="ngModel"
+                                                                            <input id="testiTafProject{{i}}{{j}}" [(ngModel)]="env.test.iTafProject" type="text"  [ngModelOptions]="{standalone: true}" name="iTafProject{{i}}{{j}}" #iTafProject="ngModel"
                                                                                 class="form-control " placeholder="Mobility_Project" minlength="3"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">iTaf Browser</span>
@@ -1268,7 +1267,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left field-tip">
-                                                                            <select id="iTafBrowserId{{i}}{{j}}" class="form-control" name="iTafBrowser{{i}}{{j}}" [(ngModel)]="env.test.iTafBrowser" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="iTafBrowserId{{i}}{{j}}" class="form-control" name="iTafBrowser{{i}}{{j}}" [(ngModel)]="env.test.iTafBrowser" style="width:50%"
                                                                                 required>
                                                                                 <option  value="" selected>--Select--</option>
                                                                                 <option *ngFor="let browser of iTafBrowserList" value="{{browser.value}}">{{browser.name}}
@@ -1282,7 +1281,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="testiTafTestSuite{{i}}{{j}}" [(ngModel)]="env.test.iTafTestSuite" type="text" name="iTafTestSuite{{i}}{{j}}" #iTafTestSuite="ngModel"
+                                                                            <input id="testiTafTestSuite{{i}}{{j}}" [(ngModel)]="env.test.iTafTestSuite" type="text"  [ngModelOptions]="{standalone: true}" name="iTafTestSuite{{i}}{{j}}" #iTafTestSuite="ngModel"
                                                                                 class="form-control " placeholder="Test-Suite1,Test-Suite2,Test-Suite3" minlength="3"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">Test Suite</span>
@@ -1319,7 +1318,7 @@
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input type="text" id="titspn{{i}}{{j}}" name="projName{{i}}{{j}}" placeholder="OnlineTestApp" [(ngModel)]="env.test.projectName"
+                                                                            <input type="text"  [ngModelOptions]="{standalone: true}" id="titspn{{i}}{{j}}" name="projName{{i}}{{j}}" placeholder="OnlineTestApp" [(ngModel)]="env.test.projectName"
                                                                                 class="form-control " required #prjName="ngModel">
                                                                             <span class="tip-content" style="z-index:1">{{'Please provide '|translate }} VSTS {{'project
                                                                                 Name'|translate}}
@@ -1341,7 +1340,7 @@
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input type="text" pattern="[0-9]+" id="titsvstsbdidtf{{i}}{{j}}" name="buildDefId{{i}}{{j}}" placeholder="12" [(ngModel)]="env.test.buildDefId"
+                                                                            <input type="text"  [ngModelOptions]="{standalone: true}" pattern="[0-9]+" id="titsvstsbdidtf{{i}}{{j}}" name="buildDefId{{i}}{{j}}" placeholder="12" [(ngModel)]="env.test.buildDefId"
                                                                                 class="form-control " required #buildDefId="ngModel">
                                                                             <span class="tip-content" style="z-index:1">{{'Please provide Plan Id'|translate }}</span>
                                                                             <div *ngIf="buildDefId.errors && (buildDefId.dirty || buildDefId.touched)" class="alert alert-danger ">
@@ -1364,7 +1363,7 @@
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input type="text" id="titsvstsrptf{{i}}{{j}}" name="reportPath{{i}}{{j}}" placeholder="target/failsafe-report" [(ngModel)]="env.test.path"
+                                                                            <input type="text"  [ngModelOptions]="{standalone: true}" id="titsvstsrptf{{i}}{{j}}" name="reportPath{{i}}{{j}}" placeholder="target/failsafe-report" [(ngModel)]="env.test.path"
                                                                                 class="form-control " required #reportPath="ngModel">
                                                                             <span class="tip-content" style="z-index:1">{{'Please provide Report Path'|translate }}</span>
                                                                             <div *ngIf="reportPath.errors && (reportPath.dirty || reportPath.touched)" class="alert alert-danger ">
@@ -1389,7 +1388,7 @@
                                                                         </label>
 
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <textarea id="tetttsnta{{i}}{{j}}" #UFTtest="ngModel" [(ngModel)]="env.test.testSuiteName" type="textarea" name="hptUFT{{i}}{{j}}" class="form-control textFieldWidth ng-pristine ng-invalid ng-touched"
+                                                                            <textarea  [ngModelOptions]="{standalone: true}" id="tetttsnta{{i}}{{j}}" #UFTtest="ngModel" [(ngModel)]="env.test.testSuiteName" type="textarea" name="hptUFT{{i}}{{j}}" class="form-control textFieldWidth ng-pristine ng-invalid ng-touched"
                                                                                 placeholder="ProjectName/HP_UFT_TestName" maxlength="150"
                                                                                 required></textarea>
                                                                             <span class="tip-content" style="z-index:1">{{'Path of Tests/folders containing HP UFT tests
@@ -1411,7 +1410,7 @@
                                                                                 {{'Timeout'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" name="Timeouthp{{i}}{{j}}" class="form-control "
+                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" select  [ngModelOptions]="{standalone: true}" name="Timeouthp{{i}}{{j}}" class="form-control "
                                                                                 placeholder="60" minlength="1">
                                                                             <span class="tip-content">{{'Value in seconds, no time out if empty'|translate}}</span>
                                                                         </div>
@@ -1427,7 +1426,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettsntf{{i}}{{j}}" [(ngModel)]="env.test.serverName" type="text" name="almserver{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettsntf{{i}}{{j}}" [(ngModel)]="env.test.serverName" type="text"  [ngModelOptions]="{standalone: true}" name="almserver{{i}}{{j}}" class="form-control "
                                                                                 placeholder="http://almserver:9090/qcbin" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Enter the HP ALM Sever URL'|translate}}</span>
@@ -1439,7 +1438,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text" name="almuname{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text"  [ngModelOptions]="{standalone: true}" name="almuname{{i}}{{j}}" class="form-control "
                                                                                 placeholder="HPALM_UserName" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Enter the User Name for Authentication to
@@ -1452,7 +1451,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettpwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt type="password" name="almpass{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettpwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt type="password" [ngModelOptions]="{standalone: true}" name="almpass{{i}}{{j}}" class="form-control "
                                                                                 placeholder="HPALM_Password" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Enter the Password for Authentication to HP
@@ -1465,7 +1464,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettalmdtf{{i}}{{j}}" [(ngModel)]="env.test.domain" type="text" name="almdomain{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettalmdtf{{i}}{{j}}" [(ngModel)]="env.test.domain" type="text"  [ngModelOptions]="{standalone: true}" name="almdomain{{i}}{{j}}" class="form-control "
                                                                                 placeholder="HPALM_Domain" maxlength="150" required>
                                                                             <span class="tip-content">{{'Enter the Domain Name for Authorization to
                                                                                 HP ALM Project Domain'|translate}}</span>
@@ -1477,7 +1476,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettpalmtf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="projalm{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettpalmtf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text"  [ngModelOptions]="{standalone: true}" name="projalm{{i}}{{j}}" class="form-control "
                                                                                 placeholder="HPALM_Project" maxlength="150" required>
                                                                             <span class="tip-content">{{'Enter the Project Name for Authorization to
                                                                                 HP ALM Project'|translate}}</span>
@@ -1490,7 +1489,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttsalmtf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="testSuitAlm{{i}}{{j}}" class="form-control "
+                                                                            <input id="tetttsalmtf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text"  [ngModelOptions]="{standalone: true}" name="testSuitAlm{{i}}{{j}}" class="form-control "
                                                                                 placeholder="Root\testfolder1\testset_a" maxlength="150"
                                                                                 required />
                                                                             <span class="tip-content">{{'Test set folders or specific test sets to
@@ -1503,7 +1502,7 @@
                                                                                 {{'Timeout'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" name="timeouTALM{{i}}{{j}}" class="form-control "
+                                                                            <input id="tetttonum{{i}}{{j}}" [(ngModel)]="env.test.timeout" type="number" [ngModelOptions]="{standalone: true}" name="timeouTALM{{i}}{{j}}" class="form-control "
                                                                                 placeholder="60" minlength="1">
                                                                             <span class="tip-content">{{'Value in seconds, no time out if empty'|translate}}</span>
                                                                         </div>
@@ -1519,7 +1518,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="rftProj{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text"  [ngModelOptions]="{standalone: true}" name="rftProj{{i}}{{j}}" class="form-control "
                                                                                 required placeholder="RFTProject" maxlength="150">
                                                                             <span class="tip-content">{{'Name of project which contains RFT Test Suite'|translate}}</span>
                                                                         </div>
@@ -1530,7 +1529,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrftstf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" required name="rftScript{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettrftstf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text"  [ngModelOptions]="{standalone: true}" required name="rftScript{{i}}{{j}}" class="form-control "
                                                                                 placeholder="SearchTest" maxlength="150">
                                                                             <span class="tip-content">{{'Name of RFT Test Script which has to be executed'|translate}}</span>
                                                                         </div>
@@ -1551,7 +1550,7 @@
                                                                                         <span style="color:red">*</span>
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
-                                                                                    <input id="tettnofinum{{i}}{{j}}" type="number" class="form-control " name="numOfIteRFT{{i}}{{j}}" [(ngModel)]="env.test.iteration"
+                                                                                    <input id="tettnofinum{{i}}{{j}}" type="number" select  [ngModelOptions]="{standalone: true}" class="form-control " name="numOfIteRFT{{i}}{{j}}" [(ngModel)]="env.test.iteration"
                                                                                         placeholder="10" [disabled]="env.test.fullIteration==='on'"
                                                                                         required>
                                                                                 </div>
@@ -1576,7 +1575,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettsptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text" name="sahiPath{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettsptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text"  [ngModelOptions]="{standalone: true}" name="sahiPath{{i}}{{j}}" class="form-control "
                                                                                 placeholder="scripts\Login.sah" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Path of SAHI test suite relative to the checkout
@@ -1591,7 +1590,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left">
-                                                                            <input id="tettsurltf{{i}}{{j}}" [(ngModel)]="env.test.serverUrl" type="text" required name="sahiTest{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettsurltf{{i}}{{j}}" [(ngModel)]="env.test.serverUrl" type="text"  [ngModelOptions]="{standalone: true}" required name="sahiTest{{i}}{{j}}" class="form-control "
                                                                                 placeholder="http://dummyHost-98:8080/Platform/"
                                                                                 maxlength="150">
                                                                         </div>
@@ -1602,9 +1601,9 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left">
-                                                                            <select id="tettbndd{{i}}{{j}}" class="form-control" [(ngModel)]="env.test.browserName" name="sahiBrowser{{i}}{{j}}" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="tettbndd{{i}}{{j}}" class="form-control" [(ngModel)]="env.test.browserName" name="sahiBrowser{{i}}{{j}}" style="width:50%"
                                                                                 required>
-                                                                                <option value="">--Select--</option>
+                                                                                <option value="">--select--</option>
                                                                                 <option *ngFor="let testbrowserList of testbrowserList" value="{{testbrowserList.value}}">{{testbrowserList.name}}
                                                                             </select>
                                                                         </div>
@@ -1620,7 +1619,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettaptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text" name="accePath{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettaptf{{i}}{{j}}" [(ngModel)]="env.test.path" type="text"  [ngModelOptions]="{standalone: true}" name="accePath{{i}}{{j}}" class="form-control "
                                                                                 placeholder="TestSuite_Name" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Path of folder which contains test artifacts
@@ -1634,7 +1633,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettastf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="accescript{{i}}{{j}}" required class="form-control "
+                                                                            <input id="tettastf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text"  [ngModelOptions]="{standalone: true}" name="accescript{{i}}{{j}}" required class="form-control "
                                                                                 placeholder="build.xml" maxlength="150">
                                                                             <span class="tip-content">{{'Name of the batch file that triggers the AcceleraTest
                                                                                 script'|translate}}
@@ -1653,7 +1652,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrttf{{i}}{{j}}" [(ngModel)]="env.test.rootDir" type="text" name="robtest{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettrttf{{i}}{{j}}" [(ngModel)]="env.test.rootDir" type="text"  [ngModelOptions]="{standalone: true}" name="robtest{{i}}{{j}}" class="form-control "
                                                                                 placeholder="TestSuite_Name" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content" style="z-index:1">{{'Path of folder which contains test artifacts
@@ -1666,7 +1665,7 @@
                                                                                 {{'Input Argument File Name'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrtctf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="robTestCase{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettrtctf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text"  [ngModelOptions]="{standalone: true}" name="robTestCase{{i}}{{j}}" class="form-control "
                                                                                 placeholder="suits.robot" maxlength="150">
                                                                             <span class="tip-content">{{'Name of the argument file present inside specified
                                                                                 path of test scripts'|translate}}</span>
@@ -1685,7 +1684,7 @@
                                                                         </label>
 
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettptcontf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" type="text" name="proTpcong{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettptcontf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" type="text"  [ngModelOptions]="{standalone: true}" name="proTpcong{{i}}{{j}}" class="form-control "
                                                                                 placeholder="example/config.js" maxlength="150"
                                                                                 required />
                                                                             <span class="tip-content" style="z-index:1">{{'Path of config.js file relative to checkout
@@ -1706,7 +1705,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettjptf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" #testPlan="ngModel"type="text" name="jmeterPlan{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.jmx"
+                                                                            <input id="tettjptf{{i}}{{j}}" [(ngModel)]="env.test.testPlan" #testPlan="ngModel"type="text"  [ngModelOptions]="{standalone: true}" name="jmeterPlan{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.jmx"
                                                                                 class="form-control " maxlength="150" required>
                                                                             <span class="tip-content">{{'Path of JMeter Test Plan which has to executed'|translate}}</span>
                                                                             <div *ngIf="testPlan.errors && (testPlan.dirty || testPlan.touched)" class="alert alert-danger ">
@@ -1725,7 +1724,7 @@
                                                                                 {{'Property File'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettjftf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text" name="jmeterFile{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.properties"
+                                                                            <input id="tettjftf{{i}}{{j}}" [(ngModel)]="env.test.externalFilePath" type="text"  [ngModelOptions]="{standalone: true}" name="jmeterFile{{i}}{{j}}" placeholder="JMeter_Scripts/LoadTest.properties"
                                                                                 class="form-control " maxlength="300">
                                                                             <span class="tip-content">{{'Path of Property file for JMeter tests.'|translate}}</span>
                                                                         </div>
@@ -1741,7 +1740,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrptntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="rptName{{i}}{{j}}" #rptProjName1="ngModel"
+                                                                            <input id="tettrptntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text"  [ngModelOptions]="{standalone: true}" name="rptName{{i}}{{j}}" #rptProjName1="ngModel"
                                                                                 placeholder="JPetStore_LoadTest" class="form-control "
                                                                                 pattern="[/_a-zA-Z.0-9-. ]+" minlength="1" maxlength="150"
                                                                                 required>
@@ -1769,7 +1768,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrpttstf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="rpttestSuit{{i}}{{j}}" placeholder="JPetLoadSchedule"
+                                                                            <input id="tettrpttstf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text"  [ngModelOptions]="{standalone: true}" name="rpttestSuit{{i}}{{j}}" placeholder="JPetLoadSchedule"
                                                                                 #rptSchedule="ngModel" class="form-control "
                                                                                 pattern="[/_a-zA-Z.0-9-. ]+" minlength="1" maxlength="150"
                                                                                 required>
@@ -1800,9 +1799,9 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 text-left">
-                                                                            <select id="tettmsbvdd{{i}}{{j}}" class="form-control" name="msBuildVersion{{i}}{{j}}" [(ngModel)]="env.test.version" style="width:50%"
+                                                                            <select  [ngModelOptions]="{standalone: true}" id="tettmsbvdd{{i}}{{j}}" class="form-control" name="msBuildVersion{{i}}{{j}}" [(ngModel)]="env.test.version" style="width:50%"
                                                                                 required>
-                                                                                <option value="">--Select--</option>
+                                                                                <option value="">--select--</option>
                                                                                 <option *ngFor="let msBuildVersion of msBuildVersion" value="{{msBuildVersion.value}}">{{msBuildVersion.name}}</option>
                                                                             </select>
                                                                         </div>
@@ -1813,7 +1812,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettmsbptf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text" name="MsBuildProj{{i}}{{j}}" placeholder="ReservationSystem/Reservation-CodedUI/Reservation-CodedUI.csproj"
+                                                                            <input id="tettmsbptf{{i}}{{j}}" [(ngModel)]="env.test.projectName" type="text"  [ngModelOptions]="{standalone: true}" name="MsBuildProj{{i}}{{j}}" placeholder="ReservationSystem/Reservation-CodedUI/Reservation-CodedUI.csproj"
                                                                                 class="form-control  " maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content" style="z-index:1">Relative Path for the project which contains
@@ -1827,7 +1826,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettmsbargtf{{i}}{{j}}" [(ngModel)]="env.test.arg" type="text" name="MsBUildArg{{i}}{{j}}" required class="form-control "
+                                                                            <input id="tettmsbargtf{{i}}{{j}}" [(ngModel)]="env.test.arg" type="text"  [ngModelOptions]="{standalone: true}" name="MsBUildArg{{i}}{{j}}" required class="form-control "
                                                                                 placeholder="Debug,DeployOnBuild,configuration"
                                                                                 maxlength="150">
                                                                             <span class="tip-content">Provide MsBuild Arguments</span>
@@ -1839,7 +1838,7 @@
                                                                                 <span style="color:red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettmsbtntf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text" name="msBuildTestnme{{i}}{{j}}" required class="form-control "
+                                                                            <input id="tettmsbtntf{{i}}{{j}}" [(ngModel)]="env.test.testCase" type="text"  [ngModelOptions]="{standalone: true}" name="msBuildTestnme{{i}}{{j}}" required class="form-control "
                                                                                 placeholder="LoadTest1" maxlength="150">
                                                                             <span class="tip-content" style="z-index:1">Name of MS Load Test having .loadtest ext</span>
                                                                         </div>
@@ -1849,7 +1848,7 @@
                                                                                 {{'Test Category'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettmsbctf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text" name="msBuildcategory{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettmsbctf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" type="text"  [ngModelOptions]="{standalone: true}" name="msBuildcategory{{i}}{{j}}" class="form-control "
                                                                                 placeholder="Category1" maxlength="150">
                                                                             <span class="tip-content" style="z-index:1">Name of MS Load Test Suite which has to be executed</span>
                                                                         </div>
@@ -1880,7 +1879,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettasuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text" name="appscaneunamel{{i}}{{j}}" placeholder="{{'username'|translate}}"
+                                                                            <input id="tettasuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" type="text"  [ngModelOptions]="{standalone: true}" name="appscaneunamel{{i}}{{j}}" placeholder="{{'username'|translate}}"
                                                                                 class="form-control " maxlength="150" required
                                                                             />
                                                                             <span class="tip-content">{{'AppScan Enterprise'|translate}} {{'username'|translate}}
@@ -1893,7 +1892,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettaspwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt name="appscanepass{{i}}{{j}}" type="password"
+                                                                            <input id="tettaspwdpas{{i}}{{j}}" [(ngModel)]="env.test.password" encrypt name="appscanepass{{i}}{{j}}" type="password" [ngModelOptions]="{standalone: true}"
                                                                                 placeholder="Password" class="form-control "
                                                                                 maxlength="150" required />
                                                                             <span class="tip-content">{{'AppScan Enterprise'|translate}} {{'password'|translate}}
@@ -1906,7 +1905,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettasjntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="appscaneJobNAme{{i}}{{j}}" type="text" placeholder="AltoroMutual_Test"
+                                                                            <input id="tettasjntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="appscaneJobNAme{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" placeholder="AltoroMutual_Test"
                                                                                 class="form-control " required maxlength="150"
                                                                             />
                                                                             <span class="tip-content">{{'Job Name in AppScan Enterprise which has to
@@ -1928,7 +1927,7 @@
                                                                                     <span style="color: red">*</span>
                                                                                 </label>
                                                                             <div class="col-md-9 field-tip text-left">
-                                                                                <input id="tettsoappntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="sopaProjec{{i}}{{j}}" type="text" class="form-control "
+                                                                                <input id="tettsoappntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="sopaProjec{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                     placeholder="ICart" maxlength="150" #proName="ngModel" required>
                                                                                 <span class="tip-content">{{'Name of project which contains SoapUI
                                                                                     Test Suite'|translate}}</span>
@@ -1950,7 +1949,7 @@
                                                                                     <span style="color: red">*</span>
                                                                                 </label>
                                                                             <div class="col-md-9 field-tip text-left">
-                                                                                <input id="tettsoaptsntf{{i}}{{j}}" #suitName="ngModel" [(ngModel)]="env.test.testSuiteName" name="sopatest{{i}}{{j}}" type="text" class="form-control "
+                                                                                <input id="tettsoaptsntf{{i}}{{j}}" #suitName="ngModel" [(ngModel)]="env.test.testSuiteName" name="sopatest{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                     placeholder="ICart TestSuite1" maxlength="150"
                                                                                     required>
                                                                                 <span class="tip-content">{{'Name of SoapUI Test Suite which has to
@@ -1973,7 +1972,7 @@
                                                                                     <span style="color: red">*</span>
                                                                                 </label>
                                                                             <div class="col-md-9 field-tip text-left">
-                                                                                <input id="tettsoappltf{{i}}{{j}}" #proLoc="ngModel" [(ngModel)]="env.test.projectLocation" name="sopalocation{{i}}{{j}}" type="text" class="form-control  "
+                                                                                <input id="tettsoappltf{{i}}{{j}}" #proLoc="ngModel" [(ngModel)]="env.test.projectLocation" name="sopalocation{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control  "
                                                                                     placeholder="store1-soapui-project.xml" maxlength="150"
                                                                                     required>
                                                                                 <span class="tip-content">{{'Path of SoapUI Test Suite which has to
@@ -2001,7 +2000,7 @@
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="tettritpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="ritProj{{i}}{{j}}" class="form-control "
-                                                                                type="text" placeholder="JPetStore_RIT_V1" maxlength="150"
+                                                                                type="text"  [ngModelOptions]="{standalone: true}" placeholder="JPetStore_RIT_V1" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Name of project which contains RIT Test Service'|translate}}</span>
                                                                         </div>
@@ -2012,7 +2011,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettrittsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" name="rittestSuit{{i}}{{j}}" type="text" class="form-control "
+                                                                            <input id="tettrittsntf{{i}}{{j}}" [(ngModel)]="env.test.testSuiteName" name="rittestSuit{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}" class="form-control "
                                                                                 placeholder="RITTestName" maxlength="150" required>
                                                                             <span class="tip-content">{{'Name of RIT Test Suite which has to be executed'|translate}}</span>
                                                                         </div>
@@ -2023,7 +2022,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="tettritsntf{{i}}{{j}}" [(ngModel)]="env.test.serviceName" type="text" name="ritservice{{i}}{{j}}" class="form-control "
+                                                                            <input id="tettritsntf{{i}}{{j}}" [(ngModel)]="env.test.serviceName" type="text"  [ngModelOptions]="{standalone: true}" name="ritservice{{i}}{{j}}" class="form-control "
                                                                                 placeholder="RITServiceName" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Name of RIT Service which has to be executed'|translate}}</span>
@@ -2041,7 +2040,7 @@
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="tettifpntf{{i}}{{j}}" [(ngModel)]="env.test.projectName" name="ifastProj{{i}}{{j}}" class="form-control "
-                                                                                type="text" placeholder="predix" maxlength="150"
+                                                                                type="text"  [ngModelOptions]="{standalone: true}" placeholder="predix" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Name of project which contains IFast Test
                                                                                 Service'|translate}}
@@ -2068,7 +2067,7 @@
                                                                                     </label>
                                                                                 <div class="col-md-9 field-tip text-left">
                                                                                     <input id="tettifuntf{{i}}{{j}}" [(ngModel)]="env.test.userName" name="ifastusername{{i}}{{j}}" class="form-control "
-                                                                                        type="text" placeholder="user1" required>
+                                                                                        type="text"  [ngModelOptions]="{standalone: true}" placeholder="user1" required>
                                                                                     <span class="tip-content">{{'SSO Id of owner of the Project '|translate}}</span>
                                                                                 </div>
                                                                             </div>
@@ -2086,7 +2085,7 @@
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="parasoftSOAProj{{i}}{{j}}" #PSproName="ngModel" [(ngModel)]="env.test.projectName" name="parasoftSOAProj{{i}}{{j}}" class="form-control "
-                                                                                type="text" placeholder="JPetStore_SOATEST" maxlength="150"
+                                                                                type="text"  [ngModelOptions]="{standalone: true}" placeholder="JPetStore_SOATEST" maxlength="150"
                                                                                 required>
                                                                             <span class="tip-content">{{'Name of project which contains Parasoft SOATest
                                                                                 Test'|translate}}
@@ -2109,7 +2108,7 @@
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
                                                                             <input id="parasoftSOAProjectPath{{i}}{{j}}" #PSproPath="ngModel" [(ngModel)]="env.test.projectLocation" name="parasoftSOAProjectPath{{i}}{{j}}"
-                                                                                type="text" class="form-control " placeholder="Project Path"
+                                                                                type="text"  [ngModelOptions]="{standalone: true}" class="form-control " placeholder="Project Path"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">{{'Name of Parasoft SOATest Project Location
                                                                                 which has to be executed'|translate}}</span>
@@ -2130,7 +2129,7 @@
                                                                                 <span style="color: red">*</span>
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="parasoftSOATestPath{{i}}{{j}}" #PStestSuite="ngModel" [(ngModel)]="env.test.scriptPath" name="parasoftSOATestPath{{i}}{{j}}" type="text"
+                                                                            <input id="parasoftSOATestPath{{i}}{{j}}" #PStestSuite="ngModel" [(ngModel)]="env.test.scriptPath" name="parasoftSOATestPath{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}"
                                                                                 class="form-control " placeholder="ParasoftSOATest Path"
                                                                                 maxlength="150" required>
                                                                             <span class="tip-content">{{'Name of Parasoft SOATest Test Suite which
@@ -2150,7 +2149,7 @@
                                                                                 {{'Configuration'|translate}}
                                                                             </label>
                                                                         <div class="col-md-9 field-tip text-left">
-                                                                            <input id="parasoftSOATestConfig{{i}}{{j}}" [(ngModel)]="env.test.testConfig" name="parasoftSOATestConfig{{i}}{{j}}" type="text"
+                                                                            <input id="parasoftSOATestConfig{{i}}{{j}}" [(ngModel)]="env.test.testConfig" name="parasoftSOATestConfig{{i}}{{j}}" type="text"  [ngModelOptions]="{standalone: true}"
                                                                                 class="form-control " placeholder="ParasoftSOATest Configuration"
                                                                                 maxlength="150">
                                                                             <span class="tip-content">{{'Name of Parasoft SOATest Test Configuration'|translate}}</span>

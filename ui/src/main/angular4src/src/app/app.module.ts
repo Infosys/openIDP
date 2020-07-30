@@ -1,23 +1,28 @@
 /**
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.”
-*
-**/
+ *
+ * Copyright 2018 Infosys Ltd.
+ * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.”
+ *
+ **/
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import {
+  NgModule,
+  APP_INITIALIZER,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CookieModule, CookieService } from "ngx-cookie";
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { HttpModule, Http } from "@angular/http";
 import { DateTimePickerModule } from "ng-pick-datetime";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { AppComponent } from "./app.component";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import { SsoComponent } from './sso/sso.component';
-import { SsoService } from './sso/sso.service';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { SsoComponent } from "./sso/sso.component";
+import { SsoService } from "./sso/sso.service";
+import { OAuthModule } from "angular-oauth2-oidc";
 
 import { FormsModule } from "@angular/forms";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
@@ -44,7 +49,7 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { ServicePortalComponent } from "./service-portal/service-portal.component";
 import { TriggerModule } from "./triggerPipeline/triggerPipeline.module";
 import { SortablejsModule } from "angular-sortablejs";
-import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
+import { AdalService, AdalGuard, AdalInterceptor } from "adal-angular4";
 import { StartupService } from "./startup.service";
 import { ReleaseConfigsComponent } from "./release-configs/release-configs.component";
 import { LoginKcService } from "./login-kc.service";
@@ -58,130 +63,138 @@ import { CreateOrganizationComponent } from "./create-organization/create-organi
 import { NotificationInfoComponent } from "./notification-info/notification-info.component";
 // import { DynamicComponentDirective } from "./custom-directive/dynamicComponent.directive";
 // import { WorkflowInfoComponent } from "./workflow-info/workflow-info.component";
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {NgxPaginationModule} from 'ngx-pagination';
-import { MomentModule } from 'ngx-moment';
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { CollapseModule } from "ngx-bootstrap/collapse";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { NgxPaginationModule } from "ngx-pagination";
+import { MomentModule } from "ngx-moment";
 
 import {
-    AppAsideModule,
-    AppBreadcrumbModule,
-    AppHeaderModule,
-    AppFooterModule,
-    AppSidebarModule,
-} from '@coreui/angular';
+  AppAsideModule,
+  AppBreadcrumbModule,
+  AppHeaderModule,
+  AppFooterModule,
+  AppSidebarModule,
+} from "@coreui/angular";
 
 export function createTranslateLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, "assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-    suppressScrollX: true
+  suppressScrollX: true,
 };
-import { DefaultLayoutComponent } from './default-layout';
+import { DefaultLayoutComponent } from "./default-layout";
 import { WidgetsModule } from "./widgets/widgets.module";
-import {BuildIntervalModule} from "./build-interval-cntrl/build-interval-cntrl.module";
-import {NgxSpinnerModule} from "ngx-spinner";
+import { BuildIntervalModule } from "./build-interval-cntrl/build-interval-cntrl.module";
+import { NgxSpinnerModule } from "ngx-spinner";
 
-export function startupServiceFactory(startupService: StartupService): Function {
-    return () => startupService.load();
+export function startupServiceFactory(
+  startupService: StartupService
+): Function {
+  return () => startupService.load();
 }
-const APP_CONTAINERS = [
-    DefaultLayoutComponent
-];
+const APP_CONTAINERS = [DefaultLayoutComponent];
 @NgModule({
-    declarations: [
-        AppComponent,
-        ...APP_CONTAINERS,
-        LoginComponent,
-        KeycloakComponent,
-        IdpheaderComponent,
-        CreateConfigComponent,
-        IdpNavBarComponent,
-        PreviousConfigComponent,
-        SuccessComponent,
-        TriggerServiceComponent,
-        MailSuccessComponent,
-        ReleaseConfigsComponent,
-        ServicePortalComponent,
-        ManageEnvironmentComponent,
-        CreateLicenseComponent,
-        NotificationInfoComponent,
-        CreateOrganizationComponent,
-        SsoComponent,
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        DateTimePickerModule,
-        AppAsideModule,
-        AppBreadcrumbModule.forRoot(),
-        AppFooterModule,
-        AppHeaderModule,
-        AppSidebarModule,
-        PerfectScrollbarModule,
-        CookieModule.forRoot(),
-        OAuthModule.forRoot(),
-        HttpClientModule,
-        HttpModule,
-        Ng2TableModule,
-        AngularMultiSelectModule,
-        FormsModule,
-        CommonModule,
-        MomentModule,
-        PaginationModule.forRoot(),
-        TranslateModule.forRoot(
-            {
-                loader: {
-                    provide: TranslateLoader,
-                    useFactory: (createTranslateLoader),
-                    deps: [HttpClient]
-                }
-            }),
-        FormsModule,
-        CommonModule,
-        NgxPaginationModule,
-        BsDropdownModule.forRoot(),
-        CollapseModule.forRoot(),
-        ModalModule.forRoot(),
-        TabsModule.forRoot(),
+  declarations: [
+    AppComponent,
+    ...APP_CONTAINERS,
+    LoginComponent,
+    KeycloakComponent,
+    IdpheaderComponent,
+    CreateConfigComponent,
+    IdpNavBarComponent,
+    PreviousConfigComponent,
+    SuccessComponent,
+    TriggerServiceComponent,
+    MailSuccessComponent,
+    ReleaseConfigsComponent,
+    ServicePortalComponent,
+    ManageEnvironmentComponent,
+    CreateLicenseComponent,
+    NotificationInfoComponent,
+    CreateOrganizationComponent,
+    SsoComponent,
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    DateTimePickerModule,
+    AppAsideModule,
+    AppBreadcrumbModule.forRoot(),
+    AppFooterModule,
+    AppHeaderModule,
+    AppSidebarModule,
+    PerfectScrollbarModule,
+    CookieModule.forRoot(),
+    OAuthModule.forRoot(),
+    HttpClientModule,
+    HttpModule,
+    Ng2TableModule,
+    AngularMultiSelectModule,
+    FormsModule,
+    CommonModule,
+    MomentModule,
+    PaginationModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
+    FormsModule,
+    CommonModule,
+    NgxPaginationModule,
+    BsDropdownModule.forRoot(),
+    CollapseModule.forRoot(),
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
 
-        LoadingModule.forRoot({
-            animationType: ANIMATION_TYPES.rectangleBounce
-        }),
-        AppRoutingModule,
-        TriggerModule,
-        SortablejsModule.forRoot({ animation: 150 }),
-        WidgetsModule,
-        NgxSpinnerModule
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    providers: [IdpService, IdpSubmitService, SubscriptionService, IdprestapiService, IdpdataService,
-        AuthGuardService, CookieService, IDPEncryption, AdalService,
-        AdalGuard,
-        // { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.rectangleBounce,
+    }),
+    AppRoutingModule,
+    TriggerModule,
+    SortablejsModule.forRoot({ animation: 150 }),
+    WidgetsModule,
+    NgxSpinnerModule,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [
+    IdpService,
+    IdpSubmitService,
+    SubscriptionService,
+    IdprestapiService,
+    IdpdataService,
+    AuthGuardService,
+    CookieService,
+    IDPEncryption,
+    AdalService,
+    AdalGuard,
+    // { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
 
-        StartupService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: startupServiceFactory,
-            deps: [StartupService],
-            multi: true
-        },
-        LoginKcService,
-        {
-            provide: KeycloakHttp,
-            useFactory: keycloakHttpFactory,
-            deps: [XHRBackend, RequestOptions, KeycloakService]
-        },
-        KeycloakService,
-        SsoService],
-    bootstrap: [AppComponent]
+    StartupService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [StartupService],
+      multi: true,
+    },
+    LoginKcService,
+    {
+      provide: KeycloakHttp,
+      useFactory: keycloakHttpFactory,
+      deps: [XHRBackend, RequestOptions, KeycloakService],
+    },
+    KeycloakService,
+    SsoService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

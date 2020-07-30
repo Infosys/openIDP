@@ -45,7 +45,7 @@ class JmeterPublisher implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("errorFailedThreshold", 80);
         data.put("errorUnstableThreshold", 50);
         data.put("sourceDataFiles", "");
@@ -56,14 +56,14 @@ class JmeterPublisher implements IPluginBase {
         data.put("nthBuildNumber", 0);
         data.put("modePerformancePerTestCase", "true");
         data.put("configType", "ART");
-        data.put("modeOfThreshold", "false");
+        data.put("modeOfThreshold", "false")
         data.put("compareBuildPrevious", "true");
         data.put("glob", this.jmeterReportFile);
-        data.put("modeThroughput", "true");
+        data.put("modeThroughput", "true")
         data.put("errorUnstableResponseTimeThreshold", "0");
         data.put("failBuildIfNoResultFile", "true");
 
-        return data;
+        return data
     }
 
     /*

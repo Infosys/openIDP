@@ -21,7 +21,7 @@ import org.infy.idp.entities.jobs.IDPJob
 class GitPublisher implements IPluginBase {
 
     private def tag;
-    private def targetRepo;
+    private def targetRepo
 
     public def getTag() {
         return tag;
@@ -55,7 +55,7 @@ class GitPublisher implements IPluginBase {
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('targetRepoName', this.targetRepo);
         data.put('tagName', this.tag);
@@ -63,10 +63,10 @@ class GitPublisher implements IPluginBase {
         data.put('createTag', true);
         data.put('updateTag', false);
         data.put('pushOnlyIfSuccess', false);
-        data.put('pushMerge', false);
+        data.put('pushMerge', false)
         data.put('forcePush', false);
 
-        return data;
+        return data
     }
 
     /*

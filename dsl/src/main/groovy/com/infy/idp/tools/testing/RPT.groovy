@@ -43,7 +43,7 @@ class RPT {
 		prepareImportEclipseFile(jsonData, envVar, os, Constants.RPTDUMMYPROJECT, '/eclipse_import_dummy.xml', '_RPT_dummy_build.xml', wsPath)
 		prepareImportEclipseFile(jsonData, envVar, os, projectName, '/eclipse_import.xml', '_RPT_build.xml', wsPath)
 
-		String command = '';
+		String command = ''
 		if (os.equalsIgnoreCase(Constants.WINDOWSOS)) {
 			command = 'cd /d'
 		} else {

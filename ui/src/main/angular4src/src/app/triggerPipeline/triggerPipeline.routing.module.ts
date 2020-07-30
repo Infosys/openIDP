@@ -1,21 +1,20 @@
-import { NgModule } from '@angular/core';
-import { Routes,
-     RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { TriggerComponent } from './triggerPipeline.component';
+import { TriggerComponent } from "./triggerPipeline.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: TriggerComponent,
     data: {
-      title: 'Trigger'
-    }
-  }
+      title: "Trigger",
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class TriggerPipelineRoutingModule {}

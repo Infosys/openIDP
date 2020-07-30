@@ -1,24 +1,19 @@
 /**
-*
-* Copyright 2018 Infosys Ltd.
-* Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-* https://opensource.org/licenses/MIT.”
-*
-**/
+ *
+ * Copyright 2018 Infosys Ltd.
+ * Use of this source code is governed by MIT license that can be found in the LICENSE file or at
+ * https://opensource.org/licenses/MIT.”
+ *
+ **/
 import { TestBed, async } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { RouterTestingModule } from "@angular/router/testing";
 
-
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [
-        RouterTestingModule
-        ],
-        declarations: [
-        AppComponent
-        ],
+      imports: [RouterTestingModule],
+      declarations: [AppComponent],
     }).compileComponents();
   }));
 
@@ -38,6 +33,8 @@ describe("AppComponent", () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector("h1").textContent).toContain("Welcome to test!");
+    expect(compiled.querySelector("h1").textContent).toContain(
+      "Welcome to test!"
+    );
   }));
 });

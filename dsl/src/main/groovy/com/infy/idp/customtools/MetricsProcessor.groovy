@@ -24,7 +24,7 @@ class MetricsProcessor{
 
 	public static void invokeTool(context, jsonData) {
 		HashMap<String, String> data = performMapping(jsonData)
-		def command;
+		def command
 		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
 		command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" "${data.get('DASHBOARD_SERVICE_URL')}" "${data.get('DASHBOARD_SERVICE_UNAME')}" %DASHBOARD_SERVICE_PWD% "${data.get('APP_NAME')}" "${data.get('PIPELINE_NAME')}" "${data.get('JSON_PATH')}" """
 		} else {
@@ -38,7 +38,7 @@ class MetricsProcessor{
      */
 
 	private static Map<String,String> performMapping(jsonData) {
-	HashMap<String, String> data = new HashMap<String, String>();
+	HashMap<String, String> data = new HashMap<String, String>()
 	if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0 && jsonData.basicInfo.platform==null) {
 		data.put('CUSTOM_TOOL_JAR','%IDP_WS%/../..' + PropReader.readProperty(Constants.CUSTOMTOOLFN,Constants.CUSTOMTOOLPATH) + PropReader.readProperty(Constants.CUSTOMTOOLFN,'METRICSPROCESSOR'))
 		data.put('JSON_PATH','%IDP_WS%/../../Devops_Json') 
@@ -61,7 +61,7 @@ class MetricsProcessor{
 	data.put('APP_NAME',jsonData.basicInfo.applicationName)
 	data.put('PIPELINE_NAME',jsonData.basicInfo.pipelineName)
 	
-    return data;
+    return data
 	}
 	
 }

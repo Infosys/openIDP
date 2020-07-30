@@ -23,7 +23,7 @@ class StageExecutionSequence implements Serializable{
 
 		for(int seq=0; seq<jsonData["pipelines"].size(); seq++){
 
-			def pipeList = jsonData["pipelines"][seq];
+			def pipeList = jsonData["pipelines"][seq]
 
 			def jobpath = pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'/'+pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'_'+"Pipeline"
 			def jobName = pipeList["applicationName"]+'_'+pipeList["pipelineName"]+'_'+"Pipeline"
@@ -44,7 +44,7 @@ class StageExecutionSequence implements Serializable{
 		IDPSlaveConfiguration idpSlaveConfiguration = new IDPSlaveConfiguration(this)
 		
 		this.script.parallel build:{
-			int i = 0;
+			int i = 0
 			// mutex locking and slave assignment Build
 			def mainCustomWS
 			for(;i<iterationCount;++i){

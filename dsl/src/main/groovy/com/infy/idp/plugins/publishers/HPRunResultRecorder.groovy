@@ -34,9 +34,9 @@ class HPRunResultRecorder implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("archivetestresultsmode", "ALWAYS_ARCHIVE_TEST_REPORT");
-        return data;
+        return data
     }
 
     /*

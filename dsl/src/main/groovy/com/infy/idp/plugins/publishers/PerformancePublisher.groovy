@@ -40,7 +40,7 @@ class PerformancePublisher implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put('errorFailedThreshold', '0')
         data.put('errorUnstableThreshold', '100')
         data.put('errorUnstableResponseTimeThreshold', '')
@@ -64,7 +64,7 @@ class PerformancePublisher implements IPluginBase {
         data.put('modeEvaluation', '')
         data.put('persistConstraintLog', '')
         data.put('sourceDataFiles', '')
-        return data;
+        return data
     }
 
     /*

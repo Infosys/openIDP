@@ -17,7 +17,7 @@ import { ParentFormConnectComponent } from "../../parent-form-connect/parent-for
 @Component({
   selector: "app-go-cntrl",
   templateUrl: "./go-cntrl.component.html",
-  styleUrls: ["./go-cntrl.component.css"]
+  styleUrls: []
 })
 export class GoCntrlComponent implements OnInit {
   tempCodeAnalysis = ["checkStyle", "sonar"];

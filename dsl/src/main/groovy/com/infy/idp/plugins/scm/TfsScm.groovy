@@ -51,7 +51,7 @@ class TfsScm {
         for (Map.Entry<Integer, Scm> entry : this.scmMap.entrySet()) {
             int key = entry.getKey();
             if (scmArr.getAt(key).type == Constants.TFSSCM) {
-                indexToMap = key;
+                indexToMap = key
                 this.addOptions(context, this.performMapping(idpJobObj));
             }
 
@@ -66,7 +66,7 @@ class TfsScm {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         def scmSection = null;
         if (idpJobObj.code != null && idpJobObj.code.scm != null) {
@@ -85,7 +85,7 @@ class TfsScm {
         data.put('userName', scmSection.userName)
         data.put('password', scmSection.password)
 
-        return data;
+        return data
     }
 
     /*

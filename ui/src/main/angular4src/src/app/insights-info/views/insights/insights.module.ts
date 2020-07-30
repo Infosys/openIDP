@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import { InsightsComponent } from './insights.component';
-import { InsightsRoutingModule } from './insights-routing.module';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ChartsModule } from 'ng2-charts';
+import { InsightsComponent } from "./insights.component";
+import { InsightsRoutingModule } from "./insights-routing.module";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { NgxPaginationModule } from "ngx-pagination";
+import { ChartsModule } from "ng2-charts";
 
 @NgModule({
   imports: [
@@ -13,8 +13,8 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule,
     CommonModule,
     NgxPaginationModule,
-    ChartsModule
+    ChartsModule,
   ],
-  declarations: [ InsightsComponent ]
+  declarations: [InsightsComponent],
 })
-export class InsightsModule { }
+export class InsightsModule {}

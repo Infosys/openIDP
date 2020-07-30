@@ -38,7 +38,7 @@ class SshBuilder {
 	 */
 
 	public HashMap<String, String> performMapping(srcFiles, serverName, userName, password, remoteDir, execCmd, key,keyPath) {		
-		HashMap<String, String> data = new HashMap<String, String>();
+		HashMap<String, String> data = new HashMap<String, String>()
 		
 		data.put("configName", serverName)
 		data.put("verbose","false")
@@ -74,7 +74,7 @@ class SshBuilder {
 		data.put("alwaysPublishFromMaster","false")
 		data.put("masterNodeName","")
 		data.put("parameterName","")
-		return data;
+		return data
 	}
 
 	/*

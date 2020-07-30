@@ -46,7 +46,7 @@ class DockerDownload {
 
 
         String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
-        String command = '';
+        String command = ''
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
             command = 'D: \n' + 'cd '
         } else {
@@ -57,7 +57,7 @@ class DockerDownload {
             addWrappers(delegate, envVar)
             steps {
                 def repo = modulesArr.repoUrl.split('/')
-                String artifact = '';
+                String artifact = ''
                 if (modulesArr.artifact == '') {
                     ExecuteCmd.invokeCmd(delegate, command + idpWS + '\n' + 'mkdir -p artifacts', jsonData.basicInfo.buildServerOS)
                     artifact = idpWS + 'artifacts'
@@ -81,13 +81,13 @@ class DockerDownload {
                 if (modulesArr.pushToRepo == 'on') {
 
                     if (modulesArr.password != null) {
-                        String pushCommand = '';
+                        String pushCommand = ''
                         pushCommand += command + artifact + '\n' + 'sudo docker login -u ' + modulesArr.userName + ' -p ' + modulesArr.password + ' ' + modulesArr.repoUrl + '\n' + 'sudo docker push ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
 
                         ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
                     }
                     if (modulesArr.password == null) {
-                        String pushCommand = '';
+                        String pushCommand = ''
                         pushCommand += command + artifact + '\n' + 'sudo docker login ' + modulesArr.repoUrl + '\n' + 'sudo docker push ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
 
                         ExecuteCmd.invokeCmd(delegate, pushCommand, jsonData.basicInfo.buildServerOS)
@@ -100,7 +100,7 @@ class DockerDownload {
                      ExecuteCmd.invokeCmd(delegate, pullCommand, jsonData.basicInfo.buildServerOS)
                  }
 
-                 String runCommand = '';
+                 String runCommand = ''
                  runCommand += command + idpWS + '\n' + 'sudo sh ' + 'ServiceStop.sh ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '|| true' + '\n' + command + artifact + '\n' + 'sudo docker run -itd -p ' + modulesArr.dockerPort + ':' + modulesArr.applicationPort + ' --name ' + jsonData.basicInfo.applicationName.toLowerCase() + '_' + jsonData.basicInfo.pipelineName.toLowerCase() + '_' + stepIndex + '  -itd ' + repo[2] + '/' + modulesArr.userName + '/' + modulesArr.tagName
                  ExecuteCmd.invokeCmd(delegate, runCommand, jsonData.basicInfo.buildServerOS)
 
@@ -113,7 +113,7 @@ class DockerDownload {
 	 */
  
 	 public static void addStepsDRWindows(context, jsonData, envVar) {
-         String command = '';
+         String command = ''
 
 		 context.with {
 			 addWrappers(delegate, envVar)
@@ -123,7 +123,7 @@ class DockerDownload {
                  if (artID.toString().trim().replaceAll("[\n\r]", "").endsWith("-")) {
                      artID = artID + '%PIPELINE_BUILD_ID%'
                  }
-                 def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
+                 def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID
 
                  def dockerFilePathDR = jsonData.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR;
 //                 def passwordDR = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
@@ -132,7 +132,7 @@ class DockerDownload {
                  def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase()
                  def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR
 
-                 def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                 def dockerUrlWithoutProtocol = dockerRegistryUrlDR
                  if(dockerRegistryUrlDR.startsWith("http")){
                      dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
                  }
@@ -158,7 +158,7 @@ class DockerDownload {
                 if (artID.toString().trim().replaceAll("[\n\r]", "").endsWith("-")) {
                     artID = artID + '${PIPELINE_BUILD_ID}'
                 }
-                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
+                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID
 
                 def dockerFilePathDR = jsonData.buildInfo.artifactToStage.artifactRepo.dockerFilePathDR;
                 def passwordDR = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
@@ -166,7 +166,7 @@ class DockerDownload {
                 def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase()
                 def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR
 
-                def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                def dockerUrlWithoutProtocol = dockerRegistryUrlDR
                 if(dockerRegistryUrlDR.startsWith("http")){
                     dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
                 }

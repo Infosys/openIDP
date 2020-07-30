@@ -34,12 +34,12 @@ class JUnit implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("testResults", "\$JUNITREPORT");
         data.put("allowEmptyResults", "false");
         data.put("healthScaleFactor", "1");
         data.put("keepLongStdio", "false");
-        return data;
+        return data
     }
 
     /*

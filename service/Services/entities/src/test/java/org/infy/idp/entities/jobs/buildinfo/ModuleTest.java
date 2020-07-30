@@ -300,7 +300,7 @@ public class ModuleTest {
 		assertEquals("pwd", testedObject.getIpcPassword());
 		assertEquals("admin", testedObject.getIpcUserName());
 		assertEquals("log", testedObject.getLogFilePath());
-		assertEquals("userName", testedObject.getSourceUsername());
+		assertEquals("usename", testedObject.getSourceUsername());
 		assertEquals("pwddummy", testedObject.getSourcePassword());
 		assertEquals("url", testedObject.getSourceUrl());
 		assertEquals("timeout", testedObject.getTimeout());

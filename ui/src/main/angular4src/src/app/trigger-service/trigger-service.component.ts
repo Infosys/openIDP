@@ -10,7 +10,7 @@ import { ShowConfigurationsComponent } from "../show-config/show-config.componen
 @Component({
   selector: "app-trigger-service",
   templateUrl: "./trigger-service.component.html",
-  styleUrls: ["./trigger-service.component.css"]
+  styleUrls: []
 })
 export class TriggerServiceComponent implements OnInit {
 

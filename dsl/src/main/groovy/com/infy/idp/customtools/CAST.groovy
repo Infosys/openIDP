@@ -48,12 +48,12 @@ class CAST{
 			fileContent = fileContent.replace('$SchemaName', schemaName)
 		
 		} else {
-			fileContent = fileContent.replace('$SchemaName',schemaName + "_central");
+			fileContent = fileContent.replace('$SchemaName',schemaName + "_central")
 		}
 	
 		if (schemaName.endsWith("_central")) {			
-			String[] splitWithColen = schemaName.split("_central");
-			String backupSchema = splitWithColen[0];
+			String[] splitWithColen = schemaName.split("_central")
+			String backupSchema = splitWithColen[0]
 			
 			fileContent = fileContent.replace('$BackupSchemaName',backupSchema);
 		}

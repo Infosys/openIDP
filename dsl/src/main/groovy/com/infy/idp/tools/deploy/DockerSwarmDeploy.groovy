@@ -30,7 +30,7 @@ class DockerSwarmDeploy {
 
 
         String idpWS = (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) ? '%IDP_WS%/' : '$IDP_WS/'
-        String command = '';
+        String command = ''
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
             command = 'D: \n' + 'cd '
         } else {
@@ -47,20 +47,20 @@ class DockerSwarmDeploy {
                     artID = artID + '%PIPELINE_BUILD_ID%'
                 }
                 // def tagName=jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName;
-                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
+                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID
 
 
                 def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase();
-                def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
+                def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR 
 
 
-                def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                def dockerUrlWithoutProtocol = dockerRegistryUrlDR
                 if(dockerRegistryUrlDR.startsWith("http")){
                     dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
 
                 }
                 def imageName = dockerUrlWithoutProtocol+'/'+ repoNameDR+":"+tagNameDR
-                String runCommand = '';
+                String runCommand = ''
 
                 runCommand += command + idpWS + '\n'
                 runCommand += 'SET IMAGE_NAME='+imageName + '\n'
@@ -79,7 +79,7 @@ class DockerSwarmDeploy {
 
 
         String idpWS = '$IDP_WS/'
-        String command = '';
+        String command = ''
         if (jsonData.basicInfo.buildServerOS == Constants.WINDOWSOS) {
             command = 'D: \n' + 'cd '
         } else {
@@ -93,18 +93,18 @@ class DockerSwarmDeploy {
                 if (artID.toString().trim().replaceAll("[\n\r]", "").endsWith("-")) {
                     artID = artID + '${PIPELINE_BUILD_ID}'
                 }
-                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID;
+                def tagNameDR = jsonData.basicInfo.applicationName + '_' + jsonData.basicInfo.pipelineName+"_"+artID
                 def repoNameDR = jsonData.buildInfo.artifactToStage.artifactRepo.repoNameDR.toLowerCase();
-                def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR ;
+                def dockerRegistryUrlDR  = jsonData.buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR 
                 def modulesArr = jsonData.deployInfo.deployEnv[envIndex].deploySteps[stepIndex]
 
-                def dockerUrlWithoutProtocol = dockerRegistryUrlDR;
+                def dockerUrlWithoutProtocol = dockerRegistryUrlDR
                 if(dockerRegistryUrlDR.startsWith("http")){
                     dockerUrlWithoutProtocol = dockerRegistryUrlDR.substring(dockerRegistryUrlDR.indexOf("//")+2)
                 }
 
                 def imageName = dockerUrlWithoutProtocol+'/'+ repoNameDR+":"+tagNameDR
-                String runCommand = '';
+                String runCommand = ''
                 runCommand += command + idpWS + '\n'
                 runCommand += 'export IMAGE_NAME='+imageName + '\n'
 //                runCommand += 'docker stack rm ' + modulesArr.stackName + '\n'

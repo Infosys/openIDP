@@ -25,9 +25,9 @@ class NiaIntegStage {
 
     static void run(context, jsonData, stageName) {
 
-        ReportFetchUtility.invokeTool(context, jsonData);
-        DevopsJsonConversion.invokeTool(context, jsonData, stageName, 'N');
-        MetricsProcessor.invokeTool(context, jsonData);
+        ReportFetchUtility.invokeTool(context, jsonData)
+        DevopsJsonConversion.invokeTool(context, jsonData, stageName, 'N')
+        MetricsProcessor.invokeTool(context, jsonData)
     }
 
 }

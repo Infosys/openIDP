@@ -60,7 +60,7 @@ class Pipeline {
                 if (jsonData.basicInfo.customTriggerInterval && jsonData.basicInfo.customTriggerInterval != null && jsonData.basicInfo.customTriggerInterval.interval.size() > 0) {
                     def buildIntervalJson = jsonData.basicInfo.customTriggerInterval;
                     for (int i = 0; i < buildIntervalJson.interval.size(); i++) {
-                        def slot = buildIntervalJson.interval[i];
+                        def slot = buildIntervalJson.interval[i]
 
                         String hourVal = slot.time;
                         String minVal = slot.minute;
@@ -69,7 +69,7 @@ class Pipeline {
                         if (hourVal != null && hourVal.length() <= 2 && isNumeric(hourVal)) {
                             def intValue = Integer.parseInt(hourVal);
                             if (intValue >= 0 && intValue <= 23) {
-                                hourVal = intValue;
+                                hourVal = intValue
                             } else {
                                 hourVal = "";
                             }
@@ -78,15 +78,15 @@ class Pipeline {
                         if (minVal != null && minVal.length() <= 2 && isNumeric(minVal)) {
                             def intValue = Integer.parseInt(minVal);
                             if (intValue >= 0 && intValue <= 59) {
-                                minVal = intValue;
+                                minVal = intValue
                             } else {
                                 minVal = "";
                             }
                         }
 
-                        def type = slot.type;
-                        def listDate = slot.date;
-                        def listWeek = slot.week;
+                        def type = slot.type
+                        def listDate = slot.date
+                        def listWeek = slot.week
                         scheduleStr = scheduleStr + setCustomSchedule(minVal, hourVal, type, listDate, listWeek, jsonInput);
                     }
                 }
@@ -137,9 +137,9 @@ class Pipeline {
                         }
                     }
 
-                    def type = slot.type;
-                    def listDate = slot.date;
-                    def listWeek = slot.week;
+                    def type = slot.type
+                    def listDate = slot.date
+                    def listWeek = slot.week
 
                     scheduleStr = scheduleStr + setCustomSchedule(minVal, hourVal, type, listDate, listWeek, jsonInput);
                 }
@@ -192,13 +192,13 @@ class Pipeline {
 
     public String setCustomSchedule(String min, String hour, String type, List<String> listDate, List<String> listWeek, String jsonInput) {
         Map<String, Integer> m = new HashMap();
-        m.put("Sun", 0);
-        m.put("Mon", 1);
-        m.put("Tue", 2);
-        m.put("Wed", 3);
-        m.put("Thu", 4);
-        m.put("Fri", 5);
-        m.put("Sat", 6);
+        m.put("Sun", 0)
+        m.put("Mon", 1)
+        m.put("Tue", 2)
+        m.put("Wed", 3)
+        m.put("Thu", 4)
+        m.put("Fri", 5)
+        m.put("Sat", 6)
 
         String scheduleStr = '';
         //For handling special case of every hour build

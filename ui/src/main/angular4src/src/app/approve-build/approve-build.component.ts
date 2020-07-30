@@ -13,7 +13,7 @@ import { IdpdataService } from "../idpdata.service";
 @Component({
     selector: "app-approve-build",
     templateUrl: "./approve-build.component.html",
-    styleUrls: ["./approve-build.component.css"]
+    styleUrls: []
 })
 export class ApproveBuildComponent implements OnInit {
     IDPApproveData: any;
@@ -98,7 +98,9 @@ export class ApproveBuildComponent implements OnInit {
                 this.IDPApproveData.buildNo = "";
             }
 
-        } catch (e) { }
+        } catch (e) {
+            console.error("error:",e);
+         }
     }
 
     setBuildNum() {

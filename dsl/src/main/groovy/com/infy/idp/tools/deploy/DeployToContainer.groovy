@@ -29,34 +29,34 @@ class DeployToContainer {
                 case 'tomcat':
                     publishers {
                         def dcObj = new DeployContainer()
-                        dcObj.envIndex = envIndex;
-                        dcObj.stepIndex = stepIndex;
-                        dcObj.add(delegate, jsonData);
+                        dcObj.envIndex = envIndex
+                        dcObj.stepIndex = stepIndex
+                        dcObj.add(delegate, jsonData)
                     }
                     break
                 case 'jBoss':
                     publishers {
                         def dcObj = new DeployContainer()
-                        dcObj.envIndex = envIndex;
-                        dcObj.stepIndex = stepIndex;
-                        dcObj.add(delegate, jsonData);
+                        dcObj.envIndex = envIndex
+                        dcObj.stepIndex = stepIndex
+                        dcObj.add(delegate, jsonData)
                     }
                     break
                 case 'webSphere':
-                    def webObj = new WebSphereDeploy();
-                    webObj.envIndex = envIndex;
-                    webObj.stepIndex = stepIndex;
-                    webObj.add(delegate, jsonData);
+                    def webObj = new WebSphereDeploy()
+                    webObj.envIndex = envIndex
+                    webObj.stepIndex = stepIndex
+                    webObj.add(delegate, jsonData)
                     break
                 case 'wildFly':
 
                     break
                 case 'weblogic':
                     def webLogic = new WeblogicDeploy()
-                    webLogic.envIndex = envIndex;
-                    webLogic.stepIndex = stepIndex;
+                    webLogic.envIndex = envIndex
+                    webLogic.stepIndex = stepIndex
                     WeblogicDeploy.buildServer = jsonData.basicInfo.buildServerOS;
-                    webLogic.add(delegate, jsonData);
+                    webLogic.add(delegate, jsonData)
                     break
                 /*case 'nifi':
                     publishers {

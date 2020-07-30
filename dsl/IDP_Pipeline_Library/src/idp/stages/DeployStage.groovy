@@ -151,7 +151,7 @@ class DeployStage implements Serializable {
 							
 							
                             if (!tempDeployStepURLList.contains(tempJobName)) {
-                                tempDeployStepURLList.add(tempJobName);
+                                tempDeployStepURLList.add(tempJobName)
                             }
                         }
                     }

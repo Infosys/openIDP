@@ -24,7 +24,7 @@ class TGMavenPOMEditor{
 
 	public static void invokeTool(context, jsonData,moduleIndex,goal) {
 		HashMap<String, String> data = performMapping(jsonData,moduleIndex,goal)
-		def command;
+		def command
 		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
 			command = """java -jar ${data.get('CUSTOM_TOOL_JAR')} ${data.get('POM_PATH')} ${data.get('OPTIONS')} ${data.get('SONAR_FLAG')} ${data.get('SONAR_JURL')} ${data.get('SONAR_JDRIVER')} ${data.get('SONAR_USERNAME')} ${data.get('SONAR_PASSWORD')} ${data.get('SONAR_HURL')} ${data.get('JLINE_TOOL_PATH')} "%IDP_WS%/${data.get('MAVEN_PROJ_NAME')}" ${data.get('MAVEN_PAF_FILE')} "%IDP_WS%/${data.get('MAVEN_PROJ_NAME')}-assessment.xml" "%IDP_WS%/${data.get('MAVEN_PROJ_NAME')}/report.html" ${data.get('NEXUS_REPO_ID')} ${data.get('NEXUS_REPO_URL')}"""
 		}
@@ -40,7 +40,7 @@ class TGMavenPOMEditor{
 	*/
 
 	private static Map<String,String> performMapping(jsonData,moduleIndex,goal) {
-		HashMap<String, String> data = new HashMap<String, String>();
+		HashMap<String, String> data = new HashMap<String, String>()
 		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
 			data.put('CUSTOM_TOOL_JAR','%IDP_WS%/../..' + PropReader.readProperty(Constants.CUSTOMTOOLFN,Constants.CUSTOMTOOLPATH) + PropReader.readProperty(Constants.CUSTOMTOOLFN,'POMEDITOR'))
 		}
@@ -79,6 +79,6 @@ class TGMavenPOMEditor{
 		data.put('NEXUS_REPO_ID','""')  // Master Props
 		data.put('NEXUS_REPO_URL','""') // Master Props
 		
-		return data;
+		return data
 	}		
 }

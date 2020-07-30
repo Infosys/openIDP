@@ -1,25 +1,27 @@
-
 .nav-pills {
   &.nav-wizard {
-   li { 
+    li {
       border-right: 10px solid transparent;
       border-left: 10px solid transparent;
     }
   }
-  .btn{
-    color:#007CC3;
-    background-color:#ffffff;
+
+  .btn {
+    color: #007cc3;
+    background-color: #fff;
   }
-  .active, .btn:hover {
-    border-color:#BCD9F5;
-    box-shadow: 0 0 5px #BCD9F5;
-    
+
+  .active,
+  .btn:hover {
+    border-color: #bcd9f5;
+    box-shadow: 0 0 5px #bcd9f5;
   }
-  .arrow_button{
-    width:12px;
-    height:12px;
-    position:relative;
-    right:-8px;
-    top:10px;
-  }  
+
+  .arrow_button {
+    width: 12px;
+    height: 12px;
+    position: relative;
+    right: -8px;
+    top: 10px;
+  }
 }

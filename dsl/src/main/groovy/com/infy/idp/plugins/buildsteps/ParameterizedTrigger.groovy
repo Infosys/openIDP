@@ -34,13 +34,13 @@ class ParameterizedTrigger implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("projects", "");
         data.put("buildStepFailureThreshold", "");
         data.put("unstableThreshold", "");
         data.put("failureThreshold", "");
 
-        return data;
+        return data
     }
 
     /*

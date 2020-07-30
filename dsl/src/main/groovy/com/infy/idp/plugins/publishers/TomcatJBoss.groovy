@@ -34,7 +34,7 @@ class TomcatJBoss implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("UrlJBoss", "\$JBOSS_URL");
         data.put("passwordJBoss", "\$JBOSS_PASSWORD");
         data.put("UserNameJBoss", "\$JBOSS_USERNAME");
@@ -44,7 +44,7 @@ class TomcatJBoss implements IPluginBase {
         data.put("war", "\$WAR");
         data.put("contextPath", "\$CONTEXTPATH");
         data.put("onFailure", "false");
-        return data;
+        return data
     }
 
     /*

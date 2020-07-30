@@ -309,8 +309,8 @@ class Build {
                 BuildNameSetter buildname1 = new BuildNameSetter()
                 buildname1.setTemplate('${BUILD_LABEL}' + '_' + '${BUILD_NUMBER}')
                 buildname1.add(delegate, jsonData)
-				BuildEnv env = new BuildEnv();
-				env.add(delegate, jsonData);
+				BuildEnv env = new BuildEnv()
+				env.add(delegate, jsonData)
             }
         }
     }
@@ -362,10 +362,10 @@ class Build {
         def password = jsonData.buildInfo.artifactToStage.artifactRepo.passwordDR;
         context.with{
             wrappers{
-                BuildEnvIIS env = new BuildEnvIIS();
-                env.setName("DR_PASSWORD");
+                BuildEnvIIS env = new BuildEnvIIS()
+                env.setName("DR_PASSWORD")
                 env.setPswd(password);
-                env.add(delegate, jsonData);
+                env.add(delegate, jsonData)
            }
         }
     }

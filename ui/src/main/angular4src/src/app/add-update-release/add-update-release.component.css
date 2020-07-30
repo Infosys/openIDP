@@ -1,2 +1,8 @@
-.choose-app-name { margin: -4% 16% 15px 0; float: right; }
-.release-tabs { margin-top: 5%; }
+.choose-app-name {
+  margin: -4% 16% 15px 0;
+  float: right;
+}
+
+.release-tabs {
+  margin-top: 5%;
+}

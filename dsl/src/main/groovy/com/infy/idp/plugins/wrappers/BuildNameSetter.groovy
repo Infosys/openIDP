@@ -44,11 +44,11 @@ class BuildNameSetter implements IPluginBase {
 
     @Override
     public HashMap<String, String> performMapping(IDPJob dataObj) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("template", this.template);
         data.put("runAtStart", true);
         data.put("runAtEnd", false);
-        return data;
+        return data
     }
 
     /*

@@ -1,21 +1,30 @@
-/* Style for <a> :disabled */
 a.disabled {
   cursor: not-allowed !important;
-  /* opacity: .65; */
-  color : #b5b9bded !important;
+  color: #b5b9bded !important;
 }
-a.disabled:hover { text-decoration: none; }
-a.disabled:focus { text-decoration: none; }
-a.disabled:active { text-decoration: none; }
-a:hover{
-  background-color: lightblue
+
+a.disabled:hover {
+  text-decoration: none;
 }
+
+a.disabled:focus {
+  text-decoration: none;
+}
+
+a.disabled:active {
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: lightblue;
+}
+
 .link-dark {
   color: black !important;
 }
 
 .select-padding {
-   margin: 5px;
+  margin: 5px;
 }
 
 .flex-container {
@@ -33,24 +42,25 @@ a:hover{
   border-bottom: 2px transparent !important;
   padding-bottom: 4px !important;
 }
+
 .marked {
-color: #20a8d8 !important;
-/* color: #f4511e; */
-border: 2px !important;
-border-bottom-style: solid !important;
-padding-bottom: 2px !important;
+  color: #20a8d8 !important;
+  border: 2px !important;
+  border-bottom-style: solid !important;
+  padding-bottom: 2px !important;
 }
+
 .marked:focus {
-color: #20a8d8 !important;
-/* color: #f4511e; */
-border: 2px !important;
-border-bottom-style: solid !important;
-padding-bottom: 2px !important;
+  color: #20a8d8 !important;
+  border: 2px !important;
+  border-bottom-style: solid !important;
+  padding-bottom: 2px !important;
 }
+
 .nav-link:hover {
-color: #20a8d8 !important;
-/* color: #f4511e; */
-border: 2px !important;
-border-bottom-style: solid !important;
-padding-bottom: 2px !important;
+  color: #20a8d8 !important;
+  border: 2px !important;
+  border-bottom-style: solid !important;
+  border-bottom: 2px transparent !important;
+  padding-bottom: 2px !important;
 }

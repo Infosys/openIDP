@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
 
 @Component({
   // tslint:disable-next-line
-  template: '<router-outlet></router-outlet>'
+  template: "<router-outlet></router-outlet>",
 })
 export class InsightsInfoComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     // this.router.events.subscribe((evt) => {

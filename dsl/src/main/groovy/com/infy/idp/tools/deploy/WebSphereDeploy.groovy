@@ -51,12 +51,12 @@ class WebSphereDeploy {
             }
         }
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("host", containerInfo.ipOrDNS);
         data.put("conntype", "SOAP");
         data.put("port", containerInfo.port);
         data.put("user", containerInfo.userName);
-        data.put("password", containerInfo.password);
+        data.put("password", containerInfo.password)
         data.put("earname", containerInfo.warPath);
         data.put("earFilePath", ws);
         data.put("appname", earName);
@@ -67,7 +67,7 @@ class WebSphereDeploy {
         // Need to set property//////////////////
         ////////////////////////////////
 
-        return data;
+        return data
     }
 
     public void addOptions(context, HashMap<String, String> data) {

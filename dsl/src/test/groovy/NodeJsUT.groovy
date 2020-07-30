@@ -35,7 +35,7 @@ class NodeJsUT extends Specification {
     @Unroll
     void 'Executing Test Conditions on #file.name'(File file) {
         given:
-        def env = System.getenv();
+        def env = System.getenv()
         JobManagement jm = new JenkinsJobManagement(System.out, ['JSON_Input': (new File(env['basePath'] + '\\UTJsons\\NodeJS.json')).text, 'Pipeline_Script_Path': env['dirPath'] + '\\pipeline_sequence'], new File('.'))
 
         when:

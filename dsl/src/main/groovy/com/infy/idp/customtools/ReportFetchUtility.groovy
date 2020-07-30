@@ -25,7 +25,7 @@ class ReportFetchUtility{
 	public static void invokeTool(context, jsonData) {
 		
 		HashMap<String, String> data = performMapping(jsonData)
-		def command;
+		def command
 		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
 		command = """java -jar "${data.get('CUSTOM_TOOL_JAR')}" ${data.get('JSERVER')} ${data.get('USERNAME')} %JENKINS_PASSWORD% "${data.get('WORKSPACE_LOC')}" "${data.get('JOBNAME')}" "${data.get('APPNAME')}" pmd:pmd.xml cs:checkstyle-result.xml fb:findbugsXml.xml cob:coverage.xml pqm:pqm_report_pmd.txt test:junit.xml acc:report.json if:Fastest.json js:report-jshint-checkstyle.xml tng:testng-results.xml qlta:SummaryReport.xml rbt:output.xml tslint:result.txt ut:junit_ut.xml istanbul:istanbulcoverage.xml jcc:jacocoCoverage.xml put:pythontest.xml ${data.get('JMETER')}  sui:TEST-*.xml set:modReport_ecatt.txt sut:consoleUnit.txt sci:consoleSci.txt fxc:AnalysisResult.xml frt:fortifyxmlreport.xml Junitgo:JUnit_Test.xml alt:lintReport.xml orclanalysis:CodeAnalysisReports.xls oatstest:generalReport.xml trx:*.trx ptr:protractorxml.xml scala:scalastyle-output.xml pst:ParasoftSOATest.xml ser:Repo.csv ses:Static.csv cmx:ScanReport.xml"""
 		} else {
@@ -41,7 +41,7 @@ class ReportFetchUtility{
 
 	private static Map<String,String> performMapping(jsonData) {
 		
-		HashMap<String, String> data = new HashMap<String, String>();
+		HashMap<String, String> data = new HashMap<String, String>()
 		
 		if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0 && jsonData.basicInfo.platform==null ) {
 			data.put('CUSTOM_TOOL_JAR','%IDP_WS%/../..' + PropReader.readProperty(Constants.CUSTOMTOOLFN,Constants.CUSTOMTOOLPATH) + PropReader.readProperty(Constants.CUSTOMTOOLFN,'REPORTFECTHUTIL'))
@@ -100,6 +100,6 @@ class ReportFetchUtility{
 		}
 		
 		data.put('JMETER', jMeterReports)
-		return data;
+		return data
 	}
 }

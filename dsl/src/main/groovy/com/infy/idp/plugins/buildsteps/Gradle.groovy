@@ -26,18 +26,18 @@ class Gradle implements IPluginBase {
 	}
 
 	public void setRootBuildScriptDir(String rootBuildScriptDir) {
-		this.rootBuildScriptDir = rootBuildScriptDir;
+		this.rootBuildScriptDir = rootBuildScriptDir
 	}
 
 	public void setBuildFile(String buildFile) {
-		this.buildFile = buildFile;
+		this.buildFile = buildFile
 	}
 	public void setProjectProperties(String projectProperties) {
-		this.projectProperties = projectProperties;
+		this.projectProperties = projectProperties
 	}
 
 	public void setSystemProperties(String systemProperties) {
-		this.systemProperties = systemProperties;
+		this.systemProperties = systemProperties
 	}
 
 	@Override

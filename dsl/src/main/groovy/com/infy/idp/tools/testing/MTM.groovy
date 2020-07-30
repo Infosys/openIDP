@@ -34,7 +34,7 @@ class MTM {
     private static void addSteps(context) {
 
 
-        Powershell ps = new Powershell();
+        Powershell ps = new Powershell()
         String cmd = "";
 
         cmd = 'powershell.exe $env:IDP_PROJECT_NAME/MTM_AutomationScripts/idp_mtm_execution.ps1';

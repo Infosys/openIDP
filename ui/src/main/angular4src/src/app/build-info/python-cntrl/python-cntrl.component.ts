@@ -15,7 +15,7 @@ import { ParentFormConnectComponent } from "../../parent-form-connect/parent-for
 @Component({
   selector: "app-python-cntrl",
   templateUrl: "./python-cntrl.component.html",
-  styleUrls: ["./python-cntrl.component.css"]
+  styleUrls: []
 })
 export class PythonCntrlComponent implements OnInit {
         tempCodeAnalysis = ["sonarqube"];

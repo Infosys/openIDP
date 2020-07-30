@@ -131,8 +131,8 @@ class Scm {
                 preBuild.setCleanupParameter("")
                 preBuild.setDeleteCommand("")
                 preBuild.add(delegate, jsonData)
-				BuildEnv env = new BuildEnv();
-				env.add(delegate, jsonData);
+				BuildEnv env = new BuildEnv()
+				env.add(delegate, jsonData)
             }
         }
     }

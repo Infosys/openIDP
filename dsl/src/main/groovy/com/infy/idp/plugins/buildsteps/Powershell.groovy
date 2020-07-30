@@ -29,9 +29,9 @@ class Powershell {
      */
 
     public HashMap<String, String> performMapping(String cmd) {
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
         data.put("powerShell", cmd)
-        return data;
+        return data
     }
 
     /*

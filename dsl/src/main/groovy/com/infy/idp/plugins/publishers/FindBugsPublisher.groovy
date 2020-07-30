@@ -43,7 +43,7 @@ class FindBugsPublisher implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
         IDPJob job = idpJobObj
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('canComputeNew', true)
         data.put('canResolveRelativePaths', false)
@@ -58,7 +58,7 @@ class FindBugsPublisher implements IPluginBase {
         data.put('useDeltaValues', false)
         data.put('useStableBuildAsReference', false)
 
-        return data;
+        return data
     }
 
     /*

@@ -22,7 +22,7 @@ class MSTestPublisher implements IPluginBase {
     private String pattern = ''
 
     public void setPattern(String pattern) {
-        this.pattern = pattern;
+        this.pattern = pattern
     }
 
     /*

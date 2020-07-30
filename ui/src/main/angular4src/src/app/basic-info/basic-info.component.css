@@ -1,2 +1,4 @@
-
-.basic-info-details .field-tip:hover .tip-content { right: -60px; zoom: 95%; }
+.basic-info-details .field-tip:hover .tip-content {
+  right: -60px;
+  zoom: 95%;
+}

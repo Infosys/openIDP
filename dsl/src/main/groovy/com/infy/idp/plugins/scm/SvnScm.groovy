@@ -54,7 +54,7 @@ class SvnScm {
         for (Map.Entry<Integer, Scm> entry : this.scmMap.entrySet()) {
             int key = entry.getKey();
             if (scmArr.getAt(key).type == Constants.SVNSCM) {
-                indexToMap = key;
+                indexToMap = key
                 this.addOptions(context, this.performMapping(idpJobObj));
             }
 
@@ -70,7 +70,7 @@ class SvnScm {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
 
         def scmSection = null;
@@ -112,7 +112,7 @@ class SvnScm {
         data.put('realm', '')
         data.put('credentialsIdAdditionals', '')
 
-        return data;
+        return data
     }
 
     /*

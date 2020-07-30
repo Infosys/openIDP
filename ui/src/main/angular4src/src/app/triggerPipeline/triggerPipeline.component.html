@@ -1180,7 +1180,7 @@
 														<div class="col-md-4" style="float: left;">
 
 															<select id="trddenv" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.envSelected"
-															(change)="checkrmcheck();getEnvPair();rmsToken()" (click)="optionalGetArtifactsRm()" required>
+															(change)="clearArtifactSelection();checkrmcheck();getEnvPair();rmsToken()" (click)="optionalGetArtifactsRm()" required>
 
 
 																<option value="">--Select--</option>
@@ -1315,7 +1315,7 @@
 
 												<!-- Adding section for specific artifact-->
 												<div *ngIf="IDPParamData.deploy.artifacts">
-													<div [ngSwitch]="IDPDataSwitch.deploySelected=='on' && (IDPDataSwitch.buildSelected=='off' || (IDPDataSwitch.buildSelected=='on' && IDPParamData.technology==='dbDeployDelphix'))
+													<div [ngSwitch]="IDPDataSwitch.deploySelected=='on' && (IDPParamData.envSelected !=='')&& (IDPDataSwitch.buildSelected=='off' || (IDPDataSwitch.buildSelected=='on' && IDPParamData.technology==='dbDeployDelphix'))
 													&&  IDPParamData.deploy.artifacts!==undefined && IDPParamData.deploy.artifacts!=='' && !(isLatestArtifact())">
 														<div *ngSwitchCase="true">
 

@@ -1,46 +1,63 @@
-table thead tr th{
-  border-color:#2885ae
+table thead tr th {
+  border-color: #2885ae;
 }
 
 table thead {
-  background-color:rgba(28, 93, 121, 0.13)
+  background-color: rgba(28, 93, 121, 0.13);
 }
 
-table tbody tr td{
-  border-color:#2885ae
+table tbody tr td {
+  border-color: #2885ae;
 }
 
-table tbody{
-  overflow:scroll;
+table tbody {
+  overflow: scroll;
 }
 
-#example{
+#example {
   border-collapse: collapse;
 }
 
-.owl-inputtext{
-  padding:.35em
+.owl-inputtext {
+  padding: 0.35em;
 }
 
-.owl-corner-all{
-  border-radius:4px
+.owl-corner-all {
+  border-radius: 4px;
 }
 
-
-.wrapper{
-	border-radius:4px;
-	border-color:#2885ae
+.wrapper {
+  border-radius: 4px;
+  border-color: #2885ae;
 }
-/*.owl-inputtext .owl-state-focus, .owl-inputtext:focus{
 
-  box-shadow: rgba(102,175,233,.6)
-
-}*/
 .env-sequence-btn {
   margin-top: 15px;
 }
 
-.alert { height: 60px; padding-left: 64px; font-size: 18px; line-height: 32px;  background-repeat: no-repeat; background-position:  20px center; }
-.alert-success { background-image: url("assets/img/release/icon_Success.png"); color: #426345; background-color: #d8e7da;}
-.alert-danger { background-image: url("assets/img/release/icon_Error.png"); color: #723b2f; background-color: #fcddd6;}
-.alert-warning { background-image: url("assets/img/release/icon_Info.png"); color: #854d09; background-color: #f4e0c8;}
+.alert {
+  height: 60px;
+  padding-left: 64px;
+  font-size: 18px;
+  line-height: 32px;
+  background-repeat: no-repeat;
+  background-position: 20px center;
+}
+
+.alert-success {
+  background-image: url("assets/img/release/icon_Success.png");
+  color: #426345;
+  background-color: #d8e7da;
+}
+
+.alert-danger {
+  background-image: url("assets/img/release/icon_Error.png");
+  color: #723b2f;
+  background-color: #fcddd6;
+}
+
+.alert-warning {
+  background-image: url("assets/img/release/icon_Info.png");
+  color: #854d09;
+  background-color: #f4e0c8;
+}

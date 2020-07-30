@@ -25,7 +25,7 @@ class Selenium {
     */
 
 	public static void invokeTool(context, prjctName, testCase, os) {
-		String seleniumBaseDir;
+		String seleniumBaseDir
 		String seleniumClasspath;
 		String  jUnitClasspath;
 		if (os.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {

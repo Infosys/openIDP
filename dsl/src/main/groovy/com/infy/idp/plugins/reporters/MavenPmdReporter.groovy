@@ -33,7 +33,7 @@ class MavenPmdReporter implements IPluginBase {
 
     public HashMap<String, String> performMapping(IDPJob idpJobObj) {
         IDPJob job = idpJobObj
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         data.put('healthy', '')
         data.put('unHealthy', '')
@@ -61,7 +61,7 @@ class MavenPmdReporter implements IPluginBase {
         data.put('usePreviousBuildAsReference', false)
         data.put('useStableBuildAsReference', false)
 
-        return data;
+        return data
     }
 
     /*

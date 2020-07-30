@@ -38,6 +38,6 @@ class JUnitArchive {
 	}
 	
 	public void setPattern(String pattern) {
-		this.pattern = pattern;
+		this.pattern = pattern
 	}
 }

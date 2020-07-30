@@ -19,7 +19,7 @@ import { ParentFormConnectComponent } from "../../parent-form-connect/parent-for
 @Component({
   selector: "app-msbuild-cntrl",
   templateUrl: "./msbuild-cntrl.component.html",
-  styleUrls: ["./msbuild-cntrl.component.css"]
+  styleUrls: []
 })
 export class MsbuildCntrlComponent implements OnInit {
 

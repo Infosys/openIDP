@@ -50,7 +50,7 @@
             },
             "testSelected": "off",
             "artifactorySelected": "off",
-            "emailed": "userName@domain.com,kruti.vyas@domain.com,hardik.rathod01@domain.com",
+            "emailed": "userName@abc.com",
             "testStep": [],
             "technology": "J2EE/Maven",
             "repoDeployStatus": "",

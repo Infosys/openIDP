@@ -84,7 +84,7 @@ class ViolationPublisher implements IPluginBase {
         data.put('fauxProjectPath', '')
         data.put('sourceEncoding', 'default')
         data.put('sourcePathPattern', '')
-        return data;
+        return data
     }
 
     /*
@@ -99,7 +99,7 @@ class ViolationPublisher implements IPluginBase {
             violations {
 
                 ViolationPublisher.addcheckstyleSettings(delegate, data);
-                ViolationPublisher.addGeneralBuildSettings(delegate, data);
+                ViolationPublisher.addGeneralBuildSettings(delegate, data)
 
                 ViolationPublisher.addfindbugsSettings(delegate, data);
                 ViolationPublisher.addfxcopSettings(delegate, data);

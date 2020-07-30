@@ -44,7 +44,7 @@ class XUnitPublisher implements IPluginBase {
     }
 
     public void setSkipNoTestFiles(Boolean skipNoTestFiles) {
-        this.skipNoTestFiles = skipNoTestFiles;
+        this.skipNoTestFiles = skipNoTestFiles
     }
 
     public Boolean getFailIfNotNew() {
@@ -60,7 +60,7 @@ class XUnitPublisher implements IPluginBase {
     }
 
     public void setDeleteOutputFiles(Boolean deleteOutputFiles) {
-        this.deleteOutputFiles = deleteOutputFiles;
+        this.deleteOutputFiles = deleteOutputFiles
     }
 
     public Boolean getStopProcessingIfError() {
@@ -100,7 +100,7 @@ class XUnitPublisher implements IPluginBase {
     }
 
     public void setFailureNewThresholdFailed(String failureNewThresholdFailed) {
-        this.failureNewThresholdFailed = failureNewThresholdFailed;
+        this.failureNewThresholdFailed = failureNewThresholdFailed
     }
 
     public String getUnstableThresholdSkipped() {
@@ -112,19 +112,19 @@ class XUnitPublisher implements IPluginBase {
     }
 
     public String getUnstableNewThresholdSkipped() {
-        return unstableNewThresholdSkipped;
+        return unstableNewThresholdSkipped
     }
 
     public void setUnstableNewThresholdSkipped(String unstableNewThresholdSkipped) {
-        this.unstableNewThresholdSkipped = unstableNewThresholdSkipped;
+        this.unstableNewThresholdSkipped = unstableNewThresholdSkipped
     }
 
     public String getFailureThresholdSkipped() {
-        return failureThresholdSkipped;
+        return failureThresholdSkipped
     }
 
     public void setFailureThresholdSkipped(String failureThresholdSkipped) {
-        this.failureThresholdSkipped = failureThresholdSkipped;
+        this.failureThresholdSkipped = failureThresholdSkipped
     }
 
     public String getFailureNewThresholdSkipped() {

@@ -25,7 +25,7 @@ class DevopsJsonConversion {
 
     public static void invokeTool(context, jsonData, stageName, prefixID) {
         HashMap<String, String> data = performMapping(jsonData, stageName, prefixID)
-        def command;
+        def command
         def sonarUrl = "";
         def sonarUserName = "";
         def sonarPassword = "";
@@ -33,8 +33,8 @@ class DevopsJsonConversion {
             sonarUrl = jsonData.buildInfo.sonarUrl;
         }
         if (null != jsonData.buildInfo && null != jsonData.buildInfo.sonarUserName) {
-            sonarUserName = jsonData.buildInfo.sonarUserName;
-            sonarPassword = jsonData.buildInfo.sonarPassword;
+            sonarUserName = jsonData.buildInfo.sonarUserName
+            sonarPassword = jsonData.buildInfo.sonarPassword
 
         }
 
@@ -102,7 +102,7 @@ class DevopsJsonConversion {
 
     private static Map<String, String> performMapping(jsonData, stageName, prefixID) {
 
-        HashMap<String, String> data = new HashMap<String, String>();
+        HashMap<String, String> data = new HashMap<String, String>()
 
         if (jsonData.basicInfo.buildServerOS.compareToIgnoreCase(Constants.WINDOWSOS) == 0) {
 
@@ -192,6 +192,6 @@ class DevopsJsonConversion {
         }
         data.put('BUILD_TOOL', buildTool)
 	
-        return data;
+        return data
     }
 }
