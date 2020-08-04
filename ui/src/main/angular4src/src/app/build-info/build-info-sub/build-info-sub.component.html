@@ -967,7 +967,7 @@
                             <div class="col-md-8 field-tip textFieldContainer text-left">
                                 <input class="form-control textFieldWidth" #dockerRegistryUrl="ngModel" [(ngModel)]="buildInfo.artifactToStage.artifactRepo.dockerRegistryUrlDR"
                                     id="dydsdptfdrdd{{envIndex}}{{stepIndex}}" name="dockPortdr{{envIndex}}{{stepIndex}}"
-                                    type="text" placeholder="dockersrv02.domain.com" maxlength="150" required>
+                                    type="text" placeholder="dockerregistry.domain.com" maxlength="150" required>
                                 <span class="tip-content">Docker Registry URL</span>
                                 <div *ngIf="dockerRegistryUrl.errors && (dockerRegistryUrl.dirty || dockerRegistryUrl.touched)" class="alert alert-danger ">
                                     <div [hidden]="!dockerRegistryUrl.errors.required">
