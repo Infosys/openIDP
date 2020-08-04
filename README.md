@@ -13,7 +13,7 @@ For more information, check out below links:
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3d3d1f4d519445e88b6c16f1c3ddc5c2)](https://www.codacy.com/app/idp-oss/openIDP?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Infosys/openIDP&amp;utm_campaign=Badge_Grade)
 
-This repository is intended to hold the code base along with the required dependencies for the Infosys DevOps Platform OSS version.
+This repository is intended to hold the code base along with the required dependencies for the Infosys DevOps Platform (IDP) OSS version.
 
 ## Getting Started
 
