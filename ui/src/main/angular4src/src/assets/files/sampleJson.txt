@@ -87,7 +87,7 @@ Stages Information
       "name": "Deploy",
       "notifications": [
         {
-          "address": "vishnu.agarwal@domain.com",
+          "address": "abc@abc.com",
           "level": "stage",
           "type": "email",
           "when": [

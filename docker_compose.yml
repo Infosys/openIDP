@@ -49,6 +49,7 @@ services:
         deploy:
           mode: replicated
           replicas: 1
+        entrypoint: /bin/bash -c "/docker-entrypoint.sh postgres"  
     keycloak:
         image: ${IDP_KEYCLOAK_IMAGE}
         environment:

@@ -18,7 +18,7 @@ public class AppContext {
 		configurationManager.setPostgresqlusername("postgres");
 		configurationManager.setPostgresqlinitialsize("5");
 		configurationManager.setUrl("jdbc:postgresql://localhost:5432/IDP");
-		configurationManager.setEmaildomain("@domain.com");
+		configurationManager.setEmaildomain("@abc.com");
 		configurationManager.setEmailusername("idpadmin@xyz.com");
 		configurationManager.setEmailpassword("dummyuser");
 		configurationManager.setEmailsmtphost("email_host");

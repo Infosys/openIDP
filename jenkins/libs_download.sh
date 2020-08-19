@@ -39,7 +39,7 @@ smart_download checkstyle-6.17/commons-logging-1.1.1.jar http://central.maven.or
 smart_download checkstyle-6.17/guava-19.0.jar http://central.maven.org/maven2/com/google/guava/guava/19.0/guava-19.0.jar
 
 mkdir -p Selenium
-smart_download Selenium/selenium-java-2.43.0.jar http://central.maven.org/maven2/org/seleniumhq/selenium/selenium-java/2.43.0/selenium-java-2.43.0.jar
+smart_download Selenium/selenium-java-2.43.0.jar https://repo1.maven.org/maven2/org/seleniumhq/selenium/selenium-java/2.43.0/selenium-java-2.43.0.jar
 smart_download Selenium/selenium-server-standalone-2.43.1.jar https://repo.jenkins-ci.org/releases/org/seleniumhq/selenium/selenium-server-standalone/2.43.1/selenium-server-standalone-2.43.1.jar
 
 yes | \cp -rf ./custom_tools/DevopsJsonConv/target/*.zip ./home_files/CUSTOM_TOOLS

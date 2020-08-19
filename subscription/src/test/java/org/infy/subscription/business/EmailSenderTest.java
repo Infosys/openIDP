@@ -88,7 +88,7 @@ public class EmailSenderTest {
 		orgInfo.setOrgAdmin("idpadmin");
 		orgInfo.setLicenseExpiryDate("2019/12/21");
 		orgInfo.setOrgName("INFOSYS");
-		orgInfo.setDomain("@domain.com");
+		orgInfo.setDomain("@abc.com");
 		orgInfo.setUserName("idpadmin");
 		boolean status = emailSender.sendEmail("subject", orgInfo);
 		assertNotNull(status);
@@ -100,7 +100,7 @@ public class EmailSenderTest {
 		orgInfo.setOrgAdmin("idpadmin");
 		orgInfo.setLicenseExpiryDate("2019/12/21");
 		orgInfo.setOrgName("INFOSYS");
-		orgInfo.setDomain("@domain.com");
+		orgInfo.setDomain("@abc.com");
 		orgInfo.setUserName("idpadmin");
 		boolean status = emailSender.sendEmailSendGrid("subject", orgInfo);
 		assertNotNull(status);
@@ -121,7 +121,7 @@ public class EmailSenderTest {
 		orgInfo.setOrgAdmin("idpadmin");
 		orgInfo.setLicenseExpiryDate("2019/12/21");
 		orgInfo.setOrgName("INFOSYS");
-		orgInfo.setDomain("@domain.com");
+		orgInfo.setDomain("@abc.com");
 		orgInfo.setUserName("idpadmin");
 		boolean status = emailSender.licenseCreationSuccessMail(orgInfo);
 		assertNotNull(status);
@@ -134,7 +134,7 @@ public class EmailSenderTest {
 		orgInfo.setOrgAdmin("idpadmin");
 		orgInfo.setLicenseExpiryDate("2019/12/21");
 		orgInfo.setOrgName("INFOSYS");
-		orgInfo.setDomain("@domain.com");
+		orgInfo.setDomain("@abc.com");
 		orgInfo.setUserName("idpadmin");
 		boolean status = emailSender.orgCreationSuccessMail(orgInfo);
 		assertNotNull(status);

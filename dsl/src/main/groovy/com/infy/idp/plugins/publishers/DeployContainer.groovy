@@ -10,6 +10,7 @@ package com.infy.idp.plugins.publishers
 
 import com.infy.idp.interfaces.IPluginBase
 import org.infy.idp.entities.jobs.IDPJob
+import com.infy.idp.utils.AddCredentials
 
 /**
  *
@@ -47,10 +48,21 @@ class DeployContainer implements IPluginBase {
         data.put("contextPath", containerInfo.contextPath);
         data.put("onFailure", false);
         data.put("containerName", containerInfo.containerName);
-        data.put("userName", containerInfo.userName);
-        data.put("password", containerInfo.password)
+
+        def credId = ""
+        if (containerInfo.passwordManager == 'on') {
+            def str = containerInfo.passwordManagerId
+            str = str.replaceAll("\$", "")
+            str = str.replaceAll("/", "")
+            credId = str
+        } else {
+            credId = java.util.UUID.randomUUID().toString()
+        }
+
+        AddCredentials.run(credId, containerInfo.userName, containerInfo.password)
+        data.put("credentials", credId);
         data.put("serverManagerURL", containerInfo.serverManagerURL);
-        return data
+        return data;
     }
 
     /*
@@ -68,10 +80,10 @@ class DeployContainer implements IPluginBase {
 
                     switch (data.get('containerName')) {
                         case 'tomcat':
-                            addTomcat(delegate, data)
+                            this.addTomcat(delegate, data)
                             break
                         case 'jBoss':
-                            addJBoss(delegate, data)
+                            this.addJBoss(delegate, data)
                             break
                     }
                 }
@@ -87,8 +99,7 @@ class DeployContainer implements IPluginBase {
         context.with {
             tomcat7xAdapter {
                 url(data.get('serverManagerURL'))
-                password(data.get('password'))
-                userName(data.get('userName'))
+                credentialsId(data.get('credentials'))
             }
         }
     }
@@ -101,8 +112,7 @@ class DeployContainer implements IPluginBase {
         context.with {
             jBoss7xAdapter {
                 url(data.get('serverManagerURL'))
-                password(data.get('password'))
-                userName(data.get('userName'))
+                credentialsId(data.get('credentials'))
             }
         }
     }

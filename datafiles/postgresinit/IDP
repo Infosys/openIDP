@@ -1657,9 +1657,9 @@ INSERT INTO tsubscription_master(subscription_type, permission) VALUES('CD','CRE
 INSERT INTO tsubscription_master(subscription_type, permission) VALUES('CT','CREATE_TEST_SUBSCRIBED');
 
 
-INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CI','2020-07-22','INFOSYS');
-INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CD','2020-07-22','INFOSYS');
-INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CT','2020-07-22','INFOSYS');
+INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CI','2022-07-22','INFOSYS');
+INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CD','2022-07-22','INFOSYS');
+INSERT INTO tsubscription_info(subscription_type, expiry_date, org_name) VALUES('CT','2022-07-22','INFOSYS');
 
 
 

@@ -287,13 +287,13 @@
 							</select>
 
 							</div>
-							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Not Found'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Not Found'">
 							<label class="text-danger">Slave is {{slavestatus}} </label>
 							</div>
-							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Offline'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Offline'">
 							<label class="text-danger">Slave is {{slavestatus}} </label>
 							</div>
-							<div class="col-md-3 slave-msg" *ngIf="slavestatus==='Online'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Online'">
 							<label class="text-success">Slave is {{slavestatus}} </label>
 							</div>
 						</div>
@@ -309,13 +309,13 @@
 							<option *ngFor="let tslave of  IDPDataSwitch.slaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
 							</select>
 						</div>
-						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Not Found'">
+						<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Not Found'">
 							<label class="text-danger">Slave is {{testslavestatus}} </label>
 						</div>
-						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Offline'">
+						<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Offline'">
 							<label class="text-danger">Slave is {{testslavestatus}} </label>
 						</div>
-						<div class="col-md-3 slave-msg" *ngIf="testslavestatus==='Online'">
+						<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Online'">
 							<label class="text-success">Slave is {{testslavestatus}} </label>
 						</div>
 						</div>
@@ -567,13 +567,13 @@
 									<option value="">--Select--</option>
 									<option *ngFor="let slave of IDPDataSwitch.slaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
 								</select>
-								<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+								<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Not Found'">
 									<label class="text-danger">Slave is {{slavestatus}} </label>
 									</div>
-									<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+									<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Offline'">
 									<label class="text-danger">Slave is {{slavestatus}} </label>
 									</div>
-									<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+									<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Online'">
 									<label class="text-success">Slave is {{slavestatus}} </label>
 									</div>
 							</div>
@@ -591,13 +591,13 @@
 							</select>
 
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Not Found'">
 							<label class="text-danger">Slave is {{slavestatus}} </label>
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Offline'">
 							<label class="text-danger">Slave is {{slavestatus}} </label>
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Online'">
 							<label class="text-success">Slave is {{slavestatus}} </label>
 							</div>
 						</div>
@@ -613,13 +613,13 @@
 								<option *ngFor="let tslave of  IDPDataSwitch.slaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
 							</select>
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Not Found'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Not Found'">
 							<label class="text-danger">Slave is {{testslavestatus}} </label>
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Offline'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Offline'">
 							<label class="text-danger">Slave is {{testslavestatus}} </label>
 							</div>
-							<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Online'">
+							<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Online'">
 							<label class="text-success">Slave is {{testslavestatus}} </label>
 							</div>
 						</div>
@@ -1122,13 +1122,13 @@
 																	<option *ngFor="let slave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'build'" value="{{slave}}">{{slave}}</option>
 																</select>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Not Found'">
+															<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Not Found'">
 																<label class="text-danger">Slave is {{slavestatus}} </label>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Offline'">
+															<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Offline'">
 																<label class="text-danger">Slave is {{slavestatus}} </label>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="slavestatus==='Online'">
+															<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="slavestatus==='Online'">
 																<label class="text-success">Slave is {{slavestatus}} </label>
 															</div>
 														</div>
@@ -1150,13 +1150,15 @@
 																	<option *ngFor="let tslave of  IDPDataSwitch.appSlaves | slaveLabelfilter:'test'" value="{{tslave}}">{{tslave}}</option>
 																</select>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Not Found'">
+
+															<div class="col-md-4 " style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Not Found'">
 																<label class="text-danger">Slave is {{testslavestatus}} </label>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Offline'">
+															<div class="col-md-4" style="float: left  ;margin-top: 5px;" *ngIf="testslavestatus==='Offline'">
 																<label class="text-danger">Slave is {{testslavestatus}} </label>
 															</div>
-															<div class="col-md-4 slave-msg" *ngIf="testslavestatus==='Online'">
+															
+															<div class="col-md-4 " style="float: left  ;margin-top: 5px;"*ngIf="testslavestatus==='Online'">
 																<label class="text-success">Slave is {{testslavestatus}} </label>
 															</div>
 														</div>
@@ -1171,13 +1173,15 @@
 											</div>
 
 											<br/>
+											<br/>
 											<div [ngSwitch]="(Env!==undefined && Env.length!==0) && (IDPDataSwitch.deploySelected==='on' || IDPDataSwitch.testSelected==='on')">
 												<div *ngSwitchCase="true">
-													<div class="form-group" style="margin-top: 25px;">
-														<div class="col-md-3" style="float: left; margin-top: 5px;">
+													<div class="col-md-9" style="margin-top: 25px;">
+														<div class="col-md-4" style="float: left; margin-top: 5px; margin-left: -15px;">
+
 															<label> {{'Environment'|translate}}: </label>
 														</div>
-														<div class="col-md-4" style="float: left;">
+														<div class="col-md-6" style="float: left;">
 
 															<select id="trddenv" class="dropDown form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="IDPParamData.envSelected"
 															(change)="clearArtifactSelection();checkrmcheck();getEnvPair();rmsToken()" (click)="optionalGetArtifactsRm()" required>
