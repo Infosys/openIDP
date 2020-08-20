@@ -22,7 +22,7 @@
       "applicationTeam": "",
       "emailIds": ""
     },
-    "userName": "userName",
+    "userName": "username",
     "pipelineStatus": "edit"
   },
   "code": {
@@ -31,11 +31,11 @@
     "scm": [
       {
         "type": "git",
-        "url": "http://infygit.domain.com/dummy/JPetStore_Maven.git",
+        "url": "http://git/repo.git",
         "userName": "uname",
         "password": "pwd",
         "repositoryBrowser": "gitLab",
-        "browserUrl": "http://infygit.domain.com/",
+        "browserUrl": "http://git/repo.git",
         "projectName": "",
         "branch": "master",
         "projPath": "",
@@ -126,7 +126,7 @@
               "resourceToBeDeployed": "JpetStore.war",
               "warPath": "",
               "contextPath": "",
-              "userName": "userName",
+              "userName": "username",
               "password": "pwddummy",
               "ipOrDNS": "1.2.3.4",
               "targetCellName": "server411214dcell",
