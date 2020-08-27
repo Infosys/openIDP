@@ -41,8 +41,8 @@ public class EmailSenderTest {
 
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("create");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setOrgName("ORGNAME");
 		String mailBody = emailSender.createOrgMailBody(orgInfo);
 		assertNotNull(mailBody);
 	}
@@ -51,8 +51,8 @@ public class EmailSenderTest {
 	public void testCreateOrgMailBodyEdit() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setOrgName("ORGNAME");
 		String mailBody = emailSender.createOrgMailBody(orgInfo);
 		assertNotNull(mailBody);
 	}
@@ -61,9 +61,9 @@ public class EmailSenderTest {
 	public void testCreateLicenseMailBody() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGADMIN");
 		String mailBody = emailSender.createLicenseMailBody(orgInfo);
 		assertNotNull(mailBody);
 	}
@@ -72,11 +72,11 @@ public class EmailSenderTest {
 	public void testSendEmail() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
-		orgInfo.setDomain("infosys.com");
-		orgInfo.setUserName("idpadmin");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGNAME");
+		orgInfo.setDomain("domain.com");
+		orgInfo.setUserName("username");
 		boolean status = emailSender.sendEmail("subject", orgInfo);
 		assertNotNull(status);
 	}
@@ -85,11 +85,11 @@ public class EmailSenderTest {
 	public void testSendEmailFailure() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGNAME");
 		orgInfo.setDomain("@domain.com");
-		orgInfo.setUserName("idpadmin");
+		orgInfo.setUserName("username");
 		boolean status = emailSender.sendEmail("subject", orgInfo);
 		assertNotNull(status);
 	}
@@ -97,11 +97,11 @@ public class EmailSenderTest {
 	public void testSendEmailSendGrid() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGNAME");
 		orgInfo.setDomain("@domain.com");
-		orgInfo.setUserName("idpadmin");
+		orgInfo.setUserName("username");
 		boolean status = emailSender.sendEmailSendGrid("subject", orgInfo);
 		assertNotNull(status);
 	}
@@ -109,8 +109,8 @@ public class EmailSenderTest {
 	@Test
 	public void testGetCC() {
 		List<String> idList = new ArrayList<>();
-		idList.add("idpadmin");
-		idList.add("idpadmin2");
+		idList.add("username");
+		idList.add("username2");
 		String cc = emailSender.getCC(idList);
 		assertNotNull(cc);
 	}
@@ -118,11 +118,11 @@ public class EmailSenderTest {
 	public void testLicenseCreationSuccessMail() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGNAME");
 		orgInfo.setDomain("@domain.com");
-		orgInfo.setUserName("idpadmin");
+		orgInfo.setUserName("username");
 		boolean status = emailSender.licenseCreationSuccessMail(orgInfo);
 		assertNotNull(status);
 	}
@@ -131,22 +131,22 @@ public class EmailSenderTest {
 	public void testOrgCreationSuccessMail() {
 		OrganisationInfo orgInfo = new OrganisationInfo();
 		orgInfo.setMethod("edit");
-		orgInfo.setOrgAdmin("idpadmin");
-		orgInfo.setLicenseExpiryDate("2019/12/21");
-		orgInfo.setOrgName("INFOSYS");
+		orgInfo.setOrgAdmin("orgadmin");
+		orgInfo.setLicenseExpiryDate("2020/12/21");
+		orgInfo.setOrgName("ORGNAME");
 		orgInfo.setDomain("@domain.com");
-		orgInfo.setUserName("idpadmin");
+		orgInfo.setUserName("username");
 		boolean status = emailSender.orgCreationSuccessMail(orgInfo);
 		assertNotNull(status);
 	}
 	@Before
 	public void setup() {
 		emailSender = new EmailSender();
-		ReflectionTestUtils.setField(emailSender, "emailUserName", "idpadmin");
-		ReflectionTestUtils.setField(emailSender, "emailPassword", "dummyuser");
+		ReflectionTestUtils.setField(emailSender, "emailUserName", "username");
+		ReflectionTestUtils.setField(emailSender, "emailPassword", "dummypwd");
 		ReflectionTestUtils.setField(emailSender, "emailSmtpHost", "localhost");
 		ReflectionTestUtils.setField(emailSender, "emailSmtpPort", "587");
 		ReflectionTestUtils.setField(emailSender, "emailServer", "sendgrid");
-		ReflectionTestUtils.setField(emailSender, "emailSenderId", "idpadmin@xyz.com");
+		ReflectionTestUtils.setField(emailSender, "emailSenderId", "username@xyz.com");
 	}
 }
