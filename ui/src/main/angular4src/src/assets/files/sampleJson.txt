@@ -31,13 +31,13 @@ Stages Information
               "envFrom": [],
               "envVars": [],
               "imageDescription": {
-                "imageId": "index.docker.io/vishnuag1/spring-server:1.0.8",
+                "imageId": "index.docker.io/username/spring-server:1.0.8",
                 "registry": "index.docker.io",
-                "repository": "vishnuag1/spring-server",
+                "repository": "username/spring-server",
                 "tag": "1.0.8"
               },
               "imagePullPolicy": "IFNOTPRESENT",
-              "name": "vishnuag1-spring-server",
+              "name": "username-spring-server",
               "ports": [
                 {
                   "containerPort": 8080,
@@ -87,7 +87,7 @@ Stages Information
       "name": "Deploy",
       "notifications": [
         {
-          "address": "vishnu.agarwal@domain.com",
+          "address": "username@domain.com",
           "level": "stage",
           "type": "email",
           "when": [
