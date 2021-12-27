@@ -7,7 +7,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.JsonClass;
 import com.infosys.json.TestCaseResult;
@@ -16,7 +17,7 @@ import com.infosys.utilities.tosca.Testsuites;
 
 
 public class ConvertTosca {
-      private static final Logger logger = Logger.getLogger(ConvertTosca.class);
+      private static final Logger logger = LogManager.getLogger(ConvertTosca.class);
        
        private ConvertTosca() {
 		// TODO Auto-generated constructor stub

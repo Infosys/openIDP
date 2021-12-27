@@ -19,7 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -27,7 +28,7 @@ import com.infosys.json.JsonClass;
 
 public class GewebService {
 	private String urlProperties = null;
-	private static final Logger logger = Logger.getLogger(GewebService.class);
+	private static final Logger logger = LogManager.getLogger(GewebService.class);
 
 	public void jsonPost(String appName, String pipeline, String jsonFileLocation) {
 		Properties prop = new Properties();

@@ -6,13 +6,14 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.utilities.EntryHome;
 
 public class ConvertMVNDependencies {
 
-	private static final Logger logger = Logger.getLogger(EntryHome.class);
+	private static final Logger logger = LogManager.getLogger(EntryHome.class);
 
 	public static List<String> extractData(String filePath, String[] args) { 
 		// TODO Auto-generated method stub

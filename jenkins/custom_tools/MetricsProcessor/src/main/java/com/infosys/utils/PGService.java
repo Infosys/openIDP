@@ -19,7 +19,8 @@ import java.net.URLEncoder;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.util.Base64;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.google.gson.Gson;
 
@@ -28,7 +29,7 @@ import com.infosys.json.JsonClass;
 
 public class PGService {
 	
-	private static final Logger logger = Logger.getLogger(PGService.class);
+	private static final Logger logger = LogManager.getLogger(PGService.class);
 	
 	public boolean postJSON(String jsonFileLocation, String url, String appName, String pipeline, String temp,
 			String pgsuname, String pgspwd) {

@@ -11,14 +11,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.Ecatt;
 import com.infosys.json.Functional;
 import com.infosys.json.TestCaseResult;
 
 public class ConvertEcatt {
-	private static final Logger logger = Logger.getLogger(ConvertEcatt.class);
+	private static final Logger logger = LogManager.getLogger(ConvertEcatt.class);
 	private static Integer totalTest = 0;
 	private static Integer fail = 0;
 	private static Integer pass = 0;

@@ -10,7 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.google.gson.Gson;
 import com.infosys.json.ChamDashBoard;
@@ -22,7 +23,7 @@ public class ConvertChamDashBoard {
 	
 	
 	private static final String JSON = ".json";
-	private static final Logger logger = Logger.getLogger(EntryHome.class);
+	private static final Logger logger = LogManager.getLogger(EntryHome.class);
 	private static CodeQuality codeQuality = new CodeQuality();
 	public static final String CONTENTTYPE="Content-Type";
 	public static final String APPLICATIONJSON="application/json";

@@ -16,10 +16,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.net.util.Base64;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class CreateBuildLog {
-	private static final Logger logger = Logger.getLogger(CreateBuildLog.class);
+	private static final Logger logger = LogManager.getLogger(CreateBuildLog.class);
 
 	private CreateBuildLog() {
 	}

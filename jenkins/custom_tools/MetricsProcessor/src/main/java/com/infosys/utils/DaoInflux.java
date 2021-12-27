@@ -12,14 +12,15 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DaoInflux {
 	private List<String> usedJsonFiles = new ArrayList<>();
 	private List<String> unUsedJsonFiles = new ArrayList<>();
-	private static final Logger logger = Logger.getLogger(DaoInflux.class);
+	private static final Logger logger = LogManager.getLogger(DaoInflux.class);
 
 	public void readmethod(String appName, String pipeline, String jsonFileLocation, String postgresServiceURL,
 			String pgsunames, String pgspwd) throws IOException {

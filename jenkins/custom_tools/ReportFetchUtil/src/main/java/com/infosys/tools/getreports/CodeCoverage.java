@@ -24,7 +24,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.net.util.Base64;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,7 +33,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class CodeCoverage {
-	private static final Logger logger = Logger.getLogger(CreateChangeLog.class);
+	private static final Logger logger = LogManager.getLogger(CreateChangeLog.class);
 	
 
 	private CodeCoverage() {

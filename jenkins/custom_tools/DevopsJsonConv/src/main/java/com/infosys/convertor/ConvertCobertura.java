@@ -13,7 +13,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.Cobertura;
 import com.infosys.json.Codecoverage;
@@ -25,7 +26,7 @@ import com.infosys.utilities.coberturago.Coverage.Packages.Package.Classes.Class
 import com.infosys.utilities.coberturajava.Coverage;
 
 public class ConvertCobertura {
-	private static final Logger logger = Logger.getLogger(ConvertCobertura.class);
+	private static final Logger logger = LogManager.getLogger(ConvertCobertura.class);
 
 	private ConvertCobertura() {
 	}

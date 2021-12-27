@@ -38,7 +38,8 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.util.Base64;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -128,7 +129,7 @@ import com.opencsv.CSVReader;
 public class EntryHome {
 	
 	private static final String JSON = ".json";
-	private static final Logger logger = Logger.getLogger(EntryHome.class);
+	private static final Logger logger = LogManager.getLogger(EntryHome.class);
 	private static CodeQuality codeQuality = new CodeQuality();
 	public static final String CONTENTTYPE = "Content-Type";
 	public static final String APPLICATIONJSON = "application/json";

@@ -17,7 +17,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 import com.infosys.json.JsonClass;
@@ -26,7 +27,7 @@ import com.infosys.utilities.changeset.ChangeSet;
 import com.infosys.utilities.changeset.ChangeSet.Item;
 
 public class ConvertSCMInfo {
-	private static final Logger logger = Logger.getLogger(ConvertSCMInfo.class);
+	private static final Logger logger = LogManager.getLogger(ConvertSCMInfo.class);
 
 	private ConvertSCMInfo() {
 	}

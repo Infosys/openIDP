@@ -13,7 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -22,7 +23,7 @@ import com.infosys.json.IFastReport;
 import com.infosys.json.TestCaseResult;
 
 public class ConvertIFast {
-	private static final Logger logger = Logger.getLogger(ConvertIFast.class);
+	private static final Logger logger = LogManager.getLogger(ConvertIFast.class);
 
 	private ConvertIFast() {
 	}

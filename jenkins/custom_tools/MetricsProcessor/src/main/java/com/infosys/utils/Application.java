@@ -10,8 +10,8 @@ package com.infosys.utils;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.boot.CommandLineRunner;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 public class Application implements CommandLineRunner {
-	private static final Logger logger = Logger.getLogger(Application.class);
+	private static final Logger logger = LogManager.getLogger(Application.class);
 
 	@Override
 	public void run(final String... args) {
@@ -29,7 +29,6 @@ public class Application implements CommandLineRunner {
 	public static void main(String[] args) {
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
-		BasicConfigurator.configure();
 		//String[] args =
 		// {"http://idposs:8184/idpdashboard/","admin","dfg","EnablingCalendarDemo","asdfasdf","D:\\jenkins\\Devops_Json"};
 		System.out.println("MetricsProcessor util frozen");

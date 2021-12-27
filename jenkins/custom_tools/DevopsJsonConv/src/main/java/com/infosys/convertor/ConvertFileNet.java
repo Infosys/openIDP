@@ -15,7 +15,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.FileNet;
 import com.infosys.json.FileNetExport;
@@ -29,7 +30,7 @@ import com.infosys.utilities.imports.PairConfig.Destination;
 import com.infosys.utilities.imports.PairConfig.Source;
 
 public class ConvertFileNet {
-	private static final Logger logger = Logger.getLogger(ConvertFileNet.class);
+	private static final Logger logger = LogManager.getLogger(ConvertFileNet.class);
 	private FileNet fileNetJsonObj = new FileNet();
 	private FileNetImport fileNetImportJsonObj = new FileNetImport();
 

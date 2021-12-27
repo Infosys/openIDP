@@ -16,10 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+// import org.apache.log4j.BasicConfigurator;
 public class GetAllReports {
-	private static final Logger logger = Logger.getLogger(GetAllReports.class);
+	private static final Logger logger = LogManager.getLogger(GetAllReports.class);
 	private GetAllReports() {
 	}
 
@@ -27,7 +28,7 @@ public class GetAllReports {
 
 	public static void main(String[] args) throws IOException {
 		
-		BasicConfigurator.configure();
+		// BasicConfigurator.configure();
 		SSLUtilities.trustAllHostnames();
 		SSLUtilities.trustAllHttpsCertificates();
 		logger.info("Report fetch util Frozen");

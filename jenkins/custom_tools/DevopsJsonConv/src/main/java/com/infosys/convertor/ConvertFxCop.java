@@ -15,7 +15,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.infosys.json.CodeAnalysis;
@@ -29,7 +30,7 @@ import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces.Name
 import com.infosys.utilities.fxcop.Targets.Target.Modules.Module.Namespaces.Namespace.Types.Type.Members.Member;
 
 public class ConvertFxCop {
-	private static final Logger logger = Logger.getLogger(ConvertCoverage.class);
+	private static final Logger logger = LogManager.getLogger(ConvertCoverage.class);
 	private static final String CRITICALERROR = "criticalerror";
 	private static final String CRITICALWARNING = "criticalwarning";
 	private static final String ERROR = "error";

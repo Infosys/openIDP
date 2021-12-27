@@ -9,10 +9,11 @@ package com.infosys.utilities.cleanup;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class BackupFiles {
-	private static final Logger logger = Logger.getLogger(BackupFiles.class);
+	private static final Logger logger = LogManager.getLogger(BackupFiles.class);
 
 	private BackupFiles() {
 	}

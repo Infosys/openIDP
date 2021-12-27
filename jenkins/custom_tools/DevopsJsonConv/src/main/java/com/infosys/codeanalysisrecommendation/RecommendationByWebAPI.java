@@ -16,12 +16,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class RecommendationByWebAPI {
-	private static final Logger logger = Logger.getLogger(RecommendationByWebAPI.class);
+	private static final Logger logger = LogManager.getLogger(RecommendationByWebAPI.class);
 	private Map<String, String> ruleRecommendationMap = new HashMap<>();
 	private String host;
 

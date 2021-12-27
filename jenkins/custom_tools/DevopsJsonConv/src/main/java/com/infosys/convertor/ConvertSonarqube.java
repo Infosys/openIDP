@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,7 +38,7 @@ import com.infosys.json.SonarIssues;
 import com.infosys.json.SonarJson;
 
 public class ConvertSonarqube {
-	private static final Logger logger = Logger.getLogger(ConvertSonarqube.class);
+	private static final Logger logger = LogManager.getLogger(ConvertSonarqube.class);
 	private static final String TEXTRANGE = "textRange";
 	private static final String NAMESPACECLASSMAP = "/NamespaceClassMap.csv";
 	private static int major;

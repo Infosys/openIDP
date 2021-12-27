@@ -21,7 +21,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,7 +31,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class EditDocType {
-	private static final Logger logger = Logger.getLogger(EditDocType.class);
+	private static final Logger logger = LogManager.getLogger(EditDocType.class);
 	//private static ArrayList<String> messagesforPunit = new ArrayList<>();
 	private static MessageObject messageObject = new MessageObject();
 	private EditDocType() {

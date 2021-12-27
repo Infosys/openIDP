@@ -15,7 +15,8 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.CodeAnalysis;
 import com.infosys.utilities.checkstyle.Checkstyle;
@@ -27,7 +28,7 @@ public class ConvertCheckstyle {
 	private static int blocker;
 	private static int critical;
 	private static int info;
-	private static final Logger logger = Logger.getLogger(ConvertCheckstyle.class);
+	private static final Logger logger = LogManager.getLogger(ConvertCheckstyle.class);
 
 	private ConvertCheckstyle() {
 	}

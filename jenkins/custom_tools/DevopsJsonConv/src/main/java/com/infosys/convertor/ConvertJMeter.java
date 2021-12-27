@@ -17,7 +17,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.JMeter;
 import com.infosys.json.JmeterViewResults;
@@ -29,7 +30,7 @@ import com.infosys.utilities.jmeter.TestResults.HttpSample;
 import com.infosys.utilities.jmeter.TestResults.Sample;
 
 public class ConvertJMeter {
-	private static final Logger logger = Logger.getLogger(ConvertJMeter.class);
+	private static final Logger logger = LogManager.getLogger(ConvertJMeter.class);
 	private static double tTotal = 0.0;
 	private static double tCount = 0.0;
 	private static double ltTotal = 0.0;

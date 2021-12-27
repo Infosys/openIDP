@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.net.util.Base64;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,7 +37,7 @@ import com.infosys.json.Module;
 import com.infosys.json.PackageContent;
 
 public class ConvertBuildLog {
-	private static final Logger logger = Logger.getLogger(ConvertBuildLog.class);
+	private static final Logger logger = LogManager.getLogger(ConvertBuildLog.class);
 	public static final String APIJSONPRETTYTRUE = "/api/json?pretty=true";
 	public static final String JOB = "/job/";
 	public static final String AUTHORIZATION = "Authorization";

@@ -14,10 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class MoveFiles {
-	private final static Logger logger = Logger.getLogger(MoveFiles.class);
+	private final static Logger logger = LogManager.getLogger(MoveFiles.class);
 
 	private MoveFiles() {
 	}

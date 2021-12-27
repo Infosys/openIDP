@@ -12,10 +12,11 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class RecommendationByCSV {
-	private static final Logger logger = Logger.getLogger(RecommendationByCSV.class);
+	private static final Logger logger = LogManager.getLogger(RecommendationByCSV.class);
 
 	private RecommendationByCSV() {
 	}

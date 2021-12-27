@@ -21,7 +21,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -60,7 +61,7 @@ import com.infosys.utilities.robot.Stats;
 import com.infosys.utilities.seleniumtestng.Testng;
 
 public class ConvertBuildInfo {
-	private static final Logger logger = Logger.getLogger(ConvertBuildInfo.class);
+	private static final Logger logger = LogManager.getLogger(ConvertBuildInfo.class);
 	private static SecurityTest securityTest = new SecurityTest();
 	private static Codecoverage codeCoverage = new Codecoverage();
 	public static final String NAMESPACECLASSMAP = "/NamespaceClassMap.csv";

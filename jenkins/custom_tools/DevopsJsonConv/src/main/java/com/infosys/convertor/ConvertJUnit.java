@@ -16,7 +16,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.json.JUnit;
 import com.infosys.json.JsonClass;
@@ -26,7 +27,7 @@ import com.infosys.utilities.junitgo.Testsuites;
 import com.infosys.utilities.junitgo.Testsuites.Testsuite;
 
 public class ConvertJUnit {
-	private static final Logger logger = Logger.getLogger(ConvertJUnit.class);
+	private static final Logger logger = LogManager.getLogger(ConvertJUnit.class);
 
 	private ConvertJUnit() {
 	}

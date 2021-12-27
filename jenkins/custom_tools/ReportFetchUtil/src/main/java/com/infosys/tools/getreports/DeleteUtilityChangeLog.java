@@ -9,10 +9,11 @@ package com.infosys.tools.getreports;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class DeleteUtilityChangeLog {
-	private static final Logger logger = Logger.getLogger(DeleteUtilityChangeLog.class);
+	private static final Logger logger = LogManager.getLogger(DeleteUtilityChangeLog.class);
 
 	private DeleteUtilityChangeLog() {
 	};

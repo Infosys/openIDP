@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.infosys.jsonschema.CSVInfo;
 import com.opencsv.CSVReader;
@@ -26,7 +27,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 
 public class CSVParser {
-	private static final Logger logger = Logger.getLogger(CSVParser.class);
+	private static final Logger logger = LogManager.getLogger(CSVParser.class);
 
 	public List<CSVInfo> parse(String inputpath) throws IOException, ClassNotFoundException {
 		List<CSVInfo> csv = null;
