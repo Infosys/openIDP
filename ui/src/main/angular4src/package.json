@@ -67,7 +67,7 @@
     "ngx-spinner": "^6.0.0",
     "ngx-tree-select": "^0.13.3",
     "ngx-treeview": "^6.0.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "req": "^0.1.4",
     "roboto-fontface": "^0.10.0",
     "rxjs": "^6.3.0",
