@@ -38,7 +38,7 @@ https://opensource.org/licenses/MIT
 		<dependency>
 			<groupId>org.codehaus.jettison</groupId>
 			<artifactId>jettison</artifactId>
-			<version>1.5.2</version>
+			<version>1.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
